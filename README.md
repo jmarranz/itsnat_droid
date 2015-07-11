@@ -62,14 +62,14 @@ alternative to android:id (valid also)
 
   For instance (layout and layout fragment) in a web server:
 
-  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/web/WEB-INF/pages/droid/test/test_droid_core.xml
-  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/web/WEB-INF/pages/droid/test/test_droid_core_fragment.xml
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_core.xml
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_core_fragment.xml
 
   Some server side code snippets manipulating layouts:
 
-  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidFragmentInsertionInnerXML.java
-  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidFragmentInsertionUsingAPI.java
-  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidToDOM.java
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/droid/core/TestDroidFragmentInsertionInnerXML.java
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/droid/core/TestDroidFragmentInsertionUsingAPI.java
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/droid/core/TestDroidToDOM.java
 
   Do you remember the powerful Remote Control capability of ItsNat Web? Yes you can do the same with Android, another Android device can be monitor an Android layout of another
   device (with permission of course), most of non-web stuff of ItsNat server is supported.
@@ -81,22 +81,15 @@ alternative to android:id (valid also)
 On development
 ------
 
-ItsNat Droid is on heavy development, there is no release in spite you can download the source code and play (master branch)
+ItsNat Droid Client SDK (and server side code in ItsNat Server) is on heavy development, there is no release in spite you can download the source code and play (master branch)
 
-https://github.com/jmarranz/itsnat/tree/master/
+https://github.com/jmarranz/itsnat_droid
 
 Development happens on development branch, this is the branch to get the latest:
 
-https://github.com/jmarranz/itsnat/tree/development/
+https://github.com/jmarranz/itsnat_droid/tree/development
 
-Android client code is Java 6 compatible and supports Android +4.0.3 devices, developed with Android Studio and lives here:
-
-https://github.com/jmarranz/itsnat/tree/master/ItsNatDroid
-
-In development branch:
-
-https://github.com/jmarranz/itsnat/tree/development/ItsNatDroid
-
+Android client code is Java 6 compatible and supports Android +4.0.3 devices, developed with Android Studio
 
 You can play with the "apptest" Android application with many visual tests (also there're a lot of tests in code), no you're not going to find here something pretty, just
 systematic testing. You must configure the URL of your ItsNat server (when loading this app click the Back button of your device for URL configuration, save your URL and then
