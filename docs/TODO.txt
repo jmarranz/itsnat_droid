@@ -1,4 +1,6 @@
 ﻿
+* Ver si funciona Android 6
+
 * Hacer como parámetros en Page para InflateLayoutRequestPageImpl:
 
         String encoding = "UTF-8";

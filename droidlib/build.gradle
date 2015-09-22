@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 15
-    buildToolsVersion '22.0.1'
+    buildToolsVersion '23'
 
     defaultConfig {
         // applicationId "org.itsnat.droid"
@@ -21,11 +21,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
     }
-}
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    // You must install or update the Support Repository through the SDK manager to use this dependency.
-    compile 'com.android.support:support-v4:19.+'
-    compile files('libs/bsh-core-2.0b4.jar')
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+
+        // You must install or update the Support Repository through the SDK manager to use this dependency.
+        compile 'com.android.support:support-v4:19.+'
+        compile 'org.beanshell:bsh:2.0b5'
+        //compile files('libs/bsh-core-2.0b4.jar')
+    }
+
 }
