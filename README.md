@@ -51,6 +51,8 @@ ItsNat Droid client has several levels of interoperatibility:
 
    Take a look to this very simple and raw example of a SPI application web server agnostic.
 
+   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/ItsNatDroidServletNoItsNat.java
+
    As you can see &lt;script&gt; elements containing Beanshell scripts are an extension to Android layouts. There are some other extensions like using the "id" standard attribute as
 alternative to android:id (valid also)
 
