@@ -4,6 +4,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.params.HttpParams;
@@ -67,23 +68,27 @@ public class TestRemoteCore extends TestRemotePageBase
 
         View testNativeListenersButton = itsNatDoc.findViewByXMLId("testNativeListenersId");
         ItsNatView testNativeListenersButtonItsNat = itsNatDoc.getItsNatView(testNativeListenersButton);
-        testNativeListenersButtonItsNat.setOnClickListener(new View.OnClickListener()
-        {
+        final TextView testNativeListenersLog = (TextView)itsNatDoc.findViewByXMLId("testNativeListenersLogId");
+
+        testNativeListenersButtonItsNat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                Toast.makeText(act, "OK Click Native", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                testNativeListenersLog.setText(testNativeListenersLog.getText() + "OK 3/3 Click Native ");
             }
         });
+
         testNativeListenersButtonItsNat.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent)
             {
-                Toast.makeText(act, "OK Touch Native, action:" + motionEvent.getAction(), Toast.LENGTH_SHORT).show();
-                return true;
+                int action = motionEvent.getAction();
+                int count = action + 1;
+                testNativeListenersLog.setText(testNativeListenersLog.getText() + "OK " + count + "/3 Touch Native, action:" + action + "\n");
+                return false;
             }
         });
+
 
         itsNatDoc.addEventMonitor(new EventMonitor()
         {
