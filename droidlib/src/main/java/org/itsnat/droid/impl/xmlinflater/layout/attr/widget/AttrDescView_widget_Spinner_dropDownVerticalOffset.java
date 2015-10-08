@@ -25,7 +25,7 @@ public class AttrDescView_widget_Spinner_dropDownVerticalOffset extends AttrDesc
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convertedValue = getDimensionInt(attr.getValue(),ctx);
+        int convertedValue = getDimensionInt(attr.getValue(), ctx);
 
         try
         {

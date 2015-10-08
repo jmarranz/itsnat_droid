@@ -284,7 +284,7 @@ public class XMLInflateRegistry
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getDimension(resId); // No hay getFloat
         }
-        else return Float.parseFloat(attrValue);
+        else return parseFloat(attrValue);
     }
 
     public String getString(String attrValue, Context ctx)
@@ -351,11 +351,18 @@ public class XMLInflateRegistry
         else throw new ItsNatDroidException("ERROR unrecognized dimension: " + valueTrim);
     }
 
+    private static float parseFloat(String value)
+    {
+        float num = Float.parseFloat(value);
+        // num = Math.round(num);
+        return num;
+    }
+
     private static float extractFloat(String value, String suffix)
     {
         int pos = value.lastIndexOf(suffix);
         value = value.substring(0, pos);
-        return Float.parseFloat(value);
+        return parseFloat(value);
     }
 
     public Dimension getDimensionObject(String attrValue, Context ctx)
@@ -380,7 +387,12 @@ public class XMLInflateRegistry
 
     public int getDimensionInt(String attrValue, Context ctx)
     {
-        //return (int)getDimensionFloat(attrValue,ctx);
+        return (int)getDimensionFloat(attrValue,ctx);
+    }
+
+    public int getDimensionIntRound(String attrValue, Context ctx)
+    {
+        // return (int)getDimensionFloat(attrValue,ctx);
         return Math.round(getDimensionFloat(attrValue, ctx));
     }
 

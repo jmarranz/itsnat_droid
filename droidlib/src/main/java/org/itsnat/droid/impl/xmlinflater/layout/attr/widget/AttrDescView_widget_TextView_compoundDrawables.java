@@ -2,11 +2,13 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -14,6 +16,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +25,7 @@ import java.util.Map;
  */
 public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
 {
+    // Constantes en la subclase Drawables
     private static final int LEFT   = 0;
     private static final int TOP    = 1;
     private static final int RIGHT  = 2;
@@ -36,20 +40,30 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
         drawableMap.put("drawableBottom",BOTTOM);
     }
 
-    protected FieldContainer fieldDrawables;
+    protected FieldContainer fieldDrawables;  // mDrawables
     protected FieldContainer<Drawable>[] fieldMemberDrawables = new FieldContainer[4];
+
+    protected FieldContainer<Drawable[]> fieldShowing; // Drawable[] mShowing
+
 
     public AttrDescView_widget_TextView_compoundDrawables(ClassDescViewBased parent, String name)
     {
         super(parent,name);
         this.fieldDrawables = new FieldContainer(parent.getDeclaredClass(),"mDrawables");
 
-        String[] fieldMemberNames = new String[] { "mDrawableLeft","mDrawableTop","mDrawableRight","mDrawableBottom" };
-        this.fieldMemberDrawables = new FieldContainer[fieldMemberNames.length];
         Class clasz = fieldDrawables.getField().getType();
-        for(int i = 0; i < fieldMemberNames.length; i++)
+
+        if (Build.VERSION.SDK_INT < MiscUtil.MARSHMALLOW) // < 23
         {
-            fieldMemberDrawables[i] = new FieldContainer(clasz,fieldMemberNames[i]);
+            String[] fieldMemberNames = new String[]{"mDrawableLeft", "mDrawableTop", "mDrawableRight", "mDrawableBottom"};
+            this.fieldMemberDrawables = new FieldContainer[fieldMemberNames.length];
+            for (int i = 0; i < fieldMemberNames.length; i++) {
+                fieldMemberDrawables[i] = new FieldContainer(clasz, fieldMemberNames[i]);
+            }
+        }
+        else
+        {
+            this.fieldShowing = new FieldContainer(clasz, "mShowing");
         }
     }
 
@@ -89,6 +103,15 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
         if (fieldValue == null)
             return null; // Esto es normal, y es cuando todavía no se ha definido ningún Drawable, setCompoundDrawablesWithIntrinsicBounds lo creará en la primera llamada
 
-        return fieldMemberDrawables[index].get(fieldValue);
+        if (Build.VERSION.SDK_INT < MiscUtil.MARSHMALLOW) // < 23
+        {
+            return fieldMemberDrawables[index].get(fieldValue);
+        }
+        else
+        {
+            Object array = fieldShowing.get(fieldValue);
+            Object drawable = Array.get(array, index);
+            return (Drawable)drawable;
+        }
     }
 }

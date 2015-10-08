@@ -20,10 +20,26 @@ public class ValueUtil
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, res.getDisplayMetrics());
     }
 
-    public static int dpToPixelInt(float value,Resources res)
+    public static int dpToPixelIntRound(float value, Resources res)
     {
         float valuePx = dpToPixel(value,res);
-        return Math.round(valuePx);
+        int valuePx2 = Math.round(valuePx);
+        if (valuePx2 != (int)valuePx)
+            res.getClass();
+        else
+            res.getClass();
+        return valuePx2;
+    }
+
+    public static int dpToPixelInt(float value, Resources res)
+    {
+        float valuePx = dpToPixel(value,res);
+        int valuePx2 = (int)valuePx;
+        if (valuePx2 != (int)valuePx)
+            res.getClass();
+        else
+            res.getClass();
+        return valuePx2;
     }
 
     public static float spToPixel(float value,Resources res)

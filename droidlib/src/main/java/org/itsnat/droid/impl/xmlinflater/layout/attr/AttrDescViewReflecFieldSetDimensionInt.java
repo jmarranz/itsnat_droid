@@ -25,7 +25,7 @@ public class AttrDescViewReflecFieldSetDimensionInt extends AttrDescViewReflecFi
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convertedValue = getDimensionInt(attr.getValue(),ctx);
+        int convertedValue = getDimensionIntRound(attr.getValue(), ctx);
 
         setField(view,convertedValue);
     }

@@ -74,37 +74,42 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
 
     public float getFloat(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getFloat(attrValue,ctx);
+        return getXMLInflateRegistry().getFloat(attrValue, ctx);
     }
 
     public String getString(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getString(attrValue,ctx);
+        return getXMLInflateRegistry().getString(attrValue, ctx);
     }
 
     public CharSequence getText(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getText(attrValue,ctx);
+        return getXMLInflateRegistry().getText(attrValue, ctx);
     }
 
     public CharSequence[] getTextArray(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getTextArray(attrValue,ctx);
+        return getXMLInflateRegistry().getTextArray(attrValue, ctx);
     }
 
     public boolean getBoolean(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getBoolean(attrValue,ctx);
+        return getXMLInflateRegistry().getBoolean(attrValue, ctx);
     }
 
     public Dimension getDimensionObject(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getDimensionObject(attrValue,ctx);
+        return getXMLInflateRegistry().getDimensionObject(attrValue, ctx);
     }
 
     public int getDimensionInt(String attrValue, Context ctx)
     {
         return getXMLInflateRegistry().getDimensionInt(attrValue, ctx);
+    }
+
+    public int getDimensionIntRound(String attrValue, Context ctx)
+    {
+        return getXMLInflateRegistry().getDimensionIntRound(attrValue, ctx);
     }
 
     public float getDimensionFloat(String attrValue, Context ctx)

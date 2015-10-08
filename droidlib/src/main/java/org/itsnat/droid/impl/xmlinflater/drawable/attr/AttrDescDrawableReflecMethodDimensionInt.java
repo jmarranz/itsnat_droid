@@ -29,7 +29,7 @@ public class AttrDescDrawableReflecMethodDimensionInt<Tdrawable> extends AttrDes
     @Override
     public void setAttribute(Tdrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
     {
-        int convValue = getDimensionInt(attr.getValue(),ctx);
+        int convValue = getDimensionIntRound(attr.getValue(), ctx);
         callMethod(draw, convValue);
     }
 

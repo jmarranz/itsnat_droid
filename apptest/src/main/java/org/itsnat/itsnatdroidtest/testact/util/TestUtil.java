@@ -17,7 +17,9 @@ import java.util.Map;
  */
 public class TestUtil
 {
-    public static final int LOLLIPOP = 21; // 21 == Build.VERSION_CODES.LOLLIPOP
+    public static final int LOLLIPOP = 21;      // 21 == Build.VERSION_CODES.LOLLIPOP  (5.0.1)
+    public static final int LOLLIPOP_MR1 = 22;  // 22 == Build.VERSION_CODES.LOLLIPOP_MR1 (5.1.1)
+    public static final int MARSHMALLOW = 23;   // 23 == Build.VERSION_CODES.M
 
     private final static Map<String,Field> fieldCache = new HashMap<String,Field>();
     private final static Map<String,Method> methodCache = new HashMap<String,Method>();

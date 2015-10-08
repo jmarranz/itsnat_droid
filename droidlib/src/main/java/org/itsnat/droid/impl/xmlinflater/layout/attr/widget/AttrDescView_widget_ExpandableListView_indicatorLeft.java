@@ -29,7 +29,7 @@ public class AttrDescView_widget_ExpandableListView_indicatorLeft extends AttrDe
     @Override
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convValue = getDimensionInt(attr.getValue(),ctx);
+        int convValue = getDimensionIntRound(attr.getValue(), ctx);
 
         callMethod(view,convValue);
     }

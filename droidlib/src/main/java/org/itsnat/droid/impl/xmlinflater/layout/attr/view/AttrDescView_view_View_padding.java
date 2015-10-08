@@ -22,7 +22,7 @@ public class AttrDescView_view_View_padding extends AttrDescView
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convValue = getDimensionInt(attr.getValue(), ctx);
+        int convValue = getDimensionIntRound(attr.getValue(), ctx);
 
         String name = getName();
         if ("padding".equals(name))
