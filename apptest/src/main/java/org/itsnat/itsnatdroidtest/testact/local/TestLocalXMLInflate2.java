@@ -566,7 +566,7 @@ public class TestLocalXMLInflate2
 
             assertEquals(compLayout.getShowDividers(), 3);
             assertEquals(compLayout.getShowDividers(), parsedLayout.getShowDividers());
-            assertEquals(compLayout.getDividerPadding(), ValueUtil.dpToPixelIntRound(10, res));
+            assertEquals(compLayout.getDividerPadding(), ValueUtil.dpToPixelIntRound(10.3f, res));
             assertEquals(compLayout.getDividerPadding(),parsedLayout.getDividerPadding());
             assertTrue(compLayout.isMeasureWithLargestChildEnabled());
             assertEquals(compLayout.isMeasureWithLargestChildEnabled(), parsedLayout.isMeasureWithLargestChildEnabled());
@@ -662,7 +662,7 @@ public class TestLocalXMLInflate2
             assertEquals(compQueryTextView.getInputType(), InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL | InputType.TYPE_CLASS_DATETIME | InputType.TYPE_DATETIME_VARIATION_DATE);
             assertEquals(compQueryTextView.getInputType(), parsedQueryTextView.getInputType());
 
-            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),ValueUtil.dpToPixelIntRound(250, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),ValueUtil.dpToPixelIntRound(250.3f, res));
             assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),(Integer)TestUtil.getField(parsedLayout, "mMaxWidth"));
 
             assertEquals((CharSequence)TestUtil.getField(compLayout, "mQueryHint"),"The hint (SearchView)");
@@ -846,7 +846,7 @@ public class TestLocalXMLInflate2
             assertEquals((Boolean)TestUtil.getField(compDrawer,"mAnimateOnClick"), (Boolean)TestUtil.getField(parsedDrawer, "mAnimateOnClick"));
 
             // android:bottomOffset
-            assertEquals((Integer) TestUtil.getField(compDrawer,"mBottomOffset"), ValueUtil.dpToPixelIntRound(10, res));
+            assertEquals((Integer) TestUtil.getField(compDrawer,"mBottomOffset"), ValueUtil.dpToPixelIntFloor(10.3f, res));
             assertEquals((Integer)TestUtil.getField(compDrawer,"mBottomOffset"), (Integer)TestUtil.getField(parsedDrawer, "mBottomOffset"));
 
             // android:handle
@@ -862,7 +862,7 @@ public class TestLocalXMLInflate2
             assertEquals((Boolean)TestUtil.getField(compDrawer,"mVertical"), (Boolean)TestUtil.getField(parsedDrawer, "mVertical"));
 
             // android:topOffset
-            assertEquals((Integer) TestUtil.getField(compDrawer,"mTopOffset"), ValueUtil.dpToPixelIntRound(10, res));
+            assertEquals((Integer) TestUtil.getField(compDrawer,"mTopOffset"), ValueUtil.dpToPixelIntFloor(10.3f, res));
             assertEquals((Integer)TestUtil.getField(compDrawer,"mTopOffset"), (Integer)TestUtil.getField(parsedDrawer, "mTopOffset"));
         }
 
@@ -880,7 +880,7 @@ public class TestLocalXMLInflate2
 
             ViewGroup.LayoutParams compParams = compLayout.getLayoutParams();
             ViewGroup.LayoutParams parsedParams = parsedLayout.getLayoutParams();
-            assertEquals(compParams.height,ValueUtil.dpToPixelIntRound(40, res));
+            assertEquals(compParams.height,ValueUtil.dpToPixelIntRound(40.3f, res));
             assertEquals(compParams.height,parsedParams.height);
 
             {

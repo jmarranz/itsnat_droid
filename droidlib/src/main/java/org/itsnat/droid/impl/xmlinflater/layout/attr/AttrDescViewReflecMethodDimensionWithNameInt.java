@@ -36,7 +36,7 @@ public class AttrDescViewReflecMethodDimensionWithNameInt extends AttrDescViewRe
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convValue = getDimensionWithNameInt(attr.getValue(),ctx);
+        int convValue = getDimensionWithNameIntRound(attr.getValue(), ctx);
         callMethod(view, convValue);
     }
 

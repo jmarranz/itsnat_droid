@@ -24,7 +24,7 @@ public class AttrDescView_view_View_layout_width extends AttrDescView
 
     public void setAttribute(final View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final int width = getDimensionWithNameInt(attr.getValue(),ctx);
+        final int width = getDimensionWithNameIntRound(attr.getValue(), ctx);
 
         Runnable task = new Runnable(){
             @Override

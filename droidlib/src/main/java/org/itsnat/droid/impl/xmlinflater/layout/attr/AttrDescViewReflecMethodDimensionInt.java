@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
  * Aunque la entrada de datos sea una dimensión float con sufijo y todo, el método que define el valor sólo admite un entero
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecMethodDimensionInt extends AttrDescViewReflecMethod
+public abstract class AttrDescViewReflecMethodDimensionInt extends AttrDescViewReflecMethod
 {
     protected Float defaultValue;
 
@@ -36,7 +36,7 @@ public class AttrDescViewReflecMethodDimensionInt extends AttrDescViewReflecMeth
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convValue = getDimensionInt(attr.getValue(), ctx);
+        int convValue = getDimensionInt(attr, ctx);
         callMethod(view, convValue);
     }
 
@@ -47,4 +47,5 @@ public class AttrDescViewReflecMethodDimensionInt extends AttrDescViewReflecMeth
             callMethod(view, defaultValue);
     }
 
+    public abstract int getDimensionInt(DOMAttr attr, Context ctx);
 }

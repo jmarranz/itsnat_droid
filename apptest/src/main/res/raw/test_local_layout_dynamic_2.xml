@@ -246,7 +246,7 @@
             android:baselineAlignedChildIndex="1"
             android:divider="@drawable/divider_horizontal_test"
             android:showDividers="beginning|middle"
-            android:dividerPadding="10dp"
+            android:dividerPadding="10.3dp"
             android:measureWithLargestChild="true"
             android:orientation="vertical"
             android:weightSum="1.0"
@@ -341,7 +341,7 @@
             android:iconifiedByDefault="false"
             android:imeOptions="actionGo|actionSearch"
             android:inputType="number|date"
-            android:maxWidth="250dp"
+            android:maxWidth="250.3dp"
             android:queryHint="The hint (SearchView)"
             >
         </SearchView>
@@ -535,11 +535,11 @@
                 android:layout_height="match_parent"
                 android:allowSingleTap="false"
                 android:animateOnClick="true"
-                android:bottomOffset="10dp"
+                android:bottomOffset="10.3dp"
                 android:handle="@+id/slidingHandle"
                 android:content="@+id/slidingContent"
                 android:orientation="horizontal"
-                android:topOffset="10dp">
+                android:topOffset="10.3dp">
 
                 <TextView
                     android:id="@id/slidingHandle"
@@ -563,7 +563,7 @@
                   android:inflatedId="@+id/viewStubInsertedId"
                   android:layout="@layout/test_viewstub"
                   android:layout_width="match_parent"
-                  android:layout_height="40dp"
+                  android:layout_height="40.3dp"
             /> <!-- layout_width/layout_height se imponen en el layout inflado -->
 
 

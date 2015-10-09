@@ -23,7 +23,7 @@ public class AttrDescView_view_View_layout_height extends AttrDescView
 
     public void setAttribute(final View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final int height = getDimensionWithNameInt(attr.getValue(),ctx);
+        final int height = getDimensionWithNameIntRound(attr.getValue(), ctx);
 
         Runnable task = new Runnable(){
             @Override

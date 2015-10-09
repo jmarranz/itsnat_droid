@@ -13,11 +13,11 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecFieldSetDimensionWithNameInt extends AttrDescViewReflecFieldSet
+public class AttrDescViewReflecFieldSetDimensionWithNameIntRound extends AttrDescViewReflecFieldSet
 {
     protected String defaultValue;
 
-    public AttrDescViewReflecFieldSetDimensionWithNameInt(ClassDescViewBased parent, String name, String fieldName, String defaultValue)
+    public AttrDescViewReflecFieldSetDimensionWithNameIntRound(ClassDescViewBased parent, String name, String fieldName, String defaultValue)
     {
         super(parent,name,fieldName);
         this.defaultValue = defaultValue;
@@ -25,7 +25,7 @@ public class AttrDescViewReflecFieldSetDimensionWithNameInt extends AttrDescView
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convertedValue = getDimensionWithNameInt(attr.getValue(),ctx);
+        int convertedValue = getDimensionWithNameIntRound(attr.getValue(), ctx);
 
         setField(view,convertedValue);
     }

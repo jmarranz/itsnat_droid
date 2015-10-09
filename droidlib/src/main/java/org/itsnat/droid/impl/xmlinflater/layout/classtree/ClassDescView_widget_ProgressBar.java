@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetBoolean;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_indeterminate;
@@ -33,10 +33,10 @@ public class ClassDescView_widget_ProgressBar extends ClassDescViewBased
         addAttrDesc(new AttrDescViewReflecFieldSetBoolean(this,"indeterminateOnly","mOnlyIndeterminate",false));
         addAttrDesc(new AttrDescView_widget_ProgressBar_interpolator(this));
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"max",100));
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionInt(this,"maxHeight","mMaxHeight",48));
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionInt(this,"maxWidth","mMaxWidth",48));
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionInt(this,"minHeight","mMinHeight",24));
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionInt(this,"minWidth","mMinWidth",24));
+        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntRound(this,"maxHeight","mMaxHeight",48));
+        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntRound(this,"maxWidth","mMaxWidth",48));
+        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntRound(this,"minHeight","mMinHeight",24));
+        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntRound(this,"minWidth","mMinWidth",24));
         // android:mirrorForRtl es de un Level superior a 15
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"progress",0));
         addAttrDesc(new AttrDescView_widget_ProgressBar_progressDrawable(this));

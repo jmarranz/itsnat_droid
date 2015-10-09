@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecFieldSetDimensionInt extends AttrDescViewReflecFieldSet
+public abstract class AttrDescViewReflecFieldSetDimensionInt extends AttrDescViewReflecFieldSet
 {
     protected Integer defaultValue;
 
@@ -25,7 +25,7 @@ public class AttrDescViewReflecFieldSetDimensionInt extends AttrDescViewReflecFi
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convertedValue = getDimensionIntRound(attr.getValue(), ctx);
+        int convertedValue = getDimensionInt(attr, ctx);
 
         setField(view,convertedValue);
     }
@@ -36,4 +36,5 @@ public class AttrDescViewReflecFieldSetDimensionInt extends AttrDescViewReflecFi
             setField(view,defaultValue);
     }
 
+    public abstract int getDimensionInt(DOMAttr attr, Context ctx);
 }

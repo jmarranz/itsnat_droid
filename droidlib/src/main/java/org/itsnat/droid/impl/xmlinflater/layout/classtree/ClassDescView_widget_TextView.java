@@ -4,7 +4,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodColor;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntFloor;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
@@ -55,7 +56,7 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescView_widget_TextView_compoundDrawables(this,"drawableRight"));
         addAttrDesc(new AttrDescView_widget_TextView_compoundDrawables(this,"drawableBottom"));
         // android:drawableStart y android:drawableEnd en teoría existen pero su acceso via métodos es desde Level 17 y no los veo relevantes
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"drawablePadding","setCompoundDrawablePadding",0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"drawablePadding","setCompoundDrawablePadding",0f));
         // android:editable está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:editorExtras tiene un bug y no funciona ni con un layout compilado: https://code.google.com/p/android/issues/detail?id=38122
         addAttrDesc(new AttrDescView_widget_TextView_ellipsize(this));
@@ -63,7 +64,7 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         // android:fontFamily creo que es Level 16
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"freezesText",false));
         addAttrDesc(new AttrDescViewReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"top|start"));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"height",-1f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"height",-1f));
         addAttrDesc(new AttrDescViewReflecMethodCharSequence(this,"hint",""));
         addAttrDesc(new AttrDescView_widget_TextView_imeActionId(this));
         addAttrDesc(new AttrDescView_widget_TextView_imeActionLabel(this));
@@ -78,13 +79,14 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"linksClickable",true));
         addAttrDesc(new AttrDescView_widget_TextView_marqueeRepeatLimit(this));
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"maxEms", -1));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"maxHeight",-1f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntFloor(this,"maxHeight",-1f));
         addAttrDesc(new AttrDescView_widget_TextView_maxLength(this));
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"maxLines",-1));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"maxWidth",-1f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"maxWidth",-1f));
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"minEms", -1));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"minHeight",-1f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntFloor(this,"minHeight",-1f));
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"minLines",-1));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"minWidth",-1f));
         // android:numeric está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:password está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:phoneNumber está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
@@ -109,7 +111,7 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescView_widget_TextView_textSize(this)); // textSize
         addAttrDesc(new AttrDescView_widget_TextView_textStyle(this));
         addAttrDesc(new AttrDescView_widget_TextView_typeface(this));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"width",-1f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"width",-1f));
     }
 }
 

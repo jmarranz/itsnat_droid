@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionFloat;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodId;
@@ -69,7 +69,7 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescView_view_View_drawingCacheQuality(this)); // drawingCacheQuality
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"duplicateParentState","setDuplicateParentStateEnabled",false)); // Según dice la doc no hace nada este flag a true si el atributo no se define antes de insertar en un ViewGroup
         addAttrDesc(new AttrDescView_view_View_fadeScrollbars(this));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"fadingEdgeLength",null));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"fadingEdgeLength",null));
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"filterTouchesWhenObscured",false));
         // android:fitsSystemWindows es Level 16
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"focusable",false));
@@ -84,8 +84,8 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescView_view_View_layerType(this)); // layerType
         // android:layoutDirection es Level 17
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"longClickable",false));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"minHeight","setMinimumHeight",null));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"minWidth","setMinimumWidth",null));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"minHeight","setMinimumHeight",null));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"minWidth","setMinimumWidth",null));
         addAttrDesc(new AttrDescViewReflecMethodId(this,"nextFocusDown","setNextFocusDownId",-1));
         addAttrDesc(new AttrDescViewReflecMethodId(this,"nextFocusForward","setNextFocusForwardId",-1));
         addAttrDesc(new AttrDescViewReflecMethodId(this,"nextFocusLeft","setNextFocusLeftId",-1));
@@ -106,8 +106,8 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"saveEnabled",true));
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"scaleX",1f));
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"scaleY",1f));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"scrollX",0f));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"scrollY",0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"scrollX",0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"scrollY",0f));
         addAttrDesc(new AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack(this));
         addAttrDesc(new AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack(this));
 

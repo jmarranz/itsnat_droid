@@ -11,51 +11,92 @@ import java.io.UnsupportedEncodingException;
  * Se debería usar TypedValue.complexToDimensionPixelOffset y complexToDimensionPixelSize
  * en el caso de necesitar enteros pero es un follón
  *
+ * Algunos métodos se usan en tests no en el framework
+ *
  * Created by jmarranz on 30/04/14.
  */
 public class ValueUtil
 {
-    public static float dpToPixel(float value,Resources res)
+    private static float toPixelFloat(int unit,float value, Resources res)
     {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, res.getDisplayMetrics());
+        return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
+    }
+
+    private static float toPixelFloatFloor(int unit,float value, Resources res)
+    {
+        float valuePx = toPixelFloat(unit, value, res);
+        valuePx = (float)Math.floor(valuePx);
+        return valuePx;
+    }
+
+    public static float dpToPixelFloat(float value, Resources res)
+    {
+        return toPixelFloat(TypedValue.COMPLEX_UNIT_DIP, value,res);
+    }
+
+    public static float spToPixelFloat(float value, Resources res)
+    {
+        return toPixelFloat(TypedValue.COMPLEX_UNIT_SP, value, res);
+    }
+
+    public static float inToPixelFloat(float value, Resources res)
+    {
+        return toPixelFloat(TypedValue.COMPLEX_UNIT_IN, value, res);
+    }
+
+    public static float mmToPixelFloat(float value, Resources res)
+    {
+        return toPixelFloat(TypedValue.COMPLEX_UNIT_MM, value, res);
+    }
+
+    public static float dpToPixelFloatFloor(float value, Resources res)
+    {
+        return toPixelFloatFloor(TypedValue.COMPLEX_UNIT_DIP, value, res);
+    }
+
+    public static float spToPixelFloatFloor(float value, Resources res)
+    {
+        return toPixelFloatFloor(TypedValue.COMPLEX_UNIT_SP, value, res);
+    }
+
+    public static float inToPixelFloatFloor(float value, Resources res)
+    {
+        return toPixelFloatFloor(TypedValue.COMPLEX_UNIT_IN, value, res);
+    }
+
+    public static float mmToPixelFloatFloor(float value, Resources res)
+    {
+        return toPixelFloatFloor(TypedValue.COMPLEX_UNIT_MM, value, res);
     }
 
     public static int dpToPixelIntRound(float value, Resources res)
     {
-        float valuePx = dpToPixel(value,res);
-        int valuePx2 = Math.round(valuePx);
-        if (valuePx2 != (int)valuePx)
+        // Para ver si el redondeo es correcto conviene elegir valores tal que tras aplicar la escala dpToPixelFloatFloor quede X.Y donde Y >= 5, ej 1.3 dp escala 2x => 2.6 px (1.9 si es 3x)
+        float valuePx = dpToPixelFloat(value, res);
+        int valuePxInt = Math.round(valuePx);
+/*
+        if (valuePxInt != (int)valuePx)
             res.getClass();
         else
             res.getClass();
-        return valuePx2;
+*/
+        return valuePxInt;
     }
 
-    public static int dpToPixelInt(float value, Resources res)
+    public static int dpToPixelIntFloor(float value, Resources res)
     {
-        float valuePx = dpToPixel(value,res);
-        int valuePx2 = (int)valuePx;
-        if (valuePx2 != (int)valuePx)
+        // Para ver si el redondeo es correcto conviene elegir valores tal que al aplicar la escala de X.Y donde Y >= 5, ej 1.3dp escala 2x => 1.6 (1.9 si es 3x)
+        float valuePx = dpToPixelFloat(value, res);
+        int valuePxInt = (int)valuePx;
+/*
+        if (valuePxInt != valuePx)
             res.getClass();
         else
             res.getClass();
-        return valuePx2;
+*/
+        return valuePxInt;
     }
 
-    public static float spToPixel(float value,Resources res)
-    {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, value, res.getDisplayMetrics());
-    }
-
-    public static float inToPixel(float value,Resources res)
-    {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_IN, value, res.getDisplayMetrics());
-    }
-
-    public static float mmToPixel(float value,Resources res)
-    {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, value, res.getDisplayMetrics());
-    }
 
     public static boolean isEmpty(String str)
     {

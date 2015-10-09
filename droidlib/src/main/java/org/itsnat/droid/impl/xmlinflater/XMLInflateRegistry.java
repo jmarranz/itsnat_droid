@@ -353,9 +353,7 @@ public class XMLInflateRegistry
 
     private static float parseFloat(String value)
     {
-        float num = Float.parseFloat(value);
-        // num = Math.round(num);
-        return num;
+        return Float.parseFloat(value);
     }
 
     private static float extractFloat(String value, String suffix)
@@ -385,14 +383,13 @@ public class XMLInflateRegistry
         }
     }
 
-    public int getDimensionInt(String attrValue, Context ctx)
+    public int getDimensionIntFloor(String attrValue, Context ctx)
     {
         return (int)getDimensionFloat(attrValue,ctx);
     }
 
     public int getDimensionIntRound(String attrValue, Context ctx)
     {
-        // return (int)getDimensionFloat(attrValue,ctx);
         return Math.round(getDimensionFloat(attrValue, ctx));
     }
 
@@ -407,21 +404,29 @@ public class XMLInflateRegistry
         switch (unit)
         {
             case TypedValue.COMPLEX_UNIT_DIP:
-                return ValueUtil.dpToPixel(num, res);
+                return ValueUtil.dpToPixelFloat(num, res);
             case TypedValue.COMPLEX_UNIT_PX:
                 return num;
             case TypedValue.COMPLEX_UNIT_SP:
-                return ValueUtil.spToPixel(num, res);
+                return ValueUtil.spToPixelFloat(num, res);
             case TypedValue.COMPLEX_UNIT_IN:
-                return ValueUtil.inToPixel(num, res);
+                return ValueUtil.inToPixelFloat(num, res);
             case TypedValue.COMPLEX_UNIT_MM:
-                return ValueUtil.mmToPixel(num, res);
+                return ValueUtil.mmToPixelFloat(num, res);
         }
 
         throw new ItsNatDroidException("Cannot process " + attrValue); // POR AHORA hay que ver si faltan más casos
     }
 
-    protected int getDimensionWithNameInt(String value, Context ctx)
+    public float getDimensionFloatFloor(String attrValue, Context ctx)
+    {
+        // El retorno es en px
+        float num = getDimensionFloat(attrValue,ctx);
+        num = (float)Math.floor(num);
+        return num;
+    }
+
+    protected int getDimensionWithNameIntRound(String value, Context ctx)
     {
         int dimension;
 
@@ -431,7 +436,7 @@ public class XMLInflateRegistry
         else if ("wrap_content".equals(value)) dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
         else
         {
-            dimension = getDimensionInt(value, ctx);
+            dimension = getDimensionIntRound(value, ctx);
         }
         return dimension;
     }

@@ -129,7 +129,7 @@ public class TestLocalXMLInflate1
 
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
 
-                assertEqualsPixels(compTextView1.getTextSize(), ValueUtil.dpToPixel(15, res));
+                assertEqualsPixels(compTextView1.getTextSize(), ValueUtil.dpToPixelFloatFloor(15, res));
                 assertEqualsPixels(compTextView1.getTextSize(), parsedTextView1.getTextSize());
 
                 // Test style
@@ -138,10 +138,10 @@ public class TestLocalXMLInflate1
                 assertEquals(compTextView1.getPaddingRight(),ValueUtil.dpToPixelIntRound(21.3f, res));
                 assertEquals(compTextView1.getPaddingRight(),parsedTextView1.getPaddingRight());
 
-                assertEquals(compTextView1.getPaddingTop(),ValueUtil.dpToPixelIntRound(10, res));
+                assertEquals(compTextView1.getPaddingTop(),ValueUtil.dpToPixelIntRound(10.3f, res));
                 assertEquals(compTextView1.getPaddingTop(),parsedTextView1.getPaddingTop());
 
-                assertEquals(compTextView1.getPaddingBottom(),ValueUtil.dpToPixelIntRound(10, res));
+                assertEquals(compTextView1.getPaddingBottom(),ValueUtil.dpToPixelIntRound(10.3f, res));
                 assertEquals(compTextView1.getPaddingBottom(),parsedTextView1.getPaddingBottom());
 
                 assertEquals(compTextView1.getTextColors().getDefaultColor(),0xff0000ff);
@@ -226,9 +226,9 @@ public class TestLocalXMLInflate1
                     assertTrue(compScrollView.isScrollbarFadingEnabled()); // Correspondiente a requiresFadingEdge
                     assertEquals(compScrollView.isScrollbarFadingEnabled(), parsedScrollView.isScrollbarFadingEnabled());
                     // Test android:fadingEdgeLength
-                    assertEquals(compScrollView.getVerticalFadingEdgeLength(), ValueUtil.dpToPixelIntRound(10, res));
+                    assertEquals(compScrollView.getVerticalFadingEdgeLength(), ValueUtil.dpToPixelIntRound(10.3f, res));
                     assertEquals(compScrollView.getVerticalFadingEdgeLength(), parsedScrollView.getVerticalFadingEdgeLength());
-                    assertEquals(compScrollView.getHorizontalFadingEdgeLength(), ValueUtil.dpToPixelIntRound(10, res));
+                    assertEquals(compScrollView.getHorizontalFadingEdgeLength(), ValueUtil.dpToPixelIntRound(10.3f, res));
                     assertEquals(compScrollView.getHorizontalFadingEdgeLength(), parsedScrollView.getHorizontalFadingEdgeLength());
 
                     // Test android:scrollbarAlwaysDrawHorizontalTrack
@@ -296,9 +296,9 @@ public class TestLocalXMLInflate1
                     assertTrue(compTextView2.isLongClickable());
                     assertEquals(compTextView2.isLongClickable(), parsedTextView2.isLongClickable());
                     // Test android:minHeight
-                    assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), ValueUtil.dpToPixelIntRound(30, res));
+                    assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), ValueUtil.dpToPixelIntRound(30.3f, res));
                     assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), (Integer) TestUtil.getField(parsedTextView2, View.class, "mMinHeight"));
-                    assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinWidth"), ValueUtil.dpToPixelIntRound(30, res));
+                    assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinWidth"), ValueUtil.dpToPixelIntRound(30.3f, res));
                     assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinWidth"), (Integer) TestUtil.getField(parsedTextView2, View.class, "mMinWidth"));
                     assertPositive(compTextView2.getNextFocusDownId());
                     assertEquals(compTextView2.getNextFocusDownId(), parsedTextView2.getNextFocusDownId());
@@ -311,13 +311,13 @@ public class TestLocalXMLInflate1
                     assertPositive(compTextView2.getNextFocusUpId());
                     assertEquals(compTextView2.getNextFocusUpId(), parsedTextView2.getNextFocusUpId());
                     // No puedo testear android:onClick porque no hay get nativo asociado
-                    assertEquals(compTextView2.getPaddingLeft(), ValueUtil.dpToPixelIntRound(10, res));
+                    assertEquals(compTextView2.getPaddingLeft(), ValueUtil.dpToPixelIntRound(10.3f, res));
                     assertEquals(compTextView2.getPaddingLeft(), parsedTextView2.getPaddingLeft());
-                    assertEquals(compTextView2.getPaddingRight(), ValueUtil.dpToPixelIntRound(11, res));
+                    assertEquals(compTextView2.getPaddingRight(), ValueUtil.dpToPixelIntRound(11.3f, res));
                     assertEquals(compTextView2.getPaddingRight(), parsedTextView2.getPaddingRight());
-                    assertEquals(compTextView2.getPaddingTop(), ValueUtil.dpToPixelIntRound(12, res));
+                    assertEquals(compTextView2.getPaddingTop(), ValueUtil.dpToPixelIntRound(12.3f, res));
                     assertEquals(compTextView2.getPaddingTop(), parsedTextView2.getPaddingTop());
-                    assertEquals(compTextView2.getPaddingBottom(), ValueUtil.dpToPixelIntRound(13, res));
+                    assertEquals(compTextView2.getPaddingBottom(), ValueUtil.dpToPixelIntRound(13.3f, res));
                     assertEquals(compTextView2.getPaddingBottom(), parsedTextView2.getPaddingBottom());
                     assertEquals(compTextView2.getRotation(), 10.5f);
                     assertEquals(compTextView2.getRotation(), parsedTextView2.getRotation());
@@ -340,13 +340,13 @@ public class TestLocalXMLInflate1
                     assertEquals(compTextView2.isSoundEffectsEnabled(), parsedTextView2.isSoundEffectsEnabled());
                     assertEquals((String) compTextView2.getTag(), "theTag");
                     assertEquals((String) compTextView2.getTag(), (String) parsedTextView2.getTag());
-                    assertEquals(compTextView2.getPivotX(), ValueUtil.dpToPixelIntRound(70, res));
+                    assertEquals(compTextView2.getPivotX(), ValueUtil.dpToPixelFloatFloor(70.3f, res));
                     assertEquals(compTextView2.getPivotX(), parsedTextView2.getPivotX());
-                    assertEquals(compTextView2.getPivotY(), ValueUtil.dpToPixelIntRound(10, res));
+                    assertEquals(compTextView2.getPivotY(), ValueUtil.dpToPixelFloatFloor(10.3f, res));
                     assertEquals(compTextView2.getPivotY(), parsedTextView2.getPivotY());
-                    assertEquals(compTextView2.getTranslationX(), ValueUtil.dpToPixelIntRound(10, res));
+                    assertEquals(compTextView2.getTranslationX(), ValueUtil.dpToPixelFloatFloor(10.3f, res));
                     assertEquals(compTextView2.getTranslationX(), parsedTextView2.getTranslationX());
-                    assertEquals(compTextView2.getTranslationY(), ValueUtil.dpToPixelIntRound(10, res));
+                    assertEquals(compTextView2.getTranslationY(), ValueUtil.dpToPixelFloatFloor(10.3f, res));
                     assertEquals(compTextView2.getTranslationY(), parsedTextView2.getTranslationY());
                 }
             }
@@ -386,7 +386,7 @@ public class TestLocalXMLInflate1
             assertTrue((Boolean) TestUtil.getField(compLayout, "mAdjustViewBounds"));
             assertEquals((Boolean) TestUtil.getField(compLayout, "mAdjustViewBounds"), (Boolean) TestUtil.getField(parsedLayout, "mAdjustViewBounds"));
 
-            assertEquals(compLayout.getBaseline(), ValueUtil.dpToPixelIntRound(40, res));
+            assertEquals(compLayout.getBaseline(), ValueUtil.dpToPixelIntFloor(40.3f, res));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
@@ -402,10 +402,10 @@ public class TestLocalXMLInflate1
             assertTrue((Boolean) TestUtil.getField(compLayout, "mCropToPadding"));
             assertEquals((Boolean) TestUtil.getField(compLayout, "mCropToPadding"), (Boolean) TestUtil.getField(parsedLayout, "mCropToPadding"));
 
-            assertEquals((Integer) TestUtil.getField(compLayout, "mMaxHeight"), ValueUtil.dpToPixelIntRound(1000, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mMaxHeight"), ValueUtil.dpToPixelIntRound(1000.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout, "mMaxHeight"), (Integer) TestUtil.getField(parsedLayout, "mMaxHeight"));
 
-            assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"),ValueUtil.dpToPixelIntRound(1000, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"),ValueUtil.dpToPixelIntRound(1000.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"), (Integer) TestUtil.getField(parsedLayout, "mMaxWidth"));
 
             assertEquals(compLayout.getScaleType().ordinal(), ImageView.ScaleType.CENTER_INSIDE.ordinal());
@@ -474,16 +474,16 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getMax(),90);
             assertEquals(compLayout.getMax(),parsedLayout.getMax());
 
-            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxHeight"),ValueUtil.dpToPixelIntRound(30, res));
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxHeight"),ValueUtil.dpToPixelIntRound(30.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMaxHeight"), (Integer) TestUtil.getField(parsedLayout, "mMaxHeight"));
 
-            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxWidth"),ValueUtil.dpToPixelIntRound(30, res));
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxWidth"),ValueUtil.dpToPixelIntRound(30.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMaxWidth"), (Integer) TestUtil.getField(parsedLayout, "mMaxWidth"));
 
-            assertEquals((Integer) TestUtil.getField(compLayout,"mMinHeight"),ValueUtil.dpToPixelIntRound(20, res));
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMinHeight"),ValueUtil.dpToPixelIntRound(20.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinHeight"), (Integer) TestUtil.getField(parsedLayout, "mMinHeight"));
 
-            assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"),ValueUtil.dpToPixelIntRound(20, res));
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"),ValueUtil.dpToPixelIntRound(20.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"), (Integer) TestUtil.getField(parsedLayout, "mMinWidth"));
 
             assertEquals(compLayout.getProgress(),30);
@@ -572,7 +572,7 @@ public class TestLocalXMLInflate1
             }
 
             // Test android:drawablePadding
-            assertEquals(compLayout.getCompoundDrawablePadding(),ValueUtil.dpToPixelIntRound(10, res));
+            assertEquals(compLayout.getCompoundDrawablePadding(),ValueUtil.dpToPixelIntRound(10.3f, res));
             assertEquals(compLayout.getCompoundDrawablePadding(),parsedLayout.getCompoundDrawablePadding());
 
             assertEquals(compLayout.getEllipsize(), TextUtils.TruncateAt.MARQUEE);
@@ -616,7 +616,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
 
             // Test android:lineSpacingExtra
-            assertEqualsPixels((Float) TestUtil.getField(compLayout, "mSpacingAdd"), ValueUtil.dpToPixel(5, res));
+            assertEqualsPixels((Float) TestUtil.getField(compLayout, "mSpacingAdd"), ValueUtil.dpToPixelFloatFloor(5, res));
             assertEqualsPixels((Float) TestUtil.getField(compLayout, "mSpacingAdd"), (Float) TestUtil.getField(parsedLayout, "mSpacingAdd"));
 
             // Test android:lineSpacingMultiplier
@@ -756,7 +756,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getTextScaleX(),1.2f);
             assertEquals(compLayout.getTextScaleX(), parsedLayout.getTextScaleX());
 
-            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelIntRound(15, res));
+            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelIntRound(15.3f, res));
             assertEqualsPixels(compLayout.getTextSize(), parsedLayout.getTextSize());
 
             // Test android:textStyle y typeface
@@ -792,14 +792,12 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getEllipsize(),parsedLayout.getEllipsize());
 
             // Test android:height, android:maxHeight
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                     // getHeight() no se corresponde exactamente con setHeight(int) pero el resultado es coherente
-                    assertEquals(compLayout.getHeight(),ValueUtil.dpToPixelIntRound(30, res));
-                    assertEquals(compLayout.getHeight(),parsedLayout.getHeight());
+                    assertEquals(compLayout.getHeight(), ValueUtil.dpToPixelIntFloor(30.3f, res));
+                    assertEquals(compLayout.getHeight(), parsedLayout.getHeight());
 
                     // Estos tests no funcionan porque mi impresión es que layout_height="30dp" define la altura por su cuenta pero
                     // no como PIXELS sino como LINES en el layout compilado
@@ -807,6 +805,18 @@ public class TestLocalXMLInflate1
                     //assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),(Integer)TestUtil.getField(parsedLayout, "mMaxMode"));
                     //assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),ValueUtil.dpToPixelIntRound(30,res));
                     //assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),(Integer)TestUtil.getField(parsedLayout, "mMaximum"));
+                }
+            });
+
+            // Test android:width, android:maxWidth
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // Ver notas de android:height, android:maxHeight
+                    assertEquals(compLayout.getWidth(),ValueUtil.dpToPixelIntRound(200.3f, res));
+                    assertEquals(compLayout.getWidth(),parsedLayout.getWidth());
                 }
             });
 
@@ -836,7 +846,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getHint(),"Hint Text (TextView Tests 3)");
             assertEquals(compLayout.getHint(),parsedLayout.getHint());
 
-            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelIntRound(21, res));
+            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelIntRound(21.3f, res));
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
         }
 
@@ -869,11 +879,11 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getText(),parsedLayout.getText());
 
             // android:switchMinWidth
-            assertEquals((Integer) TestUtil.getField(compLayout, "mSwitchMinWidth"), ValueUtil.dpToPixelIntRound(150, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mSwitchMinWidth"), ValueUtil.dpToPixelIntRound(150.3f, res));
             assertEquals((Integer)TestUtil.getField(compLayout,"mSwitchMinWidth"),(Integer)TestUtil.getField(parsedLayout,"mSwitchMinWidth"));
 
             // android:switchPadding
-            assertEquals((Integer)TestUtil.getField(compLayout,"mSwitchPadding"),ValueUtil.dpToPixelIntRound(30, res));
+            assertEquals((Integer)TestUtil.getField(compLayout,"mSwitchPadding"),ValueUtil.dpToPixelIntRound(30.3f, res));
             assertEquals((Integer)TestUtil.getField(compLayout,"mSwitchPadding"),(Integer)TestUtil.getField(parsedLayout,"mSwitchPadding"));
 
             // android:switchTextAppearance
@@ -905,8 +915,8 @@ public class TestLocalXMLInflate1
             assertNotNull((StateListDrawable) TestUtil.getField(compLayout,"mThumbDrawable"));
             assertEquals((StateListDrawable) TestUtil.getField(parsedLayout,"mThumbDrawable"),(StateListDrawable) TestUtil.getField(parsedLayout,"mThumbDrawable"));
 
-            // Test android:mThumbTextPadding
-            assertEquals((Integer) TestUtil.getField(compLayout, "mThumbTextPadding"), ValueUtil.dpToPixelIntRound(20, res));
+            // Test android:thumbTextPadding
+            assertEquals((Integer) TestUtil.getField(compLayout, "mThumbTextPadding"), ValueUtil.dpToPixelIntRound(20.3f, res));
             assertEquals((Integer)TestUtil.getField(compLayout,"mThumbTextPadding"),(Integer)TestUtil.getField(parsedLayout,"mThumbTextPadding"));
 
             // Test android:track
@@ -1001,20 +1011,20 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getDropDownAnchor(), res.getIdentifier("id/anchorOfAutoCompleteTextViewDropDownId", null, ctx.getPackageName()));
             assertEquals(compLayout.getDropDownAnchor(),parsedLayout.getDropDownAnchor());
 
-            assertEquals(compLayout.getDropDownHeight(),ValueUtil.dpToPixelIntRound(150, res));
+            assertEquals(compLayout.getDropDownHeight(),ValueUtil.dpToPixelIntRound(150.3f, res));
             assertEquals(compLayout.getDropDownHeight(),parsedLayout.getDropDownHeight());
 
-            assertEquals(compLayout.getDropDownHorizontalOffset(),ValueUtil.dpToPixelInt(10, res));
+            assertEquals(compLayout.getDropDownHorizontalOffset(),ValueUtil.dpToPixelIntFloor(10.3f, res));
             assertEquals(compLayout.getDropDownHorizontalOffset(), parsedLayout.getDropDownHorizontalOffset());
 
             assertNotNull((StateListDrawable) TestUtil.getField(compLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}));
             assertEquals((StateListDrawable) TestUtil.getField(compLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}), (StateListDrawable) TestUtil.getField(parsedLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}));
 
-            assertEquals(compLayout.getDropDownVerticalOffset(), ValueUtil.dpToPixelInt(5, res));
+            assertEquals(compLayout.getDropDownVerticalOffset(), ValueUtil.dpToPixelIntFloor(5.3f, res));
             assertEquals(compLayout.getDropDownVerticalOffset(),parsedLayout.getDropDownVerticalOffset());
 
 
-            assertEquals(compLayout.getDropDownWidth(),ValueUtil.dpToPixelInt(300, res));
+            assertEquals(compLayout.getDropDownWidth(),ValueUtil.dpToPixelIntRound(300.3f, res));
             assertEquals(compLayout.getDropDownWidth(),parsedLayout.getDropDownWidth());
         }
 
@@ -1138,13 +1148,13 @@ public class TestLocalXMLInflate1
                 ViewGroup.MarginLayoutParams a_params = (ViewGroup.MarginLayoutParams)compTextView.getLayoutParams();
                 ViewGroup.MarginLayoutParams b_params = (ViewGroup.MarginLayoutParams)parsedTextView.getLayoutParams();
 
-                assertEquals(a_params.topMargin,ValueUtil.dpToPixelIntRound(15, res));
+                assertEquals(a_params.topMargin,ValueUtil.dpToPixelIntRound(15.3f, res));
                 assertEquals(a_params.topMargin,b_params.topMargin);
-                assertEquals(a_params.leftMargin,ValueUtil.dpToPixelIntRound(10, res));
+                assertEquals(a_params.leftMargin,ValueUtil.dpToPixelIntRound(10.3f, res));
                 assertEquals(a_params.leftMargin,b_params.leftMargin);
-                assertEquals(a_params.bottomMargin,ValueUtil.dpToPixelIntRound(5, res));
+                assertEquals(a_params.bottomMargin,ValueUtil.dpToPixelIntRound(5.3f, res));
                 assertEquals(a_params.bottomMargin,b_params.bottomMargin);
-                assertEquals(a_params.rightMargin,ValueUtil.dpToPixelIntRound(1, res));
+                assertEquals(a_params.rightMargin,ValueUtil.dpToPixelIntRound(1.3f, res));
                 assertEquals(a_params.rightMargin,b_params.rightMargin);
             }
         }
@@ -1189,7 +1199,7 @@ public class TestLocalXMLInflate1
             // Tests android:columnWidth (getColumnWidth es Level 16):
             // En teoría existe el atributo mColumnWidth pero el valor final puede no coincidir con el columnWidth especificado
             // porque es corregido dinámicamente
-            assertEquals((Integer)TestUtil.getField(compLayout, "mRequestedColumnWidth"),ValueUtil.dpToPixelIntRound(30, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mRequestedColumnWidth"),ValueUtil.dpToPixelIntFloor(30.3f, res));
             assertEquals((Integer)TestUtil.getField(compLayout, "mRequestedColumnWidth"),(Integer)TestUtil.getField(parsedLayout, "mRequestedColumnWidth"));
 
             // Tests android:gravity (getGravity es Level 16)
@@ -1205,7 +1215,7 @@ public class TestLocalXMLInflate1
             });
 
             // Tests android:horizontalSpacing (getHorizontalSpacing es Level 16):
-            assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),ValueUtil.dpToPixelInt(5, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),ValueUtil.dpToPixelIntFloor(5.3f, res));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
@@ -1230,7 +1240,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getStretchMode(), parsedLayout.getStretchMode());
 
             // Tests android:verticalSpacing (getVerticalSpacing es Level 16):
-            assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),ValueUtil.dpToPixelInt(5, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),ValueUtil.dpToPixelIntFloor(5.3f, res));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
@@ -1265,7 +1275,7 @@ public class TestLocalXMLInflate1
             assertEqualsStrokeWidth((GradientDrawable) compLayout.getDivider(), ValueUtil.dpToPixelIntRound(0.9f, res));
             assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
 
-            assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelIntRound(2, res));
+            assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelIntRound(2.3f, res));
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
             // Test android:footerDividersEnabled (areFooterDividersEnabled es Level 19)
             assertFalse((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"));
@@ -1289,7 +1299,7 @@ public class TestLocalXMLInflate1
             assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildDivider"));
 
             // Test android:childIndicator, no hay método get, si no se define devuelve null
-            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), ValueUtil.dpToPixelIntRound(2f, res));
+            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), ValueUtil.dpToPixelIntRound(2.3f, res));
             assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildIndicator"));
 
             // Test android:childIndicatorLeft, no hay método get
@@ -1325,7 +1335,7 @@ public class TestLocalXMLInflate1
                     assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
                 }
             });
-            assertEquals((Integer)TestUtil.getField(compLayout, "mSpacing"),ValueUtil.dpToPixelIntRound(50, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mSpacing"),ValueUtil.dpToPixelIntFloor(50.3f, res));
             assertEquals((Integer)TestUtil.getField(compLayout, "mSpacing"),(Integer)TestUtil.getField(parsedLayout, "mSpacing"));
             assertEquals((Float)TestUtil.getField(compLayout, "mUnselectedAlpha"), 0.6f);
             assertEquals((Float)TestUtil.getField(compLayout, "mUnselectedAlpha"),(Float)TestUtil.getField(parsedLayout, "mUnselectedAlpha"));
@@ -1341,7 +1351,7 @@ public class TestLocalXMLInflate1
             // Tests android:dropDownHorizontalOffset
             // Este atributo es difícil de testear pues se solapa con paddingLeft (definido en el style en este ejemplo) el cual suele imponer su valor
             // http://stackoverflow.com/questions/21503142/android-spinner-dropdownhorizontaloffset-not-functioning-but-dropdownverticleoff
-            assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), ValueUtil.dpToPixelInt(21, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), ValueUtil.dpToPixelIntFloor(21.3f, res));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
@@ -1365,7 +1375,7 @@ public class TestLocalXMLInflate1
             });
 
             // Tests android:dropDownWidth ( getDropDownWidth() es Level 16)
-            assertEquals((Integer)TestUtil.getField(compLayout, "mDropDownWidth"),ValueUtil.dpToPixelIntRound(200, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mDropDownWidth"),ValueUtil.dpToPixelIntRound(200.3f, res));
             assertEquals((Integer)TestUtil.getField(compLayout, "mDropDownWidth"),(Integer)TestUtil.getField(parsedLayout, "mDropDownWidth"));
 
             // Tests android:gravity (no get en Level 15)
@@ -1386,9 +1396,9 @@ public class TestLocalXMLInflate1
 
             // Test style (necesario testear porque se construye de forma especial)
 
-            assertEquals(compLayout.getPaddingLeft(),ValueUtil.dpToPixelIntRound(21, res));
+            assertEquals(compLayout.getPaddingLeft(),ValueUtil.dpToPixelIntRound(21.3f, res));
             assertEquals(compLayout.getPaddingLeft(),parsedLayout.getPaddingLeft());
-            assertEquals(compLayout.getPaddingRight(),ValueUtil.dpToPixelIntRound(21, res));
+            assertEquals(compLayout.getPaddingRight(),ValueUtil.dpToPixelIntRound(21.3f, res));
             assertEquals(compLayout.getPaddingRight(),parsedLayout.getPaddingRight());
 
         }

@@ -102,9 +102,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return getXMLInflateRegistry().getDimensionObject(attrValue, ctx);
     }
 
-    public int getDimensionInt(String attrValue, Context ctx)
+    public int getDimensionIntFloor(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getDimensionInt(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionIntFloor(attrValue, ctx);
     }
 
     public int getDimensionIntRound(String attrValue, Context ctx)
@@ -114,12 +114,17 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
 
     public float getDimensionFloat(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getDimensionFloat(attrValue,ctx);
+        return getXMLInflateRegistry().getDimensionFloat(attrValue, ctx);
     }
 
-    protected int getDimensionWithNameInt(String attrValue, Context ctx)
+    public float getDimensionFloatFloor(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getDimensionWithNameInt(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionFloatFloor(attrValue, ctx);
+    }
+
+    protected int getDimensionWithNameIntRound(String attrValue, Context ctx)
+    {
+        return getXMLInflateRegistry().getDimensionWithNameIntRound(attrValue, ctx);
     }
 
     public Drawable getDrawable(DOMAttr attr, Context ctx,XMLInflater xmlInflater)

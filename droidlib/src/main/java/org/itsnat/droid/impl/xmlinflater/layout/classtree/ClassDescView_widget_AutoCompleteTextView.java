@@ -6,7 +6,8 @@ import android.widget.ListPopupWindow;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetId;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntFloor;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionWithNameInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodId;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodInt;
@@ -31,9 +32,9 @@ public class ClassDescView_widget_AutoCompleteTextView extends ClassDescViewBase
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"completionThreshold","setThreshold",2));
         addAttrDesc(new AttrDescViewReflecMethodId(this,"dropDownAnchor",-1));
         addAttrDesc(new AttrDescViewReflecMethodDimensionWithNameInt(this,"dropDownHeight",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"dropDownHorizontalOffset",0.0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntFloor(this,"dropDownHorizontalOffset",0.0f));
         addAttrDesc(new AttrDescViewReflecFieldMethodDrawable(this,"dropDownSelector","mPopup","setListSelector",ListPopupWindow.class,null)); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
-        addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"dropDownVerticalOffset",0.0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntFloor(this,"dropDownVerticalOffset",0.0f));
         addAttrDesc(new AttrDescViewReflecMethodDimensionWithNameInt(this,"dropDownWidth",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 }

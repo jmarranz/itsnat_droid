@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionWithNameInt;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionWithNameIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
@@ -115,7 +115,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
         addAttrDesc(new AttrDescView_widget_Spinner_dropDownHorizontalOffset(this));
         // Es de traca pero android:dropDownSelector NO tiene implementación alguna en el código fuente
         addAttrDesc(new AttrDescView_widget_Spinner_dropDownVerticalOffset(this));
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionWithNameInt(this,"dropDownWidth","mDropDownWidth","wrap_content"));
+        addAttrDesc(new AttrDescViewReflecFieldSetDimensionWithNameIntRound(this,"dropDownWidth","mDropDownWidth","wrap_content"));
         addAttrDesc(new AttrDescViewReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"center"));
         addAttrDesc(new AttrDescView_widget_Spinner_popupBackground(this));
         addAttrDesc(new AttrDescViewReflecMethodCharSequence(this,"prompt","")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún

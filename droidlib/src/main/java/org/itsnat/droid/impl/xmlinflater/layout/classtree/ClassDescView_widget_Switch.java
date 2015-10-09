@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Switch_switchTextAppearance;
@@ -22,14 +22,14 @@ public class ClassDescView_widget_Switch extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionInt(this,"switchMinWidth","mSwitchMinWidth",0));
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionInt(this,"switchPadding","mSwitchPadding",0));
+        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntRound(this,"switchMinWidth","mSwitchMinWidth",0));
+        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntRound(this,"switchPadding","mSwitchPadding",0));
         addAttrDesc(new AttrDescView_widget_Switch_switchTextAppearance(this));
         addAttrDesc(new AttrDescViewReflecMethodCharSequence(this,"textOff",null)); // Adnroid tiene un texto por defecto
         addAttrDesc(new AttrDescViewReflecMethodCharSequence(this,"textOn",null)); // Adnroid tiene un texto por defecto
         addAttrDesc(new AttrDescView_widget_Switch_textStyle(this));
         addAttrDesc(new AttrDescViewReflecFieldSetDrawable(this,"thumb","mThumbDrawable",null)); // Android tiene un drawable por defecto
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionInt(this,"thumbTextPadding","mThumbTextPadding",0));
+        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntRound(this,"thumbTextPadding","mThumbTextPadding",0));
         addAttrDesc(new AttrDescViewReflecFieldSetDrawable(this,"track","mTrackDrawable",null)); // Android tiene un drawable por defecto
         addAttrDesc(new AttrDescView_widget_Switch_typeface(this));
 

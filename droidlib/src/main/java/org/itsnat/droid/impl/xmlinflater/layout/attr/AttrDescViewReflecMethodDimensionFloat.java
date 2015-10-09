@@ -35,7 +35,7 @@ public class AttrDescViewReflecMethodDimensionFloat extends AttrDescViewReflecMe
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        float convValue = getDimensionFloat(attr.getValue(),ctx);
+        float convValue = getDimensionFloatFloor(attr.getValue(),ctx);
         callMethod(view, convValue);
     }
 
