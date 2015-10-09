@@ -60,7 +60,7 @@ import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsPixels;
+// import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsPixels;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsStrokeWidth;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
@@ -129,8 +129,8 @@ public class TestLocalXMLInflate1
 
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
 
-                assertEqualsPixels(compTextView1.getTextSize(), ValueUtil.dpToPixelFloatFloor(15, res));
-                assertEqualsPixels(compTextView1.getTextSize(), parsedTextView1.getTextSize());
+                assertEquals(compTextView1.getTextSize(), ValueUtil.dpToPixelFloatFloor(15.3f, res));
+                assertEquals(compTextView1.getTextSize(), parsedTextView1.getTextSize());
 
                 // Test style
                 assertEquals(compTextView1.getPaddingLeft(),ValueUtil.dpToPixelIntRound(21.3f, res));
@@ -616,8 +616,8 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
 
             // Test android:lineSpacingExtra
-            assertEqualsPixels((Float) TestUtil.getField(compLayout, "mSpacingAdd"), ValueUtil.dpToPixelFloatFloor(5, res));
-            assertEqualsPixels((Float) TestUtil.getField(compLayout, "mSpacingAdd"), (Float) TestUtil.getField(parsedLayout, "mSpacingAdd"));
+            assertEquals((Float) TestUtil.getField(compLayout, "mSpacingAdd"), ValueUtil.dpToPixelFloatFloor(5.3f, res));
+            assertEquals((Float) TestUtil.getField(compLayout, "mSpacingAdd"), (Float) TestUtil.getField(parsedLayout, "mSpacingAdd"));
 
             // Test android:lineSpacingMultiplier
             assertEquals((Float)TestUtil.getField(compLayout, "mSpacingMult"),1.2f);
@@ -756,8 +756,8 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getTextScaleX(),1.2f);
             assertEquals(compLayout.getTextScaleX(), parsedLayout.getTextScaleX());
 
-            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelIntRound(15.3f, res));
-            assertEqualsPixels(compLayout.getTextSize(), parsedLayout.getTextSize());
+            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelFloatFloor(15.3f, res));
+            assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
 
             // Test android:textStyle y typeface
             int NORMAL = 0, BOLD = 1, ITALIC = 2;
@@ -846,7 +846,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getHint(),"Hint Text (TextView Tests 3)");
             assertEquals(compLayout.getHint(),parsedLayout.getHint());
 
-            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelIntRound(21.3f, res));
+            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelFloatFloor(21.3f, res));
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
         }
 

@@ -1,7 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
+import android.os.Build;
 import android.widget.RelativeLayout;
 
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
@@ -74,6 +76,12 @@ public class ClassDescView_view_View extends ClassDescViewBased
         // android:fitsSystemWindows es Level 16
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"focusable",false));
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"focusableInTouchMode",false));
+
+        if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // >= 23
+        {
+            addAttrDesc(new AttrDescViewReflecMethodDrawable(this, "foreground", "@null")); // A partir de MARSHMALLOW se define en View
+        }
+
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"hapticFeedbackEnabled",true));
         addAttrDesc(new AttrDescViewReflecMethodId(this,"id",-1));
 

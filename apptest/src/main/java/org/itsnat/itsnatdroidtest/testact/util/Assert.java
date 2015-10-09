@@ -72,6 +72,7 @@ public class Assert
         if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
+    /*
     public static void assertEqualsPixels(float a,float b)
     {
         if (roundFloatExpectedPixels) {
@@ -83,6 +84,7 @@ public class Assert
             if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
         }
     }
+*/
 
     public static void assertEquals(float a,float b)
     {

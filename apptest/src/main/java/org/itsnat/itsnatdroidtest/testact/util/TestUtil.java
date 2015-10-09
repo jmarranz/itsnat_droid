@@ -17,8 +17,9 @@ import java.util.Map;
  */
 public class TestUtil
 {
+    public static final int ICE_CREAM_SANDWICH_MR1 = 15; // 15 == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1  (4.0.3)
     public static final int LOLLIPOP = 21;      // 21 == Build.VERSION_CODES.LOLLIPOP  (5.0.1)
-    public static final int LOLLIPOP_MR1 = 22;  // 22 == Build.VERSION_CODES.LOLLIPOP_MR1 (5.1.1)
+    // public static final int LOLLIPOP_MR1 = 22;  // 22 == Build.VERSION_CODES.LOLLIPOP_MR1 (5.1.1)
     public static final int MARSHMALLOW = 23;   // 23 == Build.VERSION_CODES.M
 
     private final static Map<String,Field> fieldCache = new HashMap<String,Field>();
@@ -91,7 +92,12 @@ public class TestUtil
 
     public static Object callGetMethod(Object obj,String methodName)
     {
-        return callMethod(obj,null,obj.getClass(),methodName,null);
+        return callGetMethod(obj,obj.getClass(),methodName);
+    }
+
+    public static Object callGetMethod(Object obj,Class cls,String methodName)
+    {
+        return callMethod(obj,null,cls,methodName,null);
     }
 
     public static Object callMethod(Object obj,Object[] params,String methodName,Class[] paramClasses)

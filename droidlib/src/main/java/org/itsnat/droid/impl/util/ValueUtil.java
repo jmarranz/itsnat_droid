@@ -17,12 +17,12 @@ import java.io.UnsupportedEncodingException;
  */
 public class ValueUtil
 {
-    private static float toPixelFloat(int unit,float value, Resources res)
+    public static float toPixelFloat(int unit,float value, Resources res)
     {
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
     }
 
-    private static float toPixelFloatFloor(int unit,float value, Resources res)
+    public static float toPixelFloatFloor(int unit,float value, Resources res)
     {
         float valuePx = toPixelFloat(unit, value, res);
         valuePx = (float)Math.floor(valuePx);

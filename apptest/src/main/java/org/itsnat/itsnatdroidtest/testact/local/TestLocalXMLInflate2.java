@@ -78,9 +78,13 @@ public class TestLocalXMLInflate2
             {
                 calendarClassWithParseDate = MiscUtil.resolveClass(CalendarView.class.getName() + "$LegacyCalendarViewDelegate");
             }
-            else // 22 en adelante (+5.1)
+            else if (Build.VERSION.SDK_INT == MiscUtil.LOLLIPOP_MR1) // 22 (+5.1)
             {
                 calendarClassWithParseDate = calendarClassWithCurrentLocale; // parseDate está ya en $AbstractCalendarViewDelegate
+            }
+            else // 23 y sup
+            {
+                calendarClassWithParseDate = CalendarView.class;
             }
 
         }
@@ -138,8 +142,21 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getForeground(), parsedLayout.getForeground());
 
             // Test android:foregroundGravity (getForegroundGravity() es Level 16):
-            assertEquals((Integer) TestUtil.getField(compLayout, "mForegroundGravity"), Gravity.TOP | Gravity.LEFT);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mForegroundGravity"), (Integer)TestUtil.getField(parsedLayout, "mForegroundGravity"));
+            if (Build.VERSION.SDK_INT == TestUtil.ICE_CREAM_SANDWICH_MR1) // 15
+            {
+                assertEquals((Integer) TestUtil.getField(compLayout, "mForegroundGravity"), Gravity.TOP | Gravity.LEFT);
+                assertEquals((Integer) TestUtil.getField(compLayout, "mForegroundGravity"), (Integer) TestUtil.getField(parsedLayout, "mForegroundGravity"));
+            }
+            else if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // < 23
+            {
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getForegroundGravity"), Gravity.TOP | Gravity.LEFT);
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getForegroundGravity"), (Integer) TestUtil.callGetMethod(parsedLayout, "getForegroundGravity"));
+            }
+            else //  23 y sup
+            {
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout,View.class, "getForegroundGravity"), Gravity.TOP | Gravity.LEFT);
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout,View.class, "getForegroundGravity"), (Integer) TestUtil.callGetMethod(parsedLayout,View.class, "getForegroundGravity"));
+            }
             assertTrue(compLayout.getMeasureAllChildren());
             assertEquals(compLayout.getMeasureAllChildren(), parsedLayout.getMeasureAllChildren());
         }
