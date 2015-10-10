@@ -6,12 +6,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.Dimension;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
@@ -28,8 +26,7 @@ public class AttrDescView_widget_TextView_textSize extends AttrDescView
     {
         TextView textView = (TextView)view;
 
-        Dimension dim = getDimensionObject(attr.getValue(), ctx);
-        float value = ValueUtil.toPixelFloatFloor(dim.getComplexUnit(), dim.getValue(), ctx.getResources());
+        float value = getDimensionFloatRound(attr.getValue(), ctx);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,value);
     }
 

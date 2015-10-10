@@ -129,7 +129,7 @@ public class TestLocalXMLInflate1
 
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
 
-                assertEquals(compTextView1.getTextSize(), ValueUtil.dpToPixelFloatFloor(15.3f, res));
+                assertEquals(compTextView1.getTextSize(), ValueUtil.dpToPixelFloatRound(15.3f, res));
                 assertEquals(compTextView1.getTextSize(), parsedTextView1.getTextSize());
 
                 // Test style
@@ -616,7 +616,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
 
             // Test android:lineSpacingExtra
-            assertEquals((Float) TestUtil.getField(compLayout, "mSpacingAdd"), ValueUtil.dpToPixelFloatFloor(5.3f, res));
+            assertEquals((Float) TestUtil.getField(compLayout, "mSpacingAdd"), ValueUtil.dpToPixelFloatRound(5.3f, res));
             assertEquals((Float) TestUtil.getField(compLayout, "mSpacingAdd"), (Float) TestUtil.getField(parsedLayout, "mSpacingAdd"));
 
             // Test android:lineSpacingMultiplier
@@ -756,7 +756,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getTextScaleX(),1.2f);
             assertEquals(compLayout.getTextScaleX(), parsedLayout.getTextScaleX());
 
-            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelFloatFloor(15.3f, res));
+            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelFloatRound(15.3f, res));
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
 
             // Test android:textStyle y typeface
@@ -846,7 +846,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getHint(),"Hint Text (TextView Tests 3)");
             assertEquals(compLayout.getHint(),parsedLayout.getHint());
 
-            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelFloatFloor(21.3f, res));
+            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelFloatRound(21.3f, res));
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
         }
 

@@ -421,11 +421,19 @@ public class XMLInflateRegistry
     public float getDimensionFloatFloor(String attrValue, Context ctx)
     {
         // El retorno es en px
-        float num = getDimensionFloat(attrValue,ctx);
+        float num = getDimensionFloat(attrValue, ctx);
         num = (float)Math.floor(num);
         return num;
     }
 
+    public float getDimensionFloatRound(String attrValue, Context ctx)
+    {
+        // El retorno es en px
+        float num = getDimensionFloat(attrValue,ctx);
+        num = Math.round(num);
+        return num;
+    }
+    
     protected int getDimensionWithNameIntRound(String value, Context ctx)
     {
         int dimension;

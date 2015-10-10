@@ -64,7 +64,7 @@ public class TestLocalXMLInflate2
     static
     {
         // Ver la clase AttrDescView_widget_CalendarView_maxDate_minDate
-        Class calendarClassWithCurrentLocale,calendarClassWithParseDate,calendarClassWithMaxMinDate;
+        Class calendarClassWithCurrentLocale,calendarClassWithParseDate;
         if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP)
         {
             calendarClassWithCurrentLocale = CalendarView.class;

@@ -19,6 +19,8 @@ public class ValueUtil
 {
     public static float toPixelFloat(int unit,float value, Resources res)
     {
+        // Nexus 4 tiene un scale 2 de dp a px (xhdpi),  con un valor de 0.3 devuelve 0.6 bien para probar si usar round/floor
+        // Nexus 5 tiene un scale 3 de dp a px (xxhdpi), con un valor de 0.3 devuelve 0.9 bien para probar si usar round/floor
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
     }
 
@@ -26,6 +28,13 @@ public class ValueUtil
     {
         float valuePx = toPixelFloat(unit, value, res);
         valuePx = (float)Math.floor(valuePx);
+        return valuePx;
+    }
+
+    public static float toPixelFloatRound(int unit,float value, Resources res)
+    {
+        float valuePx = toPixelFloat(unit, value, res);
+        valuePx = Math.round(valuePx);
         return valuePx;
     }
 
@@ -54,19 +63,9 @@ public class ValueUtil
         return toPixelFloatFloor(TypedValue.COMPLEX_UNIT_DIP, value, res);
     }
 
-    public static float spToPixelFloatFloor(float value, Resources res)
+    public static float dpToPixelFloatRound(float value, Resources res)
     {
-        return toPixelFloatFloor(TypedValue.COMPLEX_UNIT_SP, value, res);
-    }
-
-    public static float inToPixelFloatFloor(float value, Resources res)
-    {
-        return toPixelFloatFloor(TypedValue.COMPLEX_UNIT_IN, value, res);
-    }
-
-    public static float mmToPixelFloatFloor(float value, Resources res)
-    {
-        return toPixelFloatFloor(TypedValue.COMPLEX_UNIT_MM, value, res);
+        return toPixelFloatRound(TypedValue.COMPLEX_UNIT_DIP, value, res);
     }
 
     public static int dpToPixelIntRound(float value, Resources res)

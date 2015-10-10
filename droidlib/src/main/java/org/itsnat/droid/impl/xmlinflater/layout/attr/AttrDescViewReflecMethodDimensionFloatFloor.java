@@ -12,17 +12,17 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecMethodDimensionFloat extends AttrDescViewReflecMethod
+public class AttrDescViewReflecMethodDimensionFloatFloor extends AttrDescViewReflecMethod
 {
     protected Float defaultValue;
 
-    public AttrDescViewReflecMethodDimensionFloat(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
+    public AttrDescViewReflecMethodDimensionFloatFloor(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
     {
         super(parent,name,methodName,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescViewReflecMethodDimensionFloat(ClassDescViewBased parent, String name, Float defaultValue)
+    public AttrDescViewReflecMethodDimensionFloatFloor(ClassDescViewBased parent, String name, Float defaultValue)
     {
         super(parent,name,getClassParam());
         this.defaultValue = defaultValue;

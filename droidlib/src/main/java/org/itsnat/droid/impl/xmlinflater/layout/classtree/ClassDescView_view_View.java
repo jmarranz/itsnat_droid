@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionFloat;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionFloatFloor;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodFloat;
@@ -136,10 +136,10 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescViewReflecMethodObject(this,"tag"));
         // android:textAlignment es Level 17
         // android:textDirection es Level 17
-        addAttrDesc(new AttrDescViewReflecMethodDimensionFloat(this,"transformPivotX","setPivotX",0f));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionFloat(this,"transformPivotY","setPivotY",0f));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionFloat(this,"translationX",0f));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionFloat(this,"translationY",0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionFloatFloor(this,"transformPivotX","setPivotX",0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionFloatFloor(this,"transformPivotY","setPivotY",0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionFloatFloor(this,"translationX",0f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionFloatFloor(this,"translationY",0f));
         addAttrDesc(new AttrDescView_view_View_visibility(this)); // "visibility"
 
         // Debidos a ViewGroup.LayoutParams

@@ -122,6 +122,11 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return getXMLInflateRegistry().getDimensionFloatFloor(attrValue, ctx);
     }
 
+    public float getDimensionFloatRound(String attrValue, Context ctx)
+    {
+        return getXMLInflateRegistry().getDimensionFloatRound(attrValue, ctx);
+    }
+
     protected int getDimensionWithNameIntRound(String attrValue, Context ctx)
     {
         return getXMLInflateRegistry().getDimensionWithNameIntRound(attrValue, ctx);
