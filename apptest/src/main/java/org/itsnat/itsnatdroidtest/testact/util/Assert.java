@@ -30,65 +30,58 @@ import java.util.Iterator;
  */
 public class Assert
 {
-    public static final boolean roundFloatExpectedPixels = true;
-
     public static void assertPositive(int a)
     {
-        if (a <= 0) throw new ItsNatDroidException("Failed " + a);
+        if (a <= 0)
+            throw new ItsNatDroidException("Failed " + a);
     }
 
     public static void assertPositive(float a)
     {
-        if (a <= 0) throw new ItsNatDroidException("Failed " + a);
+        if (a <= 0)
+            throw new ItsNatDroidException("Failed " + a);
     }
 
     public static void assertNotNull(Object a)
     {
-        if (a == null) throw new ItsNatDroidException("Failed " + a);
+        if (a == null)
+            throw new ItsNatDroidException("Failed " + a);
     }
 
     public static void assertFalse(boolean a)
     {
-        if (a) throw new ItsNatDroidException("Failed " + a);
+        if (a)
+            throw new ItsNatDroidException("Failed " + a);
     }
 
     public static void assertTrue(boolean a)
     {
-        if (!a) throw new ItsNatDroidException("Failed " + a);
+        if (!a)
+            throw new ItsNatDroidException("Failed " + a);
     }
 
     public static void assertEquals(boolean a,boolean b)
     {
-        if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+        if (a != b)
+            throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
     public static void assertEquals(int a,int b)
     {
-        if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+        if (a != b)
+            throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
     public static void assertEquals(long a,long b)
     {
-        if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+        if (a != b)
+            throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
-
-    /*
-    public static void assertEqualsPixels(float a,float b)
-    {
-        if (roundFloatExpectedPixels) {
-            int a2 = Math.round(a);
-            int b2 = Math.round(b);
-            if (a2 != b2) throw new ItsNatDroidException("Not equal: \"" + a2 + "\" - \"" + b2 + "\"");
-        }
-        else {
-            if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
-        }
-    }
-*/
 
     public static void assertEquals(float a,float b)
     {
-        if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+        if (a != b)
+            throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
     public static void assertEquals(String a,String b)

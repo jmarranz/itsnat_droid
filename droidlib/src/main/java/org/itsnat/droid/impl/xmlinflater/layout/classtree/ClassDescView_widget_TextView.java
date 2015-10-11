@@ -64,7 +64,7 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         // android:fontFamily creo que es Level 16
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"freezesText",false));
         addAttrDesc(new AttrDescViewReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"top|start"));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"height",-1f));
+        addAttrDesc(new AttrDescViewReflecMethodDimensionIntFloor(this,"height",-1f));
         addAttrDesc(new AttrDescViewReflecMethodCharSequence(this,"hint",""));
         addAttrDesc(new AttrDescView_widget_TextView_imeActionId(this));
         addAttrDesc(new AttrDescView_widget_TextView_imeActionLabel(this));

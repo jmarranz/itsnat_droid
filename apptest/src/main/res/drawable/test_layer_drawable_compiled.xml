@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-        android:drawable="@drawable/list_selector_background_focused_light"
+        android:drawable="@drawable/list_selector_background_focused_light_compiled"
         android:id="@+id/layer_list_item_0"
         android:top="0dp"
         android:right="0dp"
@@ -10,21 +10,21 @@
         />
 
     <item
-        android:drawable="@drawable/list_selector_background_focused_light"
+        android:drawable="@drawable/list_selector_background_focused_light_compiled"
         android:id="@+id/layer_list_item_1"
-        android:top="5dp"
-        android:right="6dp"
-        android:bottom="7dp"
-        android:left="8dp">
+        android:top="5.3dp"
+        android:right="6.3dp"
+        android:bottom="7.3dp"
+        android:left="8.3dp">
     </item>
 
     <item
         android:id="@+id/layer_list_item_2"
-        android:top="5dp"
-        android:right="6dp"
-        android:bottom="7dp"
-        android:left="8dp">
-            <bitmap android:src="@drawable/droid"
+        android:top="5.3dp"
+        android:right="6.3dp"
+        android:bottom="7.3dp"
+        android:left="8.3dp">
+            <bitmap android:src="@drawable/droid_compiled"
                     android:gravity="center" />
     </item>
 
