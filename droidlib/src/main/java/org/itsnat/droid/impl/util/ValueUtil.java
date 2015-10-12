@@ -21,6 +21,7 @@ public class ValueUtil
     {
         // Nexus 4 tiene un scale 2 de dp a px (xhdpi),  con un valor de 0.3 devuelve 0.6 bien para probar si usar round/floor
         // Nexus 5 tiene un scale 3 de dp a px (xxhdpi), con un valor de 0.3 devuelve 0.9 bien para probar si usar round/floor
+        // La VM ItsNatDroid es una Nexus 4
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
     }
 

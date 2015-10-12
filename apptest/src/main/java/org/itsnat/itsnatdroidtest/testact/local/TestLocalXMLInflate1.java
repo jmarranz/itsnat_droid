@@ -1072,7 +1072,7 @@ public class TestLocalXMLInflate1
 
         childCount++;
 
-        // Test ViewGroup Attribs
+        // Test ViewGroup Attribs and ViewGroup.LayoutParams
         {
             final LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
             final LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
@@ -1102,32 +1102,55 @@ public class TestLocalXMLInflate1
             assertTrue(compLayout.isMotionEventSplittingEnabled());
             assertEquals(compLayout.isMotionEventSplittingEnabled(), parsedLayout.isMotionEventSplittingEnabled());
 
+            // Testing ViewGroup.LayoutParams
             {
-                TextView compTextView = (TextView) compLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
 
                 assertEquals(compTextView.getText(),"Test ViewGroup Attribs");
                 assertEquals(compTextView.getText(),parsedTextView.getText());
+
+                ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+
+                assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+                assertEquals(a_params.height, b_params.height);
+                assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
+                assertEquals(a_params.width, b_params.width);
+
+                parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
+                        assertEquals(compTextView.getWidth(), parsedTextView.getWidth());
+                        assertEquals(compTextView.getHeight(), parsedTextView.getHeight());
+                    }
+                });
             }
 
-            // Testing ViewGroup.LayoutParams
-            ViewGroup.LayoutParams a_params = compLayout.getLayoutParams();
-            ViewGroup.LayoutParams b_params = parsedLayout.getLayoutParams();
-
-            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-            assertEquals(a_params.height, b_params.height);
-            assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
-            assertEquals(a_params.width, b_params.width);
-
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals(compLayout.getWidth(), parsedLayout.getWidth());
-                    assertEquals(compLayout.getHeight(), parsedLayout.getHeight());
-                }
-            });
+                final TextView compTextView = (TextView) compLayout.getChildAt(1);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(1);
+
+                assertEquals(compTextView.getText(),"Test ViewGroup Attribs 2");
+                assertEquals(compTextView.getText(),parsedTextView.getText());
+
+                ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+
+                assertEquals(a_params.height, ValueUtil.dpToPixelFloatRound(30.3f,res));
+                assertEquals(a_params.height, b_params.height);
+                assertEquals(a_params.width, ValueUtil.dpToPixelFloatRound(200.3f,res));
+                assertEquals(a_params.width, b_params.width);
+
+                parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
+                        assertEquals(compTextView.getWidth(), parsedTextView.getWidth());
+                        assertEquals(compTextView.getHeight(), parsedTextView.getHeight());
+                    }
+                });
+            }
+
 
         }
 
