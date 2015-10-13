@@ -87,6 +87,14 @@
             android:textSize="20dp"
             android:background="@drawable/test_layer_drawable_compiled" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:text="StateListDrawable (green rect, press to change to a bot in center)"
+            android:textSize="20dp"
+            android:background="@drawable/test_state_list_drawable_compiled" />
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

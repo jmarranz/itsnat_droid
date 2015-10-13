@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@drawable/list_selector_background_focused_light_compiled"
+        android:state_pressed="false"
+        />
+
+    <item
+        android:state_pressed="true"
+        android:state_focused="false">
+
+        <bitmap android:src="@drawable/droid_compiled"
+            android:gravity="center" />
+    </item>
+
+
+</selector>

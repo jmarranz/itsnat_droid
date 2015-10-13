@@ -10,6 +10,8 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDraw
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableItem;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -36,16 +38,14 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
         ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this);
         addClassDesc(bitmap);
 
+        ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
+        addClassDesc(ninePatch);
+
         ClassDescClipDrawable clip = new ClassDescClipDrawable(this);
         addClassDesc(clip);
 
         ClassDescColorDrawable color = new ClassDescColorDrawable(this);
         addClassDesc(color);
-
-
-
-        ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
-        addClassDesc(ninePatch);
 
         ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
         addClassDesc(layer);
@@ -53,8 +53,10 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
             ClassDescLayerDrawableItem itemLayer = new ClassDescLayerDrawableItem(this);
             addClassDesc(itemLayer);
 
-                //ClassDescElementDrawableChildBridge itemLayerBitmap = new ClassDescElementDrawableChildBridge(this,"layer-list:item:*");
-                //addClassDesc(itemLayerBitmap);
+        ClassDescStateListDrawable stateList = new ClassDescStateListDrawable(this);
+        addClassDesc(stateList);
 
+            ClassDescStateListDrawableItem itemStateList = new ClassDescStateListDrawableItem(this);
+            addClassDesc(itemStateList);
     }
 }
