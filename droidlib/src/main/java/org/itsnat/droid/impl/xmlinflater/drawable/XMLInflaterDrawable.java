@@ -19,6 +19,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRootElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDrawableContainer;
@@ -174,10 +175,9 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         ClassDescElementDrawableChild classDesc = (ClassDescElementDrawableChild)classDescViewMgr.get(name);
         if (classDesc == null)
         {
-            // name = parentName + ":*";
-            name = "*";
-            classDesc = (ClassDescElementDrawableChild)classDescViewMgr.get(name);
-            if (classDesc == null) throw new ItsNatDroidException("Not found descriptor: " + name);
+            name = ClassDescElementDrawableChildBridge.NAME; // "*";
+            classDesc = (ClassDescElementDrawableChildBridge)classDescViewMgr.get(name);
+            if (classDesc == null) throw new ItsNatDroidException("Unexpected error"); // ClassDescElementDrawableChildBridge debe estar registrado previamente
         }
 
         ElementDrawableChild childDrawable = createChildElementDrawable(classDesc, domElement,domElementParent,parentChildDrawable);

@@ -24,21 +24,6 @@ public class ElementDrawableRoot extends ElementDrawable implements ElementDrawa
     public void setChildElementDrawableList(ArrayList<ElementDrawable> childDrawableList)
     {
         this.childDrawableList = childDrawableList;
-        /*
-        if (childDrawableList != null)
-        {
-            for(int i = 0; i < childDrawableList.size(); i++)
-            {
-                childDrawableList.get(i).setParentElementDrawable(this);
-            }
-        }
-        */
-    }
-
-    public void setParentElementDrawable(ElementDrawable parentElementDrawable)
-    {
-        // No es error que se llame, es el caso por ej del drawable hijo de <item> o similar, es un Root de drawable pero tiene padre XML
-        // Lo ignoramos
     }
 
     public Drawable getDrawable()

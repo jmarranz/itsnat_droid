@@ -14,6 +14,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDraw
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 /**
+ * Esta clase está pensada para el <bitmap> que se permite como hijo único en los casos en donde existe también el atributo android:drawable="" ej en <clip> o bajo <item>
+ * en drawables basados en capas (item). Puede haber quizás más casos.
+ *
  * Created by jmarranz on 10/11/14.
  */
 public class ClassDescElementDrawableChildBridge extends ClassDescElementDrawableChild<ElementDrawableChildBridge>
@@ -35,14 +38,14 @@ public class ClassDescElementDrawableChildBridge extends ClassDescElementDrawabl
     public ElementDrawableChild createChildElementDrawable(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
     {
         String name = domElement.getName();
-        ClassDescRootElementDrawable classDescBridge = (ClassDescRootElementDrawable)getClassDescDrawableMgr().get(name);
-        if (classDescBridge == null)
+        ClassDescRootElementDrawable classDescBridgeRealTarget = (ClassDescRootElementDrawable)getClassDescDrawableMgr().get(name);
+        if (classDescBridgeRealTarget == null)
             throw new ItsNatDroidException("Not found processor for " + domElementParent.getName() + ":" + name);
 
-        ElementDrawableRoot childDrawable = classDescBridge.createRootElementDrawable(domElement, inflaterDrawable, ctx);
+        ElementDrawableRoot childDrawable = classDescBridgeRealTarget.createRootElementDrawable(domElement, inflaterDrawable, ctx);
         Drawable drawable = childDrawable.getDrawable();
 
-        return new ElementDrawableChildBridge(parentChildDrawable,classDescBridge,drawable);
+        return new ElementDrawableChildBridge(parentChildDrawable,classDescBridgeRealTarget,drawable);
     }
 
     @Override

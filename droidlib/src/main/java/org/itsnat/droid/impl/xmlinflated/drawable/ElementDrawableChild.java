@@ -17,11 +17,6 @@ public abstract class ElementDrawableChild extends ElementDrawable
         return parentElementDrawable;
     }
 
-    public void setParentElementDrawable(ElementDrawable parentElement)
-    {
-        this.parentElementDrawable = parentElement;
-    }
-
     public ElementDrawableRoot getElementDrawableRoot()
     {
         return parentElementDrawable.getElementDrawableRoot();

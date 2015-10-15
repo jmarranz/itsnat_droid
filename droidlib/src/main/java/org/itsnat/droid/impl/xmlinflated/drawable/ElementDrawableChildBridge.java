@@ -15,7 +15,6 @@ public class ElementDrawableChildBridge extends ElementDrawableChild
     {
         super(parentChildDrawable);
         this.classDescBridge = classDescBridge;
-        // setParentElementDrawable(parentChildDrawable);
 
         ((ElementDrawableContainer)getParentElementDrawable()).setDrawable(drawable);
     }
