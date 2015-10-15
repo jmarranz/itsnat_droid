@@ -37,6 +37,9 @@ public class ClassDescStateListDrawableItem extends ClassDescElementDrawableChil
     {
         super.init();
 
+
+        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "constantSize"));
+
         addAttrDesc(new AttrDescDrawableReflecMethodDrawable(this, "drawable"));
 
         // Documentados en https://developer.android.com/guide/topics/resources/drawable-resource.html#StateList
@@ -59,6 +62,9 @@ public class ClassDescStateListDrawableItem extends ClassDescElementDrawableChil
         addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "state_last"));
 
         // En teoria hay más android.R.attr.state_* en level 15 pero no tenemos ni idea de como funcionan
+
+        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "variablePadding"));
+        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "visible"));
     }
 
 }

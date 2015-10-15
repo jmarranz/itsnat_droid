@@ -34,7 +34,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
             this.fieldShadowColor = new FieldContainer<Integer>(Paint.class,"shadowColor");
         else // Partir de la versión siguiente (level 16) hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción
-            this.methodShadowColor = new MethodContainer<Integer>(parent.getDeclaredClass(),"getShadowColor",null);
+            this.methodShadowColor = new MethodContainer<Integer>(parent.getDeclaredClass(),"getShadowColor");
 
         this.fieldShadowRadius = new FieldContainer<Float>(parent.getDeclaredClass(),"mShadowRadius");
         this.fieldShadowDx = new FieldContainer<Float>(parent.getDeclaredClass(),"mShadowDx");

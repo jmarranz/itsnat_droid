@@ -6,10 +6,12 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
@@ -21,9 +23,17 @@ import java.util.Map;
  */
 public class ClassDescStateListDrawable extends ClassDescRootElementDrawable<LayerDrawable>
 {
+    protected MethodContainer methodGetStateListState;
+    protected MethodContainer methodGetStateListStateIsConstantSize;
+
+    @SuppressWarnings("unchecked")
     public ClassDescStateListDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
     {
         super(classMgr,"selector");
+
+        this.methodGetStateListState = new MethodContainer(StateListDrawable.class,"getStateListState");
+        this.methodGetStateListStateIsConstantSize =
+                new MethodContainer(MiscUtil.resolveClass(android.graphics.drawable.DrawableContainer.class.getName() + "$DrawableContainerState"),"setConstantSize",boolean.class);
     }
 
     @Override
@@ -39,6 +49,21 @@ public class ClassDescStateListDrawable extends ClassDescRootElementDrawable<Lay
         for(int i = 0; i < itemList.size(); i++)
         {
             StateListDrawableItem item = (StateListDrawableItem)itemList.get(i);
+
+            Boolean constantSize = item.getConstantSize();
+            Boolean variablePadding = item.getVariablePadding();
+            Boolean visible = item.getVisible();
+            if (constantSize != null || variablePadding != null || visible != null)
+            {
+                Object stateListState = methodGetStateListState.invoke(drawable,(Object[]) null);
+                if (constantSize != null)
+                    methodGetStateListStateIsConstantSize.invoke(stateListState,constantSize);
+                if (variablePadding != null)
+                    methodGetStateListStateIsConstantSize.invoke(stateListState,variablePadding);
+                if (visible != null)
+                    methodGetStateListStateIsConstantSize.invoke(stateListState,visible);
+            }
+
             Drawable drawableItem = item.getDrawable();
 
             Map<Integer,Boolean> stateMap = item.getStateMap();

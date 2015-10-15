@@ -97,7 +97,7 @@ public class TestUtil
 
     public static Object callGetMethod(Object obj,Class cls,String methodName)
     {
-        return callMethod(obj,null,cls,methodName,null);
+        return callMethod(obj, null, cls, methodName, null);
     }
 
     public static Object callMethod(Object obj,Object[] params,String methodName,Class[] paramClasses)
@@ -107,9 +107,14 @@ public class TestUtil
 
     public static Object callMethod(Object obj,Object[] params,Class clasz,String methodName,Class[] paramClasses)
     {
+        Method method = getMethod(clasz,methodName,paramClasses);
+        return callMethod(obj, params, method);
+    }
+
+    public static Object callMethod(Object obj,Object[] params,Method method)
+    {
         try
         {
-            Method method = getMethod(clasz,methodName,paramClasses);
             return method.invoke(obj,params);
         }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }

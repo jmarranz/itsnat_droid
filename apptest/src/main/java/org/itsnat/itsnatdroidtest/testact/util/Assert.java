@@ -22,7 +22,10 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 /**
@@ -344,12 +347,28 @@ public class Assert
 
     public static void assertEquals(StateListDrawable a,StateListDrawable b)
     {
-        assertEqualsDrawable(a,b);
+        assertEqualsDrawable(a, b);
 
-    /*
-                mStateListState/mStateSets
-                StateListState a_stList = a_state.getStateListState();
-    */
+        Method methodStateListState = TestUtil.getMethod(StateListDrawable.class, "getStateListState", new Class[0]);
+
+        Method methodGetStateListStateIsConstantSize = TestUtil.getMethod(MiscUtil.resolveClass("android.graphics.drawable.DrawableContainer$DrawableContainerState"), "isConstantSize", new Class[0]);
+
+        Object a_stateListState = TestUtil.callMethod(a, null, methodStateListState);
+        Object b_stateListState = TestUtil.callMethod(b, null, methodStateListState);
+
+        boolean a_isConstantSize = (Boolean)TestUtil.callMethod(a_stateListState,null,methodGetStateListStateIsConstantSize);
+        boolean b_isConstantSize = (Boolean)TestUtil.callMethod(b_stateListState,null,methodGetStateListStateIsConstantSize);
+
+        assertEquals(a_isConstantSize,b_isConstantSize);
+
+        Method methodIsVisible = TestUtil.getMethod(Drawable.class, "isVisible", new Class[0]);
+
+        boolean a_isVisible = (Boolean)TestUtil.callMethod(a ,null,methodIsVisible);
+        boolean b_isVisible = (Boolean)TestUtil.callMethod(b ,null,methodIsVisible);
+
+        assertEquals(a_isVisible,b_isVisible);
+
+
         int[] a_stateArr = a.getState();
         int[] b_stateArr = b.getState();
         assertEquals(a_stateArr.length, b_stateArr.length);

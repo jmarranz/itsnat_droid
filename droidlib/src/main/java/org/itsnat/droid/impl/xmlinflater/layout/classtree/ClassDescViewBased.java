@@ -48,7 +48,7 @@ import java.lang.reflect.Method;
 public class ClassDescViewBased extends ClassDesc<View>
 {
     protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP =
-                        new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams",null);
+                        new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams");
 
     protected Class<View> clasz;
     protected Constructor<View> constructor1P;

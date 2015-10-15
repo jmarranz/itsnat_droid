@@ -6,6 +6,7 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.NinePatchDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -155,6 +156,22 @@ public class TestLocalXMLInflateResources
             assertNotNull((LayerDrawable) compLayout.getBackground());
             assertEquals((LayerDrawable)compLayout.getBackground(), (LayerDrawable)parsedLayout.getBackground());
         }
+
+        childCount++;
+
+        // Test LayerDrawable attribs
+        {
+            final Button compLayout = (Button) comp.getChildAt(childCount);
+            final Button parsedLayout = (Button) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "StateListDrawable (green rect, press to change to a bot in center)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((StateListDrawable) compLayout.getBackground());
+            assertEquals((StateListDrawable)compLayout.getBackground(), (StateListDrawable)parsedLayout.getBackground());
+        }
+
+
 
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());

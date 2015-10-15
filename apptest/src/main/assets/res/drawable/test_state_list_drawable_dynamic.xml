@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
+        android:constantSize="false"
+
         android:drawable="@assets:drawable/res/drawable/list_selector_background_focused_light_dynamic.9.png"
+
         android:state_pressed="false"
-        />
+
+        android:variablePadding="false"
+        android:visible="false"
+        /> <!--  -->
 
     <item
+        android:constantSize="false"
+
         android:state_pressed="true"
-        android:state_focused="false">
+        android:state_focused="false"
 
-        <bitmap android:src="@assets:drawable/res/drawable/droid_dynamic.png"
-            android:gravity="center" />
-    </item>
+        android:variablePadding="false"
+        android:visible="false"
+        >
 
+            <bitmap android:src="@assets:drawable/res/drawable/droid_dynamic.png"
+                android:gravity="center" />
+    </item>  <!--  -->
 
 </selector>

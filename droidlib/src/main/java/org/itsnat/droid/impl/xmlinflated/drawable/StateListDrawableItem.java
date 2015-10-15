@@ -26,20 +26,19 @@ public class StateListDrawableItem extends ElementDrawableChildNormal implements
         android:state_window_focused=["true" | "false"] />
     */
 
+    protected Boolean constantSize;
     protected Drawable drawable;
 
     protected Map<Integer,Boolean> stateMap = new HashMap<Integer,Boolean>();
 
+    protected Boolean variablePadding;
+    protected Boolean visible;
 
     public StateListDrawableItem(ElementDrawable parentElementDrawable)
     {
         super(parentElementDrawable);
     }
 
-    public Map<Integer,Boolean> getStateMap()
-    {
-        return stateMap;
-    }
 
     public Drawable getDrawable()
     {
@@ -49,6 +48,19 @@ public class StateListDrawableItem extends ElementDrawableChildNormal implements
     public void setDrawable(Drawable drawable)
     {
         this.drawable = drawable;
+    }
+
+    public Map<Integer,Boolean> getStateMap()
+    {
+        return stateMap;
+    }
+
+    public Boolean getConstantSize() {
+        return constantSize;
+    }
+
+    public void setConstantSize(boolean constantSize) {
+        this.constantSize = constantSize;
     }
 
     // Ver la lista de states contemplados en ClassDescStateListDrawableItem
@@ -107,6 +119,22 @@ public class StateListDrawableItem extends ElementDrawableChildNormal implements
 
     public void setState_last(boolean state_last) {
         stateMap.put(android.R.attr.state_last,state_last);
+    }
+
+    public Boolean getVariablePadding() {
+        return variablePadding;
+    }
+
+    public void setVariablePadding(boolean variablePadding) {
+        this.variablePadding = variablePadding;
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     // En teoría hay más android.R.attr.state_* en level 15 pero no tenemos ni idea de como funcionan

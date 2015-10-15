@@ -22,6 +22,16 @@ public class MethodContainer<T>
         this.paramClasses = paramClasses;
     }
 
+    public MethodContainer(Class<?> clasz, String methodName,Class paramClass)
+    {
+        this(clasz,methodName,new Class[]{paramClass});
+    }
+
+    public MethodContainer(Class<?> clasz, String methodName)
+    {
+        this(clasz,methodName,new Class[0]);
+    }
+
     public String getMethodName()
     {
         return methodName;
@@ -55,7 +65,6 @@ public class MethodContainer<T>
     {
         try
         {
-
             Method method = getMethod();
             return (T)method.invoke(obj, params);
         }

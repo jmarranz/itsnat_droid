@@ -70,20 +70,6 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         return createRootDrawableAndFillAttributes(rootDOMElem,getInflatedDrawable());
     }
 
-    /*
-    private ElementDrawableRoot inflateRoot(DOMElement rootDOMElem,InflatedDrawable inflatedDrawable)
-    {
-        //PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
-
-        ElementDrawableRoot rootDrawable = createRootDrawableAndFillAttributes(rootDOMElem,inflatedDrawable);
-
-        // processChildElements(rootDOMElem,rootDrawable);
-
-        //pending.executeTasks();
-
-        return rootDrawable;
-    }
-    */
 
     public ElementDrawableRoot createRootDrawableAndFillAttributes(DOMElement rootDOMElem,InflatedDrawable inflatedDrawable)
     {
@@ -125,21 +111,6 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         return classDesc.setAttribute(drawable, attr,this,ctx);
     }
 
-/*
-    public ArrayList<ElementDrawable> processRootChildElements(DOMElement domElemParent,ElementDrawableRoot elementDrawableRoot)
-    {
-        LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
-        if (childDOMElemList == null) return null;
-
-        ArrayList<ElementDrawable> childDrawableList = new ArrayList<ElementDrawable>(childDOMElemList.size());
-        for (DOMElement childDOMElem : childDOMElemList)
-        {
-            ElementDrawable childDrawable = inflateNextElement(childDOMElem,domElemParent,elementDrawableRoot);
-            childDrawableList.add(childDrawable);
-        }
-        return childDrawableList;
-    }
-*/
 
     protected ElementDrawable inflateNextElement(DOMElement domElement,DOMElement domElementParent,ElementDrawable parentChildDrawable)
     {

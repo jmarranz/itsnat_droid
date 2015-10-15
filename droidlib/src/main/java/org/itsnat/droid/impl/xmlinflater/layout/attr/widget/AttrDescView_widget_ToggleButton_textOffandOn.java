@@ -23,7 +23,7 @@ public class AttrDescView_widget_ToggleButton_textOffandOn extends AttrDescViewR
     {
         super(parent,name,null); // Android tiene un texto por defecto
 
-        this.methodContainer = new MethodContainer(parent.getDeclaredClass(),"syncTextState",null);
+        this.methodContainer = new MethodContainer(parent.getDeclaredClass(),"syncTextState");
     }
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
