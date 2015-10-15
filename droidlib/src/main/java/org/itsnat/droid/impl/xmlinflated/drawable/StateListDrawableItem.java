@@ -2,10 +2,15 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 
 import android.graphics.drawable.Drawable;
 
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class StateListDrawableItem extends ElementDrawableChild implements ElementDrawableContainer
+public class StateListDrawableItem extends ElementDrawableChildNormal implements ElementDrawableContainer
 {
     /*
     <item
@@ -23,20 +28,17 @@ public class StateListDrawableItem extends ElementDrawableChild implements Eleme
 
     protected Drawable drawable;
 
-    protected Boolean state_pressed;
-    protected Boolean state_focused;
-    protected Boolean state_hovered;
-    protected Boolean state_selected;
-    protected Boolean state_checkable;
-    protected Boolean state_checked;
-    protected Boolean state_enabled;
-    protected Boolean state_activated;
-    protected Boolean state_window_focused;
+    protected Map<Integer,Boolean> stateMap = new HashMap<Integer,Boolean>();
 
-    protected int definedCount = 0;
 
-    public StateListDrawableItem()
+    public StateListDrawableItem(ElementDrawable parentElementDrawable)
     {
+        super(parentElementDrawable);
+    }
+
+    public Map<Integer,Boolean> getStateMap()
+    {
+        return stateMap;
     }
 
     public Drawable getDrawable()
@@ -49,28 +51,63 @@ public class StateListDrawableItem extends ElementDrawableChild implements Eleme
         this.drawable = drawable;
     }
 
-    public int getDefinedCount()
-    {
-        return definedCount;
-    }
-
-    public Boolean getState_pressed() {
-        return state_pressed;
-    }
+    // Ver la lista de states contemplados en ClassDescStateListDrawableItem
 
     public void setState_pressed(boolean state_pressed) {
-        this.state_pressed = Boolean.valueOf(state_pressed);
-        definedCount++;
-    }
-
-    public Boolean getState_focused() {
-        return state_focused;
+        stateMap.put(android.R.attr.state_pressed,state_pressed);
     }
 
     public void setState_focused(boolean state_focused) {
-        this.state_focused = state_focused;
-        definedCount++;
+        stateMap.put(android.R.attr.state_focused,state_focused);
     }
 
+    public void setState_hovered(boolean state_hovered) {
+        stateMap.put(android.R.attr.state_hovered,state_hovered);
+    }
 
+    public void setState_selected(boolean state_selected) {
+        stateMap.put(android.R.attr.state_selected,state_selected);
+    }
+
+    public void setState_checkable(boolean state_checkable) {
+        stateMap.put(android.R.attr.state_checkable,state_checkable);
+    }
+
+    public void setState_checked(boolean state_checked) {
+        stateMap.put(android.R.attr.state_checked,state_checked);
+    }
+
+    public void setState_enabled(boolean state_enabled) {
+        stateMap.put(android.R.attr.state_enabled,state_enabled);
+    }
+
+    public void setState_activated(boolean state_activated) {
+        stateMap.put(android.R.attr.state_activated,state_activated);
+    }
+
+    public void setState_window_focused(boolean state_window_focused) {
+        stateMap.put(android.R.attr.state_window_focused,state_window_focused);
+    }
+
+    public void setState_active(boolean state_active) {
+        stateMap.put(android.R.attr.state_active,state_active);
+    }
+
+    public void setState_single(boolean state_single) {
+        stateMap.put(android.R.attr.state_single,state_single);
+    }
+
+    public void setState_first(boolean state_first) {
+        stateMap.put(android.R.attr.state_first,state_first);
+    }
+
+    public void setState_middle(boolean state_middle) {
+        stateMap.put(android.R.attr.state_middle,state_middle);
+    }
+
+    public void setState_last(boolean state_last) {
+        stateMap.put(android.R.attr.state_last,state_last);
+    }
+
+    // En teoría hay más android.R.attr.state_* en level 15 pero no tenemos ni idea de como funcionan
 }

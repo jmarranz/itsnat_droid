@@ -5,19 +5,20 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 /**
  *
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawableReflecMethodId<Tdrawable> extends AttrDescDrawableReflecMethod<Tdrawable>
+public class AttrDescDrawableReflecMethodId<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodId(ClassDescDrawable parent, String name, String methodName)
+    public AttrDescDrawableReflecMethodId(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
     }
 
-    public AttrDescDrawableReflecMethodId(ClassDescDrawable parent, String name)
+    public AttrDescDrawableReflecMethodId(ClassDescDrawableOrElementDrawableChild parent, String name)
     {
         super(parent,name,getClassParam());
     }
@@ -28,7 +29,7 @@ public class AttrDescDrawableReflecMethodId<Tdrawable> extends AttrDescDrawableR
     }
 
     @Override
-    public void setAttribute(final Tdrawable draw,final DOMAttr attr,final XMLInflaterDrawable xmlInflaterDrawable,final Context ctx)
+    public void setAttribute(final TdrawableOrElementDrawable draw,final DOMAttr attr,final XMLInflaterDrawable xmlInflaterDrawable,final Context ctx)
     {
         int id = getIdentifierAddIfNecessary(attr.getValue(),ctx);
 

@@ -25,6 +25,7 @@ public abstract class ProcessingAsyncTask<ResOk> extends AsyncTask<Void, Void, O
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onPostExecute(Object result)
     {

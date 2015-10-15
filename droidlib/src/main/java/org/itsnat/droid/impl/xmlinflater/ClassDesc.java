@@ -12,11 +12,11 @@ public abstract class ClassDesc<Tnative>
 {
     protected ClassDescMgr classMgr;
     protected String className;
-    protected ClassDesc parentClass;
+    protected ClassDesc<? super Tnative> parentClass;
     protected boolean initiated;
     protected HashMap<String,AttrDesc> attrDescMap;
 
-    public ClassDesc(ClassDescMgr classMgr,String className,ClassDesc parentClass)
+    public ClassDesc(ClassDescMgr classMgr,String className,ClassDesc<? super Tnative> parentClass)
     {
         this.classMgr = classMgr;
         this.className = className;
@@ -33,7 +33,7 @@ public abstract class ClassDesc<Tnative>
         return classMgr;
     }
 
-    public ClassDesc getParentClassDesc()
+    public ClassDesc<? super Tnative> getParentClassDesc()
     {
         return parentClass;
     }

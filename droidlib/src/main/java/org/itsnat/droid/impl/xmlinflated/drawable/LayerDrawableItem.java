@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class LayerDrawableItem extends ElementDrawableChild implements ElementDrawableContainer
+public class LayerDrawableItem extends ElementDrawableChildNormal implements ElementDrawableContainer
 {
     /*
     <item
@@ -24,8 +24,9 @@ public class LayerDrawableItem extends ElementDrawableChild implements ElementDr
     protected int bottom;
     protected int left;
 
-    public LayerDrawableItem()
+    public LayerDrawableItem(ElementDrawable parentElementDrawable)
     {
+        super(parentElementDrawable);
     }
 
     public Drawable getDrawable()

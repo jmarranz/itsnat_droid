@@ -13,16 +13,16 @@ import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 import java.io.InputStream;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
+public abstract class AttrDescDrawable<TdrawableOrElementDrawable> extends AttrDesc<ClassDescDrawableOrElementDrawableChild>
 {
-    public AttrDescDrawable(ClassDescDrawable parent, String name)
+    public AttrDescDrawable(ClassDescDrawableOrElementDrawableChild parent, String name)
     {
         super(parent,name);
     }
@@ -62,13 +62,7 @@ public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
     }
 
 
-    public abstract void setAttribute(Tdrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx);
-
-    public void removeAttribute(Tdrawable draw,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
-    {
-        throw new ItsNatDroidException("Internal error");
-    }
-
+    public abstract void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx);
 
 }
 

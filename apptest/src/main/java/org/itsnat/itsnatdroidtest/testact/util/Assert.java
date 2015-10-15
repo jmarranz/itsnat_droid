@@ -201,7 +201,7 @@ public class Assert
         assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
 
         assertEquals(a.isStateful(), b.isStateful());
-        //assertEquals(a.isVisible(),b.isVisible());  no coincide pues sólo se está viendo uno de los dos
+        //assertEquals(a.isVisible(),b.isVisible());  no coincide nunca pues sólo se está viendo uno de los dos (supongo que esa es la razon)
     }
 
     public static void assertEquals(Drawable a,Drawable b)

@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class ClassDescClipDrawable extends ClassDescRootElementDrawable<ClipDraw
         valueMap.put("vertical", ClipDrawable.VERTICAL /* 2 */);
     }
 
-    public ClassDescClipDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescClipDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
     {
         super(classMgr,"clip");
     }
@@ -89,7 +89,7 @@ public class ClassDescClipDrawable extends ClassDescRootElementDrawable<ClipDraw
     }
 
     @Override
-    protected boolean isAttributeIgnored(ClipDrawable draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(DrawableOrElementDrawableContainer draw,String namespaceURI,String name)
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
@@ -104,7 +104,7 @@ public class ClassDescClipDrawable extends ClassDescRootElementDrawable<ClipDraw
 
 
     @Override
-    public Class<ClipDrawable> getDrawableClass()
+    public Class<ClipDrawable> getDrawableOrElementDrawableClass()
     {
         return ClipDrawable.class;
     }

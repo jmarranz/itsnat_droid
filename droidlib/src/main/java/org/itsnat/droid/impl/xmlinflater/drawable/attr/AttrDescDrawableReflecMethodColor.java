@@ -5,18 +5,19 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawableReflecMethodColor<Tdrawable> extends AttrDescDrawableReflecMethod<Tdrawable>
+public class AttrDescDrawableReflecMethodColor<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodColor(ClassDescDrawable parent, String name, String methodName)
+    public AttrDescDrawableReflecMethodColor(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
     }
 
-    public AttrDescDrawableReflecMethodColor(ClassDescDrawable parent, String name)
+    public AttrDescDrawableReflecMethodColor(ClassDescDrawableOrElementDrawableChild parent, String name)
     {
         super(parent,name,getClassParam());
     }
@@ -27,7 +28,7 @@ public class AttrDescDrawableReflecMethodColor<Tdrawable> extends AttrDescDrawab
     }
 
     @Override
-    public void setAttribute(Tdrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
+    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
     {
         int convValue = getColor(attr.getValue(),ctx);
         callMethod(draw, convValue);

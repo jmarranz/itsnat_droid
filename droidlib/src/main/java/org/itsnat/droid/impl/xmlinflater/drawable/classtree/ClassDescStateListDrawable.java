@@ -9,20 +9,19 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
 public class ClassDescStateListDrawable extends ClassDescRootElementDrawable<LayerDrawable>
 {
-    public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescStateListDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
     {
         super(classMgr,"selector");
     }
@@ -30,69 +29,39 @@ public class ClassDescStateListDrawable extends ClassDescRootElementDrawable<Lay
     @Override
     public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
-
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         inflaterDrawable.processChildElements(rootElem,elementDrawableRoot);
         ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
-        Drawable[] drawableItems = new Drawable[itemList.size()];
-        for(int i = 0; i < itemList.size(); i++)
-        {
-            StateListDrawableItem item = (StateListDrawableItem)itemList.get(i);
-            drawableItems[i] = item.getDrawable();
-        }
 
         StateListDrawable drawable = new StateListDrawable();
 
         for(int i = 0; i < itemList.size(); i++)
         {
             StateListDrawableItem item = (StateListDrawableItem)itemList.get(i);
+            Drawable drawableItem = item.getDrawable();
 
-            int definedCount = item.getDefinedCount();
-            int[] definedStates = new int[definedCount];
-            int definedCurrent = 0;
+            Map<Integer,Boolean> stateMap = item.getStateMap();
+            int definedStateCount = stateMap.size();
+            int[] definedStates = new int[definedStateCount];
 
-            if (definedCurrent < definedCount)
+            int j = 0;
+            for(Map.Entry<Integer,Boolean> stateEntry : stateMap.entrySet())
             {
-                Boolean state = item.getState_pressed();
-                if (state != null)
-                {
-                    definedStates[definedCurrent] = state.booleanValue() ? android.R.attr.state_pressed : -android.R.attr.state_pressed;
-                    definedCurrent++;
-                }
+                int currentState = stateEntry.getKey(); // Ej android.R.attr.state_pressed
+                Boolean state = stateEntry.getValue(); // No puede ser null
+                definedStates[j] = state.booleanValue() ? currentState : -currentState;
+                j++;
             }
 
-            if (definedCurrent < definedCount)
-            {
-                Boolean state = item.getState_focused();
-                if (state != null)
-                {
-                    definedStates[definedCurrent] = state.booleanValue() ? android.R.attr.state_focused : -android.R.attr.state_focused;
-                    definedCurrent++;
-                }
-            }
-
-            drawable.addState(definedStates,drawableItems[i]);
-
-            /*
-            protected Boolean state_pressed;
-            protected Boolean state_focused;
-            protected Boolean state_hovered;
-            protected Boolean state_selected;
-            protected Boolean state_checkable;
-            protected Boolean state_checked;
-            protected Boolean state_enabled;
-            protected Boolean state_activated;
-            protected Boolean state_window_focused;
-            */
-
+            drawable.addState(definedStates,drawableItem);
         }
 
         return new ElementDrawableRoot(drawable,itemList);
     }
 
     @Override
-    protected boolean isAttributeIgnored(LayerDrawable draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(DrawableOrElementDrawableContainer draw,String namespaceURI,String name)
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
@@ -105,7 +74,7 @@ public class ClassDescStateListDrawable extends ClassDescRootElementDrawable<Lay
     }
 
     @Override
-    public Class<LayerDrawable> getDrawableClass()
+    public Class<LayerDrawable> getDrawableOrElementDrawableClass()
     {
         return LayerDrawable.class;
     }

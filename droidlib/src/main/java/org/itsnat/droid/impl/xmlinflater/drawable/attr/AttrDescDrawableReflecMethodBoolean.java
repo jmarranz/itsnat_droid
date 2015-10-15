@@ -5,18 +5,19 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawableReflecMethodBoolean<Tdrawable> extends AttrDescDrawableReflecMethod<Tdrawable>
+public class AttrDescDrawableReflecMethodBoolean<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodBoolean(ClassDescDrawable parent, String name, String methodName)
+    public AttrDescDrawableReflecMethodBoolean(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
     }
 
-    public AttrDescDrawableReflecMethodBoolean(ClassDescDrawable parent, String name)
+    public AttrDescDrawableReflecMethodBoolean(ClassDescDrawableOrElementDrawableChild parent, String name)
     {
         super(parent,name,getClassParam());
     }
@@ -27,7 +28,7 @@ public class AttrDescDrawableReflecMethodBoolean<Tdrawable> extends AttrDescDraw
     }
 
     @Override
-    public void setAttribute(Tdrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
+    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
     {
         boolean convValue = getBoolean(attr.getValue(),ctx);
         callMethod(draw, convValue);

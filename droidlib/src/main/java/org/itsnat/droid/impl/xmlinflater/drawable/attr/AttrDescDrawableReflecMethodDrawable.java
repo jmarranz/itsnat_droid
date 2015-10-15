@@ -7,18 +7,19 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawableReflecMethodDrawable<Tdrawable> extends AttrDescDrawableReflecMethod<Tdrawable>
+public class AttrDescDrawableReflecMethodDrawable<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodDrawable(ClassDescDrawable parent, String name, String methodName)
+    public AttrDescDrawableReflecMethodDrawable(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
     }
 
-    public AttrDescDrawableReflecMethodDrawable(ClassDescDrawable parent, String name)
+    public AttrDescDrawableReflecMethodDrawable(ClassDescDrawableOrElementDrawableChild parent, String name)
     {
         super(parent,name,getClassParam());
     }
@@ -29,7 +30,7 @@ public class AttrDescDrawableReflecMethodDrawable<Tdrawable> extends AttrDescDra
     }
 
     @Override
-    public void setAttribute(final Tdrawable draw,final DOMAttr attr,final XMLInflaterDrawable xmlInflaterDrawable,final Context ctx)
+    public void setAttribute(final TdrawableOrElementDrawable draw,final DOMAttr attr,final XMLInflaterDrawable xmlInflaterDrawable,final Context ctx)
     {
         Runnable task = new Runnable()
         {

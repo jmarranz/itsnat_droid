@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
@@ -21,7 +21,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_BitmapDr
  */
 public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<BitmapDrawable>
 {
-    public ClassDescBitmapDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescBitmapDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
     {
         super(classMgr,"bitmap");
     }
@@ -36,7 +36,7 @@ public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<Bitmap
     }
 
     @Override
-    protected boolean isAttributeIgnored(BitmapDrawable draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(DrawableOrElementDrawableContainer draw,String namespaceURI,String name)
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
@@ -49,7 +49,7 @@ public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<Bitmap
     }
 
     @Override
-    public Class<BitmapDrawable> getDrawableClass()
+    public Class<BitmapDrawable> getDrawableOrElementDrawableClass()
     {
         return BitmapDrawable.class;
     }

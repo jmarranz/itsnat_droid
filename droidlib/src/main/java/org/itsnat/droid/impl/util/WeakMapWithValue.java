@@ -107,7 +107,7 @@ public class WeakMapWithValue<Key,Value>
 
     public static void test(String[] args) //throws Exception
     {
-        WeakMapWithValue map = new WeakMapWithValue();
+        WeakMapWithValue<Integer,String> map = new WeakMapWithValue<Integer,String>();
         for(int i = 0; i < 1000; i++)
         {
             map.put(new Integer(i),new String(Integer.toString(i)));

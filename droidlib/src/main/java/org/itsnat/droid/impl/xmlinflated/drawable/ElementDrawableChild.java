@@ -5,25 +5,26 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
  */
 public abstract class ElementDrawableChild extends ElementDrawable
 {
-    protected ElementDrawable parentElement;
+    protected ElementDrawable parentElementDrawable;
 
-    protected ElementDrawableChild()
+    protected ElementDrawableChild(ElementDrawable parentElementDrawable)
     {
+        this.parentElementDrawable = parentElementDrawable;
     }
 
     public ElementDrawable getParentElementDrawable()
     {
-        return parentElement;
+        return parentElementDrawable;
     }
 
     public void setParentElementDrawable(ElementDrawable parentElement)
     {
-        this.parentElement = parentElement;
+        this.parentElementDrawable = parentElement;
     }
 
     public ElementDrawableRoot getElementDrawableRoot()
     {
-        return parentElement.getElementDrawableRoot();
+        return parentElementDrawable.getElementDrawableRoot();
     }
 
 

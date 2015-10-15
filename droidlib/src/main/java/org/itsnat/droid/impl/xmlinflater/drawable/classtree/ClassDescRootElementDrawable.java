@@ -4,9 +4,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 /**
@@ -14,14 +13,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
  */
 public abstract class ClassDescRootElementDrawable<Tdrawable extends Drawable> extends ClassDescDrawable<Tdrawable>
 {
-    public ClassDescRootElementDrawable(ClassDescDrawableMgr classMgr, String className)
+    public ClassDescRootElementDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr, String className)
     {
         super(classMgr, className, null);
-    }
-
-    public ElementDrawable createElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable,ElementDrawable parentChildDrawable, Context ctx)
-    {
-        return createRootElementDrawable(rootElem, inflaterDrawable,ctx);
     }
 
     public abstract ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx);

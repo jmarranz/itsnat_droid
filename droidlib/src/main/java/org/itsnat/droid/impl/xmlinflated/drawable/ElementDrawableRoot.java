@@ -24,6 +24,7 @@ public class ElementDrawableRoot extends ElementDrawable implements ElementDrawa
     public void setChildElementDrawableList(ArrayList<ElementDrawable> childDrawableList)
     {
         this.childDrawableList = childDrawableList;
+        /*
         if (childDrawableList != null)
         {
             for(int i = 0; i < childDrawableList.size(); i++)
@@ -31,6 +32,7 @@ public class ElementDrawableRoot extends ElementDrawable implements ElementDrawa
                 childDrawableList.get(i).setParentElementDrawable(this);
             }
         }
+        */
     }
 
     public void setParentElementDrawable(ElementDrawable parentElementDrawable)

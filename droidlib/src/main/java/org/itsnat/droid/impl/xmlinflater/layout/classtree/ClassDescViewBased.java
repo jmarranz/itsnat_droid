@@ -81,6 +81,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return clasz;
     }
 
+    @SuppressWarnings("unchecked")
     protected Class<View> initClass()
     {
         if (clasz == null) this.clasz = (Class<View>) MiscUtil.resolveClass(className);

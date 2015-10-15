@@ -88,7 +88,7 @@ public abstract class XMLDOMParser
 
     protected DOMElement createElementAndFillAttributesAndAdd(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM)
     {
-        // parentElement es null en el caso de parseo de fragment
+        // parentElementDrawable es null en el caso de parseo de fragment
         DOMElement element = createElement(name,parentElement);
 
         fillAttributesAndAddElement(parentElement, element,parser, xmlDOM);

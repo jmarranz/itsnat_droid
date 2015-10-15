@@ -21,7 +21,7 @@ public abstract class ElementDrawable
 
     public void addChildElementDrawable(ElementDrawable child)
     {
-        child.setParentElementDrawable(this);
+        // child.setParentElementDrawable(this);
         childDrawableList.add(child);
     }
 

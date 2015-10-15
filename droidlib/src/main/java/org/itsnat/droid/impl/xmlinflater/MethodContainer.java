@@ -43,13 +43,17 @@ public class MethodContainer<T>
             }
             return method;
         }
-        catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
+        catch (NoSuchMethodException ex)
+        { throw new ItsNatDroidException(ex); }
     }
 
+
+    @SuppressWarnings("unchecked")
     public T invoke(Object obj, Object... params)
     {
         try
         {
+
             Method method = getMethod();
             return (T)method.invoke(obj, params);
         }

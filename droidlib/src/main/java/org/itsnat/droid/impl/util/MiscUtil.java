@@ -17,13 +17,13 @@ public class MiscUtil
 
     private static final Map<String,Class> mapClasses = new HashMap<String,Class>();
 
-    public static Class resolveClass(String className)
+    public static Class<?> resolveClass(String className)
     {
         // El propio Class.forName tiene obviamente un caché de clases ya cargadas (ojo de t_odo el espacio de clases Android),
         // sin embargo con nuestro Map se consiguen
         // mayores velocidades en clases ya cargadas si el map no se llena de muchas clases (menos de 50 por ejemplo)
         // Por supuesto NO utilizar multihilo
-        Class clasz = mapClasses.get(className);
+        Class<?> clasz = mapClasses.get(className);
         if (clasz != null)
             return clasz;
 

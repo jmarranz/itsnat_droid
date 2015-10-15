@@ -11,10 +11,11 @@ public class ElementDrawableChildBridge extends ElementDrawableChild
 {
     protected ClassDescRootElementDrawable classDescBridge;
 
-    public ElementDrawableChildBridge(ClassDescRootElementDrawable classDescBridge,ElementDrawable parentChildDrawable,Drawable drawable)
+    public ElementDrawableChildBridge(ElementDrawable parentChildDrawable,ClassDescRootElementDrawable classDescBridge,Drawable drawable)
     {
+        super(parentChildDrawable);
         this.classDescBridge = classDescBridge;
-        setParentElementDrawable(parentChildDrawable);
+        // setParentElementDrawable(parentChildDrawable);
 
         ((ElementDrawableContainer)getParentElementDrawable()).setDrawable(drawable);
     }

@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDrawable>
 {
-    public ClassDescLayerDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescLayerDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
     {
         super(classMgr,"layer-list");
     }
@@ -54,7 +54,7 @@ public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDr
     }
 
     @Override
-    protected boolean isAttributeIgnored(LayerDrawable draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(DrawableOrElementDrawableContainer draw,String namespaceURI,String name)
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
@@ -67,7 +67,7 @@ public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDr
     }
 
     @Override
-    public Class<LayerDrawable> getDrawableClass()
+    public Class<LayerDrawable> getDrawableOrElementDrawableClass()
     {
         return LayerDrawable.class;
     }

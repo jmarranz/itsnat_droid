@@ -62,14 +62,14 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 
     public ClassDescViewBased get(String className)
     {
-        Class<View> nativeClass = null;
+        Class<? extends View> nativeClass = null;
         try { nativeClass = resolveClass(className); }
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
         ClassDescViewBased classDesc = get(nativeClass);
         return classDesc;
     }
 
-    public ClassDescViewBased get(Class<View> nativeClass)
+    public ClassDescViewBased get(Class<? extends View> nativeClass)
     {
         ClassDescViewBased classDesc = classes.get(nativeClass.getName());
         if (classDesc == null) classDesc = registerUnknown(nativeClass);
@@ -78,16 +78,17 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 
     public ClassDescViewBased get(View nativeObj)
     {
-        Class<View> nativeClass = (Class<View>)nativeObj.getClass();
+        Class<? extends View> nativeClass = nativeObj.getClass();
         return get(nativeClass);
     }
 
-    public ClassDescViewBased registerUnknown(Class<View> nativeClass)
+    public ClassDescViewBased registerUnknown(Class<? extends View> nativeClass)
     {
         String className = nativeClass.getName();
         // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
-        Class<?> superClass = (Class<?>)nativeClass.getSuperclass();
-        ClassDescViewBased parentClassDesc = get((Class<View>)superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
+        @SuppressWarnings("unchecked")
+        Class<? extends View> superClass = (Class<? extends View>)nativeClass.getSuperclass();
+        ClassDescViewBased parentClassDesc = get((Class<? extends View>)superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
         ClassDescViewBased classDesc = createClassDescUnknown(className, parentClassDesc);
 
         classes.put(nativeClass.getName(), classDesc);
@@ -290,7 +291,8 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 
     }
 
-    public Class<View> resolveClass(String viewName) throws ClassNotFoundException
+    @SuppressWarnings("unchecked")
+    public Class<? extends View> resolveClass(String viewName) throws ClassNotFoundException
     {
         if (viewName.indexOf('.') == -1)
         {
@@ -305,7 +307,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
         }
         else
         {
-            return (Class<View>)Class.forName(viewName);
+            return (Class<? extends View>)Class.forName(viewName);
         }
     }
 

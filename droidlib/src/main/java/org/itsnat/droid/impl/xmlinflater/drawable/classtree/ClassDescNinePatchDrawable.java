@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
@@ -20,7 +20,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMet
  */
 public class ClassDescNinePatchDrawable extends ClassDescRootElementDrawable<NinePatchDrawable>
 {
-    public ClassDescNinePatchDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescNinePatchDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
     {
         super(classMgr,"nine-patch");
     }
@@ -42,7 +42,7 @@ public class ClassDescNinePatchDrawable extends ClassDescRootElementDrawable<Nin
     }
 
     @Override
-    protected boolean isAttributeIgnored(NinePatchDrawable draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(DrawableOrElementDrawableContainer draw,String namespaceURI,String name)
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
@@ -55,7 +55,7 @@ public class ClassDescNinePatchDrawable extends ClassDescRootElementDrawable<Nin
     }
 
     @Override
-    public Class<NinePatchDrawable> getDrawableClass()
+    public Class<NinePatchDrawable> getDrawableOrElementDrawableClass()
     {
         return NinePatchDrawable.class;
     }

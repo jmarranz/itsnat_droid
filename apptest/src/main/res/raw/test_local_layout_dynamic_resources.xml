@@ -95,7 +95,6 @@
             android:textSize="20dp"
             android:background="@assets:drawable/res/drawable/test_state_list_drawable_dynamic.xml" />
 
-
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

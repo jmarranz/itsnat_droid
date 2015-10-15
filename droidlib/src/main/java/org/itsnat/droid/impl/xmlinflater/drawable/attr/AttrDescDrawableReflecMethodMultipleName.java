@@ -1,20 +1,21 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 import java.util.Map;
 
 /**
  * Created by jmarranz on 1/05/14.
  */
-public class AttrDescDrawableReflecMethodMultipleName<Tdrawable> extends AttrDescDrawableReflecMethodNameBased<Integer,Tdrawable>
+public class AttrDescDrawableReflecMethodMultipleName<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethodNameBased<Integer, TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodMultipleName(ClassDescDrawable parent, String name, String methodName, Map<String, Integer> valueMap)
+    public AttrDescDrawableReflecMethodMultipleName(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName, Map<String, Integer> valueMap)
     {
         super(parent,name,methodName,getClassParam(),valueMap);
     }
 
-    public AttrDescDrawableReflecMethodMultipleName(ClassDescDrawable parent, String name, Map<String, Integer> valueMap)
+    public AttrDescDrawableReflecMethodMultipleName(ClassDescDrawableOrElementDrawableChild parent, String name, Map<String, Integer> valueMap)
     {
         super(parent, name,getClassParam(),valueMap);
     }

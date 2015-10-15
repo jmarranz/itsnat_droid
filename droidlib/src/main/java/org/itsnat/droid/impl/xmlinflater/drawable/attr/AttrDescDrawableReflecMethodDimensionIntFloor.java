@@ -5,18 +5,19 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawableReflecMethodDimensionIntFloor<Tdrawable> extends AttrDescDrawableReflecMethod<Tdrawable>
+public class AttrDescDrawableReflecMethodDimensionIntFloor<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawable parent, String name, String methodName)
+    public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
     }
 
-    public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawable parent, String name)
+    public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawableOrElementDrawableChild parent, String name)
     {
         super(parent,name,getClassParam());
     }
@@ -27,7 +28,7 @@ public class AttrDescDrawableReflecMethodDimensionIntFloor<Tdrawable> extends At
     }
 
     @Override
-    public void setAttribute(Tdrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
+    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
     {
         int convValue = getDimensionIntFloor(attr.getValue(), ctx);
         callMethod(draw, convValue);

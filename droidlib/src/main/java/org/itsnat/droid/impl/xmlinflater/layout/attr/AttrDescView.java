@@ -19,7 +19,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescView extends AttrDesc
+public abstract class AttrDescView extends AttrDesc<ClassDescViewBased>
 {
     private static Class class_R_styleable;
 

@@ -289,7 +289,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (nodeId != null) return "id:" + nodeId; // es undefined si no esta cacheado (o null si se quito)
         else
         {
-            String parentId = null;
+            String parentId;
             Node parentNode = node;
             do
             {
@@ -421,7 +421,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
             {
                 DOMAttr attr = entry.getValue();
-                inflated.setAttribute(classDesc, view, attr, oneTimeAttrProcess,(PendingPostInsertChildrenTasks)null);
+                inflated.setAttribute(classDesc, view, attr, oneTimeAttrProcess,null);
             }
         }
 
@@ -677,25 +677,26 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (newCachedParentIds != null)
         {
             Node parentNode = getParentNode(node);
-            int len = newCachedParentIds.length;
-            for(int i = 0; i < len; i++)
+            for (Object newCachedParentId : newCachedParentIds)
             {
-                addNodeCache2((String)newCachedParentIds[i],parentNode);
+                addNodeCache2((String) newCachedParentId, parentNode);
                 parentNode = getParentNode(parentNode);
             }
         }
         return node;
     }
 
+    /*
     private Node getNode2(Node parentNode,String id)
     {
         return getNode2(parentNode,new Object[]{id});
     }
+    */
 
     private Node getNode2(Node parentNode,Object[] idObj) // No es público
     {
         if (idObj == null) return null;
-        String id = null;
+        String id;
         String path = null;
 
         id = (String)idObj[0];
@@ -849,10 +850,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     @Override
     public void removeNodeCache(String[] idList)
     {
-        int len = idList.length;
-        for(int i = 0; i < len; i++)
+        for (String id : idList)
         {
-            String id = idList[i];
             Node node = nodeCacheById.remove(id);
             if (node == null) continue; // por si acaso, no debería ocurrir
             View view = node.getView();
@@ -982,6 +981,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         listenerWrapper.dispatchEvent(evtWrapper);
     }
 
+    @SuppressWarnings("unchecked")
     private MapList<String,UserEventListener> getUserEventListenersByName(View currTargetView)
     {
         MapList<String, UserEventListener> listenersByName;
@@ -994,6 +994,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return listenersByName;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void addUserEL(Object[] idObj,String name,String listenerId,CustomFunction customFunc,int commMode,long timeout)
     {

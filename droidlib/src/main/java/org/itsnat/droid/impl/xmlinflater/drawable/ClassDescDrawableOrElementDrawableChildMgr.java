@@ -6,6 +6,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawa
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescClipDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescColorDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
@@ -16,15 +17,15 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDr
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
+public class ClassDescDrawableOrElementDrawableChildMgr extends ClassDescMgr<ClassDescDrawableOrElementDrawableChild>
 {
-    public ClassDescDrawableMgr(XMLInflateRegistry parent)
+    public ClassDescDrawableOrElementDrawableChildMgr(XMLInflateRegistry parent)
     {
         super(parent);
         initClassDesc();
     }
 
-    public ClassDescDrawable get(String className)
+    public ClassDescDrawableOrElementDrawableChild get(String className)
     {
         return classes.get(className);
     }
