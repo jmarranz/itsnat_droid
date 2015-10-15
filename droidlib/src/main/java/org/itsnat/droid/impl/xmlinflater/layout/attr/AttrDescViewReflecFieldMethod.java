@@ -14,6 +14,7 @@ public abstract class AttrDescViewReflecFieldMethod extends AttrDescView
     protected FieldContainer field;
     protected MethodContainer method;
 
+    @SuppressWarnings("unchecked")
     public AttrDescViewReflecFieldMethod(ClassDescViewBased parent, String name, String fieldName, String methodName, Class methodClass, Class paramClass)
     {
         super(parent,name);

@@ -12,6 +12,7 @@ public abstract class AttrDescViewReflecFieldGet extends AttrDescView
 {
     protected FieldContainer field;
 
+    @SuppressWarnings("unchecked")
     public AttrDescViewReflecFieldGet(ClassDescViewBased parent, String name, String fieldName)
     {
         super(parent,name);

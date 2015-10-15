@@ -18,6 +18,7 @@ public class AttrDescView_widget_Chronometer_format extends AttrDescViewReflecMe
 {
     protected MethodContainer methodContainer;
 
+    @SuppressWarnings("unchecked")
     public AttrDescView_widget_Chronometer_format(ClassDescViewBased parent)
     {
         super(parent,"format","%s"); // Android tiene un texto por defecto

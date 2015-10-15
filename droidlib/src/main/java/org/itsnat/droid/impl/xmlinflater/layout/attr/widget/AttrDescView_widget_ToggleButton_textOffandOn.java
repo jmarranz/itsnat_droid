@@ -18,6 +18,7 @@ public class AttrDescView_widget_ToggleButton_textOffandOn extends AttrDescViewR
 {
     protected MethodContainer methodContainer;
 
+    @SuppressWarnings("unchecked")
     public AttrDescView_widget_ToggleButton_textOffandOn(ClassDescViewBased parent, String name)
     {
         super(parent,name,null); // Android tiene un texto por defecto

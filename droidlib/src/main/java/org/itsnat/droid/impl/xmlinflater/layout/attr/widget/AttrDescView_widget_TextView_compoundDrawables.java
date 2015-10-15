@@ -41,11 +41,13 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
     }
 
     protected FieldContainer fieldDrawables;  // mDrawables
+    @SuppressWarnings("unchecked")
     protected FieldContainer<Drawable>[] fieldMemberDrawables = new FieldContainer[4];
 
     protected FieldContainer<Drawable[]> fieldShowing; // Drawable[] mShowing
 
 
+    @SuppressWarnings("unchecked")
     public AttrDescView_widget_TextView_compoundDrawables(ClassDescViewBased parent, String name)
     {
         super(parent,name);

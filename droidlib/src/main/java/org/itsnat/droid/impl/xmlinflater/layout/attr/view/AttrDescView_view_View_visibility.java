@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_visibility extends AttrDescViewReflecMethodSingleName
+public class AttrDescView_view_View_visibility extends AttrDescViewReflecMethodSingleName<Integer>
 {
     static Map<String, Integer> valueMap = new HashMap<String, Integer>( 3 );
     static

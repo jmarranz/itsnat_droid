@@ -12,12 +12,14 @@ public abstract class AttrDescViewReflecFieldSet extends AttrDescView
 {
     protected FieldContainer field;
 
+    @SuppressWarnings("unchecked")
     public AttrDescViewReflecFieldSet(ClassDescViewBased parent, String name, String fieldName)
     {
         super(parent,name);
         this.field = new FieldContainer(parent.getDeclaredClass(),fieldName);
     }
 
+    @SuppressWarnings("unchecked")
     protected void setField(View view,Object convertedValue)
     {
         field.set(view, convertedValue);

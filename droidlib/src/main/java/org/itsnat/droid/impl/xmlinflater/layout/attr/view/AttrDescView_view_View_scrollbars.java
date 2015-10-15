@@ -32,6 +32,7 @@ public class AttrDescView_view_View_scrollbars extends AttrDescView
 
     protected MethodContainer methodSetFlags;
 
+    @SuppressWarnings("unchecked")
     public AttrDescView_view_View_scrollbars(ClassDescViewBased parent)
     {
         super(parent,"scrollbars");

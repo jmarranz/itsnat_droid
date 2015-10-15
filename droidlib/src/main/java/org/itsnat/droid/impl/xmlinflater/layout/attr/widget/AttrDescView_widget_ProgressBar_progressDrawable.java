@@ -14,6 +14,7 @@ public class AttrDescView_widget_ProgressBar_progressDrawable extends AttrDescVi
 {
     protected MethodContainer methodTileify;
 
+    @SuppressWarnings("unchecked")
     public AttrDescView_widget_ProgressBar_progressDrawable(ClassDescViewBased parent)
     {
         super(parent,"progressDrawable",null); // Valor por default: Android tiene un Drawable por defecto

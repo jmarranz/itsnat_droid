@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildNormal;
 /**
  * Created by Jose on 15/10/2015.
  */
-public class ElementDrawableChildContainerNormal extends ElementDrawableChildContainer
+public class ElementDrawableChildContainerNormal extends ElementDrawableChildContainer<ElementDrawableChildNormal>
 {
     public ElementDrawableChildContainerNormal(ElementDrawableChildNormal elemDrawableChild)
     {
@@ -19,6 +19,6 @@ public class ElementDrawableChildContainerNormal extends ElementDrawableChildCon
     @Override
     public Object getInstanceToSetAttributes()
     {
-        return elemDrawableChild;
+        return (ElementDrawableChildNormal)elemDrawableChild;
     }
 }

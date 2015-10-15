@@ -11,6 +11,7 @@ public abstract class AttrDescDrawableReflecMethod<TdrawableOrElementDrawable> e
 {
     protected MethodContainer method;
 
+    @SuppressWarnings("unchecked")
     public AttrDescDrawableReflecMethod(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName, Class classParam)
     {
         super(parent,name);

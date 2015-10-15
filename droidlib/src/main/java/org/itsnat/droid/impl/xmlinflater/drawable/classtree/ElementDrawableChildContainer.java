@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildNormal;
 /**
  * Created by Jose on 15/10/2015.
  */
-public abstract class ElementDrawableChildContainer extends DrawableOrElementDrawableContainer
+public abstract class ElementDrawableChildContainer<TelementDrawableChild extends ElementDrawableChild> extends DrawableOrElementDrawableContainer<ElementDrawableChild>
 {
     protected ElementDrawableChild elemDrawableChild;
 
@@ -23,7 +23,7 @@ public abstract class ElementDrawableChildContainer extends DrawableOrElementDra
         if (elemDrawableChild instanceof ElementDrawableChildNormal)
             return new ElementDrawableChildContainerNormal((ElementDrawableChildNormal)elemDrawableChild);
         else if (elemDrawableChild instanceof ElementDrawableChildBitmapBridge)
-            return new ElementDrawableChildContainerBridge((ElementDrawableChildBitmapBridge)elemDrawableChild);
+            return new ElementDrawableChildContainerBitmapBridge((ElementDrawableChildBitmapBridge)elemDrawableChild);
         else
             return null; // Never happens
     }

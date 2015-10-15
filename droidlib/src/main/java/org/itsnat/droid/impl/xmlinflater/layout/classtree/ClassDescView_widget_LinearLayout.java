@@ -34,7 +34,7 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
         addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"dividerPadding",0f));
         addAttrDesc(new AttrDescViewReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"start|top"));
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"measureWithLargestChild","setMeasureWithLargestChildEnabled",false));
-        addAttrDesc(new AttrDescViewReflecMethodSingleName(this,"orientation",int.class, OrientationUtil.valueMap,"horizontal"));
+        addAttrDesc(new AttrDescViewReflecMethodSingleName<Integer>(this,"orientation",int.class, OrientationUtil.valueMap,"horizontal"));
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"weightSum",-1.0f));
     }
 }

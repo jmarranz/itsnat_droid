@@ -12,6 +12,7 @@ public abstract class AttrDescViewReflecMethod extends AttrDescView
 {
     protected MethodContainer method;
 
+    @SuppressWarnings("unchecked")
     public AttrDescViewReflecMethod(ClassDescViewBased parent, String name, String methodName, Class classParam)
     {
         super(parent,name);

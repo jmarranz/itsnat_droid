@@ -52,6 +52,8 @@ public abstract class ClassDescDrawableOrElementDrawableChild extends ClassDesc<
         return false; // es redefinido
     }
 
+
+    @SuppressWarnings("unchecked")
     public boolean setAttribute(DrawableOrElementDrawableContainer draw,DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         if (!isInit()) init();

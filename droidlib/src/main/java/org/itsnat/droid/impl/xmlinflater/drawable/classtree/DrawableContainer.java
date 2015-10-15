@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by Jose on 15/10/2015.
  */
-public class DrawableContainer extends DrawableOrElementDrawableContainer
+public class DrawableContainer extends DrawableOrElementDrawableContainer<Drawable>
 {
     protected Drawable drawable;
 
@@ -20,7 +20,7 @@ public class DrawableContainer extends DrawableOrElementDrawableContainer
     }
 
     @Override
-    public Object getInstanceToSetAttributes()
+    public Drawable getInstanceToSetAttributes()
     {
         return getDrawable();
     }

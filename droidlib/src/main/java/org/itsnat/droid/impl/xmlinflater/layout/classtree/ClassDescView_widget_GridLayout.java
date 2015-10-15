@@ -24,7 +24,7 @@ public class ClassDescView_widget_GridLayout extends ClassDescViewBased
         addAttrDesc(new AttrDescView_widget_GridLayout_alignmentMode(this));
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"columnCount",Integer.MIN_VALUE)); // El MIN_VALUE está sacado del código fuente
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"columnOrderPreserved",true));
-        addAttrDesc(new AttrDescViewReflecMethodSingleName(this,"orientation",int.class, OrientationUtil.valueMap,"horizontal"));
+        addAttrDesc(new AttrDescViewReflecMethodSingleName<Integer>(this,"orientation",int.class, OrientationUtil.valueMap,"horizontal"));
 
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"rowCount",Integer.MIN_VALUE)); // El MIN_VALUE está sacado del código fuente
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"rowOrderPreserved",true));

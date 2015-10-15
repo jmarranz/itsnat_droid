@@ -33,6 +33,8 @@ public class FieldContainer<T>
         catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
     }
 
+
+    @SuppressWarnings("unchecked")
     public T get(Object obj)
     {
         try

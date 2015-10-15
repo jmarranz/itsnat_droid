@@ -39,6 +39,8 @@ public class ConstructorContainer<T>
         catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
     }
 
+
+    @SuppressWarnings("unchecked")
     public T invoke(Object... params)
     {
         try
