@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBridge;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBitmapBridge;
 
 
 /**
@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBridge;
  */
 public class ElementDrawableChildContainerBridge extends ElementDrawableChildContainer
 {
-    public ElementDrawableChildContainerBridge(ElementDrawableChildBridge elemDrawableChild)
+    public ElementDrawableChildContainerBridge(ElementDrawableChildBitmapBridge elemDrawableChild)
     {
         super(elemDrawableChild);
     }
@@ -17,6 +17,6 @@ public class ElementDrawableChildContainerBridge extends ElementDrawableChildCon
     @Override
     public Object getInstanceToSetAttributes()
     {
-        return ((ElementDrawableChildBridge)elemDrawableChild).getDrawable();
+        return ((ElementDrawableChildBitmapBridge)elemDrawableChild).getDrawable();
     }
 }

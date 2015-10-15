@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawa
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescClipDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescColorDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBridge;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBitmapBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
@@ -32,7 +32,7 @@ public class ClassDescDrawableOrElementDrawableChildMgr extends ClassDescMgr<Cla
     @Override
     protected void initClassDesc()
     {
-        ClassDescElementDrawableChildBridge childBridge = new ClassDescElementDrawableChildBridge(this);
+        ClassDescElementDrawableChildBitmapBridge childBridge = new ClassDescElementDrawableChildBitmapBridge(this);
         addClassDesc(childBridge);
 
         ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this);
