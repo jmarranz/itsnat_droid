@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBitmapBridge;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
@@ -77,7 +77,7 @@ public class ClassDescClipDrawable extends ClassDescRootElementDrawable<ClipDraw
             if (childList.size() > 1) throw new ItsNatDroidException("Expected just a single child element or none, processing ClipDrawable");
             if (childList.size() == 1)
             {
-                ElementDrawableChildBitmapBridge childDrawable = (ElementDrawableChildBitmapBridge)childList.get(0);
+                ElementDrawableChildDrawableBridge childDrawable = (ElementDrawableChildDrawableBridge)childList.get(0);
                 drawable = childDrawable.getDrawable();
             }
         }

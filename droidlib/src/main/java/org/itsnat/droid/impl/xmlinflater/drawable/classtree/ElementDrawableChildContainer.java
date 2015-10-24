@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBitmapBridge;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildNormal;
 
 /**
@@ -22,8 +22,8 @@ public abstract class ElementDrawableChildContainer<TelementDrawableChild extend
     {
         if (elemDrawableChild instanceof ElementDrawableChildNormal)
             return new ElementDrawableChildContainerNormal((ElementDrawableChildNormal)elemDrawableChild);
-        else if (elemDrawableChild instanceof ElementDrawableChildBitmapBridge)
-            return new ElementDrawableChildContainerBitmapBridge((ElementDrawableChildBitmapBridge)elemDrawableChild);
+        else if (elemDrawableChild instanceof ElementDrawableChildDrawableBridge)
+            return new ElementDrawableChildContainerDrawableBridge((ElementDrawableChildDrawableBridge)elemDrawableChild);
         else
             return null; // Never happens
     }

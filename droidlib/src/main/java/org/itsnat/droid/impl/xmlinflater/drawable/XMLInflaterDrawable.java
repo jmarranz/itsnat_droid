@@ -19,7 +19,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBitmapBridge;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRootElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDrawableContainer;
@@ -146,9 +146,9 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         ClassDescElementDrawableChild classDesc = (ClassDescElementDrawableChild)classDescViewMgr.get(name);
         if (classDesc == null)
         {
-            name = ClassDescElementDrawableChildBitmapBridge.NAME; // "*";
-            classDesc = (ClassDescElementDrawableChildBitmapBridge)classDescViewMgr.get(name);
-            if (classDesc == null) throw new ItsNatDroidException("Unexpected error"); // ClassDescElementDrawableChildBitmapBridge debe estar registrado previamente
+            name = ClassDescElementDrawableChildDrawableBridge.NAME; // "*";
+            classDesc = (ClassDescElementDrawableChildDrawableBridge)classDescViewMgr.get(name);
+            if (classDesc == null) throw new ItsNatDroidException("Unexpected error"); // ClassDescElementDrawableChildDrawableBridge debe estar registrado previamente
         }
 
         ElementDrawableChild childDrawable = createChildElementDrawable(classDesc, domElement,domElementParent,parentChildDrawable);

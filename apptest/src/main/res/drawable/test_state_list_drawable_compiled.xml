@@ -23,6 +23,7 @@
 
             <bitmap android:src="@drawable/droid_compiled"
                 android:gravity="center" />
-    </item>  <!--  -->
+
+    </item>
 
 </selector>
