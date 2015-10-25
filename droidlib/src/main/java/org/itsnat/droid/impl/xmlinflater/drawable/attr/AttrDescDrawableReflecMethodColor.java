@@ -5,19 +5,18 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
 public class AttrDescDrawableReflecMethodColor<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodColor(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName)
+    public AttrDescDrawableReflecMethodColor(ClassDescDrawable parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
     }
 
-    public AttrDescDrawableReflecMethodColor(ClassDescDrawableOrElementDrawableChild parent, String name)
+    public AttrDescDrawableReflecMethodColor(ClassDescDrawable parent, String name)
     {
         super(parent,name,getClassParam());
     }

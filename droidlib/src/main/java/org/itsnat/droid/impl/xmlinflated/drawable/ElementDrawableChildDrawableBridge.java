@@ -2,16 +2,16 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 
 import android.graphics.drawable.Drawable;
 
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRootElementDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableRoot;
 
 /**
  * Created by jmarranz on 30/11/14.
  */
 public class ElementDrawableChildDrawableBridge extends ElementDrawableChild
 {
-    protected ClassDescRootElementDrawable classDescBridge;
+    protected ClassDescElementDrawableRoot classDescBridge;
 
-    public ElementDrawableChildDrawableBridge(ElementDrawable parentChildDrawable, ClassDescRootElementDrawable classDescBridge, Drawable drawable)
+    public ElementDrawableChildDrawableBridge(ElementDrawable parentChildDrawable, ClassDescElementDrawableRoot classDescBridge, Drawable drawable)
     {
         super(parentChildDrawable);
         this.classDescBridge = classDescBridge;
@@ -19,7 +19,7 @@ public class ElementDrawableChildDrawableBridge extends ElementDrawableChild
         ((ElementDrawableContainer)getParentElementDrawable()).setDrawable(drawable);
     }
 
-    public ClassDescRootElementDrawable getClassDescRootDrawableBridge()
+    public ClassDescElementDrawableRoot getClassDescRootDrawableBridge()
     {
         return classDescBridge;
     }

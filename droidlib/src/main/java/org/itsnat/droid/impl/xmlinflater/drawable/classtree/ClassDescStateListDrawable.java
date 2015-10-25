@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 import java.util.ArrayList;
@@ -21,13 +21,13 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescStateListDrawable extends ClassDescRootElementDrawable<LayerDrawable>
+public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<LayerDrawable>
 {
     protected MethodContainer methodGetStateListState;
     protected MethodContainer methodGetStateListStateIsConstantSize;
 
     @SuppressWarnings("unchecked")
-    public ClassDescStateListDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"selector");
 

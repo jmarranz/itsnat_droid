@@ -17,10 +17,10 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRootElementDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDrawableContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ElementDrawableChildContainer;
@@ -74,8 +74,8 @@ public abstract class XMLInflaterDrawable extends XMLInflater
     public ElementDrawableRoot createRootDrawableAndFillAttributes(DOMElement rootDOMElem,InflatedDrawable inflatedDrawable)
     {
         String name = rootDOMElem.getName();
-        ClassDescDrawableOrElementDrawableChildMgr classDescViewMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
-        ClassDescRootElementDrawable<? extends Drawable> classDesc = (ClassDescRootElementDrawable<? extends Drawable>)classDescViewMgr.get(name);
+        ClassDescDrawableMgr classDescViewMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
+        ClassDescElementDrawableRoot<? extends Drawable> classDesc = (ClassDescElementDrawableRoot<? extends Drawable>)classDescViewMgr.get(name);
         if (classDesc == null) // Aquí no hay una clase View que sea raiz de todos
             throw new ItsNatDroidException("Drawable type is not supported: " + name);
         ElementDrawableRoot drawableElem = createRootElementDrawable(classDesc, rootDOMElem);
@@ -88,12 +88,12 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         return drawableElem;
     }
 
-    private ElementDrawableRoot createRootElementDrawable(ClassDescRootElementDrawable classDesc, DOMElement rootDOMElem)
+    private ElementDrawableRoot createRootElementDrawable(ClassDescElementDrawableRoot classDesc, DOMElement rootDOMElem)
     {
         return classDesc.createRootElementDrawable(rootDOMElem, this, ctx);
     }
 
-    private void fillAttributes(ClassDescDrawableOrElementDrawableChild classDesc,DrawableOrElementDrawableContainer drawable,DOMElement domElement,Context ctx)
+    private void fillAttributes(ClassDescDrawable classDesc,DrawableOrElementDrawableContainer drawable,DOMElement domElement,Context ctx)
     {
         ArrayList<DOMAttr> attribList = domElement.getDOMAttributeList();
         if (attribList != null)
@@ -106,7 +106,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         }
     }
 
-    private boolean setAttribute(ClassDescDrawableOrElementDrawableChild classDesc,DrawableOrElementDrawableContainer drawable,DOMAttr attr,Context ctx)
+    private boolean setAttribute(ClassDescDrawable classDesc,DrawableOrElementDrawableContainer drawable,DOMAttr attr,Context ctx)
     {
         return classDesc.setAttribute(drawable, attr,this,ctx);
     }
@@ -142,7 +142,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
     {
         String parentName = getFullName(domElementParent);
         String name = parentName + ":" + domElement.getName();
-        ClassDescDrawableOrElementDrawableChildMgr classDescViewMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
+        ClassDescDrawableMgr classDescViewMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
         ClassDescElementDrawableChild classDesc = (ClassDescElementDrawableChild)classDescViewMgr.get(name);
         if (classDesc == null)
         {

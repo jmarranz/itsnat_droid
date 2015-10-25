@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 /**
@@ -23,7 +23,7 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
 {
     public static final String NAME = "*";
 
-    public ClassDescElementDrawableChildDrawableBridge(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescElementDrawableChildDrawableBridge(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,NAME);
     }
@@ -38,7 +38,7 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     public ElementDrawableChild createChildElementDrawable(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
     {
         String name = domElement.getName();
-        ClassDescRootElementDrawable classDescBridgeRealTarget = (ClassDescRootElementDrawable)getClassDescDrawableMgr().get(name);
+        ClassDescElementDrawableRoot classDescBridgeRealTarget = (ClassDescElementDrawableRoot)getClassDescDrawableMgr().get(name);
         if (classDescBridgeRealTarget == null)
             throw new ItsNatDroidException("Not found processor for " + domElementParent.getName() + ":" + name);
 
@@ -55,7 +55,7 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
             return true;
 
         ElementDrawableChildDrawableBridge elemDraw = (ElementDrawableChildDrawableBridge)((ElementDrawableChildContainer)draw).getElementDrawableChild();
-        ClassDescRootElementDrawable classDescBridge = elemDraw.getClassDescRootDrawableBridge();
+        ClassDescElementDrawableRoot classDescBridge = elemDraw.getClassDescRootDrawableBridge();
         return classDescBridge.isAttributeIgnored(draw,namespaceURI,name);
     }
 
@@ -64,7 +64,7 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     {
         // Se redefine completamente
         ElementDrawableChildDrawableBridge elemDraw = (ElementDrawableChildDrawableBridge)((ElementDrawableChildContainer)draw).getElementDrawableChild();
-        ClassDescRootElementDrawable classDescBridge = elemDraw.getClassDescRootDrawableBridge();
+        ClassDescElementDrawableRoot classDescBridge = elemDraw.getClassDescRootDrawableBridge();
         return classDescBridge.setAttribute(draw,attr,xmlInflaterDrawable,ctx);
     }
 

@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
@@ -19,9 +19,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_BitmapDr
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<BitmapDrawable>
+public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<BitmapDrawable>
 {
-    public ClassDescBitmapDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescBitmapDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"bitmap");
     }
@@ -54,7 +54,6 @@ public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<Bitmap
         return BitmapDrawable.class;
     }
 
-    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();
@@ -62,7 +61,7 @@ public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<Bitmap
         addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this,"antialias","setAntiAlias"));
         addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this,"dither"));
         addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this,"filter","setFilterBitmap"));
-        addAttrDesc(new AttrDescDrawableReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap));
+        addAttrDesc(new AttrDescDrawableReflecMethodMultipleName<BitmapDrawable>(this,"gravity", GravityUtil.valueMap));
         // android:mipMap parece que es level 17
         // android:src se procesa en tiempo de creación
         addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileMode(this,"tileMode"));

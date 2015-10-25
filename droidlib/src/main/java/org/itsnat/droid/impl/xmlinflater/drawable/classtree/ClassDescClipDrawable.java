@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescClipDrawable extends ClassDescRootElementDrawable<ClipDrawable>
+public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDrawable>
 {
     // Para el atributo clipOrientation
     // No podemos usar OrientationUtil porque los valores numéricos SON DIFERENTES (1 y 2 en vez de 0 y 1), hay que joderse con la falta de homogeneidad
@@ -36,7 +36,7 @@ public class ClassDescClipDrawable extends ClassDescRootElementDrawable<ClipDraw
         valueMap.put("vertical", ClipDrawable.VERTICAL /* 2 */);
     }
 
-    public ClassDescClipDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescClipDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"clip");
     }

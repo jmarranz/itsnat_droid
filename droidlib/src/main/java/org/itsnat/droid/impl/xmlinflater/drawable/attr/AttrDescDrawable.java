@@ -13,16 +13,16 @@ import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 import java.io.InputStream;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescDrawable<TdrawableOrElementDrawable> extends AttrDesc<ClassDescDrawableOrElementDrawableChild>
+public abstract class AttrDescDrawable<TdrawableOrElementDrawable> extends AttrDesc<ClassDescDrawable>
 {
-    public AttrDescDrawable(ClassDescDrawableOrElementDrawableChild parent, String name)
+    public AttrDescDrawable(ClassDescDrawable parent, String name)
     {
         super(parent,name);
     }

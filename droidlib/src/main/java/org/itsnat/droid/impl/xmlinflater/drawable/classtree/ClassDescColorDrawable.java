@@ -6,16 +6,16 @@ import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodColor;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescColorDrawable extends ClassDescRootElementDrawable<ColorDrawable>
+public class ClassDescColorDrawable extends ClassDescElementDrawableRoot<ColorDrawable>
 {
-    public ClassDescColorDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescColorDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"color");
     }

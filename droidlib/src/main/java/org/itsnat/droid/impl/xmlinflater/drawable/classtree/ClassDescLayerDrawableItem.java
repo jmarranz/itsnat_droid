@@ -1,13 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
-import android.graphics.drawable.LayerDrawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDrawable;
@@ -18,7 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMet
  */
 public class ClassDescLayerDrawableItem extends ClassDescElementDrawableChildNormal<LayerDrawableItem>
 {
-    public ClassDescLayerDrawableItem(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescLayerDrawableItem(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"layer-list:item");
     }

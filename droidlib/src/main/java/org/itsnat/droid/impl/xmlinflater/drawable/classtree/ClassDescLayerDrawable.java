@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDrawable>
+public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDrawable>
 {
-    public ClassDescLayerDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescLayerDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"layer-list");
     }

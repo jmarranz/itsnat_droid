@@ -31,7 +31,7 @@ import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -49,7 +49,7 @@ public class XMLInflateRegistry
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
     protected Map<String,Integer> newIdMap = new HashMap<String,Integer>();
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
-    protected ClassDescDrawableOrElementDrawableChildMgr classDescDrawableMgr = new ClassDescDrawableOrElementDrawableChildMgr(this);
+    protected ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
     protected XMLDOMCache<XMLDOMLayout> domLayoutCache = new XMLDOMCache<XMLDOMLayout>();
     protected XMLDOMCache<XMLDOMDrawable> domDrawableCache = new XMLDOMCache<XMLDOMDrawable>();
 
@@ -63,7 +63,7 @@ public class XMLInflateRegistry
         return classDescViewMgr;
     }
 
-    public ClassDescDrawableOrElementDrawableChildMgr getClassDescDrawableMgr()
+    public ClassDescDrawableMgr getClassDescDrawableMgr()
     {
         return classDescDrawableMgr;
     }

@@ -5,7 +5,6 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 import java.util.Map;
 
@@ -16,13 +15,13 @@ public abstract class AttrDescDrawableReflecMethodNameBased<Treturn, TdrawableOr
 {
     protected Map<String, Treturn> valueMap;
 
-    public AttrDescDrawableReflecMethodNameBased(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName, Class classParam, Map<String, Treturn> valueMap)
+    public AttrDescDrawableReflecMethodNameBased(ClassDescDrawable parent, String name, String methodName, Class classParam, Map<String, Treturn> valueMap)
     {
         super(parent,name,methodName,classParam);
         this.valueMap = valueMap;
     }
 
-    public AttrDescDrawableReflecMethodNameBased(ClassDescDrawableOrElementDrawableChild parent, String name, Class classParam, Map<String, Treturn> valueMap)
+    public AttrDescDrawableReflecMethodNameBased(ClassDescDrawable parent, String name, Class classParam, Map<String, Treturn> valueMap)
     {
         super(parent, name,classParam);
         this.valueMap = valueMap;

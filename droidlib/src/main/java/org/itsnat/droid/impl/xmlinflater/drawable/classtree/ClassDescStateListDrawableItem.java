@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDrawable;
@@ -16,7 +16,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMet
  */
 public class ClassDescStateListDrawableItem extends ClassDescElementDrawableChildNormal<StateListDrawableItem>
 {
-    public ClassDescStateListDrawableItem(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescStateListDrawableItem(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"selector:item");
     }

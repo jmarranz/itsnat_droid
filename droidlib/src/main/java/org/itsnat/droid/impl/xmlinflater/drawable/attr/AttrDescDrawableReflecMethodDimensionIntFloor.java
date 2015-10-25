@@ -5,19 +5,18 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
 public class AttrDescDrawableReflecMethodDimensionIntFloor<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName)
+    public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawable parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
     }
 
-    public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawableOrElementDrawableChild parent, String name)
+    public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawable parent, String name)
     {
         super(parent,name,getClassParam());
     }

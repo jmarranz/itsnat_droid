@@ -5,7 +5,6 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrElementDrawableChild;
 
 /**
  *
@@ -13,12 +12,12 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableOrE
  */
 public class AttrDescDrawableReflecMethodId<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodId(ClassDescDrawableOrElementDrawableChild parent, String name, String methodName)
+    public AttrDescDrawableReflecMethodId(ClassDescDrawable parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
     }
 
-    public AttrDescDrawableReflecMethodId(ClassDescDrawableOrElementDrawableChild parent, String name)
+    public AttrDescDrawableReflecMethodId(ClassDescDrawable parent, String name)
     {
         super(parent,name,getClassParam());
     }

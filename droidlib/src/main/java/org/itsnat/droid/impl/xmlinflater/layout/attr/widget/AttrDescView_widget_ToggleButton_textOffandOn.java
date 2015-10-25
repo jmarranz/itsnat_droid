@@ -26,6 +26,7 @@ public class AttrDescView_widget_ToggleButton_textOffandOn extends AttrDescViewR
         this.methodContainer = new MethodContainer(parent.getDeclaredClass(),"syncTextState");
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         super.setAttribute(view,attr, xmlInflaterLayout, ctx, oneTimeAttrProcess,pending);

@@ -5,15 +5,15 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 /**
  * Created by jmarranz on 27/11/14.
  */
-public abstract class ClassDescElementDrawableChild<TelementDrawable extends ElementDrawableChild> extends ClassDescDrawableOrElementDrawableChild
+public abstract class ClassDescElementDrawableChild<TelementDrawable extends ElementDrawableChild> extends ClassDescDrawable
 {
-    public ClassDescElementDrawableChild(ClassDescDrawableOrElementDrawableChildMgr classMgr, String elemName)
+    public ClassDescElementDrawableChild(ClassDescDrawableMgr classMgr, String elemName)
     {
         super(classMgr, elemName, null);
     }

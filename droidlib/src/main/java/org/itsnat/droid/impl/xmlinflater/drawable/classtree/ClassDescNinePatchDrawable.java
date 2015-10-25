@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableOrElementDrawableChildMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
@@ -18,9 +18,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMet
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescNinePatchDrawable extends ClassDescRootElementDrawable<NinePatchDrawable>
+public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<NinePatchDrawable>
 {
-    public ClassDescNinePatchDrawable(ClassDescDrawableOrElementDrawableChildMgr classMgr)
+    public ClassDescNinePatchDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"nine-patch");
     }
