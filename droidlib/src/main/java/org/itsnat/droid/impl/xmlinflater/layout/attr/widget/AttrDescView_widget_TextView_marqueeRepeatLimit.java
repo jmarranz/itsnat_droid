@@ -25,6 +25,6 @@ public class AttrDescView_widget_TextView_marqueeRepeatLimit extends AttrDescVie
     {
         if ("marquee_forever".equals(attr.getValue()))
             attr = DOMAttrLocalResource.createDOMAttrLocalResource((DOMAttrLocalResource)attr, "-1");
-        super.setAttribute(view,attr, xmlInflaterLayout, ctx, oneTimeAttrProcess,pending);
+        super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
     }
 }

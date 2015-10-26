@@ -42,7 +42,7 @@ public class AttrDescView_widget_TextView_bufferType extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view, "normal",xmlInflaterLayout,ctx, null,null);
+        setToRemoveAttribute(view, "normal", xmlInflaterLayout, ctx);
     }
 
 }

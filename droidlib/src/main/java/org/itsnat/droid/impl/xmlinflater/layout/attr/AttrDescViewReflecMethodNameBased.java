@@ -44,7 +44,7 @@ public abstract class AttrDescViewReflecMethodNameBased<Treturn> extends AttrDes
         if (defaultName != null)
         {
             if (defaultName.equals("")) callMethod(view, -1); // Android utiliza el -1 de vez en cuando como valor por defecto
-            else setAttribute(view, defaultName,xmlInflaterLayout,ctx, null,null);
+            else setToRemoveAttribute(view, defaultName, xmlInflaterLayout, ctx);
         }
     }
 

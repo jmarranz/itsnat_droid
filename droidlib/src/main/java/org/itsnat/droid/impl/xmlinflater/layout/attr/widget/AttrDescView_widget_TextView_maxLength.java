@@ -40,7 +40,7 @@ public class AttrDescView_widget_TextView_maxLength extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view, "-1",xmlInflaterLayout,ctx, null,null);
+        setToRemoveAttribute(view, "-1", xmlInflaterLayout, ctx);
     }
 
 }

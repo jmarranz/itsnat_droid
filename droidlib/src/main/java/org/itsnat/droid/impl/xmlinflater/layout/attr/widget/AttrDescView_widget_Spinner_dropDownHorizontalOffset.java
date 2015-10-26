@@ -39,6 +39,6 @@ public class AttrDescView_widget_Spinner_dropDownHorizontalOffset extends AttrDe
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"0dp",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "0dp", xmlInflaterLayout, ctx);
     }
 }

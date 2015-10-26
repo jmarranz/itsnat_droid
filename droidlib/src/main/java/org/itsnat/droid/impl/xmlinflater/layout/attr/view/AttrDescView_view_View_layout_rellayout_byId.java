@@ -24,7 +24,7 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDescView
         this.selector = selector;
     }
 
-    public void setAttribute(final View view, final DOMAttr attr, XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
 
         Runnable task = new Runnable(){

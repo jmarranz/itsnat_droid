@@ -25,7 +25,7 @@ public class AttrDescViewReflecFieldMethodDrawable extends AttrDescViewReflecFie
         this.defaultValue = defaultValue;
     }
 
-    public void setAttribute(final View view,final DOMAttr attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx,final OneTimeAttrProcess oneTimeAttrProcess,final PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
     {
         Runnable task = new Runnable()
         {
@@ -45,6 +45,6 @@ public class AttrDescViewReflecFieldMethodDrawable extends AttrDescViewReflecFie
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         if (defaultValue != null) // Para especificar null se ha de usar "@null"
-            setAttribute(view,defaultValue,xmlInflaterLayout,ctx,null,null); // defaultValue puede ser null (ej attr background), también valdría "@null" en el atributo
+            setToRemoveAttribute(view, defaultValue, xmlInflaterLayout, ctx); // defaultValue puede ser null (ej attr background), también valdría "@null" en el atributo
     }
 }

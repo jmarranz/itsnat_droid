@@ -35,7 +35,7 @@ public class AttrDescView_widget_TextView_lineSpacingMultiplier extends AttrDesc
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view, "1.0",xmlInflaterLayout,ctx, null,null);
+        setToRemoveAttribute(view, "1.0", xmlInflaterLayout, ctx);
     }
 
     protected float getLineSpacingExtra(TextView view)

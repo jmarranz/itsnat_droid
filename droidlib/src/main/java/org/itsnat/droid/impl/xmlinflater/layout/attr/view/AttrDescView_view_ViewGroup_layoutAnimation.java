@@ -34,6 +34,6 @@ public class AttrDescView_view_ViewGroup_layoutAnimation extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"-1",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "-1", xmlInflaterLayout, ctx);
     }
 }

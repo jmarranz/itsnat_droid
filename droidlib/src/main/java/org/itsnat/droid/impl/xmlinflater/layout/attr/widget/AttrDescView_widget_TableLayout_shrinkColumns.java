@@ -50,7 +50,7 @@ public class AttrDescView_widget_TableLayout_shrinkColumns extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "", xmlInflaterLayout, ctx);
     }
 
 }

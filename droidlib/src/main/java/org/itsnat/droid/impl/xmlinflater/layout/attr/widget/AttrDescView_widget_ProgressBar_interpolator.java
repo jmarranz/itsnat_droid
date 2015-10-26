@@ -30,6 +30,6 @@ public class AttrDescView_widget_ProgressBar_interpolator extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"@android:anim/linear_interpolator",xmlInflaterLayout,ctx,null,null); // Yo creo que es el que usa por defecto Android en este caso
+        setToRemoveAttribute(view, "@android:anim/linear_interpolator", xmlInflaterLayout, ctx); // Yo creo que es el que usa por defecto Android en este caso
     }
 }

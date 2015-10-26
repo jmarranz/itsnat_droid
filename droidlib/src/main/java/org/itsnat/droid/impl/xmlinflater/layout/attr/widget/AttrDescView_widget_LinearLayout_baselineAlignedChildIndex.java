@@ -20,7 +20,7 @@ public class AttrDescView_widget_LinearLayout_baselineAlignedChildIndex extends 
         super(parent,"baselineAlignedChildIndex",-1);
     }
 
-    public void setAttribute(final View view, final DOMAttr attr,final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
     {
         if (pending != null)
         {
@@ -30,11 +30,11 @@ public class AttrDescView_widget_LinearLayout_baselineAlignedChildIndex extends 
                 @Override
                 public void run()
                 {
-                    AttrDescView_widget_LinearLayout_baselineAlignedChildIndex.super.setAttribute(view,attr,xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+                    AttrDescView_widget_LinearLayout_baselineAlignedChildIndex.super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
                 }
             });
         }
-        else super.setAttribute(view,attr, xmlInflaterLayout, ctx, oneTimeAttrProcess,pending);
+        else super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
     }
 
 }

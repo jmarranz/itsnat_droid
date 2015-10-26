@@ -21,7 +21,7 @@ public class AttrDescView_widget_TextView_textAllCaps extends AttrDescViewReflec
         super(parent,"textAllCaps","setAllCaps",false);
     }
 
-    public void setAttribute(final View view, final DOMAttr attr,final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
     {
         if (oneTimeAttrProcess != null)
         {
@@ -31,13 +31,13 @@ public class AttrDescView_widget_TextView_textAllCaps extends AttrDescViewReflec
                 @Override
                 public void run()
                 {
-                    AttrDescView_widget_TextView_textAllCaps.super.setAttribute(view,attr,xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+                    AttrDescView_widget_TextView_textAllCaps.super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
                 }
             });
         }
         else
         {
-            super.setAttribute(view,attr, xmlInflaterLayout, ctx, oneTimeAttrProcess,pending);
+            super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
         }
     }
 

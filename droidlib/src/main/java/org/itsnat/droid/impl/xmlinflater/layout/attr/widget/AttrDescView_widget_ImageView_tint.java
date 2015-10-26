@@ -59,6 +59,6 @@ public class AttrDescView_widget_ImageView_tint extends AttrDescViewReflecMethod
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         if (defaultValue != null)
-            setAttribute(view,defaultValue, xmlInflaterLayout,ctx,null,null);
+            setToRemoveAttribute(view, defaultValue, xmlInflaterLayout, ctx);
     }
 }

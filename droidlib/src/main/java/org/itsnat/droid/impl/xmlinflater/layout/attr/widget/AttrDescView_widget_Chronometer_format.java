@@ -28,7 +28,7 @@ public class AttrDescView_widget_Chronometer_format extends AttrDescViewReflecMe
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        super.setAttribute(view,attr, xmlInflaterLayout, ctx, oneTimeAttrProcess,pending);
+        super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
 
         methodContainer.invoke(view); // Hay que llamar a este método init() sino no se entera del cambio, ni siquiera en creación via parse dinámico
     }

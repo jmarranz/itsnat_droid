@@ -33,7 +33,7 @@ public class AttrDescView_widget_ViewAnimator_inoutAnimation extends AttrDescVie
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"0",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "0", xmlInflaterLayout, ctx);
     }
 
 }

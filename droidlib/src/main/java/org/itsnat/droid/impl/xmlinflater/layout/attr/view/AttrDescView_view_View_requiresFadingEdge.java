@@ -46,6 +46,6 @@ public class AttrDescView_view_View_requiresFadingEdge extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"vertical",xmlInflaterLayout,ctx,null,null );
+        setToRemoveAttribute(view, "vertical", xmlInflaterLayout, ctx);
     }
 }

@@ -20,7 +20,7 @@ public abstract class AttrDescView_view_View_scrollbar_Base extends AttrDescView
         super(parent,name,fieldName1,fieldName2,methodName,field2Class,methodClass,paramClass);
     }
 
-    public void setAttribute(final View view,final DOMAttr attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx,final OneTimeAttrProcess oneTimeAttrProcess,final PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
     {
         if (oneTimeAttrProcess != null)
         {
@@ -30,13 +30,13 @@ public abstract class AttrDescView_view_View_scrollbar_Base extends AttrDescView
                 @Override
                 public void run()
                 {
-                    AttrDescView_view_View_scrollbar_Base.super.setAttribute(view,attr,xmlInflaterLayout,ctx,oneTimeAttrProcess,pending);
+                    AttrDescView_view_View_scrollbar_Base.super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
                 }
             });
         }
         else
         {
-            super.setAttribute(view,attr,xmlInflaterLayout,ctx,oneTimeAttrProcess,pending);
+            super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
         }
     }
 

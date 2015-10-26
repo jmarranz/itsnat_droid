@@ -24,7 +24,7 @@ public class AttrDescView_view_View_onClick extends AttrDescView
         super(parent,"onClick");
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         final String handlerName = attr.getValue();
 
@@ -77,6 +77,6 @@ public class AttrDescView_view_View_onClick extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "", xmlInflaterLayout, ctx);
     }
 }

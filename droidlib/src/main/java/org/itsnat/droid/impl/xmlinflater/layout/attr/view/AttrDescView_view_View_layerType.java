@@ -41,7 +41,7 @@ public class AttrDescView_view_View_layerType extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view, "none",xmlInflaterLayout,ctx, null,null);
+        setToRemoveAttribute(view, "none", xmlInflaterLayout, ctx);
     }
 
 

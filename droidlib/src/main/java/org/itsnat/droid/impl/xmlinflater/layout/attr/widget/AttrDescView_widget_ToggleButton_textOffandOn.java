@@ -29,7 +29,7 @@ public class AttrDescView_widget_ToggleButton_textOffandOn extends AttrDescViewR
     @Override
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        super.setAttribute(view,attr, xmlInflaterLayout, ctx, oneTimeAttrProcess,pending);
+        super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
 
         methodContainer.invoke(view); // Hay que llamar a este método syncTextState sino no se entera del cambio, ni siquiera en creación via parse dinámico
     }

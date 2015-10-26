@@ -33,6 +33,6 @@ public class AttrDescView_view_ViewGroup_animateLayoutChanges extends AttrDescVi
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"false",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "false", xmlInflaterLayout, ctx);
     }
 }

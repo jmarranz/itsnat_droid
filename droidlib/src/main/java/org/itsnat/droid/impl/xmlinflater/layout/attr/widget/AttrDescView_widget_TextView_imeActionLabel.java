@@ -31,7 +31,7 @@ public class AttrDescView_widget_TextView_imeActionLabel extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view, "",xmlInflaterLayout,ctx, null,null); // No estoy seguro del valor por defecto
+        setToRemoveAttribute(view, "", xmlInflaterLayout, ctx); // No estoy seguro del valor por defecto
     }
 
 }

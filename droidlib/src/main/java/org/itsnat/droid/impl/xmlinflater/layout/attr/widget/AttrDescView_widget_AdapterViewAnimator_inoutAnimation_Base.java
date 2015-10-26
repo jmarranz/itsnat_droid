@@ -36,7 +36,7 @@ public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Bas
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"0",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "0", xmlInflaterLayout, ctx);
     }
 
     protected abstract void setAnimation(AdapterViewAnimator view,ObjectAnimator animator);

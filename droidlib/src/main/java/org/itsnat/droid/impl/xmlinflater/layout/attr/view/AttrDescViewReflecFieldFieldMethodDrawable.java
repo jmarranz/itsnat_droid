@@ -23,7 +23,7 @@ public abstract class AttrDescViewReflecFieldFieldMethodDrawable extends AttrDes
         super(parent,name,fieldName1,fieldName2,methodName,field2Class,methodClass,paramClass);
     }
 
-    public void setAttribute(final View view,final DOMAttr attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         Runnable task = new Runnable()
         {

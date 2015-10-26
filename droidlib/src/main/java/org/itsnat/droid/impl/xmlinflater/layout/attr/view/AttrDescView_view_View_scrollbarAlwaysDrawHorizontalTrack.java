@@ -48,7 +48,7 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack extends A
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"false",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "false", xmlInflaterLayout, ctx);
     }
 
 }

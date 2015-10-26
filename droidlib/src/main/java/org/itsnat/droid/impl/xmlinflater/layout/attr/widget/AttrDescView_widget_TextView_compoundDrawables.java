@@ -69,7 +69,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
         }
     }
 
-    public void setAttribute(final View view,final DOMAttr attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         Runnable task = new Runnable()
         {
@@ -96,7 +96,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"@null",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "@null", xmlInflaterLayout, ctx);
     }
 
     protected Drawable getDrawable(View view,int index)

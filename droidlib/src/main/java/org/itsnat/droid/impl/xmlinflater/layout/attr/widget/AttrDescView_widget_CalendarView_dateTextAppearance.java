@@ -78,7 +78,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         // Se usa el valor por defecto de Android
-        setAttribute(view,"0",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "0", xmlInflaterLayout, ctx);
 
     }
 }

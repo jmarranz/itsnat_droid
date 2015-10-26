@@ -44,6 +44,6 @@ public class AttrDescView_widget_TextView_ellipsize extends AttrDescView
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"@null",xmlInflaterLayout,ctx,null,null);
+        setToRemoveAttribute(view, "@null", xmlInflaterLayout, ctx);
     }
 }
