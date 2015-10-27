@@ -58,14 +58,14 @@
         <Button android:id="@+id/testRemoteStatelessCore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEST STATELESS CORE"
+                android:text="TEST REMOTE STATELESS CORE"
                 android:textSize="20dp"
                 android:layout_below="@id/testRemoteControl"/>
 
         <Button android:id="@+id/testRemoteComponents"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEST COMPONENTS"
+                android:text="TEST REMOTE COMPONENTS"
                 android:textSize="20dp"
                 android:layout_below="@id/testRemoteStatelessCore"/>
 

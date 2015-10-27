@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -245,6 +246,10 @@ public class Assert
         {
             assertEquals((StateListDrawable)a,(StateListDrawable)b);
         }
+        else if (a instanceof LevelListDrawable)
+        {
+            assertEquals((LevelListDrawable)a,(LevelListDrawable)b);
+        }
         else
             throw new ItsNatDroidException("Cannot test drawable " + a);
     }
@@ -282,7 +287,7 @@ public class Assert
 
     public static void assertEquals(ColorDrawable a,ColorDrawable b)
     {
-        assertEqualsDrawable(a,b);
+        assertEqualsDrawable(a, b);
         assertEquals(a.getColor(),b.getColor());
     }
 
@@ -376,6 +381,13 @@ public class Assert
         {
             assertEquals(a_stateArr[i], b_stateArr[i]);
         }
+    }
+
+    public static void assertEquals(LevelListDrawable a,LevelListDrawable b)
+    {
+        assertEqualsDrawable(a, b);
+
+        assertEquals(a.getLevel(),b.getLevel());
     }
 
     public static void assertEqualsStrokeWidth(Drawable a,int b)

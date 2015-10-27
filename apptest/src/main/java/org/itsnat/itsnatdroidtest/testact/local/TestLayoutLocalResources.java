@@ -1,7 +1,9 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.itsnat.droid.InflatedLayout;
@@ -13,24 +15,19 @@ import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestLayoutLocalResources extends TestLayoutLocalBase
-{
-    public TestLayoutLocalResources(TestActivityTabFragment fragment)
-    {
+public class TestLayoutLocalResources extends TestLayoutLocalBase {
+    public TestLayoutLocalResources(TestActivityTabFragment fragment) {
         super(fragment);
     }
 
-    public void test()
-    {
+    public void test() {
         final TestActivity act = fragment.getTestActivity();
         final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_compiled_resources);
 
         final View buttonReload = compiledRootView.findViewById(R.id.buttonReload);
-        buttonReload.setOnClickListener(new View.OnClickListener()
-        {
+        buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 // TEST de carga dinámica de layout guardado localmente
                 InflatedLayout layout = loadDynamicAndBindBackReloadButtons(R.raw.test_local_layout_dynamic_resources);
                 View dynamicRootView = layout.getRootView();
@@ -46,12 +43,22 @@ public class TestLayoutLocalResources extends TestLayoutLocalBase
 
     private static void initialConfiguration(TestActivity act, View rootView)
     {
-        TextView testClipDrawable = (TextView)rootView.findViewById(R.id.testClipDrawableId);
-        ((ClipDrawable)testClipDrawable.getBackground()).setLevel(5000); // La mitad se verá
+        TextView testClipDrawable = (TextView) rootView.findViewById(R.id.testClipDrawableId);
+        ((ClipDrawable) testClipDrawable.getBackground()).setLevel(5000); // La mitad se verá
 
-        TextView testClipDrawable2 = (TextView)rootView.findViewById(R.id.testClipDrawableId2);
-        ((ClipDrawable)testClipDrawable2.getBackground()).setLevel(5000); // La mitad se verá
+        TextView testClipDrawable2 = (TextView) rootView.findViewById(R.id.testClipDrawableId2);
+        ((ClipDrawable) testClipDrawable2.getBackground()).setLevel(5000); // La mitad se verá
+
+
+        TextView testLevelListDrawable = (TextView) rootView.findViewById(R.id.testLevelListDrawableId);
+        final LevelListDrawable levelListDrawable = (LevelListDrawable) testLevelListDrawable.getBackground();
+        levelListDrawable.setLevel(1);
+        testLevelListDrawable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                levelListDrawable.setLevel(4);
+            }
+        });
+
     }
-
-
 }

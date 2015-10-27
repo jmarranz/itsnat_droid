@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.widget.Button;
@@ -159,7 +160,7 @@ public class TestLocalXMLInflateResources
 
         childCount++;
 
-        // Test LayerDrawable attribs
+        // Test StateListDrawable attribs
         {
             final Button compLayout = (Button) comp.getChildAt(childCount);
             final Button parsedLayout = (Button) parsed.getChildAt(childCount);
@@ -171,6 +172,21 @@ public class TestLocalXMLInflateResources
             assertEquals((StateListDrawable)compLayout.getBackground(), (StateListDrawable)parsedLayout.getBackground());
         }
 
+        childCount++;
+
+        // Test LevelListDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "LevelListDrawable (green rect, press to change to a bot in center)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            ((LevelListDrawable)compLayout.getBackground()).setLevel(1); // Si pulsamos quedó en level 4 y no podemos comparar sin cambiar a 1 pues en carga inicialmente se pone a 1
+
+            assertNotNull((LevelListDrawable) compLayout.getBackground());
+            assertEquals((LevelListDrawable) compLayout.getBackground(), (LevelListDrawable) parsedLayout.getBackground());
+        }
 
 
 

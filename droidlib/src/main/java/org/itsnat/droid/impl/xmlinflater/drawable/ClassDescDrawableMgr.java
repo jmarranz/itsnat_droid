@@ -9,6 +9,8 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableItem;
@@ -58,5 +60,11 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
 
             ClassDescStateListDrawableItem itemStateList = new ClassDescStateListDrawableItem(this);
             addClassDesc(itemStateList);
+
+        ClassDescLevelListDrawable levelList = new ClassDescLevelListDrawable(this);
+        addClassDesc(levelList);
+
+        ClassDescLevelListDrawableItem itemLevelList = new ClassDescLevelListDrawableItem(this);
+        addClassDesc(itemLevelList);
     }
 }

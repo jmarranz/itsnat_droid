@@ -95,6 +95,15 @@
             android:textSize="20dp"
             android:background="@drawable/test_state_list_drawable_compiled" />
 
+        <TextView
+            android:id="@+id/testLevelListDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="LevelListDrawable (green rect, press to change to a bot in center)"
+            android:textSize="20dp"
+            android:background="@drawable/test_level_list_drawable_compiled" />
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>
