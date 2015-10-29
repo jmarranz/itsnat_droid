@@ -18,14 +18,19 @@ import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
  */
 public abstract class ClassDescDrawable extends ClassDesc<Drawable>
 {
-    public ClassDescDrawable(ClassDescDrawableMgr classMgr, String className, ClassDescDrawable parentClass)
+    public ClassDescDrawable(ClassDescDrawableMgr classMgr, String elemName, ClassDescDrawable parentClass)
     {
-        super(classMgr, className, parentClass);
+        super(classMgr, elemName, parentClass);
     }
 
     public ClassDescDrawableMgr getClassDescDrawableMgr()
     {
         return (ClassDescDrawableMgr) classMgr;
+    }
+
+    public String getElementName()
+    {
+        return getClassName();
     }
 
     public static PageImpl getPageImpl(XMLInflaterDrawable xmlInflaterDrawable)

@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
 import android.view.Gravity;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -25,25 +26,26 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDrawable>
+public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDrawable>
 {
-    // Para el atributo clipOrientation
-    // No podemos usar OrientationUtil porque los valores numéricos SON DIFERENTES (1 y 2 en vez de 0 y 1), hay que joderse con la falta de homogeneidad
-    private static Map<String, Integer> valueMap = new HashMap<String, Integer>( 2 );
-    static
+    public ClassDescInsetDrawable(ClassDescDrawableMgr classMgr)
     {
-        valueMap.put("horizontal", ClipDrawable.HORIZONTAL /* 1 */);
-        valueMap.put("vertical", ClipDrawable.VERTICAL /* 2 */);
-    }
-
-    public ClassDescClipDrawable(ClassDescDrawableMgr classMgr)
-    {
-        super(classMgr,"clip");
+        super(classMgr,"inset");
     }
 
     @Override
     public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
+        /*
+        <inset
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:drawable="@drawable/drawable_resource"
+            android:insetTop="dimension"
+            android:insetRight="dimension"
+            android:insetBottom="dimension"
+            android:insetLeft="dimension" />
+        */
+
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
@@ -52,22 +54,36 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
         DOMAttr attrDrawable = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "drawable");
         if (attrDrawable != null) // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elemento hijo
         {
-            drawable = xmlInflateRegistry.getDrawable(attrDrawable,ctx,inflaterDrawable);
+            drawable = xmlInflateRegistry.getDrawable(attrDrawable, ctx, inflaterDrawable);
         }
 
-        int gravity;
-        DOMAttr attrGravity = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "gravity");
-        if (attrGravity != null)
-            gravity = AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.valueMap);
-        else
-            gravity = Gravity.LEFT;
+        int insetTop = 0;
+        DOMAttr attrInsetTop = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetTop");
+        if (attrInsetTop != null)
+        {
+            insetTop = xmlInflateRegistry.getDimensionIntFloor(attrInsetTop.getValue(), ctx);
+        }
 
-        int orientation;
-        DOMAttr attrClipOrientation = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "clipOrientation");
-        if (attrClipOrientation != null)
-            orientation = AttrDesc.<Integer>parseSingleName(attrClipOrientation.getValue(),valueMap);
-        else
-            orientation = ClipDrawable.HORIZONTAL;
+        int insetRight = 0;
+        DOMAttr attrInsetRight = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetRight");
+        if (attrInsetRight != null)
+        {
+            insetRight = xmlInflateRegistry.getDimensionIntFloor(attrInsetRight.getValue(),ctx);
+        }
+
+        int insetBottom = 0;
+        DOMAttr attrInsetBottom = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetBottom");
+        if (attrInsetBottom != null)
+        {
+            insetBottom = xmlInflateRegistry.getDimensionIntFloor(attrInsetBottom.getValue(),ctx);
+        }
+
+        int insetLeft = 0;
+        DOMAttr attrInsetLeft = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetLeft");
+        if (attrInsetLeft != null)
+        {
+            insetLeft = xmlInflateRegistry.getDimensionIntFloor(attrInsetLeft.getValue(),ctx);
+        }
 
         // Si el drawable está definido como elemento hijo gana éste por delante del atributo drawable
         inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
@@ -75,9 +91,9 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
         drawable = getChildDrawable(childList);
 
         if (drawable == null)
-            throw new ItsNatDroidException("Drawable is not defined in drawable attribute or as a child element, processing clip of ClipDrawable");
+            throw new ItsNatDroidException("Drawable is not defined in drawable attribute or as a child element, processing inset of InsetDrawable");
 
-        return new ElementDrawableRoot(new ClipDrawable(drawable,gravity,orientation),childList);
+        return new ElementDrawableRoot(new InsetDrawable(drawable,insetLeft, insetTop, insetRight, insetBottom),childList);
     }
 
     @Override
