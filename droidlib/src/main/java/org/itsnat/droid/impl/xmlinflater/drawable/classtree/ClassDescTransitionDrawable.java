@@ -2,12 +2,11 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.TransitionDrawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflated.drawable.TransitionDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -17,51 +16,46 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDrawable>
+public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<TransitionDrawable>
 {
-    public ClassDescLayerDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescTransitionDrawable(ClassDescDrawableMgr classMgr,ClassDescLayerDrawable parentClass)
     {
-        super(classMgr,"layer-list");
+        super(classMgr,"transition",parentClass);
+    }
+
+    public ClassDescLayerDrawable getParentClassDescDrawable()
+    {
+        return (ClassDescLayerDrawable)getParentClassDesc();
     }
 
     @Override
     public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
-        // http://stackoverflow.com/questions/20120725/layerdrawable-programatically
-
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         inflaterDrawable.processChildElements(rootElem,elementDrawableRoot);
         ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
 
         {
-            ((LayerDrawableItem) itemList.get(0)).getDrawable(); // Just a check
+            ((TransitionDrawableItem) itemList.get(0)).getDrawable(); // Just a check
         }
 
         Drawable[] drawableLayers = getDrawables(itemList);
 
-        LayerDrawable drawable = new LayerDrawable(drawableLayers);
+        TransitionDrawable drawable = new TransitionDrawable(drawableLayers);
 
-        setItemAttributes(drawable,itemList);
+        ClassDescLayerDrawable parentClassDesc = getParentClassDescDrawable();
+
+        parentClassDesc.setItemAttributes(drawable, itemList);
 
         return new ElementDrawableRoot(drawable,itemList);
     }
 
-    public void setItemAttributes(LayerDrawable drawable,ArrayList<ElementDrawable> itemList)
-    {
-        for (int i = 0; i < itemList.size(); i++)
-        {
-            LayerDrawableItem item = (LayerDrawableItem) itemList.get(i);
-
-            drawable.setId(i, item.getId());
-            drawable.setLayerInset(i, item.getLeft(), item.getTop(), item.getRight(), item.getBottom());
-        }
-    }
 
     @Override
-    public Class<LayerDrawable> getDrawableOrElementDrawableClass()
+    public Class<TransitionDrawable> getDrawableOrElementDrawableClass()
     {
-        return LayerDrawable.class;
+        return TransitionDrawable.class;
     }
 
     protected void init()

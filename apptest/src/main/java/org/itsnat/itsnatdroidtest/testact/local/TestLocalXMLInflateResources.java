@@ -8,6 +8,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -160,6 +161,20 @@ public class TestLocalXMLInflateResources
 
         childCount++;
 
+        // Test TransitionDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "TransitionDrawable (green rect padded, press adds a centered bot");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((TransitionDrawable) compLayout.getBackground());
+            assertEquals((TransitionDrawable)compLayout.getBackground(), (TransitionDrawable)parsedLayout.getBackground());
+        }
+
+        childCount++;
+
         // Test StateListDrawable attribs
         {
             final Button compLayout = (Button) comp.getChildAt(childCount);
@@ -187,6 +202,7 @@ public class TestLocalXMLInflateResources
             assertNotNull((LevelListDrawable) compLayout.getBackground());
             assertEquals((LevelListDrawable) compLayout.getBackground(), (LevelListDrawable) parsedLayout.getBackground());
         }
+
 
 
 

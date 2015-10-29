@@ -15,6 +15,7 @@ import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
@@ -194,7 +195,7 @@ public class Assert
 
     private static void assertEqualsDrawable(Drawable a,Drawable b)
     {
-        assertEqualsDrawable(a,b,true);
+        assertEqualsDrawable(a, b, true);
     }
 
     private static void assertEqualsDrawable(Drawable a,Drawable b,boolean testOpacity)
@@ -234,6 +235,10 @@ public class Assert
         {
             assertEquals((LayerDrawable)a,(LayerDrawable)b);
         }
+        else if (a instanceof TransitionDrawable)
+        {
+            assertEquals((TransitionDrawable)a,(TransitionDrawable)b);
+        }
         else if (a instanceof NinePatchDrawable)
         {
             assertEquals((NinePatchDrawable)a,(NinePatchDrawable)b);
@@ -258,7 +263,7 @@ public class Assert
     {
         assertEqualsDrawable(a, b);
 
-        assertEquals(a.getGravity(),b.getGravity());
+        assertEquals(a.getGravity(), b.getGravity());
         assertEquals(a.getBitmap(), b.getBitmap());
     }
 
@@ -306,16 +311,18 @@ public class Assert
     {
         assertEqualsDrawable(a, b);
 
+        // También pasa por aquí TransitionDrawable (que deriva de LayerDrawable)
+
         assertEquals(a.getNumberOfLayers(), b.getNumberOfLayers());
         Rect ar = new Rect(); Rect br = new Rect();
         a.getPadding(ar); b.getPadding(br);
         assertEquals(ar, br);
 
-        Object a_ls = TestUtil.getField(a, "mLayerState"); // LayerState
-        Object b_ls = TestUtil.getField(b, "mLayerState"); // "
+        Object a_ls = TestUtil.getField(a,LayerDrawable.class, "mLayerState"); // LayerState
+        Object b_ls = TestUtil.getField(b,LayerDrawable.class, "mLayerState"); // "
 
-        Object[] a_cd_array = (Object[])TestUtil.getField(a_ls, "mChildren"); // ChildDrawable[]
-        Object[] b_cd_array = (Object[])TestUtil.getField(b_ls, "mChildren"); // "
+        Object[] a_cd_array = (Object[])TestUtil.getField(a_ls,TestUtil.resolveClass(LayerDrawable.class.getName() + "$LayerState"),"mChildren"); // ChildDrawable[]
+        Object[] b_cd_array = (Object[])TestUtil.getField(b_ls,TestUtil.resolveClass(LayerDrawable.class.getName() + "$LayerState"),"mChildren"); // "
 
 
         for (int i = 0; i < a.getNumberOfLayers(); i++)
@@ -332,6 +339,13 @@ public class Assert
 
             assertEquals(a.getDrawable(i), b.getDrawable(i));
         }
+    }
+
+    public static void assertEquals(TransitionDrawable a,TransitionDrawable b)
+    {
+        assertEquals((LayerDrawable)a,(LayerDrawable)b);
+
+        assertEquals(a.isCrossFadeEnabled(),b.isCrossFadeEnabled());
     }
 
     public static void assertEquals(NinePatchDrawable a,NinePatchDrawable b)

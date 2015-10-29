@@ -14,6 +14,8 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDr
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawableItem;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -51,20 +53,23 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
 
         ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
         addClassDesc(layer);
+        ClassDescLayerDrawableItem layerItem = new ClassDescLayerDrawableItem(this);
+        addClassDesc(layerItem);
 
-            ClassDescLayerDrawableItem itemLayer = new ClassDescLayerDrawableItem(this);
-            addClassDesc(itemLayer);
+            ClassDescTransitionDrawable transition = new ClassDescTransitionDrawable(this,layer);
+            addClassDesc(transition);
+            ClassDescTransitionDrawableItem transitionItem = new ClassDescTransitionDrawableItem(this,layerItem);
+            addClassDesc(transitionItem);
 
         ClassDescStateListDrawable stateList = new ClassDescStateListDrawable(this);
         addClassDesc(stateList);
-
-            ClassDescStateListDrawableItem itemStateList = new ClassDescStateListDrawableItem(this);
-            addClassDesc(itemStateList);
+        ClassDescStateListDrawableItem stateListItem = new ClassDescStateListDrawableItem(this);
+        addClassDesc(stateListItem);
 
         ClassDescLevelListDrawable levelList = new ClassDescLevelListDrawable(this);
         addClassDesc(levelList);
+        ClassDescLevelListDrawableItem levelListItem = new ClassDescLevelListDrawableItem(this);
+        addClassDesc(levelListItem);
 
-        ClassDescLevelListDrawableItem itemLevelList = new ClassDescLevelListDrawableItem(this);
-        addClassDesc(itemLevelList);
     }
 }

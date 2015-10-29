@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transition xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@drawable/list_selector_background_focused_light_compiled"
+        android:id="@+id/transition_item_0"
+        android:top="5.3dp"
+        android:right="6.3dp"
+        android:bottom="7.3dp"
+        android:left="8.3dp"
+        />
+
+    <item
+        android:id="@+id/transition_item_1"
+        android:top="5.3dp"
+        android:right="6.3dp"
+        android:bottom="7.3dp"
+        android:left="8.3dp"
+        >
+            <bitmap android:src="@drawable/droid_compiled"
+                android:gravity="center" />
+
+    </item>
+
+</transition>
