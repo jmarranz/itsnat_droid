@@ -46,14 +46,12 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
-        XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
+        inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
+        ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
 
-        Drawable drawable = null;
-        DOMAttr attrDrawable = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "drawable");
-        if (attrDrawable != null) // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elemento hijo
-        {
-            drawable = xmlInflateRegistry.getDrawable(attrDrawable,ctx,inflaterDrawable);
-        }
+        Drawable drawable = getChildDrawable("drawable",rootElem, inflaterDrawable, ctx, childList);
+
+        //XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
         int gravity;
         DOMAttr attrGravity = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "gravity");
@@ -69,13 +67,6 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
         else
             orientation = ClipDrawable.HORIZONTAL;
 
-        // Si el drawable está definido como elemento hijo gana éste por delante del atributo drawable
-        inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
-        ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
-        drawable = getChildDrawable(childList);
-
-        if (drawable == null)
-            throw new ItsNatDroidException("Drawable is not defined in drawable attribute or as a child element, processing clip of ClipDrawable");
 
         return new ElementDrawableRoot(new ClipDrawable(drawable,gravity,orientation),childList);
     }

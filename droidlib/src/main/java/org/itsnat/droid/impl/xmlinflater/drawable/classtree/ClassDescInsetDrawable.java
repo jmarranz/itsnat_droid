@@ -48,14 +48,12 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
 
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
-        XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
+        inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
+        ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
 
-        Drawable drawable = null;
-        DOMAttr attrDrawable = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "drawable");
-        if (attrDrawable != null) // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elemento hijo
-        {
-            drawable = xmlInflateRegistry.getDrawable(attrDrawable, ctx, inflaterDrawable);
-        }
+        Drawable drawable = getChildDrawable("drawable",rootElem, inflaterDrawable, ctx, childList);
+
+        XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
         int insetTop = 0;
         DOMAttr attrInsetTop = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetTop");
@@ -85,14 +83,6 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
             insetLeft = xmlInflateRegistry.getDimensionIntFloor(attrInsetLeft.getValue(),ctx);
         }
 
-        // Si el drawable está definido como elemento hijo gana éste por delante del atributo drawable
-        inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
-        ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
-        drawable = getChildDrawable(childList);
-
-        if (drawable == null)
-            throw new ItsNatDroidException("Drawable is not defined in drawable attribute or as a child element, processing inset of InsetDrawable");
-
         return new ElementDrawableRoot(new InsetDrawable(drawable,insetLeft, insetTop, insetRight, insetBottom),childList);
     }
 
@@ -105,7 +95,7 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
             // Se usan en tiempo de construcción
-            return ("clipOrientation".equals(name) || "drawable".equals(name) || "gravity".equals(name));
+            return ("drawable".equals(name) || "insetTop".equals(name) || "insetRight".equals(name) || "insetBottom".equals(name) || "insetLeft".equals(name));
         }
         return false;
     }
