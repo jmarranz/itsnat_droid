@@ -18,6 +18,8 @@ import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_InsetDrawable_visible;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,5 +115,6 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
     {
         super.init();
 
+        addAttrDesc(new AttrDescDrawable_InsetDrawable_visible(this));
     }
 }

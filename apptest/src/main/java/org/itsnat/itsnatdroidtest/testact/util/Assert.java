@@ -10,6 +10,7 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
@@ -231,13 +232,17 @@ public class Assert
         {
             assertEquals((GradientDrawable)a,(GradientDrawable)b);
         }
+        else if (a instanceof InsetDrawable)
+        {
+            assertEquals((InsetDrawable)a,(InsetDrawable)b);
+        }
         else if (a instanceof LayerDrawable)
         {
             assertEquals((LayerDrawable)a,(LayerDrawable)b);
         }
-        else if (a instanceof TransitionDrawable)
+        else if (a instanceof LevelListDrawable)
         {
-            assertEquals((TransitionDrawable)a,(TransitionDrawable)b);
+            assertEquals((LevelListDrawable)a,(LevelListDrawable)b);
         }
         else if (a instanceof NinePatchDrawable)
         {
@@ -251,9 +256,9 @@ public class Assert
         {
             assertEquals((StateListDrawable)a,(StateListDrawable)b);
         }
-        else if (a instanceof LevelListDrawable)
+        else if (a instanceof TransitionDrawable)
         {
-            assertEquals((LevelListDrawable)a,(LevelListDrawable)b);
+            assertEquals((TransitionDrawable)a,(TransitionDrawable)b);
         }
         else
             throw new ItsNatDroidException("Cannot test drawable " + a);
@@ -404,6 +409,23 @@ public class Assert
         assertEquals(a.getLevel(),b.getLevel());
     }
 
+    public static void assertEquals(InsetDrawable a,InsetDrawable b)
+    {
+        assertEqualsDrawable(a, b);
+
+        assertEquals(a.isStateful(), b.isStateful());
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
+
+        Class classInsetState = TestUtil.resolveClass(InsetDrawable.class.getName() + "$InsetState");
+        assertEquals((Drawable) TestUtil.getField(a_state, classInsetState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classInsetState, "mDrawable"));
+
+        assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetLeft"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetLeft"));
+        assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetTop"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetTop"));
+        assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetRight"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetRight"));
+        assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetBottom"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetBottom"));
+    }
+
     public static void assertEqualsStrokeWidth(Drawable a,int b)
     {
         Drawable.ConstantState sa = ((GradientDrawable) a).getConstantState();
@@ -418,6 +440,8 @@ public class Assert
 
 //        if (!a.equals(b)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
+
+
 
     public static void assertEquals(ObjectAnimator a,ObjectAnimator b)
     {

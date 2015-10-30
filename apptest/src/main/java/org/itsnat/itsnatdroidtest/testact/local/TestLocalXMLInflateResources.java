@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
@@ -203,7 +204,19 @@ public class TestLocalXMLInflateResources
             assertEquals((LevelListDrawable) compLayout.getBackground(), (LevelListDrawable) parsedLayout.getBackground());
         }
 
+        childCount++;
 
+        // Test InsetDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "InsetDrawable (green rect with insets, text inside)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((InsetDrawable) compLayout.getBackground());
+            assertEquals((InsetDrawable) compLayout.getBackground(), (InsetDrawable) parsedLayout.getBackground());
+        }
 
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());
