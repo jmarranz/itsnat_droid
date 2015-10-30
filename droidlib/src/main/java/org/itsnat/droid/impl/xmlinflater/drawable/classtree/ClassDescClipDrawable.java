@@ -42,14 +42,14 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
     }
 
     @Override
-    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
         ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
 
-        Drawable drawable = getChildDrawable("drawable",rootElem, inflaterDrawable, ctx, childList);
+        Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, ctx, childList);
 
         //XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
@@ -67,8 +67,9 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
         else
             orientation = ClipDrawable.HORIZONTAL;
 
+        elementDrawableRoot.setDrawable(new ClipDrawable(childDrawable,gravity,orientation));
 
-        return new ElementDrawableRoot(new ClipDrawable(drawable,gravity,orientation),childList);
+        return elementDrawableRoot;
     }
 
     @Override

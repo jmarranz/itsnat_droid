@@ -29,6 +29,7 @@ public class ElementDrawableChildDrawableBridge extends ElementDrawableChild
         return (ElementDrawableContainer)getParentElementDrawable();
     }
 
+
     public Drawable getDrawable()
     {
         return getElementDrawableContainer().getDrawable();

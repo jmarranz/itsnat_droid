@@ -17,7 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMet
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescTransitionDrawableItem extends ClassDescElementDrawableChildNormal<TransitionDrawableItem>
+public class ClassDescTransitionDrawableItem extends ClassDescElementDrawableChildWithDrawable<TransitionDrawableItem>
 {
     public ClassDescTransitionDrawableItem(ClassDescDrawableMgr classMgr,ClassDescLayerDrawableItem parentClass)
     {
@@ -31,7 +31,7 @@ public class ClassDescTransitionDrawableItem extends ClassDescElementDrawableChi
     }
 
     @Override
-    public ElementDrawableChild createChildElementDrawable(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
+    public ElementDrawableChild createElementDrawableChild(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
     {
         return new TransitionDrawableItem(parentChildDrawable);
     }

@@ -37,7 +37,7 @@ public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<Lay
     }
 
     @Override
-    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
@@ -82,7 +82,9 @@ public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<Lay
             drawable.addState(definedStates,drawableItem);
         }
 
-        return new ElementDrawableRoot(drawable,itemList);
+        elementDrawableRoot.setDrawable(drawable);
+
+        return elementDrawableRoot;
     }
 
     @Override

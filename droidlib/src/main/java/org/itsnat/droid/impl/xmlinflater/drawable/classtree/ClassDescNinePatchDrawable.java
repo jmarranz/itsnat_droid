@@ -26,7 +26,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
     }
 
     @Override
-    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
         // http://stackoverflow.com/questions/5079868/create-a-ninepatch-ninepatchdrawable-in-runtime
@@ -38,7 +38,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
         Bitmap bitmap = AttrDescDrawable.getBitmap(attrSrc,true,inflaterDrawable.getBitmapDensityReference(),ctx,classMgr.getXMLInflateRegistry());
 
         NinePatchDrawable drawable = DrawableUtil.createNinePatchDrawable(bitmap,ctx.getResources());
-        return new ElementDrawableRoot(drawable,null);
+        return new ElementDrawableRoot(drawable);
     }
 
     @Override

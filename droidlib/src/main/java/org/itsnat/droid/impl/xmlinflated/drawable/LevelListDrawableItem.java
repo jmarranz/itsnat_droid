@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class LevelListDrawableItem extends ElementDrawableChildNormal implements ElementDrawableContainer
+public class LevelListDrawableItem extends ElementDrawableChildWithDrawable
 {
     /*
     <item

@@ -29,7 +29,7 @@ public class ClassDescLevelListDrawable extends ClassDescElementDrawableRoot<Lev
     }
 
     @Override
-    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
@@ -52,7 +52,9 @@ public class ClassDescLevelListDrawable extends ClassDescElementDrawableRoot<Lev
             drawable.addLevel(min,max,drawableItem);
         }
 
-        return new ElementDrawableRoot(drawable,itemList);
+        elementDrawableRoot.setDrawable(drawable);
+
+        return elementDrawableRoot;
     }
 
 

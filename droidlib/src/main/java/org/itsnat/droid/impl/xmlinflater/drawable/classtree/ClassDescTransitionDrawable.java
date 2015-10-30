@@ -29,7 +29,7 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
     }
 
     @Override
-    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
@@ -48,7 +48,9 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
 
         parentClassDesc.setItemAttributes(drawable, itemList);
 
-        return new ElementDrawableRoot(drawable,itemList);
+        elementDrawableRoot.setDrawable(drawable);
+
+        return elementDrawableRoot;
     }
 
 

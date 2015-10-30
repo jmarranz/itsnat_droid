@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildNormal;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildWithDrawable;
 
 /**
  * Created by Jose on 15/10/2015.
@@ -22,6 +23,8 @@ public abstract class ElementDrawableChildContainer<TelementDrawableChild extend
     {
         if (elemDrawableChild instanceof ElementDrawableChildNormal)
             return new ElementDrawableChildContainerNormal((ElementDrawableChildNormal)elemDrawableChild);
+        else if (elemDrawableChild instanceof ElementDrawableChildWithDrawable)
+            return new ElementDrawableChildContainerWithDrawable((ElementDrawableChildWithDrawable)elemDrawableChild);
         else if (elemDrawableChild instanceof ElementDrawableChildDrawableBridge)
             return new ElementDrawableChildContainerDrawableBridge((ElementDrawableChildDrawableBridge)elemDrawableChild);
         else

@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class TransitionDrawableItem extends LayerDrawableItem //implements ElementDrawableContainer
+public class TransitionDrawableItem extends LayerDrawableItem
 {
     /*
     Same attributes than <item> of LayerDrawable because: TransitionDrawable extends LayerDrawableItem

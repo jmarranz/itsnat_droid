@@ -17,7 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMet
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLevelListDrawableItem extends ClassDescElementDrawableChildNormal<StateListDrawableItem>
+public class ClassDescLevelListDrawableItem extends ClassDescElementDrawableChildWithDrawable<StateListDrawableItem>
 {
     public ClassDescLevelListDrawableItem(ClassDescDrawableMgr classMgr)
     {
@@ -31,7 +31,7 @@ public class ClassDescLevelListDrawableItem extends ClassDescElementDrawableChil
     }
 
     @Override
-    public ElementDrawableChild createChildElementDrawable(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
+    public ElementDrawableChild createElementDrawableChild(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
     {
         return new LevelListDrawableItem(parentChildDrawable);
     }

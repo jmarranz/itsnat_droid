@@ -11,20 +11,21 @@ public class ElementDrawableRoot extends ElementDrawable implements ElementDrawa
 {
     protected Drawable drawable;
 
-    public ElementDrawableRoot(Drawable drawable,ArrayList<ElementDrawable> itemList)
+    public ElementDrawableRoot(Drawable drawable)
     {
         this.drawable = drawable;
-        setChildElementDrawableList(itemList);
     }
 
     public ElementDrawableRoot()
     {
     }
 
+/*
     public void setChildElementDrawableList(ArrayList<ElementDrawable> childDrawableList)
     {
         this.childDrawableList = childDrawableList;
     }
+*/
 
     public Drawable getDrawable()
     {

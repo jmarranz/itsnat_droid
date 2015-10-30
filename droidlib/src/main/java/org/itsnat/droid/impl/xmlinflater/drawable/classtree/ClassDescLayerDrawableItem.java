@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMet
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLayerDrawableItem extends ClassDescElementDrawableChildNormal<LayerDrawableItem>
+public class ClassDescLayerDrawableItem extends ClassDescElementDrawableChildWithDrawable<LayerDrawableItem>
 {
     public ClassDescLayerDrawableItem(ClassDescDrawableMgr classMgr)
     {
@@ -29,7 +29,7 @@ public class ClassDescLayerDrawableItem extends ClassDescElementDrawableChildNor
     }
 
     @Override
-    public ElementDrawableChild createChildElementDrawable(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
+    public ElementDrawableChild createElementDrawableChild(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
     {
         return new LayerDrawableItem(parentChildDrawable);
     }

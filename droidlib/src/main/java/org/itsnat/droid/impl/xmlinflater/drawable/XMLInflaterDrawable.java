@@ -90,7 +90,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
     private ElementDrawableRoot createRootElementDrawable(ClassDescElementDrawableRoot classDesc, DOMElement rootDOMElem)
     {
-        return classDesc.createRootElementDrawable(rootDOMElem, this, ctx);
+        return classDesc.createElementDrawableRoot(rootDOMElem, this, ctx);
     }
 
     private void fillAttributes(ClassDescDrawable classDesc,DrawableOrElementDrawableContainer drawable,DOMElement domElement,Context ctx)
@@ -114,7 +114,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
     protected ElementDrawable inflateNextElement(DOMElement domElement,DOMElement domElementParent,ElementDrawable parentChildDrawable)
     {
-        ElementDrawable childDrawable = createChildElementDrawableAndFillAttributes(domElement,domElementParent,parentChildDrawable);
+        ElementDrawableChild childDrawable = createElementDrawableChildAndFillAttributes(domElement, domElementParent, parentChildDrawable);
 
         processChildElements(domElement,childDrawable);
 
@@ -138,7 +138,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         return name.toString();
     }
 
-    public ElementDrawable createChildElementDrawableAndFillAttributes(DOMElement domElement,DOMElement domElementParent,ElementDrawable parentChildDrawable)
+    public ElementDrawableChild createElementDrawableChildAndFillAttributes(DOMElement domElement, DOMElement domElementParent, ElementDrawable parentChildDrawable)
     {
         String parentName = getFullName(domElementParent);
         String name = parentName + ":" + domElement.getName();
@@ -151,16 +151,16 @@ public abstract class XMLInflaterDrawable extends XMLInflater
             if (classDesc == null) throw new ItsNatDroidException("Unexpected error"); // ClassDescElementDrawableChildDrawableBridge debe estar registrado previamente
         }
 
-        ElementDrawableChild childDrawable = createChildElementDrawable(classDesc, domElement,domElementParent,parentChildDrawable);
+        ElementDrawableChild childDrawable = createElementDrawableChild(classDesc, domElement, domElementParent, parentChildDrawable);
 
         fillAttributes(classDesc, ElementDrawableChildContainer.create(childDrawable), domElement,ctx);
 
         return childDrawable;
     }
 
-    private ElementDrawableChild createChildElementDrawable(ClassDescElementDrawableChild classDesc, DOMElement domElement,DOMElement domElementParent, ElementDrawable parentChildDrawable)
+    private ElementDrawableChild createElementDrawableChild(ClassDescElementDrawableChild classDesc, DOMElement domElement, DOMElement domElementParent, ElementDrawable parentChildDrawable)
     {
-        return classDesc.createChildElementDrawable(domElement,domElementParent, this, parentChildDrawable, ctx);
+        return classDesc.createElementDrawableChild(domElement, domElementParent, this, parentChildDrawable, ctx);
     }
 
     public void processChildElements(DOMElement domElemParent,ElementDrawable parentChildDrawable)

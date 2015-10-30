@@ -34,7 +34,7 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
     }
 
     @Override
-    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         /*
         <inset
@@ -51,7 +51,7 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
         inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
         ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
 
-        Drawable drawable = getChildDrawable("drawable",rootElem, inflaterDrawable, ctx, childList);
+        Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, ctx, childList);
 
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
@@ -83,7 +83,9 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
             insetLeft = xmlInflateRegistry.getDimensionIntFloor(attrInsetLeft.getValue(),ctx);
         }
 
-        return new ElementDrawableRoot(new InsetDrawable(drawable,insetLeft, insetTop, insetRight, insetBottom),childList);
+        elementDrawableRoot.setDrawable(new InsetDrawable(childDrawable,insetLeft, insetTop, insetRight, insetBottom));
+
+        return elementDrawableRoot;
     }
 
     @Override

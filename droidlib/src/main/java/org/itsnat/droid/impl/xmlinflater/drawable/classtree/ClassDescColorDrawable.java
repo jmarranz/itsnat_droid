@@ -21,10 +21,10 @@ public class ClassDescColorDrawable extends ClassDescElementDrawableRoot<ColorDr
     }
 
     @Override
-    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         Drawable drawable = new ColorDrawable();
-        return new ElementDrawableRoot(drawable,null);
+        return new ElementDrawableRoot(drawable);
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class StateListDrawableItem extends ElementDrawableChildNormal implements ElementDrawableContainer
+public class StateListDrawableItem extends ElementDrawableChildWithDrawable
 {
     /*
     <item

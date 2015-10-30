@@ -25,7 +25,7 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
     }
 
     @Override
-    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         // http://stackoverflow.com/questions/20120725/layerdrawable-programatically
 
@@ -44,7 +44,9 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
 
         setItemAttributes(drawable,itemList);
 
-        return new ElementDrawableRoot(drawable,itemList);
+        elementDrawableRoot.setDrawable(drawable);
+
+        return elementDrawableRoot;
     }
 
     public void setItemAttributes(LayerDrawable drawable,ArrayList<ElementDrawable> itemList)

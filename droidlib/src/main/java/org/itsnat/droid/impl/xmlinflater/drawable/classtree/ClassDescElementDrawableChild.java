@@ -24,5 +24,5 @@ public abstract class ClassDescElementDrawableChild<TelementDrawable extends Ele
     }
 
 
-    public abstract ElementDrawableChild createChildElementDrawable(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx);
+    public abstract ElementDrawableChild createElementDrawableChild(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx);
 }
