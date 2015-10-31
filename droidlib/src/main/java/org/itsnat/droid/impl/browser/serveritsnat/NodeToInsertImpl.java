@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class NodeToInsertImpl extends NodeImpl
 
     private static String toKey(String namespaceURI, String name)
     {
-        return ValueUtil.isEmpty(namespaceURI) ? name : (namespaceURI + ":" + name);
+        return MiscUtil.isEmpty(namespaceURI) ? name : (namespaceURI + ":" + name);
     }
 
     public String getName()

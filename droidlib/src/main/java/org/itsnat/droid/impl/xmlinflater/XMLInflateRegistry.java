@@ -27,7 +27,6 @@ import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserFragment;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserPage;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserStandalone;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
@@ -363,6 +362,14 @@ public class XMLInflateRegistry
         return parseFloat(value);
     }
 
+    private static float toPixelFloat(int unit,float value, Resources res)
+    {
+        // Nexus 4 tiene un scale 2 de dp a px (xhdpi),  con un valor de 0.3 devuelve 0.6 bien para probar si usar round/floor
+        // Nexus 5 tiene un scale 3 de dp a px (xxhdpi), con un valor de 0.3 devuelve 0.9 bien para probar si usar round/floor
+        // La VM ItsNatDroid es una Nexus 4
+        return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
+    }
+
     public Dimension getDimensionObject(String attrValue, Context ctx)
     {
         // El retorno es en px
@@ -385,37 +392,25 @@ public class XMLInflateRegistry
 
     public int getDimensionIntFloor(String attrValue, Context ctx)
     {
+        // TypedValue.complexToDimensionPixelOffset
         return (int)getDimensionFloat(attrValue,ctx);
     }
 
     public int getDimensionIntRound(String attrValue, Context ctx)
     {
+        // TypedValue.complexToDimensionPixelSize
         return Math.round(getDimensionFloat(attrValue, ctx));
     }
 
-    public float getDimensionFloat(String attrValue, Context ctx)
+    private float getDimensionFloat(String attrValue, Context ctx)
     {
         // El retorno es en px
         Resources res = ctx.getResources();
 
         Dimension dimen = getDimensionObject(attrValue, ctx);
-        int unit = dimen.getComplexUnit();
+        int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
         float num = dimen.getValue();
-        switch (unit)
-        {
-            case TypedValue.COMPLEX_UNIT_DIP:
-                return ValueUtil.dpToPixelFloat(num, res);
-            case TypedValue.COMPLEX_UNIT_PX:
-                return num;
-            case TypedValue.COMPLEX_UNIT_SP:
-                return ValueUtil.spToPixelFloat(num, res);
-            case TypedValue.COMPLEX_UNIT_IN:
-                return ValueUtil.inToPixelFloat(num, res);
-            case TypedValue.COMPLEX_UNIT_MM:
-                return ValueUtil.mmToPixelFloat(num, res);
-        }
-
-        throw new ItsNatDroidException("Cannot process " + attrValue); // POR AHORA hay que ver si faltan más casos
+        return toPixelFloat(unit, num, res);
     }
 
     public float getDimensionFloatFloor(String attrValue, Context ctx)

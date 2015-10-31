@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.dom;
 
-import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -53,7 +53,7 @@ public abstract class DOMElement
         {
             DOMAttr attr = attribs.get(i);
             String currNamespaceURI = attr.getNamespaceURI();
-            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
+            if (!MiscUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
             String currName = attr.getName(); // El nombre devuelto no contiene el namespace
             if (!name.equals(currName)) continue;
             return attr;

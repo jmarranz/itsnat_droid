@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -62,7 +62,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
     {
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
-        if (ValueUtil.isEmpty(namespaceURI))
+        if (MiscUtil.isEmpty(namespaceURI))
         {
             String type = getTypeInlineEventHandler(name);
             if (type != null)
@@ -86,7 +86,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
 
     protected boolean removeAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name)
     {
-        if (ValueUtil.isEmpty(namespaceURI))
+        if (MiscUtil.isEmpty(namespaceURI))
         {
             String type = getTypeInlineEventHandler(name);
             if (type != null)

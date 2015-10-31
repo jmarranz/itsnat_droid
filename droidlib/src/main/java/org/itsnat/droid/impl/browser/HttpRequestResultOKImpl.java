@@ -8,7 +8,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -105,7 +105,7 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
                 MimeUtil.MIME_JSON.equals(mimeType) ||
                 mimeType.startsWith("text/"))
         {
-            this.responseText = ValueUtil.toString(responseByteArray, getEncoding());
+            this.responseText = MiscUtil.toString(responseByteArray, getEncoding());
 
             if (MimeUtil.MIME_JSON.equals(mimeType))
             {

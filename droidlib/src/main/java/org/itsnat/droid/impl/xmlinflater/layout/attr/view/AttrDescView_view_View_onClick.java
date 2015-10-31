@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -28,7 +28,7 @@ public class AttrDescView_view_View_onClick extends AttrDescView
     {
         final String handlerName = attr.getValue();
 
-        if (!ValueUtil.isEmpty(handlerName))
+        if (!MiscUtil.isEmpty(handlerName))
         {
             View.OnClickListener listener = new View.OnClickListener()
             {

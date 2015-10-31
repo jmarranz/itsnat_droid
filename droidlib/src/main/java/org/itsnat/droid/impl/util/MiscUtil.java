@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.util;
 
 import org.itsnat.droid.ItsNatDroidException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,35 @@ public class MiscUtil
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
         mapClasses.put(className,clasz);
         return clasz;
+    }
+
+    public static boolean isEmpty(String str)
+    {
+        return str == null || str.isEmpty();
+    }
+
+    public static String toString(byte[] data,String encoding)
+    {
+        try { return new String(data,encoding); }
+        catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
+    }
+
+    public static boolean equalsNullAllowed(Object value1, Object value2)
+    {
+        if (value1 != null)
+            return value1.equals(value2);
+        else if (value2 != null)
+            return false;
+        else
+            return true; // Los dos son null
+    }
+
+    public static boolean equalsEmptyAllowed(String value1, String value2)
+    {
+        if (isEmpty(value1))  // null y "" son iguales en este caso
+            return isEmpty(value2);
+        else
+            return value1.equals(value2);
     }
 
 }

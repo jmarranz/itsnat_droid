@@ -31,11 +31,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.util.IOUtil;
-import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.util.ValueUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -195,7 +191,7 @@ public class HttpUtil
 
         getMimeTypeEncoding(response, mimeTypeRes, encodingRes);
 
-        if (!ValueUtil.isEmpty(overrideMime)) mimeTypeRes[0] = overrideMime;
+        if (!MiscUtil.isEmpty(overrideMime)) mimeTypeRes[0] = overrideMime;
 
         Header[] headers = response.getAllHeaders();
 

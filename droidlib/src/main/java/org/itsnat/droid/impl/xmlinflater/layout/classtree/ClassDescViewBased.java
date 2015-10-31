@@ -19,7 +19,6 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
@@ -99,7 +98,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     protected static boolean isStyleAttribute(String namespaceURI,String name)
     {
-        return ValueUtil.isEmpty(namespaceURI) && name.equals("style");
+        return MiscUtil.isEmpty(namespaceURI) && name.equals("style");
     }
 
     protected boolean isAttributeIgnored(String namespaceURI,String name)

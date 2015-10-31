@@ -7,7 +7,7 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
-import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.net.SocketTimeoutException;
 
@@ -98,7 +98,7 @@ public abstract class GenericHttpClientBaseImpl //implements GenericHttpClient
 
     protected String getFinalURL()
     {
-        return ValueUtil.isEmpty(userUrl) ? itsNatDoc.getPageURLBase() : userUrl; // Como se puede ver seguridad de "single server" ninguna
+        return MiscUtil.isEmpty(userUrl) ? itsNatDoc.getPageURLBase() : userUrl; // Como se puede ver seguridad de "single server" ninguna
     }
 
     public ItsNatDroidException convertException(Exception ex)

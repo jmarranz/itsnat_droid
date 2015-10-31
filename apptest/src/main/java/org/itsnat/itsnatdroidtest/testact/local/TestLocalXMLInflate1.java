@@ -55,7 +55,7 @@ import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 

@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -154,7 +154,7 @@ public abstract class XMLDOMParser
         {
             String currNamespaceURI = parser.getAttributeNamespace(i);
             if ("".equals(currNamespaceURI)) currNamespaceURI = null; // Por estandarizar
-            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
+            if (!MiscUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
             String currName = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             if (!name.equals(currName)) continue;
             String value = parser.getAttributeValue(i);
@@ -212,7 +212,7 @@ public abstract class XMLDOMParser
             String resourceMime = assetAttr.getResourceMime();
             if (MimeUtil.MIME_XML.equals(resourceMime))
             {
-                String markup = ValueUtil.toString(res,"UTF-8");
+                String markup = MiscUtil.toString(res, "UTF-8");
 
                 XMLDOM xmlDOMChild = processDOMAttrDynamicXML(assetAttr,markup,xmlInflateRegistry,assetManager);
 
