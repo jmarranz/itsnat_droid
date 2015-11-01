@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_reload" />
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="25dp"
@@ -120,6 +121,15 @@
             android:text="InsetDrawable (green rect with insets, text inside)"
             android:textSize="20dp"
             android:background="@drawable/test_inset_drawable_compiled" />
+
+        <TextView
+            android:id="@+id/testScaleDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="ScaleDrawable (green, small and centered rect)"
+            android:textSize="20dp"
+            android:background="@drawable/test_scale_drawable_compiled" />
 
     </LinearLayout>
 

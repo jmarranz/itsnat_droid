@@ -129,12 +129,17 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
 
     public Drawable getDrawable(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDrawable(attr,ctx,xmlInflater);
+        return getXMLInflateRegistry().getDrawable(attr, ctx, xmlInflater);
     }
 
     public int getColor(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getColor(attrValue,ctx);
+        return getXMLInflateRegistry().getColor(attrValue, ctx);
+    }
+
+    public float getPercent(String attrValue, Context ctx)
+    {
+        return getXMLInflateRegistry().getPercent(attrValue, ctx);
     }
 
     public static <T> T parseSingleName(String value, Map<String, T> valueMap)
@@ -162,5 +167,6 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
 
         return res;
     }
+
 
 }

@@ -185,7 +185,7 @@ public class XMLInflateRegistry
         return getIdentifier(attrValue,ctx,true);
     }
 
-    public int getIdentifier(String value, Context ctx,boolean throwErr)
+    private int getIdentifier(String value, Context ctx,boolean throwErr)
     {
         if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
 
@@ -517,5 +517,30 @@ public class XMLInflateRegistry
         else throw new ItsNatDroidException("Internal Error");
     }
 
+    public float getPercent(String attrValue, Context ctx)
+    {
+        if (isResource(attrValue))
+        {
+            int resId = getIdentifier(attrValue, ctx);
+            String str = ctx.getResources().getString(resId);
+            return getPercent(str);
+        }
+        else
+        {
+            return getPercent(attrValue);
+        }
+    }
+
+    private static float getPercent(String s)
+    {
+        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/ScaleDrawable.java#ScaleDrawable.getPercent
+        if (s != null) {
+            if (s.endsWith("%")) {
+                String f = s.substring(0, s.length() - 1);
+                return Float.parseFloat(f) / 100.0f;
+            }
+        }
+        return -1;
+    }
 }
 

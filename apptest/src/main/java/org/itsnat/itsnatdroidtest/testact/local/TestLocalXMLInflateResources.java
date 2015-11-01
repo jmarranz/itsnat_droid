@@ -8,6 +8,7 @@ import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.widget.Button;
@@ -216,6 +217,20 @@ public class TestLocalXMLInflateResources
 
             assertNotNull((InsetDrawable) compLayout.getBackground());
             assertEquals((InsetDrawable) compLayout.getBackground(), (InsetDrawable) parsedLayout.getBackground());
+        }
+
+        childCount++;
+
+        // Test ScaleDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "ScaleDrawable (green, small and centered rect)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((ScaleDrawable) compLayout.getBackground());
+            assertEquals((ScaleDrawable) compLayout.getBackground(), (ScaleDrawable) parsedLayout.getBackground());
         }
 
 

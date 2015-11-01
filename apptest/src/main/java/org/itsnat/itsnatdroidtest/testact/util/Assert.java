@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.NinePatch;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
@@ -15,6 +16,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.RotateDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
@@ -252,6 +254,10 @@ public class Assert
         {
             assertEquals((RotateDrawable)a,(RotateDrawable)b);
         }
+        else if (a instanceof ScaleDrawable)
+        {
+            assertEquals((ScaleDrawable)a,(ScaleDrawable)b);
+        }
         else if (a instanceof StateListDrawable)
         {
             assertEquals((StateListDrawable)a,(StateListDrawable)b);
@@ -270,6 +276,20 @@ public class Assert
 
         assertEquals(a.getGravity(), b.getGravity());
         assertEquals(a.getBitmap(), b.getBitmap());
+
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
+
+        Class classBitmapState = TestUtil.resolveClass(BitmapDrawable.class.getName() + "$BitmapState");
+        assertEquals(TestUtil.getField(a_state, classBitmapState, "mTileModeX"), TestUtil.getField(b_state, classBitmapState, "mTileModeX")); // Shader.TileMode
+        assertEquals(TestUtil.getField(a_state, classBitmapState, "mTileModeY"), TestUtil.getField(b_state, classBitmapState, "mTileModeY"));
+
+        Paint a_paint = a.getPaint();
+        Paint b_paint = b.getPaint();
+
+        assertEquals(a_paint.isAntiAlias(), b_paint.isAntiAlias());
+        assertEquals(a_paint.isDither(), b_paint.isDither());
+        assertEquals(a_paint.isFilterBitmap(), b_paint.isFilterBitmap());
     }
 
     public static void assertEquals(ClipDrawable a,ClipDrawable b)
@@ -287,11 +307,16 @@ public class Assert
 
             Class classClipState = TestUtil.resolveClass(ClipDrawable.class.getName() + "$ClipState");
             assertEquals((Drawable) TestUtil.getField(sa, classClipState, "mDrawable"), (Drawable) TestUtil.getField(sb, classClipState, "mDrawable"));
+            assertEquals((Integer) TestUtil.getField(sa, classClipState, "mOrientation"), (Integer) TestUtil.getField(sb, classClipState, "mOrientation"));
+            assertEquals((Integer) TestUtil.getField(sa, classClipState, "mGravity"), (Integer) TestUtil.getField(sb, classClipState, "mGravity"));
+
         }
         else
         {
             Class clasz = TestUtil.resolveClass("android.graphics.drawable.DrawableWrapper"); // DrawableWrapper es la clase base de ClipDrawable
             assertEquals((Drawable) TestUtil.getField(a, clasz, "mDrawable"), (Drawable) TestUtil.getField(b, clasz, "mDrawable"));
+            assertEquals((Integer) TestUtil.getField(a, clasz, "mOrientation"), (Integer) TestUtil.getField(b, clasz, "mOrientation"));
+            assertEquals((Integer) TestUtil.getField(a, clasz, "mGravity"), (Integer) TestUtil.getField(b, clasz, "mGravity"));
         }
     }
 
@@ -310,6 +335,12 @@ public class Assert
 
         assertEquals((Integer) TestUtil.getField(sa, "mStrokeWidth"), (Integer) TestUtil.getField(sb, "mStrokeWidth"));
         // mSolidColor ya no existe en level 21: assertEquals((Integer)TestUtil.getField(sa,"mSolidColor"),(Integer)TestUtil.getField(sb,"mSolidColor"));
+    }
+
+    public static void assertEqualsStrokeWidth(GradientDrawable a,int b)
+    {
+        Drawable.ConstantState sa = ((GradientDrawable) a).getConstantState();
+        assertEquals((Integer)TestUtil.getField(sa,"mStrokeWidth"),b);
     }
 
     public static void assertEquals(LayerDrawable a,LayerDrawable b)
@@ -348,7 +379,7 @@ public class Assert
 
     public static void assertEquals(TransitionDrawable a,TransitionDrawable b)
     {
-        assertEquals((LayerDrawable)a,(LayerDrawable)b);
+        assertEquals((LayerDrawable) a, (LayerDrawable) b); // LayerDrawable es la clase base de TransitionDrawable
 
         assertEquals(a.isCrossFadeEnabled(),b.isCrossFadeEnabled());
     }
@@ -359,7 +390,13 @@ public class Assert
 
         NinePatch a2 = (NinePatch) TestUtil.getField(a, "mNinePatch");
         NinePatch b2 = (NinePatch) TestUtil.getField(b, "mNinePatch");
-        assertEquals((Bitmap)TestUtil.getField(a2, "mBitmap"),(Bitmap)TestUtil.getField(b2, "mBitmap"));
+        assertEquals((Bitmap) TestUtil.getField(a2, "mBitmap"), (Bitmap) TestUtil.getField(b2, "mBitmap"));
+
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
+
+        Class classState = TestUtil.resolveClass(NinePatchDrawable.class.getName() + "$NinePatchState");
+        assertEquals((Boolean) TestUtil.getField(a_state, classState, "mDither"), (Boolean) TestUtil.getField(b_state, classState, "mDither"));
     }
 
     public static void assertEquals(RotateDrawable a,RotateDrawable b)
@@ -407,6 +444,8 @@ public class Assert
         assertEqualsDrawable(a, b);
 
         assertEquals(a.getLevel(),b.getLevel());
+
+
     }
 
     public static void assertEquals(InsetDrawable a,InsetDrawable b)
@@ -426,11 +465,25 @@ public class Assert
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetBottom"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetBottom"));
     }
 
-    public static void assertEqualsStrokeWidth(Drawable a,int b)
+    public static void assertEquals(ScaleDrawable a,ScaleDrawable b)
     {
-        Drawable.ConstantState sa = ((GradientDrawable) a).getConstantState();
-        assertEquals((Integer)TestUtil.getField(sa,"mStrokeWidth"),b);
+        assertEqualsDrawable(a, b);
+
+        assertEquals(a.isStateful(), b.isStateful());
+
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
+
+        Class classScaleState = TestUtil.resolveClass(ScaleDrawable.class.getName() + "$ScaleState");
+        assertEquals((Drawable) TestUtil.getField(a_state, classScaleState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classScaleState, "mDrawable"));
+
+        assertEquals((Float) TestUtil.getField(a_state, classScaleState, "mScaleWidth"), (Float) TestUtil.getField(b_state, classScaleState, "mScaleWidth"));
+        assertEquals((Float) TestUtil.getField(a_state, classScaleState, "mScaleHeight"), (Float) TestUtil.getField(b_state, classScaleState, "mScaleHeight"));
+        assertEquals((Integer) TestUtil.getField(a_state, classScaleState, "mGravity"), (Integer) TestUtil.getField(b_state, classScaleState, "mGravity"));
     }
+
+
+
 
     public static void assertEquals(ColorStateList a,ColorStateList b)
     {

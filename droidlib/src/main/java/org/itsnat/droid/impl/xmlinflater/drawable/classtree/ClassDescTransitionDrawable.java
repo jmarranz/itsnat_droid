@@ -64,7 +64,6 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
     {
         super.init();
 
-        //addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "dither", true));
     }
 
 

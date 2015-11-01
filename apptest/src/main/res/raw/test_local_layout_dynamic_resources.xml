@@ -121,6 +121,15 @@
             android:textSize="20dp"
             android:background="@assets:drawable/res/drawable/test_inset_drawable_dynamic.xml" />
 
+        <TextView
+            android:id="@+id/testScaleDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="ScaleDrawable (green, small and centered rect)"
+            android:textSize="20dp"
+            android:background="@assets:drawable/res/drawable/test_scale_drawable_dynamic.xml" />
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

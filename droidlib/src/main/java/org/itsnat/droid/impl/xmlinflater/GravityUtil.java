@@ -21,6 +21,7 @@ public class GravityUtil
         // Tambien en drawables
         // http://developer.android.com/reference/android/graphics/drawable/BitmapDrawable.html#attr_android:gravity
 
+
         valueMap.put("top",0x30);
         valueMap.put("bottom", 0x50);
         valueMap.put("left", 0x03);

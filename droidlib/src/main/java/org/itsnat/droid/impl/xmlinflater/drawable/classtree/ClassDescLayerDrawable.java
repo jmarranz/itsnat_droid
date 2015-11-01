@@ -70,7 +70,6 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
     {
         super.init();
 
-        //addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "dither", true));
     }
 
 

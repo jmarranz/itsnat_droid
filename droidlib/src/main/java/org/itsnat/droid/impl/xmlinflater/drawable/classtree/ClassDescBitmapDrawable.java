@@ -40,11 +40,6 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
-        return isSrcAttribute(namespaceURI, name); // Se trata de forma especial en otro lugar
-    }
-
-    private static boolean isSrcAttribute(String namespaceURI,String name)
-    {
         return InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && name.equals("src");
     }
 

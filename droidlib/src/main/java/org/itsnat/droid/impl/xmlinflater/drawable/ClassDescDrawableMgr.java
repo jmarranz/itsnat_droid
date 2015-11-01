@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawab
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescScaleDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawable;
@@ -74,5 +75,8 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
 
         ClassDescInsetDrawable inset = new ClassDescInsetDrawable(this);
         addClassDesc(inset);
+
+        ClassDescScaleDrawable scale = new ClassDescScaleDrawable(this);
+        addClassDesc(scale);
     }
 }

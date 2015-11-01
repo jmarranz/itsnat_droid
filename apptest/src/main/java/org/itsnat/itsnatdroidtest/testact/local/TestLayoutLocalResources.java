@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.LevelListDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;
 import android.widget.Button;
@@ -69,5 +70,10 @@ public class TestLayoutLocalResources extends TestLayoutLocalBase {
                 transitionDrawable.startTransition(1000); // Begin the second layer on top of the first layer.
             }
         });
+
+        TextView testScaleDrawable = (TextView) rootView.findViewById(R.id.testScaleDrawableId);
+        final ScaleDrawable scaleDrawable = (ScaleDrawable) testScaleDrawable.getBackground();
+        scaleDrawable.setLevel(1);
+
     }
 }

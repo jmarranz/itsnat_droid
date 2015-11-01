@@ -53,19 +53,11 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
 
         //XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-        int gravity;
         DOMAttr attrGravity = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "gravity");
-        if (attrGravity != null)
-            gravity = AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.valueMap);
-        else
-            gravity = Gravity.LEFT;
+        int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.valueMap) : Gravity.LEFT;
 
-        int orientation;
         DOMAttr attrClipOrientation = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "clipOrientation");
-        if (attrClipOrientation != null)
-            orientation = AttrDesc.<Integer>parseSingleName(attrClipOrientation.getValue(),valueMap);
-        else
-            orientation = ClipDrawable.HORIZONTAL;
+        int orientation = attrClipOrientation != null ? AttrDesc.<Integer>parseSingleName(attrClipOrientation.getValue(),valueMap) : ClipDrawable.HORIZONTAL;
 
         elementDrawableRoot.setDrawable(new ClipDrawable(childDrawable,gravity,orientation));
 

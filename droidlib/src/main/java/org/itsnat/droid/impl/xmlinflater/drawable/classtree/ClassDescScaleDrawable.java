@@ -3,23 +3,19 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.view.Gravity;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_InsetDrawable_visible;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,24 +24,26 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDrawable>
+public class ClassDescScaleDrawable extends ClassDescElementDrawableRoot<ScaleDrawable>
 {
-    public ClassDescInsetDrawable(ClassDescDrawableMgr classMgr)
+
+    public ClassDescScaleDrawable(ClassDescDrawableMgr classMgr)
     {
-        super(classMgr,"inset");
+        super(classMgr,"scale");
     }
 
     @Override
     public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         /*
-        <inset
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:drawable="@drawable/drawable_resource"
-            android:insetTop="dimension"
-            android:insetRight="dimension"
-            android:insetBottom="dimension"
-            android:insetLeft="dimension" />
+        <scale
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:drawable="@drawable/drawable_resource"
+        android:scaleGravity=["top" | "bottom" | "left" | "right" | "center_vertical" |
+            "fill_vertical" | "center_horizontal" | "fill_horizontal" |
+            "center" | "fill" | "clip_vertical" | "clip_horizontal"]
+        android:scaleHeight="percentage"
+        android:scaleWidth="percentage" />
         */
 
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
@@ -57,19 +55,16 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
 
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-        DOMAttr attrInsetTop = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetTop");
-        int insetTop = attrInsetTop != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetTop.getValue(), ctx) : 0;
+        DOMAttr attrGravity = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "scaleGravity");
+        int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.valueMap) : Gravity.LEFT;
 
-        DOMAttr attrInsetRight = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetRight");
-        int insetRight = attrInsetRight != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetRight.getValue(),ctx) : 0;
+        DOMAttr attrScaleHeight = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "scaleHeight");
+        float scaleHeight = attrScaleHeight != null ? xmlInflateRegistry.getPercent(attrScaleHeight.getValue(), ctx) : -1;
 
-        DOMAttr attrInsetBottom = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetBottom");
-        int insetBottom = attrInsetBottom != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetBottom.getValue(),ctx) : 0;
+        DOMAttr attrScaleWidth = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "scaleWidth");
+        float scaleWidth = attrScaleWidth != null ? xmlInflateRegistry.getPercent(attrScaleWidth.getValue(),ctx) : -1;
 
-        DOMAttr attrInsetLeft = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetLeft");
-        int insetLeft = attrInsetLeft != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetLeft.getValue(),ctx) : 0;
-
-        elementDrawableRoot.setDrawable(new InsetDrawable(childDrawable,insetLeft, insetTop, insetRight, insetBottom));
+        elementDrawableRoot.setDrawable(new ScaleDrawable(childDrawable,gravity,scaleWidth,scaleHeight));
 
         return elementDrawableRoot;
     }
@@ -83,7 +78,7 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
             // Se usan en tiempo de construcción
-            return ("drawable".equals(name) || "insetTop".equals(name) || "insetRight".equals(name) || "insetBottom".equals(name) || "insetLeft".equals(name));
+            return ("drawable".equals(name) || "scaleGravity".equals(name) ||  "scaleHeight".equals(name) ||  "scaleWidth".equals(name));
         }
         return false;
     }
@@ -99,6 +94,7 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawable_InsetDrawable_visible(this));
     }
+
+
 }

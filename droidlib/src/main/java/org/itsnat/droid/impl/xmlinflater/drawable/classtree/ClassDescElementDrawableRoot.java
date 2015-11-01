@@ -46,15 +46,11 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
 
     public Drawable getChildDrawable(String drawableAttrName,DOMElement domElement, XMLInflaterDrawable inflaterDrawable, Context ctx,ArrayList<ElementDrawable> childList)
     {
-        // Si el drawable está definido como elemento hijo gana éste por delante del atributo drawable
-        Drawable drawable = null;
+        XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-        DOMAttr attrDrawable = domElement.findDOMAttribute(InflatedXML.XMLNS_ANDROID, drawableAttrName);
-        if (attrDrawable != null) // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elemento hijo
-        {
-            XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
-            drawable = xmlInflateRegistry.getDrawable(attrDrawable, ctx, inflaterDrawable);
-        }
+        // Si el drawable está definido como elemento hijo gana éste por delante del atributo drawable
+        DOMAttr attrDrawable = domElement.findDOMAttribute(InflatedXML.XMLNS_ANDROID, drawableAttrName); // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elemento hijo
+        Drawable drawable = attrDrawable != null ? xmlInflateRegistry.getDrawable(attrDrawable, ctx, inflaterDrawable) : null;
 
         if (childList != null)
         {
