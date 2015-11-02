@@ -5,11 +5,11 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by Jose on 15/10/2015.
  */
-public class DrawableContainer extends DrawableOrElementDrawableContainer<Drawable>
+public class DrawableWrapper extends DrawableOrElementDrawableWrapper<Drawable>
 {
     protected Drawable drawable;
 
-    public DrawableContainer(Drawable drawable)
+    public DrawableWrapper(Drawable drawable)
     {
         this.drawable = drawable;
     }

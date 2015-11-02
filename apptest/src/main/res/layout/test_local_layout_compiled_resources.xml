@@ -120,7 +120,7 @@
             android:layout_marginTop="20dp"
             android:text="InsetDrawable (green rect with insets, text inside)"
             android:textSize="20dp"
-            android:background="@drawable/test_inset_drawable_compiled" />
+            android:background="@drawable/test_inset_drawable_compiled"/>
 
         <TextView
             android:id="@+id/testScaleDrawableId"

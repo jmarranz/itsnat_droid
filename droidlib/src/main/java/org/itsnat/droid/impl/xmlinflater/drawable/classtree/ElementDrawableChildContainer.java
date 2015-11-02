@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildWithDrawab
 /**
  * Created by Jose on 15/10/2015.
  */
-public abstract class ElementDrawableChildContainer<TelementDrawableChild extends ElementDrawableChild> extends DrawableOrElementDrawableContainer<ElementDrawableChild>
+public abstract class ElementDrawableChildContainer<TelementDrawableChild extends ElementDrawableChild> extends DrawableOrElementDrawableWrapper<ElementDrawableChild>
 {
     protected ElementDrawableChild elemDrawableChild;
 

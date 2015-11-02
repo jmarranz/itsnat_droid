@@ -49,7 +49,7 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     }
 
     @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableContainer draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
@@ -60,7 +60,7 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     }
 
     @Override
-    public boolean setAttribute(DrawableOrElementDrawableContainer draw,DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
+    public boolean setAttribute(DrawableOrElementDrawableWrapper draw,DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         // Se redefine completamente
         ElementDrawableChildDrawableBridge elemDraw = (ElementDrawableChildDrawableBridge)((ElementDrawableChildContainer)draw).getElementDrawableChild();

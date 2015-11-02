@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -406,9 +407,30 @@ public class Assert
         assertEquals(a.getDrawable(), b.getDrawable());
     }
 
-    public static void assertEquals(StateListDrawable a,StateListDrawable b)
+    private static void assertEquals(DrawableContainer a,DrawableContainer b)
     {
         assertEqualsDrawable(a, b);
+
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
+
+        Class classState = TestUtil.resolveClass(DrawableContainer.class.getName() + "$DrawableContainerState");
+
+        Drawable[] a_drawables = (Drawable[])TestUtil.getField(a_state, classState, "mDrawables");
+        Drawable[] b_drawables = (Drawable[])TestUtil.getField(b_state, classState, "mDrawables");
+        assertEquals(a_drawables.length,b_drawables.length);
+        for(int i = 0; i < a_drawables.length; i++)
+        {
+            if (a_drawables[i] != null) // Android reserva más items en el array que los usados
+                assertEquals(a_drawables[i], b_drawables[i]);
+            else
+                break;
+        }
+    }
+
+    public static void assertEquals(StateListDrawable a,StateListDrawable b)
+    {
+        assertEquals((DrawableContainer) a, (DrawableContainer) b);
 
         Method methodStateListState = TestUtil.getMethod(StateListDrawable.class, "getStateListState", new Class[0]);
 
@@ -420,7 +442,7 @@ public class Assert
         boolean a_isConstantSize = (Boolean)TestUtil.callMethod(a_stateListState,null,methodGetStateListStateIsConstantSize);
         boolean b_isConstantSize = (Boolean)TestUtil.callMethod(b_stateListState,null,methodGetStateListStateIsConstantSize);
 
-        assertEquals(a_isConstantSize,b_isConstantSize);
+        assertEquals(a_isConstantSize, b_isConstantSize);
 
         Method methodIsVisible = TestUtil.getMethod(Drawable.class, "isVisible", new Class[0]);
 
@@ -441,10 +463,26 @@ public class Assert
 
     public static void assertEquals(LevelListDrawable a,LevelListDrawable b)
     {
-        assertEqualsDrawable(a, b);
+        assertEquals((DrawableContainer)a, (DrawableContainer)b);
 
         assertEquals(a.getLevel(),b.getLevel());
 
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
+
+        Class classState = TestUtil.resolveClass(LevelListDrawable.class.getName() + "$LevelListState");
+
+        int[] a_lows = (int[])TestUtil.getField(a_state, classState, "mLows");
+        int[] b_lows = (int[])TestUtil.getField(b_state, classState, "mLows");
+        assertEquals(a_lows.length,b_lows.length);
+        for(int i = 0; i < a_lows.length; i++)
+            assertEquals(a_lows[i],b_lows[i]);
+
+        int[] a_highs = (int[])TestUtil.getField(a_state, classState, "mHighs");
+        int[] b_highs = (int[])TestUtil.getField(b_state, classState, "mHighs");
+        assertEquals(a_highs.length,b_highs.length);
+        for(int i = 0; i < a_highs.length; i++)
+            assertEquals(a_highs[i],b_highs[i]);
 
     }
 
@@ -453,6 +491,7 @@ public class Assert
         assertEqualsDrawable(a, b);
 
         assertEquals(a.isStateful(), b.isStateful());
+
         Drawable.ConstantState a_state = a.getConstantState();
         Drawable.ConstantState b_state = b.getConstantState();
 

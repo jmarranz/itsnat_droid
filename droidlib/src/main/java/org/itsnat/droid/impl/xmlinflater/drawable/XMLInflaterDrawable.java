@@ -21,8 +21,8 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableContainer;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDrawableContainer;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableWrapper;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDrawableWrapper;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ElementDrawableChildContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
 import org.itsnat.droid.impl.xmlinflater.drawable.stdalone.XMLInflaterDrawableStandalone;
@@ -83,7 +83,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
         inflatedDrawable.setDrawable(drawable);
 
-        fillAttributes(classDesc, new DrawableContainer(drawable), rootDOMElem,ctx);
+        fillAttributes(classDesc, new DrawableWrapper(drawable), rootDOMElem,ctx);
 
         return drawableElem;
     }
@@ -93,7 +93,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         return classDesc.createElementDrawableRoot(rootDOMElem, this, ctx);
     }
 
-    private void fillAttributes(ClassDescDrawable classDesc,DrawableOrElementDrawableContainer drawable,DOMElement domElement,Context ctx)
+    private void fillAttributes(ClassDescDrawable classDesc,DrawableOrElementDrawableWrapper drawable,DOMElement domElement,Context ctx)
     {
         ArrayList<DOMAttr> attribList = domElement.getDOMAttributeList();
         if (attribList != null)
@@ -106,7 +106,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         }
     }
 
-    private boolean setAttribute(ClassDescDrawable classDesc,DrawableOrElementDrawableContainer drawable,DOMAttr attr,Context ctx)
+    private boolean setAttribute(ClassDescDrawable classDesc,DrawableOrElementDrawableWrapper drawable,DOMAttr attr,Context ctx)
     {
         return classDesc.setAttribute(drawable, attr,this,ctx);
     }

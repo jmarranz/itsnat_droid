@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<LayerDrawable>
+public class ClassDescStateListDrawable extends ClassDescDrawableContainer<StateListDrawable>
 {
     protected MethodContainer methodGetStateListState;
     protected MethodContainer methodGetStateListStateIsConstantSize;
@@ -88,7 +88,7 @@ public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<Lay
     }
 
     @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableContainer draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;

@@ -49,14 +49,14 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
     }
 
 
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableContainer draw,String namespaceURI, String name)
+    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI, String name)
     {
         return false; // es redefinido
     }
 
 
     @SuppressWarnings("unchecked")
-    public boolean setAttribute(DrawableOrElementDrawableContainer draw,DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
+    public boolean setAttribute(DrawableOrElementDrawableWrapper draw,DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         if (!isInit()) init();
 

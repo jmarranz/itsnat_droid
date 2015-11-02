@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLevelListDrawable extends ClassDescElementDrawableRoot<LevelListDrawable>
+public class ClassDescLevelListDrawable extends ClassDescDrawableContainer<LevelListDrawable>
 {
     public ClassDescLevelListDrawable(ClassDescDrawableMgr classMgr)
     {
