@@ -29,6 +29,7 @@ import android.view.animation.TranslateAnimation;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 
 import java.lang.reflect.Method;
@@ -338,6 +339,16 @@ public class Assert
         // <gradient>
         assertEquals((Integer) TestUtil.getField(a_state, "mGradient"), (Integer) TestUtil.getField(b_state, "mGradient")); // tests android:type
         assertEquals((Float) TestUtil.getField(a_state, "mGradientRadius"), (Float) TestUtil.getField(b_state, "mGradientRadius"));
+        assertEquals((GradientDrawable.Orientation) TestUtil.getField(a_state, "mOrientation"), (GradientDrawable.Orientation) TestUtil.getField(b_state, "mOrientation"));
+        assertEquals((int[]) TestUtil.getField(a_state, "mColors"), (int[]) TestUtil.getField(b_state, "mColors"));
+        assertEquals((Float) TestUtil.getField(a_state, "mCenterX"), (Float) TestUtil.getField(b_state, "mCenterX"));
+        assertEquals((Float) TestUtil.getField(a_state, "mCenterY"), (Float) TestUtil.getField(b_state, "mCenterY"));
+        assertEquals((Boolean) TestUtil.getField(a_state, "mUseLevel"), (Boolean) TestUtil.getField(b_state, "mUseLevel"));
+        if (Build.VERSION.SDK_INT >= TestUtil.LOLLIPOP)
+        {
+            assertEquals((Integer) TestUtil.getField(a_state, "mGradientRadiusType"), (Integer) TestUtil.getField(b_state, "mGradientRadiusType"));
+        }
+
 
 
         assertEquals((Integer) TestUtil.getField(a_state, "mStrokeWidth"), (Integer) TestUtil.getField(b_state, "mStrokeWidth"));

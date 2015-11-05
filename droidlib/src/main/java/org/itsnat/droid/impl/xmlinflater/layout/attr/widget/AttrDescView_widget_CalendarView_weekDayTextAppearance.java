@@ -5,6 +5,7 @@ import android.os.Build;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -23,7 +24,7 @@ public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends Attr
     {
         super(parent,"weekDayTextAppearance");
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
+        if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
             this.method = new MethodContainer<Boolean>(parent.getDeclaredClass(),"setUpHeader",new Class[]{int.class});
         else
             this.method = new MethodContainer<Boolean>(parent.getDeclaredClass(),"setWeekDayTextAppearance",new Class[]{int.class});

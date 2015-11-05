@@ -696,7 +696,7 @@ public class TestLocalXMLInflate1
 
             // Test android:shadowColor
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
             {
                 assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),0xffff0000);
                 assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),(Integer) TestUtil.getField(parsedLayout.getPaint(), Paint.class, "shadowColor"));

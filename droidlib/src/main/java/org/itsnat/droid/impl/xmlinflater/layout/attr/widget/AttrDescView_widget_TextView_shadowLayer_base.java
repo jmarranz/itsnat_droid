@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
@@ -31,7 +32,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
     {
         super(parent,name);
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
+        if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
             this.fieldShadowColor = new FieldContainer<Integer>(Paint.class,"shadowColor");
         else // Partir de la versión siguiente (level 16) hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción
             this.methodShadowColor = new MethodContainer<Integer>(parent.getDeclaredClass(),"getShadowColor");

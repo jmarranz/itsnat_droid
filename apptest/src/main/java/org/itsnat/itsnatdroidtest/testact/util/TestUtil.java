@@ -3,6 +3,7 @@ package org.itsnat.itsnatdroidtest.testact.util;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 
 import org.itsnat.droid.ItsNatDroidException;
 
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public class TestUtil
 {
-    public static final int ICE_CREAM_SANDWICH_MR1 = 15; // 15 == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1  (4.0.3)
+    public static final int ICE_CREAM_SANDWICH_MR1 = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1;  // level 15 (4.0.3)
     public static final int LOLLIPOP = 21;      // 21 == Build.VERSION_CODES.LOLLIPOP  (5.0.1)
     // public static final int LOLLIPOP_MR1 = 22;  // 22 == Build.VERSION_CODES.LOLLIPOP_MR1 (5.1.1)
     public static final int MARSHMALLOW = 23;   // 23 == Build.VERSION_CODES.M

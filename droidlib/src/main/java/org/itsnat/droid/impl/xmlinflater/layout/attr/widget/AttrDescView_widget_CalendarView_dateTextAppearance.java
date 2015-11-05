@@ -6,6 +6,7 @@ import android.os.Build;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
@@ -32,7 +33,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
         Class class_R_styleable = getClass_R_styleable(); // com.android.internal.R$styleable
         this.fieldTextAppearance_Small = new FieldContainer<Integer>(class_R_styleable, "TextAppearance_Small");
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+        if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
         {
             this.fieldTextAppearance = new FieldContainer<int[]>(class_R_styleable, "TextAppearance");
             this.fieldTextAppearance_textSize = new FieldContainer<Integer>(class_R_styleable, "TextAppearance_textSize");
@@ -50,7 +51,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
 
         if (dateTextAppearanceResId <= 0) dateTextAppearanceResId = fieldTextAppearance_Small.get(null); // Valor por defecto
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+        if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
         {
             int[] textAppearanceStyleArr = fieldTextAppearance.get(null);
 

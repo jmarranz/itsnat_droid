@@ -6,6 +6,7 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LevelListDrawable;
+import android.os.Build;
 import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -37,9 +38,17 @@ import java.util.Map;
  */
 public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<GradientDrawable>
 {
+    // Sólo LOLLIPOP y superiores
+    private static final int RADIUS_TYPE_PIXELS = 0;
+    private static final int RADIUS_TYPE_FRACTION = 1;
+    private static final int RADIUS_TYPE_FRACTION_PARENT = 2;
+    // Fin LOLLIPOP y superiores
+
+
     protected FieldContainer gradientStateField;
     protected FieldContainer<Integer> gradientTypeField;
     protected FieldContainer<Float> gradientRadiusField;
+    protected FieldContainer<Integer> gradientRadiusTypeField;  // LOLLIPOP y sup
     protected FieldContainer<GradientDrawable.Orientation> orientationField;
     protected FieldContainer<int[]> colorsField;
     protected FieldContainer<Float> centerXField;
@@ -55,6 +64,10 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         Class gradientStateClass = MiscUtil.resolveClass(GradientDrawable.class.getName() + "$GradientState");
         this.gradientTypeField  = new FieldContainer<Integer>(gradientStateClass, "mGradient");
         this.gradientRadiusField = new FieldContainer<Float>(gradientStateClass, "mGradientRadius");
+        if (Build.VERSION.SDK_INT >= MiscUtil.LOLLIPOP)
+        {
+            gradientRadiusTypeField = new FieldContainer<Integer>(gradientStateClass, "mGradientRadiusType");
+        }
         this.orientationField = new FieldContainer<GradientDrawable.Orientation>(gradientStateClass, "mOrientation");
         this.colorsField = new FieldContainer<int[]>(gradientStateClass, "mColors");
         this.centerXField = new FieldContainer<Float>(gradientStateClass, "mCenterX");
@@ -178,6 +191,25 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                     {
                         float value = toFloat(gradRadius); // gradRadius.getValue();
                         gradientRadiusField.set(gradientState,value);
+
+                        if (Build.VERSION.SDK_INT >= MiscUtil.LOLLIPOP)
+                        {
+                            int radiusType;
+
+                            int dataType = gradRadius.getDataType();
+                            if (dataType == TypedValue.TYPE_FRACTION)
+                            {
+                                radiusType = gradRadius.isFractionParent() ? RADIUS_TYPE_FRACTION_PARENT : RADIUS_TYPE_FRACTION;
+
+                            }
+                            else if (dataType == TypedValue.TYPE_FLOAT)
+                                radiusType = RADIUS_TYPE_PIXELS;
+                            else
+                                throw new ItsNatDroidException("Unexpected");
+
+                            gradientRadiusTypeField.set(gradientState,radiusType);
+                        }
+
                     }
                     else if (gradientType == GradientDrawable.RADIAL_GRADIENT)
                                 throw new ItsNatDroidException("<gradient> tag requires 'gradientRadius' attribute with radial type");

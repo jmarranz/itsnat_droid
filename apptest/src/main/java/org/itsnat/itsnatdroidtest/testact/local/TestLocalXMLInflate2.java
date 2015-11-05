@@ -172,7 +172,7 @@ public class TestLocalXMLInflate2
             final CalendarView parsedLayout = (CalendarView) parsed.getChildAt(childCount);
 
             // Test android:dateTextAppearance
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
                 assertPositive((Integer) TestUtil.getField(compLayout, "mDateTextSize"));
                 assertEquals((Integer) TestUtil.getField(compLayout, "mDateTextSize"), (Integer) TestUtil.getField(parsedLayout, "mDateTextSize"));
@@ -186,7 +186,7 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getFirstDayOfWeek(),3);
             assertEquals(compLayout.getFirstDayOfWeek(),parsedLayout.getFirstDayOfWeek());
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
                 assertEquals((Integer) TestUtil.getField(compLayout, "mFocusedMonthDateColor"), 0xffff0000);
                 assertEquals((Integer) TestUtil.getField(compLayout, "mFocusedMonthDateColor"), (Integer) TestUtil.getField(parsedLayout, "mFocusedMonthDateColor"));
@@ -218,7 +218,7 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getMinDate(),parsedLayout.getMinDate());
 
             // Test android:selectedDateVerticalBar
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
                 assertNotNull((Drawable) TestUtil.getField(compLayout, "mSelectedDateVerticalBar"));
                 assertEquals((Drawable) TestUtil.getField(compLayout, "mSelectedDateVerticalBar"), (Drawable) TestUtil.getField(parsedLayout, "mSelectedDateVerticalBar"));
@@ -229,7 +229,7 @@ public class TestLocalXMLInflate2
                 assertEquals((Drawable) TestUtil.callGetMethod(compLayout,"getSelectedDateVerticalBar"), (Drawable) TestUtil.callGetMethod(parsedLayout,"getSelectedDateVerticalBar"));
             }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
                 assertEquals((Integer) TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"), 0xff0000ff);
                 assertEquals((Integer) TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"), (Integer) TestUtil.getField(parsedLayout, "mSelectedWeekBackgroundColor"));
@@ -244,7 +244,7 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getShowWeekNumber(),parsedLayout.getShowWeekNumber());
 
             // Test shownWeekCount
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
                 assertEquals((Integer) TestUtil.getField(compLayout, "mShownWeekCount"), 5);
                 assertEquals((Integer) TestUtil.getField(compLayout, "mShownWeekCount"), (Integer) TestUtil.getField(parsedLayout, "mShownWeekCount"));
@@ -256,7 +256,7 @@ public class TestLocalXMLInflate2
             }
 
             // Test unfocusedMonthDateColor
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
                 assertEquals((Integer) TestUtil.getField(compLayout, "mUnfocusedMonthDateColor"), 0xff00cc00);
                 assertEquals((Integer) TestUtil.getField(compLayout, "mUnfocusedMonthDateColor"), (Integer) TestUtil.getField(parsedLayout, "mUnfocusedMonthDateColor"));
@@ -278,14 +278,14 @@ public class TestLocalXMLInflate2
 
             // Test android:weekDayTextAppearance
             // en Level 15 (4.0.3) es complicadísimo testear. Se ve a simple vista que las letras de los días de la semama (L,M,X...) son grandes
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) // A partir de Level 16
+            if (Build.VERSION.SDK_INT > TestUtil.ICE_CREAM_SANDWICH_MR1) // A partir de Level 16
             {
                 assertPositive((Integer)TestUtil.callMethod(compLayout,null,CalendarView.class,"getWeekDayTextAppearance",null));
                 assertEquals((Integer)TestUtil.callMethod(compLayout,null,CalendarView.class,"getWeekDayTextAppearance",null),(Integer)TestUtil.callMethod(parsedLayout,null,CalendarView.class,"getWeekDayTextAppearance",null));
             }
 
             // Test android:weekNumberColor
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
                 assertEquals((Integer) TestUtil.getField(compLayout, "mWeekNumberColor"), 0xffaaaa77);
                 assertEquals((Integer) TestUtil.getField(compLayout, "mWeekNumberColor"), (Integer) TestUtil.getField(parsedLayout, "mWeekNumberColor"));
@@ -296,7 +296,7 @@ public class TestLocalXMLInflate2
                 assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getWeekNumberColor"), (Integer) TestUtil.callGetMethod(parsedLayout, "getWeekNumberColor"));
             }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
                 assertEquals((Integer) TestUtil.getField(compLayout, "mWeekSeparatorLineColor"), 0xffaa8888);
                 assertEquals((Integer) TestUtil.getField(compLayout, "mWeekSeparatorLineColor"), (Integer) TestUtil.getField(parsedLayout, "mWeekSeparatorLineColor"));
