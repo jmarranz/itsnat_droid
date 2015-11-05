@@ -54,7 +54,7 @@ public class ClassDescScaleDrawable extends ClassDescElementDrawableRoot<ScaleDr
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
         DOMAttr attrGravity = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "scaleGravity");
-        int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.valueMap) : Gravity.LEFT;
+        int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.valueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
 
         DOMAttr attrScaleHeight = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "scaleHeight");
         float scaleHeight = attrScaleHeight != null ? xmlInflateRegistry.getPercent(attrScaleHeight.getValue(), ctx) : -1;

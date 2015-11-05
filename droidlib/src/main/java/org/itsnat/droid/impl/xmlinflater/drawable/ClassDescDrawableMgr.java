@@ -7,6 +7,8 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescClipDrawabl
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescColorDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemGradient;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescInsetDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
@@ -78,5 +80,11 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
 
         ClassDescScaleDrawable scale = new ClassDescScaleDrawable(this);
         addClassDesc(scale);
+
+        ClassDescGradientDrawable gradient = new ClassDescGradientDrawable(this);
+        addClassDesc(gradient);
+        ClassDescGradientDrawableItemGradient gradientGradientItem = new ClassDescGradientDrawableItemGradient(this);
+        addClassDesc(gradientGradientItem);
+
     }
 }

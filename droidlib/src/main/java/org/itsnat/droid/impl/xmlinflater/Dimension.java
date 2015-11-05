@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.layout.attr;
+package org.itsnat.droid.impl.xmlinflater;
 
 /**
  * Created by jmarranz on 17/09/14.

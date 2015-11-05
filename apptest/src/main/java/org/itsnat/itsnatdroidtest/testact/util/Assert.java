@@ -89,7 +89,8 @@ public class Assert
 
     public static void assertEquals(float a,float b)
     {
-        if (a != b)
+        float res = 100 * Math.abs(a - b)/Math.max(a,b);
+        if (a != b && (100 * Math.abs(a - b)/Math.max(a, b) > 1E-5)) // Admitimos un pequeño error porcentual por el redondeo
             throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
@@ -331,10 +332,15 @@ public class Assert
     {
         assertEqualsDrawable(a,b,false); // No comparar getOpacity() no se porqué
 
-        Drawable.ConstantState sa = a.getConstantState();
-        Drawable.ConstantState sb = b.getConstantState();
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
 
-        assertEquals((Integer) TestUtil.getField(sa, "mStrokeWidth"), (Integer) TestUtil.getField(sb, "mStrokeWidth"));
+        // <gradient>
+        assertEquals((Integer) TestUtil.getField(a_state, "mGradient"), (Integer) TestUtil.getField(b_state, "mGradient")); // tests android:type
+        assertEquals((Float) TestUtil.getField(a_state, "mGradientRadius"), (Float) TestUtil.getField(b_state, "mGradientRadius"));
+
+
+        assertEquals((Integer) TestUtil.getField(a_state, "mStrokeWidth"), (Integer) TestUtil.getField(b_state, "mStrokeWidth"));
         // mSolidColor ya no existe en level 21: assertEquals((Integer)TestUtil.getField(sa,"mSolidColor"),(Integer)TestUtil.getField(sb,"mSolidColor"));
     }
 
@@ -393,11 +399,21 @@ public class Assert
         NinePatch b2 = (NinePatch) TestUtil.getField(b, "mNinePatch");
         assertEquals((Bitmap) TestUtil.getField(a2, "mBitmap"), (Bitmap) TestUtil.getField(b2, "mBitmap"));
 
+
+        Paint a_paint = a.getPaint();
+        Paint b_paint = b.getPaint();
+
+        //assertEquals(a_paint.isAntiAlias(), b_paint.isAntiAlias());
+        assertEquals(a_paint.isDither(), b_paint.isDither());
+        // assertEquals(a_paint.isFilterBitmap(), b_paint.isFilterBitmap());
+
+/*
         Drawable.ConstantState a_state = a.getConstantState();
         Drawable.ConstantState b_state = b.getConstantState();
 
         Class classState = TestUtil.resolveClass(NinePatchDrawable.class.getName() + "$NinePatchState");
         assertEquals((Boolean) TestUtil.getField(a_state, classState, "mDither"), (Boolean) TestUtil.getField(b_state, classState, "mDither"));
+*/
     }
 
     public static void assertEquals(RotateDrawable a,RotateDrawable b)

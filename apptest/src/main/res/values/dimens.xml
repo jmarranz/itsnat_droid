@@ -1,4 +1,8 @@
 <resources>
     <dimen name="activity_horizontal_margin">10.3dp</dimen>
     <dimen name="activity_vertical_margin">10.3dp</dimen>
+
+    <item name="gradient_radius" type="dimen">5000.3%</item> <!-- format="float" para un valor concreto no dimensión (pixels) ej "100.3" -->
+    <item name="centerX" type="dimen">40%</item> <!-- el centro es 50%, max 100%, alternativa: "0.4" o una dimensión -->
+    <item name="centerY" type="dimen">0.4</item> <!-- el centro es 0.5, max 1.0, alternativa: "40%" o una dimensión -->
 </resources>

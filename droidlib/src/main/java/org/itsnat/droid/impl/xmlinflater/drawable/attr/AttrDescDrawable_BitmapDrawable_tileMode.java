@@ -33,7 +33,7 @@ public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDescDrawable<B
     @Override
     public void setAttribute(BitmapDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
     {
-        int tileMode = this.<Integer>parseSingleName(attr.getValue(), valueMap);
+        int tileMode = this.<Integer>parseSingleName(attr.getValue(), valueMap); // Valor concreto no puede ser un recurso
 
         Shader.TileMode tileModeObj;
         if (tileMode != -1)

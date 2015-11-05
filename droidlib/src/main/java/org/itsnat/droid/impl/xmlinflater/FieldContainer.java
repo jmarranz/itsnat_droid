@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.lang.reflect.Field;
 
@@ -12,6 +13,11 @@ public class FieldContainer<T>
     protected final Class<?> clasz;
     protected final String fieldName;
     protected Field field;
+
+    public FieldContainer(String className,String fieldName)
+    {
+        this(MiscUtil.resolveClass(className),fieldName);
+    }
 
     public FieldContainer(Class<?> clasz,String fieldName)
     {

@@ -7,7 +7,6 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.Dimension;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.Map;
@@ -97,11 +96,6 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return getXMLInflateRegistry().getBoolean(attrValue, ctx);
     }
 
-    public Dimension getDimensionObject(String attrValue, Context ctx)
-    {
-        return getXMLInflateRegistry().getDimensionObject(attrValue, ctx);
-    }
-
     public int getDimensionIntFloor(String attrValue, Context ctx)
     {
         return getXMLInflateRegistry().getDimensionIntFloor(attrValue, ctx);
@@ -120,6 +114,12 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
     public float getDimensionFloatRound(String attrValue, Context ctx)
     {
         return getXMLInflateRegistry().getDimensionFloatRound(attrValue, ctx);
+    }
+
+
+    public PercFloat getDimensionPercFloat(String attrValue, Context ctx)
+    {
+        return getXMLInflateRegistry().getDimensionPercFloat(attrValue, ctx);
     }
 
     protected int getDimensionWithNameIntRound(String attrValue, Context ctx)
@@ -144,6 +144,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
 
     public static <T> T parseSingleName(String value, Map<String, T> valueMap)
     {
+        // Se llama directamente sin Context porque es para atributos que no pueden ser un recurso
         T valueRes = valueMap.get(value);
         if (valueRes == null)
             throw new ItsNatDroidException("Unrecognized value name " + value + " for attribute");
@@ -152,6 +153,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
 
     public static int parseMultipleName(String value, Map<String, Integer> valueMap)
     {
+        // Se llama directamente sin Context porque es para atributos que no pueden ser un recurso
         String[] names = value.split("\\|");
         int res = 0;
         for(int i = 0; i < names.length; i++)

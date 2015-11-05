@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.LevelListDrawable;
@@ -11,6 +12,7 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.util.TypedValue;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -231,6 +233,22 @@ public class TestLocalXMLInflateResources
 
             assertNotNull((ScaleDrawable) compLayout.getBackground());
             assertEquals((ScaleDrawable) compLayout.getBackground(), (ScaleDrawable) parsedLayout.getBackground());
+        }
+
+        childCount++;
+
+        // Test GradientDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "GradientDrawable");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+
+            assertNotNull((GradientDrawable) compLayout.getBackground());
+            assertEquals((GradientDrawable) compLayout.getBackground(), (GradientDrawable) parsedLayout.getBackground());
+
         }
 
 

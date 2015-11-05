@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,11 +16,21 @@ public class MethodContainer<T>
     protected final Class[] paramClasses;
     protected Method method;
 
+    public MethodContainer(String className, String methodName,Class[] paramClasses)
+    {
+        this(MiscUtil.resolveClass(className),methodName,paramClasses);
+    }
+
     public MethodContainer(Class<?> clasz, String methodName,Class[] paramClasses)
     {
         this.clasz = clasz;
         this.methodName = methodName;
         this.paramClasses = paramClasses;
+    }
+
+    public MethodContainer(String className, String methodName,Class paramClass)
+    {
+        this(MiscUtil.resolveClass(className),methodName,paramClass);
     }
 
     public MethodContainer(Class<?> clasz, String methodName,Class paramClass)

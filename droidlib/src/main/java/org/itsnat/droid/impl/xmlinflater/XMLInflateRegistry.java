@@ -34,7 +34,6 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.Dimension;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -201,7 +200,7 @@ public class XMLInflateRegistry
             id = getIdentifierResource(value, ctx);
             if (id > 0)
                 return id;
-            id = getIdentifierDynamicallyAdded(value,ctx);
+            id = getIdentifierDynamicallyAdded(value);
         }
         else
             throw new ItsNatDroidException("Bad format in id declaration: " + value);
@@ -239,7 +238,7 @@ public class XMLInflateRegistry
         return res.getIdentifier(value, null, packageName);
     }
 
-    public int getIdentifierDynamicallyAdded(String value, Context ctx)
+    public int getIdentifierDynamicallyAdded(String value)
     {
         if (value.indexOf(':') != -1) // Tiene package, ej "@+android:id/", no se encontrará un id registrado como "@+id/..." y los posibles casos con package NO los hemos contemplado
             return 0; // No encontrado
@@ -370,25 +369,32 @@ public class XMLInflateRegistry
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
     }
 
-    public Dimension getDimensionObject(String attrValue, Context ctx)
+    private Dimension getDimensionObject(String attrValue)
+    {
+        // Suponemos que NO es un recurso externo
+        // El retorno es en px
+        String valueTrim = attrValue.trim();
+        String suffix = getDimensionSuffix(valueTrim);
+        int complexUnit = getDimensionSuffixAsInt(suffix);
+        float num = extractFloat(valueTrim, suffix);
+        return new Dimension(complexUnit, num);
+    }
+
+    private Dimension getDimensionObject(String attrValue, Context ctx)
     {
         // El retorno es en px
-        Resources res = ctx.getResources();
         if (isResource(attrValue))
         {
             int resId = getIdentifier(attrValue, ctx);
-            float num = res.getDimension(resId);
+            float num = ctx.getResources().getDimension(resId);
             return new Dimension(TypedValue.COMPLEX_UNIT_PX, num);
         }
         else
         {
-            String valueTrim = attrValue.trim();
-            String suffix = getDimensionSuffix(valueTrim);
-            int complexUnit = getDimensionSuffixAsInt(suffix);
-            float num = extractFloat(valueTrim, suffix);
-            return new Dimension(complexUnit, num);
+            return getDimensionObject(attrValue);
         }
     }
+
 
     public int getDimensionIntFloor(String attrValue, Context ctx)
     {
@@ -424,11 +430,118 @@ public class XMLInflateRegistry
     public float getDimensionFloatRound(String attrValue, Context ctx)
     {
         // El retorno es en px
+        float num = getDimensionFloat(attrValue, ctx);
+        num = Math.round(num);
+        return num;
+    }
+
+    public PercFloat getDimensionPercFloat(String attrValue, Context ctx)
+    {
+        // Este método y PercFloat sólo se usa para el gradientRadius de GradientDrawable <shape> <gradient android:gradientRadius android:centerX y centerY>
+
+        // Las notas se refieren a gradientRadius:
+
+        // La documentación dice que puede tener tres posibles valores:
+        // Una referencia a un recurso externo "@..." "?..." cuyo valor en el recurso puede ser cualquiera de los siguientes
+        // Un valor float como tal ej "20.3"
+        // Un valor porcentual con dos variantes: "10.3%" "10.3%p"
+        // Un valor dimension: ej "10.3dp"
+
+        // El caso es que la documentación está ACTUALIZADA a las versiones últimas y no distingue entre versiones, el problema es que la versión 15 (4.0.3) soporta
+        // todos los casos excepto el dimension, el editor visual da error y el compilador también. Si se usa un resource y se pone un dimension, en 4.0.3 se ignora.
+        // Lo que haremos para adelantarnos al futuro es implementar también el caso de dimension, no nos cuesta apenas nada y en los ejemplos NO usar dimension
+        // Notas:
+        // No soy capaz de distinguir entre % y %p
+        // El "valor float como tal" yo creo que son pixels, y esa es la razón por la que no existía la variante dimension inicialmente, luego se añadió para homogeneizar y mejorar la portabilidad
+
+        // Recuerda que gradientRadius sólo se usa en el caso de RADIAL_GRADIENT, en dicho caso de hecho es obligatorio
+
+        Resources res = ctx.getResources();
+        if (isResource(attrValue))
+        {
+            int resId = getIdentifier(attrValue, ctx);
+            String value = res.getString(resId);
+            return parseDimensionPercFloat(value,ctx);
+        }
+        else
+        {
+            return parseDimensionPercFloat(attrValue, ctx);
+        }
+    }
+
+
+    private PercFloat parseDimensionPercFloat(String attrValue, Context ctx)
+    {
+        // El retorno es en px
+        int dataType;
+        boolean fractionParent = false;
+        int pos;
+        pos = attrValue.lastIndexOf("%");
+        if (pos != -1)
+        {
+            dataType = TypedValue.TYPE_FRACTION;
+            fractionParent = (attrValue.lastIndexOf("%p") != -1);
+            attrValue = attrValue.substring(0,pos);
+            float value = Float.parseFloat(attrValue);
+            return new PercFloat(dataType,fractionParent,value);
+        }
+        else
+        {
+            dataType = TypedValue.TYPE_FLOAT;
+            char last = attrValue.charAt(attrValue.length() - 1);
+            if (Character.isDigit(last))
+            {
+                float value = Float.parseFloat(attrValue);
+                return new PercFloat(dataType,fractionParent,value); // fractionParent es indiferente
+            }
+            else
+            {
+                Dimension dimen = getDimensionObject(attrValue);
+                int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
+                float num = dimen.getValue();
+                float value = toPixelFloat(unit, num, ctx.getResources());
+                return new PercFloat(dataType,fractionParent,value); // fractionParent es indiferente
+            }
+        }
+    }
+
+/*
+    public float getDimensionPercFloat(String attrValue, Context ctx)
+    {
+
+        // El retorno es en px
+        Resources res = ctx.getResources();
+        if (isResource(attrValue))
+        {
+            res.get
+            int resId = getIdentifier(attrValue, ctx);
+            String value = res.getString(resId)
+
+        }
+        else
+        {
+            String valueTrim = attrValue.trim();
+            String suffix = getDimensionSuffix(valueTrim);
+            int complexUnit = getDimensionSuffixAsInt(suffix);
+            float num = extractFloat(valueTrim, suffix);
+            return new Dimension(complexUnit, num);
+        }
+
+
+
+
+        // El retorno es en px
         float num = getDimensionFloat(attrValue,ctx);
         num = Math.round(num);
         return num;
     }
-    
+
+    private float parseDimensionPercFloat(String value)
+    {
+
+    }
+*/
+
     protected int getDimensionWithNameIntRound(String value, Context ctx)
     {
         int dimension;

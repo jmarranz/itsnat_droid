@@ -33,7 +33,7 @@ public class ClassDescStateListDrawable extends ClassDescDrawableContainer<State
 
         this.methodGetStateListState = new MethodContainer(StateListDrawable.class,"getStateListState");
         this.methodGetStateListStateIsConstantSize =
-                new MethodContainer(MiscUtil.resolveClass(android.graphics.drawable.DrawableContainer.class.getName() + "$DrawableContainerState"),"setConstantSize",boolean.class);
+                new MethodContainer(android.graphics.drawable.DrawableContainer.class.getName() + "$DrawableContainerState","setConstantSize",boolean.class);
     }
 
     @Override
