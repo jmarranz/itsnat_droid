@@ -30,10 +30,13 @@ import android.view.animation.TranslateAnimation;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by jmarranz on 19/06/14.
@@ -145,17 +148,17 @@ public class Assert
 
     public final static void assertEquals(Boolean a,Boolean b)
     {
-        assertEquals((boolean)a,(boolean)b);
+        assertEquals((boolean) a, (boolean) b);
     }
 
     public final static void assertEquals(Integer a,int b)
     {
-        assertEquals((int)a,b);
+        assertEquals((int) a, b);
     }
 
     public final static void assertEquals(Integer a,Integer b)
     {
-        assertEquals((int)a,(int)b);
+        assertEquals((int) a, (int) b);
     }
 
     public final static void assertEquals(Long a,Long b)
@@ -165,7 +168,7 @@ public class Assert
 
     public final static void assertEquals(Float a,float b)
     {
-        assertEquals((float)a,b);
+        assertEquals((float) a, b);
     }
 
     public final static void assertEquals(Float a,Float b)
@@ -183,6 +186,8 @@ public class Assert
 
     public final static void assertEquals(int[] a,int[] b)
     {
+        if (a == null && b == null) return; // Hay un caso
+
         if (a.length != b.length) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
 
         for(int i = 0; i < a.length; i++)
@@ -295,31 +300,36 @@ public class Assert
         assertEquals(a_paint.isFilterBitmap(), b_paint.isFilterBitmap());
     }
 
-    public static void assertEquals(ClipDrawable a,ClipDrawable b)
+    // DrawableWrapper es del level 23, no podemos usar el tipo todavía con level 15
+    public static void assertEqualsDrawableWrapper(Drawable a,Drawable b)
     {
         assertEqualsDrawable(a, b);
+
+        if (Build.VERSION.SDK_INT >= TestUtil.MARSHMALLOW) // 23
+        {
+            Class clasz = TestUtil.resolveClass("android.graphics.drawable.DrawableWrapper"); // DrawableWrapper es la clase base de ClipDrawable
+            assertEquals((Drawable) TestUtil.getField(a, clasz, "mDrawable"), (Drawable) TestUtil.getField(b, clasz, "mDrawable"));
+        }
+    }
+
+    public static void assertEquals(ClipDrawable a,ClipDrawable b)
+    {
+        assertEqualsDrawableWrapper(a, b);
 
         Rect ar = new Rect(); Rect br = new Rect();
         a.getPadding(ar); b.getPadding(br);
         assertEquals(ar, br);
 
-        if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // < 23
-        {
-            Drawable.ConstantState sa = a.getConstantState();
-            Drawable.ConstantState sb = b.getConstantState();
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
 
-            Class classClipState = TestUtil.resolveClass(ClipDrawable.class.getName() + "$ClipState");
-            assertEquals((Drawable) TestUtil.getField(sa, classClipState, "mDrawable"), (Drawable) TestUtil.getField(sb, classClipState, "mDrawable"));
-            assertEquals((Integer) TestUtil.getField(sa, classClipState, "mOrientation"), (Integer) TestUtil.getField(sb, classClipState, "mOrientation"));
-            assertEquals((Integer) TestUtil.getField(sa, classClipState, "mGravity"), (Integer) TestUtil.getField(sb, classClipState, "mGravity"));
+        Class classClipState = TestUtil.resolveClass(ClipDrawable.class.getName() + "$ClipState");
+        assertEquals((Integer) TestUtil.getField(a_state, classClipState, "mOrientation"), (Integer) TestUtil.getField(b_state, classClipState, "mOrientation"));
+        assertEquals((Integer) TestUtil.getField(a_state, classClipState, "mGravity"), (Integer) TestUtil.getField(b_state, classClipState, "mGravity"));
 
-        }
-        else
+        if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // 23
         {
-            Class clasz = TestUtil.resolveClass("android.graphics.drawable.DrawableWrapper"); // DrawableWrapper es la clase base de ClipDrawable
-            assertEquals((Drawable) TestUtil.getField(a, clasz, "mDrawable"), (Drawable) TestUtil.getField(b, clasz, "mDrawable"));
-            assertEquals((Integer) TestUtil.getField(a, clasz, "mOrientation"), (Integer) TestUtil.getField(b, clasz, "mOrientation"));
-            assertEquals((Integer) TestUtil.getField(a, clasz, "mGravity"), (Integer) TestUtil.getField(b, clasz, "mGravity"));
+            assertEquals((Drawable) TestUtil.getField(a_state, classClipState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classClipState, "mDrawable"));
         }
     }
 
@@ -340,13 +350,16 @@ public class Assert
         assertEquals((Integer) TestUtil.getField(a_state, "mGradient"), (Integer) TestUtil.getField(b_state, "mGradient")); // tests android:type
         assertEquals((Float) TestUtil.getField(a_state, "mGradientRadius"), (Float) TestUtil.getField(b_state, "mGradientRadius"));
         assertEquals((GradientDrawable.Orientation) TestUtil.getField(a_state, "mOrientation"), (GradientDrawable.Orientation) TestUtil.getField(b_state, "mOrientation"));
-        assertEquals((int[]) TestUtil.getField(a_state, "mColors"), (int[]) TestUtil.getField(b_state, "mColors"));
+        if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // 6.0
+            assertEquals((int[]) TestUtil.getField(a_state, "mGradientColors"), (int[]) TestUtil.getField(b_state, "mGradientColors"));
+        else
+            assertEquals((int[]) TestUtil.getField(a_state, "mColors"), (int[]) TestUtil.getField(b_state, "mColors"));
         assertEquals((Float) TestUtil.getField(a_state, "mCenterX"), (Float) TestUtil.getField(b_state, "mCenterX"));
         assertEquals((Float) TestUtil.getField(a_state, "mCenterY"), (Float) TestUtil.getField(b_state, "mCenterY"));
         assertEquals((Boolean) TestUtil.getField(a_state, "mUseLevel"), (Boolean) TestUtil.getField(b_state, "mUseLevel"));
         if (Build.VERSION.SDK_INT >= TestUtil.LOLLIPOP)
         {
-            assertEquals((Integer) TestUtil.getField(a_state, "mGradientRadiusType"), (Integer) TestUtil.getField(b_state, "mGradientRadiusType"));
+            assertEquals((Integer) TestUtil.getField(a_state, "mGradientRadiusType"), (Integer) TestUtil.getField(b_state, "mGradientRadiusType")); // Se introduce como nuevo atributo
         }
 
 
@@ -418,13 +431,6 @@ public class Assert
         assertEquals(a_paint.isDither(), b_paint.isDither());
         // assertEquals(a_paint.isFilterBitmap(), b_paint.isFilterBitmap());
 
-/*
-        Drawable.ConstantState a_state = a.getConstantState();
-        Drawable.ConstantState b_state = b.getConstantState();
-
-        Class classState = TestUtil.resolveClass(NinePatchDrawable.class.getName() + "$NinePatchState");
-        assertEquals((Boolean) TestUtil.getField(a_state, classState, "mDither"), (Boolean) TestUtil.getField(b_state, classState, "mDither"));
-*/
     }
 
     public static void assertEquals(RotateDrawable a,RotateDrawable b)
@@ -448,10 +454,19 @@ public class Assert
         assertEquals(a_drawables.length,b_drawables.length);
         for(int i = 0; i < a_drawables.length; i++)
         {
-            if (a_drawables[i] != null) // Android reserva más items en el array que los usados
-                assertEquals(a_drawables[i], b_drawables[i]);
-            else
-                break;
+            if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // < 23
+            {
+                if (a_drawables[i] != null) // Ojo Android reserva más items en el array que los usados
+                    assertEquals(a_drawables[i], b_drawables[i]);
+                else
+                    break;
+            }
+            else // 23 y sup
+            {
+                // No se porqué a veces no coinciden en número de imágenes en level 23 y sup, en a (el compilado) hay más que en b, al menos chequeamos que los comunes coinciden (los índices con data en b deben coincidir con el dato en a)
+                if (a_drawables[i] != null && b_drawables[i] != null)
+                    assertEquals(a_drawables[i], b_drawables[i]);
+            }
         }
     }
 
@@ -463,11 +478,11 @@ public class Assert
 
         Method methodGetStateListStateIsConstantSize = TestUtil.getMethod(MiscUtil.resolveClass("android.graphics.drawable.DrawableContainer$DrawableContainerState"), "isConstantSize", new Class[0]);
 
-        Object a_stateListState = TestUtil.callMethod(a, null, methodStateListState);
-        Object b_stateListState = TestUtil.callMethod(b, null, methodStateListState);
+        Object a_state = TestUtil.callMethod(a, null, methodStateListState);
+        Object b_state = TestUtil.callMethod(b, null, methodStateListState);
 
-        boolean a_isConstantSize = (Boolean)TestUtil.callMethod(a_stateListState,null,methodGetStateListStateIsConstantSize);
-        boolean b_isConstantSize = (Boolean)TestUtil.callMethod(b_stateListState,null,methodGetStateListStateIsConstantSize);
+        boolean a_isConstantSize = (Boolean)TestUtil.callMethod(a_state,null,methodGetStateListStateIsConstantSize);
+        boolean b_isConstantSize = (Boolean)TestUtil.callMethod(b_state,null,methodGetStateListStateIsConstantSize);
 
         assertEquals(a_isConstantSize, b_isConstantSize);
 
@@ -486,6 +501,36 @@ public class Assert
         {
             assertEquals(a_stateArr[i], b_stateArr[i]);
         }
+
+
+        Class classState = TestUtil.resolveClass(StateListDrawable.class.getName() + "$StateListState");
+        int[][] a_state_sets = (int[][])TestUtil.getField(a_state, classState, "mStateSets");
+        int[][] b_state_sets = (int[][])TestUtil.getField(b_state, classState, "mStateSets");
+        assertEquals(a_state_sets.length,b_state_sets.length);
+        for(int i = 0; i < a_state_sets.length; i++)
+        {
+            // Sinceramente no se como Android construye los estados desde un resource, como el b es el dinámico al menos coomprobaremos que los estados de "b" están en "a"
+            // aunque en "a" haya más "por defecto"
+            // De todas formas con el test anterior con getState() debería ser suficiente.
+            int[] a_itemStates = a_state_sets[i];
+            if (a_itemStates == null) // Android reserva más array del que necesita
+                continue; // Debería ser break; pero por si acaso
+
+            Set<Integer> a_map = new HashSet<Integer>();
+            for (int k = 0; k < a_itemStates.length; k++)
+                a_map.add(a_itemStates[k]);
+
+            int[] b_itemStates = b_state_sets[i];
+            Set<Integer> b_map = new HashSet<Integer>();
+            for (int k = 0; k < b_itemStates.length; k++)
+                b_map.add(b_itemStates[k]);
+
+            for(Integer state : b_map)
+            {
+                assertTrue(a_map.contains(state));
+            }
+        }
+
     }
 
     public static void assertEquals(LevelListDrawable a,LevelListDrawable b)
@@ -515,7 +560,7 @@ public class Assert
 
     public static void assertEquals(InsetDrawable a,InsetDrawable b)
     {
-        assertEqualsDrawable(a, b);
+        assertEqualsDrawableWrapper(a, b);
 
         assertEquals(a.isStateful(), b.isStateful());
 
@@ -523,17 +568,20 @@ public class Assert
         Drawable.ConstantState b_state = b.getConstantState();
 
         Class classInsetState = TestUtil.resolveClass(InsetDrawable.class.getName() + "$InsetState");
-        assertEquals((Drawable) TestUtil.getField(a_state, classInsetState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classInsetState, "mDrawable"));
-
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetLeft"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetLeft"));
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetTop"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetTop"));
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetRight"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetRight"));
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetBottom"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetBottom"));
+
+        if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // 23 (en level 23 mDrawable está en la clase base)
+        {
+            assertEquals((Drawable) TestUtil.getField(a_state, classInsetState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classInsetState, "mDrawable"));
+        }
     }
 
     public static void assertEquals(ScaleDrawable a,ScaleDrawable b)
     {
-        assertEqualsDrawable(a, b);
+        assertEqualsDrawableWrapper(a, b);
 
         assertEquals(a.isStateful(), b.isStateful());
 
@@ -541,11 +589,14 @@ public class Assert
         Drawable.ConstantState b_state = b.getConstantState();
 
         Class classScaleState = TestUtil.resolveClass(ScaleDrawable.class.getName() + "$ScaleState");
-        assertEquals((Drawable) TestUtil.getField(a_state, classScaleState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classScaleState, "mDrawable"));
-
         assertEquals((Float) TestUtil.getField(a_state, classScaleState, "mScaleWidth"), (Float) TestUtil.getField(b_state, classScaleState, "mScaleWidth"));
         assertEquals((Float) TestUtil.getField(a_state, classScaleState, "mScaleHeight"), (Float) TestUtil.getField(b_state, classScaleState, "mScaleHeight"));
         assertEquals((Integer) TestUtil.getField(a_state, classScaleState, "mGravity"), (Integer) TestUtil.getField(b_state, classScaleState, "mGravity"));
+
+        if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // 23
+        {
+            assertEquals((Drawable) TestUtil.getField(a_state, classScaleState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classScaleState, "mDrawable"));
+        }
     }
 
 

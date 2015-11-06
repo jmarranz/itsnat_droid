@@ -1,37 +1,23 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LevelListDrawable;
 import android.os.Build;
 import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemGradient;
-import org.itsnat.droid.impl.xmlinflated.drawable.LevelListDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.GravityUtil;
-import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodMultipleName;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_GradientDrawable_shape;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -50,7 +36,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     protected FieldContainer<Float> gradientRadiusField;
     protected FieldContainer<Integer> gradientRadiusTypeField;  // LOLLIPOP y sup
     protected FieldContainer<GradientDrawable.Orientation> orientationField;
-    protected FieldContainer<int[]> colorsField;
+    protected FieldContainer<int[]> gradientColorsField;
     protected FieldContainer<Float> centerXField;
     protected FieldContainer<Float> centerYField;
     protected FieldContainer<Boolean> useLevelField;
@@ -64,12 +50,15 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         Class gradientStateClass = MiscUtil.resolveClass(GradientDrawable.class.getName() + "$GradientState");
         this.gradientTypeField  = new FieldContainer<Integer>(gradientStateClass, "mGradient");
         this.gradientRadiusField = new FieldContainer<Float>(gradientStateClass, "mGradientRadius");
-        if (Build.VERSION.SDK_INT >= MiscUtil.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= MiscUtil.LOLLIPOP) // 5.0
         {
             gradientRadiusTypeField = new FieldContainer<Integer>(gradientStateClass, "mGradientRadiusType");
         }
         this.orientationField = new FieldContainer<GradientDrawable.Orientation>(gradientStateClass, "mOrientation");
-        this.colorsField = new FieldContainer<int[]>(gradientStateClass, "mColors");
+        if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // 6.0
+            this.gradientColorsField = new FieldContainer<int[]>(gradientStateClass, "mGradientColors");
+        else
+            this.gradientColorsField = new FieldContainer<int[]>(gradientStateClass, "mColors");
         this.centerXField = new FieldContainer<Float>(gradientStateClass, "mCenterX");
         this.centerYField = new FieldContainer<Float>(gradientStateClass, "mCenterY");
         this.useLevelField = new FieldContainer<Boolean>(gradientStateClass, "mUseLevel");
@@ -104,14 +93,14 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                     colors[0] = startColorObj != null ? startColorObj.intValue() : 0;
                     colors[1] = centerColorObj.intValue();
                     colors[2] = endColorObj != null ? endColorObj.intValue() : 0;
-                    colorsField.set(gradientState,colors);
+                    gradientColorsField.set(gradientState, colors);
                 }
                 else
                 {
                     int[] colors = new int[2];
                     colors[0] = startColorObj != null ? startColorObj.intValue() : 0;
                     colors[1] = endColorObj != null ? endColorObj.intValue() : 0;
-                    colorsField.set(gradientState,colors);
+                    gradientColorsField.set(gradientState, colors);
                 }
 
                 PercFloat centerX = itemGradient.getCenterX();
