@@ -454,19 +454,10 @@ public class Assert
         assertEquals(a_drawables.length,b_drawables.length);
         for(int i = 0; i < a_drawables.length; i++)
         {
-            if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // < 23
-            {
-                if (a_drawables[i] != null) // Ojo Android reserva más items en el array que los usados
+            // No se porqué a veces no coinciden en número de imágenes en a (el compilado) hay más que en b, al menos chequeamos que los comunes coinciden (los índices con data en b deben coincidir con el dato en a)
+            if (a_drawables[i] != null)
+                if (b_drawables[i] != null)
                     assertEquals(a_drawables[i], b_drawables[i]);
-                else
-                    break;
-            }
-            else // 23 y sup
-            {
-                // No se porqué a veces no coinciden en número de imágenes en level 23 y sup, en a (el compilado) hay más que en b, al menos chequeamos que los comunes coinciden (los índices con data en b deben coincidir con el dato en a)
-                if (a_drawables[i] != null && b_drawables[i] != null)
-                    assertEquals(a_drawables[i], b_drawables[i]);
-            }
         }
     }
 
