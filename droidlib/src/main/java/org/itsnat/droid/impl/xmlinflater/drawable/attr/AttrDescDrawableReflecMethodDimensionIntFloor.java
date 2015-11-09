@@ -9,28 +9,21 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawableReflecMethodDimensionIntFloor<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
+public class AttrDescDrawableReflecMethodDimensionIntFloor<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethodDimensionInt<TdrawableOrElementDrawable>
 {
     public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawable parent, String name, String methodName)
     {
-        super(parent,name,methodName,getClassParam());
+        super(parent,name,methodName);
     }
 
     public AttrDescDrawableReflecMethodDimensionIntFloor(ClassDescDrawable parent, String name)
     {
-        super(parent,name,getClassParam());
+        super(parent,name);
     }
 
-    protected static Class<?> getClassParam()
+
+    public int getDimensionInt(String attrValue, Context ctx)
     {
-        return int.class;
+        return getDimensionIntFloor(attrValue, ctx);
     }
-
-    @Override
-    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
-    {
-        int convValue = getDimensionIntFloor(attr.getValue(), ctx);
-        callMethod(draw, convValue);
-    }
-
 }
