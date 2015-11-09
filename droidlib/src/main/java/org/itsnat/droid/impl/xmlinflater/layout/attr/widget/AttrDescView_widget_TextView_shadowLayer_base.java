@@ -10,8 +10,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -47,7 +46,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         return fieldShadowColor != null ? fieldShadowColor.get(textView.getPaint()) : methodShadowColor.invoke(textView);
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         TextView textView = (TextView)view;
 
@@ -56,6 +55,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         float dy = -1;
         int color = -1;
 
+        Context ctx = attrCtx.getContext();
         String value = attr.getValue();
         if (name.equals("shadowColor"))
         {

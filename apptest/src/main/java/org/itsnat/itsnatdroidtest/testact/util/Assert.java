@@ -455,9 +455,10 @@ public class Assert
         for(int i = 0; i < a_drawables.length; i++)
         {
             // No se porqué a veces no coinciden en número de imágenes en a (el compilado) hay más que en b, al menos chequeamos que los comunes coinciden (los índices con data en b deben coincidir con el dato en a)
-            if (a_drawables[i] != null)
-                if (b_drawables[i] != null)
+            if (a_drawables[i] != null && b_drawables[i] != null)
                     assertEquals(a_drawables[i], b_drawables[i]);
+            if (b_drawables[i] != null && a_drawables[i] == null) // Si b (dinámico) está definido DEBE estarlo a (compilado)
+                    assertTrue(false);
         }
     }
 

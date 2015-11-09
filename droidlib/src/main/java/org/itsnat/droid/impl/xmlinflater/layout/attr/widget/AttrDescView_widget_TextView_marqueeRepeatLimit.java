@@ -1,13 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -21,10 +18,10 @@ public class AttrDescView_widget_TextView_marqueeRepeatLimit extends AttrDescVie
         super(parent,"marqueeRepeatLimit",3);
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         if ("marquee_forever".equals(attr.getValue()))
             attr = DOMAttrLocalResource.createDOMAttrLocalResource((DOMAttrLocalResource)attr, "-1");
-        super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+        super.setAttribute(view, attr, attrCtx);
     }
 }

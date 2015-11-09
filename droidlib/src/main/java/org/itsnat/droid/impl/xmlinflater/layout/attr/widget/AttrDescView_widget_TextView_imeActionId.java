@@ -5,8 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -21,9 +20,9 @@ public class AttrDescView_widget_TextView_imeActionId extends AttrDescView
         super(parent,"imeActionId");
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convertedValue = getInteger(attr.getValue(),ctx);
+        int convertedValue = getInteger(attr.getValue(),attrCtx.getContext());
 
         TextView textView = (TextView)view;
         textView.setImeActionLabel(textView.getImeActionLabel(),convertedValue);

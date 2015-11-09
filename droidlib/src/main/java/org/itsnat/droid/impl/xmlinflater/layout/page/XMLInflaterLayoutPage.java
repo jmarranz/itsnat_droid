@@ -14,9 +14,8 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -47,7 +46,8 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
     {
         ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
-        setAttribute(viewClassDesc, view, attr, null,null);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
+        setAttribute(viewClassDesc, view, attr,attrCtx);
     }
 
     public void removeAttribute(View view, String namespaceURI, String name)
@@ -57,8 +57,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }
 
-    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, DOMAttr attr,
-                                OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
+    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
@@ -76,11 +75,11 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
                 return true;
             }
             else
-                return super.setAttribute(viewClassDesc, view, attr,oneTimeAttrProcess,pending);
+                return super.setAttribute(viewClassDesc, view, attr, attrCtx);
         }
         else
         {
-            return super.setAttribute(viewClassDesc, view, attr, oneTimeAttrProcess,pending);
+            return super.setAttribute(viewClassDesc, view, attr, attrCtx);
         }
     }
 

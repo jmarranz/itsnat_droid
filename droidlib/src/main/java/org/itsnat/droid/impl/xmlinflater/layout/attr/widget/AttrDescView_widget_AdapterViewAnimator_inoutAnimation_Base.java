@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.AdapterViewAnimator;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -25,11 +24,11 @@ public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Bas
         super(parent,name);
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int id = getIdentifier(attr.getValue(), ctx);
+        int id = getIdentifier(attr.getValue(), attrCtx.getContext());
 
-        ObjectAnimator animator = id > 0 ? (ObjectAnimator)AnimatorInflater.loadAnimator(ctx, id) : getDefaultAnimation();
+        ObjectAnimator animator = id > 0 ? (ObjectAnimator)AnimatorInflater.loadAnimator(attrCtx.getContext(), id) : getDefaultAnimation();
 
         setAnimation((AdapterViewAnimator)view,animator);
     }

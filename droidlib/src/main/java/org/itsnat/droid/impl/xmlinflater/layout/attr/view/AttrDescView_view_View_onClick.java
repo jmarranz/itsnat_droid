@@ -5,8 +5,7 @@ import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -24,7 +23,7 @@ public class AttrDescView_view_View_onClick extends AttrDescView
         super(parent,"onClick");
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         final String handlerName = attr.getValue();
 
@@ -36,6 +35,7 @@ public class AttrDescView_view_View_onClick extends AttrDescView
 
                 public void onClick(View v)
                 {
+                    Context ctx = attrCtx.getContext();
                     if (mHandler == null)
                     {
                         try

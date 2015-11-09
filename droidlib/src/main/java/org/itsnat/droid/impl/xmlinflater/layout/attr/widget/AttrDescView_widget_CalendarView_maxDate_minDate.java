@@ -11,8 +11,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -78,9 +77,9 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
         this.fieldMaxMinDate = new FieldContainer<Calendar>(calendarClassWithMaxMinDate,fieldName);
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        String date = getString(attr.getValue(),ctx);
+        String date = getString(attr.getValue(),attrCtx.getContext());
 
         Object calendarObject = getCalendarObject((CalendarView)view);
 

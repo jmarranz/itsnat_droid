@@ -8,9 +8,9 @@ import android.widget.TableRow;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_columnSpec;
@@ -26,10 +26,11 @@ public class AttrDescView_view_View_layout_column extends AttrDescView
         super(parent,"layout_column");
     }
 
-    public void setAttribute(final View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int column = getInteger(attr.getValue(),ctx);
+        final int column = getInteger(attr.getValue(),attrCtx.getContext());
 
+        final OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
         Runnable task = new Runnable(){
             @Override
             public void run()

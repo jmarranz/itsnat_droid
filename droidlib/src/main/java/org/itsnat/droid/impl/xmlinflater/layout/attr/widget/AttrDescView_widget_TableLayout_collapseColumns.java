@@ -6,6 +6,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -22,10 +23,11 @@ public class AttrDescView_widget_TableLayout_collapseColumns extends AttrDescVie
         super(parent,"collapseColumns");
     }
 
-    public void setAttribute(final View view, final DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final TableLayout tableView = (TableLayout)view;
 
+        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
         if (oneTimeAttrProcess == null) // Si es no nulo es que estamos creando el TableLayout y no hace falta ésto
         {
             int maxColumns = getMaxColumns((TableLayout) view);
@@ -63,6 +65,7 @@ public class AttrDescView_widget_TableLayout_collapseColumns extends AttrDescVie
                 }
             }
         };
+        PendingPostInsertChildrenTasks pending = attrCtx.getPendingPostInsertChildrenTasks();
         if (pending != null)
             pending.addTask(task);
         else

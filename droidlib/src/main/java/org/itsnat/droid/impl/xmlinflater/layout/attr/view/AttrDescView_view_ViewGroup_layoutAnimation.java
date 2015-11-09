@@ -7,8 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -23,11 +22,11 @@ public class AttrDescView_view_ViewGroup_layoutAnimation extends AttrDescView
         super(parent,"layoutAnimation");
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int id = getIdentifier(attr.getValue(), ctx);
+        int id = getIdentifier(attr.getValue(), attrCtx.getContext());
 
-        LayoutAnimationController controller = id > 0 ?  AnimationUtils.loadLayoutAnimation(ctx, id) : null;
+        LayoutAnimationController controller = id > 0 ?  AnimationUtils.loadLayoutAnimation(attrCtx.getContext(), id) : null;
 
         ((ViewGroup)view).setLayoutAnimation(controller);
     }

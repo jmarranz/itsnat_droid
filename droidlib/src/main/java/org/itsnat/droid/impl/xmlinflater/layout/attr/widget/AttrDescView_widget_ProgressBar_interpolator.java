@@ -5,8 +5,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -21,11 +20,11 @@ public class AttrDescView_widget_ProgressBar_interpolator extends AttrDescView
         super(parent,"interpolator");
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int resId = getIdentifier(attr.getValue(),ctx);
+        int resId = getIdentifier(attr.getValue(),attrCtx.getContext());
 
-        ((ProgressBar)view).setInterpolator(ctx, resId);
+        ((ProgressBar)view).setInterpolator(attrCtx.getContext(), resId);
     }
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)

@@ -1,12 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -20,8 +18,9 @@ public class AttrDescView_widget_ProgressBar_indeterminate extends AttrDescViewR
         super(parent,name,defaultValue);
     }
 
-    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
+        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
         if (oneTimeAttrProcess != null)
         {
             // setIndeterminate depende de indeterminateOnly que debe definirse antes, si el usuario lo pone después
@@ -31,13 +30,13 @@ public class AttrDescView_widget_ProgressBar_indeterminate extends AttrDescViewR
                 @Override
                 public void run()
                 {
-                    AttrDescView_widget_ProgressBar_indeterminate.super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+                    AttrDescView_widget_ProgressBar_indeterminate.super.setAttribute(view, attr,attrCtx);
                 }
             });
         }
         else
         {
-            super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+            super.setAttribute(view, attr, attrCtx);
         }
     }
 }

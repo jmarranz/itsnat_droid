@@ -10,8 +10,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -69,14 +68,14 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
         }
     }
 
-    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         Runnable task = new Runnable()
         {
             @Override
             public void run()
             {
-                Drawable convValue = getDrawable(attr,ctx,xmlInflaterLayout);
+                Drawable convValue = getDrawable(attr,attrCtx.getContext(),attrCtx.getXMLInflaterLayout());
 
                 int index = drawableMap.get(name);
 
@@ -89,7 +88,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
             }
         };
         if (DOMAttrRemote.isPendingToDownload(attr))
-            processDownloadTask((DOMAttrRemote)attr,task,xmlInflaterLayout);
+            processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterLayout());
         else
             task.run();
     }

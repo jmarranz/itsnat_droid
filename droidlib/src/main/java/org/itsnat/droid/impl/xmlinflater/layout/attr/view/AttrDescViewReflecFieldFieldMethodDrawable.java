@@ -1,14 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldFieldMethod;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -23,19 +20,19 @@ public abstract class AttrDescViewReflecFieldFieldMethodDrawable extends AttrDes
         super(parent,name,fieldName1,fieldName2,methodName,field2Class,methodClass,paramClass);
     }
 
-    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         Runnable task = new Runnable()
         {
             @Override
             public void run()
             {
-                Drawable convValue = getDrawable(attr,ctx,xmlInflaterLayout);
+                Drawable convValue = getDrawable(attr,attrCtx.getContext(),attrCtx.getXMLInflaterLayout());
                 callFieldFieldMethod(view, convValue);
             }
         };
         if (DOMAttrRemote.isPendingToDownload(attr))
-            processDownloadTask((DOMAttrRemote)attr,task,xmlInflaterLayout);
+            processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterLayout());
         else
             task.run();
     }

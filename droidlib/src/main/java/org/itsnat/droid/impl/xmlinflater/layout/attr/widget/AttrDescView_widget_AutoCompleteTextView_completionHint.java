@@ -1,12 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -21,8 +19,9 @@ public class AttrDescView_widget_AutoCompleteTextView_completionHint extends Att
         super(parent,"completionHint","");
     }
 
-    public void setAttribute(final View view, final DOMAttr attr, final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
+        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
         if (oneTimeAttrProcess != null)
         {
             // Necesitamos definir antes de completionHint el atributo completionHintView, pues en setCompletionHint(CharSequence) es cuando
@@ -33,10 +32,10 @@ public class AttrDescView_widget_AutoCompleteTextView_completionHint extends Att
                 @Override
                 public void run()
                 {
-                    AttrDescView_widget_AutoCompleteTextView_completionHint.super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+                    AttrDescView_widget_AutoCompleteTextView_completionHint.super.setAttribute(view, attr,attrCtx);
                 }
             });
         }
-        else super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+        else super.setAttribute(view, attr, attrCtx);
     }
 }

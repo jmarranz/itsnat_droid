@@ -9,9 +9,9 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
@@ -29,9 +29,11 @@ public class AttrDescView_view_View_layout_gravity extends AttrDescView
         super(parent,"layout_gravity");
     }
 
-    public void setAttribute(final View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final int valueInt = parseMultipleName(attr.getValue(), GravityUtil.valueMap);
+
+        final OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
 
         Runnable task = new Runnable(){
             @Override

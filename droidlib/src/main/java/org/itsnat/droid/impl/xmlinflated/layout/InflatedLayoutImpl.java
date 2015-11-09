@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
@@ -117,7 +118,8 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     public boolean setAttribute(ClassDescViewBased classDesc,View view,DOMAttr attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        return getXMLInflaterLayout().setAttribute(classDesc, view, attr,oneTimeAttrProcess, pending);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,getXMLInflaterLayout(),oneTimeAttrProcess, pending);
+        return getXMLInflaterLayout().setAttribute(classDesc, view, attr,attrCtx);
     }
 
     public static int getChildViewIndex(ViewGroup parentView, View view)

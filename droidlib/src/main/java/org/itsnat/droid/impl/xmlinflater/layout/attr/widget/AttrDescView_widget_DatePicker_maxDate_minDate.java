@@ -11,8 +11,8 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -63,11 +63,11 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
         this.methodMaxMinDate = new MethodContainer<Void>(datePickerClass2,methodName,new Class[]{long.class});
     }
 
-    public void setAttribute(final View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final String date = getString(attr.getValue(),ctx);
+        final String date = getString(attr.getValue(),attrCtx.getContext());
 
-        final Object datePickerObject = getDatePickerObject((DatePicker)view);
+        final Object datePickerObject = getDatePickerObject((DatePicker) view);
 
         Runnable task = new Runnable()
         {
@@ -101,6 +101,7 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
             }
         };
 
+        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
         if (oneTimeAttrProcess != null)
             oneTimeAttrProcess.addLayoutParamsTask(task);
         else

@@ -1,13 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodString;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -26,9 +23,9 @@ public class AttrDescView_widget_Chronometer_format extends AttrDescViewReflecMe
         this.methodContainer = new MethodContainer(parent.getDeclaredClass(),"init");
     }
 
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        super.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+        super.setAttribute(view, attr, attrCtx);
 
         methodContainer.invoke(view); // Hay que llamar a este método init() sino no se entera del cambio, ni siquiera en creación via parse dinámico
     }

@@ -23,6 +23,7 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
@@ -106,13 +107,15 @@ public class ClassDescViewBased extends ClassDesc<View>
         return isStyleAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
     }
 
-    public boolean setAttribute(View view,DOMAttr attr,XMLInflaterLayout xmlInflaterLayout,Context ctx,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
+    public boolean setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();
 
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
         String value = attr.getValue();
+
+        XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
 
         try
         {
@@ -123,7 +126,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                 AttrDescView attrDesc = getAttrDescView(name);
                 if (attrDesc != null)
                 {
-                    attrDesc.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+                    attrDesc.setAttribute(view, attr,attrCtx);
                 }
                 else
                 {
@@ -132,7 +135,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                     ClassDescViewBased parentClass = getParentClassDescViewBased();
                     if (parentClass != null)
                     {
-                        parentClass.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+                        parentClass.setAttribute(view, attr,attrCtx);
                     }
                     else
                     {

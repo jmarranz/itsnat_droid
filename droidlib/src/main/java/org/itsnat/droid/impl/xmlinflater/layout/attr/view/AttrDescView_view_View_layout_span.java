@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.TableRow;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -21,9 +21,9 @@ public class AttrDescView_view_View_layout_span extends AttrDescView
         super(parent,"layout_span");
     }
 
-    public void setAttribute(final View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int convValue = getInteger(attr.getValue(),ctx);
+        final int convValue = getInteger(attr.getValue(),attrCtx.getContext());
 
         Runnable task = new Runnable(){
             @Override
@@ -33,6 +33,7 @@ public class AttrDescView_view_View_layout_span extends AttrDescView
                 params.span = convValue;
             }};
 
+        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
         if (oneTimeAttrProcess != null)
         {
             oneTimeAttrProcess.addLayoutParamsTask(task);

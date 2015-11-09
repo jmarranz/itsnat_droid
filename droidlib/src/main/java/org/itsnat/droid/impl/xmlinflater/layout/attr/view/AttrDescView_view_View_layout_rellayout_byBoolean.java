@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -24,9 +24,9 @@ public class AttrDescView_view_View_layout_rellayout_byBoolean extends AttrDescV
         this.selector = selector;
     }
 
-    public void setAttribute(final View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final boolean convValue = getBoolean(attr.getValue(),ctx);
+        final boolean convValue = getBoolean(attr.getValue(),attrCtx.getContext());
 
         Runnable task = new Runnable(){
             @Override
@@ -36,6 +36,7 @@ public class AttrDescView_view_View_layout_rellayout_byBoolean extends AttrDescV
                 params.addRule(selector, convValue ? RelativeLayout.TRUE : 0);
             }};
 
+        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
         if (oneTimeAttrProcess != null)
         {
             oneTimeAttrProcess.addLayoutParamsTask(task);

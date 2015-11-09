@@ -5,8 +5,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldGet;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -27,9 +26,9 @@ public class AttrDescView_widget_ExpandableListView_childIndicatorLeft extends A
     }
 
     @Override
-    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convValue = getDimensionIntRound(attr.getValue(), ctx);
+        int convValue = getDimensionIntRound(attr.getValue(), attrCtx.getContext());
 
         callMethod(view,convValue);
     }

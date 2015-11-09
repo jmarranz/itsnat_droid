@@ -137,11 +137,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
     private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,DOMView domView,PendingPostInsertChildrenTasks pending)
     {
         OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
-        fillViewAttributes(classDesc,view, domView,oneTimeAttrProcess,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,oneTimeAttrProcess, pending);
+
+        fillViewAttributes(classDesc,view, domView,attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         classDesc.addViewObject(viewParent, view, -1, oneTimeAttrProcess, getInflatedLayoutImpl().getContext());
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,View view,DOMView domView,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
+    private void fillViewAttributes(ClassDescViewBased classDesc, View view, DOMView domView, AttrLayoutContext attrCtx)
     {
         ArrayList<DOMAttr> attribList = domView.getDOMAttributeList();
         if (attribList != null)
@@ -149,17 +151,16 @@ public abstract class XMLInflaterLayout extends XMLInflater
             for (int i = 0; i < attribList.size(); i++)
             {
                 DOMAttr attr = attribList.get(i);
-                setAttribute(classDesc, view, attr, oneTimeAttrProcess, pending);
+                setAttribute(classDesc, view, attr,attrCtx);
             }
         }
 
-        oneTimeAttrProcess.executeLastTasks();
+        attrCtx.getOneTimeAttrProcess().executeLastTasks();
     }
 
-    public boolean setAttribute(ClassDescViewBased classDesc,View view,DOMAttr attr,
-                                OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
+    public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        return classDesc.setAttribute(view,attr,this,ctx,oneTimeAttrProcess,pending);
+        return classDesc.setAttribute(view,attr,attrCtx);
     }
 
     protected void processChildViews(DOMView domViewParent, View viewParent)
