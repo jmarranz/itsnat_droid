@@ -9,8 +9,6 @@ import org.itsnat.droid.impl.xmlinflated.drawable.LevelListDrawableItem;
 import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodInt;
 

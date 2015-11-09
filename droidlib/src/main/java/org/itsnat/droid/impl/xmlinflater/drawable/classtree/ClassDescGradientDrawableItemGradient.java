@@ -13,7 +13,6 @@ import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMet
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDimensionPercFloat;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodFloat;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodSingleName;
 
 import java.util.HashMap;

@@ -4,8 +4,8 @@ import android.view.View;
 
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.event.UserEventImpl;
 
 /**
  * Created by jmarranz on 4/07/14.

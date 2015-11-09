@@ -3,12 +3,12 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.view.View;
 import android.widget.TextView;
 
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TextChangeEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TouchEventListenerViewAdapter;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 
 /**
  * Created by jmarranz on 11/08/14.

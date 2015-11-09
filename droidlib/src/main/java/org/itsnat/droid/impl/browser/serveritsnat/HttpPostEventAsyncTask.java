@@ -4,7 +4,6 @@ import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
-import org.itsnat.droid.impl.browser.HttpFileCache;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;

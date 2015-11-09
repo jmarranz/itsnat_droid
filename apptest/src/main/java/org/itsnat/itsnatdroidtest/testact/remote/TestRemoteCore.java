@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.EventMonitor;

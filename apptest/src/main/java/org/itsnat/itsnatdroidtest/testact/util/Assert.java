@@ -29,13 +29,10 @@ import android.view.animation.TranslateAnimation;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 /**

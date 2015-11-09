@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
-import android.graphics.drawable.Drawable;
-
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 
 /**

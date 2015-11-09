@@ -3,22 +3,16 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.os.AsyncTask;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpRequestData;
-import org.itsnat.droid.impl.browser.HttpFileCache;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
-import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 10/07/14.

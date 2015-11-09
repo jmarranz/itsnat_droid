@@ -1,7 +1,5 @@
 package org.itsnat.droid;
 
-import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
-
 import java.util.List;
 
 /**

@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TableLayout_shrinkColumns;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TableLayout_collapseColumns;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TableLayout_shrinkColumns;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TableLayout_stretchColumns;
 
 /**

@@ -1,9 +1,6 @@
 package org.itsnat.droid;
 
-import android.content.Context;
-
 import org.apache.http.params.HttpParams;
-import org.itsnat.droid.impl.browser.HttpFileCache;
 
 /**
  * Created by jmarranz on 4/06/14.

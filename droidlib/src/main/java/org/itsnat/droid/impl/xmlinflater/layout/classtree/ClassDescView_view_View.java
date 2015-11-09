@@ -14,37 +14,37 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodFlo
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodId;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodObject;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_drawingCacheQuality;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_fadeScrollbars;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layerType;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_alignWithParentIfMissing;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_column;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_columnSpan;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_gravity;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_height;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_margin;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginBottom;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginLeft;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginRight;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginTop;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_rellayout_byBoolean;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_weight;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_padding;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarThumbVertical;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_visibility;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_fadeScrollbars;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layerType;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_column;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_columnSpan;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_height;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginLeft;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_rellayout_byId;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_row;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_rowSpan;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_span;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_weight;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_onClick;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_padding;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_requiresFadingEdge;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarStyle;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarThumbHorizontal;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarThumbVertical;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarTrackHorizontal;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarTrackVertical;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbars;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_visibility;
 
 /**
  * Created by jmarranz on 30/04/14.

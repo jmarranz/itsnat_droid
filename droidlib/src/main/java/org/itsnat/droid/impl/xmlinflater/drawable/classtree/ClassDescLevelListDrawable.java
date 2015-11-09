@@ -2,17 +2,12 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.LevelListDrawable;
-import android.graphics.drawable.StateListDrawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.LevelListDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 

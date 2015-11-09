@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater;
 
-import android.util.TypedValue;
-
 /**
  * Created by Jose on 04/11/2015.
  */

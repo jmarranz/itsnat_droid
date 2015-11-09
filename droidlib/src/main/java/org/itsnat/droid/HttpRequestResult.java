@@ -2,7 +2,6 @@ package org.itsnat.droid;
 
 import org.apache.http.Header;
 import org.apache.http.StatusLine;
-import org.json.JSONObject;
 
 /**
  * Created by jmarranz on 10/10/14.

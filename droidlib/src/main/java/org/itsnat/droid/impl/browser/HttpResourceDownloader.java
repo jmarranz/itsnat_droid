@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
@@ -13,7 +11,6 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 12/11/14.

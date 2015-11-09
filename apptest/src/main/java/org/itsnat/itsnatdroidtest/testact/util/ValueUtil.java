@@ -3,10 +3,6 @@ package org.itsnat.itsnatdroidtest.testact.util;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
-import org.itsnat.droid.ItsNatDroidException;
-
-import java.io.UnsupportedEncodingException;
-
 /**
  * Se debería usar TypedValue.complexToDimensionPixelOffset y complexToDimensionPixelSize
  * en el caso de necesitar enteros pero es un follón

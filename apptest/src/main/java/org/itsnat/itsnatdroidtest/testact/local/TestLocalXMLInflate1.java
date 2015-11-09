@@ -55,17 +55,18 @@ import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
+import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
-// import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsPixels;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsStrokeWidth;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
+
+// import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsPixels;
 
 
 /**

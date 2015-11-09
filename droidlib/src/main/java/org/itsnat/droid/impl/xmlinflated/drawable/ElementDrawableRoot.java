@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 
 import android.graphics.drawable.Drawable;
 
-import java.util.ArrayList;
-
 /**
  * Created by jmarranz on 27/11/14.
  */

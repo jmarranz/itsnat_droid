@@ -11,7 +11,6 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableContainer;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflated.drawable.TransitionDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;

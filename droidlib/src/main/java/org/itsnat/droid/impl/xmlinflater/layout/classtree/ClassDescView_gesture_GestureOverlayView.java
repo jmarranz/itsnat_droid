@@ -8,8 +8,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodFlo
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodLong;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.OrientationUtil;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.gesture.AttrDescView_gesture_GestureOverlayView_gestureStrokeType;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.gesture.AttrDescView_gesture_GestureOverlayView_gestureColor;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.gesture.AttrDescView_gesture_GestureOverlayView_gestureStrokeType;
 
 /**
  * Created by jmarranz on 30/04/14.

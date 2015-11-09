@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildNormal;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildWithDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 

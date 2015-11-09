@@ -1,8 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
 import android.content.Context;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;

@@ -400,13 +400,16 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated,PendingPostInsertChildrenTasks pending)
     {
-        View view = classDesc.createViewObjectFromRemote(this,newChildToIn,pending);
+        View view = classDesc.createViewObjectFromRemote(this, newChildToIn, pending);
 
         newChildToIn.setView(view);
 
         OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
+
         fillViewAttributes(classDesc,newChildToIn,inflated,oneTimeAttrProcess);
         classDesc.addViewObject(viewParent, view, index,oneTimeAttrProcess,getContext());
+
+        oneTimeAttrProcess.destroy();
 
         return view;
     }

@@ -3,9 +3,9 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.gesture;
 import android.graphics.Paint;
 import android.view.View;
 
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**

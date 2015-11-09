@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by jmarranz on 30/11/14.
  */

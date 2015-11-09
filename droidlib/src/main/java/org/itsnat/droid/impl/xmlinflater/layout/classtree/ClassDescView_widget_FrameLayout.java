@@ -3,11 +3,11 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 import android.os.Build;
 
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
-import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 
 /**
  * Created by jmarranz on 30/04/14.

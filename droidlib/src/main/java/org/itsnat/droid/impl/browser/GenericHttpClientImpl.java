@@ -4,8 +4,6 @@ import android.os.AsyncTask;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
@@ -15,7 +13,6 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 9/10/14.

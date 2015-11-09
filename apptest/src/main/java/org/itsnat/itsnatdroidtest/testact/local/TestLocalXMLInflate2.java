@@ -35,11 +35,11 @@ import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
+import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 
 import java.util.Calendar;
 import java.util.Locale;

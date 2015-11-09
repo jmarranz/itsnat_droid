@@ -1,8 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import android.graphics.drawable.Drawable;
-
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildNormal;
 
 /**

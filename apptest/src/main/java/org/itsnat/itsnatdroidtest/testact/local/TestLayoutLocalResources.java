@@ -5,7 +5,6 @@ import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import org.itsnat.droid.InflatedLayout;

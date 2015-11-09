@@ -1,7 +1,5 @@
 package org.itsnat.droid.event;
 
-import java.util.HashMap;
-
 /**
  * Created by jmarranz on 8/07/14.
  */

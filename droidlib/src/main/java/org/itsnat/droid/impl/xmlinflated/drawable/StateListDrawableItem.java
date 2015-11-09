@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 
 import android.graphics.drawable.Drawable;
 
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
-
 import java.util.HashMap;
 import java.util.Map;
 

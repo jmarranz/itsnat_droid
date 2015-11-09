@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetBoolean;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_AdapterViewAnimator_inAnimation;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_AdapterViewAnimator_outAnimation;
 

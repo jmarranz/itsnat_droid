@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
@@ -10,25 +11,24 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodFlo
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodString;
-import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.ImeOptionsUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.InputTypeUtil;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_compoundDrawables;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_imeActionLabel;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_maxLength;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_textAppearance;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_typeface;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_autoLink;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_bufferType;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_compoundDrawables;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_ellipsize;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_imeActionId;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_imeActionLabel;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_lineSpacingExtra;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_lineSpacingMultiplier;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_marqueeRepeatLimit;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_maxLength;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_shadowLayer_base;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_textAllCaps;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_textAppearance;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_textSize;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_textStyle;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_typeface;
 
 /**
  * Created by jmarranz on 30/04/14.

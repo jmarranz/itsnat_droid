@@ -140,7 +140,9 @@ public abstract class XMLInflaterLayout extends XMLInflater
         AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,oneTimeAttrProcess, pending);
 
         fillViewAttributes(classDesc,view, domView,attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
-        classDesc.addViewObject(viewParent, view, -1, oneTimeAttrProcess, getInflatedLayoutImpl().getContext());
+        classDesc.addViewObject(viewParent, view, -1, oneTimeAttrProcess, ctx);
+
+        oneTimeAttrProcess.destroy();
     }
 
     private void fillViewAttributes(ClassDescViewBased classDesc, View view, DOMView domView, AttrLayoutContext attrCtx)

@@ -3,11 +3,7 @@ package org.itsnat.droid.impl.browser;
 import org.apache.http.Header;
 import org.apache.http.StatusLine;
 import org.itsnat.droid.HttpRequestResult;
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.util.IOUtil;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
