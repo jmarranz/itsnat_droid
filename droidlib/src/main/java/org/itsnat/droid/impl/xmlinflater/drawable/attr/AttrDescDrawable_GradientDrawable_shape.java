@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 public class AttrDescDrawable_GradientDrawable_shape extends AttrDescDrawableReflecMethodSingleName<Integer, GradientDrawable>
 {
-    public static final Map<String,Integer> valueMap = new HashMap<String,Integer>( 4 );
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(4);
     static
     {
         valueMap.put("rectangle",0);

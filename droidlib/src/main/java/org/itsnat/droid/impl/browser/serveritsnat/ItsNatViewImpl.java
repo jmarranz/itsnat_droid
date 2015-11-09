@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TextChangeEvent
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.util.MapLightList;
+import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.UserDataImpl;
 
@@ -74,7 +74,7 @@ public abstract class ItsNatViewImpl implements ItsNatView
 
     public MapList<String,DroidEventListener> getEventListeners()
     {
-        if (eventListeners == null) this.eventListeners = new MapLightList<String,DroidEventListener>();
+        if (eventListeners == null) this.eventListeners = new MapListLight<String,DroidEventListener>();
         return eventListeners;
     }
 

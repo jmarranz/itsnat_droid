@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
+import org.itsnat.droid.impl.util.MapSmart;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +10,7 @@ import java.util.Map;
  */
 public class OrientationUtil
 {
-    public static final Map<String, Integer> valueMap = new HashMap<String, Integer>( 2 );
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(2);
     static
     {
         valueMap.put("horizontal", 0);

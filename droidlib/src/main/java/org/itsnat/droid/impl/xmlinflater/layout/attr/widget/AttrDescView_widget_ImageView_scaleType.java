@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
 import android.widget.ImageView;
 
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 public class AttrDescView_widget_ImageView_scaleType extends AttrDescViewReflecMethodSingleName<ImageView.ScaleType>
 {
-    static Map<String, ImageView.ScaleType> valueMap = new HashMap<String, ImageView.ScaleType>( 8 );
+    public static final MapSmart<String,ImageView.ScaleType> valueMap = MapSmart.<String,ImageView.ScaleType>create( 8 );
     static
     {
         valueMap.put("matrix", ImageView.ScaleType.MATRIX);

@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
 import android.view.ViewGroup;
 
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 public class AttrDescView_view_ViewGroup_descendantFocusability extends AttrDescViewReflecMethodSingleName<Integer>
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 3 );
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
     static
     {
         valueMap.put("beforeDescendants", ViewGroup.FOCUS_BEFORE_DESCENDANTS);

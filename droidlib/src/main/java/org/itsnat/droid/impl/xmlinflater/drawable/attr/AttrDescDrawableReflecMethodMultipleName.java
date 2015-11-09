@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 import java.util.Map;
@@ -9,12 +10,12 @@ import java.util.Map;
  */
 public class AttrDescDrawableReflecMethodMultipleName<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethodNameBased<Integer, TdrawableOrElementDrawable>
 {
-    public AttrDescDrawableReflecMethodMultipleName(ClassDescDrawable parent, String name, String methodName, Map<String, Integer> valueMap)
+    public AttrDescDrawableReflecMethodMultipleName(ClassDescDrawable parent, String name, String methodName, MapSmart<String, Integer> valueMap)
     {
         super(parent,name,methodName,getClassParam(),valueMap);
     }
 
-    public AttrDescDrawableReflecMethodMultipleName(ClassDescDrawable parent, String name, Map<String, Integer> valueMap)
+    public AttrDescDrawableReflecMethodMultipleName(ClassDescDrawable parent, String name, MapSmart<String, Integer> valueMap)
     {
         super(parent, name,getClassParam(),valueMap);
     }

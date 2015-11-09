@@ -18,8 +18,10 @@ public class MapLightAndRealPerformTest
         // real HashMap: 78,75,71
         // Los resultados son muy parecidos (un poco más rápido) si en vez de un LinkedList se usa un ArrayList
 
+        boolean testMapLight = true;
+        int items = 5;
 
-        String[] keys = new String[5];
+        String[] keys = new String[items];
         for (int i = 0; i < keys.length; i++)
             keys[i] = "key_" + i;
 
@@ -33,7 +35,6 @@ public class MapLightAndRealPerformTest
         }
 
         int COUNT = 100000;
-        boolean testMapLight = true;
         long start = System.currentTimeMillis();
         for (int i = 0; i < COUNT; i++)
         {

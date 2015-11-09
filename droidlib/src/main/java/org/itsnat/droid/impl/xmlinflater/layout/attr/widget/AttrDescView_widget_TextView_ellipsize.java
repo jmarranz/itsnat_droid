@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
@@ -19,7 +20,7 @@ import java.util.Map;
  */
 public class AttrDescView_widget_TextView_ellipsize extends AttrDescView
 {
-    private static Map<String,TextUtils.TruncateAt> valueMap = new HashMap<String,TextUtils.TruncateAt>( 5 );
+    public static final MapSmart<String,TextUtils.TruncateAt> valueMap = MapSmart.<String,TextUtils.TruncateAt>create( 5 );
     static
     {
         valueMap.put("none", null);

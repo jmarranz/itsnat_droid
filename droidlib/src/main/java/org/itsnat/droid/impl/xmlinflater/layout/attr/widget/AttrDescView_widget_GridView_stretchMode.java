@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
 import android.widget.GridView;
 
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 public class AttrDescView_widget_GridView_stretchMode extends AttrDescViewReflecMethodSingleName<Integer>
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 4 );
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(4);
     static
     {
         valueMap.put("none", GridView.NO_STRETCH);

@@ -97,7 +97,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
             }
         });
 
-        // For each of the sections in the app, add a tab to the action bar.
+        // For each of the sections in the app, put a tab to the action bar.
         for (int i = 0; i < mTestActivityPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by
             // the adapter. Also specify this Activity object, which implements

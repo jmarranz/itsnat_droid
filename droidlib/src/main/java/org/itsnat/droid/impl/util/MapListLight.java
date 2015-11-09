@@ -5,17 +5,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * El motivo de esta clase es evitar un Map cuando tenemos la previsión de que habrá apenas dos o tres elementos de clave, un LinkedList
+ * El motivo de esta clase es evitar un Map cuando tenemos la previsión de que habrá apenas dos o tres elementos de clave, un LinkedList/ArrayList
  * es mucho más ligero.
  * http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/util/HashMap.java
  *
  * Created by jmarranz on 4/07/14.
  */
-public class MapLightList<Key,Value> implements MapList<Key,Value>
+public class MapListLight<Key,Value> implements MapList<Key,Value>
 {
     protected MapLight<Key,List<Value>> map = new MapLight<Key,List<Value>>();
 
-    public MapLightList()
+    public MapListLight()
     {
     }
 

@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -11,7 +12,7 @@ import java.util.Map;
  */
 public class AttrDescView_widget_TextView_autoLink extends AttrDescViewReflecMethodMultipleName
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 6 );
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(6);
     static
     {
         valueMap.put("none",0x00);

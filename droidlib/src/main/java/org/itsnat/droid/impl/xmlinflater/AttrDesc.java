@@ -7,6 +7,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.Map;
@@ -142,7 +143,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return getXMLInflateRegistry().getPercent(attrValue, ctx);
     }
 
-    public static <T> T parseSingleName(String value, Map<String, T> valueMap)
+    public static <T> T parseSingleName(String value, MapSmart<String, T> valueMap)
     {
         // Se llama directamente sin Context porque es para atributos que no pueden ser un recurso
         T valueRes = valueMap.get(value);
@@ -151,7 +152,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return valueRes;
     }
 
-    public static int parseMultipleName(String value, Map<String, Integer> valueMap)
+    public static int parseMultipleName(String value, MapSmart<String, Integer> valueMap)
     {
         // Se llama directamente sin Context porque es para atributos que no pueden ser un recurso
         String[] names = value.split("\\|");

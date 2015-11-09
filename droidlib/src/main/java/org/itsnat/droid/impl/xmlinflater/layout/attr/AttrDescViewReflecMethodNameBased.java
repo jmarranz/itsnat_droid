@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -15,17 +16,17 @@ import java.util.Map;
  */
 public abstract class AttrDescViewReflecMethodNameBased<Treturn> extends AttrDescViewReflecMethod
 {
-    protected Map<String, Treturn> valueMap;
+    protected MapSmart<String, Treturn> valueMap;
     protected String defaultName;
 
-    public AttrDescViewReflecMethodNameBased(ClassDescViewBased parent, String name, String methodName, Class classParam, Map<String, Treturn> valueMap, String defaultName)
+    public AttrDescViewReflecMethodNameBased(ClassDescViewBased parent, String name, String methodName, Class classParam, MapSmart<String, Treturn> valueMap, String defaultName)
     {
         super(parent,name,methodName,classParam);
         this.valueMap = valueMap;
         this.defaultName = defaultName;
     }
 
-    public AttrDescViewReflecMethodNameBased(ClassDescViewBased parent, String name, Class classParam, Map<String, Treturn> valueMap, String defaultName)
+    public AttrDescViewReflecMethodNameBased(ClassDescViewBased parent, String name, Class classParam, MapSmart<String, Treturn> valueMap, String defaultName)
     {
         super(parent, name,classParam);
         this.valueMap = valueMap;

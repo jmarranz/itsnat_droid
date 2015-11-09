@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public class AttrDescView_view_View_layerType extends AttrDescView
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 3 );
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
     static
     {
         valueMap.put("none", View.LAYER_TYPE_NONE);

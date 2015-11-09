@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemGradient;
@@ -57,7 +58,8 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
 
     public static class GradientTypeUtil
     {
-        public static final Map<String, Integer> valueMap = new HashMap<String, Integer>(3);
+        @SuppressWarnings("unchecked")
+        public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(3);
 
         static
         {

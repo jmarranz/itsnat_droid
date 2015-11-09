@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
 import android.view.inputmethod.EditorInfo;
 
+import org.itsnat.droid.impl.util.MapSmart;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +12,8 @@ import java.util.Map;
  */
 public class ImeOptionsUtil
 {
-    public static final Map<String,Integer> valueMap = new HashMap<String,Integer>( 16 );
+    @SuppressWarnings("unchecked")
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(16);
     static
     {
         valueMap.put("normal", 0x00000000);

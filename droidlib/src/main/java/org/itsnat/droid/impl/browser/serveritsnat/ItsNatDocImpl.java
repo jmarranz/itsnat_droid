@@ -49,9 +49,9 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.util.MapLightList;
+import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapList;
-import org.itsnat.droid.impl.util.MapRealList;
+import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
@@ -335,7 +335,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public MapList<String,UserEventListener> getUserEventListenersByName()
     {
-        if (userListenersByName == null) this.userListenersByName = new MapRealList<String,UserEventListener>();
+        if (userListenersByName == null) this.userListenersByName = new MapListReal<String,UserEventListener>();
         return userListenersByName;
     }
 
@@ -407,7 +407,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
 
         fillViewAttributes(classDesc,newChildToIn,inflated,oneTimeAttrProcess);
-        classDesc.addViewObject(viewParent, view, index,oneTimeAttrProcess,getContext());
+        classDesc.addViewObject(viewParent, view, index, oneTimeAttrProcess, getContext());
 
         oneTimeAttrProcess.destroy();
 
@@ -1012,7 +1012,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             listenersByName = (MapList<String,UserEventListener>)itsNatView.getUserData().get(key_itsNatUserListenersByName);
             if (listenersByName == null)
             {
-                listenersByName = new MapLightList<String,UserEventListener>();
+                listenersByName = new MapListLight<String,UserEventListener>();
                 itsNatView.getUserData().set(key_itsNatUserListenersByName,listenersByName);
             }
         }

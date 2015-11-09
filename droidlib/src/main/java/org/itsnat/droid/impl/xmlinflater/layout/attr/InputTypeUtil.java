@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
 import android.text.InputType;
 
+import org.itsnat.droid.impl.util.MapSmart;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +12,8 @@ import java.util.Map;
  */
 public class InputTypeUtil
 {
-    public static final Map<String,Integer> valueMap = new HashMap<String,Integer>( 32 );
+    @SuppressWarnings("unchecked")
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(32);
     static
     {
         valueMap.put("none", 0x00000000);

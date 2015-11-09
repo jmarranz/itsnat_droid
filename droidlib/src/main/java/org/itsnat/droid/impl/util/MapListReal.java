@@ -9,11 +9,11 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/07/14.
  */
-public class MapRealList<Key,Value> implements MapList<Key,Value>
+public class MapListReal<Key,Value> implements MapList<Key,Value>
 {
     protected Map<Key,List<Value>> map = new HashMap<Key,List<Value>>();
 
-    public MapRealList()
+    public MapListReal()
     {
     }
 

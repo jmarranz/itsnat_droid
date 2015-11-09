@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -18,7 +19,8 @@ import java.util.Map;
  */
 public abstract class AttrDescViewTypeface extends AttrDescView
 {
-    static Map<String,Integer> valueMap = new HashMap<String,Integer>( 4 );
+    @SuppressWarnings("unchecked")
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(4);
     static
     {
         valueMap.put("normal",    0 );

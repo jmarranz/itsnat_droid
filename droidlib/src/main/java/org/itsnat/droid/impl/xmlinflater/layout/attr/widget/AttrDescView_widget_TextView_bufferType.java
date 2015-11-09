@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public class AttrDescView_widget_TextView_bufferType extends AttrDescView
 {
-    static Map<String,TextView.BufferType> valueMap = new HashMap<String,TextView.BufferType>( 3 );
+    public static final MapSmart<String,TextView.BufferType> valueMap = MapSmart.<String,TextView.BufferType>create( 3 );
     static
     {
         valueMap.put("normal", TextView.BufferType.NORMAL);

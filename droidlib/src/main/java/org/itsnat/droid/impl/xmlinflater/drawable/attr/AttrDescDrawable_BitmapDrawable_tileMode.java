@@ -5,6 +5,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDescDrawable<BitmapDrawable>
 {
-    public static final Map<String,Integer> valueMap = new HashMap<String,Integer>( 4 );
+    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 4 );
     static
     {
         valueMap.put("disabled", -1);

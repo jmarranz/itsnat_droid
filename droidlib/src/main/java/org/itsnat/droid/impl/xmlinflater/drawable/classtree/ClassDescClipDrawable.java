@@ -7,6 +7,7 @@ import android.view.Gravity;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
@@ -26,7 +27,7 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
 {
     // Para el atributo clipOrientation
     // No podemos usar OrientationUtil porque los valores numéricos SON DIFERENTES (1 y 2 en vez de 0 y 1), hay que joderse con la falta de homogeneidad
-    private static Map<String, Integer> valueMap = new HashMap<String, Integer>( 2 );
+    private static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(2);
     static
     {
         valueMap.put("horizontal", ClipDrawable.HORIZONTAL /* 1 */);

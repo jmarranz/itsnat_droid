@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.Map;
@@ -9,12 +10,12 @@ import java.util.Map;
  */
 public class AttrDescViewReflecMethodSingleName<T> extends AttrDescViewReflecMethodNameBased<T>
 {
-    public AttrDescViewReflecMethodSingleName(ClassDescViewBased parent, String name, String methodName, Class classParam, Map<String, T> valueMap, String defaultName)
+    public AttrDescViewReflecMethodSingleName(ClassDescViewBased parent, String name, String methodName, Class classParam, MapSmart<String, T> valueMap, String defaultName)
     {
         super(parent,name,methodName,classParam,valueMap,defaultName);
     }
 
-    public AttrDescViewReflecMethodSingleName(ClassDescViewBased parent, String name, Class classParam, Map<String, T> valueMap, String defaultName)
+    public AttrDescViewReflecMethodSingleName(ClassDescViewBased parent, String name, Class classParam, MapSmart<String, T> valueMap, String defaultName)
     {
         super(parent, name,classParam,valueMap, defaultName);
     }

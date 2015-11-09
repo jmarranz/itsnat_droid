@@ -15,15 +15,22 @@ import java.util.Map;
  */
 public class MapLight<Key,Value>
 {
-    protected ArrayList<Map.Entry<Key,Value>> list = new ArrayList<Map.Entry<Key,Value>>(5);
+    protected ArrayList<Map.Entry<Key,Value>> list;
 
     public MapLight()
     {
+        this(5);
+    }
+
+    public MapLight(int initialCap)
+    {
+        this.list = new ArrayList<Map.Entry<Key,Value>>(initialCap);
     }
 
     public Value get(Key key)
     {
-        for(int i = 0; i < list.size(); i++)
+        int size = list.size();
+        for(int i = 0; i < size; i++)
         {
             Map.Entry<Key, Value> entry = list.get(i);
             if (entry.getKey().equals(key)) return entry.getValue();
@@ -49,7 +56,8 @@ public class MapLight<Key,Value>
 
     public Value put(Key key,Value value)
     {
-        for(int i = 0; i < list.size(); i++)
+        int size = list.size();
+        for(int i = 0; i < size; i++)
         {
             Map.Entry<Key, Value> entry = list.get(i);
             if (entry.getKey().equals(key))

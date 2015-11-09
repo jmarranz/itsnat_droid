@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 import android.content.Context;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
@@ -13,15 +14,15 @@ import java.util.Map;
  */
 public abstract class AttrDescDrawableReflecMethodNameBased<Treturn, TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
-    protected Map<String, Treturn> valueMap;
+    protected MapSmart<String, Treturn> valueMap;
 
-    public AttrDescDrawableReflecMethodNameBased(ClassDescDrawable parent, String name, String methodName, Class classParam, Map<String, Treturn> valueMap)
+    public AttrDescDrawableReflecMethodNameBased(ClassDescDrawable parent, String name, String methodName, Class classParam, MapSmart<String, Treturn> valueMap)
     {
         super(parent,name,methodName,classParam);
         this.valueMap = valueMap;
     }
 
-    public AttrDescDrawableReflecMethodNameBased(ClassDescDrawable parent, String name, Class classParam, Map<String, Treturn> valueMap)
+    public AttrDescDrawableReflecMethodNameBased(ClassDescDrawable parent, String name, Class classParam, MapSmart<String, Treturn> valueMap)
     {
         super(parent, name,classParam);
         this.valueMap = valueMap;
