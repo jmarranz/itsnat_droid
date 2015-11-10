@@ -2,13 +2,11 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.view.View;
 import android.widget.AdapterViewAnimator;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -33,9 +31,9 @@ public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Bas
         setAnimation((AdapterViewAnimator)view,animator);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "0",attrCtx);
     }
 
     protected abstract void setAnimation(AdapterViewAnimator view,ObjectAnimator animator);

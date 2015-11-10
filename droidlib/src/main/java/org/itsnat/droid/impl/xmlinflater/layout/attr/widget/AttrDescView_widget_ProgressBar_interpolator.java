@@ -1,12 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -27,8 +25,8 @@ public class AttrDescView_widget_ProgressBar_interpolator extends AttrDescView
         ((ProgressBar)view).setInterpolator(attrCtx.getContext(), resId);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "@android:anim/linear_interpolator", xmlInflaterLayout, ctx); // Yo creo que es el que usa por defecto Android en este caso
+        setToRemoveAttribute(view, "@android:anim/linear_interpolator", attrCtx); // Yo creo que es el que usa por defecto Android en este caso
     }
 }

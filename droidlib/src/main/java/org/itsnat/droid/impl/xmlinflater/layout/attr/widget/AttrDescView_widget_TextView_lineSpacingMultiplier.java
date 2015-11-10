@@ -1,13 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -32,9 +30,9 @@ public class AttrDescView_widget_TextView_lineSpacingMultiplier extends AttrDesc
         textView.setLineSpacing(getLineSpacingExtra(textView),convertedValue);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "1.0", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "1.0", attrCtx);
     }
 
     protected float getLineSpacingExtra(TextView view)

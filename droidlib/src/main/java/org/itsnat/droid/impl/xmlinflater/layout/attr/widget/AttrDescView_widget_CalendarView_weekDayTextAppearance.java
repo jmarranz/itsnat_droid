@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
@@ -8,7 +7,6 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -36,7 +34,7 @@ public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends Attr
         method.invoke(view, id);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         // Android tiene un estilo por defecto
     }

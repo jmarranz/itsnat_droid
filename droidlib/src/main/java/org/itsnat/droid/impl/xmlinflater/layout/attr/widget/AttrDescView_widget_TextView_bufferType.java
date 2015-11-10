@@ -1,18 +1,13 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -40,9 +35,9 @@ public class AttrDescView_widget_TextView_bufferType extends AttrDescView
         textView.setText(textView.getText(),(TextView.BufferType)convertedValue);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "normal", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "normal",attrCtx);
     }
 
 }

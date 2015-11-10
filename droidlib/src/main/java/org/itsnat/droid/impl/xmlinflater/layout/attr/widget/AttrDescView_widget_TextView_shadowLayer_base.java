@@ -11,7 +11,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -97,7 +96,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         textView.setShadowLayer(radius,dx,dy,color);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         String defaultValue = null;
         if (name.equals("shadowColor"))   defaultValue = "0";
@@ -105,7 +104,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         else if (name.equals("shadowDy")) defaultValue = "0";
         else if (name.equals("shadowRadius")) defaultValue = "0";
 
-        setToRemoveAttribute(view, defaultValue, xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, defaultValue,attrCtx);
     }
 
 

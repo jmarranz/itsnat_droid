@@ -1,11 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 
@@ -29,7 +27,7 @@ public class AttrDescViewReflecFieldSetFloat extends AttrDescViewReflecFieldSet
         setField(view,convertedValue);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setField(view,defaultValue);
     }

@@ -1,11 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
@@ -38,7 +36,7 @@ public class AttrDescViewReflecMethodInt extends AttrDescViewReflecMethod
         callMethod(view, convValue);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         // En el caso de defaultValue nulo es que no sabemos qué poner, es el caso por ejemplo de poner a cero el tamaño texto, no tiene sentido, se tendría que extraer el tamaño por defecto del Theme actual, un follón y total será muy raro
         if (defaultValue != null)

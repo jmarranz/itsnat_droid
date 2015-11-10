@@ -1,13 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ListPopupWindow;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldMethod;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -36,8 +34,8 @@ public class AttrDescView_widget_Spinner_dropDownHorizontalOffset extends AttrDe
         }
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0dp", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "0dp",attrCtx);
     }
 }

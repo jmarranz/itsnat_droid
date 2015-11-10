@@ -1,13 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
 import android.animation.LayoutTransition;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -30,8 +28,8 @@ public class AttrDescView_view_ViewGroup_animateLayoutChanges extends AttrDescVi
         ((ViewGroup)view).setLayoutTransition(trn);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "false", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "false",attrCtx);
     }
 }

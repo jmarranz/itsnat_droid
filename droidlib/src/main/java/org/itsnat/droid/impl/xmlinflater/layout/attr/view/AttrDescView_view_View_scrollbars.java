@@ -1,18 +1,13 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -46,9 +41,9 @@ public class AttrDescView_view_View_scrollbars extends AttrDescView
         setFlags(view, scrollbars, SCROLLBARS_MASK);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "none", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "none",attrCtx);
     }
 
 

@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.AbsSpinner;
 import android.widget.ArrayAdapter;
@@ -8,7 +7,6 @@ import android.widget.ListView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -33,9 +31,9 @@ public class AttrDescView_widget_ListViewAndAbsSpinner_entries extends AttrDescV
             ((AbsSpinner)view).setAdapter(adapter);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "0",attrCtx);
     }
 
 }

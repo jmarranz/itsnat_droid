@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.view.View;
@@ -10,7 +9,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -75,10 +73,10 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
         }
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         // Se usa el valor por defecto de Android
-        setToRemoveAttribute(view, "0", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "0", attrCtx);
 
     }
 }

@@ -1,13 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -48,7 +46,7 @@ public abstract class AttrDescView_view_View_layout_margin_Base extends AttrDesc
     protected abstract void setAttribute(ViewGroup.MarginLayoutParams params,int value);
 
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
         removeAttribute(params);

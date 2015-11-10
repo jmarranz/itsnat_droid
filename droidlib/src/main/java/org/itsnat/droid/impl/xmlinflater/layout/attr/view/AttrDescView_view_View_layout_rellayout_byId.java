@@ -1,13 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -57,7 +55,7 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDescView
         }
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
         params.addRule(selector, 0);

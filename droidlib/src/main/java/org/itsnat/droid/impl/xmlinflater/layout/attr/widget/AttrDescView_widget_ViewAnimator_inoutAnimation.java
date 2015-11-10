@@ -6,7 +6,6 @@ import android.widget.ViewAnimator;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -31,9 +30,9 @@ public class AttrDescView_widget_ViewAnimator_inoutAnimation extends AttrDescVie
             ((ViewAnimator)view).setOutAnimation(ctx,id);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "0", attrCtx);
     }
 
 }

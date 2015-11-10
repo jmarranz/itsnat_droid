@@ -47,7 +47,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
         AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
-        setAttribute(viewClassDesc, view, attr,attrCtx);
+        setAttribute(viewClassDesc, view, attr, attrCtx);
     }
 
     public void removeAttribute(View view, String namespaceURI, String name)
@@ -83,7 +83,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         }
     }
 
-    protected boolean removeAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name)
+    private boolean removeAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name)
     {
         if (MiscUtil.isEmpty(namespaceURI))
         {
@@ -95,11 +95,16 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
 
                 return true;
             }
-            else return viewClassDesc.removeAttribute(view, namespaceURI, name,this,ctx);
+            else
+            {
+                AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
+                return viewClassDesc.removeAttribute(view, namespaceURI, name,attrCtx);
+            }
         }
         else
         {
-            return viewClassDesc.removeAttribute(view, namespaceURI, name,this,ctx);
+            AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
+            return viewClassDesc.removeAttribute(view, namespaceURI, name,attrCtx);
         }
     }
 

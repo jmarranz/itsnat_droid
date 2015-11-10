@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,7 +10,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -91,9 +89,9 @@ public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDescVi
         methodMaxMinDate.invoke(datePickerObject,tempDate.getTimeInMillis());
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "", xmlInflaterLayout, ctx);
+        setToRemoveAttribute(view, "",attrCtx);
     }
 
     private Object getDatePickerObject(View view)
