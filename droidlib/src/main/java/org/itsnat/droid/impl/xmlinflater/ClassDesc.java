@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 
 import java.util.HashMap;
 

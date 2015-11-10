@@ -542,7 +542,7 @@ public class XMLInflateRegistry
     }
 */
 
-    protected int getDimensionWithNameIntRound(String value, Context ctx)
+    public int getDimensionWithNameIntRound(String value, Context ctx)
     {
         int dimension;
 

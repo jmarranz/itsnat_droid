@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflater.AttrDesc;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -35,7 +35,7 @@ public abstract class AttrDescView extends AttrDesc<ClassDescViewBased>
     protected void setToRemoveAttribute(View view, String value, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         // Este método es llamado desde removeAttribute, cuyo valor será o @null o un recurso de Android, no esperamos
-        // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a AttrParsedLocalResource
+        // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrLocalResource
         DOMAttrLocalResource attr = (DOMAttrLocalResource) DOMAttr.create(InflatedXML.XMLNS_ANDROID, getName(), value);
 
         AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,xmlInflaterLayout,null,null);
