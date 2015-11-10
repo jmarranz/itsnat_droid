@@ -1,10 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**
@@ -28,9 +26,9 @@ public class AttrDescDrawableReflecMethodDimensionPercFloat<TdrawableOrElementDr
     }
 
     @Override
-    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
+    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
-        PercFloat convValue = getDimensionPercFloat(attr.getValue(), ctx);
+        PercFloat convValue = getDimensionPercFloat(attr.getValue(), attrCtx.getContext());
         callMethod(draw, convValue);
     }
 

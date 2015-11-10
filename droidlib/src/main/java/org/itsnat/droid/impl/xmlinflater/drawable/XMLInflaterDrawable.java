@@ -98,17 +98,18 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         ArrayList<DOMAttr> attribList = domElement.getDOMAttributeList();
         if (attribList != null)
         {
+            AttrDrawableContext attrCtx = new AttrDrawableContext(ctx,this);
             for (int i = 0; i < attribList.size(); i++)
             {
                 DOMAttr attr = attribList.get(i);
-                setAttribute(classDesc, drawable, attr,ctx);
+                setAttribute(classDesc, drawable, attr,attrCtx);
             }
         }
     }
 
-    private boolean setAttribute(ClassDescDrawable classDesc,DrawableOrElementDrawableWrapper drawable,DOMAttr attr,Context ctx)
+    private boolean setAttribute(ClassDescDrawable classDesc,DrawableOrElementDrawableWrapper drawable,DOMAttr attr,AttrDrawableContext attrCtx)
     {
-        return classDesc.setAttribute(drawable, attr,this,ctx);
+        return classDesc.setAttribute(drawable, attr,attrCtx);
     }
 
 

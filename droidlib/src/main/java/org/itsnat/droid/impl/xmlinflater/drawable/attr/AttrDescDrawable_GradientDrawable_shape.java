@@ -1,15 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
-import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -31,7 +27,7 @@ public class AttrDescDrawable_GradientDrawable_shape extends AttrDescDrawableRef
     }
 
     @Override
-    public void setAttribute(GradientDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
+    public void setAttribute(GradientDrawable draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
         int shape = this.<Integer>parseSingleName(attr.getValue(), valueMap); // Valor concreto no puede ser un recurso
 

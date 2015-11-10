@@ -1,10 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
-import android.content.Context;
 import android.graphics.drawable.InsetDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**
@@ -18,9 +17,9 @@ public class AttrDescDrawable_InsetDrawable_visible extends AttrDescDrawable<Ins
     }
 
     @Override
-    public void setAttribute(InsetDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
+    public void setAttribute(InsetDrawable draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
         boolean restart = true; // Ni idea
-        draw.setVisible(getBoolean(attr.getValue(),ctx),restart);
+        draw.setVisible(getBoolean(attr.getValue(),attrCtx.getContext()),restart);
     }
 }

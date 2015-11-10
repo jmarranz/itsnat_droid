@@ -1,9 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**
@@ -28,9 +26,9 @@ public class AttrDescDrawableReflecMethodId<TdrawableOrElementDrawable> extends 
     }
 
     @Override
-    public void setAttribute(final TdrawableOrElementDrawable draw,final DOMAttr attr,final XMLInflaterDrawable xmlInflaterDrawable,final Context ctx)
+    public void setAttribute(final TdrawableOrElementDrawable draw, final DOMAttr attr, AttrDrawableContext attrCtx)
     {
-        int id = getIdentifierAddIfNecessary(attr.getValue(),ctx);
+        int id = getIdentifierAddIfNecessary(attr.getValue(),attrCtx.getContext());
 
         callMethod(draw, id);
     }

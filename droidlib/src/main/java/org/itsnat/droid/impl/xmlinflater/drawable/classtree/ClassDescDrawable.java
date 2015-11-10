@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
@@ -8,6 +7,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
@@ -56,7 +56,7 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
 
 
     @SuppressWarnings("unchecked")
-    public boolean setAttribute(DrawableOrElementDrawableWrapper draw,DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
+    public boolean setAttribute(DrawableOrElementDrawableWrapper draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
         if (!isInit()) init();
 
@@ -70,7 +70,7 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
             AttrDescDrawable attrDesc = getAttrDescDrawable(name);
             if (attrDesc != null)
             {
-                attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr,xmlInflaterDrawable,ctx);
+                attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr,attrCtx);
             }
             else
             {
@@ -80,11 +80,12 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
                 ClassDescDrawable parentClass = getParentClassDescDrawable();
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(draw,attr, xmlInflaterDrawable,ctx);
+                    parentClass.setAttribute(draw,attr,attrCtx);
                 }
                 else
                 {
                     // No se encuentra opción de proceso custom
+                    XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
                     AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
                     if (listener != null)
                     {
@@ -98,6 +99,7 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
         else
         {
             // No se encuentra opción de proceso custom
+            XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
             AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
             if (listener != null)
             {

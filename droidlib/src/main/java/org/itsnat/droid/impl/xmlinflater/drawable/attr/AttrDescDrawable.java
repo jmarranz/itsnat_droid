@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
@@ -62,7 +63,7 @@ public abstract class AttrDescDrawable<TdrawableOrElementDrawable> extends AttrD
     }
 
 
-    public abstract void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx);
+    public abstract void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr, AttrDrawableContext attrCtx);
 
 }
 

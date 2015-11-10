@@ -115,10 +115,8 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return getXMLInflaterLayout().insertFragment(rootDOMViewFragment);
     }
 
-    public boolean setAttribute(ClassDescViewBased classDesc,View view,DOMAttr attr,
-                                OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
+    public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,getXMLInflaterLayout(),oneTimeAttrProcess, pending);
         return getXMLInflaterLayout().setAttribute(classDesc, view, attr,attrCtx);
     }
 

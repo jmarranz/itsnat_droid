@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 import android.content.Context;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**
@@ -27,9 +27,9 @@ public abstract class AttrDescDrawableReflecMethodDimensionInt<TdrawableOrElemen
     }
 
     @Override
-    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
+    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
-        int convValue = getDimensionInt(attr.getValue(), ctx);
+        int convValue = getDimensionInt(attr.getValue(), attrCtx.getContext());
         callMethod(draw, convValue);
     }
 

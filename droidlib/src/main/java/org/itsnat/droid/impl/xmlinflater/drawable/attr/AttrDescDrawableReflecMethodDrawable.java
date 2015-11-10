@@ -1,11 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**
@@ -29,19 +28,19 @@ public class AttrDescDrawableReflecMethodDrawable<TdrawableOrElementDrawable> ex
     }
 
     @Override
-    public void setAttribute(final TdrawableOrElementDrawable draw,final DOMAttr attr,final XMLInflaterDrawable xmlInflaterDrawable,final Context ctx)
+    public void setAttribute(final TdrawableOrElementDrawable draw, final DOMAttr attr,final AttrDrawableContext attrCtx)
     {
         Runnable task = new Runnable()
         {
             @Override
             public void run()
             {
-                Drawable convValue = getDrawable(attr,ctx,xmlInflaterDrawable);
+                Drawable convValue = getDrawable(attr,attrCtx.getContext(),attrCtx.getXMLInflaterDrawable());
                 callMethod(draw, convValue);
             }
         };
         if (DOMAttrRemote.isPendingToDownload(attr))
-            processDownloadTask((DOMAttrRemote)attr,task,xmlInflaterDrawable);
+            processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterDrawable());
         else
             task.run();
     }

@@ -56,6 +56,7 @@ import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -421,10 +422,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         if (newChildToIn.hasAttributes())
         {
+            AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),inflated.getXMLInflaterLayout(),oneTimeAttrProcess, null);
+
             for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
             {
                 DOMAttr attr = entry.getValue();
-                inflated.setAttribute(classDesc, view, attr, oneTimeAttrProcess,null);
+                inflated.setAttribute(classDesc, view, attr,attrCtx);
             }
         }
 

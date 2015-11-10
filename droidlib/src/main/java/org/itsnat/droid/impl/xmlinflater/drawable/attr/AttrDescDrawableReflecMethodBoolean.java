@@ -1,9 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**
@@ -27,9 +25,9 @@ public class AttrDescDrawableReflecMethodBoolean<TdrawableOrElementDrawable> ext
     }
 
     @Override
-    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
+    public void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
-        boolean convValue = getBoolean(attr.getValue(),ctx);
+        boolean convValue = getBoolean(attr.getValue(),attrCtx.getContext());
         callMethod(draw, convValue);
     }
 }

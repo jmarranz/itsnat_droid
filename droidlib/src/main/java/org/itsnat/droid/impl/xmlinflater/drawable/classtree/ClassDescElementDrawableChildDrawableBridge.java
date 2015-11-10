@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
@@ -60,12 +61,12 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     }
 
     @Override
-    public boolean setAttribute(DrawableOrElementDrawableWrapper draw,DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
+    public boolean setAttribute(DrawableOrElementDrawableWrapper draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
         // Se redefine completamente
         ElementDrawableChildDrawableBridge elemDraw = (ElementDrawableChildDrawableBridge)((ElementDrawableChildContainer)draw).getElementDrawableChild();
         ClassDescElementDrawableRoot classDescBridge = elemDraw.getClassDescRootDrawableBridge();
-        return classDescBridge.setAttribute(draw,attr,xmlInflaterDrawable,ctx);
+        return classDescBridge.setAttribute(draw,attr,attrCtx);
     }
 
 }
