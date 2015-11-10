@@ -2,27 +2,23 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MapSmart;
+import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-
-import java.util.Map;
 
 /**
  * Created by jmarranz on 4/11/14.
  */
-public abstract class AttrDesc<TattrTarget,TclassDesc extends ClassDesc>
+public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
 {
     protected String name;
     protected TclassDesc classDesc;
@@ -178,7 +174,7 @@ public abstract class AttrDesc<TattrTarget,TclassDesc extends ClassDesc>
         return res;
     }
 
-//    public abstract void setAttribute(TattrTarget target,DOMAttr attr,AttrLayoutContext attrCtx);
+    public abstract void setAttribute(TattrTarget target,DOMAttr attr,TattrContext attrCtx);
 
-//    public abstract void removeAttribute(TattrTarget target, XMLInflaterLayout xmlInflaterLayout, Context ctx);
+    public abstract void removeAttribute(TattrTarget target, TattrContext attrCtx);
 }

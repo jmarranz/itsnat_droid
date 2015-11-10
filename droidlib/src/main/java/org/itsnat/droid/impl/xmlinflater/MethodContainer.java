@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
  */
 public class MethodContainer<T>
 {
-    protected final Class<?> clasz;
+    protected final Class clasz;
     protected final String methodName;
     protected final Class[] paramClasses;
     protected Method method;
@@ -21,7 +21,7 @@ public class MethodContainer<T>
         this(MiscUtil.resolveClass(className),methodName,paramClasses);
     }
 
-    public MethodContainer(Class<?> clasz, String methodName,Class[] paramClasses)
+    public MethodContainer(Class clasz, String methodName,Class[] paramClasses)
     {
         this.clasz = clasz;
         this.methodName = methodName;
@@ -33,12 +33,12 @@ public class MethodContainer<T>
         this(MiscUtil.resolveClass(className),methodName,paramClass);
     }
 
-    public MethodContainer(Class<?> clasz, String methodName,Class paramClass)
+    public MethodContainer(Class clasz, String methodName,Class paramClass)
     {
         this(clasz,methodName,new Class[]{paramClass});
     }
 
-    public MethodContainer(Class<?> clasz, String methodName)
+    public MethodContainer(Class clasz, String methodName)
     {
         this(clasz,methodName,new Class[0]);
     }
@@ -53,13 +53,14 @@ public class MethodContainer<T>
         return paramClasses;
     }
 
+    @SuppressWarnings("unchecked")
     public Method getMethod()
     {
         try
         {
             if (method == null)
             {
-                this.method = clasz.getDeclaredMethod(methodName, paramClasses);
+                this.method = clasz.getDeclaredMethod(methodName,(Class[])paramClasses);
                 method.setAccessible(true); // Pues normalmente serán atributos ocultos
             }
             return method;

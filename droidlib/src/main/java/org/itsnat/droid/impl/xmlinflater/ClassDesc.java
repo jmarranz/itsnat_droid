@@ -4,6 +4,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 
+
 import java.util.HashMap;
 
 /**
@@ -15,7 +16,7 @@ public abstract class ClassDesc<Tnative>
     protected String className;
     protected ClassDesc<? super Tnative> parentClass;
     protected boolean initiated;
-    protected HashMap<String,AttrDesc> attrDescMap;
+    protected HashMap<String, AttrDesc> attrDescMap;
 
     public ClassDesc(ClassDescMgr classMgr,String className,ClassDesc<? super Tnative> parentClass)
     {
@@ -57,7 +58,7 @@ public abstract class ClassDesc<Tnative>
 
     protected void init()
     {
-        this.attrDescMap = new HashMap<String,AttrDesc>();
+        this.attrDescMap = new HashMap<String, AttrDesc>();
     }
 
     protected void addAttrDesc(AttrDesc attrDesc)
@@ -70,4 +71,7 @@ public abstract class ClassDesc<Tnative>
     {
         return attrDescMap.get(name);
     }
+
+    public abstract Class<?> getDeclaredClass();
+
 }

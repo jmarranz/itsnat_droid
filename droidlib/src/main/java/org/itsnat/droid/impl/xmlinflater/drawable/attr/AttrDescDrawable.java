@@ -20,7 +20,7 @@ import java.io.InputStream;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescDrawable<TdrawableOrElementDrawable> extends AttrDesc<ClassDescDrawable>
+public abstract class AttrDescDrawable<TdrawableOrElementDrawable> extends AttrDesc<ClassDescDrawable,TdrawableOrElementDrawable,AttrDrawableContext> // TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext
 {
     public AttrDescDrawable(ClassDescDrawable parent, String name)
     {
@@ -64,6 +64,10 @@ public abstract class AttrDescDrawable<TdrawableOrElementDrawable> extends AttrD
 
     public abstract void setAttribute(TdrawableOrElementDrawable draw, DOMAttr attr, AttrDrawableContext attrCtx);
 
+    public void removeAttribute(TdrawableOrElementDrawable target, AttrDrawableContext attrCtx)
+    {
+        throw new ItsNatDroidException("Unexpected");
+    }
 }
 
 

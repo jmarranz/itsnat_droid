@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -110,6 +111,11 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
         }
 
         return true;
+    }
+
+    public Class<?> getDeclaredClass()
+    {
+        return getDrawableOrElementDrawableClass();
     }
 
 

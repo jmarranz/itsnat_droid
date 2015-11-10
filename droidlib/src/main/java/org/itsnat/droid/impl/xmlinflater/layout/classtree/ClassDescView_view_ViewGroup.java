@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_ViewGroup_animateLayoutChanges;
@@ -21,7 +22,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"addStatesFromChildren",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"addStatesFromChildren",false));
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"alwaysDrawnWithCache","setAlwaysDrawnWithCacheEnabled",true));
         addAttrDesc(new AttrDescView_view_ViewGroup_animateLayoutChanges(this)); // animateLayoutChanges
         addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"animationCache","setAnimationCacheEnabled",true));
