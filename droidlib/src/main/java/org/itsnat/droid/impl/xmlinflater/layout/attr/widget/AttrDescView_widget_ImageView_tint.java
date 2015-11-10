@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethod;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -55,9 +53,9 @@ public class AttrDescView_widget_ImageView_tint extends AttrDescViewReflecMethod
         }
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         if (defaultValue != null)
-            setToRemoveAttribute(view, defaultValue, xmlInflaterLayout, ctx);
+            setToRemoveAttribute(view, defaultValue,attrCtx);
     }
 }

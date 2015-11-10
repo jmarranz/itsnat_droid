@@ -174,7 +174,7 @@ public class ClassDescViewBased extends ClassDesc<View>
     }
 
 
-    public boolean removeAttribute(View view,String namespaceURI,String name,XMLInflaterLayout xmlInflaterLayout,Context ctx)
+    public boolean removeAttribute(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();
 
@@ -182,19 +182,20 @@ public class ClassDescViewBased extends ClassDesc<View>
         {
             if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
+            XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
                 AttrDescView attrDesc = getAttrDescView(name);
                 if (attrDesc != null)
                 {
-                    attrDesc.removeAttribute(view,xmlInflaterLayout,ctx);
+                    attrDesc.removeAttribute(view,attrCtx);
                 }
                 else
                 {
                     ClassDescViewBased parentClass = getParentClassDescViewBased();
                     if (parentClass != null)
                     {
-                        parentClass.removeAttribute(view, namespaceURI, name, xmlInflaterLayout,ctx);
+                        parentClass.removeAttribute(view, namespaceURI, name,attrCtx);
                     }
                     else
                     {

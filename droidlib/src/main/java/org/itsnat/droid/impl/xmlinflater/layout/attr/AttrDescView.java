@@ -32,19 +32,18 @@ public abstract class AttrDescView extends AttrDesc<ClassDescViewBased>
     }
 
 
-    protected void setToRemoveAttribute(View view, String value, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    protected void setToRemoveAttribute(View view, String value, AttrLayoutContext attrCtx)
     {
         // Este método es llamado desde removeAttribute, cuyo valor será o @null o un recurso de Android, no esperamos
         // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrLocalResource
         DOMAttrLocalResource attr = (DOMAttrLocalResource) DOMAttr.create(InflatedXML.XMLNS_ANDROID, getName(), value);
 
-        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,xmlInflaterLayout,null,null);
         setAttribute(view, attr,attrCtx);
     }
 
     public abstract void setAttribute(View view,DOMAttr attr,AttrLayoutContext attrCtx);
 
-    public abstract void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx);
+    public abstract void removeAttribute(View view, AttrLayoutContext attrCtx);
 }
 
 

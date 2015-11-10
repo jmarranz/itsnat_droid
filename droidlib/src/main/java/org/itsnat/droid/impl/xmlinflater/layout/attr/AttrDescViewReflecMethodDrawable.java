@@ -1,13 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
@@ -51,9 +49,9 @@ public class AttrDescViewReflecMethodDrawable extends AttrDescViewReflecMethod
             task.run();
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         if (defaultValue != null) // Para especificar null se ha de usar "@null"
-            setToRemoveAttribute(view, defaultValue, xmlInflaterLayout, ctx); // defaultValue puede ser null (ej attr background), también valdría "@null" en el atributo
+            setToRemoveAttribute(view, defaultValue,attrCtx); // defaultValue puede ser null (ej attr background), también valdría "@null" en el atributo
     }
 }

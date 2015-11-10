@@ -1,15 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-
-import java.util.Map;
 
 /**
  * Created by jmarranz on 1/05/14.
@@ -39,12 +35,12 @@ public abstract class AttrDescViewReflecMethodNameBased<Treturn> extends AttrDes
         callMethod(view, valueRes);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
+    public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         if (defaultName != null)
         {
             if (defaultName.equals("")) callMethod(view, -1); // Android utiliza el -1 de vez en cuando como valor por defecto
-            else setToRemoveAttribute(view, defaultName, xmlInflaterLayout, ctx);
+            else setToRemoveAttribute(view, defaultName,attrCtx);
         }
     }
 
