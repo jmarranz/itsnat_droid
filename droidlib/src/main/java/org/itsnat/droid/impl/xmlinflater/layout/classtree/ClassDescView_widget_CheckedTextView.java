@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
  * Created by jmarranz on 8/10/14.
@@ -19,6 +19,6 @@ public class ClassDescView_widget_CheckedTextView extends ClassDescViewBased
         super.init();
 
         addAttrDesc(new AttrDescViewReflecMethodDrawable(this,"checkMark","setCheckMarkDrawable",null));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"checked",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"checked",false));
     }
 }

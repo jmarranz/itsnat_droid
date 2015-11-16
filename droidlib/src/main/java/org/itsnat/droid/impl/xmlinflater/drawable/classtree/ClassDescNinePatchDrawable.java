@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -64,7 +64,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "dither"));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this, "dither",true));
     }
 
 

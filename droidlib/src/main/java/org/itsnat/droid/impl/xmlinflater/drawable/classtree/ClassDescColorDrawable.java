@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodColor;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -37,7 +37,7 @@ public class ClassDescColorDrawable extends ClassDescElementDrawableRoot<ColorDr
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawableReflecMethodColor(this, "color"));
+        addAttrDesc(new AttrDescReflecMethodColor(this, "color",0));
     }
 
 }

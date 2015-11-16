@@ -4,9 +4,6 @@ import android.view.inputmethod.EditorInfo;
 
 import org.itsnat.droid.impl.util.MapSmart;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by jmarranz on 28/07/14.
  */

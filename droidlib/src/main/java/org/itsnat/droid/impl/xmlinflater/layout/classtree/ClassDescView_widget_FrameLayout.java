@@ -5,9 +5,9 @@ import android.os.Build;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -28,7 +28,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
             addAttrDesc(new AttrDescViewReflecMethodDrawable(this, "foreground", "@null")); // A partir de MARSHMALLOW se define en View
         }
         addAttrDesc(new AttrDescViewReflecMethodMultipleName(this,"foregroundGravity", GravityUtil.valueMap,"fill"));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this, "measureAllChildren", false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this, "measureAllChildren", false));
 
     }
 }

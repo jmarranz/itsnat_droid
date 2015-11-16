@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodInt;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -18,7 +18,7 @@ public class ClassDescView_widget_AdapterViewFlipper extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"autoStart",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"autoStart",false));
         addAttrDesc(new AttrDescViewReflecMethodInt(this,"flipInterval",10000));
     }
 }

@@ -5,13 +5,14 @@ import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodColor;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_gesture_GestureOverlayView_gestureColor extends AttrDescViewReflecMethodColor
+public class AttrDescView_gesture_GestureOverlayView_gestureColor extends AttrDescReflecMethodColor<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected FieldContainer<Paint> fieldGesturePaint;
     protected MethodContainer<Void> methodPaintSetColor;

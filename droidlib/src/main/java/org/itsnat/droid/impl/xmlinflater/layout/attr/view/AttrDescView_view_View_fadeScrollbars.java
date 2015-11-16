@@ -5,14 +5,14 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_fadeScrollbars extends AttrDescViewReflecMethodBoolean
+public class AttrDescView_view_View_fadeScrollbars extends AttrDescReflecMethodBoolean
 {
     public AttrDescView_view_View_fadeScrollbars(ClassDescViewBased parent)
     {

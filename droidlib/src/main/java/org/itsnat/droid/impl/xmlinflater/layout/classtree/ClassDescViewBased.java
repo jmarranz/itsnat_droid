@@ -30,7 +30,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayou
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -91,11 +91,12 @@ public class ClassDescViewBased extends ClassDesc<View>
         return getDeclaredClass();
     }
 
+    /*
     protected AttrDescView getAttrDescView(String name)
     {
         return (AttrDescView)getAttrDesc(name);
     }
-
+*/
 
     protected static boolean isStyleAttribute(String namespaceURI,String name)
     {
@@ -123,7 +124,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                AttrDescView attrDesc = getAttrDescView(name);
+                AttrDesc attrDesc = getAttrDesc(name);
                 if (attrDesc != null)
                 {
                     attrDesc.setAttribute(view, attr,attrCtx);
@@ -185,7 +186,8 @@ public class ClassDescViewBased extends ClassDesc<View>
             XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                AttrDescView attrDesc = getAttrDescView(name);
+                // AttrDescView attrDesc = getAttrDescView(name);
+                AttrDesc attrDesc = getAttrDesc(name);
                 if (attrDesc != null)
                 {
                     attrDesc.removeAttribute(view,attrCtx);

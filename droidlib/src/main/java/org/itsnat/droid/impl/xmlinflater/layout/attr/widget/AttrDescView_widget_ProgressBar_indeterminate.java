@@ -5,13 +5,13 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
  * Created by jmarranz on 17/09/14.
  */
-public class AttrDescView_widget_ProgressBar_indeterminate extends AttrDescViewReflecMethodBoolean
+public class AttrDescView_widget_ProgressBar_indeterminate extends AttrDescReflecMethodBoolean
 {
     public AttrDescView_widget_ProgressBar_indeterminate(ClassDescViewBased parent, String name, boolean defaultValue)
     {

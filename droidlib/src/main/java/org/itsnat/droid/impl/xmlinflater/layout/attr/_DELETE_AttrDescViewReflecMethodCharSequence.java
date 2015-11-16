@@ -9,17 +9,17 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecMethodBoolean extends AttrDescViewReflecMethod
+public class _DELETE_AttrDescViewReflecMethodCharSequence extends AttrDescViewReflecMethod
 {
-    protected boolean defaultValue;
+    protected String defaultValue;
 
-    public AttrDescViewReflecMethodBoolean(ClassDescViewBased parent, String name, String methodName, boolean defaultValue)
+    public _DELETE_AttrDescViewReflecMethodCharSequence(ClassDescViewBased parent, String name, String methodName, String defaultValue)
     {
         super(parent,name,methodName,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescViewReflecMethodBoolean(ClassDescViewBased parent, String name, boolean defaultValue)
+    public _DELETE_AttrDescViewReflecMethodCharSequence(ClassDescViewBased parent, String name, String defaultValue)
     {
         super(parent,name,getClassParam());
         this.defaultValue = defaultValue;
@@ -27,17 +27,19 @@ public class AttrDescViewReflecMethodBoolean extends AttrDescViewReflecMethod
 
     protected static Class<?> getClassParam()
     {
-        return boolean.class;
+        return CharSequence.class;
     }
 
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        boolean convValue = getBoolean(attr.getValue(),attrCtx.getContext());
+        CharSequence convValue = getText(attr.getValue(), attrCtx.getContext());
         callMethod(view, convValue);
     }
 
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        callMethod(view, defaultValue);
+        if (defaultValue != null)
+            callMethod(view,defaultValue);
     }
+
 }

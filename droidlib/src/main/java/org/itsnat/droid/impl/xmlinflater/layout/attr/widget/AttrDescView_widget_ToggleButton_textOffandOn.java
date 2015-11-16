@@ -5,13 +5,13 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodCharSequence;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_ToggleButton_textOffandOn extends AttrDescViewReflecMethodCharSequence
+public class AttrDescView_widget_ToggleButton_textOffandOn extends AttrDescReflecMethodCharSequence<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected MethodContainer methodContainer;
 

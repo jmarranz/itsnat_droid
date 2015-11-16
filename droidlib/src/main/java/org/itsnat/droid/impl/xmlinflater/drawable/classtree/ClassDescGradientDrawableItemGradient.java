@@ -10,14 +10,11 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemGradient;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDimensionPercFloat;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodSingleName;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -46,14 +43,14 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
         super.init();
 
         addAttrDesc(new AttrDescDrawableReflecMethodFloat<GradientDrawableItemGradient>(this, "angle"));
-        addAttrDesc(new AttrDescDrawableReflecMethodColor<GradientDrawableItemGradient>(this, "centerColor"));
+        addAttrDesc(new AttrDescReflecMethodColor(this, "centerColor",0));
         addAttrDesc(new AttrDescDrawableReflecMethodDimensionPercFloat<GradientDrawableItemGradient>(this, "centerX"));
         addAttrDesc(new AttrDescDrawableReflecMethodDimensionPercFloat<GradientDrawableItemGradient>(this, "centerY"));
-        addAttrDesc(new AttrDescDrawableReflecMethodColor<GradientDrawableItemGradient>(this, "endColor"));
+        addAttrDesc(new AttrDescReflecMethodColor(this, "endColor",0));
         addAttrDesc(new AttrDescDrawableReflecMethodDimensionPercFloat<GradientDrawableItemGradient>(this, "gradientRadius"));
-        addAttrDesc(new AttrDescDrawableReflecMethodColor<GradientDrawableItemGradient>(this, "startColor"));
+        addAttrDesc(new AttrDescReflecMethodColor(this, "startColor",0));
         addAttrDesc(new AttrDescDrawableReflecMethodSingleName<Integer,String>(this, "type", int.class, GradientTypeUtil.valueMap));
-        addAttrDesc(new AttrDescDrawableReflecMethodBoolean<GradientDrawableItemGradient>(this, "useLevel"));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this, "useLevel",false));
     }
 
     public static class GradientTypeUtil

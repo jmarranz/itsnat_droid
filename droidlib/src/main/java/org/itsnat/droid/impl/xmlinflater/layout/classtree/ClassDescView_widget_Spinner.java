@@ -17,11 +17,11 @@ import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionWithNameIntRound;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Spinner_dropDownHorizontalOffset;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Spinner_dropDownVerticalOffset;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Spinner_popupBackground;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodCharSequence;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -118,7 +118,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
         addAttrDesc(new AttrDescViewReflecFieldSetDimensionWithNameIntRound(this,"dropDownWidth","mDropDownWidth","wrap_content"));
         addAttrDesc(new AttrDescViewReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"center"));
         addAttrDesc(new AttrDescView_widget_Spinner_popupBackground(this));
-        addAttrDesc(new AttrDescViewReflecMethodCharSequence(this,"prompt","")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"prompt","")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
         // android:spinnerMode no es un atributo normal, se pasa por el constructor del objeto Spinner
     }
 }

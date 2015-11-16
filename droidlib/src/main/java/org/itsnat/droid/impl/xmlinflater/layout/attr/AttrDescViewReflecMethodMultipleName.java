@@ -3,8 +3,6 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
-import java.util.Map;
-
 /**
  * Created by jmarranz on 1/05/14.
  */

@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.attr;
+package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

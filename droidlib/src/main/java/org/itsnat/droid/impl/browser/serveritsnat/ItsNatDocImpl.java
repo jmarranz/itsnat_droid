@@ -49,8 +49,8 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapList;
+import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;

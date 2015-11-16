@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
 
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-
 /**
  * Created by Jose on 09/11/2015.
  */

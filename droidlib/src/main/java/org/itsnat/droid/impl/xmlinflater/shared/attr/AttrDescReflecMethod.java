@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.attr;
+package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;

@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.attr;
+package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import android.view.View;
 
@@ -12,18 +12,18 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecMethodBoolean<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
+public class AttrDescReflecMethodCharSequence<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDescReflecMethod<TclassDesc,TattrTarget,TattrContext>
 {
-    protected boolean defaultValue;
+    protected String defaultValue;
 
-    public AttrDescReflecMethodBoolean(TclassDesc parent, String name, String methodName, boolean defaultValue)
+    public AttrDescReflecMethodCharSequence(TclassDesc parent, String name, String methodName, String defaultValue)
     {
         super(parent,name,methodName,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodBoolean(TclassDesc parent, String name, boolean defaultValue)
+    public AttrDescReflecMethodCharSequence(TclassDesc parent, String name, String defaultValue)
     {
         super(parent,name,getClassParam());
         this.defaultValue = defaultValue;
@@ -31,17 +31,19 @@ public class AttrDescReflecMethodBoolean<TclassDesc extends ClassDesc,TattrTarge
 
     protected static Class<?> getClassParam()
     {
-        return boolean.class;
+        return CharSequence.class;
     }
 
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        boolean convValue = getBoolean(attr.getValue(),attrCtx.getContext());
+        CharSequence convValue = getText(attr.getValue(), attrCtx.getContext());
         callMethod(target, convValue);
     }
 
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
-        callMethod(target, defaultValue);
+        if (defaultValue != null)
+            callMethod(target,defaultValue);
     }
+
 }

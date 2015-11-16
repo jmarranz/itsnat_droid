@@ -6,9 +6,6 @@ import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by jmarranz on 30/04/14.
  */

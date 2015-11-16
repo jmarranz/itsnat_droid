@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
 import android.content.Context;
 
-import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**

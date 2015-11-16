@@ -2,12 +2,12 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetBoolean;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ImageView_scaleType;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ImageView_tint;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -23,9 +23,9 @@ public class ClassDescView_widget_ImageView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"adjustViewBounds",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"adjustViewBounds",false));
         addAttrDesc(new AttrDescViewReflecMethodDimensionIntFloor(this,"baseline",-1f));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"baselineAlignBottom",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"baselineAlignBottom",false));
         addAttrDesc(new AttrDescViewReflecFieldSetBoolean(this,"cropToPadding","mCropToPadding",false));
         addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"maxHeight",(float)Integer.MAX_VALUE));
         addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"maxWidth",(float)Integer.MAX_VALUE));

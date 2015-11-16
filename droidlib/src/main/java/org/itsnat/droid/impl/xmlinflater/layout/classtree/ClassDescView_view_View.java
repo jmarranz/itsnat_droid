@@ -5,8 +5,6 @@ import android.widget.RelativeLayout;
 
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionFloatFloor;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
@@ -45,6 +43,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarTrackVertical;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbars;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_visibility;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodCharSequence;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -66,32 +66,32 @@ public class ClassDescView_view_View extends ClassDescViewBased
         // android:accessibilityLiveRegion es Level 19
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"alpha",1f));
         addAttrDesc(new AttrDescViewReflecMethodDrawable(this,"background","setBackgroundDrawable","@null"));  // setBackground() es desde Android 4.1
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"clickable",true));
-        addAttrDesc(new AttrDescViewReflecMethodCharSequence(this,"contentDescription",""));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"clickable",true));
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"contentDescription",""));
         addAttrDesc(new AttrDescView_view_View_drawingCacheQuality(this)); // drawingCacheQuality
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"duplicateParentState","setDuplicateParentStateEnabled",false)); // Según dice la doc no hace nada este flag a true si el atributo no se define antes de insertar en un ViewGroup
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"duplicateParentState","setDuplicateParentStateEnabled",false)); // Según dice la doc no hace nada este flag a true si el atributo no se define antes de insertar en un ViewGroup
         addAttrDesc(new AttrDescView_view_View_fadeScrollbars(this));
         addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"fadingEdgeLength",null));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"filterTouchesWhenObscured",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"filterTouchesWhenObscured",false));
         // android:fitsSystemWindows es Level 16
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"focusable",false));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"focusableInTouchMode",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"focusable",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"focusableInTouchMode",false));
 
         if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // >= 23
         {
             addAttrDesc(new AttrDescViewReflecMethodDrawable(this, "foreground", "@null")); // A partir de MARSHMALLOW se define en View
         }
 
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"hapticFeedbackEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"hapticFeedbackEnabled",true));
         addAttrDesc(new AttrDescViewReflecMethodId(this,"id",-1));
 
 
         // android:importantForAccessibility es Level 16
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"isScrollContainer","setScrollContainer",false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente, isScrollContainer() se define en un Level > 15
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"keepScreenOn",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"isScrollContainer","setScrollContainer",false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente, isScrollContainer() se define en un Level > 15
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"keepScreenOn",false));
         addAttrDesc(new AttrDescView_view_View_layerType(this)); // layerType
         // android:layoutDirection es Level 17
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"longClickable",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"longClickable",false));
         addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"minHeight","setMinimumHeight",null));
         addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"minWidth","setMinimumWidth",null));
         addAttrDesc(new AttrDescViewReflecMethodId(this,"nextFocusDown","setNextFocusDownId",-1));
@@ -111,7 +111,7 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"rotation",0f));
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"rotationX",0f));
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"rotationY",0f));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"saveEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"saveEnabled",true));
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"scaleX",1f));
         addAttrDesc(new AttrDescViewReflecMethodFloat(this,"scaleY",1f));
         addAttrDesc(new AttrDescViewReflecMethodDimensionIntRound(this,"scrollX",0f));
@@ -132,7 +132,7 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescView_view_View_scrollbars(this));
 
         // android:scrollbars está basado en flags, es difícil de implementar
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"soundEffectsEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"soundEffectsEnabled",true));
         addAttrDesc(new AttrDescViewReflecMethodObject(this,"tag"));
         // android:textAlignment es Level 17
         // android:textDirection es Level 17

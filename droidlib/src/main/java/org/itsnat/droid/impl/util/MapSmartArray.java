@@ -1,8 +1,5 @@
 package org.itsnat.droid.impl.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by Jose on 09/11/2015.
  */

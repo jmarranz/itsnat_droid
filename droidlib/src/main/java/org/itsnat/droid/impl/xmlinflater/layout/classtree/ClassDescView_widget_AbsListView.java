@@ -1,11 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_AbsListView_choiceMode;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_AbsListView_transcriptMode;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -21,15 +21,15 @@ public class ClassDescView_widget_AbsListView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescViewReflecMethodColor(this,"cacheColorHint","#000000"));
+        addAttrDesc(new AttrDescReflecMethodColor(this,"cacheColorHint",0));
         addAttrDesc(new AttrDescView_widget_AbsListView_choiceMode(this));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"drawSelectorOnTop",false));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"fastScrollEnabled",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"drawSelectorOnTop",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"fastScrollEnabled",false));
         addAttrDesc(new AttrDescViewReflecMethodDrawable(this,"listSelector","setSelector",null)); // Hay un drawable por defecto de Android
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"scrollingCache","setScrollingCacheEnabled",false));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"smoothScrollbar","setSmoothScrollbarEnabled",true));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"stackFromBottom",false));
-        addAttrDesc(new AttrDescViewReflecMethodBoolean(this,"textFilterEnabled",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"scrollingCache","setScrollingCacheEnabled",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"smoothScrollbar","setSmoothScrollbarEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"stackFromBottom",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"textFilterEnabled",false));
         addAttrDesc(new AttrDescView_widget_AbsListView_transcriptMode(this));
 
 

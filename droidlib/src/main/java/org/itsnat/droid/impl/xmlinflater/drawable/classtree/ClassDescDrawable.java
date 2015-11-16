@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.graphics.drawable.Drawable;
-import android.view.View;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -13,6 +12,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by Jose on 15/10/2015.
@@ -38,12 +38,12 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
     {
         return (xmlInflaterDrawable instanceof XMLInflaterDrawablePage) ? ((XMLInflaterDrawablePage) xmlInflaterDrawable).getPageImpl() : null;
     }
-
+/*
     protected AttrDescDrawable getAttrDescDrawable(String name)
     {
         return (AttrDescDrawable) getAttrDesc(name);
     }
-
+*/
     public ClassDescDrawable getParentClassDescDrawable()
     {
         return (ClassDescDrawable) getParentClassDesc();
@@ -68,7 +68,7 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
 
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
-            AttrDescDrawable attrDesc = getAttrDescDrawable(name);
+            AttrDesc attrDesc = getAttrDesc(name);
             if (attrDesc != null)
             {
                 attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr,attrCtx);
