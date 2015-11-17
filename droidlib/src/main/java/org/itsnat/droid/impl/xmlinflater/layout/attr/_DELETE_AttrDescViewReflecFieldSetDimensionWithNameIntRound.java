@@ -10,11 +10,11 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecFieldSetDimensionWithNameIntRound extends AttrDescViewReflecFieldSet
+public class _DELETE_AttrDescViewReflecFieldSetDimensionWithNameIntRound extends AttrDescViewReflecFieldSet
 {
     protected String defaultValue;
 
-    public AttrDescViewReflecFieldSetDimensionWithNameIntRound(ClassDescViewBased parent, String name, String fieldName, String defaultValue)
+    public _DELETE_AttrDescViewReflecFieldSetDimensionWithNameIntRound(ClassDescViewBased parent, String name, String fieldName, String defaultValue)
     {
         super(parent,name,fieldName);
         this.defaultValue = defaultValue;

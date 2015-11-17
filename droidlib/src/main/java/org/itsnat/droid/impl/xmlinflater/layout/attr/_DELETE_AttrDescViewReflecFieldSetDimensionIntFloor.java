@@ -9,9 +9,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecFieldSetDimensionIntRound extends AttrDescViewReflecFieldSetDimensionInt
+public class _DELETE_AttrDescViewReflecFieldSetDimensionIntFloor extends _DELETE_AttrDescViewReflecFieldSetDimensionInt
 {
-    public AttrDescViewReflecFieldSetDimensionIntRound(ClassDescViewBased parent, String name, String fieldName, Integer defaultValue)
+    public _DELETE_AttrDescViewReflecFieldSetDimensionIntFloor(ClassDescViewBased parent, String name, String fieldName, Integer defaultValue)
     {
         super(parent,name,fieldName,defaultValue);
     }
@@ -19,7 +19,6 @@ public class AttrDescViewReflecFieldSetDimensionIntRound extends AttrDescViewRef
     @Override
     public int getDimensionInt(DOMAttr attr, Context ctx)
     {
-        return getDimensionIntRound(attr.getValue(), ctx);
+        return getDimensionIntFloor(attr.getValue(), ctx);
     }
-
 }

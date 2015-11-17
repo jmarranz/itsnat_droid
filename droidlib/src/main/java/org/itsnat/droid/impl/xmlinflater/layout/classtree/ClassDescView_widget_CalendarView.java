@@ -8,12 +8,12 @@ import android.widget.CalendarView;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetColor;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_dateTextAppearance;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_maxDate_minDate;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_weekDayTextAppearance;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetColor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
@@ -62,7 +62,7 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodInt(this,"firstDayOfWeek",Calendar.getInstance(Locale.getDefault()).getFirstDayOfWeek())); // El valor por defecto no es exactamente así pero es razonable
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            addAttrDesc(new AttrDescViewReflecFieldSetColor(this,"focusedMonthDateColor","mFocusedMonthDateColor","#000000"));
+            addAttrDesc(new AttrDescReflecFieldSetColor(this,"focusedMonthDateColor","mFocusedMonthDateColor","#000000"));
         else // Desde level 16 existe el método setFocusedMonthDateColor. En lollipop (level 21) ya no hay mFocusedMonthDateColor
             addAttrDesc(new AttrDescReflecMethodColor(this,"focusedMonthDateColor","setFocusedMonthDateColor",0));
 
@@ -75,7 +75,7 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
             addAttrDesc(new AttrDescReflecMethodDrawable(this,"selectedDateVerticalBar","setSelectedDateVerticalBar",null));
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            addAttrDesc(new AttrDescViewReflecFieldSetColor(this,"selectedWeekBackgroundColor","mSelectedWeekBackgroundColor","#000000"));
+            addAttrDesc(new AttrDescReflecFieldSetColor(this,"selectedWeekBackgroundColor","mSelectedWeekBackgroundColor","#000000"));
         else // Ver notas de focusedMonthDateColor
             addAttrDesc(new AttrDescReflecMethodColor(this,"selectedWeekBackgroundColor","setSelectedWeekBackgroundColor",0));
 
@@ -87,19 +87,19 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
             addAttrDesc(new AttrDescReflecMethodInt(this,"shownWeekCount","setShownWeekCount",6));
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            addAttrDesc(new AttrDescViewReflecFieldSetColor(this,"unfocusedMonthDateColor","mUnfocusedMonthDateColor","#000000"));
+            addAttrDesc(new AttrDescReflecFieldSetColor(this,"unfocusedMonthDateColor","mUnfocusedMonthDateColor","#000000"));
         else // Ver notas de focusedMonthDateColor
             addAttrDesc(new AttrDescReflecMethodColor(this,"unfocusedMonthDateColor","setUnfocusedMonthDateColor",0));
 
         addAttrDesc(new AttrDescView_widget_CalendarView_weekDayTextAppearance(this));
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            addAttrDesc(new AttrDescViewReflecFieldSetColor(this,"weekNumberColor","mWeekNumberColor","#000000"));
+            addAttrDesc(new AttrDescReflecFieldSetColor(this,"weekNumberColor","mWeekNumberColor","#000000"));
         else // Ver notas de focusedMonthDateColor
             addAttrDesc(new AttrDescReflecMethodColor(this,"weekNumberColor","setWeekNumberColor",0));
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            addAttrDesc(new AttrDescViewReflecFieldSetColor(this,"weekSeparatorLineColor","mWeekSeparatorLineColor","#000000"));
+            addAttrDesc(new AttrDescReflecFieldSetColor(this,"weekSeparatorLineColor","mWeekSeparatorLineColor","#000000"));
         else // Ver notas de focusedMonthDateColor
             addAttrDesc(new AttrDescReflecMethodColor(this,"weekSeparatorLineColor","setWeekSeparatorLineColor",0));
     }

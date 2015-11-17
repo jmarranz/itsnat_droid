@@ -1,15 +1,17 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.view.View;
 import android.widget.ListPopupWindow;
 
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldMethodDrawable;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldMethodDrawable;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_AutoCompleteTextView_dropDownSelector extends AttrDescViewReflecFieldMethodDrawable
+public class AttrDescView_widget_AutoCompleteTextView_dropDownSelector extends AttrDescReflecFieldMethodDrawable<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_widget_AutoCompleteTextView_dropDownSelector(ClassDescViewBased parent)
     {

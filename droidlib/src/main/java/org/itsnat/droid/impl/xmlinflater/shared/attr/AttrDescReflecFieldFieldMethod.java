@@ -1,0 +1,35 @@
+package org.itsnat.droid.impl.xmlinflater.shared.attr;
+
+import org.itsnat.droid.impl.xmlinflater.AttrContext;
+import org.itsnat.droid.impl.xmlinflater.ClassDesc;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+
+/**
+ * Created by jmarranz on 30/04/14.
+ */
+public abstract class AttrDescReflecFieldFieldMethod<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
+        extends AttrDesc<TclassDesc,TattrTarget,TattrContext>
+{
+    protected FieldContainer field1;
+    protected FieldContainer field2;
+    protected MethodContainer method;
+
+    @SuppressWarnings("unchecked")
+    public AttrDescReflecFieldFieldMethod(TclassDesc parent, String name, String fieldName1, String fieldName2, String methodName, Class<?> field2Class, Class<?> methodClass, Class<?> paramClass)
+    {
+        super(parent,name);
+
+        this.field1 = new FieldContainer(parent.getDeclaredClass(),fieldName1);
+        this.field2 = new FieldContainer(field2Class,fieldName2);
+        this.method = new MethodContainer(methodClass,methodName,new Class[]{paramClass});
+    }
+
+    protected void callFieldFieldMethod(TattrTarget target,Object convertedValue)
+    {
+        Object fieldValue1 = field1.get(target);
+        Object fieldValue2 = field2.get(fieldValue1);
+        method.invoke(fieldValue2, convertedValue);
+    }
+
+}

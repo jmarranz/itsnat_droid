@@ -9,13 +9,13 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescViewReflecFieldMethod extends AttrDescView
+public abstract class _DELETE_AttrDescViewReflecFieldMethod extends AttrDescView
 {
     protected FieldContainer field;
     protected MethodContainer method;
 
     @SuppressWarnings("unchecked")
-    public AttrDescViewReflecFieldMethod(ClassDescViewBased parent, String name, String fieldName, String methodName, Class methodClass, Class paramClass)
+    public _DELETE_AttrDescViewReflecFieldMethod(ClassDescViewBased parent, String name, String fieldName, String methodName, Class methodClass, Class paramClass)
     {
         super(parent,name);
         this.field = new FieldContainer(parent.getDeclaredClass(),fieldName);

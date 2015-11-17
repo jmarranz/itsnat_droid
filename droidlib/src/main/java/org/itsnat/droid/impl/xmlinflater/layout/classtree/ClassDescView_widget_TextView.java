@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodString;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.ImeOptionsUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.InputTypeUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_autoLink;
@@ -28,7 +27,8 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensi
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodString;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -63,16 +63,16 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodInt(this, "ems", -1));
         // android:fontFamily creo que es Level 16
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"freezesText",false));
-        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"top|start"));
+        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"top|start"));
         addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"height",-1f));
         addAttrDesc(new AttrDescReflecMethodCharSequence(this,"hint",""));
         addAttrDesc(new AttrDescView_widget_TextView_imeActionId(this));
         addAttrDesc(new AttrDescView_widget_TextView_imeActionLabel(this));
-        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"imeOptions", ImeOptionsUtil.valueMap,"actionUnspecified"));
+        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"imeOptions", ImeOptionsUtil.valueMap,"actionUnspecified"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"includeFontPadding",true));
         // android:inputMethod lleva deprecated desde Level 3, mal documentado, es difícil de implementar y tiene substituto en inputType
         //    una clase de ejemplo podría ser android.text.method.DateTimeInputMethod
-        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"inputType", InputTypeUtil.valueMap,"text")); // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
+        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"inputType", InputTypeUtil.valueMap,"text")); // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
         addAttrDesc(new AttrDescView_widget_TextView_lineSpacingExtra(this));
         addAttrDesc(new AttrDescView_widget_TextView_lineSpacingMultiplier(this));
         addAttrDesc(new AttrDescReflecMethodInt(this,"lines",-1));
@@ -90,7 +90,7 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         // android:numeric está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:password está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:phoneNumber está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
-        addAttrDesc(new AttrDescViewReflecMethodString(this,"privateImeOptions",""));
+        addAttrDesc(new AttrDescReflecMethodString(this,"privateImeOptions",""));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"scrollHorizontally","setHorizontallyScrolling",false));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"selectAllOnFocus",false));
         addAttrDesc(new AttrDescView_widget_TextView_shadowLayer_base(this,"shadowColor"));

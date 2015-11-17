@@ -9,8 +9,8 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodMultipleName;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -32,9 +32,9 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
         // showDividers y dividerPadding atributos los he descubierto por casualidad en StackOverflow y resulta que son atributos NO documentados de LinearLayout (se ven en el código fuente)
         addAttrDesc(new AttrDescView_widget_LinearLayout_showDividers(this));  // showDividers
         addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"dividerPadding",0f));
-        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"start|top"));
+        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"start|top"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"measureWithLargestChild","setMeasureWithLargestChildEnabled",false));
-        addAttrDesc(new AttrDescReflecMethodSingleName(this,"orientation",int.class, OrientationUtil.valueMap,"horizontal"));
+        addAttrDesc(new AttrDescReflecMethodNameSingle(this,"orientation",int.class, OrientationUtil.valueMap,"horizontal"));
         addAttrDesc(new AttrDescReflecMethodFloat(this,"weightSum",-1.0f));
     }
 }

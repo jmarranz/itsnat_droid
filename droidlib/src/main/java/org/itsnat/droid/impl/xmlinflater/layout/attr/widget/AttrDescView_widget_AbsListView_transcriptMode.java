@@ -6,12 +6,12 @@ import android.widget.AbsListView;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_AbsListView_transcriptMode extends AttrDescReflecMethodSingleName<Integer,ClassDescViewBased,View,AttrLayoutContext>
+public class AttrDescView_widget_AbsListView_transcriptMode extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(3);
     static

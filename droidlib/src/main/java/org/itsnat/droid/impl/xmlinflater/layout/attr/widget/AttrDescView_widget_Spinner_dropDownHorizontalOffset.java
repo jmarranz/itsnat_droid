@@ -6,20 +6,21 @@ import android.widget.ListPopupWindow;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldMethod;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldMethod;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_Spinner_dropDownHorizontalOffset extends AttrDescViewReflecFieldMethod
+public class AttrDescView_widget_Spinner_dropDownHorizontalOffset extends AttrDescReflecFieldMethod<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_widget_Spinner_dropDownHorizontalOffset(ClassDescViewBased parent)
     {
         super(parent,"dropDownHorizontalOffset","mPopup","setHorizontalOffset",ListPopupWindow.class,int.class);
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         int convertedValue = getDimensionIntFloor(attr.getValue(), attrCtx.getContext());
@@ -34,6 +35,7 @@ public class AttrDescView_widget_Spinner_dropDownHorizontalOffset extends AttrDe
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "0dp",attrCtx);

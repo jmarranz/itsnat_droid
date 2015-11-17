@@ -5,7 +5,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -22,7 +22,7 @@ public class ClassDescView_widget_Gallery extends ClassDescViewBased
         super.init();
 
         addAttrDesc(new AttrDescReflecMethodInt(this,"animationDuration",400));
-        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"left")); // No está claro que left sea el valor por defecto
+        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"left")); // No está claro que left sea el valor por defecto
         addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"spacing",0f));
         addAttrDesc(new AttrDescReflecMethodFloat(this,"unselectedAlpha",0.5f));
 

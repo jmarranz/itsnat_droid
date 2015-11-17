@@ -9,11 +9,11 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public class AttrDescViewReflecFieldSetColor extends AttrDescViewReflecFieldSet
+public class _DELETE_AttrDescViewReflecFieldSetColor extends AttrDescViewReflecFieldSet
 {
     protected String defaultValue;
 
-    public AttrDescViewReflecFieldSetColor(ClassDescViewBased parent, String name, String fieldName, String defaultValue)
+    public _DELETE_AttrDescViewReflecFieldSetColor(ClassDescViewBased parent, String name, String fieldName, String defaultValue)
     {
         super(parent,name,fieldName);
         this.defaultValue = defaultValue;

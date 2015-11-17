@@ -7,13 +7,13 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethod;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethod;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_ImageView_tint extends AttrDescViewReflecMethod
+public class AttrDescView_widget_ImageView_tint extends AttrDescReflecMethod<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected String defaultValue;
 
@@ -40,6 +40,7 @@ public class AttrDescView_widget_ImageView_tint extends AttrDescViewReflecMethod
         return "#000000";
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final int convValue = getColor(attr.getValue(), attrCtx.getContext());
@@ -53,6 +54,7 @@ public class AttrDescView_widget_ImageView_tint extends AttrDescViewReflecMethod
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         if (defaultValue != null)

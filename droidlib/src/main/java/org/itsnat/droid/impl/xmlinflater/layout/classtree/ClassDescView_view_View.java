@@ -5,7 +5,6 @@ import android.widget.RelativeLayout;
 
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodObject;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_drawingCacheQuality;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_fadeScrollbars;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layerType;
@@ -45,6 +44,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensi
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodObject;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -133,7 +133,7 @@ public class ClassDescView_view_View extends ClassDescViewBased
 
         // android:scrollbars está basado en flags, es difícil de implementar
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"soundEffectsEnabled",true));
-        addAttrDesc(new AttrDescViewReflecMethodObject(this,"tag"));
+        addAttrDesc(new AttrDescReflecMethodObject(this,"tag"));
         // android:textAlignment es Level 17
         // android:textDirection es Level 17
         addAttrDesc(new AttrDescReflecMethodDimensionFloatFloor(this,"transformPivotX","setPivotX",0f));

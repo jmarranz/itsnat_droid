@@ -6,12 +6,12 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawable_GradientDrawable_shape extends AttrDescReflecMethodSingleName<Integer,ClassDescDrawable,GradientDrawable,AttrDrawableContext>
+public class AttrDescDrawable_GradientDrawable_shape extends AttrDescReflecMethodNameSingle<Integer,ClassDescDrawable,GradientDrawable,AttrDrawableContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(4);
     static

@@ -7,18 +7,18 @@ import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecMethodInt<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
+public class AttrDescReflecMethodString<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDescReflecMethod<TclassDesc,TattrTarget,TattrContext>
 {
-    protected Integer defaultValue;
+    protected String defaultValue;
 
-    public AttrDescReflecMethodInt(TclassDesc parent, String name, String methodName, Integer defaultValue)
+    public AttrDescReflecMethodString(TclassDesc parent, String name, String methodName, String defaultValue)
     {
         super(parent,name,methodName,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodInt(TclassDesc parent, String name, Integer defaultValue)
+    public AttrDescReflecMethodString(TclassDesc parent, String name, String defaultValue)
     {
         super(parent,name,getClassParam());
         this.defaultValue = defaultValue;
@@ -26,21 +26,20 @@ public class AttrDescReflecMethodInt<TclassDesc extends ClassDesc,TattrTarget,Ta
 
     protected static Class<?> getClassParam()
     {
-        return int.class;
+        return String.class;
     }
 
     @Override
     public void setAttribute(TattrTarget target,DOMAttr attr, TattrContext attrCtx)
     {
-        int convValue = getInteger(attr.getValue(),attrCtx.getContext());
+        String convValue = getString(attr.getValue(),attrCtx.getContext());
         callMethod(target, convValue);
     }
 
     @Override
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
-        // En el caso de defaultValue nulo es que no sabemos qué poner, es el caso por ejemplo de poner a cero el tamaño texto, no tiene sentido, se tendría que extraer el tamaño por defecto del Theme actual, un follón y total será muy raro
-        if (defaultValue != null)
-            callMethod(target, defaultValue);
+        callMethod(target, "");
     }
+
 }

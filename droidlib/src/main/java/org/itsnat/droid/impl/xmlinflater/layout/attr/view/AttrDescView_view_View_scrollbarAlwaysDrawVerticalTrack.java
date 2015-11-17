@@ -6,14 +6,14 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldFieldMethod;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldFieldMethod;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack extends AttrDescViewReflecFieldFieldMethod
+public class AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack extends AttrDescReflecFieldFieldMethod<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack(ClassDescViewBased parent)
     {
@@ -22,6 +22,7 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack extends Att
                 boolean.class);
     }
 
+    @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final boolean convertedValue = getBoolean(attr.getValue(),attrCtx.getContext());
@@ -45,6 +46,7 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack extends Att
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "false",attrCtx);

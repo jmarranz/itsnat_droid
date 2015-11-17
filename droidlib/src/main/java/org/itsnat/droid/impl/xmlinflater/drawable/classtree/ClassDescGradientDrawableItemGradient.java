@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionPercFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -43,14 +43,14 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodFloat(this, "angle",0f));
+        addAttrDesc(new AttrDescReflecMethodFloat(this, "angle", 0f));
         addAttrDesc(new AttrDescReflecMethodColor(this, "centerColor",0));
         addAttrDesc(new AttrDescReflecMethodDimensionPercFloat(this, "centerX",new PercFloat(0.5f)));
         addAttrDesc(new AttrDescReflecMethodDimensionPercFloat(this, "centerY",new PercFloat(0.5f)));
         addAttrDesc(new AttrDescReflecMethodColor(this, "endColor",0));
         addAttrDesc(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius",new PercFloat(0.5f)));
         addAttrDesc(new AttrDescReflecMethodColor(this, "startColor",0));
-        addAttrDesc(new AttrDescReflecMethodSingleName(this, "type", int.class, GradientTypeUtil.valueMap,"linear"));
+        addAttrDesc(new AttrDescReflecMethodNameSingle(this, "type", int.class, GradientTypeUtil.valueMap,"linear"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this, "useLevel",false));
     }
 

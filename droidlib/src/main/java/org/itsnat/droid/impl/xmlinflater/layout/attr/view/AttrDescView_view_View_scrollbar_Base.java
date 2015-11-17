@@ -6,18 +6,20 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldFieldMethodDrawable;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescView_view_View_scrollbar_Base extends AttrDescViewReflecFieldFieldMethodDrawable
+public abstract class AttrDescView_view_View_scrollbar_Base extends AttrDescReflecFieldFieldMethodDrawable<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_View_scrollbar_Base(ClassDescViewBased parent, String name, String fieldName1, String fieldName2, String methodName, Class field2Class, Class methodClass, Class paramClass)
     {
         super(parent,name,fieldName1,fieldName2,methodName,field2Class,methodClass,paramClass);
     }
 
+    @Override
     public void setAttribute(final View view, final DOMAttr attr,final AttrLayoutContext attrCtx)
     {
         OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
@@ -39,6 +41,7 @@ public abstract class AttrDescView_view_View_scrollbar_Base extends AttrDescView
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         // No se que hacer, el null no es el valor por defecto

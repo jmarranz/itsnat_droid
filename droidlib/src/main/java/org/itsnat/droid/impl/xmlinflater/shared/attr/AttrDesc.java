@@ -57,7 +57,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
 
     private static void downloadResources(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
     {
-        PageImpl page = ClassDescViewBased.getPageImpl(xmlInflater); // NO puede ser nulo
+        PageImpl page = ClassDesc.getPageImpl(xmlInflater); // NO puede ser nulo
 
         page.getItsNatDocImpl().downloadResources(attr, task);
     }

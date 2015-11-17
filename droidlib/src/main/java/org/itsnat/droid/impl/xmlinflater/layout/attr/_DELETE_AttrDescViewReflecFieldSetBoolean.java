@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -11,11 +10,11 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescViewReflecFieldSetDimensionInt extends AttrDescViewReflecFieldSet
+public class _DELETE_AttrDescViewReflecFieldSetBoolean extends AttrDescViewReflecFieldSet
 {
-    protected Integer defaultValue;
+    protected boolean defaultValue;
 
-    public AttrDescViewReflecFieldSetDimensionInt(ClassDescViewBased parent, String name, String fieldName, Integer defaultValue)
+    public _DELETE_AttrDescViewReflecFieldSetBoolean(ClassDescViewBased parent, String name, String fieldName, boolean defaultValue)
     {
         super(parent,name,fieldName);
         this.defaultValue = defaultValue;
@@ -23,16 +22,14 @@ public abstract class AttrDescViewReflecFieldSetDimensionInt extends AttrDescVie
 
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convertedValue = getDimensionInt(attr, attrCtx.getContext());
+        boolean convertedValue = getBoolean(attr.getValue(),attrCtx.getContext());
 
         setField(view,convertedValue);
     }
 
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        if (defaultValue != null)
-            setField(view,defaultValue);
+        setField(view,defaultValue);
     }
 
-    public abstract int getDimensionInt(DOMAttr attr, Context ctx);
 }

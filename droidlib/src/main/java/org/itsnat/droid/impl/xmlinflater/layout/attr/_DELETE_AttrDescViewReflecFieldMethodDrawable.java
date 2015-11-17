@@ -12,11 +12,11 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecFieldMethodDrawable extends AttrDescViewReflecFieldMethod
+public class _DELETE_AttrDescViewReflecFieldMethodDrawable extends _DELETE_AttrDescViewReflecFieldMethod
 {
     protected String defaultValue;
 
-    public AttrDescViewReflecFieldMethodDrawable(ClassDescViewBased parent, String name, String fieldName, String methodName, Class methodClass, String defaultValue)
+    public _DELETE_AttrDescViewReflecFieldMethodDrawable(ClassDescViewBased parent, String name, String fieldName, String methodName, Class methodClass, String defaultValue)
     {
         super(parent,name,fieldName,methodName,methodClass,Drawable.class);
         this.defaultValue = defaultValue;

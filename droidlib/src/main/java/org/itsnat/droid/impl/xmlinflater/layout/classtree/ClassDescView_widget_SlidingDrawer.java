@@ -10,10 +10,10 @@ import org.itsnat.droid.R;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetBoolean;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetId;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_SlidingDrawer_orientation;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetDimensionIntFloor;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -67,13 +67,13 @@ public class ClassDescView_widget_SlidingDrawer extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescViewReflecFieldSetBoolean(this, "allowSingleTap","mAllowSingleTap",true));
-        addAttrDesc(new AttrDescViewReflecFieldSetBoolean(this, "animateOnClick","mAnimateOnClick",true));
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntFloor(this, "bottomOffset","mBottomOffset",0));
+        addAttrDesc(new AttrDescReflecFieldSetBoolean(this, "allowSingleTap","mAllowSingleTap",true));
+        addAttrDesc(new AttrDescReflecFieldSetBoolean(this, "animateOnClick","mAnimateOnClick",true));
+        addAttrDesc(new AttrDescReflecFieldSetDimensionIntFloor(this, "bottomOffset","mBottomOffset",0));
         addAttrDesc(new AttrDescViewReflecFieldSetId(this, "content","mContentId",-1));
         addAttrDesc(new AttrDescViewReflecFieldSetId(this, "handle","mHandleId",-1));
         addAttrDesc(new AttrDescView_widget_SlidingDrawer_orientation(this));
-        addAttrDesc(new AttrDescViewReflecFieldSetDimensionIntFloor(this, "topOffset","mTopOffset",0));
+        addAttrDesc(new AttrDescReflecFieldSetDimensionIntFloor(this, "topOffset","mTopOffset",0));
     }
 }
 

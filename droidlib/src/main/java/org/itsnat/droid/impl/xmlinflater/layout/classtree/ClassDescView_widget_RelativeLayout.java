@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -19,7 +19,7 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"left|top"));
+        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"left|top"));
         addAttrDesc(new AttrDescReflecMethodId(this,"ignoreGravity",-1));
     }
 }

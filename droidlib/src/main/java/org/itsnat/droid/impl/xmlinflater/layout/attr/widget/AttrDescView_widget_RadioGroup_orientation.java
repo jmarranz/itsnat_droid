@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.OrientationUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
 /**
  * El único motivo de hacer esta clase es porque el valor por defecto del orientation de LinearLayout es "vertical" en RadioGroup
@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleN
  *
  * Created by jmarranz on 6/10/14.
  */
-public class AttrDescView_widget_RadioGroup_orientation extends AttrDescReflecMethodSingleName<Integer,ClassDescViewBased,View,AttrLayoutContext>
+public class AttrDescView_widget_RadioGroup_orientation extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
     @SuppressWarnings("unchecked")
     public AttrDescView_widget_RadioGroup_orientation(ClassDescViewBased parent)

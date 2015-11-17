@@ -1,14 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
-import android.view.View;
-
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
-import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethod;
-import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 1/05/14.

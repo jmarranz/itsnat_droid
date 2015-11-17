@@ -9,17 +9,17 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecMethodString extends AttrDescViewReflecMethod
+public class _DELETE_AttrDescViewReflecMethodString extends _DELETED_AttrDescViewReflecMethod
 {
     protected String defaultValue;
 
-    public AttrDescViewReflecMethodString(ClassDescViewBased parent, String name, String methodName, String defaultValue)
+    public _DELETE_AttrDescViewReflecMethodString(ClassDescViewBased parent, String name, String methodName, String defaultValue)
     {
         super(parent,name,methodName,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescViewReflecMethodString(ClassDescViewBased parent, String name, String defaultValue)
+    public _DELETE_AttrDescViewReflecMethodString(ClassDescViewBased parent, String name, String defaultValue)
     {
         super(parent,name,getClassParam());
         this.defaultValue = defaultValue;

@@ -5,44 +5,38 @@ import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 
 /**
- *
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecMethodId<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
+public class AttrDescReflecMethodObject<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDescReflecMethod<TclassDesc,TattrTarget,TattrContext>
 {
-    protected Integer defaultValue;
-
-    public AttrDescReflecMethodId(TclassDesc parent, String name, String methodName, Integer defaultValue)
+    public AttrDescReflecMethodObject(TclassDesc parent, String name, String methodName)
     {
         super(parent,name,methodName,getClassParam());
-        this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodId(TclassDesc parent, String name, Integer defaultValue)
+    public AttrDescReflecMethodObject(TclassDesc parent, String name)
     {
         super(parent,name,getClassParam());
-        this.defaultValue = defaultValue;
     }
 
     protected static Class<?> getClassParam()
     {
-        return int.class;
+        return Object.class;
     }
 
     @Override
     public void setAttribute(TattrTarget target,DOMAttr attr, TattrContext attrCtx)
     {
-        int id = getIdentifierAddIfNecessary(attr.getValue(),attrCtx.getContext());
-
-        callMethod(target, id);
+        // El único caso que usa AttrDescReflecMethodObject es el atributo android:tag y sólo veo el caso de uso de ser una cadena
+        CharSequence convValue = getText(attr.getValue(),attrCtx.getContext());
+        callMethod(target, convValue);
     }
 
     @Override
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
-        if (defaultValue != null)
-            callMethod(target, defaultValue);
+        callMethod(target, null);
     }
 
 }

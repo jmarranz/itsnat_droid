@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
  *
  * Created by jmarranz on 30/04/14.
  */
-public class _DELETE_AttrDescViewReflecMethodId extends AttrDescViewReflecMethod
+public class _DELETE_AttrDescViewReflecMethodId extends _DELETED_AttrDescViewReflecMethod
 {
     protected Integer defaultValue;
 
