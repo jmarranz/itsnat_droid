@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -18,7 +18,7 @@ public class ClassDescView_widget_AbsSeekBar extends ClassDescViewBased
         super.init();
 
         // El atributo android:thumb está documentado en SeekBar pero implementado realmente en AbsSeekBar
-        addAttrDesc(new AttrDescViewReflecMethodDrawable(this,"thumb",null)); // Android tiene un drawable por defecto
+        addAttrDesc(new AttrDescReflecMethodDrawable(this,"thumb",null)); // Android tiene un drawable por defecto
     }
 }
 

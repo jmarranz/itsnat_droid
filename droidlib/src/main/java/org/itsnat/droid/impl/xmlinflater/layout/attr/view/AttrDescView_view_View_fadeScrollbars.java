@@ -12,13 +12,15 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_fadeScrollbars extends AttrDescReflecMethodBoolean
+public class AttrDescView_view_View_fadeScrollbars
+        extends AttrDescReflecMethodBoolean<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_View_fadeScrollbars(ClassDescViewBased parent)
     {
         super(parent,"fadeScrollbars","setScrollbarFadingEnabled",true);
     }
 
+    @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();

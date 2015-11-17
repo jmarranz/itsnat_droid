@@ -1,15 +1,17 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.view.View;
 import android.widget.LinearLayout;
 
 import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodMultipleName;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_LinearLayout_showDividers extends AttrDescViewReflecMethodMultipleName
+public class AttrDescView_widget_LinearLayout_showDividers extends AttrDescReflecMethodMultipleName<ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 4 );
     static

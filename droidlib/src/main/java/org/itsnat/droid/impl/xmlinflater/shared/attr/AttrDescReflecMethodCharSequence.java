@@ -1,13 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
-import android.view.View;
-
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
-import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethod;
-import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -34,12 +29,14 @@ public class AttrDescReflecMethodCharSequence<TclassDesc extends ClassDesc,Tattr
         return CharSequence.class;
     }
 
+    @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
         CharSequence convValue = getText(attr.getValue(), attrCtx.getContext());
         callMethod(target, convValue);
     }
 
+    @Override
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
         if (defaultValue != null)

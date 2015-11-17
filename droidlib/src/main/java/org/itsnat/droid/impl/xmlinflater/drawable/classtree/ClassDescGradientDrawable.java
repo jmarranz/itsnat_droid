@@ -189,7 +189,6 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                             if (dataType == TypedValue.TYPE_FRACTION)
                             {
                                 radiusType = gradRadius.isFractionParent() ? RADIUS_TYPE_FRACTION_PARENT : RADIUS_TYPE_FRACTION;
-
                             }
                             else if (dataType == TypedValue.TYPE_FLOAT)
                                 radiusType = RADIUS_TYPE_PIXELS;

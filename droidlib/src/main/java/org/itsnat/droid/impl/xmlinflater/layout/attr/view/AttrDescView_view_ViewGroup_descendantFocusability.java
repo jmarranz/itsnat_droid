@@ -1,15 +1,17 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleName;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_ViewGroup_descendantFocusability extends AttrDescViewReflecMethodSingleName<Integer>
+public class AttrDescView_view_ViewGroup_descendantFocusability extends AttrDescReflecMethodSingleName<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
     static

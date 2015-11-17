@@ -12,13 +12,14 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_TextView_textAllCaps extends AttrDescReflecMethodBoolean
+public class AttrDescView_widget_TextView_textAllCaps extends AttrDescReflecMethodBoolean<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_widget_TextView_textAllCaps(ClassDescViewBased parent)
     {
         super(parent,"textAllCaps","setAllCaps",false);
     }
 
+    @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();

@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -20,8 +20,8 @@ public class ClassDescView_widget_TabWidget extends ClassDescViewBased
 
         // android:divider es un atributo definido en LinearLayout
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"tabStripEnabled","setStripEnabled",true));
-        addAttrDesc(new AttrDescViewReflecMethodDrawable(this,"tabStripLeft","setLeftStripDrawable",null)); // existe un Drawable por defecto
-        addAttrDesc(new AttrDescViewReflecMethodDrawable(this,"tabStripRight","setRightStripDrawable",null));
+        addAttrDesc(new AttrDescReflecMethodDrawable(this,"tabStripLeft","setLeftStripDrawable",null)); // existe un Drawable por defecto
+        addAttrDesc(new AttrDescReflecMethodDrawable(this,"tabStripRight","setRightStripDrawable",null));
     }
 }
 

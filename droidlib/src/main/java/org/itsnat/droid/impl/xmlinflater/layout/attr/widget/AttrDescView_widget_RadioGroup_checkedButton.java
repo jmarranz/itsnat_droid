@@ -5,19 +5,20 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodId;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_RadioGroup_checkedButton extends AttrDescViewReflecMethodId
+public class AttrDescView_widget_RadioGroup_checkedButton extends AttrDescReflecMethodId<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_widget_RadioGroup_checkedButton(ClassDescViewBased parent)
     {
         super(parent, "checkedButton", "check",-1);
     }
 
+    @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         PendingPostInsertChildrenTasks pending = attrCtx.getPendingPostInsertChildrenTasks();

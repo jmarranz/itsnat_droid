@@ -3,13 +3,14 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 import android.view.View;
 
 import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleName;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_scrollbarStyle extends AttrDescViewReflecMethodSingleName<Integer>
+public class AttrDescView_view_View_scrollbarStyle extends AttrDescReflecMethodSingleName<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 4 );
     static

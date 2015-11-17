@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
+import android.util.TypedValue;
+
 /**
  * Created by Jose on 04/11/2015.
  */
@@ -15,6 +17,11 @@ public class PercFloat
         this.dataType = dataType;
         this.fractionParent = fractionParent;
         this.value = value;
+    }
+
+    public PercFloat(float value)
+    {
+        this(TypedValue.TYPE_FLOAT,false,value); // fractionParent es indiferente en este caso
     }
 
     public int getDataType() {

@@ -8,8 +8,8 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -40,7 +40,7 @@ public class ClassDescStateListDrawableItem extends ClassDescElementDrawableChil
 
         addAttrDesc(new AttrDescReflecMethodBoolean(this, "constantSize",false));
 
-        addAttrDesc(new AttrDescDrawableReflecMethodDrawable(this, "drawable"));
+        addAttrDesc(new AttrDescReflecMethodDrawable(this, "drawable","@null"));
 
         // Documentados en https://developer.android.com/guide/topics/resources/drawable-resource.html#StateList
         addAttrDesc(new AttrDescReflecMethodBoolean(this, "state_pressed",false));

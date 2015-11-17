@@ -9,8 +9,8 @@ import org.itsnat.droid.impl.xmlinflated.drawable.LevelListDrawableItem;
 import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodInt;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -38,10 +38,10 @@ public class ClassDescLevelListDrawableItem extends ClassDescElementDrawableChil
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawableReflecMethodDrawable(this, "drawable"));
+        addAttrDesc(new AttrDescReflecMethodDrawable(this, "drawable","@null"));
 
-        addAttrDesc(new AttrDescDrawableReflecMethodInt(this, "maxLevel"));
-        addAttrDesc(new AttrDescDrawableReflecMethodInt(this, "minLevel"));
+        addAttrDesc(new AttrDescReflecMethodInt(this, "maxLevel",0));
+        addAttrDesc(new AttrDescReflecMethodInt(this, "minLevel",0));
     }
 
 }

@@ -1,15 +1,17 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodSingleName;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_ImageView_scaleType extends AttrDescViewReflecMethodSingleName<ImageView.ScaleType>
+public class AttrDescView_widget_ImageView_scaleType extends AttrDescReflecMethodSingleName<ImageView.ScaleType,ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,ImageView.ScaleType> valueMap = MapSmart.<String,ImageView.ScaleType>create( 8 );
     static

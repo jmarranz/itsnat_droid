@@ -1,13 +1,16 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.view.View;
+
 import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodMultipleName;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_TextView_autoLink extends AttrDescViewReflecMethodMultipleName
+public class AttrDescView_widget_TextView_autoLink extends AttrDescReflecMethodMultipleName<ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(6);
     static

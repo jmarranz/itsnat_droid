@@ -27,6 +27,7 @@ public class AttrDescView_gesture_GestureOverlayView_gestureColor extends AttrDe
         this.fieldCurrentColor = new FieldContainer<Integer>(parent.getDeclaredClass(),"mCurrentColor");
     }
 
+    @Override
     protected void callMethod(View view, Object convertedValue)
     {
         super.callMethod(view,convertedValue);

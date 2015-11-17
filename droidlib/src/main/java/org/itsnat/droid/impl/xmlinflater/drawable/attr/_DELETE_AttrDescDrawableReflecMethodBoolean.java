@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class _DELETE_AttrDescDrawableReflecMethodBoolean<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
+public class _DELETE_AttrDescDrawableReflecMethodBoolean<TdrawableOrElementDrawable> extends _DELETED_AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
     public _DELETE_AttrDescDrawableReflecMethodBoolean(ClassDescDrawable parent, String name, String methodName)
     {

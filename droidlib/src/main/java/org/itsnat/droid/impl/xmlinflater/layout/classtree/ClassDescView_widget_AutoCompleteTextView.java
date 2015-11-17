@@ -6,11 +6,11 @@ import android.widget.ListPopupWindow;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetId;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionIntFloor;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionWithNameInt;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodId;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_AutoCompleteTextView_completionHint;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntFloor;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionWithNameInt;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -28,13 +28,13 @@ public class ClassDescView_widget_AutoCompleteTextView extends ClassDescViewBase
 
         addAttrDesc(new AttrDescView_widget_AutoCompleteTextView_completionHint(this));
         addAttrDesc(new AttrDescViewReflecFieldSetId(this,"completionHintView","mHintResource",null)); // Android tiene un recurso por defecto
-        addAttrDesc(new AttrDescViewReflecMethodInt(this,"completionThreshold","setThreshold",2));
-        addAttrDesc(new AttrDescViewReflecMethodId(this,"dropDownAnchor",-1));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionWithNameInt(this,"dropDownHeight",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionIntFloor(this,"dropDownHorizontalOffset",0.0f));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"completionThreshold","setThreshold",2));
+        addAttrDesc(new AttrDescReflecMethodId(this,"dropDownAnchor",-1));
+        addAttrDesc(new AttrDescReflecMethodDimensionWithNameInt(this,"dropDownHeight",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
+        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"dropDownHorizontalOffset",0.0f));
         addAttrDesc(new AttrDescViewReflecFieldMethodDrawable(this,"dropDownSelector","mPopup","setListSelector",ListPopupWindow.class,null)); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
-        addAttrDesc(new AttrDescViewReflecMethodDimensionIntFloor(this,"dropDownVerticalOffset",0.0f));
-        addAttrDesc(new AttrDescViewReflecMethodDimensionWithNameInt(this,"dropDownWidth",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
+        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"dropDownVerticalOffset",0.0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionWithNameInt(this,"dropDownWidth",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 }
 

@@ -12,7 +12,6 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
@@ -35,7 +34,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
         if (attrSrc == null) throw new ItsNatDroidException("Missing src attribute in element " + rootElem.getName());
 
         // No necesita escalar pues por definición es "flexible"
-        Bitmap bitmap = AttrDescDrawable.getBitmap(attrSrc,true,inflaterDrawable.getBitmapDensityReference(),ctx,classMgr.getXMLInflateRegistry());
+        Bitmap bitmap = ClassDescDrawable.getBitmap(attrSrc,true,inflaterDrawable.getBitmapDensityReference(),ctx,classMgr.getXMLInflateRegistry());
 
         NinePatchDrawable drawable = DrawableUtil.createNinePatchDrawable(bitmap,ctx.getResources());
         return new ElementDrawableRoot(drawable);

@@ -4,13 +4,14 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 
 /**
  * Created by jmarranz on 17/09/14.
  */
-public class AttrDescView_widget_ProgressBar_progressDrawable extends AttrDescViewReflecMethodDrawable
+public class AttrDescView_widget_ProgressBar_progressDrawable extends AttrDescReflecMethodDrawable<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected MethodContainer methodTileify;
 
@@ -21,6 +22,7 @@ public class AttrDescView_widget_ProgressBar_progressDrawable extends AttrDescVi
         this.methodTileify = new MethodContainer(parent.getDeclaredClass(),"tileify",new Class[]{Drawable.class, boolean.class});
     }
 
+    @Override
     protected void callMethod(View view, Object convertedValue)
     {
         Drawable drawable = (Drawable)convertedValue;

@@ -29,12 +29,14 @@ public class AttrDescReflecMethodBoolean<TclassDesc extends ClassDesc,TattrTarge
         return boolean.class;
     }
 
+    @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
         boolean convValue = getBoolean(attr.getValue(),attrCtx.getContext());
         callMethod(target, convValue);
     }
 
+    @Override
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
         callMethod(target, defaultValue);

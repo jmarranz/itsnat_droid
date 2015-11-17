@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class _DELETE_AttrDescDrawableReflecMethodColor<TdrawableOrElementDrawable> extends AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
+public class _DELETE_AttrDescDrawableReflecMethodColor<TdrawableOrElementDrawable> extends _DELETED_AttrDescDrawableReflecMethod<TdrawableOrElementDrawable>
 {
     public _DELETE_AttrDescDrawableReflecMethodColor(ClassDescDrawable parent, String name, String methodName)
     {

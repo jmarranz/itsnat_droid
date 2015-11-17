@@ -6,8 +6,10 @@ import android.graphics.drawable.Drawable;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MapSmart;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
@@ -172,6 +174,15 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         }
 
         return res;
+    }
+
+    protected void setToRemoveAttribute(TattrTarget target, String value, TattrContext attrCtx)
+    {
+        // Este método es llamado desde removeAttribute, cuyo valor será o @null o un recurso de Android, no esperamos
+        // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrLocalResource
+        DOMAttrLocalResource attr = (DOMAttrLocalResource) DOMAttr.create(InflatedXML.XMLNS_ANDROID, getName(), value);
+
+        setAttribute(target, attr,attrCtx);
     }
 
     public abstract void setAttribute(TattrTarget target,DOMAttr attr,TattrContext attrCtx);

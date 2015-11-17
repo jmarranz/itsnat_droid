@@ -8,9 +8,9 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDimensionIntFloor;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodId;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntFloor;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -38,13 +38,13 @@ public class ClassDescLayerDrawableItem extends ClassDescElementDrawableChildWit
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawableReflecMethodDimensionIntFloor(this,"bottom"));
-        addAttrDesc(new AttrDescDrawableReflecMethodDrawable(this,"drawable"));
-        addAttrDesc(new AttrDescDrawableReflecMethodId(this,"id"));
-        addAttrDesc(new AttrDescDrawableReflecMethodDimensionIntFloor(this,"left"));
+        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"bottom",0f));
+        addAttrDesc(new AttrDescReflecMethodDrawable(this,"drawable","@null"));
+        addAttrDesc(new AttrDescReflecMethodId(this,"id",-1));
+        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"left",0f));
         // android:paddingMode es level 21
-        addAttrDesc(new AttrDescDrawableReflecMethodDimensionIntFloor(this,"right"));
-        addAttrDesc(new AttrDescDrawableReflecMethodDimensionIntFloor(this,"top"));
+        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"right",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"top",0f));
     }
 
 }

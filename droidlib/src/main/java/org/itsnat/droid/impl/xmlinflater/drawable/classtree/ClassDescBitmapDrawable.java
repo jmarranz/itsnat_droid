@@ -11,10 +11,9 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_BitmapDrawable_tileMode;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodMultipleName;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -31,7 +30,7 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
     {
         DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
 
-        Bitmap bitmap = AttrDescDrawable.getBitmap(attrSrc,true,inflaterDrawable.getBitmapDensityReference(), ctx, classMgr.getXMLInflateRegistry());
+        Bitmap bitmap = ClassDescDrawable.getBitmap(attrSrc,true,inflaterDrawable.getBitmapDensityReference(), ctx, classMgr.getXMLInflateRegistry());
         return new ElementDrawableRoot(new BitmapDrawable(ctx.getResources(),bitmap));
     }
 
@@ -56,7 +55,7 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"antialias","setAntiAlias",false));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"dither",true));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"filter","setFilterBitmap",true));
-        addAttrDesc(new AttrDescDrawableReflecMethodMultipleName<BitmapDrawable>(this,"gravity", GravityUtil.valueMap));
+        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"fill"));
         // android:mipMap parece que es level 17
         // android:src se procesa en tiempo de creación
         addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileMode(this,"tileMode"));

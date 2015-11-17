@@ -5,13 +5,16 @@ import android.graphics.drawable.BitmapDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
+import org.itsnat.droid.impl.xmlinflater.AttrContext;
+import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDescDrawable<BitmapDrawable>
+public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDesc<ClassDescDrawable,BitmapDrawable,AttrDrawableContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 4 );
     static
@@ -28,7 +31,7 @@ public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDescDrawable<B
     }
 
     @Override
-    public void setAttribute(BitmapDrawable draw, DOMAttr attr, AttrDrawableContext attrCtx)
+    public void setAttribute(BitmapDrawable target, DOMAttr attr, AttrDrawableContext attrCtx)
     {
         int tileMode = this.<Integer>parseSingleName(attr.getValue(), valueMap); // Valor concreto no puede ser un recurso
 
@@ -55,10 +58,16 @@ public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDescDrawable<B
 
         String name = getName();
         if ("tileMode".equals(name))
-            draw.setTileModeXY(tileModeObj,tileModeObj);
+            target.setTileModeXY(tileModeObj,tileModeObj);
         else if ("tileModeX".equals(name))
-            draw.setTileModeX(tileModeObj);
+            target.setTileModeX(tileModeObj);
         else if ("tileModeY".equals(name))
-            draw.setTileModeY(tileModeObj);
+            target.setTileModeY(tileModeObj);
+    }
+
+    @Override
+    public void removeAttribute(BitmapDrawable target, AttrDrawableContext attrCtx)
+    {
+        setToRemoveAttribute(target, "disabled",attrCtx);
     }
 }

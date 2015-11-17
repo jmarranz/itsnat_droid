@@ -19,6 +19,7 @@ public class AttrDescView_widget_AutoCompleteTextView_completionHint extends Att
         super(parent,"completionHint","");
     }
 
+    @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
