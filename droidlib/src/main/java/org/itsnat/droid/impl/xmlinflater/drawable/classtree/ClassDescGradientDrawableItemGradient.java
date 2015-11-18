@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemGradient;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
@@ -51,8 +52,8 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
         addAttrDesc(new AttrDescReflecMethodColor(this, "endColor",0));
         addAttrDesc(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius",new PercFloat(0.5f)));
         addAttrDesc(new AttrDescReflecMethodColor(this, "startColor",0));
-        addAttrDesc(new AttrDescReflecMethodNameSingle(this, "type", int.class, GradientTypeUtil.valueMap,"linear"));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this, "useLevel",false));
+        addAttrDesc(new AttrDescReflecMethodNameSingle<Integer,ClassDescDrawable,GradientDrawableItemGradient,AttrDrawableContext>(this, "type", int.class, GradientTypeUtil.valueMap,"linear"));
+        addAttrDesc(new AttrDescReflecMethodBoolean<ClassDescDrawable,GradientDrawableItemGradient,AttrDrawableContext>(this, "useLevel",false));
     }
 
     public static class GradientTypeUtil

@@ -61,7 +61,7 @@ public abstract class ClassDesc<Tnative>
         this.attrDescMap = new HashMap<String, AttrDesc>();
     }
 
-    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> void addAttrDesc(AttrDesc<TclassDesc,TattrTarget,TattrContext> attrDesc)
+    protected <T extends AttrDesc> void addAttrDesc(T attrDesc)
     {
         AttrDesc old = attrDescMap.put(attrDesc.getName(),attrDesc);
         if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class: " + attrDesc.getName());
