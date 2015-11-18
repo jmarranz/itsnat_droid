@@ -7,19 +7,20 @@ import android.widget.ListView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_ListViewAndAbsSpinner_entries extends AttrDescView
+public class AttrDescView_widget_ListViewAndAbsSpinner_entries extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_widget_ListViewAndAbsSpinner_entries(ClassDescViewBased parent)
     {
         super(parent,"entries");
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         CharSequence[] entries = getTextArray(attr.getValue(),attrCtx.getContext());
@@ -31,6 +32,7 @@ public class AttrDescView_widget_ListViewAndAbsSpinner_entries extends AttrDescV
             ((AbsSpinner)view).setAdapter(adapter);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "0",attrCtx);

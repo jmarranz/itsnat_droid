@@ -1,13 +1,13 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_indeterminate;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_indeterminateBehavior;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_interpolator;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_progressDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetDimensionIntRound;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 
@@ -29,7 +29,7 @@ public class ClassDescView_widget_ProgressBar extends ClassDescViewBased
         addAttrDesc(new AttrDescView_widget_ProgressBar_indeterminate(this,"indeterminate",true));
         addAttrDesc(new AttrDescView_widget_ProgressBar_indeterminateBehavior(this));
         addAttrDesc(new AttrDescReflecMethodDrawable(this,"indeterminateDrawable",null)); // Android tiene un drawable por defecto
-        addAttrDesc(new AttrDescViewReflecFieldSetInt(this,"indeterminateDuration","mDuration",4000));
+        addAttrDesc(new AttrDescReflecFieldSetInt(this,"indeterminateDuration","mDuration",4000));
         addAttrDesc(new AttrDescReflecFieldSetBoolean(this,"indeterminateOnly","mOnlyIndeterminate",false));
         addAttrDesc(new AttrDescView_widget_ProgressBar_interpolator(this));
         addAttrDesc(new AttrDescReflecMethodInt(this,"max",100));

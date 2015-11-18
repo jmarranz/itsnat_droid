@@ -1,11 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Switch_switchTextAppearance;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Switch_textStyle;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Switch_typeface;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetDimensionIntRound;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodCharSequence;
 
 /**
@@ -28,9 +28,9 @@ public class ClassDescView_widget_Switch extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodCharSequence(this,"textOff",null)); // Adnroid tiene un texto por defecto
         addAttrDesc(new AttrDescReflecMethodCharSequence(this,"textOn",null)); // Adnroid tiene un texto por defecto
         addAttrDesc(new AttrDescView_widget_Switch_textStyle(this));
-        addAttrDesc(new AttrDescViewReflecFieldSetDrawable(this,"thumb","mThumbDrawable",null)); // Android tiene un drawable por defecto
+        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"thumb","mThumbDrawable",null)); // Android tiene un drawable por defecto
         addAttrDesc(new AttrDescReflecFieldSetDimensionIntRound(this,"thumbTextPadding","mThumbTextPadding",0));
-        addAttrDesc(new AttrDescViewReflecFieldSetDrawable(this,"track","mTrackDrawable",null)); // Android tiene un drawable por defecto
+        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"track","mTrackDrawable",null)); // Android tiene un drawable por defecto
         addAttrDesc(new AttrDescView_widget_Switch_typeface(this));
 
     }

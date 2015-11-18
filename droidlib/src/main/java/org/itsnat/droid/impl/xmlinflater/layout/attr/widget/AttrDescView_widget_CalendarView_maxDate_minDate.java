@@ -11,8 +11,8 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -20,7 +20,7 @@ import java.util.Locale;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescView
+public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     private static final String DEFAULT_MIN_DATE = "01/01/1900";
     private static final String DEFAULT_MAX_DATE = "01/01/2100";
@@ -75,6 +75,7 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
         this.fieldMaxMinDate = new FieldContainer<Calendar>(calendarClassWithMaxMinDate,fieldName);
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         String date = getString(attr.getValue(),attrCtx.getContext());
@@ -104,6 +105,7 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
         fieldMaxMinDate.set(calendarObject,outDate);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         String value = null;

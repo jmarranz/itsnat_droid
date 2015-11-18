@@ -6,19 +6,20 @@ import android.view.ViewGroup;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescView_view_View_layout_margin_Base extends AttrDescView
+public abstract class AttrDescView_view_View_layout_margin_Base extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_View_layout_margin_Base(ClassDescViewBased parent, String name)
     {
         super(parent,name);
     }
 
+    @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final int valueInt = getDimensionIntRound(attr.getValue(), attrCtx.getContext());
@@ -45,7 +46,7 @@ public abstract class AttrDescView_view_View_layout_margin_Base extends AttrDesc
 
     protected abstract void setAttribute(ViewGroup.MarginLayoutParams params,int value);
 
-
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();

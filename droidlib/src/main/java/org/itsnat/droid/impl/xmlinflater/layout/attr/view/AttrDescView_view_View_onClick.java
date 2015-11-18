@@ -6,8 +6,8 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,13 +15,14 @@ import java.lang.reflect.Method;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_onClick extends AttrDescView
+public class AttrDescView_view_View_onClick extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_View_onClick(ClassDescViewBased parent)
     {
         super(parent,"onClick");
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         final String handlerName = attr.getValue();
@@ -74,6 +75,7 @@ public class AttrDescView_view_View_onClick extends AttrDescView
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "",attrCtx);

@@ -6,13 +6,13 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_scrollbars extends AttrDescView
+public class AttrDescView_view_View_scrollbars extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
 
@@ -34,6 +34,7 @@ public class AttrDescView_view_View_scrollbars extends AttrDescView
         this.methodSetFlags = new MethodContainer(parent.getDeclaredClass(),"setFlags",new Class[]{int.class, int.class});
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         int scrollbars = parseMultipleName(attr.getValue(), valueMap);
@@ -41,6 +42,7 @@ public class AttrDescView_view_View_scrollbars extends AttrDescView
         setFlags(view, scrollbars, SCROLLBARS_MASK);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "none",attrCtx);

@@ -5,13 +5,13 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_layerType extends AttrDescView
+public class AttrDescView_view_View_layerType extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
     static
@@ -26,14 +26,16 @@ public class AttrDescView_view_View_layerType extends AttrDescView
         super(parent,"layerType");
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convertedValue = AttrDescView.<Integer>parseSingleName(attr.getValue(), valueMap);
+        int convertedValue = AttrDesc.<Integer>parseSingleName(attr.getValue(), valueMap);
 
         int layerType = (Integer)convertedValue;
         view.setLayerType(layerType,null);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "none",attrCtx);

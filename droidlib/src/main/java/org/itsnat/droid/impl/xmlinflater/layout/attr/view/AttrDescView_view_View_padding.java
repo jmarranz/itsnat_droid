@@ -4,19 +4,20 @@ import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_padding extends AttrDescView
+public class AttrDescView_view_View_padding extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_View_padding(ClassDescViewBased parent, String name)
     {
         super(parent,name);
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         int convValue = getDimensionIntRound(attr.getValue(), attrCtx.getContext());
@@ -34,6 +35,7 @@ public class AttrDescView_view_View_padding extends AttrDescView
             view.setPadding(view.getPaddingLeft(),view.getPaddingTop(),view.getPaddingRight(),convValue);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "0dp",attrCtx);

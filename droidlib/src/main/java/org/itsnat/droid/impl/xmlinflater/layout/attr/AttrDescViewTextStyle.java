@@ -7,11 +7,12 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescViewTextStyle extends AttrDescView
+public abstract class AttrDescViewTextStyle extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     @SuppressWarnings("unchecked")
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
@@ -27,12 +28,14 @@ public abstract class AttrDescViewTextStyle extends AttrDescView
         super(parent,name);
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         int style = parseMultipleName(attr.getValue(), valueMap);
         setTextStyle(view,style);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "normal",attrCtx);

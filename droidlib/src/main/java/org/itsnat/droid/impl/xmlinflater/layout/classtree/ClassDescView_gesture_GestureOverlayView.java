@@ -1,10 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.OrientationUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.gesture.AttrDescView_gesture_GestureOverlayView_gestureColor;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.gesture.AttrDescView_gesture_GestureOverlayView_gestureStrokeType;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
@@ -26,7 +26,7 @@ public class ClassDescView_gesture_GestureOverlayView extends ClassDescViewBased
         super.init();
 
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"eventsInterceptionEnabled",true));
-        addAttrDesc(new AttrDescViewReflecFieldSetInt(this,"fadeDuration","mFadeDuration",150)); // Curiosamente mFadeDuration es long pero t_odo se procesa como int
+        addAttrDesc(new AttrDescReflecFieldSetInt(this,"fadeDuration","mFadeDuration",150)); // Curiosamente mFadeDuration es long pero t_odo se procesa como int
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"fadeEnabled",true));
         addAttrDesc(new AttrDescReflecMethodLong(this,"fadeOffset",420L));
         addAttrDesc(new AttrDescView_gesture_GestureOverlayView_gestureColor(this));

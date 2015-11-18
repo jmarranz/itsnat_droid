@@ -11,13 +11,13 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
+public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected FieldContainer<Integer> fieldShadowColor;
     protected MethodContainer<Integer> methodShadowColor;
@@ -45,6 +45,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         return fieldShadowColor != null ? fieldShadowColor.get(textView.getPaint()) : methodShadowColor.invoke(textView);
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         TextView textView = (TextView)view;
@@ -96,6 +97,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         textView.setShadowLayer(radius,dx,dy,color);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         String defaultValue = null;
@@ -106,6 +108,5 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
 
         setToRemoveAttribute(view, defaultValue,attrCtx);
     }
-
 
 }

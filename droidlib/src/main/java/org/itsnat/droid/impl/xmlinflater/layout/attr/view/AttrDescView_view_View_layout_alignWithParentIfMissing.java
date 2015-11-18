@@ -6,19 +6,20 @@ import android.widget.RelativeLayout;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_layout_alignWithParentIfMissing extends AttrDescView
+public class AttrDescView_view_View_layout_alignWithParentIfMissing extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_View_layout_alignWithParentIfMissing(ClassDescViewBased parent)
     {
         super(parent,"layout_alignWithParentIfMissing");
     }
 
+    @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final boolean convValue = getBoolean(attr.getValue(),attrCtx.getContext());
@@ -43,6 +44,7 @@ public class AttrDescView_view_View_layout_alignWithParentIfMissing extends Attr
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();

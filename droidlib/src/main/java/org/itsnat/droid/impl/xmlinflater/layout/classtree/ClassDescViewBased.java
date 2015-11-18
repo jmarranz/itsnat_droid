@@ -57,6 +57,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         super(classMgr,className,parentClass);
     }
 
+    @Override
     protected void init()
     {
         initClass();
@@ -108,6 +109,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return isStyleAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
     }
 
+    @SuppressWarnings("unchecked")
     public boolean setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();
@@ -174,7 +176,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         }
     }
 
-
+    @SuppressWarnings("unchecked")
     public boolean removeAttribute(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();
@@ -186,7 +188,6 @@ public class ClassDescViewBased extends ClassDesc<View>
             XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                // AttrDescView attrDesc = getAttrDescView(name);
                 AttrDesc attrDesc = getAttrDesc(name);
                 if (attrDesc != null)
                 {

@@ -17,12 +17,14 @@ public class AttrDescView_widget_TextView_typeface extends AttrDescViewTypeface
         super(parent,"typeface");
     }
 
+    @Override
     protected Typeface getCurrentTypeface(View view)
     {
         TextView textView = (TextView)view;
         return textView.getTypeface();
     }
 
+    @Override
     protected void setCurrentTypeface(View view,Typeface tf,int style)
     {
         TextView textView = (TextView)view;

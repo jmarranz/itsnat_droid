@@ -10,8 +10,8 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
+public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     // Constantes en la subclase Drawables
     private static final int LEFT   = 0;
@@ -66,6 +66,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
         }
     }
 
+    @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         Runnable task = new Runnable()
@@ -91,6 +92,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
             task.run();
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "@null", attrCtx);

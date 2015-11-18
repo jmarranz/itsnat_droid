@@ -7,13 +7,13 @@ import android.widget.TextView;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_TextView_ellipsize extends AttrDescView
+public class AttrDescView_widget_TextView_ellipsize extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,TextUtils.TruncateAt> valueMap = MapSmart.<String,TextUtils.TruncateAt>create( 5 );
     static
@@ -30,13 +30,15 @@ public class AttrDescView_widget_TextView_ellipsize extends AttrDescView
         super(parent,"ellipsize");
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        TextUtils.TruncateAt convValue = AttrDescView.<TextUtils.TruncateAt>parseSingleName(attr.getValue(), valueMap);
+        TextUtils.TruncateAt convValue = AttrDesc.<TextUtils.TruncateAt>parseSingleName(attr.getValue(), valueMap);
 
         ((TextView)view).setEllipsize(convValue);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "@null",attrCtx);

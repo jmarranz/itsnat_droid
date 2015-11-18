@@ -8,11 +8,12 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescViewTypeface extends AttrDescView
+public abstract class AttrDescViewTypeface extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     @SuppressWarnings("unchecked")
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(4);
@@ -29,10 +30,11 @@ public abstract class AttrDescViewTypeface extends AttrDescView
         super(parent,name);
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         Typeface tf = null; // El caso null
-        int convValue = AttrDescView.<Integer>parseSingleName(attr.getValue(), valueMap);
+        int convValue = AttrDesc.<Integer>parseSingleName(attr.getValue(), valueMap);
         switch(convValue)
         {
             case 0: tf = null;
@@ -52,6 +54,7 @@ public abstract class AttrDescViewTypeface extends AttrDescView
         textView.setTypeface(tf,style);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "normal",attrCtx);

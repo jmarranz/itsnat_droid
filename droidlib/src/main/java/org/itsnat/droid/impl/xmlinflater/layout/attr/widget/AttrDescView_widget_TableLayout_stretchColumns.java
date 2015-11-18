@@ -6,19 +6,20 @@ import android.widget.TableLayout;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_TableLayout_stretchColumns extends AttrDescView
+public class AttrDescView_widget_TableLayout_stretchColumns extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_widget_TableLayout_stretchColumns(ClassDescViewBased parent)
     {
         super(parent,"stretchColumns");
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final TableLayout tableView = (TableLayout)view;
@@ -46,6 +47,7 @@ public class AttrDescView_widget_TableLayout_stretchColumns extends AttrDescView
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "", attrCtx);

@@ -9,19 +9,21 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MapSmart;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 4/11/14.
  */
 public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
 {
+    private static Class class_R_styleable;
+
     protected String name;
     protected TclassDesc classDesc;
 
@@ -29,6 +31,13 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     {
         this.classDesc = classDesc;
         this.name = name;
+    }
+
+    protected static Class getClass_R_styleable()
+    {
+        if (class_R_styleable == null)
+            class_R_styleable = MiscUtil.resolveClass("com.android.internal.R$styleable");
+        return class_R_styleable;
     }
 
     public TclassDesc getClassDesc()
@@ -40,8 +49,6 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     {
         return name;
     }
-
-
 
     protected XMLInflateRegistry getXMLInflateRegistry()
     {

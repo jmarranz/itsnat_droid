@@ -12,21 +12,22 @@ import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_columnSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_rowSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_layout_gravity extends AttrDescView
+public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_View_layout_gravity(ClassDescViewBased parent)
     {
         super(parent,"layout_gravity");
     }
 
+    @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final int valueInt = parseMultipleName(attr.getValue(), GravityUtil.valueMap);
@@ -73,6 +74,7 @@ public class AttrDescView_view_View_layout_gravity extends AttrDescView
 
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         ViewGroup.LayoutParams params = view.getLayoutParams();

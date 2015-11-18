@@ -7,13 +7,13 @@ import android.widget.AdapterViewAnimator;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Base extends AttrDescView
+public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Base extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected static final int DEFAULT_ANIMATION_DURATION = 200;
 
@@ -22,6 +22,7 @@ public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Bas
         super(parent,name);
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         int id = getIdentifier(attr.getValue(), attrCtx.getContext());
@@ -31,6 +32,7 @@ public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Bas
         setAnimation((AdapterViewAnimator)view,animator);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "0",attrCtx);

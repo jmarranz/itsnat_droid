@@ -6,13 +6,13 @@ import android.widget.TextView;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_TextView_bufferType extends AttrDescView
+public class AttrDescView_widget_TextView_bufferType extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public static final MapSmart<String,TextView.BufferType> valueMap = MapSmart.<String,TextView.BufferType>create( 3 );
     static
@@ -27,14 +27,16 @@ public class AttrDescView_widget_TextView_bufferType extends AttrDescView
         super(parent,"bufferType");
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        TextView.BufferType convertedValue = AttrDescView.<TextView.BufferType>parseSingleName(attr.getValue(), valueMap);
+        TextView.BufferType convertedValue = AttrDesc.<TextView.BufferType>parseSingleName(attr.getValue(), valueMap);
 
         TextView textView = (TextView)view;
         textView.setText(textView.getText(),(TextView.BufferType)convertedValue);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "normal",attrCtx);

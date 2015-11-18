@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.InsetDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;

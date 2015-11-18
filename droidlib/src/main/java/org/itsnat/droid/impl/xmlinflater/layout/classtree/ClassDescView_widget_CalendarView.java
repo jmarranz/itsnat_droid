@@ -8,12 +8,12 @@ import android.widget.CalendarView;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDrawable;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_dateTextAppearance;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_maxDate_minDate;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_weekDayTextAppearance;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetColor;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetDrawable;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
@@ -70,7 +70,7 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
         addAttrDesc(new AttrDescView_widget_CalendarView_maxDate_minDate(this,"minDate"));
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            addAttrDesc(new AttrDescViewReflecFieldSetDrawable(this,"selectedDateVerticalBar","mSelectedDateVerticalBar",null)); // Hay un Drawable por defecto
+            addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"selectedDateVerticalBar","mSelectedDateVerticalBar",null)); // Hay un Drawable por defecto
         else // Ver notas de focusedMonthDateColor
             addAttrDesc(new AttrDescReflecMethodDrawable(this,"selectedDateVerticalBar","setSelectedDateVerticalBar",null));
 
@@ -82,7 +82,7 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"showWeekNumber",true));
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            addAttrDesc(new AttrDescViewReflecFieldSetInt(this,"shownWeekCount","mShownWeekCount",6));
+            addAttrDesc(new AttrDescReflecFieldSetInt(this,"shownWeekCount","mShownWeekCount",6));
         else // Ver notas de focusedMonthDateColor
             addAttrDesc(new AttrDescReflecMethodInt(this,"shownWeekCount","setShownWeekCount",6));
 

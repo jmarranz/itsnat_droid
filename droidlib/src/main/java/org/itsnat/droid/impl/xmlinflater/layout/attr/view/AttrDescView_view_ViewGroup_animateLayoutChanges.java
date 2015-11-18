@@ -6,19 +6,20 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_ViewGroup_animateLayoutChanges extends AttrDescView
+public class AttrDescView_view_ViewGroup_animateLayoutChanges extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_view_ViewGroup_animateLayoutChanges(ClassDescViewBased parent)
     {
         super(parent,"animateLayoutChanges");
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         // Tomado del código fuente de ViewGroup
@@ -28,6 +29,7 @@ public class AttrDescView_view_ViewGroup_animateLayoutChanges extends AttrDescVi
         ((ViewGroup)view).setLayoutTransition(trn);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "false",attrCtx);

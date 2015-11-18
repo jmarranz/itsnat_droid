@@ -9,13 +9,13 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDescView
+public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected FieldContainer<int[]> fieldTextAppearance;
     protected FieldContainer<Integer> fieldTextAppearance_textSize;
@@ -42,6 +42,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
         }
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         int dateTextAppearanceResId = getIdentifier(attr.getValue(),attrCtx.getContext());
@@ -73,6 +74,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         // Se usa el valor por defecto de Android

@@ -7,13 +7,13 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends AttrDescView
+public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected MethodContainer<Boolean> method;
 
@@ -27,6 +27,7 @@ public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends Attr
             this.method = new MethodContainer<Boolean>(parent.getDeclaredClass(),"setWeekDayTextAppearance",new Class[]{int.class});
     }
 
+    @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         int id = getIdentifier(attr.getValue(),attrCtx.getContext());
@@ -34,6 +35,7 @@ public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends Attr
         method.invoke(view, id);
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         // Android tiene un estilo por defecto

@@ -10,8 +10,8 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -19,7 +19,7 @@ import java.util.Locale;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDescView
+public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     private static final int DEFAULT_START_YEAR = 1900;
     private static final int DEFAULT_END_YEAR = 2100;
@@ -56,6 +56,7 @@ public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDescVi
         this.methodMaxMinDate = new MethodContainer<Void>(datePickerClass2,methodName,new Class[]{long.class});
     }
 
+    @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final String year = getString(attr.getValue(),attrCtx.getContext());
@@ -89,6 +90,7 @@ public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDescVi
         methodMaxMinDate.invoke(datePickerObject,tempDate.getTimeInMillis());
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         setToRemoveAttribute(view, "",attrCtx);

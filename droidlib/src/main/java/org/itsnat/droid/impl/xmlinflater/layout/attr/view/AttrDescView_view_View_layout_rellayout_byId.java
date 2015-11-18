@@ -6,13 +6,13 @@ import android.widget.RelativeLayout;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_layout_rellayout_byId extends AttrDescView
+public class AttrDescView_view_View_layout_rellayout_byId extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     protected int selector;
 
@@ -22,6 +22,7 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDescView
         this.selector = selector;
     }
 
+    @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
 
@@ -55,6 +56,7 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDescView
         }
     }
 
+    @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();

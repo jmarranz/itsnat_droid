@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetFloat;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ToggleButton_textOffandOn;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat;
 
 /**
  * Nota: ToggleButton ha sido reemplazado totalmente por Switch, lo implementamos para los despistados
@@ -19,7 +19,7 @@ public class ClassDescView_widget_ToggleButton extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescViewReflecFieldSetFloat(this,"disabledAlpha","mDisabledAlpha",0.5f));
+        addAttrDesc(new AttrDescReflecFieldSetFloat(this,"disabledAlpha","mDisabledAlpha",0.5f));
         addAttrDesc(new AttrDescView_widget_ToggleButton_textOffandOn(this,"textOff"));
         addAttrDesc(new AttrDescView_widget_ToggleButton_textOffandOn(this,"textOn"));
     }
