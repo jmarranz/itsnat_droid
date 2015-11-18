@@ -15,6 +15,7 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
         super(classMgr,"android.widget.RelativeLayout",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

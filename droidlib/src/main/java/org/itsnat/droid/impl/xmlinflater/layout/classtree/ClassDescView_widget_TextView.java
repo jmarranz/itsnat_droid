@@ -40,6 +40,7 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         super(classMgr,"android.widget.TextView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

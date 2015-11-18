@@ -15,6 +15,7 @@ public class ClassDescView_widget_RatingBar extends ClassDescViewBased
         super(classMgr,"android.widget.RatingBar",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

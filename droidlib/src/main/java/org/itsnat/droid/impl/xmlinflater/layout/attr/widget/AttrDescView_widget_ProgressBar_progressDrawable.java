@@ -13,13 +13,12 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawabl
  */
 public class AttrDescView_widget_ProgressBar_progressDrawable extends AttrDescReflecMethodDrawable<ClassDescViewBased,View,AttrLayoutContext>
 {
-    protected MethodContainer methodTileify;
+    protected MethodContainer<Void> methodTileify;
 
-    @SuppressWarnings("unchecked")
     public AttrDescView_widget_ProgressBar_progressDrawable(ClassDescViewBased parent)
     {
         super(parent,"progressDrawable",null); // Valor por default: Android tiene un Drawable por defecto
-        this.methodTileify = new MethodContainer(parent.getDeclaredClass(),"tileify",new Class[]{Drawable.class, boolean.class});
+        this.methodTileify = new MethodContainer<Void>(parent.getDeclaredClass(),"tileify",new Class[]{Drawable.class, boolean.class});
     }
 
     @Override

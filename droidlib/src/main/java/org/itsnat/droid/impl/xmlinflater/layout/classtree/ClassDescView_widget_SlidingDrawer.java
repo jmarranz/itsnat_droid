@@ -63,6 +63,7 @@ public class ClassDescView_widget_SlidingDrawer extends ClassDescViewBased
     }
 
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

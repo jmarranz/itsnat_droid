@@ -17,6 +17,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
         super(classMgr,"android.view.ViewGroup",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

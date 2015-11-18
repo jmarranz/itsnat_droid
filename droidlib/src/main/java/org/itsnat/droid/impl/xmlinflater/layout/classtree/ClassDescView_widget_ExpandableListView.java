@@ -17,6 +17,7 @@ public class ClassDescView_widget_ExpandableListView extends ClassDescViewBased
         super(classMgr,"android.widget.ExpandableListView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

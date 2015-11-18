@@ -13,6 +13,7 @@ public class ClassDescView_view_ViewStub extends ClassDescViewBased
         super(classMgr,"android.view.ViewStub",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -16,6 +16,7 @@ public class ClassDescView_widget_ListView extends ClassDescViewBased
         super(classMgr,"android.widget.ListView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

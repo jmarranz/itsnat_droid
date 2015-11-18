@@ -25,13 +25,12 @@ public class AttrDescView_view_View_scrollbars extends AttrDesc<ClassDescViewBas
 
     protected static final int SCROLLBARS_MASK = 0x00000300;
 
-    protected MethodContainer methodSetFlags;
+    protected MethodContainer<Void> methodSetFlags;
 
-    @SuppressWarnings("unchecked")
     public AttrDescView_view_View_scrollbars(ClassDescViewBased parent)
     {
         super(parent,"scrollbars");
-        this.methodSetFlags = new MethodContainer(parent.getDeclaredClass(),"setFlags",new Class[]{int.class, int.class});
+        this.methodSetFlags = new MethodContainer<Void>(parent.getDeclaredClass(),"setFlags",new Class[]{int.class, int.class});
     }
 
     @Override

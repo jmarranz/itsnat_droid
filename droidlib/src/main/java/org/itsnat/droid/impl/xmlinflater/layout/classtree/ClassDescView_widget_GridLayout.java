@@ -17,6 +17,7 @@ public class ClassDescView_widget_GridLayout extends ClassDescViewBased
         super(classMgr,"android.widget.GridLayout",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

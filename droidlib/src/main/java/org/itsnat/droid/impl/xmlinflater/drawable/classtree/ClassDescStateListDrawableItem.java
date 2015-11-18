@@ -33,6 +33,7 @@ public class ClassDescStateListDrawableItem extends ClassDescElementDrawableChil
         return new StateListDrawableItem(parentChildDrawable);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -109,7 +109,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return isStyleAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
     }
 
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public boolean setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();
@@ -126,7 +126,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                AttrDesc attrDesc = getAttrDesc(name);
+                AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(name);
                 if (attrDesc != null)
                 {
                     attrDesc.setAttribute(view, attr,attrCtx);
@@ -176,7 +176,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         }
     }
 
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public boolean removeAttribute(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();
@@ -188,7 +188,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                AttrDesc attrDesc = getAttrDesc(name);
+                AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(name);
                 if (attrDesc != null)
                 {
                     attrDesc.removeAttribute(view,attrCtx);

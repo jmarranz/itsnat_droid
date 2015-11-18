@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.util.HashMap;
@@ -60,13 +61,14 @@ public abstract class ClassDesc<Tnative>
         this.attrDescMap = new HashMap<String, AttrDesc>();
     }
 
-    protected void addAttrDesc(AttrDesc attrDesc)
+    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> void addAttrDesc(AttrDesc<TclassDesc,TattrTarget,TattrContext> attrDesc)
     {
         AttrDesc old = attrDescMap.put(attrDesc.getName(),attrDesc);
         if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class: " + attrDesc.getName());
     }
 
-    protected AttrDesc getAttrDesc(String name)
+    @SuppressWarnings("unchecked")
+    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDesc(String name)
     {
         return attrDescMap.get(name);
     }

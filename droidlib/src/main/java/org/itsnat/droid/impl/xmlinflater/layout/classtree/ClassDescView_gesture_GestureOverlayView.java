@@ -21,6 +21,7 @@ public class ClassDescView_gesture_GestureOverlayView extends ClassDescViewBased
         super(classMgr,"android.gesture.GestureOverlayView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -15,6 +15,7 @@ public class ClassDescView_widget_ToggleButton extends ClassDescViewBased
         super(classMgr,"android.widget.ToggleButton",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

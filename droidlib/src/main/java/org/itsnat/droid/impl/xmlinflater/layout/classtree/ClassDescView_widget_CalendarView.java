@@ -54,6 +54,7 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
         return oneTimeAttrProcess;
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -48,6 +48,7 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
         return BitmapDrawable.class;
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

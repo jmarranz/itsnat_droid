@@ -22,6 +22,7 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
         super(classMgr,"android.widget.LinearLayout",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

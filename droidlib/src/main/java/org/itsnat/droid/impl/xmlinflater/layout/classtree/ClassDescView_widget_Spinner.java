@@ -108,6 +108,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
     }
 
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

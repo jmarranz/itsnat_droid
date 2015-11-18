@@ -31,7 +31,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     // Fin LOLLIPOP y superiores
 
 
-    protected FieldContainer gradientStateField;
+    protected FieldContainer<Object> gradientStateField;
     protected FieldContainer<Integer> gradientTypeField;
     protected FieldContainer<Float> gradientRadiusField;
     protected FieldContainer<Integer> gradientRadiusTypeField;  // LOLLIPOP y sup
@@ -41,12 +41,12 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     protected FieldContainer<Float> centerYField;
     protected FieldContainer<Boolean> useLevelField;
 
-    @SuppressWarnings("unchecked")
+
     public ClassDescGradientDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"shape");
 
-        this.gradientStateField = new FieldContainer(GradientDrawable.class, "mGradientState");
+        this.gradientStateField = new FieldContainer<Object>(GradientDrawable.class, "mGradientState");
         Class gradientStateClass = MiscUtil.resolveClass(GradientDrawable.class.getName() + "$GradientState");
         this.gradientTypeField  = new FieldContainer<Integer>(gradientStateClass, "mGradient");
         this.gradientRadiusField = new FieldContainer<Float>(gradientStateClass, "mGradientRadius");

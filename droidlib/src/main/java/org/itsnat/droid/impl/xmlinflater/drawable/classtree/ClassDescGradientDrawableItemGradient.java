@@ -39,6 +39,7 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
         return new GradientDrawableItemGradient(parentChildDrawable);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();
@@ -56,9 +57,8 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
 
     public static class GradientTypeUtil
     {
-        @SuppressWarnings("unchecked")
-        public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(3);
 
+        public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(3);
         static
         {
             valueMap.put("linear", GradientDrawable.LINEAR_GRADIENT);

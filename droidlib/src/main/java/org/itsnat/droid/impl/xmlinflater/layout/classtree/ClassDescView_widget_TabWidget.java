@@ -14,6 +14,7 @@ public class ClassDescView_widget_TabWidget extends ClassDescViewBased
         super(classMgr,"android.widget.TabWidget",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -59,6 +59,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
         return NinePatchDrawable.class;
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

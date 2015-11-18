@@ -34,6 +34,7 @@ public class ClassDescLevelListDrawableItem extends ClassDescElementDrawableChil
         return new LevelListDrawableItem(parentChildDrawable);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

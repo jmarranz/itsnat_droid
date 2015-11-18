@@ -56,7 +56,8 @@ public class ClassDescView_view_View extends ClassDescViewBased
         super(classMgr,"android.view.View",null);
     }
 
-    @Override
+    //@Override
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

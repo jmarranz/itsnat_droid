@@ -13,6 +13,7 @@ public class ClassDescView_widget_AnalogClock extends ClassDescViewBased
         super(classMgr,"android.widget.AnalogClock",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

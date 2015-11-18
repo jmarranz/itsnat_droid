@@ -33,6 +33,7 @@ public class ClassDescColorDrawable extends ClassDescElementDrawableRoot<ColorDr
         return ColorDrawable.class;
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
+import android.view.View;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -20,6 +21,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.io.InputStream;
@@ -66,7 +68,6 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
     }
 
 
-    @SuppressWarnings("unchecked")
     public boolean setAttribute(DrawableOrElementDrawableWrapper draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
         if (!isInit()) init();
@@ -78,7 +79,7 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
 
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
-            AttrDesc attrDesc = getAttrDesc(name);
+            AttrDesc<ClassDescDrawable,Object,AttrDrawableContext> attrDesc = this.<ClassDescDrawable,Object,AttrDrawableContext>getAttrDesc(name);
             if (attrDesc != null)
             {
                 attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr,attrCtx);

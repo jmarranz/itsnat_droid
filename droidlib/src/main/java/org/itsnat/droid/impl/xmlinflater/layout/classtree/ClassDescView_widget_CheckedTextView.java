@@ -14,6 +14,7 @@ public class ClassDescView_widget_CheckedTextView extends ClassDescViewBased
         super(classMgr,"android.widget.CheckedTextView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -19,6 +19,7 @@ public class ClassDescView_widget_ImageView extends ClassDescViewBased
         super(classMgr,"android.widget.ImageView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -14,6 +14,7 @@ public class ClassDescView_widget_CompoundButton extends ClassDescViewBased
         super(classMgr,"android.widget.CompoundButton",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

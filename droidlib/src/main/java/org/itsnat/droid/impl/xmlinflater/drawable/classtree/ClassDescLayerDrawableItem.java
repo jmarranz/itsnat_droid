@@ -34,6 +34,7 @@ public class ClassDescLayerDrawableItem extends ClassDescElementDrawableChildWit
         return new LayerDrawableItem(parentChildDrawable);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

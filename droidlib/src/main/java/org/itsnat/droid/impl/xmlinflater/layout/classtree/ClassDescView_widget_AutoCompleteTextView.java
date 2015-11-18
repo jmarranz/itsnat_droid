@@ -22,6 +22,7 @@ public class ClassDescView_widget_AutoCompleteTextView extends ClassDescViewBase
         super(classMgr,"android.widget.AutoCompleteTextView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

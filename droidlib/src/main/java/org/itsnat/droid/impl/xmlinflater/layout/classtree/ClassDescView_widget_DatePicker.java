@@ -15,6 +15,7 @@ public class ClassDescView_widget_DatePicker extends ClassDescViewBased
         super(classMgr,"android.widget.DatePicker",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

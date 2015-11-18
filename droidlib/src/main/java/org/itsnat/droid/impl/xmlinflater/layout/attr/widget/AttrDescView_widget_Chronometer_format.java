@@ -13,14 +13,13 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodString;
  */
 public class AttrDescView_widget_Chronometer_format extends AttrDescReflecMethodString<ClassDescViewBased,View,AttrLayoutContext>
 {
-    protected MethodContainer methodContainer;
+    protected MethodContainer<Void> methodContainer;
 
-    @SuppressWarnings("unchecked")
     public AttrDescView_widget_Chronometer_format(ClassDescViewBased parent)
     {
         super(parent,"format","%s"); // Android tiene un texto por defecto
 
-        this.methodContainer = new MethodContainer(parent.getDeclaredClass(),"init");
+        this.methodContainer = new MethodContainer<Void>(parent.getDeclaredClass(),"init");
     }
 
     @Override

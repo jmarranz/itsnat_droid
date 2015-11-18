@@ -14,7 +14,6 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public abstract class AttrDescViewTextStyle extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    @SuppressWarnings("unchecked")
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
     static
     {

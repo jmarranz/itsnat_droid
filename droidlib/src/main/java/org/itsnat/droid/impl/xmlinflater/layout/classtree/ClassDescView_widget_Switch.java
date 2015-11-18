@@ -18,6 +18,7 @@ public class ClassDescView_widget_Switch extends ClassDescViewBased
         super(classMgr,"android.widget.Switch",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

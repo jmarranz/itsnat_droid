@@ -19,6 +19,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
         super(classMgr,"android.widget.FrameLayout",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 /**
  * Created by jmarranz on 23/09/14.
  */
-public class MethodContainer<T>
+public class MethodContainer<Treturn>
 {
     protected final Class clasz;
     protected final String methodName;
@@ -73,12 +73,12 @@ public class MethodContainer<T>
 
 
     @SuppressWarnings("unchecked")
-    public T invoke(Object obj, Object... params)
+    public Treturn invoke(Object obj, Object... params)
     {
         try
         {
             Method method = getMethod();
-            return (T)method.invoke(obj, params);
+            return (Treturn)method.invoke(obj, params);
         }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
         catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }

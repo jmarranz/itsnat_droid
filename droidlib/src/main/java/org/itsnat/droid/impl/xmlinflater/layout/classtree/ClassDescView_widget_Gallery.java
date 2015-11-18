@@ -17,6 +17,7 @@ public class ClassDescView_widget_Gallery extends ClassDescViewBased
         super(classMgr,"android.widget.Gallery",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

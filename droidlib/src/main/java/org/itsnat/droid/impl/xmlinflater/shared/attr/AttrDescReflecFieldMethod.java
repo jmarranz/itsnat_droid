@@ -11,14 +11,13 @@ import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 public abstract class AttrDescReflecFieldMethod<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDesc<TclassDesc,TattrTarget,TattrContext>
 {
-    protected FieldContainer field;
+    protected FieldContainer<Object> field;
     protected MethodContainer method;
 
-    @SuppressWarnings("unchecked")
     public AttrDescReflecFieldMethod(TclassDesc parent, String name, String fieldName, String methodName, Class methodClass, Class paramClass)
     {
         super(parent,name);
-        this.field = new FieldContainer(parent.getDeclaredClass(),fieldName);
+        this.field = new FieldContainer<Object>(parent.getDeclaredClass(),fieldName);
         this.method = new MethodContainer(methodClass,methodName,new Class[]{paramClass});
     }
 

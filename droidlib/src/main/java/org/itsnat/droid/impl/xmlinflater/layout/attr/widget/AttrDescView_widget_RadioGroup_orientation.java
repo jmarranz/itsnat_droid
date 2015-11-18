@@ -17,7 +17,6 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_widget_RadioGroup_orientation extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    @SuppressWarnings("unchecked")
     public AttrDescView_widget_RadioGroup_orientation(ClassDescViewBased parent)
     {
         super(parent,"orientation",int.class, OrientationUtil.valueMap,"vertical");

@@ -13,14 +13,13 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodCharSeq
  */
 public class AttrDescView_widget_ToggleButton_textOffandOn extends AttrDescReflecMethodCharSequence<ClassDescViewBased,View,AttrLayoutContext>
 {
-    protected MethodContainer methodContainer;
+    protected MethodContainer<Void> methodContainer;
 
-    @SuppressWarnings("unchecked")
     public AttrDescView_widget_ToggleButton_textOffandOn(ClassDescViewBased parent, String name)
     {
         super(parent,name,null); // Android tiene un texto por defecto
 
-        this.methodContainer = new MethodContainer(parent.getDeclaredClass(),"syncTextState");
+        this.methodContainer = new MethodContainer<Void>(parent.getDeclaredClass(),"syncTextState");
     }
 
     @Override

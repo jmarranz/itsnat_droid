@@ -14,6 +14,7 @@ public class ClassDescView_widget_ViewFlipper extends ClassDescViewBased
         super(classMgr,"android.widget.ViewFlipper",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

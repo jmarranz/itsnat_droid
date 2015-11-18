@@ -37,7 +37,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<Cla
         drawableMap.put("drawableBottom",BOTTOM);
     }
 
-    protected FieldContainer fieldDrawables;  // mDrawables
+    protected FieldContainer<Object> fieldDrawables;  // mDrawables
     @SuppressWarnings("unchecked")
     protected FieldContainer<Drawable>[] fieldMemberDrawables = new FieldContainer[4];
 
@@ -48,14 +48,14 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<Cla
     public AttrDescView_widget_TextView_compoundDrawables(ClassDescViewBased parent, String name)
     {
         super(parent,name);
-        this.fieldDrawables = new FieldContainer(parent.getDeclaredClass(),"mDrawables");
+        this.fieldDrawables = new FieldContainer<Object>(parent.getDeclaredClass(),"mDrawables");
 
         Class clasz = fieldDrawables.getField().getType();
 
         if (Build.VERSION.SDK_INT < MiscUtil.MARSHMALLOW) // < 23
         {
             String[] fieldMemberNames = new String[]{"mDrawableLeft", "mDrawableTop", "mDrawableRight", "mDrawableBottom"};
-            this.fieldMemberDrawables = new FieldContainer[fieldMemberNames.length];
+            this.fieldMemberDrawables = (FieldContainer<Drawable>[])new FieldContainer[fieldMemberNames.length];
             for (int i = 0; i < fieldMemberNames.length; i++) {
                 fieldMemberDrawables[i] = new FieldContainer(clasz, fieldMemberNames[i]);
             }

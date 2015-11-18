@@ -22,17 +22,16 @@ import java.util.Map;
  */
 public class ClassDescStateListDrawable extends ClassDescDrawableContainer<StateListDrawable>
 {
-    protected MethodContainer methodGetStateListState;
-    protected MethodContainer methodGetStateListStateIsConstantSize;
+    protected MethodContainer<Object> methodGetStateListState;
+    protected MethodContainer<Void> methodGetStateListStateIsConstantSize;
 
-    @SuppressWarnings("unchecked")
     public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"selector");
 
-        this.methodGetStateListState = new MethodContainer(StateListDrawable.class,"getStateListState");
+        this.methodGetStateListState = new MethodContainer<Object>(StateListDrawable.class,"getStateListState");
         this.methodGetStateListStateIsConstantSize =
-                new MethodContainer(android.graphics.drawable.DrawableContainer.class.getName() + "$DrawableContainerState","setConstantSize",boolean.class);
+                new MethodContainer<Void>(android.graphics.drawable.DrawableContainer.class.getName() + "$DrawableContainerState","setConstantSize",boolean.class);
     }
 
     @Override

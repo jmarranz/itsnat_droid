@@ -13,6 +13,7 @@ public class ClassDescView_widget_AbsSeekBar extends ClassDescViewBased
         super(classMgr,"android.widget.AbsSeekBar",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

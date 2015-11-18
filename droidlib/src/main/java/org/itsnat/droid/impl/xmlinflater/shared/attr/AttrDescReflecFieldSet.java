@@ -10,16 +10,14 @@ import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 public abstract class AttrDescReflecFieldSet<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDesc<TclassDesc,TattrTarget,TattrContext>
 {
-    protected FieldContainer field;
+    protected FieldContainer<Object> field;
 
-    @SuppressWarnings("unchecked")
     public AttrDescReflecFieldSet(TclassDesc parent, String name, String fieldName)
     {
         super(parent,name);
-        this.field = new FieldContainer(parent.getDeclaredClass(),fieldName);
+        this.field = new FieldContainer<Object>(parent.getDeclaredClass(),fieldName);
     }
 
-    @SuppressWarnings("unchecked")
     protected void setField(TattrTarget target,Object convertedValue)
     {
         field.set(target, convertedValue);

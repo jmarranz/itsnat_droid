@@ -13,6 +13,7 @@ public class ClassDescView_widget_ScrollView extends ClassDescViewBased
         super(classMgr,"android.widget.ScrollView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

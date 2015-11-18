@@ -14,6 +14,7 @@ public class ClassDescView_widget_ViewAnimator extends ClassDescViewBased
         super(classMgr,"android.widget.ViewAnimator",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

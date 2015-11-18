@@ -35,20 +35,7 @@ public class ClassDescTransitionDrawableItem extends ClassDescElementDrawableChi
     {
         super.init();
 
-        // addAttrDesc(new AttrDescDrawableReflecMethodDimensionFloatFloor(this,"bottom"));
-
-
-        //addAttrDesc(new AttrDescDrawableReflecMethodDrawable(this,"drawable"));
-
-        /*
-        addAttrDesc(new AttrDescDrawableReflecMethodDimensionIntFloor(this,"bottom"));
-
-        addAttrDesc(new AttrDescDrawableReflecMethodId(this,"id"));
-        addAttrDesc(new AttrDescDrawableReflecMethodDimensionIntFloor(this,"left"));
-        // android:paddingMode es level 21
-        addAttrDesc(new AttrDescDrawableReflecMethodDimensionIntFloor(this,"right"));
-        addAttrDesc(new AttrDescDrawableReflecMethodDimensionIntFloor(this,"top"));
-        */
+        // Se definen en la clase base item de LayerDrawable
     }
 
 }

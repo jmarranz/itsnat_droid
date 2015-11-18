@@ -17,6 +17,7 @@ public class ClassDescView_widget_AbsListView extends ClassDescViewBased
         super(classMgr,"android.widget.AbsListView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

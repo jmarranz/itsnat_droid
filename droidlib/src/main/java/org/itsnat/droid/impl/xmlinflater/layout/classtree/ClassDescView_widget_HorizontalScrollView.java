@@ -13,6 +13,7 @@ public class ClassDescView_widget_HorizontalScrollView extends ClassDescViewBase
         super(classMgr,"android.widget.HorizontalScrollView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();

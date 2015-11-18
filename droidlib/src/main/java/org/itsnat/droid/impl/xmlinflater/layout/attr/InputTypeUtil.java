@@ -9,7 +9,6 @@ import org.itsnat.droid.impl.util.MapSmart;
  */
 public class InputTypeUtil
 {
-    @SuppressWarnings("unchecked")
     public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(32);
     static
     {

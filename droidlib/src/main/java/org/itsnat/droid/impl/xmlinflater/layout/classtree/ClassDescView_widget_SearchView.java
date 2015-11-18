@@ -18,6 +18,7 @@ public class ClassDescView_widget_SearchView extends ClassDescViewBased
         super(classMgr,"android.widget.SearchView",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();
