@@ -8,7 +8,12 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescColorDrawab
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemCorners;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemGradient;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemPadding;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemSize;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemSolid;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemStroke;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescInsetDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
@@ -83,8 +88,18 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
 
         ClassDescGradientDrawable gradient = new ClassDescGradientDrawable(this);
         addClassDesc(gradient);
+        ClassDescGradientDrawableItemCorners gradientCornersItem = new ClassDescGradientDrawableItemCorners(this);
+        addClassDesc(gradientCornersItem);
         ClassDescGradientDrawableItemGradient gradientGradientItem = new ClassDescGradientDrawableItemGradient(this);
         addClassDesc(gradientGradientItem);
+        ClassDescGradientDrawableItemPadding gradientPaddingItem = new ClassDescGradientDrawableItemPadding(this);
+        addClassDesc(gradientPaddingItem);
+        ClassDescGradientDrawableItemSize gradientSizeItem = new ClassDescGradientDrawableItemSize(this);
+        addClassDesc(gradientSizeItem);
+        ClassDescGradientDrawableItemSolid gradientSolidItem = new ClassDescGradientDrawableItemSolid(this);
+        addClassDesc(gradientSolidItem);
+        ClassDescGradientDrawableItemStroke gradientStrokeItem = new ClassDescGradientDrawableItemStroke(this);
+        addClassDesc(gradientStrokeItem);
 
     }
 }

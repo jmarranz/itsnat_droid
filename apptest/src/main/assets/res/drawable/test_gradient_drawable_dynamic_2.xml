@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape="oval"
+       android:shape="rectangle"
     >
     <gradient
         android:angle="45"
@@ -8,11 +8,10 @@
         android:centerX="@dimen/centerX"
         android:centerY="@dimen/centerY"
         android:endColor="#80FF00FF"
-        android:gradientRadius="@dimen/gradient_radius"
         android:startColor="#FFFF0000"
-        android:type="radial"
+        android:type="linear"
         android:useLevel="false"
-        />
+        /> <!--         android:gradientRadius="@dimen/gradient_radius" -->
     <corners
         android:radius="8.3dp"
         android:topLeftRadius="3.3dp"

@@ -139,6 +139,22 @@
             android:textSize="20dp"
             android:background="@drawable/test_gradient_drawable_compiled" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 2"
+            android:textSize="20dp"
+            android:background="@drawable/test_gradient_drawable_compiled_2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 3"
+            android:textSize="20dp"
+            android:background="@drawable/test_gradient_drawable_compiled_3" />
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

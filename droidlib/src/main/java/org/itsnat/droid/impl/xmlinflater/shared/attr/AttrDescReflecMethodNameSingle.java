@@ -23,6 +23,6 @@ public class AttrDescReflecMethodNameSingle<Treturn,TclassDesc extends ClassDesc
     @Override
     protected Treturn parseNameBasedValue(String value)
     {
-        return this.<Treturn>parseSingleName(value, valueMap);
+        return AttrDesc.<Treturn>parseSingleName(value, valueMap);
     }
 }

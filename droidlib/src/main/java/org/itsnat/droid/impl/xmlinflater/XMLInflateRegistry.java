@@ -408,7 +408,7 @@ public class XMLInflateRegistry
         return Math.round(getDimensionFloat(attrValue, ctx));
     }
 
-    private float getDimensionFloat(String attrValue, Context ctx)
+    public float getDimensionFloat(String attrValue, Context ctx)
     {
         // El retorno es en px
         Resources res = ctx.getResources();

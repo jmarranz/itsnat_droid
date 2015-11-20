@@ -45,7 +45,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsStrokeWidth;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
@@ -578,7 +577,6 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getBaselineAlignedChildIndex(), 1);
             assertEquals(compLayout.getBaselineAlignedChildIndex(), parsedLayout.getBaselineAlignedChildIndex());
             // Tests android:divider (getDividerDrawable() es Level 16):
-            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), ValueUtil.dpToPixelIntRound(0.9f, res));
             assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mDivider"));
 
             assertEquals(compLayout.getShowDividers(), 3);

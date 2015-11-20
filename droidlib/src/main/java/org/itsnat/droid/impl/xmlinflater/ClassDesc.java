@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.util.HashMap;

@@ -8,15 +8,15 @@ import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecMethodDimensionFloatFloor<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
+public class AttrDescReflecMethodDimensionFloat<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDescReflecMethodDimensionFloatBase<TclassDesc,TattrTarget,TattrContext>
 {
-    public AttrDescReflecMethodDimensionFloatFloor(TclassDesc parent, String name, String methodName, Float defaultValue)
+    public AttrDescReflecMethodDimensionFloat(TclassDesc parent, String name, String methodName, Float defaultValue)
     {
         super(parent, name, methodName, defaultValue);
     }
 
-    public AttrDescReflecMethodDimensionFloatFloor(TclassDesc parent, String name, Float defaultValue)
+    public AttrDescReflecMethodDimensionFloat(TclassDesc parent, String name, Float defaultValue)
     {
         super(parent,name,defaultValue);
     }
@@ -24,6 +24,6 @@ public class AttrDescReflecMethodDimensionFloatFloor<TclassDesc extends ClassDes
     @Override
     public float getDimensionFloatAbstract(String value, Context ctx)
     {
-        return getDimensionFloatFloor(value,ctx);
+        return getDimensionFloat(value,ctx);
     }
 }

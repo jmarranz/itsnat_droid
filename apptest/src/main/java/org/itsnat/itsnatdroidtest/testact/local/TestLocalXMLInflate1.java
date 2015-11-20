@@ -60,7 +60,6 @@ import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsStrokeWidth;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
@@ -244,19 +243,15 @@ public class TestLocalXMLInflate1
                     assertEquals((Boolean) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawVerticalTrack"}), (Boolean) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawVerticalTrack"}));
 
                     // Test android:scrollbarThumbHorizontal
-                    assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}), ValueUtil.dpToPixelIntRound(0.9f, res));
                     assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}));
 
                     // Test android:scrollbarThumbVertical
-                    assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), ValueUtil.dpToPixelIntRound(0.9f, res));
                     assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}));
 
                     // Test android:scrollbarTrackHorizontal
-                    assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}), ValueUtil.dpToPixelIntRound(0.9f, res));
                     assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}));
 
                     // Test android:scrollbarTrackVertical
-                    assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), ValueUtil.dpToPixelIntRound(0.9f, res));
                     assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}));
 
                     // Test android:scrollbars
@@ -1296,7 +1291,6 @@ public class TestLocalXMLInflate1
 
             // Test android:divider
             // Test visual: líneas rojas separadoras de items
-            assertEqualsStrokeWidth((GradientDrawable) compLayout.getDivider(), ValueUtil.dpToPixelIntRound(0.9f, res));
             assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
 
             assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelIntRound(2.3f, res));
@@ -1319,11 +1313,9 @@ public class TestLocalXMLInflate1
 
             // Test android:childDivider, no hay método get
             // Test visual: líneas rojas separadoras de items
-            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), ValueUtil.dpToPixelIntRound(0.9f, res));
             assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildDivider"));
 
             // Test android:childIndicator, no hay método get, si no se define devuelve null
-            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), ValueUtil.dpToPixelIntRound(2.3f, res));
             assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildIndicator"));
 
             // Test android:childIndicatorLeft, no hay método get

@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.xmlinflater.ClassDesc;
  * Created by jmarranz on 30/04/14.
  */
 public class AttrDescReflecMethodDimensionIntRound<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
-        extends AttrDescReflecMethodDimensionInt<TclassDesc,TattrTarget,TattrContext>
+        extends AttrDescReflecMethodDimensionIntBase<TclassDesc,TattrTarget,TattrContext>
 {
     public AttrDescReflecMethodDimensionIntRound(TclassDesc parent, String name, String methodName, Float defaultValue)
     {
@@ -24,7 +24,7 @@ public class AttrDescReflecMethodDimensionIntRound<TclassDesc extends ClassDesc,
     }
 
     @Override
-    public int getDimensionInt(DOMAttr attr, Context ctx)
+    public int getDimensionIntAbstract(DOMAttr attr, Context ctx)
     {
         return getDimensionIntRound(attr.getValue(), ctx);
     }

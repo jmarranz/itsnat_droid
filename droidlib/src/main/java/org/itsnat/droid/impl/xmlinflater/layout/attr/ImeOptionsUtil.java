@@ -27,6 +27,6 @@ public class ImeOptionsUtil
         valueMap.put("flagNoExtractUi",EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         valueMap.put("flagNoAccessoryAction",EditorInfo.IME_FLAG_NO_ACCESSORY_ACTION);
         valueMap.put("flagNoEnterAction",EditorInfo.IME_FLAG_NO_ENTER_ACTION);
-        // valueMap.put("flagForceAscii",EditorInfo.IME_FLAG_FORCE_ASCII);  // API level 16
+        // shapeValueMap.put("flagForceAscii",EditorInfo.IME_FLAG_FORCE_ASCII);  // API level 16
     }
 }

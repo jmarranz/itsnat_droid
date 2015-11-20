@@ -10,18 +10,18 @@ import org.itsnat.droid.impl.xmlinflater.ClassDesc;
  * Aunque la entrada de datos sea una dimensión float con sufijo y todo, el método que define el valor sólo admite un entero
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescReflecMethodDimensionInt<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
+public abstract class AttrDescReflecMethodDimensionIntBase<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDescReflecMethod<TclassDesc,TattrTarget,TattrContext>
 {
     protected Float defaultValue;
 
-    public AttrDescReflecMethodDimensionInt(TclassDesc parent, String name, String methodName, Float defaultValue)
+    public AttrDescReflecMethodDimensionIntBase(TclassDesc parent, String name, String methodName, Float defaultValue)
     {
         super(parent,name,methodName,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodDimensionInt(TclassDesc parent, String name, Float defaultValue)
+    public AttrDescReflecMethodDimensionIntBase(TclassDesc parent, String name, Float defaultValue)
     {
         super(parent,name,getClassParam());
         this.defaultValue = defaultValue;
@@ -35,7 +35,7 @@ public abstract class AttrDescReflecMethodDimensionInt<TclassDesc extends ClassD
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        int convValue = getDimensionInt(attr, attrCtx.getContext());
+        int convValue = getDimensionIntAbstract(attr, attrCtx.getContext());
         callMethod(target, convValue);
     }
 
@@ -47,5 +47,5 @@ public abstract class AttrDescReflecMethodDimensionInt<TclassDesc extends ClassD
             callMethod(target, defaultValue);
     }
 
-    public abstract int getDimensionInt(DOMAttr attr, Context ctx);
+    public abstract int getDimensionIntAbstract(DOMAttr attr, Context ctx);
 }

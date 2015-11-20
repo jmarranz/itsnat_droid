@@ -10,12 +10,12 @@ import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescReflecFieldSetDimensionInt<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
+public abstract class AttrDescReflecFieldSetDimensionIntBase<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDescReflecFieldSet<TclassDesc,TattrTarget,TattrContext>
 {
     protected Integer defaultValue;
 
-    public AttrDescReflecFieldSetDimensionInt(TclassDesc parent, String name, String fieldName, Integer defaultValue)
+    public AttrDescReflecFieldSetDimensionIntBase(TclassDesc parent, String name, String fieldName, Integer defaultValue)
     {
         super(parent,name,fieldName);
         this.defaultValue = defaultValue;

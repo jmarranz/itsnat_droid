@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape="oval"
-    >
+       android:shape="ring"
+
+       android:innerRadiusRatio="10"
+
+       android:thicknessRatio="4"
+       android:useLevel="false"
+    > <!-- android:innerRadius="20dp" android:thickness="5dp" -->
     <gradient
         android:angle="45"
         android:centerColor="#FF0000FF"
@@ -13,6 +18,7 @@
         android:type="radial"
         android:useLevel="false"
         />
+
     <corners
         android:radius="8.3dp"
         android:topLeftRadius="3.3dp"
@@ -20,6 +26,7 @@
         android:bottomRightRadius="5.3dp"
         android:bottomLeftRadius="6.3dp"
         />
+
     <padding
         android:left="14.3dp"
         android:top="15.3dp"
@@ -31,9 +38,10 @@
         android:height="50.3dp"
         />
     <!--
-    <solid
-        />  android:color="#FF0000" testear en otro ejemplo pues reemplaza el gradient
-        -->
+        <solid
+            android:color="#FF0000"
+            />
+    -->
     <stroke
         android:width="1.3dp"
         android:color="@android:color/black"

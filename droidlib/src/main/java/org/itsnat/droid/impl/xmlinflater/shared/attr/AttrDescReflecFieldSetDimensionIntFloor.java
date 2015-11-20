@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.xmlinflater.ClassDesc;
  * Created by jmarranz on 30/04/14.
  */
 public class AttrDescReflecFieldSetDimensionIntFloor<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
-            extends AttrDescReflecFieldSetDimensionInt<TclassDesc,TattrTarget,TattrContext>
+            extends AttrDescReflecFieldSetDimensionIntBase<TclassDesc,TattrTarget,TattrContext>
 {
     public AttrDescReflecFieldSetDimensionIntFloor(TclassDesc parent, String name, String fieldName, Integer defaultValue)
     {
