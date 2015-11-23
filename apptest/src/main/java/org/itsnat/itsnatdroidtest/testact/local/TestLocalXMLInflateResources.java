@@ -281,6 +281,21 @@ public class TestLocalXMLInflateResources
 
         }
 
+        childCount++;
+
+        // Test GradientDrawable attribs 4
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "GradientDrawable 4");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((GradientDrawable) compLayout.getBackground());
+            assertEquals((GradientDrawable) compLayout.getBackground(), (GradientDrawable) parsedLayout.getBackground());
+
+        }
+
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());
         //System.out.println("\n\n\n");

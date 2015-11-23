@@ -30,7 +30,7 @@ public class TestLayoutLocalResources extends TestLayoutLocalBase {
             @Override
             public void onClick(View view) {
                 // TEST de carga dinámica de layout guardado localmente
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons(R.raw.test_local_layout_dynamic_resources);
+                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_dynamic_resources.xml");
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView);

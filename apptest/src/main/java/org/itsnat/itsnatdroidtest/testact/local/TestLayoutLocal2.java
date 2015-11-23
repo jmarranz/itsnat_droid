@@ -38,7 +38,7 @@ public class TestLayoutLocal2 extends TestLayoutLocalBase
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons(R.raw.test_local_layout_dynamic_2);
+                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_dynamic_2.xml");
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView);

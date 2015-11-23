@@ -256,7 +256,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
             float centerY = 0.5f;
             if (centerYObj != null)
             {
-                centerY = toFloat(centerXObj);
+                centerY = toFloat(centerYObj);
             }
             drawable.setGradientCenter(centerX, centerY);
         }

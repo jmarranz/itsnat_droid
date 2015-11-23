@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -9,12 +10,14 @@ import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.Page;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -86,11 +89,23 @@ public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,
         return compiledRootView;
     }
 
-    protected InflatedLayout loadDynamicAndBindBackReloadButtons(int resId)
+    protected InflatedLayout loadDynamicAndBindBackReloadButtons(String layoutAssetPath)
     {
         // Sólo para testear carga local
         TestActivity act = getTestActivity();
-        InputStream input = act.getResources().openRawResource(resId);
+        AssetManager am = act.getResources().getAssets();
+        InputStream input;
+        try
+        {
+            input = am.open(layoutAssetPath);
+        }
+        catch (IOException e)
+        {
+            throw new ItsNatDroidException(e);
+        }
+
+        // Alternativa es poner los layout root en raw: InputStream input = act.getResources().openRawResource(rawResId);
+        // el problema es que raw no deja formar árboles de recursos con directorios, es mejor assets
 
         InflateLayoutRequest inflateRequest = ItsNatDroidRoot.get().createInflateLayoutRequest();
         InflatedLayout layout = inflateRequest

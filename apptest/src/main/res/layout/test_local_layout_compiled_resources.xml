@@ -155,6 +155,14 @@
             android:textSize="20dp"
             android:background="@drawable/test_gradient_drawable_compiled_3" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 4"
+            android:textSize="20dp"
+            android:background="@drawable/test_gradient_drawable_compiled_4" />
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>
