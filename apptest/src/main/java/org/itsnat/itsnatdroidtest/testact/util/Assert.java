@@ -353,15 +353,20 @@ public class Assert
         Drawable.ConstantState a_state = a.getConstantState();
         Drawable.ConstantState b_state = b.getConstantState();
 
-        assertEquals((Integer) TestUtil.getField(a_state, "mShape"), (Integer) TestUtil.getField(b_state, "mShape")); // tests android:shape
-        assertEquals((Boolean) TestUtil.getField(a, "mDither"), (Boolean) TestUtil.getField(b, "mDither")); // tests android:dither
+        // tests android:shape
+        assertEquals((Integer) TestUtil.getField(a_state, "mShape"), (Integer) TestUtil.getField(b_state, "mShape"));
+        // tests android:dither
+        if (Build.VERSION.SDK_INT >= MiscUtil.LOLLIPOP) // level 21, 5.0
+            assertEquals((Boolean) TestUtil.getField(a_state, "mDither"), (Boolean) TestUtil.getField(b_state, "mDither"));
+        else
+            assertEquals((Boolean) TestUtil.getField(a, "mDither"), (Boolean) TestUtil.getField(b, "mDither"));
 
         // Caso de RING
         assertEquals((Integer) TestUtil.getField(a_state, "mInnerRadius"), (Integer) TestUtil.getField(b_state, "mInnerRadius")); // tests android:innerRadius
         assertEquals((Float) TestUtil.getField(a_state, "mInnerRadiusRatio"), (Float) TestUtil.getField(b_state, "mInnerRadiusRatio")); // tests android:innerRadiusRatio
         assertEquals((Integer) TestUtil.getField(a_state, "mThickness"), (Integer) TestUtil.getField(b_state, "mThickness")); // tests android:innerRadius
         assertEquals((Float) TestUtil.getField(a_state, "mThicknessRatio"), (Float) TestUtil.getField(b_state, "mThicknessRatio")); // tests android:innerRadiusRatio
-        assertEquals((Boolean) TestUtil.getField(a_state, "mUseLevel"), (Boolean) TestUtil.getField(b_state, "mUseLevel"));
+        assertEquals((Boolean) TestUtil.getField(a_state, "mUseLevel"), (Boolean) TestUtil.getField(b_state, "mUseLevel")); // android:useLevel
 
 
         // <gradient>
@@ -399,8 +404,15 @@ public class Assert
         assertEquals((Integer) TestUtil.getField(a_state, "mWidth"), (Integer) TestUtil.getField(b_state, "mWidth")); // tests android:width
         assertEquals((Integer) TestUtil.getField(a_state, "mHeight"), (Integer) TestUtil.getField(b_state, "mHeight")); // tests android:height
 
-        // <color>
-        if (Build.VERSION.SDK_INT >= TestUtil.LOLLIPOP)
+        // <solid>
+
+        // android:color
+
+        if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // < 21 (5.0)
+        {
+            assertEquals((Integer) TestUtil.getField(a_state, "mSolidColor"), (Integer) TestUtil.getField(b_state, "mSolidColor"));
+        }
+        else if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // < 23 (6.0)
         {
             // mSolidColor ya no existe en level 21
 
@@ -409,16 +421,26 @@ public class Assert
             if (a_clist != null)
                 assertEquals(a_clist.getDefaultColor(),b_clist.getDefaultColor());
         }
-        else
+        else // >= 23
         {
-            assertEquals((Integer) TestUtil.getField(a_state, "mSolidColor"), (Integer) TestUtil.getField(b_state, "mSolidColor"));
+            ColorStateList a_clist = (ColorStateList)TestUtil.getField(a_state, "mSolidColors");
+            ColorStateList b_clist = (ColorStateList)TestUtil.getField(b_state, "mSolidColors");
+            if (a_clist != null)
+                assertEquals(a_clist.getDefaultColor(),b_clist.getDefaultColor());
         }
 
 
         // <stroke>
+
+        // android:width
         assertEquals((Integer) TestUtil.getField(a_state, "mStrokeWidth"), (Integer) TestUtil.getField(b_state, "mStrokeWidth"));
 
-        if (Build.VERSION.SDK_INT >= TestUtil.LOLLIPOP)
+        // android:color
+        if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // < 21 (5.0)
+        {
+            assertEquals((Integer) TestUtil.getField(a_state, "mStrokeColor"), (Integer) TestUtil.getField(b_state, "mStrokeColor"));
+        }
+        else if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // < 23 (6.0)
         {
             // mStrokeColor ya no existe en level 21
             ColorStateList a_clist = (ColorStateList)TestUtil.getField(a_state, "mStrokeColorStateList");
@@ -426,9 +448,12 @@ public class Assert
             if (a_clist != null)
                 assertEquals(a_clist.getDefaultColor(),b_clist.getDefaultColor());
         }
-        else
+        else // >= 23
         {
-            assertEquals((Integer) TestUtil.getField(a_state, "mStrokeColor"), (Integer) TestUtil.getField(b_state, "mStrokeColor"));
+            ColorStateList a_clist = (ColorStateList)TestUtil.getField(a_state, "mStrokeColors");
+            ColorStateList b_clist = (ColorStateList)TestUtil.getField(b_state, "mStrokeColors");
+            if (a_clist != null)
+                assertEquals(a_clist.getDefaultColor(),b_clist.getDefaultColor());
         }
 
 
