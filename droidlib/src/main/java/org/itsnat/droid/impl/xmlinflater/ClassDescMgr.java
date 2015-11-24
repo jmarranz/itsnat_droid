@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 import java.util.HashMap;
 

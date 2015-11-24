@@ -21,7 +21,7 @@ import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflater.ClassDesc;
+import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -243,9 +243,10 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public OneTimeAttrProcess createOneTimeAttrProcess(View view,ViewGroup viewParent)
     {
+        // Se redefine en un caso
         return (viewParent instanceof GridLayout)
-                ? new OneTimeAttrProcessChildGridLayout(view)
-                : new OneTimeAttrProcessDefault(view);
+                     ? new OneTimeAttrProcessChildGridLayout(view)
+                     : new OneTimeAttrProcessDefault(view);
     }
 
     public void addViewObject(ViewGroup viewParent,View view,int index,OneTimeAttrProcess oneTimeAttrProcess, Context ctx)

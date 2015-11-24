@@ -24,7 +24,7 @@ public class AttrDescView_widget_LinearLayout_baselineAlignedChildIndex extends 
         PendingPostInsertChildrenTasks pending = attrCtx.getPendingPostInsertChildrenTasks();
         if (pending != null)
         {
-            // Necesitamos añadir los children antes para poder referenciarlo por su índice de posición
+            // Necesitamos añadir los children antes para poder referenciarlos por su índice de posición
             pending.addTask(new Runnable()
             {
                 @Override

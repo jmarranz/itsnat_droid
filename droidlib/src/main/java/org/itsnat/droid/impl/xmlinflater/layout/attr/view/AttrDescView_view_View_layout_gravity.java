@@ -8,7 +8,7 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.GravityUtil;
+import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;

@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 import android.content.Context;
 
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
-import org.itsnat.droid.impl.xmlinflater.ClassDesc;
+import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
  * Created by jmarranz on 30/04/14.

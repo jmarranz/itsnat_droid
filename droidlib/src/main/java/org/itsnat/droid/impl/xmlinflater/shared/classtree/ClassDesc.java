@@ -1,7 +1,12 @@
-package org.itsnat.droid.impl.xmlinflater;
+package org.itsnat.droid.impl.xmlinflater.shared.classtree;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.xmlinflater.AttrContext;
+import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.util.HashMap;

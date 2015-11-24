@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater;
+package org.itsnat.droid.impl.xmlinflater.shared;
 
 import org.itsnat.droid.impl.util.MapSmart;
 

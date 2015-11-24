@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
-import org.itsnat.droid.impl.xmlinflater.ClassDesc;
+import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
  * Created by jmarranz on 1/05/14.

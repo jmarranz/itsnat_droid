@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.GravityUtil;
+import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.OrientationUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_LinearLayout_baselineAlignedChildIndex;

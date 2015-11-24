@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.GravityUtil;
+import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.ImeOptionsUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.InputTypeUtil;
