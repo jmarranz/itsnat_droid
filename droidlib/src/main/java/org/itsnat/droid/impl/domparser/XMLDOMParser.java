@@ -210,7 +210,7 @@ public abstract class XMLDOMParser
             }
 
             String resourceMime = assetAttr.getResourceMime();
-            if (MimeUtil.MIME_XML.equals(resourceMime))
+            if (MimeUtil.isMIMEXMLResource(resourceMime))
             {
                 String markup = MiscUtil.toString(res, "UTF-8");
 

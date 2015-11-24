@@ -27,21 +27,4 @@ public class DOMAttrRemote extends DOMAttrDynamic
         return (attr instanceof DOMAttrRemote && !((DOMAttrRemote) attr).isDownloaded());
     }
 
-/*
-    public String getRemoteLocation()
-    {
-        return getLocation();
-    }
-
-    public Object getRemoteResource()
-    {
-        // Es sólo llamado en el hilo UI pero setRemoteResource se ha llama en multihilo
-        return getResource();
-    }
-
-    public void setRemoteResource(Object remoteResource)
-    {
-        setResource(remoteResource);
-    }
-    */
 }

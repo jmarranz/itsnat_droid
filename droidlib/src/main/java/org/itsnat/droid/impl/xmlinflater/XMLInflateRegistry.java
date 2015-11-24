@@ -606,7 +606,7 @@ public class XMLInflateRegistry
 
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             String resourceMime = attrDyn.getResourceMime();
-            if (MimeUtil.MIME_XML.equals(resourceMime))
+            if (MimeUtil.isMIMEXMLResource(resourceMime))
             {
                 // Esperamos un drawable no una animación
                 XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();

@@ -39,4 +39,11 @@ public class MimeUtil
                 MimeUtil.MIME_JPEG.equals(resourceMime) ||
                 MimeUtil.MIME_GIF.equals(resourceMime));
     }
+
+    public static boolean isMIMEXMLResource(String resourceMime)
+    {
+        return MimeUtil.MIME_XML.equals(resourceMime);
+    }
+
+
 }

@@ -101,9 +101,10 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
 
         // Intentamos hacer procesos de conversion/parsing aqui para aprovechar el multinucleo y evitar usar el hilo UI
         if (MimeUtil.MIME_ANDROID_LAYOUT.equals(mimeType) ||
-                MimeUtil.MIME_BEANSHELL.equals(mimeType) ||
-                MimeUtil.MIME_JSON.equals(mimeType) ||
-                mimeType.startsWith("text/"))
+            MimeUtil.MIME_XML.equals(mimeType) ||  // Ej. un XML drawable
+            MimeUtil.MIME_BEANSHELL.equals(mimeType) ||
+            MimeUtil.MIME_JSON.equals(mimeType) ||
+            mimeType.startsWith("text/"))
         {
             this.responseText = MiscUtil.toString(responseByteArray, getEncoding());
 

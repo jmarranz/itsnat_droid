@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.util.MimeUtil;
 /**
  * Created by jmarranz on 3/11/14.
  */
-public class DOMAttrDynamic extends DOMAttr
+public abstract class DOMAttrDynamic extends DOMAttr
 {
     protected String resType;
     protected String extension;
@@ -30,10 +30,10 @@ public class DOMAttrDynamic extends DOMAttr
         int pos2 = value.indexOf('/');
         this.resType = value.substring(pos1 + 1,pos2); // Ej. "drawable"
         this.location = value.substring(pos2 + 1);
-        int pos3 = value.lastIndexOf('.');
-        if (pos3 != -1)
+        int posExt = value.lastIndexOf('.');
+        if (posExt != -1)
         {
-            this.extension = value.substring(pos3 + 1).toLowerCase(); // xml, png...
+            this.extension = value.substring(posExt + 1).toLowerCase(); // xml, png...
             // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
             String mime = MimeUtil.MIME_BY_EXT.get(extension);
             if (mime == null)

@@ -104,7 +104,7 @@ public class HttpResourceDownloader
         if (resultList != null) resultList.add(resultRes);
 
         String resourceMime = attr.getResourceMime();
-        if (MimeUtil.MIME_XML.equals(resourceMime))
+        if (MimeUtil.isMIMEXMLResource(resourceMime))
         {
             String markup = resultRes.getResponseText();
             XMLDOM xmlDOM = XMLDOMParser.processDOMAttrDynamicXML(attr, markup, xmlInflateRegistry, assetManager);
