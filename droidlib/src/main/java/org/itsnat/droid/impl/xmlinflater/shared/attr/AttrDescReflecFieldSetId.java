@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
  * Created by jmarranz on 30/04/14.
  */
 public class AttrDescReflecFieldSetId<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
-        extends AttrDescReflecFieldSet<TclassDesc,TattrTarget,TattrContext>
+        extends AttrDescReflecFieldSet<Integer,TclassDesc,TattrTarget,TattrContext>
 {
     protected Integer defaultValue;
 

@@ -1,6 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -293,6 +294,21 @@ public class TestLocalXMLInflateResources
 
             assertNotNull((GradientDrawable) compLayout.getBackground());
             assertEquals((GradientDrawable) compLayout.getBackground(), (GradientDrawable) parsedLayout.getBackground());
+
+        }
+
+        childCount++;
+
+        // Test AnimationDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "AnimationDrawable (green rect and bot switching)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((AnimationDrawable) compLayout.getBackground());
+            assertEquals((AnimationDrawable) compLayout.getBackground(), (AnimationDrawable) parsedLayout.getBackground());
 
         }
 

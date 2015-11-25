@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.NinePatch;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -220,8 +221,20 @@ public class Assert
     {
         // La propia clase Drawable, no derivadas
         if (testOpacity) assertEquals(a.getOpacity(), b.getOpacity());
-        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
-        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        // assertEquals(a.getBounds(),b.getBounds()); quizás necesite hacer un layout antes
+        if (a.getCurrent().getClass().equals(b.getCurrent().getClass())) // En el caso de AnimationDrawable en el que no sabes cual es el que ha quedado el último al salir del layout
+        {
+            assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+            assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+            assertEquals(a.getMinimumWidth(), b.getMinimumWidth());
+            assertEquals(a.getMinimumHeight(), b.getMinimumHeight());
+        }
+        else
+        {
+            if (!(a instanceof AnimationDrawable)) // Sólo hemos detectado este caso
+                assertTrue(false);
+
+        }
 
         assertEquals(a.isStateful(), b.isStateful());
         //assertEquals(a.isVisible(),b.isVisible());  no coincide nunca pues sólo se está viendo uno de los dos (supongo que esa es la razon)
@@ -231,9 +244,11 @@ public class Assert
     {
         if (!a.getClass().equals(b.getClass())) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
 
-        //assertEquals(a.getBounds(),b.getBounds());
-
-        if (a instanceof BitmapDrawable)
+        if (a instanceof AnimationDrawable)
+        {
+            assertEquals((AnimationDrawable) a, (AnimationDrawable) b);
+        }
+        else if (a instanceof BitmapDrawable)
         {
             assertEquals((BitmapDrawable)a,(BitmapDrawable)b);
         }
@@ -283,6 +298,34 @@ public class Assert
         }
         else
             throw new ItsNatDroidException("Cannot test drawable " + a);
+    }
+
+    public static void assertEquals(AnimationDrawable a,AnimationDrawable b)
+    {
+        assertEqualsDrawableContainer(a, b);
+
+        // android:oneshot
+        assertEquals(a.isOneShot(), b.isOneShot());
+        // android:visible
+        assertEquals(a.isVisible(), b.isVisible());
+
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
+
+        // android:variablePadding
+        Class classDrawableContainerState = TestUtil.resolveClass(DrawableContainer.class.getName() + "$DrawableContainerState");
+        assertEquals(TestUtil.getField(a_state, classDrawableContainerState, "mVariablePadding"), TestUtil.getField(b_state, classDrawableContainerState, "mVariablePadding"));
+
+        // <item>
+
+        // android:drawable (o child element drawable) se testea en assertEqualsDrawableContainer
+        // android:duration
+        Class classState = TestUtil.resolveClass(AnimationDrawable.class.getName() + "$AnimationState");
+
+        int[] a_durations = (int[])TestUtil.getField(a_state, classState, "mDurations");
+        int[] b_durations = (int[])TestUtil.getField(b_state, classState, "mDurations");
+
+        assertEquals(a_durations,b_durations);
     }
 
     public static void assertEquals(BitmapDrawable a,BitmapDrawable b)
@@ -529,13 +572,16 @@ public class Assert
         assertEquals(a.getDrawable(), b.getDrawable());
     }
 
-    private static void assertEquals(DrawableContainer a,DrawableContainer b)
+    private static void assertEqualsDrawableContainer(DrawableContainer a,DrawableContainer b)
     {
         assertEqualsDrawable(a, b);
 
         Drawable.ConstantState a_state = a.getConstantState();
         Drawable.ConstantState b_state = b.getConstantState();
 
+        // <item>
+
+        // android:drawable (o child element drawable)
         Class classState = TestUtil.resolveClass(DrawableContainer.class.getName() + "$DrawableContainerState");
 
         Drawable[] a_drawables = (Drawable[])TestUtil.getField(a_state, classState, "mDrawables");
@@ -556,7 +602,7 @@ public class Assert
 
     public static void assertEquals(StateListDrawable a,StateListDrawable b)
     {
-        assertEquals((DrawableContainer) a, (DrawableContainer) b);
+        assertEqualsDrawableContainer(a,b);
 
         Method methodStateListState = TestUtil.getMethod(StateListDrawable.class, "getStateListState", new Class[0]);
 
@@ -619,7 +665,7 @@ public class Assert
 
     public static void assertEquals(LevelListDrawable a,LevelListDrawable b)
     {
-        assertEquals((DrawableContainer)a, (DrawableContainer)b);
+        assertEqualsDrawableContainer( a, b);
 
         assertEquals(a.getLevel(),b.getLevel());
 
@@ -647,6 +693,8 @@ public class Assert
         assertEqualsDrawableWrapper(a, b);
 
         assertEquals(a.isStateful(), b.isStateful());
+        // android:visible
+        assertEquals(a.isVisible(), b.isVisible());
 
         Drawable.ConstantState a_state = a.getConstantState();
         Drawable.ConstantState b_state = b.getConstantState();
@@ -657,7 +705,7 @@ public class Assert
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetRight"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetRight"));
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetBottom"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetBottom"));
 
-        if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // 23 (en level 23 mDrawable está en la clase base)
+        if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // < 23 (en level 23 mDrawable está en la clase base)
         {
             assertEquals((Drawable) TestUtil.getField(a_state, classInsetState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classInsetState, "mDrawable"));
         }

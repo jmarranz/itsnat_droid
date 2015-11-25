@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescClipDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescColorDrawable;
@@ -51,14 +53,32 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
         ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this);
         addClassDesc(bitmap);
 
+        ClassDescColorDrawable color = new ClassDescColorDrawable(this);
+        addClassDesc(color);
+
+        // DrawableContainer
+
+            ClassDescAnimationDrawable animation = new ClassDescAnimationDrawable(this);
+            addClassDesc(animation);
+            ClassDescAnimationDrawableItem animationItem = new ClassDescAnimationDrawableItem(this);
+            addClassDesc(animationItem);
+
+            ClassDescLevelListDrawable levelList = new ClassDescLevelListDrawable(this);
+            addClassDesc(levelList);
+            ClassDescLevelListDrawableItem levelListItem = new ClassDescLevelListDrawableItem(this);
+            addClassDesc(levelListItem);
+
+            ClassDescStateListDrawable stateList = new ClassDescStateListDrawable(this);
+            addClassDesc(stateList);
+            ClassDescStateListDrawableItem stateListItem = new ClassDescStateListDrawableItem(this);
+            addClassDesc(stateListItem);
+
         ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
         addClassDesc(ninePatch);
 
         ClassDescClipDrawable clip = new ClassDescClipDrawable(this);
         addClassDesc(clip);
 
-        ClassDescColorDrawable color = new ClassDescColorDrawable(this);
-        addClassDesc(color);
 
         ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
         addClassDesc(layer);
@@ -70,15 +90,9 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
             ClassDescTransitionDrawableItem transitionItem = new ClassDescTransitionDrawableItem(this,layerItem);
             addClassDesc(transitionItem);
 
-        ClassDescStateListDrawable stateList = new ClassDescStateListDrawable(this);
-        addClassDesc(stateList);
-        ClassDescStateListDrawableItem stateListItem = new ClassDescStateListDrawableItem(this);
-        addClassDesc(stateListItem);
 
-        ClassDescLevelListDrawable levelList = new ClassDescLevelListDrawable(this);
-        addClassDesc(levelList);
-        ClassDescLevelListDrawableItem levelListItem = new ClassDescLevelListDrawableItem(this);
-        addClassDesc(levelListItem);
+
+
 
         ClassDescInsetDrawable inset = new ClassDescInsetDrawable(this);
         addClassDesc(inset);

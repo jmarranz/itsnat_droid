@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldGet;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_ExpandableListView_indicatorRight extends AttrDescReflecFieldGet<ClassDescViewBased,View,AttrLayoutContext>
+public class AttrDescView_widget_ExpandableListView_indicatorRight extends AttrDescReflecFieldGet<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
     public AttrDescView_widget_ExpandableListView_indicatorRight(ClassDescViewBased parent)
     {
@@ -20,7 +20,7 @@ public class AttrDescView_widget_ExpandableListView_indicatorRight extends AttrD
 
     private void callMethod(View view,int value)
     {
-        ((ExpandableListView) view).setIndicatorBounds((Integer)getField(view),value);
+        ((ExpandableListView) view).setIndicatorBounds(getField(view),value);
     }
 
     @Override

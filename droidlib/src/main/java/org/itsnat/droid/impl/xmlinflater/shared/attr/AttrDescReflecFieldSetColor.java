@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
  * Created by jmarranz on 1/05/14.
  */
 public class AttrDescReflecFieldSetColor<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
-        extends AttrDescReflecFieldSet<TclassDesc,TattrTarget,TattrContext>
+        extends AttrDescReflecFieldSet<Integer,TclassDesc,TattrTarget,TattrContext>
 {
     protected String defaultValue;
 

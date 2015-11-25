@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.ImeOptionsUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.InputTypeUtil;
@@ -20,6 +19,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_textSize;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_textStyle;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_typeface;
+import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;

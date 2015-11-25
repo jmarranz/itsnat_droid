@@ -15,7 +15,7 @@ public class AttrDescView_widget_AutoCompleteTextView_dropDownSelector extends A
 {
     public AttrDescView_widget_AutoCompleteTextView_dropDownSelector(ClassDescViewBased parent)
     {
-        super(parent,"dropDownSelector","mPopup","setListSelector",ListPopupWindow.class,null); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
+        super(parent,"dropDownSelector","mPopup",ListPopupWindow.class,"setListSelector",null); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
     }
 
 }

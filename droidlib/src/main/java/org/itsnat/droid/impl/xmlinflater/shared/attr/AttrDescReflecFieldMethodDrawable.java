@@ -13,13 +13,12 @@ import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
  */
 public class AttrDescReflecFieldMethodDrawable<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDescReflecFieldMethod<TclassDesc,TattrTarget,TattrContext>
-
 {
     protected String defaultValue;
 
-    public AttrDescReflecFieldMethodDrawable(TclassDesc parent, String name, String fieldName, String methodName, Class methodClass, String defaultValue)
+    public AttrDescReflecFieldMethodDrawable(TclassDesc parent, String name, String fieldName, Class methodClass,String methodName,String defaultValue)
     {
-        super(parent,name,fieldName,methodName,methodClass,Drawable.class);
+        super(parent,name,fieldName,methodClass,methodName,Drawable.class);
         this.defaultValue = defaultValue;
     }
 

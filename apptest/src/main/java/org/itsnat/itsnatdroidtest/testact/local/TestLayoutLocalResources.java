@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.ScaleDrawable;
@@ -54,9 +55,11 @@ public class TestLayoutLocalResources extends TestLayoutLocalBase {
         TextView testLevelListDrawable = (TextView) rootView.findViewById(R.id.testLevelListDrawableId);
         final LevelListDrawable levelListDrawable = (LevelListDrawable) testLevelListDrawable.getBackground();
         levelListDrawable.setLevel(1);
-        testLevelListDrawable.setOnClickListener(new View.OnClickListener() {
+        testLevelListDrawable.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 levelListDrawable.setLevel(4);
             }
         });
@@ -71,8 +74,11 @@ public class TestLayoutLocalResources extends TestLayoutLocalBase {
         });
 
         TextView testScaleDrawable = (TextView) rootView.findViewById(R.id.testScaleDrawableId);
-        final ScaleDrawable scaleDrawable = (ScaleDrawable) testScaleDrawable.getBackground();
+        ScaleDrawable scaleDrawable = (ScaleDrawable) testScaleDrawable.getBackground();
         scaleDrawable.setLevel(1);
 
+        TextView testAnimationDrawable = (TextView) rootView.findViewById(R.id.testAnimationDrawableId);
+        AnimationDrawable animationDrawable = (AnimationDrawable) testAnimationDrawable.getBackground();
+        animationDrawable.start();
     }
 }

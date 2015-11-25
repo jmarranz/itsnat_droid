@@ -16,7 +16,7 @@ public class AttrDescView_widget_Spinner_popupBackground extends AttrDescReflecF
 {
     public AttrDescView_widget_Spinner_popupBackground(ClassDescViewBased parent)
     {
-        super(parent,"popupBackground","mPopup","setBackgroundDrawable",ListPopupWindow.class,null); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
+        super(parent,"popupBackground","mPopup",ListPopupWindow.class,"setBackgroundDrawable",null); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
     }
 
     @Override

@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
-import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
  * Created by jmarranz on 30/04/14.

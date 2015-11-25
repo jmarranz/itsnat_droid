@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;

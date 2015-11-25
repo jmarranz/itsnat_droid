@@ -17,7 +17,7 @@ public class AttrDescView_widget_Spinner_dropDownVerticalOffset extends AttrDesc
 {
     public AttrDescView_widget_Spinner_dropDownVerticalOffset(ClassDescViewBased parent)
     {
-        super(parent,"dropDownVerticalOffset","mPopup","setVerticalOffset",ListPopupWindow.class,int.class);
+        super(parent,"dropDownVerticalOffset","mPopup",ListPopupWindow.class,"setVerticalOffset",int.class);
     }
 
     @Override

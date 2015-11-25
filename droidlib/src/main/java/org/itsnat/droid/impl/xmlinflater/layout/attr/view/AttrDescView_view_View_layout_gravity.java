@@ -8,13 +8,13 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_columnSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_rowSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**

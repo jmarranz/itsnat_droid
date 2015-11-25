@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
  * Created by jmarranz on 30/04/14.
  */
 public abstract class AttrDescReflecFieldSetDimensionIntBase<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
-        extends AttrDescReflecFieldSet<TclassDesc,TattrTarget,TattrContext>
+        extends AttrDescReflecFieldSet<Integer,TclassDesc,TattrTarget,TattrContext>
 {
     protected Integer defaultValue;
 

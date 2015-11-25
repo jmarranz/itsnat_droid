@@ -189,10 +189,6 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
         View view = createViewObjectAndFillAttributesAndAdd((ViewGroup) viewParent, domView, pending);
 
-        // No funciona, sólo funciona con XML compilados:
-        //AttributeSet attributes = Xml.asAttributeSet(parser);
-        //LayoutInflater inf = LayoutInflater.from(ctx);
-
         processChildViews(domView,view);
 
         pending.executeTasks();

@@ -33,10 +33,6 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
         inflaterDrawable.processChildElements(rootElem,elementDrawableRoot);
         ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
 
-        {
-            ((LayerDrawableItem) itemList.get(0)).getDrawable(); // Just a check
-        }
-
         Drawable[] drawableLayers = getDrawables(itemList);
 
         LayerDrawable drawable = new LayerDrawable(drawableLayers);
@@ -50,6 +46,7 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
 
     public void setItemAttributes(LayerDrawable drawable,ArrayList<ElementDrawable> itemList)
     {
+        // Es llamado este método también por ClassDescTransitionDrawable
         for (int i = 0; i < itemList.size(); i++)
         {
             LayerDrawableItem item = (LayerDrawableItem) itemList.get(i);
