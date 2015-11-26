@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 
@@ -22,14 +23,14 @@ import java.util.Map;
  */
 public class ClassDescStateListDrawable extends ClassDescDrawableContainer<StateListDrawable>
 {
-    protected MethodContainer<Object> methodGetStateListState;
+    protected MethodContainer<DrawableContainer.DrawableContainerState> methodGetStateListState;
     protected MethodContainer<Void> methodGetStateListStateIsConstantSize;
 
     public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr)
     {
         super(classMgr,"selector");
 
-        this.methodGetStateListState = new MethodContainer<Object>(StateListDrawable.class,"getStateListState");
+        this.methodGetStateListState = new MethodContainer<DrawableContainer.DrawableContainerState>(StateListDrawable.class,"getStateListState");
         this.methodGetStateListStateIsConstantSize =
                 new MethodContainer<Void>(android.graphics.drawable.DrawableContainer.class.getName() + "$DrawableContainerState","setConstantSize",boolean.class);
     }

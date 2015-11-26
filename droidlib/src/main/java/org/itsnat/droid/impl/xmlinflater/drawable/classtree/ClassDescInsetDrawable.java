@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
@@ -13,7 +14,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_InsetDrawable_visible;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 
 import java.util.ArrayList;
 
@@ -91,6 +92,6 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawable_InsetDrawable_visible(this));
+        addAttrDesc(new AttrDescDrawable_Drawable_visible<AnimationDrawable>(this));
     }
 }

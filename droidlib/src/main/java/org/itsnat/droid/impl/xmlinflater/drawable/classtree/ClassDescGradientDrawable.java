@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.util.TypedValue;
@@ -62,7 +63,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     protected FieldContainer<Boolean> useLevelForShapeField;
 
 
-    protected FieldContainer<Object> gradientStateField;
+    protected FieldContainer<Drawable.ConstantState> gradientStateField;
     protected FieldContainer<Integer> gradientRadiusTypeField;  // LOLLIPOP y sup
     protected FieldContainer<GradientDrawable.Orientation> orientationField;
     protected FieldContainer<int[]> gradientColorsField;
@@ -74,7 +75,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     {
         super(classMgr,"shape");
 
-        this.gradientStateField = new FieldContainer<Object>(GradientDrawable.class, "mGradientState");
+        this.gradientStateField = new FieldContainer<Drawable.ConstantState>(GradientDrawable.class, "mGradientState");
         Class gradientStateClass = MiscUtil.resolveClass(GradientDrawable.class.getName() + "$GradientState");
 
         this.innerRadiusField = new FieldContainer<Integer>(gradientStateClass, "mInnerRadius");
@@ -106,7 +107,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
 
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-        Object gradientState = gradientStateField.get(drawable);
+        Drawable.ConstantState gradientState = gradientStateField.get(drawable);
 
         DOMAttr attrShape = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "shape");
         int shape = attrShape != null ? AttrDesc.<Integer>parseSingleName(attrShape.getValue(), shapeValueMap) : RECTANGLE;
@@ -222,8 +223,8 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     {
         PercFloat centerXObj = item.getCenterX();
         PercFloat centerYObj = item.getCenterY();
-        float centerX = centerXObj != null ? toFloat(centerXObj) : 0.5f;
-        float centerY = centerYObj != null ? toFloat(centerYObj) : 0.5f;
+        float centerX = centerXObj != null ? centerXObj.toFloatBasedOnDataType() : 0.5f;
+        float centerY = centerYObj != null ? centerYObj.toFloatBasedOnDataType() : 0.5f;
         drawable.setGradientCenter(centerX, centerY);
 
         Integer startColorObj = item.getStartColor();
@@ -310,7 +311,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
             PercFloat gradRadius = item.getGradientRadius();
             if (gradRadius != null)
             {
-                float value = toFloat(gradRadius); // gradRadius.getValue();
+                float value = gradRadius.toFloatBasedOnDataType(); // gradRadius.getValue();
                 drawable.setGradientRadius(value);
 
                 if (Build.VERSION.SDK_INT >= MiscUtil.LOLLIPOP)
@@ -369,7 +370,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     {
         Integer colorObj = item.getColor();
         int color = colorObj != null ? colorObj.intValue() : 0;
-        drawable.setColor(colorObj);
+        drawable.setColor(color);
     }
 
     private void processStroke(GradientDrawable drawable,GradientDrawableItemStroke item)
@@ -418,17 +419,10 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
 
     }
 
-    private float toFloat(PercFloat valueObj)
+    private float percFloatToFloat(PercFloat valueObj)
     {
-        float value = valueObj.getValue();
-        int dataType = valueObj.getDataType();
-        if (dataType == TypedValue.TYPE_FRACTION)
-        {
-            // El caso isFractionParent() no se distingue en esta versión
-            value = value / 100;
-        }
-        else if (dataType != TypedValue.TYPE_FLOAT) throw new ItsNatDroidException("Unexpected");
-        return value;
+        // El caso isFractionParent() no se distingue en esta versión
+        return valueObj.toFloatBasedOnDataType();
     }
 }
 

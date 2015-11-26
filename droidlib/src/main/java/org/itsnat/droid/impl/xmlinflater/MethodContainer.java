@@ -81,6 +81,9 @@ public class MethodContainer<Treturn>
             return (Treturn)method.invoke(obj, params);
         }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
-        catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
+        catch (InvocationTargetException ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
     }
 }

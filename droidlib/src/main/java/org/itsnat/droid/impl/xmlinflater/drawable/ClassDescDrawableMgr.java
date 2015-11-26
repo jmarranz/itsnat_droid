@@ -22,6 +22,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawab
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRotateDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescScaleDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableItem;
@@ -73,32 +74,22 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
             ClassDescStateListDrawableItem stateListItem = new ClassDescStateListDrawableItem(this);
             addClassDesc(stateListItem);
 
-        ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
-        addClassDesc(ninePatch);
+                // AnimatedStateListDrawable hereda de StateListDrawable pero es level 21
 
-        ClassDescClipDrawable clip = new ClassDescClipDrawable(this);
-        addClassDesc(clip);
+        // DrawableWrapper es level 23 pero lo vamos teniendo en cuenta
 
+            ClassDescClipDrawable clip = new ClassDescClipDrawable(this);
+            addClassDesc(clip);
 
-        ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
-        addClassDesc(layer);
-        ClassDescLayerDrawableItem layerItem = new ClassDescLayerDrawableItem(this);
-        addClassDesc(layerItem);
+            ClassDescInsetDrawable inset = new ClassDescInsetDrawable(this);
+            addClassDesc(inset);
 
-            ClassDescTransitionDrawable transition = new ClassDescTransitionDrawable(this,layer);
-            addClassDesc(transition);
-            ClassDescTransitionDrawableItem transitionItem = new ClassDescTransitionDrawableItem(this,layerItem);
-            addClassDesc(transitionItem);
+            ClassDescRotateDrawable rotate = new ClassDescRotateDrawable(this);
+            addClassDesc(rotate);
 
+            ClassDescScaleDrawable scale = new ClassDescScaleDrawable(this);
+            addClassDesc(scale);
 
-
-
-
-        ClassDescInsetDrawable inset = new ClassDescInsetDrawable(this);
-        addClassDesc(inset);
-
-        ClassDescScaleDrawable scale = new ClassDescScaleDrawable(this);
-        addClassDesc(scale);
 
         ClassDescGradientDrawable gradient = new ClassDescGradientDrawable(this);
         addClassDesc(gradient);
@@ -115,5 +106,21 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
         ClassDescGradientDrawableItemStroke gradientStrokeItem = new ClassDescGradientDrawableItemStroke(this);
         addClassDesc(gradientStrokeItem);
 
+        ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
+        addClassDesc(layer);
+        ClassDescLayerDrawableItem layerItem = new ClassDescLayerDrawableItem(this);
+        addClassDesc(layerItem);
+
+            ClassDescTransitionDrawable transition = new ClassDescTransitionDrawable(this,layer);
+            addClassDesc(transition);
+            ClassDescTransitionDrawableItem transitionItem = new ClassDescTransitionDrawableItem(this,layerItem);
+            addClassDesc(transitionItem);
+
+            // RippleDrawable es level 21
+
+        ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
+        addClassDesc(ninePatch);
+
+        // ShapeDrawable no se como usarlo como XML pues <shape> se refiere a GradientDrawable, parece que ShapeDrawable es una antigualla o bien realmente sólo se puede usar via objeto Java
     }
 }

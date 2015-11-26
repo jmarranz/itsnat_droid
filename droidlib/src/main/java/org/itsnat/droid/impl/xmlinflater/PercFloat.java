@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import android.util.TypedValue;
 
+import org.itsnat.droid.ItsNatDroidException;
+
 /**
  * Created by Jose on 04/11/2015.
  */
@@ -35,5 +37,16 @@ public class PercFloat
 
     public float getValue() {
         return value;
+    }
+
+    public float toFloatBasedOnDataType()
+    {
+        float valueTmp = this.value;
+        if (dataType == TypedValue.TYPE_FRACTION)
+        {
+            valueTmp = valueTmp / 100;
+        }
+        else if (dataType != TypedValue.TYPE_FLOAT) throw new ItsNatDroidException("Unexpected");
+        return valueTmp;
     }
 }

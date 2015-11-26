@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_AnimationDrawable_visible;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
@@ -70,6 +70,6 @@ public class ClassDescAnimationDrawable extends ClassDescElementDrawableRoot<Ani
 
         addAttrDesc(new AttrDescReflecMethodBoolean(this, "oneshot", "setOneShot", false));
         addAttrDesc(new AttrDescReflecFieldMethodBoolean(this, "variablePadding","mAnimationState", MiscUtil.resolveClass(DrawableContainer.class.getName() + "$DrawableContainerState"),"setVariablePadding",false));
-        addAttrDesc(new AttrDescDrawable_AnimationDrawable_visible(this));
+        addAttrDesc(new AttrDescDrawable_Drawable_visible<AnimationDrawable>(this));
     }
 }

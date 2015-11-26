@@ -171,7 +171,13 @@
             android:textSize="20dp"
             android:background="@drawable/test_animation_drawable_compiled" />
 
-
+        <TextView android:id="@+id/testRotateDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="RotateDrawable (bot rotated 10 degrees, level 10000, pivot (15.3%,40.3%)"
+            android:textSize="20dp"
+            android:background="@drawable/test_rotate_drawable_compiled" />
 
     </LinearLayout>
 

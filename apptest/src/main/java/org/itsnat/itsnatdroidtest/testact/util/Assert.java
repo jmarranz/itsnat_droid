@@ -569,7 +569,19 @@ public class Assert
     {
         assertEqualsDrawable(a, b);
 
+        // android:drawable
         assertEquals(a.getDrawable(), b.getDrawable());
+
+        Drawable.ConstantState a_state = a.getConstantState();
+        Drawable.ConstantState b_state = b.getConstantState();
+
+        Class classState = TestUtil.resolveClass(RotateDrawable.class.getName() + "$RotateState");
+        assertEquals((Boolean) TestUtil.getField(a_state, classState, "mPivotXRel"), (Boolean) TestUtil.getField(b_state, classState, "mPivotXRel"));
+        assertEquals((Float) TestUtil.getField(a_state, classState, "mPivotX"), (Float) TestUtil.getField(b_state, classState, "mPivotX"));
+        assertEquals((Boolean) TestUtil.getField(a_state, classState, "mPivotYRel"), (Boolean) TestUtil.getField(b_state, classState, "mPivotYRel"));
+        assertEquals((Float) TestUtil.getField(a_state, classState, "mPivotY"), (Float) TestUtil.getField(b_state, classState, "mPivotY"));
+        assertEquals((Float) TestUtil.getField(a_state, classState, "mFromDegrees"), (Float) TestUtil.getField(b_state, classState, "mFromDegrees"));
+        assertEquals((Float) TestUtil.getField(a_state, classState, "mToDegrees"), (Float) TestUtil.getField(b_state, classState, "mToDegrees"));
     }
 
     private static void assertEqualsDrawableContainer(DrawableContainer a,DrawableContainer b)

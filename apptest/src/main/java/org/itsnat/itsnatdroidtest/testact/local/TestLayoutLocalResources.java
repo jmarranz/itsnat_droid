@@ -3,6 +3,7 @@ package org.itsnat.itsnatdroidtest.testact.local;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.LevelListDrawable;
+import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;
@@ -80,5 +81,9 @@ public class TestLayoutLocalResources extends TestLayoutLocalBase {
         TextView testAnimationDrawable = (TextView) rootView.findViewById(R.id.testAnimationDrawableId);
         AnimationDrawable animationDrawable = (AnimationDrawable) testAnimationDrawable.getBackground();
         animationDrawable.start();
+
+        TextView testRotateDrawable = (TextView) rootView.findViewById(R.id.testRotateDrawableId);
+        RotateDrawable rotateDrawable = (RotateDrawable) testRotateDrawable.getBackground();
+        rotateDrawable.setLevel(10000); // 0 (minimum) to 10000 (maximum) para que rote los 45%
     }
 }

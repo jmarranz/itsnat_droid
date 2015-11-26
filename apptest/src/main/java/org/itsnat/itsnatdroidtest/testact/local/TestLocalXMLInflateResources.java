@@ -10,6 +10,7 @@ import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.NinePatchDrawable;
+import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -312,8 +313,24 @@ public class TestLocalXMLInflateResources
 
         }
 
+        childCount++;
 
-//         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());
+        // Test RotateDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "RotateDrawable (bot rotated 10 degrees, level 10000, pivot (15.3%,40.3%)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((RotateDrawable) compLayout.getBackground());
+            assertEquals((RotateDrawable) compLayout.getBackground(), (RotateDrawable) parsedLayout.getBackground());
+
+        }
+
+
+
+
         //System.out.println("\n\n\n");
 
     }
