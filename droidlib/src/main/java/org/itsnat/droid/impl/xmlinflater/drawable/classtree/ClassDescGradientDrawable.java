@@ -66,6 +66,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     protected FieldContainer<Integer> gradientRadiusTypeField;  // LOLLIPOP y sup
     protected FieldContainer<GradientDrawable.Orientation> orientationField;
     protected FieldContainer<int[]> gradientColorsField;
+    protected FieldContainer<float[]> gradientPositionsField;
     protected FieldContainer<Rect> gradientPaddingField;
     protected FieldContainer<Rect> gradientPaddingField2;
 
@@ -91,6 +92,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
             this.gradientColorsField = new FieldContainer<int[]>(gradientStateClass, "mGradientColors");
         else
             this.gradientColorsField = new FieldContainer<int[]>(gradientStateClass, "mColors");
+        this.gradientPositionsField = new FieldContainer<float[]>(gradientStateClass, "mPositions");
         this.gradientPaddingField = new FieldContainer<Rect>(GradientDrawable.class, "mPadding");
         this.gradientPaddingField2 = new FieldContainer<Rect>(gradientStateClass, "mPadding");
     }
@@ -108,14 +110,10 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
 
         DOMAttr attrShape = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "shape");
         int shape = attrShape != null ? AttrDesc.<Integer>parseSingleName(attrShape.getValue(), shapeValueMap) : RECTANGLE;
-        drawable.setShape(shape);
 
         DOMAttr attrDither = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "dither");
-        if (attrDither != null)
-        {
-            boolean dither = xmlInflateRegistry.getBoolean(attrDither.getValue(),ctx);
-            drawable.setDither(dither);
-        }
+        boolean dither = attrDither != null ? xmlInflateRegistry.getBoolean(attrDither.getValue(),ctx) : false;
+
 
         if (shape == RING)
         {
@@ -146,12 +144,12 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
             }
 
             DOMAttr attrUseLevelForShape = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "useLevel");
-            if (attrUseLevelForShape != null)
-            {
-                boolean useLevelForShape = xmlInflateRegistry.getBoolean(attrUseLevelForShape.getValue(), ctx);
-                useLevelForShapeField.set(gradientState,useLevelForShape);
-            }
+            boolean useLevelForShape = attrUseLevelForShape != null ? xmlInflateRegistry.getBoolean(attrUseLevelForShape.getValue(), ctx) : true;
+            useLevelForShapeField.set(gradientState,useLevelForShape);
         }
+
+        drawable.setShape(shape);
+        drawable.setDither(dither);
 
         inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
         ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
@@ -194,8 +192,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     {
         Integer radiusObj = item.getRadius();
         int radius = radiusObj != null ? radiusObj.intValue() : 0;
-        if (radiusObj != null)
-            drawable.setCornerRadius(radius);
+        drawable.setCornerRadius(radius);
 
         Integer topLeftRadiusObj = item.getTopLeftRadius();
         int topLeftRadius = topLeftRadiusObj != null ? topLeftRadiusObj.intValue() : radius;
@@ -223,6 +220,12 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
 
     private void processGradient(GradientDrawable drawable,GradientDrawableItemGradient item,Object gradientState)
     {
+        PercFloat centerXObj = item.getCenterX();
+        PercFloat centerYObj = item.getCenterY();
+        float centerX = centerXObj != null ? toFloat(centerXObj) : 0.5f;
+        float centerY = centerYObj != null ? toFloat(centerYObj) : 0.5f;
+        drawable.setGradientCenter(centerX, centerY);
+
         Integer startColorObj = item.getStartColor();
         Integer centerColorObj = item.getCenterColor();
         Integer endColorObj = item.getEndColor();
@@ -234,6 +237,14 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
             colors[1] = centerColorObj.intValue();
             colors[2] = endColorObj != null ? endColorObj.intValue() : 0;
             gradientColorsField.set(gradientState, colors);
+
+            // Necessary for correct center color position in rectangle case
+            float[] positions = new float[3];
+            positions[0] = 0.0f;
+            // Since 0.5f is default value, try to take the one that isn't 0.5f
+            positions[1] = centerX != 0.5f ? centerX : centerY;
+            positions[2] = 1f;
+            gradientPositionsField.set(gradientState, positions);
         }
         else
         {
@@ -243,36 +254,13 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
             gradientColorsField.set(gradientState, colors);
         }
 
-        PercFloat centerXObj = item.getCenterX();
-        PercFloat centerYObj = item.getCenterY();
-        if (centerXObj != null || centerYObj != null)
-        {
-            float centerX = 0.5f;
-            if (centerXObj != null)
-            {
-                centerX = toFloat(centerXObj);
-            }
-
-            float centerY = 0.5f;
-            if (centerYObj != null)
-            {
-                centerY = toFloat(centerYObj);
-            }
-            drawable.setGradientCenter(centerX, centerY);
-        }
-
         Boolean useLevelObj = item.getUseLevel();
-        if (useLevelObj != null)
-        {
-            drawable.setUseLevel(useLevelObj);
-        }
+        boolean useLevel = useLevelObj != null ?  useLevelObj.booleanValue() : false;
+        drawable.setUseLevel(useLevel);
 
-        Integer gradientType = item.getType();
-        if (gradientType != null)
-        {
-            drawable.setGradientType(gradientType);
-        }
-        else gradientType = GradientDrawable.LINEAR_GRADIENT;  // LINEAR_GRADIENT es por defecto
+        Integer gradientTypeObj = item.getType();
+        int gradientType = gradientTypeObj != null ? gradientTypeObj.intValue() : GradientDrawable.LINEAR_GRADIENT;
+        drawable.setGradientType(gradientType);
 
         if (gradientType == GradientDrawable.LINEAR_GRADIENT)
         {
@@ -341,9 +329,8 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
 
                     gradientRadiusTypeField.set(gradientState,radiusType);
                 }
-
             }
-            else if (gradientType == GradientDrawable.RADIAL_GRADIENT)
+            else if (gradientTypeObj == GradientDrawable.RADIAL_GRADIENT)
                 throw new ItsNatDroidException("<gradient> tag requires 'gradientRadius' attribute with radial type");
         }
 
@@ -356,50 +343,46 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         Integer rightObj = item.getRight();
         Integer bottomObj = item.getBottom();
 
-        if (leftObj != null || topObj != null || rightObj != null || bottomObj != null)
-        {
-            Rect rect = new Rect(
-                    leftObj != null ? leftObj.intValue() : 0,
-                    topObj != null ? topObj.intValue() : 0,
-                    rightObj != null ? rightObj.intValue() : 0,
-                    bottomObj != null ? bottomObj.intValue() : 0
-            );
+        int left = leftObj != null ? leftObj.intValue() : 0;
+        int top = topObj != null ? topObj.intValue() : 0;
+        int right = rightObj != null ? rightObj.intValue() : 0;
+        int bottom = bottomObj != null ? bottomObj.intValue() : 0;
 
-            // Son necesarios los dos al menos el primero, de otra manera no se manifiesta visualmente el cambio
-            gradientPaddingField.set(drawable, rect);
-            gradientPaddingField2.set(gradientState, rect);
-        }
+        Rect rect = new Rect(left,top,right,bottom);
+
+        // Son necesarios los dos al menos el primero, de otra manera no se manifiesta visualmente el cambio
+        gradientPaddingField.set(drawable, rect);
+        gradientPaddingField2.set(gradientState, rect);
     }
 
     private void processSize(GradientDrawable drawable,GradientDrawableItemSize item)
     {
         Integer widthObj = item.getWidth();
         Integer heightObj = item.getHeight();
+        int width = widthObj != null ? widthObj.intValue() : -1;
+        int height = heightObj != null ? heightObj.intValue() : -1;
 
-        if (widthObj != null || heightObj != null)
-        {
-            int width = widthObj != null ? widthObj.intValue() : -1;
-            int height = heightObj != null ? heightObj.intValue() : -1;
-            drawable.setSize(width, height);
-        }
+        drawable.setSize(width, height);
     }
 
     private void processSolid(GradientDrawable drawable,GradientDrawableItemSolid item)
     {
         Integer colorObj = item.getColor();
-        if (colorObj != null)
-            drawable.setColor(colorObj);
+        int color = colorObj != null ? colorObj.intValue() : 0;
+        drawable.setColor(colorObj);
     }
 
     private void processStroke(GradientDrawable drawable,GradientDrawableItemStroke item)
     {
         Integer widthObj = item.getWidth();
-        int width = widthObj != null ? widthObj.intValue() : 0;
         Integer colorObj = item.getColor();
-        int color = colorObj != null ? colorObj.intValue() : 0;
         Float dashWidthObj = item.getDashWidth();
 
-        if (dashWidthObj != null && dashWidthObj.floatValue() != 0.0f)
+        int width = widthObj != null ? widthObj.intValue() : 0;
+        int color = colorObj != null ? colorObj.intValue() : 0;
+        float dashWidth = dashWidthObj != null ? dashWidthObj.floatValue() : 0;
+
+        if (dashWidth != 0.0f)
         {
             Float dashGapObj = item.getDashGap();
             float dashGap = dashGapObj != null ? dashGapObj.floatValue() : 0;
@@ -407,8 +390,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         }
         else
         {
-            if (widthObj != null || colorObj != null)
-                drawable.setStroke(width, color);
+            drawable.setStroke(width, color);
         }
     }
 

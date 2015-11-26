@@ -139,10 +139,10 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
 
     public static Bitmap getBitmapNoScale(DOMAttr attr,Context ctx,XMLInflateRegistry xmlInflateRegistry)
     {
-        return getBitmap(attr, false, -1, ctx, xmlInflateRegistry);
+        return getBitmap(attr, -1, ctx, xmlInflateRegistry);
     }
 
-    public static Bitmap getBitmap(DOMAttr attr,boolean scale,int bitmapDensityReference,Context ctx,XMLInflateRegistry xmlInflateRegistry)
+    public static Bitmap getBitmap(DOMAttr attr,int bitmapDensityReference,Context ctx,XMLInflateRegistry xmlInflateRegistry)
     {
         if (attr instanceof DOMAttrDynamic)
         {
@@ -150,7 +150,7 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             byte[] byteArray = (byte[])attrDyn.getResource();
             Resources res = ctx.getResources();
-            return DrawableUtil.createBitmap(byteArray, scale, bitmapDensityReference, res);
+            return DrawableUtil.createBitmap(byteArray, bitmapDensityReference, res);
         }
         else if (attr instanceof DOMAttrLocalResource)
         {

@@ -55,7 +55,9 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDraw
         DOMAttr attrClipOrientation = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "clipOrientation");
         int orientation = attrClipOrientation != null ? AttrDesc.<Integer>parseSingleName(attrClipOrientation.getValue(), valueMap) : ClipDrawable.HORIZONTAL; // Valor concreto no puede ser un recurso
 
-        elementDrawableRoot.setDrawable(new ClipDrawable(childDrawable,gravity,orientation));
+        ClipDrawable drawable = new ClipDrawable(childDrawable,gravity,orientation);
+
+        elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
     }

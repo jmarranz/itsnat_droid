@@ -31,7 +31,7 @@ public class AttrDescView_view_View_layerType extends AttrDesc<ClassDescViewBase
     {
         int convertedValue = AttrDesc.<Integer>parseSingleName(attr.getValue(), valueMap);
 
-        int layerType = (Integer)convertedValue;
+        int layerType = convertedValue;
         view.setLayerType(layerType,null);
     }
 

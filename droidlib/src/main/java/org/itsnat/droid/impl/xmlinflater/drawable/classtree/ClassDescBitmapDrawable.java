@@ -31,7 +31,7 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
     {
         DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
 
-        Bitmap bitmap = ClassDescDrawable.getBitmap(attrSrc,true,inflaterDrawable.getBitmapDensityReference(), ctx, classMgr.getXMLInflateRegistry());
+        Bitmap bitmap = ClassDescDrawable.getBitmap(attrSrc,inflaterDrawable.getBitmapDensityReference(), ctx, classMgr.getXMLInflateRegistry());
         return new ElementDrawableRoot(new BitmapDrawable(ctx.getResources(),bitmap));
     }
 

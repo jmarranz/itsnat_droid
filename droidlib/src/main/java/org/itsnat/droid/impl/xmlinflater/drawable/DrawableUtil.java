@@ -21,7 +21,7 @@ import java.io.InputStream;
  */
 public class DrawableUtil
 {
-    public static Bitmap createBitmap(byte[] byteArray,boolean scale,int bitmapDensityReference,Resources res)
+    public static Bitmap createBitmap(byte[] byteArray,int bitmapDensityReference,Resources res)
     {
         // bitmapDensityReference es necesario para escalar adecuadamente un bitmap (no nine patch)
         // En ItsNat cuando los bitmaps son remotos no hay manera de elegir densidades por lo que
@@ -51,6 +51,7 @@ public class DrawableUtil
 
         BitmapFactory.Options options = new BitmapFactory.Options();
 
+        boolean scale = bitmapDensityReference > 0;
         if (scale)
         {
             /*
@@ -86,7 +87,7 @@ public class DrawableUtil
         if (expectedNinePatch)
             return createNinePatchDrawable(byteArray,bitmapDensityReference,res);
 
-        Bitmap bitmap = createBitmap(byteArray,true,bitmapDensityReference,res);
+        Bitmap bitmap = createBitmap(byteArray,bitmapDensityReference,res);
 
         byte[] chunk = bitmap.getNinePatchChunk();
         boolean result = NinePatch.isNinePatchChunk(chunk);
@@ -103,7 +104,7 @@ public class DrawableUtil
 
     public static NinePatchDrawable createNinePatchDrawable(byte[] byteArray,int bitmapDensityReference,Resources res)
     {
-        Bitmap bitmap = createBitmap(byteArray,true,bitmapDensityReference,res);
+        Bitmap bitmap = createBitmap(byteArray,bitmapDensityReference,res);
         return createNinePatchDrawable(bitmap,res);
     }
 

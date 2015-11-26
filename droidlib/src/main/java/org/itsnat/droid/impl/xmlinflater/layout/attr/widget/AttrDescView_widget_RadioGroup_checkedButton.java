@@ -6,6 +6,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_widget_RadioGroup;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
 
 /**
@@ -13,7 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
  */
 public class AttrDescView_widget_RadioGroup_checkedButton extends AttrDescReflecMethodId<ClassDescViewBased,View,AttrLayoutContext>
 {
-    public AttrDescView_widget_RadioGroup_checkedButton(ClassDescViewBased parent)
+    public AttrDescView_widget_RadioGroup_checkedButton(ClassDescView_widget_RadioGroup parent)
     {
         super(parent, "checkedButton", "check",-1);
     }

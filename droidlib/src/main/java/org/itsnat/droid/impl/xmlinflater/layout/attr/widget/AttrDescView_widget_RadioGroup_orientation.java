@@ -6,6 +6,7 @@ import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.OrientationUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_widget_RadioGroup;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
 /**
@@ -17,7 +18,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_widget_RadioGroup_orientation extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    public AttrDescView_widget_RadioGroup_orientation(ClassDescViewBased parent)
+    public AttrDescView_widget_RadioGroup_orientation(ClassDescView_widget_RadioGroup parent)
     {
         super(parent,"orientation",int.class, OrientationUtil.valueMap,"vertical");
 
