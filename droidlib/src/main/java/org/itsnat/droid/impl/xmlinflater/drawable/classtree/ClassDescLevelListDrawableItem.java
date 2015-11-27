@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLevelListDrawableItem extends ClassDescElementDrawableChildWithDrawable<StateListDrawableItem>
+public class ClassDescLevelListDrawableItem extends ClassDescElementDrawableChildWithDrawable<LevelListDrawableItem>
 {
     public ClassDescLevelListDrawableItem(ClassDescDrawableMgr classMgr)
     {

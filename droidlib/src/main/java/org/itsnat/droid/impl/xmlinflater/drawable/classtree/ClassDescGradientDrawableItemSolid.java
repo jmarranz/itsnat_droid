@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescGradientDrawableItemSolid extends ClassDescElementDrawableChildNormal<GradientDrawableItemGradient>
+public class ClassDescGradientDrawableItemSolid extends ClassDescElementDrawableChildNormal<GradientDrawableItemSolid>
 {
     public ClassDescGradientDrawableItemSolid(ClassDescDrawableMgr classMgr)
     {

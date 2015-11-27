@@ -49,8 +49,8 @@ public class ClassDescViewBased extends ClassDesc<View>
                         new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams");
 
     protected Class<View> clasz;
-    protected Constructor<View> constructor1P;
-    protected Constructor<View> constructor3P;
+    protected Constructor<? extends View> constructor1P;
+    protected Constructor<? extends View> constructor3P;
 
     public ClassDescViewBased(ClassDescViewMgr classMgr, String className,ClassDescViewBased parentClass)
     {
@@ -65,6 +65,18 @@ public class ClassDescViewBased extends ClassDesc<View>
         super.init();
     }
 
+    public Class<View> getDeclaredClass()
+    {
+        return clasz;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Class<? extends View> initClass()
+    {
+        if (clasz == null) this.clasz = (Class<View>) MiscUtil.resolveClass(classOrDOMElemName);
+        return clasz;
+    }
+
     public ClassDescViewMgr getClassDescViewMgr()
     {
         return (ClassDescViewMgr)classMgr;
@@ -74,30 +86,6 @@ public class ClassDescViewBased extends ClassDesc<View>
     {
         return (ClassDescViewBased)getParentClassDesc();
     }
-
-    public Class<View> getDeclaredClass()
-    {
-        return clasz;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected Class<View> initClass()
-    {
-        if (clasz == null) this.clasz = (Class<View>) MiscUtil.resolveClass(className);
-        return clasz;
-    }
-
-    public Class<View> getViewClass()
-    {
-        return getDeclaredClass();
-    }
-
-    /*
-    protected AttrDescView getAttrDescView(String name)
-    {
-        return (AttrDescView)getAttrDesc(name);
-    }
-*/
 
     protected static boolean isStyleAttribute(String namespaceURI,String name)
     {
@@ -331,7 +319,7 @@ public class ClassDescViewBased extends ClassDesc<View>
     {
         View view;
 
-        Class<View> clasz = initClass();
+        Class<? extends View> clasz = initClass();
 
         try
         {

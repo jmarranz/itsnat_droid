@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
@@ -27,11 +26,26 @@ import java.io.InputStream;
 /**
  * Created by Jose on 15/10/2015.
  */
-public abstract class ClassDescDrawable extends ClassDesc<Drawable>
+public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<TelementDrawable>
 {
-    public ClassDescDrawable(ClassDescDrawableMgr classMgr, String elemName, ClassDescDrawable parentClass)
+    public ClassDescDrawable(ClassDescDrawableMgr classMgr, String elemName, ClassDescDrawable<TelementDrawable> parentClass)
     {
         super(classMgr, elemName, parentClass);
+    }
+
+    public Class<TelementDrawable> getDeclaredClass()
+    {
+        return getDrawableOrElementDrawableClass();
+    }
+
+    public abstract Class<TelementDrawable> getDrawableOrElementDrawableClass();
+
+    @Override
+    protected void init()
+    {
+        // initClass();
+
+        super.init();
     }
 
     public ClassDescDrawableMgr getClassDescDrawableMgr()
@@ -41,19 +55,14 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
 
     public String getElementName()
     {
-        return getClassName();
+        return getClassOrDOMElemName();
     }
 
     public static PageImpl getPageImpl(XMLInflaterDrawable xmlInflaterDrawable)
     {
         return (xmlInflaterDrawable instanceof XMLInflaterDrawablePage) ? ((XMLInflaterDrawablePage) xmlInflaterDrawable).getPageImpl() : null;
     }
-/*
-    protected AttrDescDrawable getAttrDescDrawable(String name)
-    {
-        return (AttrDescDrawable) getAttrDesc(name);
-    }
-*/
+
     public ClassDescDrawable getParentClassDescDrawable()
     {
         return (ClassDescDrawable) getParentClassDesc();
@@ -130,12 +139,7 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
         return true;
     }
 
-    public Class<?> getDeclaredClass()
-    {
-        return getDrawableOrElementDrawableClass();
-    }
 
-    public abstract Class<?> getDrawableOrElementDrawableClass();
 
     public static Bitmap getBitmapNoScale(DOMAttr attr,Context ctx,XMLInflateRegistry xmlInflateRegistry)
     {

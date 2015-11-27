@@ -100,9 +100,9 @@ public class ClassDescStateListDrawable extends ClassDescDrawableContainer<State
     }
 
     @Override
-    public Class<LayerDrawable> getDrawableOrElementDrawableClass()
+    public Class<StateListDrawable> getDrawableOrElementDrawableClass()
     {
-        return LayerDrawable.class;
+        return StateListDrawable.class;
     }
 
     protected void init()

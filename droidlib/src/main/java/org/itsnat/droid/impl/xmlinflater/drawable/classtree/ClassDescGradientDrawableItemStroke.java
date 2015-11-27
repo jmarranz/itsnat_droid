@@ -16,7 +16,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensi
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescGradientDrawableItemStroke extends ClassDescElementDrawableChildNormal<GradientDrawableItemGradient>
+public class ClassDescGradientDrawableItemStroke extends ClassDescElementDrawableChildNormal<GradientDrawableItemStroke>
 {
     public ClassDescGradientDrawableItemStroke(ClassDescDrawableMgr classMgr)
     {

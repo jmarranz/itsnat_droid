@@ -1,5 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.drawable;
 
+import android.graphics.drawable.Drawable;
+import android.view.View;
+
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawable;
@@ -28,11 +32,13 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDr
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewUnknown;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
+public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable,Drawable>
 {
     public ClassDescDrawableMgr(XMLInflateRegistry parent)
     {
@@ -40,10 +46,12 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
         initClassDesc();
     }
 
-    public ClassDescDrawable get(String className)
+    @Override
+    public ClassDescDrawable get(String classOrDOMElemName)
     {
-        return classes.get(className);
+        return classes.get(classOrDOMElemName);
     }
+
 
     @Override
     protected void initClassDesc()

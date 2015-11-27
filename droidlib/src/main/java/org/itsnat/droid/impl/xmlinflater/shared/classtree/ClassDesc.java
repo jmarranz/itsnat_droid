@@ -17,15 +17,15 @@ import java.util.HashMap;
 public abstract class ClassDesc<Tnative>
 {
     protected ClassDescMgr classMgr;
-    protected String className;
+    protected String classOrDOMElemName;
     protected ClassDesc<? super Tnative> parentClass;
     protected boolean initiated;
     protected HashMap<String, AttrDesc> attrDescMap;
 
-    public ClassDesc(ClassDescMgr classMgr,String className,ClassDesc<? super Tnative> parentClass)
+    public ClassDesc(ClassDescMgr classMgr,String classOrDOMElemName,ClassDesc<? super Tnative> parentClass)
     {
         this.classMgr = classMgr;
-        this.className = className;
+        this.classOrDOMElemName = classOrDOMElemName;
         this.parentClass = parentClass;
     }
 
@@ -44,9 +44,10 @@ public abstract class ClassDesc<Tnative>
         return parentClass;
     }
 
-    public String getClassName()
+
+    public String getClassOrDOMElemName()
     {
-        return className;
+        return classOrDOMElemName;
     }
 
     public static PageImpl getPageImpl(XMLInflater xmlInflater)
@@ -77,6 +78,6 @@ public abstract class ClassDesc<Tnative>
         return attrDescMap.get(name);
     }
 
-    public abstract Class<?> getDeclaredClass();
+    public abstract Class<Tnative> getDeclaredClass();
 
 }

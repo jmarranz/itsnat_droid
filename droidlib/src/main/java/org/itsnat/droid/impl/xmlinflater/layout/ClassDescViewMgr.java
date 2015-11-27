@@ -52,19 +52,34 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_widget_V
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
+public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
 {
+    public final String[] implicitImports = new String[] { "android.view.", "android.widget." };  // Es para añadir imports implícitos tal y como hace Android en los layouts
+
     public ClassDescViewMgr(XMLInflateRegistry parent)
     {
         super(parent);
         initClassDesc();
     }
 
+    @Override
     public ClassDescViewBased get(String className)
     {
         ClassDescViewBased classDesc = classes.get(className);
         if (classDesc != null)
             return classDesc;
+        if (isSimpleClassName(className))
+        {
+            for(String implicit : implicitImports)
+            {
+                String classNameCandidate = implicit + className;
+                classDesc = classes.get(classNameCandidate);
+                if (classDesc != null)
+                    return classDesc;
+            }
+            // Fallará seguramente después pues es muy raro que usemos una custom view con clase en el package por defecto
+        }
+
         Class<? extends View> nativeClass = null;
         try { nativeClass = resolveClass(className); }
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
@@ -85,7 +100,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
         return get(nativeClass);
     }
 
-    public ClassDescViewBased registerUnknown(Class<? extends View> nativeClass)
+    private ClassDescViewBased registerUnknown(Class<? extends View> nativeClass)
     {
         String className = nativeClass.getName();
         // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
@@ -99,6 +114,42 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
         return classDesc;
     }
 
+
+    @SuppressWarnings("unchecked")
+    private Class<? extends View> resolveClass(String viewName) throws ClassNotFoundException
+    {
+        if (isSimpleClassName(viewName))
+        {
+            for(int i = 0; i < implicitImports.length; i++)
+            {
+                String implicit = implicitImports[i];
+                if (i + 1 == implicitImports.length) // El último, si falla dejamos que haya excepción
+                {
+                    return resolveClass(implicit + viewName);
+                }
+                else
+                {
+                    try { return resolveClass(implicit + viewName); }
+                    catch (ClassNotFoundException e) { continue; }
+                }
+            }
+            throw new ItsNatDroidException("Unexpected"); // Nunca se llega aqui
+        }
+        else
+        {
+            return (Class<? extends View>)Class.forName(viewName);
+        }
+    }
+
+    private ClassDescViewBased createClassDescUnknown(String className,ClassDescViewBased parentClass)
+    {
+        return new ClassDescViewUnknown(this,className,parentClass);
+    }
+
+    public boolean isSimpleClassName(String className)
+    {
+        return className.indexOf('.') == -1;
+    }
 
     @Override
     protected void initClassDesc()
@@ -291,31 +342,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
         // android.support.v4.widget.SlidingPaneLayout no tiene atributos
         // android.support.v4.widget.SwipeRefreshLayout no tiene atributos
         // android.support.v4.view.ViewPager no tiene atributos
-
     }
 
-    @SuppressWarnings("unchecked")
-    public Class<? extends View> resolveClass(String viewName) throws ClassNotFoundException
-    {
-        if (viewName.indexOf('.') == -1)
-        {
-            try
-            {
-                return resolveClass("android.view." + viewName);
-            }
-            catch (ClassNotFoundException e)
-            {
-                return resolveClass("android.widget." + viewName);
-            }
-        }
-        else
-        {
-            return (Class<? extends View>)Class.forName(viewName);
-        }
-    }
 
-    protected ClassDescViewBased createClassDescUnknown(String className,ClassDescViewBased parentClass)
-    {
-        return new ClassDescViewUnknown(this,className,parentClass);
-    }
 }

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> extends ClassDescDrawable
+public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> extends ClassDescDrawable<Tdrawable>
 {
     public ClassDescElementDrawableRoot(ClassDescDrawableMgr classMgr, String elemName)
     {

@@ -72,9 +72,9 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
 
 
     @Override
-    public Class<ClipDrawable> getDrawableOrElementDrawableClass()
+    public Class<ScaleDrawable> getDrawableOrElementDrawableClass()
     {
-        return ClipDrawable.class;
+        return ScaleDrawable.class;
     }
 
     protected void init()

@@ -204,12 +204,9 @@ public class Assert
 
     public static void assertEquals(Bitmap a,Bitmap b)
     {
-        //if (executeAllTests)
-        {
-            assertEquals(a.getByteCount(), b.getByteCount());
-            assertEquals(a.getWidth(), b.getWidth());
-            assertEquals(a.getHeight(), b.getHeight());
-        }
+        assertEquals(a.getByteCount(), b.getByteCount());
+        assertEquals(a.getWidth(), b.getWidth());
+        assertEquals(a.getHeight(), b.getHeight());
     }
 
     private static void assertEqualsDrawable(Drawable a,Drawable b)
@@ -222,7 +219,7 @@ public class Assert
         // La propia clase Drawable, no derivadas
         if (testOpacity) assertEquals(a.getOpacity(), b.getOpacity());
         // assertEquals(a.getBounds(),b.getBounds()); quizás necesite hacer un layout antes
-        if (a.getCurrent().getClass().equals(b.getCurrent().getClass())) // En el caso de AnimationDrawable en el que no sabes cual es el que ha quedado el último al salir del layout
+        if (a.getCurrent().getClass().equals(b.getCurrent().getClass()))
         {
             assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
             assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
@@ -231,6 +228,7 @@ public class Assert
         }
         else
         {
+            // En el caso de AnimationDrawable en el que no sabes cual es el que ha quedado el último al salir del layout, pero no hay problema que no se ejecute este test en este caso pues sistemáticamente se en otro lugar se testean todos los drawables uno a uno
             if (!(a instanceof AnimationDrawable)) // Sólo hemos detectado este caso
                 assertTrue(false);
 

@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public abstract class ClassDescElementDrawableChild<TelementDrawable extends ElementDrawableChild> extends ClassDescDrawable
+public abstract class ClassDescElementDrawableChild<TelementDrawable extends ElementDrawableChild> extends ClassDescDrawable<TelementDrawable>
 {
     public ClassDescElementDrawableChild(ClassDescDrawableMgr classMgr, String elemName)
     {

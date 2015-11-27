@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescAnimationDrawableItem extends ClassDescElementDrawableChildWithDrawable<LayerDrawableItem>
+public class ClassDescAnimationDrawableItem extends ClassDescElementDrawableChildWithDrawable<AnimationDrawableItem>
 {
     public ClassDescAnimationDrawableItem(ClassDescDrawableMgr classMgr)
     {
