@@ -22,7 +22,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDraw
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDrawableWrapper;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableWrapper;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableWrapped;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ElementDrawableChildContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
 import org.itsnat.droid.impl.xmlinflater.drawable.stdalone.XMLInflaterDrawableStandalone;
@@ -83,7 +83,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
         inflatedDrawable.setDrawable(drawable);
 
-        fillAttributes(classDesc, new DrawableWrapper(drawable), rootDOMElem,ctx);
+        fillAttributes(classDesc, new DrawableWrapped(drawable), rootDOMElem,ctx);
 
         return drawableElem;
     }

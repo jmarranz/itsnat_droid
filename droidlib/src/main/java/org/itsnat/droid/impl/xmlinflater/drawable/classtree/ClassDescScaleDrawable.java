@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescScaleDrawable extends ClassDescElementDrawableRoot<ScaleDrawable>
+public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawable>
 {
 
     public ClassDescScaleDrawable(ClassDescDrawableMgr classMgr)

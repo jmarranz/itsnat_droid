@@ -33,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescRotateDrawable extends ClassDescElementDrawableRoot<RotateDrawable>
+public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDrawable>
 {
     protected FieldContainer<Drawable.ConstantState> rotateStateField;
     protected FieldContainer<Drawable> mDrawableField;

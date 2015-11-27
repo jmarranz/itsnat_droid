@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescClipDrawable extends ClassDescElementDrawableRoot<ClipDrawable>
+public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable>
 {
     // Para el atributo clipOrientation
     // No podemos usar OrientationUtil porque los valores numéricos SON DIFERENTES (1 y 2 en vez de 0 y 1), hay que joderse con la falta de homogeneidad

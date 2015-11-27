@@ -88,7 +88,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
         // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
         @SuppressWarnings("unchecked")
         Class<? extends View> superClass = (Class<? extends View>)nativeClass.getSuperclass();
-        ClassDescViewBased parentClassDesc = get((Class<? extends View>)superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
+        ClassDescViewBased parentClassDesc = get(superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
         ClassDescViewBased classDesc = createClassDescUnknown(className, parentClassDesc);
 
         classes.put(nativeClass.getName(), classDesc);
