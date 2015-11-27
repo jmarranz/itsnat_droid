@@ -1,8 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 
@@ -83,15 +81,15 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableRoot<InsetDr
 
 
     @Override
-    public Class<ClipDrawable> getDrawableOrElementDrawableClass()
+    public Class<InsetDrawable> getDrawableOrElementDrawableClass()
     {
-        return ClipDrawable.class;
+        return InsetDrawable.class;
     }
 
     protected void init()
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawable_Drawable_visible<AnimationDrawable>(this));
+        addAttrDesc(new AttrDescDrawable_Drawable_visible<InsetDrawable>(this));
     }
 }
