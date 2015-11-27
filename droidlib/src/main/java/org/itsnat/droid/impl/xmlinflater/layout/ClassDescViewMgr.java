@@ -62,10 +62,13 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 
     public ClassDescViewBased get(String className)
     {
+        ClassDescViewBased classDesc = classes.get(className);
+        if (classDesc != null)
+            return classDesc;
         Class<? extends View> nativeClass = null;
         try { nativeClass = resolveClass(className); }
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
-        ClassDescViewBased classDesc = get(nativeClass);
+        classDesc = get(nativeClass);
         return classDesc;
     }
 

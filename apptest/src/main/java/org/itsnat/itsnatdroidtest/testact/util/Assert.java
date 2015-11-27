@@ -377,6 +377,7 @@ public class Assert
         assertEquals((Integer) TestUtil.getField(a_state, classClipState, "mOrientation"), (Integer) TestUtil.getField(b_state, classClipState, "mOrientation"));
         assertEquals((Integer) TestUtil.getField(a_state, classClipState, "mGravity"), (Integer) TestUtil.getField(b_state, classClipState, "mGravity"));
 
+        // android:drawable
         if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // 23
         {
             assertEquals((Drawable) TestUtil.getField(a_state, classClipState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classClipState, "mDrawable"));
@@ -567,21 +568,39 @@ public class Assert
 
     public static void assertEquals(RotateDrawable a,RotateDrawable b)
     {
-        assertEqualsDrawable(a, b);
+        assertEqualsDrawableWrapper(a, b);
 
-        // android:drawable
-        assertEquals(a.getDrawable(), b.getDrawable());
-
-        Drawable.ConstantState a_state = a.getConstantState();
-        Drawable.ConstantState b_state = b.getConstantState();
+        //assertEquals(a.getDrawable(), b.getDrawable());
 
         Class classState = TestUtil.resolveClass(RotateDrawable.class.getName() + "$RotateState");
+
+        Drawable.ConstantState a_state;
+        Drawable.ConstantState b_state;
+
+        if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // 23
+        {
+            a_state = a.getConstantState();
+            b_state = b.getConstantState();
+        }
+        else // >= 23
+        {
+            a_state = (Drawable.ConstantState)TestUtil.getField(a, RotateDrawable.class, "mState");
+            b_state = (Drawable.ConstantState)TestUtil.getField(b, RotateDrawable.class, "mState"); // Devuelve null no se porqué con b.getConstantState()
+        }
+
+
         assertEquals((Boolean) TestUtil.getField(a_state, classState, "mPivotXRel"), (Boolean) TestUtil.getField(b_state, classState, "mPivotXRel"));
         assertEquals((Float) TestUtil.getField(a_state, classState, "mPivotX"), (Float) TestUtil.getField(b_state, classState, "mPivotX"));
         assertEquals((Boolean) TestUtil.getField(a_state, classState, "mPivotYRel"), (Boolean) TestUtil.getField(b_state, classState, "mPivotYRel"));
         assertEquals((Float) TestUtil.getField(a_state, classState, "mPivotY"), (Float) TestUtil.getField(b_state, classState, "mPivotY"));
         assertEquals((Float) TestUtil.getField(a_state, classState, "mFromDegrees"), (Float) TestUtil.getField(b_state, classState, "mFromDegrees"));
         assertEquals((Float) TestUtil.getField(a_state, classState, "mToDegrees"), (Float) TestUtil.getField(b_state, classState, "mToDegrees"));
+
+        // android:drawable
+        if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // 23
+        {
+            assertEquals((Drawable) TestUtil.getField(a_state, classState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classState, "mDrawable"));
+        }
     }
 
     private static void assertEqualsDrawableContainer(DrawableContainer a,DrawableContainer b)
@@ -717,6 +736,7 @@ public class Assert
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetRight"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetRight"));
         assertEquals((Integer) TestUtil.getField(a_state, classInsetState, "mInsetBottom"), (Integer) TestUtil.getField(b_state, classInsetState, "mInsetBottom"));
 
+        // android:drawable
         if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // < 23 (en level 23 mDrawable está en la clase base)
         {
             assertEquals((Drawable) TestUtil.getField(a_state, classInsetState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classInsetState, "mDrawable"));
@@ -737,6 +757,7 @@ public class Assert
         assertEquals((Float) TestUtil.getField(a_state, classScaleState, "mScaleHeight"), (Float) TestUtil.getField(b_state, classScaleState, "mScaleHeight"));
         assertEquals((Integer) TestUtil.getField(a_state, classScaleState, "mGravity"), (Integer) TestUtil.getField(b_state, classScaleState, "mGravity"));
 
+        // android:drawable
         if (Build.VERSION.SDK_INT < TestUtil.MARSHMALLOW) // 23
         {
             assertEquals((Drawable) TestUtil.getField(a_state, classScaleState, "mDrawable"), (Drawable) TestUtil.getField(b_state, classScaleState, "mDrawable"));

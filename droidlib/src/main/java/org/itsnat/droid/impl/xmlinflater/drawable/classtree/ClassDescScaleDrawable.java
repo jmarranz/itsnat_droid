@@ -33,17 +33,6 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
     @Override
     public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
-        /*
-        <scale
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:drawable="@drawable/drawable_resource"
-        android:scaleGravity=["top" | "bottom" | "left" | "right" | "center_vertical" |
-            "fill_vertical" | "center_horizontal" | "fill_horizontal" |
-            "center" | "fill" | "clip_vertical" | "clip_horizontal"]
-        android:scaleHeight="percentage"
-        android:scaleWidth="percentage" />
-        */
-
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);

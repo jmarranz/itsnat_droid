@@ -29,16 +29,6 @@ public class ClassDescInsetDrawable extends ClassDescDrawableWrapper<InsetDrawab
     @Override
     public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
-        /*
-        <inset
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:drawable="@drawable/drawable_resource"
-            android:insetTop="dimension"
-            android:insetRight="dimension"
-            android:insetBottom="dimension"
-            android:insetLeft="dimension" />
-        */
-
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);

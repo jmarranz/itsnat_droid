@@ -6,6 +6,7 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RotateDrawable;
+import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -53,7 +54,11 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         this.rotateStateField = new FieldContainer<Drawable.ConstantState>(RotateDrawable.class, "mState");
         Class rotateStateClass = MiscUtil.resolveClass(RotateDrawable.class.getName() + "$RotateState");
 
-        this.mDrawableField = new FieldContainer<Drawable>(rotateStateClass, "mDrawable");
+        if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // level 23, v6.0
+            this.mDrawableField = new FieldContainer<Drawable>("android.graphics.drawable.DrawableWrapper", "mDrawable");
+        else
+            this.mDrawableField = new FieldContainer<Drawable>(rotateStateClass, "mDrawable");
+
         this.mPivotXRelField = new FieldContainer<Boolean>(rotateStateClass, "mPivotXRel");
         this.mPivotXField = new FieldContainer<Float>(rotateStateClass, "mPivotX");
         this.mPivotYRelField = new FieldContainer<Boolean>(rotateStateClass, "mPivotYRel");
@@ -77,7 +82,10 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         Drawable.ConstantState rotateState = rotateStateField.get(drawable);
 
         Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, ctx, childList);
-        mDrawableField.set(rotateState,childDrawable);
+        if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // level 23, v6.0
+            mDrawableField.set(drawable,childDrawable);
+        else
+            mDrawableField.set(rotateState,childDrawable);
 
         DOMAttr pivotXAttr = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "pivotX");
         PercFloat pivotXObj = pivotXAttr != null ? xmlInflateRegistry.getDimensionPercFloat(pivotXAttr.getValue(),ctx) : null;
