@@ -27,7 +27,7 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
         super(classMgr, elemName, null);
     }
 
-    public ClassDescElementDrawableRoot(ClassDescDrawableMgr classMgr, String elemName,ClassDescDrawable parentClass)
+    public ClassDescElementDrawableRoot(ClassDescDrawableMgr classMgr, String elemName,ClassDescDrawable<? super Tdrawable> parentClass)
     {
         super(classMgr, elemName, parentClass);
     }

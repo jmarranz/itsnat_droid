@@ -13,7 +13,7 @@ public abstract class ClassDescElementDrawableChildWithDrawable<TelementDrawable
         super(classMgr,elemName);
     }
 
-    public ClassDescElementDrawableChildWithDrawable(ClassDescDrawableMgr classMgr, String elemName, ClassDescDrawable parentClass)
+    public ClassDescElementDrawableChildWithDrawable(ClassDescDrawableMgr classMgr, String elemName, ClassDescDrawable<? super TelementDrawable> parentClass)
     {
         super(classMgr,elemName,parentClass);
     }

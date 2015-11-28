@@ -13,9 +13,10 @@ public abstract class ClassDescElementDrawableChildNormal<TelementDrawable exten
         super(classMgr,elemName);
     }
 
-    public ClassDescElementDrawableChildNormal(ClassDescDrawableMgr classMgr,String elemName,ClassDescDrawable parentClass)
+    public ClassDescElementDrawableChildNormal(ClassDescDrawableMgr classMgr,String elemName,ClassDescDrawable<? super TelementDrawable> parentClass)
     {
         super(classMgr,elemName,parentClass);
+
     }
 }
 

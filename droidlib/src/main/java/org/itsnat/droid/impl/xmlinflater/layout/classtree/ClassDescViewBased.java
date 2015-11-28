@@ -54,7 +54,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public ClassDescViewBased(ClassDescViewMgr classMgr, String className,ClassDescViewBased parentClass)
     {
-        super(classMgr,className,parentClass);
+        super(classMgr, className, parentClass);
     }
 
     @Override
@@ -73,7 +73,12 @@ public class ClassDescViewBased extends ClassDesc<View>
     @SuppressWarnings("unchecked")
     protected Class<? extends View> initClass()
     {
-        if (clasz == null) this.clasz = (Class<View>) MiscUtil.resolveClass(classOrDOMElemName);
+        // El motivo de ésto es evitar usar el .class lo que obliga a cargar la clase aunque no se use, así la clase nativa se carga cuando se necesita por primera vez
+        if (clasz == null)
+        {
+            String className = getClassOrDOMElemName();
+            this.clasz = (Class<View>) MiscUtil.resolveClass(className);
+        }
         return clasz;
     }
 

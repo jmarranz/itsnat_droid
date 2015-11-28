@@ -28,7 +28,7 @@ import java.io.InputStream;
  */
 public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<TelementDrawable>
 {
-    public ClassDescDrawable(ClassDescDrawableMgr classMgr, String elemName, ClassDescDrawable<TelementDrawable> parentClass)
+    public ClassDescDrawable(ClassDescDrawableMgr classMgr, String elemName, ClassDescDrawable<? super TelementDrawable> parentClass)
     {
         super(classMgr, elemName, parentClass);
     }
