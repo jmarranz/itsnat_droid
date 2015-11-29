@@ -5,6 +5,7 @@ import android.graphics.Color;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
@@ -30,20 +31,15 @@ public class AttrDescReflecMethodColor<TclassDesc extends ClassDesc,TattrTarget,
     public AttrDescReflecMethodColor(TclassDesc parent, String name, String methodName, int defaultValue)
     {
         super(parent,name,methodName,getClassParam());
-        this.defaultValue = toStringColor(defaultValue);
+        this.defaultValue = XMLInflateRegistry.toStringColor(defaultValue);
     }
 
     public AttrDescReflecMethodColor(TclassDesc parent, String name, int defaultValue)
     {
         super(parent, name,getClassParam());
-        this.defaultValue = toStringColor(defaultValue);
+        this.defaultValue = XMLInflateRegistry.toStringColor(defaultValue);
     }
 
-    private String toStringColor(int value)
-    {
-        if (value != Color.TRANSPARENT) throw new ItsNatDroidException("Unexpected");
-        return "#00000000";
-    }
 
     protected static Class<?> getClassParam()
     {

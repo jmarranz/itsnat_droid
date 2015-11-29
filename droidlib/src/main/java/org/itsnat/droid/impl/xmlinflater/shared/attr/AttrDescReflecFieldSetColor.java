@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
@@ -16,6 +17,12 @@ public class AttrDescReflecFieldSetColor<TclassDesc extends ClassDesc,TattrTarge
     {
         super(parent,name,fieldName);
         this.defaultValue = defaultValue;
+    }
+
+    public AttrDescReflecFieldSetColor(TclassDesc parent, String name, String fieldName, int defaultValue)
+    {
+        super(parent,name,fieldName);
+        this.defaultValue = XMLInflateRegistry.toStringColor(defaultValue);
     }
 
     @Override

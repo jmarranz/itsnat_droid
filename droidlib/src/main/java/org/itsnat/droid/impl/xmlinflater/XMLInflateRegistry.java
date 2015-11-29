@@ -505,43 +505,6 @@ public class XMLInflateRegistry
         }
     }
 
-/*
-    public float getDimensionPercFloat(String attrValue, Context ctx)
-    {
-
-        // El retorno es en px
-        Resources res = ctx.getResources();
-        if (isResource(attrValue))
-        {
-            res.get
-            int resId = getIdentifier(attrValue, ctx);
-            String value = res.getString(resId)
-
-        }
-        else
-        {
-            String valueTrim = attrValue.trim();
-            String suffix = getDimensionSuffix(valueTrim);
-            int complexUnit = getDimensionSuffixAsInt(suffix);
-            float num = extractFloat(valueTrim, suffix);
-            return new Dimension(complexUnit, num);
-        }
-
-
-
-
-        // El retorno es en px
-        float num = getDimensionFloat(attrValue,ctx);
-        num = Math.round(num);
-        return num;
-    }
-
-    private float parseDimensionPercFloat(String value)
-    {
-
-    }
-*/
-
     public int getDimensionWithNameIntRound(String value, Context ctx)
     {
         int dimension;
@@ -570,6 +533,12 @@ public class XMLInflateRegistry
         }
 
         throw new ItsNatDroidException("Cannot process " + attrValue);
+    }
+
+    public static String toStringColor(int value)
+    {
+        if (value != Color.TRANSPARENT) throw new ItsNatDroidException("Unexpected");
+        return "#00000000";
     }
 
     public Drawable getDrawable(String attrValue, Context ctx)
