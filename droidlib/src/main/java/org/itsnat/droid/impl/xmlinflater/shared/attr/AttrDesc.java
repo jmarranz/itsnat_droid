@@ -55,10 +55,10 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return classDesc.getXMLInflateRegistry();
     }
 
-    protected void processDownloadTask(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
+    public static void processDownloadTask(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
     {
         // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
-        // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable
+        // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable remoto por ejemplo
         downloadResources(attr, task, xmlInflater);
     }
 

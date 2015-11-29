@@ -16,6 +16,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -103,7 +104,7 @@ public class ClassDescViewBased extends ClassDesc<View>
     }
 
     //@SuppressWarnings("unchecked")
-    public boolean setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
+    public boolean setAttribute(final View view,final DOMAttr attr,final AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();
 
@@ -119,10 +120,21 @@ public class ClassDescViewBased extends ClassDesc<View>
 
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(name);
+                final AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(name);
                 if (attrDesc != null)
                 {
-                    attrDesc.setAttribute(view, attr,attrCtx);
+                    Runnable task = new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            attrDesc.setAttribute(view, attr,attrCtx);
+                        }
+                    };
+                    if (DOMAttrRemote.isPendingToDownload(attr))
+                        AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
+                    else
+                        task.run();
                 }
                 else
                 {
@@ -185,6 +197,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                 if (attrDesc != null)
                 {
                     attrDesc.removeAttribute(view,attrCtx);
+                    // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
                 }
                 else
                 {

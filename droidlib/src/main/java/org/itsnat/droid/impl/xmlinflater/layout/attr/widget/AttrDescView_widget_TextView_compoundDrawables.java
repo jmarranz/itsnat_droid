@@ -69,27 +69,16 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<Cla
     @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
-        Runnable task = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Drawable convValue = getDrawable(attr,attrCtx.getContext(),attrCtx.getXMLInflaterLayout());
+        Drawable convValue = getDrawable(attr,attrCtx.getContext(),attrCtx.getXMLInflaterLayout());
 
-                int index = drawableMap.get(name);
+        int index = drawableMap.get(name);
 
-                Drawable drawableLeft   = index == LEFT ? convValue : getDrawable(view,LEFT);
-                Drawable drawableTop    = index == TOP ? convValue : getDrawable(view,TOP);
-                Drawable drawableRight  = index == RIGHT ? convValue : getDrawable(view,RIGHT);
-                Drawable drawableBottom = index == BOTTOM ? convValue : getDrawable(view,BOTTOM);
+        Drawable drawableLeft   = index == LEFT ? convValue : getDrawable(view,LEFT);
+        Drawable drawableTop    = index == TOP ? convValue : getDrawable(view,TOP);
+        Drawable drawableRight  = index == RIGHT ? convValue : getDrawable(view,RIGHT);
+        Drawable drawableBottom = index == BOTTOM ? convValue : getDrawable(view,BOTTOM);
 
-                ((TextView)view).setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop, drawableRight, drawableBottom);
-            }
-        };
-        if (DOMAttrRemote.isPendingToDownload(attr))
-            processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterLayout());
-        else
-            task.run();
+        ((TextView)view).setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop, drawableRight, drawableBottom);
     }
 
     @Override

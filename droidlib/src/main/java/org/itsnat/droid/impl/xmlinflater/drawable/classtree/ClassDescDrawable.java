@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
@@ -75,7 +76,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
     }
 
 
-    public boolean setAttribute(DrawableOrElementDrawableWrapper draw, DOMAttr attr, AttrDrawableContext attrCtx)
+    public boolean setAttribute(final DrawableOrElementDrawableWrapper draw,final DOMAttr attr,final AttrDrawableContext attrCtx)
     {
         if (!isInit()) init();
 
@@ -89,10 +90,21 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
 
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(name);
+                final AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(name);
                 if (attrDesc != null)
                 {
-                    attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr, attrCtx);
+                    Runnable task = new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr, attrCtx);
+                        }
+                    };
+                    if (DOMAttrRemote.isPendingToDownload(attr))
+                        AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
+                    else
+                        task.run();
                 }
                 else
                 {

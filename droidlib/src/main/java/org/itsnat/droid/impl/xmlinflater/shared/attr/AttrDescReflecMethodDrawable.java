@@ -35,19 +35,8 @@ public class AttrDescReflecMethodDrawable<TclassDesc extends ClassDesc,TattrTarg
     @Override
     public void setAttribute(final TattrTarget target,final DOMAttr attr, final TattrContext attrCtx)
     {
-        Runnable task = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Drawable convValue = getDrawable(attr,attrCtx.getContext(),attrCtx.getXMLInflater());
-                callMethod(target, convValue);
-            }
-        };
-        if (DOMAttrRemote.isPendingToDownload(attr))
-            processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
-        else
-            task.run();
+        Drawable convValue = getDrawable(attr,attrCtx.getContext(),attrCtx.getXMLInflater());
+        callMethod(target, convValue);
     }
 
     @Override
