@@ -23,13 +23,13 @@ import java.io.InputStream;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener
+public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener
 {
     public static final String NAMESPACE_ANDROID = "http://schemas.android.com/apk/res/android";
 
     protected final TestActivityTabFragment fragment;
 
-    public TestLayoutLocalBase(final TestActivityTabFragment fragment)
+    public TestSetupLocalLayoutBase(final TestActivityTabFragment fragment)
     {
         this.fragment = fragment;
     }

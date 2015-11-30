@@ -13,47 +13,47 @@
                     android:paddingBottom="@dimen/activity_vertical_margin"
                     tools:context="org.itsnat.itsnatdroidtest.MainActivity">
 
-        <Button android:id="@+id/testLocal1"
+        <Button android:id="@+id/testLocalLayout1"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="TEST LOCAL 1"
+                  android:text="TEST LOCAL LAYOUT 1"
                   android:textSize="20dp"
                   android:layout_alignParentTop="true"/>
 
-        <Button android:id="@+id/testLocal2"
+        <Button android:id="@+id/testLocalLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEST LOCAL 2"
+                android:text="TEST LOCAL LAYOUT 2"
                 android:textSize="20dp"
-                android:layout_below="@+id/testLocal1"/>
+                android:layout_below="@+id/testLocalLayout1"/>
 
-        <Button android:id="@+id/testLocalResources"
+        <Button android:id="@+id/testLocalDrawables"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEST LOCAL RESOURCES"
+                android:text="TEST LOCAL DRAWABLES"
                 android:textSize="20dp"
-                android:layout_below="@+id/testLocal2"/>
+                android:layout_below="@+id/testLocalLayout2"/>
 
-        <Button android:id="@+id/testRemoteCore"
+        <Button android:id="@+id/testRemoteLayoutCore"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="TEST REMOTE CORE"
+                  android:text="TEST REMOTE LAYOUT CORE"
                   android:textSize="20dp"
-                  android:layout_below="@id/testLocalResources"/>
+                  android:layout_below="@id/testLocalDrawables"/>
 
-        <Button android:id="@+id/testRemoteResources"
+        <Button android:id="@+id/testRemoteLayoutDrawables"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEST REMOTE RESOURCES"
+                android:text="TEST REMOTE DRAWABLES"
                 android:textSize="20dp"
-                android:layout_below="@id/testRemoteCore"/>
+                android:layout_below="@id/testRemoteLayoutCore"/>
 
         <Button android:id="@+id/testRemoteControl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TEST REMOTE CONTROL"
                 android:textSize="20dp"
-                android:layout_below="@id/testRemoteResources"/>
+                android:layout_below="@id/testRemoteLayoutDrawables"/>
 
         <Button android:id="@+id/testRemoteStatelessCore"
                 android:layout_width="wrap_content"

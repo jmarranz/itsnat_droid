@@ -54,7 +54,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 /**
  * Created by jmarranz on 19/06/14.
  */
-public class TestLocalXMLInflate2
+public class TestLocalLayout2
 {
     private static FieldContainer<Object> calendarView_fieldDelegate;
     private static FieldContainer<Locale> calendarView_fieldCurrentLocale;

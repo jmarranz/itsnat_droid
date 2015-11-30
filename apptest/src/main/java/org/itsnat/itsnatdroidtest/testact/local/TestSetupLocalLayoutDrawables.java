@@ -18,26 +18,27 @@ import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestLayoutLocalResources extends TestLayoutLocalBase {
-    public TestLayoutLocalResources(TestActivityTabFragment fragment) {
+public class TestSetupLocalLayoutDrawables extends TestSetupLocalLayoutBase
+{
+    public TestSetupLocalLayoutDrawables(TestActivityTabFragment fragment) {
         super(fragment);
     }
 
     public void test() {
         final TestActivity act = fragment.getTestActivity();
-        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_compiled_resources);
+        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_drawables_compiled);
 
         final View buttonReload = compiledRootView.findViewById(R.id.buttonReload);
         buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TEST de carga dinámica de layout guardado localmente
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_dynamic_resources.xml");
+                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_drawables_dynamic.xml");
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView);
 
-                TestLocalXMLInflateResources.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView);
+                TestLocalLayoutDrawables.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView);
             }
         });
 

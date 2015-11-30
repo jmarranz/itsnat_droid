@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.itsnatdroidtest.R;
-import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocal1;
-import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocal2;
-import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocalResources;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayout1;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayout2;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteCore;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemotePage;
@@ -68,39 +68,39 @@ public class TestActivityTabFragment extends Fragment
 
         this.rootView = inflater.inflate(R.layout.fragment_test_index, container, false);
 
-        View testLocal1 = rootView.findViewById(R.id.testLocal1);
+        View testLocal1 = rootView.findViewById(R.id.testLocalLayout1);
         testLocal1.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestLayoutLocal1(TestActivityTabFragment.this).test();
+                new TestSetupLocalLayout1(TestActivityTabFragment.this).test();
             }
         });
 
-        View testLocal2 = rootView.findViewById(R.id.testLocal2);
+        View testLocal2 = rootView.findViewById(R.id.testLocalLayout2);
         testLocal2.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestLayoutLocal2(TestActivityTabFragment.this).test();
+                new TestSetupLocalLayout2(TestActivityTabFragment.this).test();
             }
         });
 
-        View testLocal3 = rootView.findViewById(R.id.testLocalResources);
+        View testLocal3 = rootView.findViewById(R.id.testLocalDrawables);
         testLocal3.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestLayoutLocalResources(TestActivityTabFragment.this).test();
+                new TestSetupLocalLayoutDrawables(TestActivityTabFragment.this).test();
             }
         });
 
         final TestActivity act = getTestActivity();
 
-        View testRemoteCore = rootView.findViewById(R.id.testRemoteCore);
+        View testRemoteCore = rootView.findViewById(R.id.testRemoteLayoutCore);
         testRemoteCore.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -112,7 +112,7 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
-        View testRemoteResources = rootView.findViewById(R.id.testRemoteResources);
+        View testRemoteResources = rootView.findViewById(R.id.testRemoteLayoutDrawables);
         testRemoteResources.setOnClickListener(new View.OnClickListener()
         {
             @Override

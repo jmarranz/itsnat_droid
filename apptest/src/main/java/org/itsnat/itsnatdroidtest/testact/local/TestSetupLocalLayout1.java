@@ -24,9 +24,9 @@ import java.util.Map;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestLayoutLocal1 extends TestLayoutLocalBase
+public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
 {
-    public TestLayoutLocal1(TestActivityTabFragment fragment)
+    public TestSetupLocalLayout1(TestActivityTabFragment fragment)
     {
         super(fragment);
     }
@@ -48,7 +48,7 @@ public class TestLayoutLocal1 extends TestLayoutLocalBase
 
                 initialConfiguration(act, dynamicRootView);
 
-                TestLocalXMLInflate1.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView, layout);
+                TestLocalLayout1.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView, layout);
             }
         });
 
