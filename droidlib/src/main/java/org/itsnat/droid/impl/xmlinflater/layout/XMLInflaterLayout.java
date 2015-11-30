@@ -6,15 +6,19 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.layout.DOMInclude;
+import org.itsnat.droid.impl.dom.layout.DOMMerge;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
@@ -91,7 +95,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     private View inflateRootView(XMLDOMLayout domLayout)
     {
-        DOMView rootDOMView = domLayout.getRootView();
+        DOMView rootDOMView = (DOMView)domLayout.getRootElement(); // domLayout.getRootView();
 
         PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
@@ -107,11 +111,11 @@ public abstract class XMLInflaterLayout extends XMLInflater
     public View createRootViewObjectAndFillAttributes(DOMView rootDOMView,PendingPostInsertChildrenTasks pending)
     {
         ClassDescViewBased classDesc = getClassDescViewBased(rootDOMView);
-        View rootView = createViewObject(classDesc, rootDOMView,pending);
+        View rootView = createViewObject(classDesc, rootDOMView, pending);
 
         getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
-        fillAttributesAndAddView(rootView,classDesc,null, rootDOMView,pending);
+        fillAttributesAndAddView(rootView, classDesc, null, rootDOMView, pending);
 
         return rootView;
     }
@@ -167,12 +171,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     protected void processChildViews(DOMView domViewParent, View viewParent)
     {
-        LinkedList<DOMElement> childViewList = domViewParent.getChildDOMElementList();
-        if (childViewList != null)
+        LinkedList<DOMElement> childElemList = domViewParent.getChildDOMElementList();
+        if (childElemList != null)
         {
-            for (DOMElement childDOMView : childViewList)
+            ViewGroup viewParentGroup = (ViewGroup)viewParent;
+            for (DOMElement childDOMElem : childElemList)
             {
-                View childView = inflateNextView((DOMView)childDOMView, viewParent);
+                View childView = inflateNextView(childDOMElem,viewParentGroup);
             }
         }
     }
@@ -182,18 +187,49 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return inflateNextView(rootDOMViewFragment,null);
     }
 
-    private View inflateNextView(DOMView domView, View viewParent)
+    private View inflateNextView(DOMElement domElem, ViewGroup viewParent)
     {
         // Es llamado también para insertar fragmentos
-        PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
+        if (domElem instanceof DOMInclude)
+        {
+            View[] includeViewList = inflateInclude((DOMInclude)domElem,viewParent);
+            // Devolvemos el último por devolver algo
+            if (includeViewList != null && includeViewList.length > 0)
+                return includeViewList[includeViewList.length - 1];
+            return null;
+        }
+        else
+        {
+            PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-        View view = createViewObjectAndFillAttributesAndAdd((ViewGroup) viewParent, domView, pending);
+            View view = createViewObjectAndFillAttributesAndAdd( viewParent, (DOMView)domElem, pending);
 
-        processChildViews(domView,view);
+            processChildViews((DOMView)domElem,view);
 
-        pending.executeTasks();
+            pending.executeTasks();
 
-        return view;
+            return view;
+        }
+    }
+
+
+    public View[] inflateInclude(DOMInclude domElemInc,ViewGroup viewParent)
+    {
+        int countBefore = viewParent.getChildCount();
+        XMLInflateRegistry xmlInflateRegistry = getInflatedLayoutImpl().getXMLInflateRegistry();
+        DOMAttr attr = DOMAttr.create(null,"layout",domElemInc.getLayout());
+        View resView = xmlInflateRegistry.getLayout(attr, ctx, this,viewParent);
+        if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views
+        int countAfter = viewParent.getChildCount();
+        View[] childList = new View[countAfter - countBefore];
+        int j = 0;
+        for(int i = countBefore; i < countAfter; i++)
+        {
+            childList[j] = viewParent.getChildAt(i);
+            j++;
+        }
+
+        return childList;
     }
 
 }

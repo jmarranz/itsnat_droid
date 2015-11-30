@@ -3,10 +3,13 @@ package org.itsnat.droid.impl.xmlinflater;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
@@ -30,10 +33,14 @@ import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,12 +98,7 @@ public class XMLInflateRegistry
         }
         else
         {
-            XMLDOMLayoutParser layoutParser;
-            if (remotePageOrFrag)
-                layoutParser = loadingPage ? new XMLDOMLayoutParserPage(this,assetManager,itsNatServerVersion) :
-                                             new XMLDOMLayoutParserFragment(this,assetManager);
-            else
-                layoutParser = new XMLDOMLayoutParserStandalone(this,assetManager);
+            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingPage,remotePageOrFrag,this,assetManager);
 
             cachedDOMLayout = layoutParser.parse(markup);
             cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar
@@ -120,7 +122,8 @@ public class XMLInflateRegistry
         if (cachedDrawable != null) return cachedDrawable;
         else
         {
-            XMLDOMDrawable xmlDOMDrawable = XMLDOMDrawableParser.parse(markup,this,assetManager);
+            XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(this,assetManager);
+            XMLDOMDrawable xmlDOMDrawable = parser.parse(markup);
             domDrawableCache.put(markup, xmlDOMDrawable);
             return xmlDOMDrawable;
         }
@@ -606,6 +609,57 @@ public class XMLInflateRegistry
         }
         else throw new ItsNatDroidException("Internal Error");
     }
+
+    public View getLayout(String attrValue, Context ctx,ViewGroup viewParent)
+    {
+        if (isResource(attrValue))
+        {
+            int resId = getIdentifier(attrValue, ctx);
+            if (resId <= 0) return null;
+            return LayoutInflater.from(ctx).inflate(resId, viewParent);
+        }
+
+        throw new ItsNatDroidException("Cannot process " + attrValue);
+    }
+
+    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+
+            PageImpl page = null;
+            if (xmlInflater instanceof XMLInflaterPage)
+                page = ((XMLInflaterPage)xmlInflater).getPageImpl();
+
+            if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
+
+            int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
+
+            String resourceMime = attrDyn.getResourceMime();
+            if (MimeUtil.isMIMEResourceXML(resourceMime))
+            {
+                ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
+                AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
+                AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
+
+                XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) attrDyn.getResource();
+
+                InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(itsNatDroid, xmlDOMLayout,ctx) :
+                                                                    new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
+                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, page);
+                return xmlInflaterLayout.inflateLayout(null, null);
+            }
+            else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
+        }
+        else if (attr instanceof DOMAttrLocalResource)
+        {
+            String attrValue = attr.getValue();
+            return getLayout(attrValue,ctx,viewParent);
+        }
+        else throw new ItsNatDroidException("Internal Error");
+    }
+
 
     public float getPercent(String attrValue, Context ctx)
     {

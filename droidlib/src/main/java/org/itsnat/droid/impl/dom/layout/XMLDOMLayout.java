@@ -16,11 +16,12 @@ public class XMLDOMLayout extends XMLDOM
     {
     }
 
+    /*
     public DOMView getRootView()
     {
         return (DOMView)getRootElement();
     }
-
+*/
     public String getLoadScript()
     {
         return loadScript;

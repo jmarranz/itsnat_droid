@@ -109,6 +109,26 @@ public class TestLocalLayout1
 
         childCount++;
 
+        // test <include>
+        {
+            TextView compTextView1 = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView1 = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView1.getText(), "Included 1");
+            assertEquals(compTextView1.getText(), parsedTextView1.getText());
+        }
+
+        childCount++;
+
+        {
+            TextView compTextView2 = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView2 = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView2.getText(), "Included 2");
+            assertEquals(compTextView2.getText(), parsedTextView2.getText());
+        }
+
+
+        childCount++;
+
         // Testing misc attribs
         {
             RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);

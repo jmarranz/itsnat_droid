@@ -9,19 +9,14 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.List;
 
 /**
  * Created by jmarranz on 5/06/14.
@@ -127,18 +122,9 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         String itsNatServerVersion = null;
         boolean remotePageOrFrag = false;
         AssetManager assetManager = getContext().getResources().getAssets();
-        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, loadingPage, remotePageOrFrag,assetManager);
+        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, loadingPage, remotePageOrFrag, assetManager);
 
-        return inflateLayoutInternal(domLayout, null, null, null);
-    }
-
-    public InflatedLayoutImpl inflateLayoutInternal(XMLDOMLayout domLayout, String[] loadScript, List<String> scriptList, PageImpl page)
-    {
-        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(itsNatDroid, domLayout,ctx) :
-                                                           new InflatedLayoutStandaloneImpl(itsNatDroid, domLayout, ctx);
-        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrLayoutInflaterListener,attrDrawableInflaterListener, ctx, page);
-        xmlInflater.inflateLayout(loadScript, scriptList);
-        return inflatedLayout;
+        return inflateLayout(domLayout, null, null, null);
     }
 
 }

@@ -5,6 +5,8 @@ import android.content.res.AssetManager;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.dom.layout.DOMInclude;
+import org.itsnat.droid.impl.dom.layout.DOMMerge;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
@@ -25,6 +27,17 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     public XMLDOMLayoutParser(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
     {
         super(xmlInflateRegistry,assetManager);
+    }
+
+    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,boolean loadingPage,boolean remotePageOrFrag,XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    {
+        XMLDOMLayoutParser layoutParser;
+        if (remotePageOrFrag)
+            layoutParser = loadingPage ? new XMLDOMLayoutParserPage(xmlInflateRegistry, assetManager, itsNatServerVersion) :
+                                         new XMLDOMLayoutParserFragment(xmlInflateRegistry, assetManager);
+        else
+            layoutParser = new XMLDOMLayoutParserStandalone(xmlInflateRegistry, assetManager);
+        return layoutParser;
     }
 
     public XMLDOMLayout parse(String markup)
@@ -51,8 +64,8 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
 
     private XMLDOMLayout parse(XmlPullParser parser) throws IOException, XmlPullParserException
     {
-        String rootElemName = getRootElementName(parser);
         XMLDOMLayout domLayout = new XMLDOMLayout();
+        String rootElemName = getRootElementName(parser);
         parseRootElement(rootElemName,parser,domLayout);
         return domLayout;
     }
@@ -60,9 +73,13 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     @Override
     protected DOMElement createElement(String name,DOMElement parent)
     {
-        return new DOMView(name,(DOMView)parent);
+        if ("include".equals(name))
+            return new DOMInclude(name,(DOMView)parent);
+        else if ("merge".equals(name))
+            return new DOMMerge(name,(DOMView)parent);
+        else
+            return new DOMView(name,(DOMView)parent);
     }
-
 
     @Override
     protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
@@ -78,9 +95,22 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     @Override
     protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOM)
     {
-        DOMView domView = (DOMView)element;
-        if (domView.getStyleAttr() == null && (namespaceURI == null) && "style".equals(name))
-            domView.setStyleAttr(value);
+        if (element instanceof DOMView)
+        {
+            DOMView domView = (DOMView)element;
+            if (namespaceURI == null && "style".equals(name))
+                domView.setStyleAttr(value);
+            else
+                super.addDOMAttr(element, namespaceURI, name, value, xmlDOM);
+        }
+        else if (element instanceof DOMInclude)
+        {
+            DOMInclude domInc = (DOMInclude)element;
+            if ((namespaceURI == null) && "layout".equals(name))
+                domInc.setLayout(value);
+            else
+                super.addDOMAttr(element, namespaceURI, name, value, xmlDOM);
+        }
         else
             super.addDOMAttr(element, namespaceURI, name, value, xmlDOM);
     }

@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
+import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
@@ -49,9 +50,9 @@ public class FragmentLayoutInserter
         newMarkup.append("<" + parentView.getClass().getName());
 
         MapLight<String, String> namespaceMap = pageLayout.getNamespacesByPrefix();
-        for (Iterator<Map.Entry<String, String>> it = namespaceMap.getEntryList().iterator(); it.hasNext(); )
+        //for (Iterator<Map.Entry<String, String>> it = namespaceMap.getEntryList().iterator(); it.hasNext(); )
+        for (Map.Entry<String, String> entry : namespaceMap.getEntryList())
         {
-            Map.Entry<String, String> entry = it.next();
             newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\">");
         }
 
@@ -67,6 +68,7 @@ public class FragmentLayoutInserter
 
         XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), false, true, assetManager);
 
+        DOMView rootDOMView = (DOMView)domLayout.getRootElement();
 
         LinkedList<DOMScript> scriptList = new LinkedList<DOMScript>();
 
@@ -74,7 +76,7 @@ public class FragmentLayoutInserter
         if (domScriptList != null)
             scriptList.addAll(domScriptList);
 
-        ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(domLayout.getRootView()); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
+        ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(rootDOMView); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
         int indexRef = viewRef != null ? InflatedLayoutImpl.getChildViewIndex(parentView, viewRef) : -1;
         while (falseParentView.getChildCount() > 0)
         {

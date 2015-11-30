@@ -25,18 +25,23 @@ public class XMLDOMDrawableParser extends XMLDOMParser
         super(xmlInflateRegistry,assetManager);
     }
 
-    public static XMLDOMDrawable parse(String markup,XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public static XMLDOMDrawableParser createXMLDOMDrawableParser(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
     {
-        StringReader input = new StringReader(markup);
-        return parse(input,xmlInflateRegistry,assetManager);
+        return new XMLDOMDrawableParser(xmlInflateRegistry,assetManager);
     }
 
-    private static XMLDOMDrawable parse(Reader input,XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public XMLDOMDrawable parse(String markup)
+    {
+        StringReader input = new StringReader(markup);
+        return parse(input);
+    }
+
+    private XMLDOMDrawable parse(Reader input)
     {
         try
         {
             XmlPullParser parser = newPullParser(input);
-            return parse(parser,xmlInflateRegistry,assetManager);
+            return parse(parser);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
@@ -47,12 +52,11 @@ public class XMLDOMDrawableParser extends XMLDOMParser
         }
     }
 
-    private static XMLDOMDrawable parse(XmlPullParser parser,XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager) throws IOException, XmlPullParserException
+    private XMLDOMDrawable parse(XmlPullParser parser) throws IOException, XmlPullParserException
     {
-        String rootElemName = getRootElementName(parser);
-        XMLDOMDrawableParser drawableParser = new XMLDOMDrawableParser(xmlInflateRegistry,assetManager);
         XMLDOMDrawable xmlDOMDrawable = new XMLDOMDrawable();
-        drawableParser.parseRootElement(rootElemName, parser, xmlDOMDrawable);
+        String rootElemName = getRootElementName(parser);
+        parseRootElement(rootElemName, parser, xmlDOMDrawable);
         return xmlDOMDrawable;
     }
 

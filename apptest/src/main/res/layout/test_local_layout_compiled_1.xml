@@ -22,6 +22,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_reload" />
 
+        <!-- Test include -->
+        <include layout="@layout/test_include" />
+
         <!-- Testing misc attribs (for instance access resources by res id or literal) -->
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent">

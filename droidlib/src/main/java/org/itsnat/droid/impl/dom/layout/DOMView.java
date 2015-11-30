@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.dom.layout;
 
 import org.itsnat.droid.impl.dom.DOMElement;
 
+import java.util.LinkedList;
+
 /**
  * Created by jmarranz on 27/10/14.
  */
@@ -33,4 +35,6 @@ public class DOMView extends DOMElement
     {
         super.addChildDOMElement(domView);
     }
+
+
 }

@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -148,6 +150,11 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     public Drawable getDrawable(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
     {
         return getXMLInflateRegistry().getDrawable(attr, ctx, xmlInflater);
+    }
+
+    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent)
+    {
+        return getXMLInflateRegistry().getLayout(attr, ctx, xmlInflater,viewParent);
     }
 
     public int getColor(String attrValue, Context ctx)
