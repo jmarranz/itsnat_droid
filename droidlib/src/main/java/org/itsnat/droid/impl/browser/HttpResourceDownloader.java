@@ -104,7 +104,7 @@ public class HttpResourceDownloader
         if (resultList != null) resultList.add(resultRes);
 
         String resourceMime = attr.getResourceMime();
-        if (MimeUtil.isMIMEXMLResource(resourceMime))
+        if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = resultRes.getResponseText();
             XMLDOM xmlDOM = XMLDOMParser.processDOMAttrDynamicXML(attr, markup, xmlInflateRegistry, assetManager);
@@ -113,7 +113,7 @@ public class HttpResourceDownloader
             if (attrRemoteList != null)
                 downloadResources(urlBase, attrRemoteList, resultList);
         }
-        else if (MimeUtil.isMIMEImage(resourceMime))
+        else if (MimeUtil.isMIMEResourceImage(resourceMime))
         {
             attr.setResource(resultRes.getResponseByteArray());
         }

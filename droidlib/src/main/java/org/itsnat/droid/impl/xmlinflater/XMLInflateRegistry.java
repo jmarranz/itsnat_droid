@@ -108,6 +108,11 @@ public class XMLInflateRegistry
         return cloned;
     }
 
+    public XMLDOMLayout getXMLDOMLayoutCache(String markup,AssetManager assetManager)
+    {
+        return getXMLDOMLayoutCache(markup,null,false,false,assetManager);
+    }
+
     public XMLDOMDrawable getXMLDOMDrawableCache(String markup,AssetManager assetManager)
     {
         // Ver notas de getXMLDOMLayoutCache()
@@ -205,7 +210,8 @@ public class XMLInflateRegistry
         else
             throw new ItsNatDroidException("Bad format in id declaration: " + value);
 
-        if (throwErr && id <= 0) throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
+        if (throwErr && id <= 0)
+            throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
         return id;
     }
 
@@ -562,28 +568,30 @@ public class XMLInflateRegistry
     {
         if (attr instanceof DOMAttrDynamic)
         {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+
             PageImpl page = null;
             if (xmlInflater instanceof XMLInflaterPage)
                 page = ((XMLInflaterPage)xmlInflater).getPageImpl();
 
             if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
-            ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
             int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
-            AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
-            AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
 
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             String resourceMime = attrDyn.getResourceMime();
-            if (MimeUtil.isMIMEXMLResource(resourceMime))
+            if (MimeUtil.isMIMEResourceXML(resourceMime))
             {
                 // Esperamos un drawable no una animación
+                ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
+                AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
+                AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
+
                 XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
                 InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
                 XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, page);
                 return xmlInflaterDrawable.inflateDrawable();
             }
-            else if (MimeUtil.isMIMEImage(resourceMime))
+            else if (MimeUtil.isMIMEResourceImage(resourceMime))
             {
                 byte[] byteArray = (byte[])attrDyn.getResource();
                 boolean expectedNinePatch = attrDyn.isNinePatch();

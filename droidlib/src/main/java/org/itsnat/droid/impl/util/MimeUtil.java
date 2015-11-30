@@ -33,14 +33,14 @@ public class MimeUtil
         // No es necesario "bs" ni "json" estos no se acceden remótamente, en el caso de .bs sí pero sabemos que es un script beanshell da igual la extensión
     }
 
-    public static boolean isMIMEImage(String resourceMime)
+    public static boolean isMIMEResourceImage(String resourceMime)
     {
         return (MimeUtil.MIME_PNG.equals(resourceMime) ||
                 MimeUtil.MIME_JPEG.equals(resourceMime) ||
                 MimeUtil.MIME_GIF.equals(resourceMime));
     }
 
-    public static boolean isMIMEXMLResource(String resourceMime)
+    public static boolean isMIMEResourceXML(String resourceMime)
     {
         return MimeUtil.MIME_XML.equals(resourceMime);
     }

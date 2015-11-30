@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -30,7 +31,8 @@ public class TestLocalXMLInflateResources
 {
     public static void test(ScrollView compRoot, ScrollView parsedRoot)
     {
-        final Resources res = compRoot.getContext().getResources();
+        Context ctx = compRoot.getContext();
+        final Resources res = ctx.getResources();
 
         // comp = "Layout compiled"
         // parsed = "Layout dynamically parsed"
@@ -62,6 +64,7 @@ public class TestLocalXMLInflateResources
             assertEquals(compButton.getId(), parsedButton.getId());
             assertEquals(compButton.getText(), parsedButton.getText());
         }
+
 
         childCount++;
 

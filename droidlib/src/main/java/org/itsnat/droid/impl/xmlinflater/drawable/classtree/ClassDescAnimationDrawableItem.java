@@ -6,7 +6,6 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.drawable.AnimationDrawableItem;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
-import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;

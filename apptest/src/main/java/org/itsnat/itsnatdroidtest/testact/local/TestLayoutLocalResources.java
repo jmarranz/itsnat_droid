@@ -46,6 +46,7 @@ public class TestLayoutLocalResources extends TestLayoutLocalBase {
 
     private static void initialConfiguration(TestActivity act, View rootView)
     {
+
         TextView testClipDrawable = (TextView) rootView.findViewById(R.id.testClipDrawableId);
         ((ClipDrawable) testClipDrawable.getBackground()).setLevel(5000); // La mitad se verá
 

@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
 
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 

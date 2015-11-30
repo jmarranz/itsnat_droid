@@ -210,7 +210,7 @@ public abstract class XMLDOMParser
             }
 
             String resourceMime = assetAttr.getResourceMime();
-            if (MimeUtil.isMIMEXMLResource(resourceMime))
+            if (MimeUtil.isMIMEResourceXML(resourceMime))
             {
                 String markup = MiscUtil.toString(res, "UTF-8");
 
@@ -220,7 +220,7 @@ public abstract class XMLDOMParser
                 if (attrRemoteList != null)
                     throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
             }
-            else if (MimeUtil.isMIMEImage(resourceMime))
+            else if (MimeUtil.isMIMEResourceImage(resourceMime))
             {
                 assetAttr.setResource(res);
             }
@@ -238,7 +238,7 @@ public abstract class XMLDOMParser
         {
             xmlDOM = xmlInflateRegistry.getXMLDOMDrawableCache(markup, assetManager); // Es multihilo el método
         }
-        else throw new ItsNatDroidException("Unsupported resource type as remote: " + resourceType);
+        else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 
         attr.setResource(xmlDOM);
 

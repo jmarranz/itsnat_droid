@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;

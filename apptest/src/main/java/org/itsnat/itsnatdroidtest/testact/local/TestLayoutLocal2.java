@@ -95,7 +95,6 @@ public class TestLayoutLocal2 extends TestLayoutLocalBase
 
     private static void inflateViewStub(TestActivity act,View rootView)
     {
-        Resources res = act.getResources();
         ViewStub stub = (ViewStub)rootView.findViewById(R.id.viewStubTestId);
         LinearLayout inflated = (LinearLayout)stub.inflate();
     }

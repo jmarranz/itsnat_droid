@@ -1,15 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -23,11 +18,6 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
-import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
-import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 

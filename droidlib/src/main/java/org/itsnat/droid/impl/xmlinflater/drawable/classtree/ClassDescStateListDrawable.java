@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
-import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
