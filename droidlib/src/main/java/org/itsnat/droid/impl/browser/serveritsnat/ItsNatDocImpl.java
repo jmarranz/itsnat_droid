@@ -53,13 +53,14 @@ import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -220,7 +221,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (id > 0)
             return id;
 
-        XMLInflateRegistry layoutService = page.getInflatedLayoutPageImpl().getXMLInflateRegistry();
+        XMLInflateRegistry layoutService = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
         id = layoutService.findId(name);
         return id;
     }
@@ -399,7 +400,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
     }
 
-    private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated,PendingPostInsertChildrenTasks pending)
+    private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pending)
     {
         View view = classDesc.createViewObjectFromRemote(this, newChildToIn, pending);
 
@@ -407,7 +408,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
 
-        fillViewAttributes(classDesc,newChildToIn,inflated,oneTimeAttrProcess);
+        fillViewAttributes(classDesc,newChildToIn,xmlInflaterLayout,oneTimeAttrProcess);
         classDesc.addViewObject(viewParent, view, index, oneTimeAttrProcess, getContext());
 
         oneTimeAttrProcess.destroy();
@@ -416,18 +417,18 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated,OneTimeAttrProcess oneTimeAttrProcess)
+    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,XMLInflaterLayout xmlInflaterLayout,OneTimeAttrProcess oneTimeAttrProcess)
     {
         View view = newChildToIn.getView();
 
         if (newChildToIn.hasAttributes())
         {
-            AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),inflated.getXMLInflaterLayout(),oneTimeAttrProcess, null);
+            AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),xmlInflaterLayout,oneTimeAttrProcess, null);
 
             for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
             {
                 DOMAttr attr = entry.getValue();
-                inflated.setAttribute(classDesc, view, attr,attrCtx);
+                xmlInflaterLayout.setAttribute(classDesc, view, attr,attrCtx);
             }
         }
 
@@ -547,7 +548,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
 
         View view = node.getView();
-        page.getInflatedLayoutPageImpl().setAttribute(view,attr);
+        page.getXMLInflaterLayoutPage().setAttribute(view,attr);
     }
 
     @Override
@@ -622,7 +623,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
 
         View view = node.getView();
-        page.getInflatedLayoutPageImpl().removeAttribute(view, namespaceURI, name);
+        page.getXMLInflaterLayoutPage().removeAttribute(view, namespaceURI, name);
     }
 
     @Override
@@ -774,12 +775,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         NodeToInsertImpl newChildToIn = (NodeToInsertImpl)newChild;
 
-        InflatedLayoutImpl inflated = page.getInflatedLayoutPageImpl();
-        XMLInflateRegistry inflaterService = page.getInflatedLayoutPageImpl().getXMLInflateRegistry();
-        ClassDescViewBased classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
+        XMLInflaterLayoutPage xmlInflaterLayout = page.getXMLInflaterLayoutPage();
+        XMLInflateRegistry xmlInflateRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
+        ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
-        View view = createViewObjectAndFillAttributesAndAdd(classDesc, (ViewGroup) parentNode.getView(), newChildToIn, index, inflated,null);
+        View view = createViewObjectAndFillAttributesAndAdd(classDesc, (ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout,null);
 
         newChildToIn.setInserted();
     }

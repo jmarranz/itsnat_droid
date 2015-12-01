@@ -12,7 +12,6 @@ import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.IOUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 
 import java.io.InputStream;
@@ -103,18 +102,28 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     @Override
     public InflatedLayout inflate(InputStream input)
     {
-        String markup = IOUtil.read(input,encoding);
-        return inflateLayoutStandalone(markup);
+        return inflateLayoutStandalone(input).getInflatedLayoutImpl();
     }
 
     @Override
     public InflatedLayout inflate(Reader input)
     {
+        return inflateLayoutStandalone(input).getInflatedLayoutImpl();
+    }
+
+    public XMLInflaterLayoutStandalone inflateLayoutStandalone(InputStream input)
+    {
+        String markup = IOUtil.read(input,encoding);
+        return inflateLayoutStandalone(markup);
+    }
+
+    public XMLInflaterLayoutStandalone inflateLayoutStandalone(Reader input)
+    {
         String markup = IOUtil.read(input);
         return inflateLayoutStandalone(markup);
     }
 
-    private InflatedLayoutImpl inflateLayoutStandalone(String markup)
+    private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup)
     {
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
 
@@ -124,7 +133,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         AssetManager assetManager = getContext().getResources().getAssets();
         XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, loadingPage, remotePageOrFrag, assetManager);
 
-        return inflateLayout(domLayout, null, null, null);
+        return (XMLInflaterLayoutStandalone)inflateLayout(domLayout, null, null, null);
     }
 
 }

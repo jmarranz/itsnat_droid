@@ -53,9 +53,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
             xmlInflaterLayout = new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener,ctx);
         }
 
-        inflatedLayout.setXMLInflaterLayout(xmlInflaterLayout); // Se necesita después para la inserción de fragments, cambio de atributos etc
-
-        return xmlInflaterLayout; // Internal Error
+        return xmlInflaterLayout;
     }
 
     public InflatedLayoutImpl getInflatedLayoutImpl()

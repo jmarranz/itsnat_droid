@@ -15,6 +15,7 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,13 +43,14 @@ public class FragmentLayoutInserter
         // LayoutParams se hagan bien.
 
         PageImpl page = itsNatDoc.getPageImpl();
-        InflatedLayoutPageImpl pageLayout = page.getInflatedLayoutPageImpl();
+        InflatedLayoutPageImpl inflatedLayoutPage = page.getInflatedLayoutPageImpl();
+        XMLInflaterLayoutPage xmlLayoutInflaterPage = page.getXMLInflaterLayoutPage();
 
         StringBuilder newMarkup = new StringBuilder();
 
         newMarkup.append("<" + parentView.getClass().getName());
 
-        MapLight<String, String> namespaceMap = pageLayout.getNamespacesByPrefix();
+        MapLight<String, String> namespaceMap = inflatedLayoutPage.getNamespacesByPrefix();
         //for (Iterator<Map.Entry<String, String>> it = namespaceMap.getEntryList().iterator(); it.hasNext(); )
         for (Map.Entry<String, String> entry : namespaceMap.getEntryList())
         {
@@ -62,7 +64,7 @@ public class FragmentLayoutInserter
         markup = newMarkup.toString();
 
 
-        XMLDOMRegistry xmlDOMRegistry = pageLayout.getItsNatDroidImpl().getXMLDOMRegistry();
+        XMLDOMRegistry xmlDOMRegistry = inflatedLayoutPage.getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
 
         XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), false, true, assetManager);
@@ -75,7 +77,7 @@ public class FragmentLayoutInserter
         if (domScriptList != null)
             scriptList.addAll(domScriptList);
 
-        ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(rootDOMView,xmlDOMLayout); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
+        ViewGroup falseParentView = (ViewGroup) xmlLayoutInflaterPage.insertFragment(rootDOMView,xmlDOMLayout); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
         int indexRef = viewRef != null ? InflatedLayoutImpl.getChildViewIndex(parentView, viewRef) : -1;
         while (falseParentView.getChildCount() > 0)
         {

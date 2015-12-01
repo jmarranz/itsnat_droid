@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.domparser.layout;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMInclude;
@@ -93,26 +94,23 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     }
 
     @Override
-    protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOM)
+    protected DOMAttr createDOMAttr(DOMElement element,String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
+        DOMAttr domAttr = super.createDOMAttr(element,namespaceURI,name,value,xmlDOMParent);
+
         if (element instanceof DOMView)
         {
             DOMView domView = (DOMView)element;
             if (namespaceURI == null && "style".equals(name))
                 domView.setStyleAttr(value);
-            else
-                super.addDOMAttr(element, namespaceURI, name, value, xmlDOM);
         }
         else if (element instanceof DOMInclude)
         {
             DOMInclude domInc = (DOMInclude)element;
             if ((namespaceURI == null) && "layout".equals(name))
                 domInc.setLayout(value);
-            else
-                super.addDOMAttr(element, namespaceURI, name, value, xmlDOM);
         }
-        else
-            super.addDOMAttr(element, namespaceURI, name, value, xmlDOM);
+        return domAttr;
     }
 
     protected abstract void parseScriptElement(XmlPullParser parser,DOMView viewParent,XMLDOM xmlDOM) throws IOException, XmlPullParserException;

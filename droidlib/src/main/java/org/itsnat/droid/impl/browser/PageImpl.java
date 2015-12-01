@@ -20,6 +20,7 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -39,7 +40,7 @@ public class PageImpl implements Page
     protected final PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected final String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
     protected final int bitmapDensityReference;
-    protected final InflatedLayoutPageImpl inflated;
+    protected final XMLInflaterLayoutPage xmlInflaterLayoutPage;
     protected final String uniqueIdForInterpreter;
     protected final Interpreter interp;
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
@@ -68,7 +69,7 @@ public class PageImpl implements Page
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
-        this.inflated = (InflatedLayoutPageImpl) inflateLayoutRequest.inflateLayout(domLayout, loadScriptArr, scriptList, this);
+        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout, loadScriptArr, scriptList, this);
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         String loadScript = loadScriptArr[0];
@@ -176,7 +177,12 @@ public class PageImpl implements Page
 
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
     {
-        return inflated;
+        return xmlInflaterLayoutPage.getInflatedLayoutPageImpl();
+    }
+
+    public XMLInflaterLayoutPage getXMLInflaterLayoutPage()
+    {
+        return xmlInflaterLayoutPage;
     }
 
     public Interpreter getInterpreter()

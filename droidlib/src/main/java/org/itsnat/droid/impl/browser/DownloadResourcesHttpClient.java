@@ -7,6 +7,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+
 import java.util.LinkedList;
 import java.util.List;
 

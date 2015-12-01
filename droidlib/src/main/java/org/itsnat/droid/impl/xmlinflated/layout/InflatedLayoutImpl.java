@@ -8,16 +8,10 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 16/06/14.
@@ -38,16 +32,19 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return (XMLDOMLayout) xmlDOM;
     }
 
+    /*
     public XMLInflaterLayout getXMLInflaterLayout()
     {
         return (XMLInflaterLayout)xmlInflater;
     }
+    */
 
+    /*
     public void setXMLInflaterLayout(XMLInflaterLayout xmlInflater)
     {
         this.xmlInflater = xmlInflater;
     }
-
+*/
     public String getAndroidNSPrefix()
     {
         return getXMLDOMLayout().getAndroidNSPrefix();
@@ -103,20 +100,11 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         getViewMapByXMLId().setXMLId(id, view);
     }
 
+    @Override
     public View findViewByXMLId(String id)
     {
         if (viewMapByXMLId == null) return null;
         return viewMapByXMLId.findViewByXMLId(id);
-    }
-
-    public View insertFragment(DOMView rootDOMViewFragment,XMLDOM xmlDOMParent)
-    {
-        return getXMLInflaterLayout().insertFragment(rootDOMViewFragment,xmlDOMParent);
-    }
-
-    public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
-    {
-        return getXMLInflaterLayout().setAttribute(classDesc, view, attr,attrCtx);
     }
 
     public static int getChildViewIndex(ViewGroup parentView, View view)
