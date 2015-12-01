@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.dom.layout.DOMMerge;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -24,19 +24,19 @@ import java.io.StringReader;
  */
 public abstract class XMLDOMLayoutParser extends XMLDOMParser
 {
-    public XMLDOMLayoutParser(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public XMLDOMLayoutParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
-        super(xmlInflateRegistry,assetManager);
+        super(xmlDOMRegistry,assetManager);
     }
 
-    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,boolean loadingPage,boolean remotePageOrFrag,XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,boolean loadingPage,boolean remotePageOrFrag,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         XMLDOMLayoutParser layoutParser;
         if (remotePageOrFrag)
-            layoutParser = loadingPage ? new XMLDOMLayoutParserPage(xmlInflateRegistry, assetManager, itsNatServerVersion) :
-                                         new XMLDOMLayoutParserFragment(xmlInflateRegistry, assetManager);
+            layoutParser = loadingPage ? new XMLDOMLayoutParserPage(xmlDOMRegistry, assetManager, itsNatServerVersion) :
+                                         new XMLDOMLayoutParserFragment(xmlDOMRegistry, assetManager);
         else
-            layoutParser = new XMLDOMLayoutParserStandalone(xmlInflateRegistry, assetManager);
+            layoutParser = new XMLDOMLayoutParserStandalone(xmlDOMRegistry, assetManager);
         return layoutParser;
     }
 

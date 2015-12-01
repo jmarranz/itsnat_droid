@@ -6,8 +6,8 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,14 +19,14 @@ public class HttpResourceDownloader
 {
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
-    protected final XMLInflateRegistry xmlInflateRegistry;
+    protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
 
-    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData, XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         this.pageURLBase = pageURLBase;
         this.httpRequestData = httpRequestData;
-        this.xmlInflateRegistry = xmlInflateRegistry;
+        this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
     }
 
@@ -107,7 +107,7 @@ public class HttpResourceDownloader
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = resultRes.getResponseText();
-            XMLDOM xmlDOM = XMLDOMParser.processDOMAttrDynamicXML(attr, markup, xmlInflateRegistry, assetManager);
+            XMLDOM xmlDOM = XMLDOMParser.processDOMAttrDynamicXML(attr, markup, xmlDOMRegistry, assetManager);
 
             LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
             if (attrRemoteList != null)

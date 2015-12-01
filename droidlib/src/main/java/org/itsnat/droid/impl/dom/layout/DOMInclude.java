@@ -1,9 +1,6 @@
 package org.itsnat.droid.impl.dom.layout;
 
-import android.view.View;
-
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 /**
  * Created by jmarranz on 27/10/14.

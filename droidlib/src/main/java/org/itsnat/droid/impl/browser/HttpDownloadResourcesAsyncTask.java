@@ -9,7 +9,7 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected OnHttpRequestListener listener;
     protected OnHttpRequestErrorListener errorListener;
     protected int errorMode;
-    protected XMLInflateRegistry xmlInflateRegistry;
+    protected XMLDOMRegistry xmlDOMRegistry;
     protected AssetManager assetManager;
 
     public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, HttpParams httpParamsRequest, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode,AssetManager assetManager)
@@ -42,14 +42,14 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.listener = listener;
         this.errorListener = errorListener;
         this.errorMode = errorMode;
-        this.xmlInflateRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
+        this.xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         this.assetManager = assetManager;
     }
 
     protected List<HttpRequestResultImpl> executeInBackground() throws Exception
     {
         HttpResourceDownloader resDownloader =
-                new HttpResourceDownloader(pageURLBase,httpRequestData,xmlInflateRegistry,assetManager);
+                new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
         List<HttpRequestResultImpl> resultList = new LinkedList<HttpRequestResultImpl>();
         resDownloader.downloadResources(attrRemoteList,resultList);
         return resultList;

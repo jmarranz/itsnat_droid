@@ -4,7 +4,7 @@ import android.content.res.AssetManager;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -19,9 +19,9 @@ public class XMLDOMLayoutParserPage extends XMLDOMLayoutParserPageOrFragment
 
     protected final String itsNatServerVersion; // Puede ser null, layout no servido por ItsNat
 
-    public XMLDOMLayoutParserPage(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager,String itsNatServerVersion)
+    public XMLDOMLayoutParserPage(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,String itsNatServerVersion)
     {
-        super(xmlInflateRegistry,assetManager);
+        super(xmlDOMRegistry,assetManager);
         this.itsNatServerVersion = itsNatServerVersion;
     }
 

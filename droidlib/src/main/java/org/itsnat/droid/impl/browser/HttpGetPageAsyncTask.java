@@ -9,6 +9,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 /**
@@ -22,6 +23,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
     protected final XMLInflateRegistry xmlInflateRegistry;
+    protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected final AssetManager assetManager;
 
@@ -35,6 +37,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.url = url;
         this.pageURLBase = pageRequest.getURLBase();
         this.xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
+        this.xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
         this.attrDrawableInflaterListener = pageRequest.getAttrDrawableInflaterListener();
         this.assetManager = pageRequest.getContext().getAssets();
 
@@ -46,7 +49,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     {
         HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
 
-        PageRequestResult pageReqResult = PageRequestImpl.processHttpRequestResult(result,pageURLBase, httpRequestData,xmlInflateRegistry,assetManager);
+        PageRequestResult pageReqResult = PageRequestImpl.processHttpRequestResult(result,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
         return pageReqResult;
     }
 

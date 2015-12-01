@@ -23,9 +23,9 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserPage;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -221,7 +221,7 @@ public class PageRequestImpl implements PageRequest
 
         HttpRequestData httpRequestData = new HttpRequestData(this);
 
-        XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
+        XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 
         String pageURLBase = getURLBase();
 
@@ -231,7 +231,7 @@ public class PageRequestImpl implements PageRequest
             HttpRequestResultOKImpl httpReqResult = HttpUtil.httpGet(url,httpRequestData,null,null);
 
             AssetManager assetManager = getContext().getResources().getAssets();
-            result = processHttpRequestResult(httpReqResult,pageURLBase, httpRequestData,xmlInflateRegistry,assetManager);
+            result = processHttpRequestResult(httpReqResult,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
         }
         catch(Exception ex)
         {
@@ -262,12 +262,12 @@ public class PageRequestImpl implements PageRequest
     }
 
     public static PageRequestResult processHttpRequestResult(HttpRequestResultOKImpl result,
-                                       String pageURLBase,HttpRequestData httpRequestData,
-                                       XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager) throws Exception
+                                        String pageURLBase,HttpRequestData httpRequestData,
+                                        XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         String markup = result.getResponseText();
         String itsNatServerVersion = result.getItsNatServerVersion();
-        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, true, assetManager);
+        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, true, assetManager);
 
 
         PageRequestResult pageReqResult = new PageRequestResult(result, domLayout);
@@ -296,7 +296,7 @@ public class PageRequestImpl implements PageRequest
         if (attrRemoteList != null)
         {
             HttpFileCache httpFileCache = result.getHttpFileCache();
-            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData, xmlInflateRegistry,assetManager);
+            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList);
         }
 

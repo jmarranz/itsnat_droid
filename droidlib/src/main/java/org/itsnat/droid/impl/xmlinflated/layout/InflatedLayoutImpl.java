@@ -9,6 +9,7 @@ import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MapLight;
@@ -108,9 +109,9 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return viewMapByXMLId.findViewByXMLId(id);
     }
 
-    public View insertFragment(DOMView rootDOMViewFragment)
+    public View insertFragment(DOMView rootDOMViewFragment,XMLDOM xmlDOMParent)
     {
-        return getXMLInflaterLayout().insertFragment(rootDOMViewFragment);
+        return getXMLInflaterLayout().insertFragment(rootDOMViewFragment,xmlDOMParent);
     }
 
     public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
