@@ -13,7 +13,6 @@ public abstract class InflatedXML
 {
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
 
-    //protected XMLInflater xmlInflater;
     protected ItsNatDroidImpl itsNatDroid;
     protected XMLDOM xmlDOM;
     protected Context ctx;
@@ -36,11 +35,6 @@ public abstract class InflatedXML
         return itsNatDroid.getXMLInflateRegistry();
     }
 
-/*    public XMLInflater getXMLInflater()
-    {
-        return xmlInflater;
-    }
-*/
     public Context getContext()
     {
         return ctx;

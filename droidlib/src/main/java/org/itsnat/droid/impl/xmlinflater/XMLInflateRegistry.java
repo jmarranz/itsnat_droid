@@ -35,6 +35,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -586,10 +587,10 @@ public class XMLInflateRegistry
 
                 XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) attrDyn.getResource();
 
-                InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(itsNatDroid, xmlDOMLayout,ctx) :
-                                                                    new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
-                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, page);
-                return xmlInflaterLayout.inflateLayout(null, null);
+                String[] loadScript = null;
+                List<String> scriptList = null;
+                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,loadScript,scriptList,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
+                return xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
             }
             else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
         }

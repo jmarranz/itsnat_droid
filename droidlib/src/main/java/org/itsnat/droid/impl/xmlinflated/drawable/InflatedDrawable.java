@@ -19,19 +19,6 @@ public abstract class InflatedDrawable extends InflatedXML
         super(itsNatDroid, xmlDOMDrawable,ctx);
     }
 
-    /* public XMLInflaterDrawable getXMLInflaterDrawable()
-    {
-        return (XMLInflaterDrawable)xmlInflater;
-    }
-    */
-
-    /*
-    public void setXMLInflaterDrawable(XMLInflaterDrawable xmlInflater)
-    {
-        this.xmlInflater = xmlInflater;
-    }
-*/
-
     public XMLDOMDrawable getXMLDOMDrawable()
     {
         return (XMLDOMDrawable) xmlDOM;

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -40,7 +41,16 @@ public abstract class XMLInflaterLayout extends XMLInflater
         super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
     }
 
-    public static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout, String[] loadScript, List<String> scriptList, int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    {
+        InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(itsNatDroid, xmlDOMLayout,ctx) :
+                                                            new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
+        XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener, ctx, page);
+        xmlInflaterLayout.inflateLayout(loadScript, scriptList);
+        return xmlInflaterLayout;
+    }
+
+    private static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
         XMLInflaterLayout xmlInflaterLayout = null;
 

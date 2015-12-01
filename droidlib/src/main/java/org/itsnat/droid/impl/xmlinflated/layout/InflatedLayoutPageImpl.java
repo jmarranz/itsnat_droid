@@ -15,10 +15,4 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         super(itsNatDroid, domLayout,ctx);
     }
 
-    /*
-    public XMLInflaterLayoutPage getXMLInflaterLayoutPage()
-    {
-        return (XMLInflaterLayoutPage) xmlInflater;
-    }
-*/
 }

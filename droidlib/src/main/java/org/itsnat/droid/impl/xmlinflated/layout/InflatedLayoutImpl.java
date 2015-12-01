@@ -32,19 +32,6 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return (XMLDOMLayout) xmlDOM;
     }
 
-    /*
-    public XMLInflaterLayout getXMLInflaterLayout()
-    {
-        return (XMLInflaterLayout)xmlInflater;
-    }
-    */
-
-    /*
-    public void setXMLInflaterLayout(XMLInflaterLayout xmlInflater)
-    {
-        this.xmlInflater = xmlInflater;
-    }
-*/
     public String getAndroidNSPrefix()
     {
         return getXMLDOMLayout().getAndroidNSPrefix();

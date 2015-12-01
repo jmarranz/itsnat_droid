@@ -42,12 +42,7 @@ public abstract class InflateLayoutRequestImpl
 
     public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout, String[] loadScript, List<String> scriptList, PageImpl page)
     {
-        Context ctx = getContext();
-        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(itsNatDroid, xmlDOMLayout,ctx) :
-                                                           new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
-        XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout, getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(), ctx, page);
-        xmlInflaterLayout.inflateLayout(loadScript, scriptList);
-        return xmlInflaterLayout;
+        return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,loadScript,scriptList,getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getContext(),page);
     }
 
 }
