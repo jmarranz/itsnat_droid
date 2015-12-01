@@ -12,8 +12,8 @@ public class DOMAttrAsset extends DOMAttrDynamic
         super(namespaceURI, name, value);
     }
 
-    public static boolean isAsset(String namespaceURI,String value)
+    public static boolean isAsset(String value)
     {
-        return (InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@assets:"));
+        return value.startsWith("@assets:");
     }
 }

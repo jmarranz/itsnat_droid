@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflater;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,14 +20,10 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.dom.XMLDOMCache;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
-import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserFragment;
-import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserPage;
-import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserStandalone;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
@@ -55,12 +50,16 @@ public class XMLInflateRegistry
     protected Map<String,Integer> newIdMap = new HashMap<String,Integer>();
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
     protected ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
-    protected XMLDOMCache<XMLDOMLayout> domLayoutCache = new XMLDOMCache<XMLDOMLayout>();
-    protected XMLDOMCache<XMLDOMDrawable> domDrawableCache = new XMLDOMCache<XMLDOMDrawable>();
+
 
     public XMLInflateRegistry(ItsNatDroidImpl parent)
     {
         this.parent = parent;
+    }
+
+    public ItsNatDroidImpl getItsNatDroidImpl()
+    {
+        return parent;
     }
 
     public ClassDescViewMgr getClassDescViewMgr()
@@ -73,61 +72,6 @@ public class XMLInflateRegistry
         return classDescDrawableMgr;
     }
 
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion, boolean loadingPage, boolean remotePageOrFrag,AssetManager assetManager)
-    {
-        // Este método DEBE ser multihilo, el objeto domLayoutCache ya lo es.
-        // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
-        // es un caché.
-
-        // Extraemos el markup sin el script de carga porque dos páginas generadas "iguales" SIEMPRE serán diferentes a nivel
-        // de markup en el loadScript porque el id cambia y algún token aleatorio, sin el loadScript podemos conseguir
-        // muchos más aciertos de cacheo y acelerar un montón al tener el parseo ya hecho.
-        // Si el template no es generado por ItsNat server o bien el scripting está desactivado (itsNatServerVersion puede
-        // ser no null pues es un header), loadScript será null y no pasa nada markupNoLoadScript[0] es el markup original
-        String[] markupNoLoadScript = new String[1];
-        String loadScript = null;
-        if (itsNatServerVersion != null && loadingPage)
-            loadScript = XMLDOMLayout.extractLoadScriptMarkup(markup, markupNoLoadScript);
-        else
-            markupNoLoadScript[0] = markup;
-
-        XMLDOMLayout cachedDOMLayout = domLayoutCache.get(markupNoLoadScript[0]);
-        if (cachedDOMLayout != null)
-        {
-            // Recuerda que cachedLayout tiene el timestamp actualizado por el hecho de llamar al get()
-        }
-        else
-        {
-            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingPage,remotePageOrFrag,this,assetManager);
-
-            cachedDOMLayout = layoutParser.parse(markup);
-            cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar
-            domLayoutCache.put(markupNoLoadScript[0], cachedDOMLayout);
-        }
-
-        XMLDOMLayout cloned = cachedDOMLayout.partialClone(); // No devolvemos nunca el que cacheamos "por si acaso"
-        cloned.setLoadScript(loadScript);
-        return cloned;
-    }
-
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup,AssetManager assetManager)
-    {
-        return getXMLDOMLayoutCache(markup,null,false,false,assetManager);
-    }
-
-    public XMLDOMDrawable getXMLDOMDrawableCache(String markup,AssetManager assetManager)
-    {
-        // Ver notas de getXMLDOMLayoutCache()
-        XMLDOMDrawable cachedDrawable = domDrawableCache.get(markup);
-        if (cachedDrawable != null) return cachedDrawable;
-        else
-        {
-            XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(this,assetManager);
-            XMLDOMDrawable xmlDOMDrawable = parser.parse(markup);
-            domDrawableCache.put(markup, xmlDOMDrawable);
-            return xmlDOMDrawable;
-        }
-    }
 
     public int generateViewId()
     {

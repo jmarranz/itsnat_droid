@@ -25,6 +25,8 @@
         <!-- Test include -->
         <include layout="@layout/test_include" />
 
+        <include layout="@layout/test_include_2_compiled" />
+
         <!-- Testing misc attribs (for instance access resources by res id or literal) -->
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent">

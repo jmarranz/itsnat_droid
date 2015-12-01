@@ -21,9 +21,9 @@ public abstract class DOMAttr
 
     public static DOMAttr create(String namespaceURI, String name, String value)
     {
-        if (DOMAttrRemote.isRemote(namespaceURI, value))
+        if (DOMAttrRemote.isRemote(value))
             return new DOMAttrRemote(namespaceURI,name,value);
-        else if (DOMAttrAsset.isAsset(namespaceURI, value))
+        else if (DOMAttrAsset.isAsset( value))
             return new DOMAttrAsset(namespaceURI,name,value);
         else
             return new DOMAttrLocalResource(namespaceURI,name,value);

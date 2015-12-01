@@ -27,12 +27,12 @@ import java.util.LinkedList;
  */
 public abstract class XMLDOMParser
 {
-    protected XMLInflateRegistry xmlInflateRegistry;
+    protected XMLDOMRegistry xmlDOMRegistry;
     protected AssetManager assetManager;
 
-    public XMLDOMParser(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public XMLDOMParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
-        this.xmlInflateRegistry = xmlInflateRegistry;
+        this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
     }
 
@@ -70,18 +70,18 @@ public abstract class XMLDOMParser
 
         DOMElement rootElement = createRootElementAndFillAttributes(rootElemName, parser, xmlDOM);
 
-        processChildElements(rootElement,parser, xmlDOM);
+        processChildElements(rootElement, parser, xmlDOM);
 
         return rootElement;
     }
 
     protected DOMElement createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM)
     {
-        DOMElement rootElement = createElement(name,null);
+        DOMElement rootElement = createElement(name, null);
 
         setRootElement(rootElement, xmlDOM); // Cuanto antes
 
-        fillAttributesAndAddElement(null, rootElement,parser, xmlDOM);
+        fillAttributesAndAddElement(null, rootElement, parser, xmlDOM);
 
         return rootElement;
     }
@@ -98,7 +98,7 @@ public abstract class XMLDOMParser
 
     protected void fillAttributesAndAddElement(DOMElement parentElement, DOMElement element,XmlPullParser parser,XMLDOM xmlDOM)
     {
-        fillElementAttributes(element,parser, xmlDOM);
+        fillElementAttributes(element, parser, xmlDOM);
         if (parentElement != null) parentElement.addChildDOMElement(element);
     }
 
@@ -118,7 +118,7 @@ public abstract class XMLDOMParser
 
     protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
-        DOMElement childView = parseNextChild(parentElement,parser, xmlDOM);
+        DOMElement childView = parseNextChild(parentElement, parser, xmlDOM);
         while (childView != null)
         {
             childView = parseNextChild(parentElement,parser, xmlDOM);
@@ -179,8 +179,13 @@ public abstract class XMLDOMParser
 
     protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
-        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value);
+        DOMAttr attrib = createDOMAttr(namespaceURI,name,value,xmlDOMParent);
         element.addDOMAttribute(attrib);
+    }
+
+    protected DOMAttr createDOMAttr(String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
+    {
+        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value);
 
         if (attrib instanceof DOMAttrRemote)
         {
@@ -214,7 +219,7 @@ public abstract class XMLDOMParser
             {
                 String markup = MiscUtil.toString(res, "UTF-8");
 
-                XMLDOM xmlDOMChild = processDOMAttrDynamicXML(assetAttr,markup,xmlInflateRegistry,assetManager);
+                XMLDOM xmlDOMChild = processDOMAttrDynamicXML(assetAttr,markup,xmlDOMRegistry,assetManager);
 
                 LinkedList<DOMAttrRemote> attrRemoteList = xmlDOMChild.getDOMAttrRemoteList();
                 if (attrRemoteList != null)
@@ -226,9 +231,12 @@ public abstract class XMLDOMParser
             }
             else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
         }
+
+        return attrib;
     }
 
-    public static XMLDOM processDOMAttrDynamicXML(DOMAttrDynamic attr,String markup,XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+
+    public static XMLDOM processDOMAttrDynamicXML(DOMAttrDynamic attr,String markup,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         String resourceType = attr.getResourceType();
 
@@ -236,7 +244,11 @@ public abstract class XMLDOMParser
         XMLDOM xmlDOM;
         if ("drawable".equals(resourceType))
         {
-            xmlDOM = xmlInflateRegistry.getXMLDOMDrawableCache(markup, assetManager); // Es multihilo el método
+            xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager); // Es multihilo el método
+        }
+        else if ("layout".equals(resourceType))
+        {
+            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, assetManager); // Es multihilo el método
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 

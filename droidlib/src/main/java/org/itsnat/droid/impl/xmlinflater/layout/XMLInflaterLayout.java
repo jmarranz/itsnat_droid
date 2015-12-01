@@ -10,6 +10,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMInclude;
 import org.itsnat.droid.impl.dom.layout.DOMMerge;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
@@ -93,15 +94,15 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return classDescViewMgr.get(viewName);
     }
 
-    private View inflateRootView(XMLDOMLayout domLayout)
+    private View inflateRootView(XMLDOMLayout xmlDOMParent)
     {
-        DOMView rootDOMView = (DOMView)domLayout.getRootElement(); // domLayout.getRootView();
+        DOMView rootDOMView = (DOMView)xmlDOMParent.getRootElement(); // domLayout.getRootView();
 
         PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
         View rootView = createRootViewObjectAndFillAttributes(rootDOMView,pending);
 
-        processChildViews(rootDOMView,rootView);
+        processChildViews(rootDOMView,rootView,xmlDOMParent);
 
         pending.executeTasks();
 
@@ -169,7 +170,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return classDesc.setAttribute(view,attr,attrCtx);
     }
 
-    protected void processChildViews(DOMView domViewParent, View viewParent)
+    protected void processChildViews(DOMView domViewParent, View viewParent,XMLDOM xmlDOMParent)
     {
         LinkedList<DOMElement> childElemList = domViewParent.getChildDOMElementList();
         if (childElemList != null)
@@ -177,22 +178,22 @@ public abstract class XMLInflaterLayout extends XMLInflater
             ViewGroup viewParentGroup = (ViewGroup)viewParent;
             for (DOMElement childDOMElem : childElemList)
             {
-                View childView = inflateNextView(childDOMElem,viewParentGroup);
+                View childView = inflateNextView(childDOMElem,viewParentGroup,xmlDOMParent);
             }
         }
     }
 
-    public View insertFragment(DOMView rootDOMViewFragment)
+    public View insertFragment(DOMView rootDOMViewFragment,XMLDOM xmlDOMParent)
     {
-        return inflateNextView(rootDOMViewFragment,null);
+        return inflateNextView(rootDOMViewFragment,null,xmlDOMParent);
     }
 
-    private View inflateNextView(DOMElement domElem, ViewGroup viewParent)
+    private View inflateNextView(DOMElement domElem, ViewGroup viewParent,XMLDOM xmlDOMParent)
     {
         // Es llamado también para insertar fragmentos
         if (domElem instanceof DOMInclude)
         {
-            View[] includeViewList = inflateInclude((DOMInclude)domElem,viewParent);
+            View[] includeViewList = inflateInclude((DOMInclude)domElem,viewParent,xmlDOMParent);
             // Devolvemos el último por devolver algo
             if (includeViewList != null && includeViewList.length > 0)
                 return includeViewList[includeViewList.length - 1];
@@ -204,7 +205,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
             View view = createViewObjectAndFillAttributesAndAdd( viewParent, (DOMView)domElem, pending);
 
-            processChildViews((DOMView)domElem,view);
+            processChildViews((DOMView)domElem,view,xmlDOMParent);
 
             pending.executeTasks();
 
@@ -213,10 +214,16 @@ public abstract class XMLInflaterLayout extends XMLInflater
     }
 
 
-    public View[] inflateInclude(DOMInclude domElemInc,ViewGroup viewParent)
+    public View[] inflateInclude(DOMInclude domElemInc,ViewGroup viewParent,XMLDOM xmlDOMParent)
     {
+
+        //public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion, boolean loadingPage, boolean remotePageOrFrag,AssetManager assetManager)
+
+         //addDOMAttr(domElemInc,null,"layout",domElemInc.getLayout(),xmlDOMParent);
+
         int countBefore = viewParent.getChildCount();
         XMLInflateRegistry xmlInflateRegistry = getInflatedLayoutImpl().getXMLInflateRegistry();
+        //xmlInflateRegistry.getXMLDOMLayoutCache()
         DOMAttr attr = DOMAttr.create(null,"layout",domElemInc.getLayout());
         View resView = xmlInflateRegistry.getLayout(attr, ctx, this,viewParent);
         if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views

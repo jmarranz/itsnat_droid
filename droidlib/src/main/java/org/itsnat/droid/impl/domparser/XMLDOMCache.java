@@ -1,6 +1,7 @@
-package org.itsnat.droid.impl.dom;
+package org.itsnat.droid.impl.domparser;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.XMLDOM;
 
 import java.util.HashMap;
 import java.util.Iterator;

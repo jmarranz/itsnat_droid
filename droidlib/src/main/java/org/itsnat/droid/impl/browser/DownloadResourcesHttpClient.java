@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.LinkedList;
@@ -49,7 +50,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
         HttpRequestData httpRequestData = new HttpRequestData(page);
 
-        XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
+        XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 
         AssetManager assetManager = page.getContext().getResources().getAssets();
 
@@ -58,7 +59,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         try
         {
             HttpResourceDownloader resDownloader =
-                    new HttpResourceDownloader(url,httpRequestData,xmlInflateRegistry,assetManager);
+                    new HttpResourceDownloader(url,httpRequestData,xmlDOMRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList,resultList);
         }
         catch (Exception ex)

@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.domparser.layout;
 
 import android.content.res.AssetManager;
 
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 /**
@@ -9,8 +10,8 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
  */
 public class XMLDOMLayoutParserFragment extends XMLDOMLayoutParserPageOrFragment
 {
-    public XMLDOMLayoutParserFragment(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public XMLDOMLayoutParserFragment(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
-        super(xmlInflateRegistry,assetManager);
+        super(xmlDOMRegistry,assetManager);
     }
 }

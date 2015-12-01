@@ -111,19 +111,38 @@ public class TestLocalLayout1
 
         // test <include>
         {
-            TextView compTextView1 = (TextView) comp.getChildAt(childCount);
-            TextView parsedTextView1 = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView1.getText(), "Included 1");
-            assertEquals(compTextView1.getText(), parsedTextView1.getText());
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Included 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
         }
 
         childCount++;
 
         {
-            TextView compTextView2 = (TextView) comp.getChildAt(childCount);
-            TextView parsedTextView2 = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView2.getText(), "Included 2");
-            assertEquals(compTextView2.getText(), parsedTextView2.getText());
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Included 2");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        childCount++;
+
+        // test <include> dynamic (assets)
+        {
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Included 3");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        childCount++;
+
+        {
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Included 4");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
         }
 
 

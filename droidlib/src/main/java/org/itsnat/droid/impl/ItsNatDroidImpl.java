@@ -9,6 +9,7 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.R;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.InflateLayoutRequestStandaloneImpl;
 
@@ -21,7 +22,8 @@ public class ItsNatDroidImpl implements ItsNatDroid
     public static ItsNatDroidImpl DEFAULT;
 
     protected Application app;
-    protected XMLInflateRegistry inflateService = new XMLInflateRegistry(this); // Sólo creamos una instancia pues cuesta mucho instanciar los objetos procesadores de clases y atributos
+    protected XMLInflateRegistry xmlInflateRegistry = new XMLInflateRegistry(this); // Sólo creamos una instancia pues cuesta mucho instanciar los objetos procesadores de clases y atributos
+    protected XMLDOMRegistry xmlDOMRegistry = new XMLDOMRegistry(this);
 
     public ItsNatDroidImpl(Application app)
     {
@@ -68,6 +70,11 @@ public class ItsNatDroidImpl implements ItsNatDroid
 
     public XMLInflateRegistry getXMLInflateRegistry()
     {
-        return inflateService;
+        return xmlInflateRegistry;
+    }
+
+    public XMLDOMRegistry getXMLDOMRegistry()
+    {
+        return xmlDOMRegistry;
     }
 }

@@ -17,9 +17,9 @@ public class DOMAttrRemote extends DOMAttrDynamic
         return resource != null;
     }
 
-    public static boolean isRemote(String namespaceURI,String value)
+    public static boolean isRemote(String value)
     {
-        return (InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@remote:"));
+        return value.startsWith("@remote:");
     }
 
     public static boolean isPendingToDownload(DOMAttr attr)
