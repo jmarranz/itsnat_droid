@@ -30,11 +30,11 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         super(xmlDOMRegistry,assetManager);
     }
 
-    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,boolean loadingPage,boolean remotePageOrFrag,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,boolean remotePageOrFrag,boolean loadingRemotePage,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         XMLDOMLayoutParser layoutParser;
         if (remotePageOrFrag)
-            layoutParser = loadingPage ? new XMLDOMLayoutParserPage(xmlDOMRegistry, assetManager, itsNatServerVersion) :
+            layoutParser = loadingRemotePage ? new XMLDOMLayoutParserPage(xmlDOMRegistry, assetManager, itsNatServerVersion) :
                                          new XMLDOMLayoutParserFragment(xmlDOMRegistry, assetManager);
         else
             layoutParser = new XMLDOMLayoutParserStandalone(xmlDOMRegistry, assetManager);
@@ -77,7 +77,10 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         if ("include".equals(name))
             return new DOMInclude(name,(DOMView)parent);
         else if ("merge".equals(name))
-            return new DOMMerge(name,(DOMView)parent);
+        {
+            if (parent != null) throw new ItsNatDroidException("<merge> only can be used as a root element of the XML layout");
+            return new DOMMerge(name, null);
+        }
         else
             return new DOMView(name,(DOMView)parent);
     }
@@ -94,7 +97,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     }
 
     @Override
-    protected DOMAttr createDOMAttr(DOMElement element,String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
+    public DOMAttr createDOMAttr(DOMElement element,String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
         DOMAttr domAttr = super.createDOMAttr(element,namespaceURI,name,value,xmlDOMParent);
 

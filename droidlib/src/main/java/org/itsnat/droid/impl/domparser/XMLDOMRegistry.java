@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.domparser;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
@@ -27,7 +28,7 @@ public class XMLDOMRegistry
         return parent;
     }
 
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion, boolean loadingPage, boolean remotePageOrFrag,AssetManager assetManager)
+    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,boolean remotePageOrFrag, boolean loadingRemotePage,AssetManager assetManager)
     {
         // Este método DEBE ser multihilo, el objeto domLayoutCache ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
@@ -40,7 +41,7 @@ public class XMLDOMRegistry
         // ser no null pues es un header), loadScript será null y no pasa nada markupNoLoadScript[0] es el markup original
         String[] markupNoLoadScript = new String[1];
         String loadScript = null;
-        if (itsNatServerVersion != null && loadingPage)
+        if (itsNatServerVersion != null && loadingRemotePage)
             loadScript = XMLDOMLayout.extractLoadScriptMarkup(markup, markupNoLoadScript);
         else
             markupNoLoadScript[0] = markup;
@@ -52,7 +53,7 @@ public class XMLDOMRegistry
         }
         else
         {
-            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingPage,remotePageOrFrag,this,assetManager);
+            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingRemotePage,remotePageOrFrag,this,assetManager);
 
             cachedDOMLayout = layoutParser.parse(markup);
             cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar

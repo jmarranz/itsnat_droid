@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +17,8 @@ import org.itsnat.droid.impl.dom.layout.DOMInclude;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
@@ -38,7 +41,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
                              AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
                              Context ctx)
     {
-        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
+        super(inflatedXML, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx);
     }
 
     public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout, String[] loadScript, List<String> scriptList, int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
@@ -71,7 +74,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return (InflatedLayoutImpl)inflatedXML;
     }
 
-    public View inflateLayout(String[] loadScript, List<String> scriptList)
+    public View[] inflateLayout(String[] loadScript, List<String> scriptList)
     {
         XMLDOMLayout domLayout = getInflatedLayoutImpl().getXMLDOMLayout();
         if (loadScript != null)
@@ -80,8 +83,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
         if (scriptList != null)
             fillScriptList(domLayout,scriptList);
 
-        View rootView = inflateRootView(domLayout);
-        return rootView;
+        View[] rootViews = inflateRootView(domLayout);
+        return rootViews;
     }
 
     private static void fillScriptList(XMLDOMLayout domLayout,List<String> scriptList)
@@ -101,19 +104,29 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return classDescViewMgr.get(viewName);
     }
 
-    private View inflateRootView(XMLDOMLayout xmlDOMParent)
+    private View[] inflateRootView(XMLDOMLayout xmlDOMParent)
     {
-        DOMView rootDOMView = (DOMView)xmlDOMParent.getRootElement(); // domLayout.getRootView();
+        DOMElement[] rootDOMViewArray = xmlDOMParent.getRootElementArray(); // domLayout.getRootView();
 
-        PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
+        View[] rootViews = new View[rootDOMViewArray.length];
 
-        View rootView = createRootViewObjectAndFillAttributes(rootDOMView,pending);
+        int i = 0;
+        for(DOMElement elem : rootDOMViewArray)
+        {
+            DOMView domView = (DOMView)elem;
+            PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-        processChildViews(rootDOMView,rootView,xmlDOMParent);
+            View rootView = createRootViewObjectAndFillAttributes(domView, pending);
 
-        pending.executeTasks();
+            processChildViews(domView, rootView, xmlDOMParent);
 
-        return rootView;
+            pending.executeTasks();
+
+            rootViews[i] = rootView;
+            i++;
+        }
+
+        return rootViews;
     }
 
     public View createRootViewObjectAndFillAttributes(DOMView rootDOMView,PendingPostInsertChildrenTasks pending)
@@ -223,15 +236,19 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public View[] inflateInclude(DOMInclude domElemInc,ViewGroup viewParent,XMLDOM xmlDOMParent)
     {
-
-        //public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion, boolean loadingPage, boolean remotePageOrFrag,AssetManager assetManager)
-
-         //addDOMAttr(domElemInc,null,"layout",domElemInc.getLayout(),xmlDOMParent);
-
         int countBefore = viewParent.getChildCount();
-        XMLInflateRegistry xmlInflateRegistry = getInflatedLayoutImpl().getXMLInflateRegistry();
-        //xmlInflateRegistry.getXMLDOMLayoutCache()
-        DOMAttr attr = DOMAttr.create(null,"layout",domElemInc.getLayout());
+
+        ItsNatDroidImpl itsNatDroid = getInflatedLayoutImpl().getItsNatDroidImpl();
+        XMLInflateRegistry xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
+        XMLDOMRegistry xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
+        AssetManager assetManager = getContext().getResources().getAssets();
+
+        String itsNatServerVersion = null;
+        boolean remotePageOrFrag = false;
+        boolean loadingRemotePage = false;
+        XMLDOMLayoutParser xmlDOMLayoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion, remotePageOrFrag, loadingRemotePage, xmlDOMRegistry, assetManager);
+        DOMAttr attr = xmlDOMLayoutParser.createDOMAttr(domElemInc, null, "layout", domElemInc.getLayout(), xmlDOMParent);
+
         View resView = xmlInflateRegistry.getLayout(attr, ctx, this,viewParent);
         if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views
         int countAfter = viewParent.getChildCount();

@@ -66,6 +66,11 @@ public abstract class DOMElement
         return childList;
     }
 
+    public void setChildDOMElementList(LinkedList<DOMElement> childList)
+    {
+        this.childList = childList;
+    }
+
     public void addChildDOMElement(DOMElement domElement)
     {
         if (childList == null) this.childList = new LinkedList<DOMElement>();

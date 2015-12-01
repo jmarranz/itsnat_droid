@@ -123,15 +123,15 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         return inflateLayoutStandalone(markup);
     }
 
-    private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup)
+    public XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup)
     {
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
 
-        boolean loadingPage = true;
         String itsNatServerVersion = null;
         boolean remotePageOrFrag = false;
+        boolean loadingRemotePage = false;
         AssetManager assetManager = getContext().getResources().getAssets();
-        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, loadingPage, remotePageOrFrag, assetManager);
+        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, remotePageOrFrag, loadingRemotePage,assetManager);
 
         return (XMLInflaterLayoutStandalone)inflateLayout(domLayout, null, null, null);
     }

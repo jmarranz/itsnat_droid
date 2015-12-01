@@ -66,8 +66,9 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
     private ElementDrawableRoot inflateRoot(XMLDOMDrawable xmlDOMDrawable)
     {
-        DOMElement rootDOMElem = xmlDOMDrawable.getRootElement();
-        return createRootDrawableAndFillAttributes(rootDOMElem,getInflatedDrawable());
+        DOMElement[] rootDOMElem = xmlDOMDrawable.getRootElementArray();
+        if (rootDOMElem.length != 1) throw new ItsNatDroidException("Unexpected"); // <merge> sólo se usa en layouts
+        return createRootDrawableAndFillAttributes(rootDOMElem[0],getInflatedDrawable());
     }
 
 

@@ -4,8 +4,10 @@ import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
@@ -67,9 +69,13 @@ public class FragmentLayoutInserter
         XMLDOMRegistry xmlDOMRegistry = inflatedLayoutPage.getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
 
-        XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), false, true, assetManager);
+        XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), true, false, assetManager);
 
-        DOMView rootDOMView = (DOMView)xmlDOMLayout.getRootElement();
+
+        DOMElement[] rootDOMViewArray = xmlDOMLayout.getRootElementArray();
+        if (rootDOMViewArray.length != 1) throw new ItsNatDroidException("Unexpected"); // Gracias al falso ViewGroup siempre esperamos un sólo root
+
+        DOMView rootDOMView = (DOMView)rootDOMViewArray[0];
 
         LinkedList<DOMScript> scriptList = new LinkedList<DOMScript>();
 

@@ -56,7 +56,7 @@ public class XMLDOMDrawableParser extends XMLDOMParser
     {
         XMLDOMDrawable xmlDOMDrawable = new XMLDOMDrawable();
         String rootElemName = getRootElementName(parser);
-        parseRootElement(rootElemName, parser, xmlDOMDrawable);
+        parseRootElement(rootElemName,parser, xmlDOMDrawable);
         return xmlDOMDrawable;
     }
 
