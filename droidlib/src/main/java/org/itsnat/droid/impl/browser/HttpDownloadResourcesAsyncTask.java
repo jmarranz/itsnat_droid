@@ -10,7 +10,6 @@ import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-
 import java.util.LinkedList;
 import java.util.List;
 
