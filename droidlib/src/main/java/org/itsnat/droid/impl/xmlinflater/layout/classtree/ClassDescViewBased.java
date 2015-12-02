@@ -223,7 +223,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (namespaceURI == null || "".equals(namespaceURI)) && "id".equals(name);
     }
 
-    public PendingViewCreateProcess createOneTimeAttrProcess(View view,ViewGroup viewParent)
+    public PendingViewCreateProcess createPendingViewCreateProcess(View view, ViewGroup viewParent)
     {
         // Se redefine en un caso
         return (viewParent instanceof GridLayout)

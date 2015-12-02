@@ -7,9 +7,9 @@ import android.widget.FrameLayout;
 /**
  * Created by Jose on 02/12/2015.
  */
-public class IncludeViewGroup extends FrameLayout
+public class _IncludeFakeViewGroup_ extends FrameLayout
 {
-    public IncludeViewGroup(Context context)
+    public _IncludeFakeViewGroup_(Context context)
     {
         super(context);
     }

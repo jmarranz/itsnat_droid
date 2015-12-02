@@ -33,11 +33,11 @@ public class AttrDescView_view_View_layout_row extends AttrDesc<ClassDescViewBas
             @Override
             public void run()
             {
-                PendingViewCreateProcessChildGridLayout oneTimeAttrProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
-                if (oneTimeAttrProcessGrid.gridLayout_rowSpec == null)
-                    oneTimeAttrProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
+                PendingViewCreateProcessChildGridLayout pendingViewCreateProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
+                if (pendingViewCreateProcessGrid.gridLayout_rowSpec == null)
+                    pendingViewCreateProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
 
-                oneTimeAttrProcessGrid.gridLayout_rowSpec.layout_row = row;
+                pendingViewCreateProcessGrid.gridLayout_rowSpec.layout_row = row;
             }};
 
         if (pendingViewCreateProcess != null)

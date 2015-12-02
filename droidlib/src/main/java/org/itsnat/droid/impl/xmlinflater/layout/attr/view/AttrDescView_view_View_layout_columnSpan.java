@@ -33,11 +33,11 @@ public class AttrDescView_view_View_layout_columnSpan extends AttrDesc<ClassDesc
             @Override
             public void run()
             {
-                PendingViewCreateProcessChildGridLayout oneTimeAttrProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
-                if (oneTimeAttrProcessGrid.gridLayout_columnSpec == null)
-                    oneTimeAttrProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
+                PendingViewCreateProcessChildGridLayout pendingViewCreateProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
+                if (pendingViewCreateProcessGrid.gridLayout_columnSpec == null)
+                    pendingViewCreateProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
 
-                oneTimeAttrProcessGrid.gridLayout_columnSpec.layout_columnSpan = columnSpan;
+                pendingViewCreateProcessGrid.gridLayout_columnSpec.layout_columnSpan = columnSpan;
             }};
 
         if (pendingViewCreateProcess != null)

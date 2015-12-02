@@ -33,9 +33,9 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
     }
 
     @Override
-    public PendingViewCreateProcess createOneTimeAttrProcess(final View view, ViewGroup viewParent)
+    public PendingViewCreateProcess createPendingViewCreateProcess(final View view, ViewGroup viewParent)
     {
-        PendingViewCreateProcess pendingViewCreateProcess = super.createOneTimeAttrProcess(view, viewParent);
+        PendingViewCreateProcess pendingViewCreateProcess = super.createPendingViewCreateProcess(view, viewParent);
 
         pendingViewCreateProcess.addPendingSetAttribsTask(new Runnable()
         {

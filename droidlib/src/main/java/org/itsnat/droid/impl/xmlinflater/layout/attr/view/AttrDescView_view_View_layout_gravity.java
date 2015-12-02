@@ -48,12 +48,12 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
                 {
                     if (pendingViewCreateProcess != null)
                     {
-                        PendingViewCreateProcessChildGridLayout oneTimeAttrProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
-                        if (oneTimeAttrProcessGrid.gridLayout_columnSpec == null) oneTimeAttrProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
-                        if (oneTimeAttrProcessGrid.gridLayout_rowSpec == null)    oneTimeAttrProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
+                        PendingViewCreateProcessChildGridLayout pendingViewCreateProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
+                        if (pendingViewCreateProcessGrid.gridLayout_columnSpec == null) pendingViewCreateProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
+                        if (pendingViewCreateProcessGrid.gridLayout_rowSpec == null)    pendingViewCreateProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
 
-                        oneTimeAttrProcessGrid.gridLayout_columnSpec.layout_gravity = valueInt;
-                        oneTimeAttrProcessGrid.gridLayout_rowSpec.layout_gravity = valueInt;
+                        pendingViewCreateProcessGrid.gridLayout_columnSpec.layout_gravity = valueInt;
+                        pendingViewCreateProcessGrid.gridLayout_rowSpec.layout_gravity = valueInt;
                     }
                     else
                     {

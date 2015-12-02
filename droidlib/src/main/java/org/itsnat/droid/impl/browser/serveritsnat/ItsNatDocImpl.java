@@ -406,7 +406,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         newChildToIn.setView(view);
 
-        PendingViewCreateProcess pendingViewCreateProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
+        PendingViewCreateProcess pendingViewCreateProcess = classDesc.createPendingViewCreateProcess(view, viewParent);
 
         fillViewAttributes(classDesc,newChildToIn,xmlInflaterLayout, pendingViewCreateProcess);
         classDesc.addViewObject(viewParent, view, index, pendingViewCreateProcess, getContext());

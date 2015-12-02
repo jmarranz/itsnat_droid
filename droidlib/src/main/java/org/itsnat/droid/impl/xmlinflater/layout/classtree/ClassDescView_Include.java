@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.IncludeViewGroup;
+import org.itsnat.droid.impl.xmlinflated.layout._IncludeFakeViewGroup_;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDesc_Include_layout;
@@ -24,7 +24,7 @@ public class ClassDescView_Include extends ClassDescViewBased
     {
         if (clasz == null)
         {
-            this.clasz = (Class<View>) MiscUtil.resolveClass(IncludeViewGroup.class.getName());
+            this.clasz = (Class<View>) MiscUtil.resolveClass(_IncludeFakeViewGroup_.class.getName());
         }
         return clasz;
     }
@@ -32,7 +32,7 @@ public class ClassDescView_Include extends ClassDescViewBased
     @Override
     protected View createViewObject(Context ctx,int idStyle,PendingPostInsertChildrenTasks pending)
     {
-        return new IncludeViewGroup(ctx);
+        return new _IncludeFakeViewGroup_(ctx);
     }
 
     protected void init()

@@ -179,7 +179,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,DOMView domView,PendingPostInsertChildrenTasks pending)
     {
-        PendingViewCreateProcess pendingViewCreateProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
+        PendingViewCreateProcess pendingViewCreateProcess = classDesc.createPendingViewCreateProcess(view, viewParent);
         AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this, pendingViewCreateProcess, pending);
 
         fillViewAttributes(classDesc,view, domView,attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
