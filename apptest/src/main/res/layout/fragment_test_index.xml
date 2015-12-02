@@ -41,12 +41,20 @@
                   android:textSize="20dp"
                   android:layout_below="@id/testLocalDrawables"/>
 
+        <Button android:id="@+id/testRemoteIncludeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST REMOTE INCLUDE LAYOUT"
+                android:textSize="20dp"
+                android:layout_below="@id/testRemoteLayoutCore"/>
+
+
         <Button android:id="@+id/testRemoteLayoutDrawables"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TEST REMOTE DRAWABLES"
                 android:textSize="20dp"
-                android:layout_below="@id/testRemoteLayoutCore"/>
+                android:layout_below="@id/testRemoteIncludeLayout"/>
 
         <Button android:id="@+id/testRemoteControl"
                 android:layout_width="wrap_content"

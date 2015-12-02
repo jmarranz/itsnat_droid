@@ -72,8 +72,6 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
             pendingViewCreateProcess.addPendingPostAddViewTask(task);
         else
             task.run();
-        //int style = parseMultipleName(attr.getValue(), valueMap);
-        //setTextStyle(view, style);
     }
 
     @Override

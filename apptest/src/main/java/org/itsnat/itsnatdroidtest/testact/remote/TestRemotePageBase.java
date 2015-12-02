@@ -109,24 +109,30 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         });
     }
 
+    public boolean isScriptingDisabled()
+    {
+        return false;
+    }
+
     @Override
     public void onPageLoad(final Page page)
     {
         final TestActivity act = getTestActivity();
 
-        if (useItsNatServer && page.getId() == null)
+        if (!isScriptingDisabled() && useItsNatServer)
         {
-            TestUtil.alertDialog(act, "LAYOUT", "It seems page is not found or no ItsNat server used or scripting disabled");
-            View rootView = page.getItsNatDoc().getRootView();
-            changeLayout(rootView);
-            return;
-        }
+            if (page.getId() == null)
+            {
+                TestUtil.alertDialog(act, "LAYOUT", "It seems page is not found or no ItsNat server used or scripting disabled");
+                View rootView = page.getItsNatDoc().getRootView();
+                changeLayout(rootView);
+                return;
+            }
 
-        if (useItsNatServer)
-        {
             ItsNatSession session = page.getItsNatSession();
             if (session.getPageCount() > droidBrowser.getMaxPagesInSession()) throw new RuntimeException("FAIL");
         }
+
 
         String responseText = page.getHttpRequestResult().getResponseText();
         Log.v("TestActivity", "CONTENT:" + new String(responseText));

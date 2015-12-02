@@ -12,6 +12,7 @@ import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayout2;
 import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteCore;
+import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteIncludeLayout;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemotePage;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemotePageNoItsNat;
 
@@ -111,6 +112,19 @@ public class TestActivityTabFragment extends Fragment
                 test.test(url);
             }
         });
+
+        View testRemoteIncludeLayout = rootView.findViewById(R.id.testRemoteIncludeLayout);
+        testRemoteIncludeLayout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = act.getUrlTestIncludeLayout();
+                TestRemoteIncludeLayout test = new TestRemoteIncludeLayout(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                test.test(url);
+            }
+        });
+
 
         View testRemoteResources = rootView.findViewById(R.id.testRemoteLayoutDrawables);
         testRemoteResources.setOnClickListener(new View.OnClickListener()
