@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -100,9 +100,9 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDesc<Cla
             }
         };
 
-        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
-        if (oneTimeAttrProcess != null)
-            oneTimeAttrProcess.addLayoutParamsTask(task);
+        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
+        if (pendingViewCreateProcess != null)
+            pendingViewCreateProcess.addPendingLayoutParamsTask(task);
         else
             task.run();
     }

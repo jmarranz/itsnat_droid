@@ -7,7 +7,7 @@ import android.widget.CalendarView;
 
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_dateTextAppearance;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_maxDate_minDate;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_CalendarView_weekDayTextAppearance;
@@ -33,11 +33,12 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
     }
 
     @Override
-    public OneTimeAttrProcess createOneTimeAttrProcess(final View view, ViewGroup viewParent)
+    public PendingViewCreateProcess createOneTimeAttrProcess(final View view, ViewGroup viewParent)
     {
-        OneTimeAttrProcess oneTimeAttrProcess = super.createOneTimeAttrProcess(view, viewParent);
+        PendingViewCreateProcess pendingViewCreateProcess = super.createOneTimeAttrProcess(view, viewParent);
 
-        oneTimeAttrProcess.addLastTask(new Runnable(){
+        pendingViewCreateProcess.addPendingSetAttribsTask(new Runnable()
+        {
             @Override
             public void run()
             {
@@ -45,15 +46,15 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
                 // o bien es por nuestra "culpa" al aplicar los atributos en un orden incorrecto, el caso es que la semana
                 // actual no se selecciona, llamando a calendarView.setDate(System.currentTimeMillis()) no reacciona
                 // pero sí lo hace si cambiamos mucho la fecha
-                CalendarView calView = (CalendarView)view;
+                CalendarView calView = (CalendarView) view;
                 long current = System.currentTimeMillis();
-                calView.setDate(current - 7*24*60*60*1000);
+                calView.setDate(current - 7 * 24 * 60 * 60 * 1000);
                 calView.setDate(current);
                 //calView.setDate(current,true,true);
             }
         });
 
-        return oneTimeAttrProcess;
+        return pendingViewCreateProcess;
     }
 
     @SuppressWarnings("unchecked")

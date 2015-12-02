@@ -179,13 +179,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,DOMView domView,PendingPostInsertChildrenTasks pending)
     {
-        OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
-        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,oneTimeAttrProcess, pending);
+        PendingViewCreateProcess pendingViewCreateProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this, pendingViewCreateProcess, pending);
 
         fillViewAttributes(classDesc,view, domView,attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
-        classDesc.addViewObject(viewParent, view, -1, oneTimeAttrProcess, ctx);
+        classDesc.addViewObject(viewParent, view, -1, pendingViewCreateProcess, ctx);
 
-        oneTimeAttrProcess.destroy();
+        pendingViewCreateProcess.destroy();
     }
 
     private void fillViewAttributes(ClassDescViewBased classDesc, View view, DOMView domView, AttrLayoutContext attrCtx)
@@ -200,7 +200,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
             }
         }
 
-        attrCtx.getOneTimeAttrProcess().executeLastTasks();
+        attrCtx.getPendingViewCreateProcess().executePendingSetAttribsTasks();
     }
 
     public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
@@ -229,6 +229,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
     private View inflateNextView(DOMElement domElem, ViewGroup viewParent,XMLDOM xmlDOMParent)
     {
         // Es llamado también para insertar fragmentos
+        /*
         if (domElem instanceof DOMInclude)
         {
             View[] includeViewList = inflateInclude((DOMInclude)domElem,viewParent,xmlDOMParent);
@@ -237,7 +238,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
                 return includeViewList[includeViewList.length - 1];
             return null;
         }
-        else
+        else */
         {
             PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
@@ -252,7 +253,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
     }
 
 
-    public View[] inflateInclude(DOMInclude domElemInc,ViewGroup viewParent,XMLDOM xmlDOMParent)
+    private View[] inflateInclude(DOMInclude domElemInc,ViewGroup viewParent,XMLDOM xmlDOMParent)
     {
         int countBefore = viewParent.getChildCount();
 

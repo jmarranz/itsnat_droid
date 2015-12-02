@@ -5,9 +5,9 @@ import android.view.View;
 /**
  * Created by jmarranz on 8/09/14.
  */
-public class OneTimeAttrProcessDefault extends OneTimeAttrProcess
+public class PendingViewCreateProcessDefault extends PendingViewCreateProcess
 {
-    public OneTimeAttrProcessDefault(View view)
+    public PendingViewCreateProcessDefault(View view)
     {
         super(view);
     }

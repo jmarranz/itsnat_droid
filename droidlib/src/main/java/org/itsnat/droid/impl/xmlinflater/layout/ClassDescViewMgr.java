@@ -7,6 +7,7 @@ import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewUnknown;
+import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_Include;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_gesture_GestureOverlayView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_view_View;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_view_ViewGroup;
@@ -274,6 +275,10 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
 
         ClassDescView_widget_FrameLayout widget_FrameLayout = new ClassDescView_widget_FrameLayout(this,view_ViewGroup);
         addClassDesc(widget_FrameLayout);
+
+            ClassDescView_Include include = new ClassDescView_Include(this,widget_FrameLayout);
+            addClassDesc(include);
+
             // android.appwidget.AppWidgetHostView no tiene atributos
 
             ClassDescView_widget_CalendarView widget_CalendarView = new ClassDescView_widget_CalendarView(this,widget_FrameLayout);

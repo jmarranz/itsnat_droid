@@ -20,14 +20,13 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessDefault;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessChildGridLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -118,58 +117,45 @@ public class ClassDescViewBased extends ClassDesc<View>
         {
             if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
 
-            if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+            final AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(namespaceURI,name);
+            if (attrDesc != null)
             {
-                final AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(name);
-                if (attrDesc != null)
+                Runnable task = new Runnable()
                 {
-                    Runnable task = new Runnable()
+                    @Override
+                    public void run()
                     {
-                        @Override
-                        public void run()
-                        {
-                            attrDesc.setAttribute(view, attr,attrCtx);
-                        }
-                    };
-                    if (DOMAttrRemote.isPendingToDownload(attr))
-                        AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
-                    else
-                        task.run();
-                }
+                        attrDesc.setAttribute(view, attr,attrCtx);
+                    }
+                };
+                if (DOMAttrRemote.isPendingToDownload(attr))
+                    AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
                 else
-                {
-                    // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
-                    // y tiene prioridad la clase más derivada
-                    ClassDescViewBased parentClass = getParentClassDescViewBased();
-                    if (parentClass != null)
-                    {
-                        parentClass.setAttribute(view, attr,attrCtx);
-                    }
-                    else
-                    {
-                        // No se encuentra opción de proceso custom
-                        AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
-                        if (listener != null)
-                        {
-                            PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
-                            listener.setAttribute(page, view, namespaceURI, name, value);
-                        }
-                    }
-                }
-            }
-            else if (isXMLIdAttrAsDOM(namespaceURI, name))
-            {
-                InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
-                inflated.setXMLId(value, view);
+                    task.run();
             }
             else
             {
-                // No se encuentra opción de proceso custom
-                AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
-                if (listener != null)
+                // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
+                // y tiene prioridad la clase más derivada
+                ClassDescViewBased parentClass = getParentClassDescViewBased();
+                if (parentClass != null)
                 {
-                    PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
-                    listener.setAttribute(page, view, namespaceURI, name, value);
+                    parentClass.setAttribute(view, attr,attrCtx);
+                }
+                else if (isXMLIdAttrAsDOM(namespaceURI, name))
+                {
+                    InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+                    inflated.setXMLId(value, view);
+                }
+                else
+                {
+                    // No se encuentra opción de proceso custom
+                    AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+                    if (listener != null)
+                    {
+                        PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+                        listener.setAttribute(page, view, namespaceURI, name, value);
+                    }
                 }
             }
 
@@ -191,32 +177,12 @@ public class ClassDescViewBased extends ClassDesc<View>
             if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
             XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-            if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+
+            AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(namespaceURI, name);
+            if (attrDesc != null)
             {
-                AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(name);
-                if (attrDesc != null)
-                {
-                    attrDesc.removeAttribute(view,attrCtx);
-                    // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
-                }
-                else
-                {
-                    ClassDescViewBased parentClass = getParentClassDescViewBased();
-                    if (parentClass != null)
-                    {
-                        parentClass.removeAttribute(view, namespaceURI, name,attrCtx);
-                    }
-                    else
-                    {
-                        // No se encuentra opción de proceso custom
-                        AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
-                        if (listener != null)
-                        {
-                            PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
-                            listener.removeAttribute(page, view, namespaceURI, name);
-                        }
-                    }
-                }
+                attrDesc.removeAttribute(view,attrCtx);
+                // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
             }
             else if (isXMLIdAttrAsDOM(namespaceURI, name))
             {
@@ -225,14 +191,24 @@ public class ClassDescViewBased extends ClassDesc<View>
             }
             else
             {
-                // No se encuentra opción de proceso custom
-                AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
-                if (listener != null)
+                ClassDescViewBased parentClass = getParentClassDescViewBased();
+                if (parentClass != null)
                 {
-                    PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
-                    listener.removeAttribute(page, view, namespaceURI, name);
+                    parentClass.removeAttribute(view, namespaceURI, name,attrCtx);
+                }
+                else
+                {
+                    // No se encuentra opción de proceso custom
+                    AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+                    if (listener != null)
+                    {
+                        PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+                        listener.removeAttribute(page, view, namespaceURI, name);
+                    }
                 }
             }
+
+
         }
         catch(Exception ex)
         {
@@ -247,15 +223,15 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (namespaceURI == null || "".equals(namespaceURI)) && "id".equals(name);
     }
 
-    public OneTimeAttrProcess createOneTimeAttrProcess(View view,ViewGroup viewParent)
+    public PendingViewCreateProcess createOneTimeAttrProcess(View view,ViewGroup viewParent)
     {
         // Se redefine en un caso
         return (viewParent instanceof GridLayout)
-                     ? new OneTimeAttrProcessChildGridLayout(view)
-                     : new OneTimeAttrProcessDefault(view);
+                     ? new PendingViewCreateProcessChildGridLayout(view) // No llevar este código a ClassDescView_widget_GridLayout porque es el caso DE View PADRE y este ClassDesc es un hijo, NO es GridLayout
+                     : new PendingViewCreateProcessDefault(view);
     }
 
-    public void addViewObject(ViewGroup viewParent,View view,int index,OneTimeAttrProcess oneTimeAttrProcess, Context ctx)
+    public void addViewObject(ViewGroup viewParent,View view,int index,PendingViewCreateProcess pendingViewCreateProcess, Context ctx)
     {
         if (view.getLayoutParams() != null) throw new ItsNatDroidException("Unexpected");
 
@@ -267,7 +243,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             ViewGroup.LayoutParams params = methodGenerateLP.invoke(viewParent);
             view.setLayoutParams(params);
 
-            oneTimeAttrProcess.executeLayoutParamsTasks(); // Así ya definimos los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
+            pendingViewCreateProcess.executePendingLayoutParamsTasks(); // Así ya definimos los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
 
             if (index < 0) viewParent.addView(view);
             else viewParent.addView(view, index);
@@ -280,7 +256,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(params);
 
-            oneTimeAttrProcess.executeLayoutParamsTasks();
+            pendingViewCreateProcess.executePendingLayoutParamsTasks();
         }
     }
 

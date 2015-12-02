@@ -56,7 +56,7 @@ import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -406,24 +406,24 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         newChildToIn.setView(view);
 
-        OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
+        PendingViewCreateProcess pendingViewCreateProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
 
-        fillViewAttributes(classDesc,newChildToIn,xmlInflaterLayout,oneTimeAttrProcess);
-        classDesc.addViewObject(viewParent, view, index, oneTimeAttrProcess, getContext());
+        fillViewAttributes(classDesc,newChildToIn,xmlInflaterLayout, pendingViewCreateProcess);
+        classDesc.addViewObject(viewParent, view, index, pendingViewCreateProcess, getContext());
 
-        oneTimeAttrProcess.destroy();
+        pendingViewCreateProcess.destroy();
 
         return view;
     }
 
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,XMLInflaterLayout xmlInflaterLayout,OneTimeAttrProcess oneTimeAttrProcess)
+    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,XMLInflaterLayout xmlInflaterLayout,PendingViewCreateProcess pendingViewCreateProcess)
     {
         View view = newChildToIn.getView();
 
         if (newChildToIn.hasAttributes())
         {
-            AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),xmlInflaterLayout,oneTimeAttrProcess, null);
+            AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),xmlInflaterLayout, pendingViewCreateProcess, null);
 
             for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
             {
@@ -432,7 +432,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             }
         }
 
-        oneTimeAttrProcess.executeLastTasks();
+        pendingViewCreateProcess.executePendingSetAttribsTasks();
     }
 
     private Context getContext()

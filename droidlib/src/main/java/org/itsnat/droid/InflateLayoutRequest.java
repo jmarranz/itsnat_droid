@@ -1,6 +1,7 @@
 package org.itsnat.droid;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -15,6 +16,6 @@ public interface InflateLayoutRequest
     public InflateLayoutRequest setBitmapDensityReference(int density);
     public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
     public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener);
-    public InflatedLayout inflate(InputStream input);
-    public InflatedLayout inflate(Reader input);
+    public InflatedLayout inflate(InputStream input,ViewGroup parentView);
+    public InflatedLayout inflate(Reader input,ViewGroup parentView);
 }

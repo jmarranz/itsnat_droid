@@ -114,7 +114,7 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
                 .setAttrLayoutInflaterListener(this)
                 .setAttrDrawableInflaterListener(this)
                 .setContext(act)
-                .inflate(input);
+                .inflate(input,null);
 
         View dynamicRootView = layout.getRootView();
         changeLayout(fragment, dynamicRootView);

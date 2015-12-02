@@ -69,7 +69,7 @@ public class PageImpl implements Page
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
-        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout, loadScriptArr, scriptList, this);
+        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null, loadScriptArr, scriptList, this);
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         String loadScript = loadScriptArr[0];

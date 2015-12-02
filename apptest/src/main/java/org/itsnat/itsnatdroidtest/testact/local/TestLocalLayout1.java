@@ -126,6 +126,7 @@ public class TestLocalLayout1
             assertEquals(compTextView.getText(), parsedTextView.getText());
         }
 
+
         childCount++;
 
         // test <include> dynamic (assets)

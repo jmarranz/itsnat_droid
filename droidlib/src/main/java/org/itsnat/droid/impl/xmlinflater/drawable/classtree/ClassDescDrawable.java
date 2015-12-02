@@ -88,58 +88,43 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
             if (isAttributeIgnored(draw, namespaceURI, name))
                 return false; // Se trata de forma especial en otro lugar
 
-            if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+            final AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(namespaceURI,name);
+            if (attrDesc != null)
             {
-                final AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(name);
-                if (attrDesc != null)
+                Runnable task = new Runnable()
                 {
-                    Runnable task = new Runnable()
+                    @Override
+                    public void run()
                     {
-                        @Override
-                        public void run()
-                        {
-                            attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr, attrCtx);
-                        }
-                    };
-                    if (DOMAttrRemote.isPendingToDownload(attr))
-                        AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
-                    else
-                        task.run();
-                }
+                        attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr, attrCtx);
+                    }
+                };
+                if (DOMAttrRemote.isPendingToDownload(attr))
+                    AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
                 else
-                {
-                    // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
-                    // y tiene prioridad la clase más derivada
-
-                    ClassDescDrawable parentClass = getParentClassDescDrawable();
-                    if (parentClass != null)
-                    {
-                        parentClass.setAttribute(draw, attr, attrCtx);
-                    }
-                    else
-                    {
-                        // No se encuentra opción de proceso custom
-                        XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
-                        AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
-                        if (listener != null)
-                        {
-                            PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
-                            String value = attr.getValue();
-                            listener.setAttribute(page, draw.getDrawable(), namespaceURI, name, value);
-                        }
-                    }
-                }
+                    task.run();
             }
             else
             {
-                // No se encuentra opción de proceso custom
-                XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
-                AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
-                if (listener != null)
+                // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
+                // y tiene prioridad la clase más derivada
+
+                ClassDescDrawable parentClass = getParentClassDescDrawable();
+                if (parentClass != null)
                 {
-                    PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
-                    String value = attr.getValue();
-                    listener.setAttribute(page, draw.getDrawable(), namespaceURI, name, value);
+                    parentClass.setAttribute(draw, attr, attrCtx);
+                }
+                else
+                {
+                    // No se encuentra opción de proceso custom
+                    XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
+                    AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
+                    if (listener != null)
+                    {
+                        PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
+                        String value = attr.getValue();
+                        listener.setAttribute(page, draw.getDrawable(), namespaceURI, name, value);
+                    }
                 }
             }
         }

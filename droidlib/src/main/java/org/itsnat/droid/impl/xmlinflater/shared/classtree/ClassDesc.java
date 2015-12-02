@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.shared.classtree;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
@@ -20,7 +22,8 @@ public abstract class ClassDesc<Tnative>
     protected String classOrDOMElemName;
     protected ClassDesc<? super Tnative> parentClass;
     protected boolean initiated;
-    protected HashMap<String, AttrDesc> attrDescMap;
+    protected HashMap<String, AttrDesc> attrDescAndroidNSMap;
+    protected MapLight<String, AttrDesc> attrDescNoNSMap;
 
     public ClassDesc(ClassDescMgr classMgr,String classOrDOMElemName,ClassDesc<? super Tnative> parentClass)
     {
@@ -63,19 +66,49 @@ public abstract class ClassDesc<Tnative>
 
     protected void init()
     {
-        this.attrDescMap = new HashMap<String, AttrDesc>();
+        this.initiated = true;
     }
 
     protected <T extends AttrDesc> void addAttrDesc(T attrDesc)
     {
-        AttrDesc old = attrDescMap.put(attrDesc.getName(),attrDesc);
-        if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class: " + attrDesc.getName());
+        if (attrDescAndroidNSMap == null) this.attrDescAndroidNSMap = new HashMap<String, AttrDesc>();
+
+        AttrDesc old = attrDescAndroidNSMap.put(attrDesc.getName(),attrDesc);
+        if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class or element: " + getClassOrDOMElemName() + " " + InflatedXML.XMLNS_ANDROID + " " + attrDesc.getName());
     }
+
+    protected <T extends AttrDesc> void addAttrDescNoNS(T attrDesc)
+    {
+        if (attrDescNoNSMap == null) this.attrDescNoNSMap = new MapLight<String, AttrDesc>(3);
+
+        AttrDesc old = attrDescNoNSMap.put(attrDesc.getName(),attrDesc);
+        if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class or element: " + getClassOrDOMElemName() + " " + attrDesc.getName());
+    }
+
 
     @SuppressWarnings("unchecked")
     protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDesc(String name)
     {
-        return attrDescMap.get(name);
+        if (attrDescAndroidNSMap == null) return null;
+        return attrDescAndroidNSMap.get(name);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDescNoNS(String name)
+    {
+        if (attrDescNoNSMap == null) return null;
+        return attrDescNoNSMap.get(name);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDesc(String namespaceURI,String name)
+    {
+        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+            return getAttrDesc(name);
+        else if (namespaceURI == null || namespaceURI.isEmpty())
+            return getAttrDescNoNS(name);
+        else
+            return null; // Namespace no gestionado aquí
     }
 
     public abstract Class<Tnative> getDeclaredClass();

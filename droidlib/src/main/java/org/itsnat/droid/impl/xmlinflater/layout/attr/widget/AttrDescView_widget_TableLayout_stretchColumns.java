@@ -5,7 +5,7 @@ import android.widget.TableLayout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -24,8 +24,8 @@ public class AttrDescView_widget_TableLayout_stretchColumns extends AttrDesc<Cla
     {
         final TableLayout tableView = (TableLayout)view;
 
-        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
-        if (oneTimeAttrProcess == null) // Si es no nulo es que estamos creando el TableLayout y no hace falta ésto
+        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
+        if (pendingViewCreateProcess == null) // Si es no nulo es que estamos creando el TableLayout y no hace falta ésto
         {
             tableView.setStretchAllColumns(false);
         }

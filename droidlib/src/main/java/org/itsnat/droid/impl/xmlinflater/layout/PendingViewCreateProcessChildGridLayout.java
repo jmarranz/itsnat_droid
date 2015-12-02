@@ -8,19 +8,19 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_rowSpec;
 /**
  * Created by jmarranz on 8/09/14.
  */
-public class OneTimeAttrProcessChildGridLayout extends OneTimeAttrProcess
+public class PendingViewCreateProcessChildGridLayout extends PendingViewCreateProcess
 {
     public GridLayout_columnSpec gridLayout_columnSpec;
     public GridLayout_rowSpec gridLayout_rowSpec;
 
-    public OneTimeAttrProcessChildGridLayout(View view)
+    public PendingViewCreateProcessChildGridLayout(View view)
     {
         super(view);
     }
 
-    public void executeLayoutParamsTasks()
+    public void executePendingLayoutParamsTasks()
     {
-        super.executeLayoutParamsTasks();
+        super.executePendingLayoutParamsTasks();
 
         if (gridLayout_columnSpec != null) gridLayout_columnSpec.setAttributes(view);
         if (gridLayout_rowSpec != null) gridLayout_rowSpec.setAttributes(view);

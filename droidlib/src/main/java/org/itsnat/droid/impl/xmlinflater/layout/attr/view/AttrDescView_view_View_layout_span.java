@@ -5,7 +5,7 @@ import android.widget.TableRow;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -32,10 +32,10 @@ public class AttrDescView_view_View_layout_span extends AttrDesc<ClassDescViewBa
                 params.span = convValue;
             }};
 
-        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
-        if (oneTimeAttrProcess != null)
+        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
+        if (pendingViewCreateProcess != null)
         {
-            oneTimeAttrProcess.addLayoutParamsTask(task);
+            pendingViewCreateProcess.addPendingLayoutParamsTask(task);
         }
         else
         {

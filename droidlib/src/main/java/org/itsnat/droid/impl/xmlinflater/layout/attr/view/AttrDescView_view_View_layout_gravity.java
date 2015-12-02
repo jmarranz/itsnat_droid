@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_columnSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_rowSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -32,7 +32,7 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
     {
         final int valueInt = parseMultipleName(attr.getValue(), GravityUtil.valueMap);
 
-        final OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
+        final PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
 
         Runnable task = new Runnable(){
             @Override
@@ -46,9 +46,9 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
                     ((FrameLayout.LayoutParams)params).gravity = valueInt;
                 else if (params instanceof GridLayout.LayoutParams)
                 {
-                    if (oneTimeAttrProcess != null)
+                    if (pendingViewCreateProcess != null)
                     {
-                        OneTimeAttrProcessChildGridLayout oneTimeAttrProcessGrid = (OneTimeAttrProcessChildGridLayout) oneTimeAttrProcess;
+                        PendingViewCreateProcessChildGridLayout oneTimeAttrProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
                         if (oneTimeAttrProcessGrid.gridLayout_columnSpec == null) oneTimeAttrProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
                         if (oneTimeAttrProcessGrid.gridLayout_rowSpec == null)    oneTimeAttrProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
 
@@ -62,9 +62,9 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
                 }
             }};
 
-        if (oneTimeAttrProcess != null)
+        if (pendingViewCreateProcess != null)
         {
-            oneTimeAttrProcess.addLayoutParamsTask(task);
+            pendingViewCreateProcess.addPendingLayoutParamsTask(task);
         }
         else
         {

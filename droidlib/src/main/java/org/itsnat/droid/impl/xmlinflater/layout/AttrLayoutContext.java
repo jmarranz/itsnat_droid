@@ -9,13 +9,13 @@ import org.itsnat.droid.impl.xmlinflater.AttrContext;
  */
 public class AttrLayoutContext extends AttrContext
 {
-    protected OneTimeAttrProcess oneTimeAttrProcess;
+    protected PendingViewCreateProcess pendingViewCreateProcess;
     protected PendingPostInsertChildrenTasks pending;
 
-    public AttrLayoutContext(Context ctx, XMLInflaterLayout xmlInflaterLayout, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public AttrLayoutContext(Context ctx, XMLInflaterLayout xmlInflaterLayout, PendingViewCreateProcess pendingViewCreateProcess, PendingPostInsertChildrenTasks pending)
     {
         super(ctx,xmlInflaterLayout);
-        this.oneTimeAttrProcess = oneTimeAttrProcess;
+        this.pendingViewCreateProcess = pendingViewCreateProcess;
         this.pending = pending;
     }
 
@@ -24,9 +24,9 @@ public class AttrLayoutContext extends AttrContext
         return (XMLInflaterLayout)xmlInflater;
     }
 
-    public OneTimeAttrProcess getOneTimeAttrProcess()
+    public PendingViewCreateProcess getPendingViewCreateProcess()
     {
-        return oneTimeAttrProcess;
+        return pendingViewCreateProcess;
     }
 
     public PendingPostInsertChildrenTasks getPendingPostInsertChildrenTasks()

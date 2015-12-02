@@ -4,7 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodCharSequence;
 
@@ -22,18 +22,18 @@ public class AttrDescView_widget_AutoCompleteTextView_completionHint extends Att
     @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
-        OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
-        if (oneTimeAttrProcess != null)
+        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
+        if (pendingViewCreateProcess != null)
         {
             // Necesitamos definir antes de completionHint el atributo completionHintView, pues en setCompletionHint(CharSequence) es cuando
             // carga el layout definido en completionHintView
 
-            oneTimeAttrProcess.addLastTask(new Runnable()
+            pendingViewCreateProcess.addPendingSetAttribsTask(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    AttrDescView_widget_AutoCompleteTextView_completionHint.super.setAttribute(view, attr,attrCtx);
+                    AttrDescView_widget_AutoCompleteTextView_completionHint.super.setAttribute(view, attr, attrCtx);
                 }
             });
         }

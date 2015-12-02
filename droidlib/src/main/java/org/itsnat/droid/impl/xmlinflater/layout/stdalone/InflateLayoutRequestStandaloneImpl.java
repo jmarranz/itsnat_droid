@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.stdalone;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.DisplayMetrics;
+import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
@@ -100,30 +101,20 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     }
 
     @Override
-    public InflatedLayout inflate(InputStream input)
+    public InflatedLayout inflate(InputStream input,ViewGroup parentView)
     {
-        return inflateLayoutStandalone(input).getInflatedLayoutImpl();
+        String markup = IOUtil.read(input,encoding);
+        return inflateLayoutStandalone(markup,parentView).getInflatedLayoutImpl();
     }
 
     @Override
-    public InflatedLayout inflate(Reader input)
-    {
-        return inflateLayoutStandalone(input).getInflatedLayoutImpl();
-    }
-
-    public XMLInflaterLayoutStandalone inflateLayoutStandalone(InputStream input)
-    {
-        String markup = IOUtil.read(input,encoding);
-        return inflateLayoutStandalone(markup);
-    }
-
-    public XMLInflaterLayoutStandalone inflateLayoutStandalone(Reader input)
+    public InflatedLayout inflate(Reader input,ViewGroup parentView)
     {
         String markup = IOUtil.read(input);
-        return inflateLayoutStandalone(markup);
+        return inflateLayoutStandalone(markup,parentView).getInflatedLayoutImpl();
     }
 
-    public XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup)
+    private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup,ViewGroup parentView)
     {
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
 
@@ -133,7 +124,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         AssetManager assetManager = getContext().getResources().getAssets();
         XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, remotePageOrFrag, loadingRemotePage,assetManager);
 
-        return (XMLInflaterLayoutStandalone)inflateLayout(domLayout, null, null, null);
+        return (XMLInflaterLayoutStandalone)inflateLayout(domLayout,parentView, null, null, null);
     }
 
 }

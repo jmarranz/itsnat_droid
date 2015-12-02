@@ -8,8 +8,8 @@ import android.widget.TableRow;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_columnSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -29,7 +29,7 @@ public class AttrDescView_view_View_layout_column extends AttrDesc<ClassDescView
     {
         final int column = getInteger(attr.getValue(),attrCtx.getContext());
 
-        final OneTimeAttrProcess oneTimeAttrProcess = attrCtx.getOneTimeAttrProcess();
+        final PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
         Runnable task = new Runnable(){
             @Override
             public void run()
@@ -38,7 +38,7 @@ public class AttrDescView_view_View_layout_column extends AttrDesc<ClassDescView
 
                 if (params instanceof GridLayout.LayoutParams)
                 {
-                    OneTimeAttrProcessChildGridLayout oneTimeAttrProcessGrid = (OneTimeAttrProcessChildGridLayout) oneTimeAttrProcess;
+                    PendingViewCreateProcessChildGridLayout oneTimeAttrProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
                     if (oneTimeAttrProcessGrid.gridLayout_columnSpec == null) oneTimeAttrProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
 
                     oneTimeAttrProcessGrid.gridLayout_columnSpec.layout_column = column;
@@ -49,8 +49,8 @@ public class AttrDescView_view_View_layout_column extends AttrDesc<ClassDescView
                 }
             }};
 
-        if (oneTimeAttrProcess != null)
-            oneTimeAttrProcess.addLayoutParamsTask(task);
+        if (pendingViewCreateProcess != null)
+            pendingViewCreateProcess.addPendingLayoutParamsTask(task);
         else
         {
             ViewGroup.LayoutParams params = view.getLayoutParams();
