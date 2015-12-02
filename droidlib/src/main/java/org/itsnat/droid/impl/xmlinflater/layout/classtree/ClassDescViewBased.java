@@ -247,6 +247,8 @@ public class ClassDescViewBased extends ClassDesc<View>
 
             if (index < 0) viewParent.addView(view);
             else viewParent.addView(view, index);
+
+            pendingViewCreateProcess.executePendingPostAddViewTasks();
         }
         else // view es el ROOT
         {
@@ -257,6 +259,8 @@ public class ClassDescViewBased extends ClassDesc<View>
             view.setLayoutParams(params);
 
             pendingViewCreateProcess.executePendingLayoutParamsTasks();
+
+            // No llamamos porque es el root: pendingViewCreateProcess.executePendingPostAddViewTasks();
         }
     }
 

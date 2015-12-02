@@ -14,6 +14,7 @@ public abstract class PendingViewCreateProcess
     protected View view;
     protected LinkedList<Runnable> pendingSetAttribsTaskList;
     protected LinkedList<Runnable> pendingLayoutParamsTasks;
+    protected LinkedList<Runnable> pendingPostAddViewTasks;
     protected boolean destroy = false;
 
     public PendingViewCreateProcess(View view)
@@ -30,6 +31,7 @@ public abstract class PendingViewCreateProcess
 
     public void executePendingSetAttribsTasks()
     {
+        if (destroy) throw new ItsNatDroidException("Is already destroyed");
         if (pendingSetAttribsTaskList != null)
         {
             for (Runnable task : pendingSetAttribsTaskList) task.run();
@@ -47,6 +49,7 @@ public abstract class PendingViewCreateProcess
 
     public void executePendingLayoutParamsTasks()
     {
+        if (destroy) throw new ItsNatDroidException("Is already destroyed");
         if (pendingLayoutParamsTasks != null)
         {
             for (Runnable task : pendingLayoutParamsTasks) task.run();
@@ -54,6 +57,24 @@ public abstract class PendingViewCreateProcess
             view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
 
             this.pendingLayoutParamsTasks = null;
+        }
+    }
+
+    public void addPendingPostAddViewTask(Runnable task)
+    {
+        if (destroy) throw new ItsNatDroidException("Is already destroyed");
+        if (pendingPostAddViewTasks == null) this.pendingPostAddViewTasks = new LinkedList<Runnable>();
+        pendingPostAddViewTasks.add(task);
+    }
+
+    public void executePendingPostAddViewTasks()
+    {
+        if (destroy) throw new ItsNatDroidException("Is already destroyed");
+        if (pendingPostAddViewTasks != null)
+        {
+            for (Runnable task : pendingPostAddViewTasks) task.run();
+
+            this.pendingPostAddViewTasks = null;
         }
     }
 

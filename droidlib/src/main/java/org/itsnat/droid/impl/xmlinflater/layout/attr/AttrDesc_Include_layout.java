@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.view.View;
@@ -14,7 +15,9 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -29,10 +32,46 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
     }
 
     @Override
-    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
+    public void setAttribute(final View view,final DOMAttr attr,final AttrLayoutContext attrCtx)
     {
-        Object parent = view.getParent();
-        attr.getName();
+        Runnable task = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                ViewGroup viewParent = (ViewGroup)view.getParent();
+                int countBefore = viewParent.getChildCount();
+
+                viewParent.removeViewAt(countBefore - 1); // Eliminamos el falso View auxiliar que substituye al <include>
+
+                countBefore = viewParent.getChildCount();
+
+                Context ctx = attrCtx.getContext();
+
+                XMLInflater xmlInflater = attrCtx.getXMLInflater();
+                ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
+                XMLInflateRegistry xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
+
+                View resView = xmlInflateRegistry.getLayout(attr, ctx, xmlInflater,viewParent);
+                if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views
+
+                // Test (eliminar en el futuro):
+                int countAfter = viewParent.getChildCount();
+                View[] childList = new View[countAfter - countBefore];
+                int j = 0;
+                for(int i = countBefore; i < countAfter; i++)
+                {
+                    childList[j] = viewParent.getChildAt(i);
+                    j++;
+                }
+
+            }
+        };
+        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
+        if (pendingViewCreateProcess != null)
+            pendingViewCreateProcess.addPendingPostAddViewTask(task);
+        else
+            task.run();
         //int style = parseMultipleName(attr.getValue(), valueMap);
         //setTextStyle(view, style);
     }
