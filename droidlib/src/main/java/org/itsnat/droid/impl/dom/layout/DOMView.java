@@ -9,9 +9,16 @@ public class DOMView extends DOMElement
 {
     protected String styleAttr;
 
-    public DOMView(String name,DOMView parentElement)
+    public DOMView(String name,DOMElement parentElement)
     {
         super(name,parentElement);
+    }
+
+    public DOMView(DOMElement toCopy)
+    {
+        super(toCopy);
+        if (toCopy instanceof DOMView)
+            this.styleAttr = ((DOMView)toCopy).styleAttr;
     }
 
     public DOMView getParentDOMView()

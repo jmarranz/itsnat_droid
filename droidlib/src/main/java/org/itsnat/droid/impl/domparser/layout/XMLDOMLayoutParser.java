@@ -82,7 +82,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
             return new DOMMerge(name, null);
         }
         else
-            return new DOMView(name,(DOMView)parent);
+            return new DOMView(name,parent);
     }
 
     @Override

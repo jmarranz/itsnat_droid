@@ -13,7 +13,7 @@ public abstract class XMLDOM
     protected long timestamp;
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
-    protected DOMElement[] rootElementArray;
+    protected DOMElement rootElement;
     protected LinkedList<DOMAttrRemote> remoteAttribList;
 
     public XMLDOM()
@@ -55,14 +55,14 @@ public abstract class XMLDOM
         return namespacesByPrefix.get(prefix);
     }
 
-    public DOMElement[] getRootElementArray()
+    public DOMElement getRootElement()
     {
-        return rootElementArray;
+        return rootElement;
     }
 
-    public void setRootElementArray(DOMElement[] rootElementArray)
+    public void setRootElement(DOMElement rootElement)
     {
-        this.rootElementArray = rootElementArray;
+        this.rootElement = rootElement;
     }
 
     public LinkedList<DOMAttrRemote> getDOMAttrRemoteList()
@@ -81,7 +81,7 @@ public abstract class XMLDOM
         cloned.timestamp = this.timestamp; // Antes de clonar se ha actualizado
         cloned.namespacesByPrefix = this.namespacesByPrefix;
         cloned.androidNSPrefix = this.androidNSPrefix;
-        cloned.rootElementArray = this.rootElementArray;
+        cloned.rootElement = this.rootElement;
         cloned.remoteAttribList = this.remoteAttribList;
     }
 }

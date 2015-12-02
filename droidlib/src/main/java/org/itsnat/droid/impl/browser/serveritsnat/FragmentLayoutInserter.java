@@ -4,10 +4,8 @@ import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
@@ -53,7 +51,6 @@ public class FragmentLayoutInserter
         newMarkup.append("<" + parentView.getClass().getName());
 
         MapLight<String, String> namespaceMap = inflatedLayoutPage.getNamespacesByPrefix();
-        //for (Iterator<Map.Entry<String, String>> it = namespaceMap.getEntryList().iterator(); it.hasNext(); )
         for (Map.Entry<String, String> entry : namespaceMap.getEntryList())
         {
             newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\">");
@@ -71,11 +68,7 @@ public class FragmentLayoutInserter
 
         XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), true, false, assetManager);
 
-
-        DOMElement[] rootDOMViewArray = xmlDOMLayout.getRootElementArray();
-        if (rootDOMViewArray.length != 1) throw new ItsNatDroidException("Unexpected"); // Gracias al falso ViewGroup siempre esperamos un sólo root
-
-        DOMView rootDOMView = (DOMView)rootDOMViewArray[0];
+        DOMView rootDOMView = (DOMView)xmlDOMLayout.getRootElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
         LinkedList<DOMScript> scriptList = new LinkedList<DOMScript>();
 

@@ -14,6 +14,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMInclude;
+import org.itsnat.droid.impl.dom.layout.DOMMerge;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -44,12 +45,12 @@ public abstract class XMLInflaterLayout extends XMLInflater
         super(inflatedXML, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx);
     }
 
-    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout, String[] loadScript, List<String> scriptList, int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent, String[] loadScript, List<String> scriptList, int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
         InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(itsNatDroid, xmlDOMLayout,ctx) :
                                                             new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener, ctx, page);
-        xmlInflaterLayout.inflateLayout(loadScript, scriptList);
+        xmlInflaterLayout.inflateLayout(viewParent,loadScript, scriptList);
         return xmlInflaterLayout;
     }
 
@@ -74,7 +75,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return (InflatedLayoutImpl)inflatedXML;
     }
 
-    public View[] inflateLayout(String[] loadScript, List<String> scriptList)
+    public View inflateLayout(ViewGroup viewParent,String[] loadScript, List<String> scriptList)
     {
         XMLDOMLayout domLayout = getInflatedLayoutImpl().getXMLDOMLayout();
         if (loadScript != null)
@@ -83,8 +84,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
         if (scriptList != null)
             fillScriptList(domLayout,scriptList);
 
-        View[] rootViews = inflateRootView(domLayout);
-        return rootViews;
+        View rootView = inflateRootView(domLayout,viewParent);
+        return rootView;
     }
 
     private static void fillScriptList(XMLDOMLayout domLayout,List<String> scriptList)
@@ -104,29 +105,46 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return classDescViewMgr.get(viewName);
     }
 
-    private View[] inflateRootView(XMLDOMLayout xmlDOMParent)
+    private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent)
     {
-        DOMElement[] rootDOMViewArray = xmlDOMParent.getRootElementArray(); // domLayout.getRootView();
+        DOMElement rootDOMView = xmlDOMLayout.getRootElement();
 
-        View[] rootViews = new View[rootDOMViewArray.length];
-
-        int i = 0;
-        for(DOMElement elem : rootDOMViewArray)
+        DOMView domView;
+        if (rootDOMView instanceof DOMMerge)
         {
-            DOMView domView = (DOMView)elem;
-            PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
-
-            View rootView = createRootViewObjectAndFillAttributes(domView, pending);
-
-            processChildViews(domView, rootView, xmlDOMParent);
-
-            pending.executeTasks();
-
-            rootViews[i] = rootView;
-            i++;
+            if (viewParent == null) throw new ItsNatDroidException("Only can be used <merge> on included layouts");
+            domView = new DOMView(rootDOMView); // Reemplazamos el <merge> por el ViewGroup como elemento, conservando los hijos y atributos del <merge> original
+            domView.setName(viewParent.getClass().getName());
+        }
+        else
+        {
+            if (viewParent != null)
+                domView = new DOMView(viewParent.getClass().getName(),null);
+            else
+                domView = (DOMView)rootDOMView;
         }
 
-        return rootViews;
+        PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
+
+        View rootView = createRootViewObjectAndFillAttributes(domView, pending);
+
+        processChildViews(domView, rootView, xmlDOMLayout);
+
+        pending.executeTasks();
+
+        if (viewParent != null)
+        {
+            ViewGroup falseParentView = (ViewGroup)rootView;
+            while (falseParentView.getChildCount() > 0)
+            {
+                View child = falseParentView.getChildAt(0);
+                falseParentView.removeViewAt(0);
+                viewParent.addView(child);
+            }
+            getInflatedLayoutImpl().setRootView(viewParent); // Corregimos el rootView pues se puso el falseParentView
+            return viewParent;
+        }
+        else return rootView;
     }
 
     public View createRootViewObjectAndFillAttributes(DOMView rootDOMView,PendingPostInsertChildrenTasks pending)

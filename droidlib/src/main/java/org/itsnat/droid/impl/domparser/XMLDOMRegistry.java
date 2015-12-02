@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.domparser;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;

@@ -1,15 +1,13 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 
 import java.util.List;
 
@@ -42,7 +40,8 @@ public abstract class InflateLayoutRequestImpl
 
     public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout, String[] loadScript, List<String> scriptList, PageImpl page)
     {
-        return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,loadScript,scriptList,getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getContext(),page);
+        ViewGroup viewParent = null;
+        return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,loadScript,scriptList,getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getContext(),page);
     }
 
 }

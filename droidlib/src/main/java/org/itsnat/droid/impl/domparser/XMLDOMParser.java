@@ -10,8 +10,6 @@ import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.dom.layout.DOMMerge;
-import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -49,12 +47,12 @@ public abstract class XMLDOMParser
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    protected void setRootElementArray(DOMElement[] rootElementArray, XMLDOM xmlDOM)
+    protected void setRootElement(DOMElement rootElement, XMLDOM xmlDOM)
     {
-        xmlDOM.setRootElementArray(rootElementArray);
+        xmlDOM.setRootElement(rootElement);
     }
 
-    public DOMElement[] parseRootElement(String rootElemName,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    public DOMElement parseRootElement(String rootElemName,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         int nsStart = parser.getNamespaceCount(parser.getDepth() - 1);
         int nsEnd = parser.getNamespaceCount(parser.getDepth());
@@ -68,44 +66,22 @@ public abstract class XMLDOMParser
         if (xmlDOM.getAndroidNSPrefix() == null)
             throw new ItsNatDroidException("Missing android namespace declaration in root element");
 
-        DOMElement[] rootElementArray = createRootElementAndFillAttributes(rootElemName,parser, xmlDOM);
+        DOMElement rootElement = createRootElementAndFillAttributes(rootElemName, parser, xmlDOM);
 
-        if (!rootElemName.equals("merge"))
-            processChildElements(rootElementArray[0], parser, xmlDOM);
+        processChildElements(rootElement, parser, xmlDOM);
 
-        return rootElementArray;
+        setRootElement(rootElement, xmlDOM);
+
+        return rootElement;
     }
 
-    protected DOMElement[] createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected DOMElement createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
-        // parentElemParentLayout es diferente a null cuando por ejemplo estamos resolviendo un <include>
-
         DOMElement rootElement = createElement(name, null);
 
-        DOMElement[] rootElementArray;
-        if (rootElement instanceof DOMMerge)
-        {
-            //if (parentElemParentLayout == null)
-            //    throw new ItsNatDroidException("<merge> only can be used for a referenced layout with a parent layout");
-            DOMView falseParentView = new DOMView("foo",null);
-            //falseParentView.setChildDOMElementList(rootElement.getChildDOMElementList());
-            processChildElements(falseParentView, parser, xmlDOM);
-            LinkedList<DOMElement> rootElementList = falseParentView.getChildDOMElementList();
-            rootElementArray = rootElementList.toArray(new DOMElement[rootElementList.size()]);
+        fillAttributesAndAddElement(null, rootElement, parser, xmlDOM);
 
-            setRootElementArray(rootElementArray, xmlDOM); // Cuanto antes
-        }
-        else
-        {
-            rootElementArray = new DOMElement[]{rootElement};
-
-            setRootElementArray(rootElementArray, xmlDOM); // Cuanto antes
-
-            fillAttributesAndAddElement(null, rootElement, parser, xmlDOM);
-        }
-
-
-        return rootElementArray;
+        return rootElement;
     }
 
     protected DOMElement createElementAndFillAttributesAndAdd(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM)

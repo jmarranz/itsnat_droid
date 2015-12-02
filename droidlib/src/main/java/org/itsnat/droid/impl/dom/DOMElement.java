@@ -21,9 +21,22 @@ public abstract class DOMElement
         this.parentElement = parentElement;
     }
 
+    public DOMElement(DOMElement toCopy)
+    {
+        this.name = toCopy.name;
+        this.parentElement = toCopy.parentElement;
+        this.attribs = toCopy.attribs;
+        this.childList = toCopy.childList;
+    }
+
     public String getName()
     {
         return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public DOMElement getParentDOMElement()
