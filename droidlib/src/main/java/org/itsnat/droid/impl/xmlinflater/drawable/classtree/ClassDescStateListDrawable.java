@@ -85,18 +85,6 @@ public class ClassDescStateListDrawable extends ClassDescDrawableContainer<State
         return elementDrawableRoot;
     }
 
-    @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
-    {
-        if (super.isAttributeIgnored(draw,namespaceURI,name))
-            return true;
-        return isSrcAttribute(namespaceURI, name); // Se trata de forma especial en otro lugar
-    }
-
-    private static boolean isSrcAttribute(String namespaceURI,String name)
-    {
-        return InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && name.equals("src");
-    }
 
     @Override
     public Class<StateListDrawable> getDrawableOrElementDrawableClass()

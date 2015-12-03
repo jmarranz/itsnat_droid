@@ -13,7 +13,6 @@ import android.widget.GridLayout;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
@@ -24,10 +23,10 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessDefault;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
@@ -271,49 +270,45 @@ public class ClassDescViewBased extends ClassDesc<View>
         return attr.getValue();
     }
 
-    private int findStyleAttributeFromRemote(ItsNatDocImpl itsNatDoc, NodeToInsertImpl newChildToIn)
+    private int findStyleAttributeFromRemote(NodeToInsertImpl newChildToIn,Context ctx)
     {
         String value = findAttributeFromRemote(null, "style", newChildToIn);
         if (value == null) return 0;
-        Context ctx = itsNatDoc.getPageImpl().getContext();
         return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
-    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pending)
+    public View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pending,Context ctx)
     {
-        int idStyle = findStyleAttributeFromRemote(itsNatDoc, newChildToIn);
-        return createViewObjectFromRemote(itsNatDoc,newChildToIn,idStyle,pending);
+        int idStyle = findStyleAttributeFromRemote(newChildToIn,ctx);
+        return createViewObjectFromRemote(newChildToIn,idStyle,pending,ctx);
     }
 
-    protected View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pending)
+    protected View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
     {
         // Se redefine completamente en el caso de Spinner
-        Context ctx = itsNatDoc.getPageImpl().getContext();
-        return createViewObject(ctx,idStyle,pending);
+        return createViewObject(idStyle,pending,ctx);
     }
 
-    private int findStyleAttributeFromParser(InflatedLayoutImpl inflated,DOMView domView)
+    private int findStyleAttribute(DOMView domView,Context ctx)
     {
         String value = domView.getStyleAttr();
         if (value == null) return 0;
-        Context ctx = inflated.getContext();
         return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
-    public View createViewObjectFromParser(InflatedLayoutImpl inflated,DOMView domView,PendingPostInsertChildrenTasks pending)
+    public View createViewObject(DOMView domView, PendingPostInsertChildrenTasks pending,Context ctx)
     {
-        int idStyle = findStyleAttributeFromParser(inflated, domView);
-        return createViewObjectFromParser(inflated, domView,idStyle,pending);
+        int idStyle = findStyleAttribute(domView,ctx);
+        return createViewObject(domView, idStyle, pending, ctx);
     }
 
-    protected View createViewObjectFromParser(InflatedLayoutImpl inflated,DOMView domView,int idStyle,PendingPostInsertChildrenTasks pending)
+    protected View createViewObject(DOMView domView, int idStyle, PendingPostInsertChildrenTasks pending,Context ctx)
     {
         // Se redefine completamente en el caso de Spinner
-        Context ctx = inflated.getContext();
-        return createViewObject(ctx, idStyle,pending);
+        return createViewObject(idStyle,pending,ctx);
     }
 
-    protected View createViewObject(Context ctx,int idStyle,PendingPostInsertChildrenTasks pending)
+    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
     {
         View view;
 

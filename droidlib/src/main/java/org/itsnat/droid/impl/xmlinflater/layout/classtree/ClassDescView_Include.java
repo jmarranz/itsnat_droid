@@ -19,6 +19,7 @@ public class ClassDescView_Include extends ClassDescViewBased
         super(classMgr,"include",parentClass);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected Class<? extends View> initClass()
     {
@@ -30,7 +31,7 @@ public class ClassDescView_Include extends ClassDescViewBased
     }
 
     @Override
-    protected View createViewObject(Context ctx,int idStyle,PendingPostInsertChildrenTasks pending)
+    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
     {
         return new _IncludeFakeViewGroup_(ctx);
     }

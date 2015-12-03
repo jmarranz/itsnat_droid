@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,17 +12,13 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.dom.layout.DOMInclude;
 import org.itsnat.droid.impl.dom.layout.DOMMerge;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
@@ -174,7 +169,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     private View createViewObject(ClassDescViewBased classDesc,DOMView domView,PendingPostInsertChildrenTasks pending)
     {
-        return classDesc.createViewObjectFromParser(getInflatedLayoutImpl(), domView,pending);
+        return classDesc.createViewObject(domView, pending,getContext());
     }
 
     private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,DOMView domView,PendingPostInsertChildrenTasks pending)
@@ -229,57 +224,15 @@ public abstract class XMLInflaterLayout extends XMLInflater
     private View inflateNextView(DOMElement domElem, ViewGroup viewParent,XMLDOM xmlDOMParent)
     {
         // Es llamado también para insertar fragmentos
-        /*
-        if (domElem instanceof DOMInclude)
-        {
-            View[] includeViewList = inflateInclude((DOMInclude)domElem,viewParent,xmlDOMParent);
-            // Devolvemos el último por devolver algo
-            if (includeViewList != null && includeViewList.length > 0)
-                return includeViewList[includeViewList.length - 1];
-            return null;
-        }
-        else */
-        {
-            PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-            View view = createViewObjectAndFillAttributesAndAdd( viewParent, (DOMView)domElem, pending);
+        PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-            processChildViews((DOMView)domElem,view,xmlDOMParent);
+        View view = createViewObjectAndFillAttributesAndAdd( viewParent, (DOMView)domElem, pending);
 
-            pending.executeTasks();
+        processChildViews((DOMView)domElem,view,xmlDOMParent);
 
-            return view;
-        }
+        pending.executeTasks();
+
+        return view;
     }
-
-
-    private View[] inflateInclude(DOMInclude domElemInc,ViewGroup viewParent,XMLDOM xmlDOMParent)
-    {
-        int countBefore = viewParent.getChildCount();
-
-        ItsNatDroidImpl itsNatDroid = getInflatedLayoutImpl().getItsNatDroidImpl();
-        XMLInflateRegistry xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
-        XMLDOMRegistry xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
-        AssetManager assetManager = getContext().getResources().getAssets();
-
-        String itsNatServerVersion = null;
-        boolean remotePageOrFrag = false;
-        boolean loadingRemotePage = false;
-        XMLDOMLayoutParser xmlDOMLayoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion, remotePageOrFrag, loadingRemotePage, xmlDOMRegistry, assetManager);
-        DOMAttr attr = xmlDOMLayoutParser.createDOMAttr(domElemInc, null, "layout", domElemInc.getLayout(), xmlDOMParent);
-
-        View resView = xmlInflateRegistry.getLayout(attr, ctx, this,viewParent);
-        if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views
-        int countAfter = viewParent.getChildCount();
-        View[] childList = new View[countAfter - countBefore];
-        int j = 0;
-        for(int i = countBefore; i < countAfter; i++)
-        {
-            childList[j] = viewParent.getChildAt(i);
-            j++;
-        }
-
-        return childList;
-    }
-
 }

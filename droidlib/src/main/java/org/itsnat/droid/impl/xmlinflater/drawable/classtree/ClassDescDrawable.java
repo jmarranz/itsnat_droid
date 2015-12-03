@@ -12,7 +12,6 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;

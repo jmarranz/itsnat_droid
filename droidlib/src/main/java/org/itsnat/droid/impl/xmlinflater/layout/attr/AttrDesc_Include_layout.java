@@ -1,19 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.dom.layout.DOMInclude;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
-import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;

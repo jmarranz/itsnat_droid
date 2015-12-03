@@ -56,8 +56,8 @@ import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
@@ -402,7 +402,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pending)
     {
-        View view = classDesc.createViewObjectFromRemote(this, newChildToIn, pending);
+        Context ctx = getContext();
+        View view = classDesc.createViewObjectFromRemote(newChildToIn, pending,ctx);
 
         newChildToIn.setView(view);
 

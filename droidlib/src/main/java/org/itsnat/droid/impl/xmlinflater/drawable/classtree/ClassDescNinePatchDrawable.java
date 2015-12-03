@@ -45,7 +45,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
-        return isSrcAttribute(namespaceURI, name); // Se trata de forma especial en otro lugar
+        return isSrcAttribute(namespaceURI, name); // Se usa al construir el drawable
     }
 
     private static boolean isSrcAttribute(String namespaceURI,String name)

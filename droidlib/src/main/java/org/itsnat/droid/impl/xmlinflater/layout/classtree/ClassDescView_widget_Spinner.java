@@ -7,12 +7,10 @@ import android.view.View;
 import android.widget.Spinner;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Spinner_dropDownHorizontalOffset;
@@ -46,20 +44,19 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
         return InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
     }
 
-    private static String findSpinnerModeAttribute(NodeToInsertImpl newChildToIn)
+    private static String findSpinnerModeAttributeFromRemote(NodeToInsertImpl newChildToIn)
     {
         return findAttributeFromRemote(InflatedXML.XMLNS_ANDROID, "spinnerMode", newChildToIn);
     }
 
     @Override
-    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pending)
+    public View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
     {
-        Context ctx = itsNatDoc.getPageImpl().getContext();
-        String spinnerMode = findSpinnerModeAttribute(newChildToIn);
+        String spinnerMode = findSpinnerModeAttributeFromRemote(newChildToIn);
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 
-    private String findSpinnerModeAttribute(DOMView domView)
+    private String findSpinnerModeAttributeFromRemote(DOMView domView)
     {
         DOMAttr attr = domView.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
         if (attr == null) return null;
@@ -67,10 +64,9 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
     }
 
     @Override
-    public View createViewObjectFromParser(InflatedLayoutImpl inflated,DOMView domView,int idStyle,PendingPostInsertChildrenTasks pending)
+    public View createViewObject(DOMView domView, int idStyle, PendingPostInsertChildrenTasks pending, Context ctx)
     {
-        Context ctx = inflated.getContext();
-        String spinnerMode = findSpinnerModeAttribute(domView);
+        String spinnerMode = findSpinnerModeAttributeFromRemote(domView);
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 

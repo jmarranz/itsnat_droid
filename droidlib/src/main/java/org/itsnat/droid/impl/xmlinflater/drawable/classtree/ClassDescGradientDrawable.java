@@ -419,11 +419,6 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
 
     }
 
-    private float percFloatToFloat(PercFloat valueObj)
-    {
-        // El caso isFractionParent() no se distingue en esta versión
-        return valueObj.toFloatBasedOnDataType();
-    }
 }
 
 

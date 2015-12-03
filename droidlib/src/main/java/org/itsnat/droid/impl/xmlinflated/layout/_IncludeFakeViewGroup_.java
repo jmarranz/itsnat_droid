@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflated.layout;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.FrameLayout;
 
 /**

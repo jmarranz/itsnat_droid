@@ -6,8 +6,8 @@ import android.widget.TableRow;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 

@@ -29,7 +29,7 @@ public class ClassDescView_widget_SlidingDrawer extends ClassDescViewBased
     }
 
     @Override
-    protected View createViewObject(Context ctx,int idStyle,PendingPostInsertChildrenTasks pending)
+    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
     {
         final SlidingDrawer view;
         // En tiempo de creación del componente deben estar definidos los atributos id "content" y "handle" sino da error
