@@ -107,9 +107,9 @@ public class TestLocalLayout1
             assertEquals(compButton.getText(), parsedButton.getText());
         }
 
+        // test <include>
         childCount++;
 
-        // test <include>
         {
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
@@ -117,6 +117,8 @@ public class TestLocalLayout1
             assertEquals(compTextView.getText(), parsedTextView.getText());
         }
 
+
+        // test <include> dynamic (assets) 2
         childCount++;
 
         {
@@ -127,9 +129,9 @@ public class TestLocalLayout1
         }
 
 
+        // test <include> dynamic (assets) 3
         childCount++;
 
-        // test <include> dynamic (assets)
         {
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);

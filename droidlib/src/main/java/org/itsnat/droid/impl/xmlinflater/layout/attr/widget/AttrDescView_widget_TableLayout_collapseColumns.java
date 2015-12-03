@@ -7,7 +7,7 @@ import android.widget.TableRow;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -26,8 +26,8 @@ public class AttrDescView_widget_TableLayout_collapseColumns extends AttrDesc<Cl
     {
         final TableLayout tableView = (TableLayout)view;
 
-        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
-        if (pendingViewCreateProcess == null) // Si es no nulo es que estamos creando el TableLayout y no hace falta ésto
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
+        if (pendingViewPostCreateProcess == null) // Si es no nulo es que estamos creando el TableLayout y no hace falta ésto
         {
             int maxColumns = getMaxColumns((TableLayout) view);
             for (int i = 0; i < maxColumns; i++)
@@ -64,9 +64,9 @@ public class AttrDescView_widget_TableLayout_collapseColumns extends AttrDesc<Cl
                 }
             }
         };
-        PendingPostInsertChildrenTasks pending = attrCtx.getPendingPostInsertChildrenTasks();
-        if (pending != null)
-            pending.addTask(task);
+        PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks = attrCtx.getPendingPostInsertChildrenTasks();
+        if (pendingPostInsertChildrenTasks != null)
+            pendingPostInsertChildrenTasks.addTask(task);
         else
             task.run();
 

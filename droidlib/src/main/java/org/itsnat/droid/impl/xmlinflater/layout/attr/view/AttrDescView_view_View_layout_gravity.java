@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessChildGridLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_columnSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_rowSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -32,7 +32,7 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
     {
         final int valueInt = parseMultipleName(attr.getValue(), GravityUtil.valueMap);
 
-        final PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
+        final PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
 
         Runnable task = new Runnable(){
             @Override
@@ -46,14 +46,14 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
                     ((FrameLayout.LayoutParams)params).gravity = valueInt;
                 else if (params instanceof GridLayout.LayoutParams)
                 {
-                    if (pendingViewCreateProcess != null)
+                    if (pendingViewPostCreateProcess != null)
                     {
-                        PendingViewCreateProcessChildGridLayout pendingViewCreateProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
-                        if (pendingViewCreateProcessGrid.gridLayout_columnSpec == null) pendingViewCreateProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
-                        if (pendingViewCreateProcessGrid.gridLayout_rowSpec == null)    pendingViewCreateProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
+                        PendingViewPostCreateProcessChildGridLayout pendingViewPostCreateProcessGrid = (PendingViewPostCreateProcessChildGridLayout) pendingViewPostCreateProcess;
+                        if (pendingViewPostCreateProcessGrid.gridLayout_columnSpec == null) pendingViewPostCreateProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
+                        if (pendingViewPostCreateProcessGrid.gridLayout_rowSpec == null)    pendingViewPostCreateProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
 
-                        pendingViewCreateProcessGrid.gridLayout_columnSpec.layout_gravity = valueInt;
-                        pendingViewCreateProcessGrid.gridLayout_rowSpec.layout_gravity = valueInt;
+                        pendingViewPostCreateProcessGrid.gridLayout_columnSpec.layout_gravity = valueInt;
+                        pendingViewPostCreateProcessGrid.gridLayout_rowSpec.layout_gravity = valueInt;
                     }
                     else
                     {
@@ -62,9 +62,9 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
                 }
             }};
 
-        if (pendingViewCreateProcess != null)
+        if (pendingViewPostCreateProcess != null)
         {
-            pendingViewCreateProcess.addPendingLayoutParamsTask(task);
+            pendingViewPostCreateProcess.addPendingLayoutParamsTask(task);
         }
         else
         {

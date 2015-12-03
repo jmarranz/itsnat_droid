@@ -29,7 +29,7 @@ public class ClassDescView_widget_SlidingDrawer extends ClassDescViewBased
     }
 
     @Override
-    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
+    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         final SlidingDrawer view;
         // En tiempo de creación del componente deben estar definidos los atributos id "content" y "handle" sino da error
@@ -45,9 +45,10 @@ public class ClassDescView_widget_SlidingDrawer extends ClassDescViewBased
             view = new SlidingDrawer(ctx,attrSetDefault); // El constructor de un sólo param también vale
         }
 
-        if (pending != null)
+        if (pendingPostInsertChildrenTasks != null)
         {
-            pending.addTask(new Runnable(){
+            pendingPostInsertChildrenTasks.addTask(new Runnable()
+            {
                 @Override
                 public void run()
                 {

@@ -9,14 +9,14 @@ import org.itsnat.droid.impl.xmlinflater.AttrContext;
  */
 public class AttrLayoutContext extends AttrContext
 {
-    protected PendingViewCreateProcess pendingViewCreateProcess;
-    protected PendingPostInsertChildrenTasks pending;
+    protected PendingViewPostCreateProcess pendingViewPostCreateProcess;
+    protected PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks;
 
-    public AttrLayoutContext(Context ctx, XMLInflaterLayout xmlInflaterLayout, PendingViewCreateProcess pendingViewCreateProcess, PendingPostInsertChildrenTasks pending)
+    public AttrLayoutContext(Context ctx, XMLInflaterLayout xmlInflaterLayout, PendingViewPostCreateProcess pendingViewPostCreateProcess, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         super(ctx,xmlInflaterLayout);
-        this.pendingViewCreateProcess = pendingViewCreateProcess;
-        this.pending = pending;
+        this.pendingViewPostCreateProcess = pendingViewPostCreateProcess;
+        this.pendingPostInsertChildrenTasks = pendingPostInsertChildrenTasks;
     }
 
     public XMLInflaterLayout getXMLInflaterLayout()
@@ -24,13 +24,13 @@ public class AttrLayoutContext extends AttrContext
         return (XMLInflaterLayout)xmlInflater;
     }
 
-    public PendingViewCreateProcess getPendingViewCreateProcess()
+    public PendingViewPostCreateProcess getPendingViewPostCreateProcess()
     {
-        return pendingViewCreateProcess;
+        return pendingViewPostCreateProcess;
     }
 
     public PendingPostInsertChildrenTasks getPendingPostInsertChildrenTasks()
     {
-        return pending;
+        return pendingPostInsertChildrenTasks;
     }
 }

@@ -99,7 +99,7 @@ systematic testing. You must configure the URL of your ItsNat server (when loadi
 click on "GO TO TESTS" button). Some examples like "TEST LOCAL X" are local and can run without ItsNat server, the key to understand these tests is by clicking "RELOAD" button
 you get the same layout but processed dynamically.
 
-All said before is already done and running, but some ambitious new things are pending like be able of dynamically load dependent resources like drawables and animations located
+All said before is already done and running, but some ambitious new things are pendingPostInsertChildrenTasks like be able of dynamically load dependent resources like drawables and animations located
 on server (some drawable is already working) and higher level components attached to DOM elements for easier management like in ItsNat Web.
 
 License of ItsNat Droid Client (ItsNat server is LGPL v3)

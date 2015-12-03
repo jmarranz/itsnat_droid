@@ -5,9 +5,9 @@ import android.view.View;
 /**
  * Created by jmarranz on 8/09/14.
  */
-public class PendingViewCreateProcessDefault extends PendingViewCreateProcess
+public class PendingViewPostCreateProcessDefault extends PendingViewPostCreateProcess
 {
-    public PendingViewCreateProcessDefault(View view)
+    public PendingViewPostCreateProcessDefault(View view)
     {
         super(view);
     }

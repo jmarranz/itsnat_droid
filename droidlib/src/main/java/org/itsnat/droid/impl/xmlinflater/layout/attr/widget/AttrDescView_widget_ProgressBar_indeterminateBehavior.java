@@ -20,7 +20,7 @@ public class AttrDescView_widget_ProgressBar_indeterminateBehavior extends AttrD
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        // Redefinimos setAttribute porque el dato dado es una cadena no un entero
+        // Redefinimos setAttributeFromRemote porque el dato dado es una cadena no un entero
         String value = attr.getValue();
         int convertedValue;
         if ("repeat".equals(value))  // Siempre en el mismo sentido

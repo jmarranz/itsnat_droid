@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -32,10 +32,10 @@ public abstract class AttrDescView_view_View_layout_margin_Base extends AttrDesc
                 setAttribute(params, valueInt);
             }};
 
-        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
-        if (pendingViewCreateProcess != null)
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
+        if (pendingViewPostCreateProcess != null)
         {
-            pendingViewCreateProcess.addPendingLayoutParamsTask(task);
+            pendingViewPostCreateProcess.addPendingLayoutParamsTask(task);
         }
         else
         {

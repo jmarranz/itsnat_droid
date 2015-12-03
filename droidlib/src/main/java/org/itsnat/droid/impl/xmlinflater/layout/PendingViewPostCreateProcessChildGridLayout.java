@@ -8,12 +8,12 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_rowSpec;
 /**
  * Created by jmarranz on 8/09/14.
  */
-public class PendingViewCreateProcessChildGridLayout extends PendingViewCreateProcess
+public class PendingViewPostCreateProcessChildGridLayout extends PendingViewPostCreateProcess
 {
     public GridLayout_columnSpec gridLayout_columnSpec;
     public GridLayout_rowSpec gridLayout_rowSpec;
 
-    public PendingViewCreateProcessChildGridLayout(View view)
+    public PendingViewPostCreateProcessChildGridLayout(View view)
     {
         super(view);
     }

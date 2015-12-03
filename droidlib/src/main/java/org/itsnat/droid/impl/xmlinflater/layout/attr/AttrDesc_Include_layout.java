@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -35,7 +35,7 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
                 ViewGroup viewParent = (ViewGroup)view.getParent();
                 int countBefore = viewParent.getChildCount();
 
-                viewParent.removeViewAt(countBefore - 1); // Eliminamos el falso View auxiliar que substituye al <include>
+                viewParent.removeViewAt(countBefore - 1); // Eliminamos el falso View auxiliar que substituye al <include> y que está recien insertado
 
                 countBefore = viewParent.getChildCount();
 
@@ -60,9 +60,9 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
 
             }
         };
-        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
-        if (pendingViewCreateProcess != null)
-            pendingViewCreateProcess.addPendingPostAddViewTask(task);
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
+        if (pendingViewPostCreateProcess != null)
+            pendingViewPostCreateProcess.addPendingPostAddViewTask(task);
         else
             task.run();
     }

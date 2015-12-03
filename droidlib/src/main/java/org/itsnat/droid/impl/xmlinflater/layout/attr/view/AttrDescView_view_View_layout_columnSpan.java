@@ -5,8 +5,8 @@ import android.view.View;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessChildGridLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_columnSpec;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -28,20 +28,20 @@ public class AttrDescView_view_View_layout_columnSpan extends AttrDesc<ClassDesc
 
         final int columnSpan = getInteger(attr.getValue(),attrCtx.getContext());
 
-        final PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
+        final PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
         Runnable task = new Runnable(){
             @Override
             public void run()
             {
-                PendingViewCreateProcessChildGridLayout pendingViewCreateProcessGrid = (PendingViewCreateProcessChildGridLayout) pendingViewCreateProcess;
-                if (pendingViewCreateProcessGrid.gridLayout_columnSpec == null)
-                    pendingViewCreateProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
+                PendingViewPostCreateProcessChildGridLayout pendingViewPostCreateProcessGrid = (PendingViewPostCreateProcessChildGridLayout) pendingViewPostCreateProcess;
+                if (pendingViewPostCreateProcessGrid.gridLayout_columnSpec == null)
+                    pendingViewPostCreateProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
 
-                pendingViewCreateProcessGrid.gridLayout_columnSpec.layout_columnSpan = columnSpan;
+                pendingViewPostCreateProcessGrid.gridLayout_columnSpec.layout_columnSpan = columnSpan;
             }};
 
-        if (pendingViewCreateProcess != null)
-            pendingViewCreateProcess.addPendingLayoutParamsTask(task);
+        if (pendingViewPostCreateProcess != null)
+            pendingViewPostCreateProcess.addPendingLayoutParamsTask(task);
         else
             throw new ItsNatDroidException("Attribute " + getName() + " cannot be changed post creation");
     }

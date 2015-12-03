@@ -31,7 +31,7 @@ public class ClassDescView_Include extends ClassDescViewBased
     }
 
     @Override
-    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
+    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         return new _IncludeFakeViewGroup_(ctx);
     }

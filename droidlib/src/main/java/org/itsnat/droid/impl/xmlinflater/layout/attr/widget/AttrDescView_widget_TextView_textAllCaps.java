@@ -4,7 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
@@ -22,11 +22,11 @@ public class AttrDescView_widget_TextView_textAllCaps extends AttrDescReflecMeth
     @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
-        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
-        if (pendingViewCreateProcess != null)
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
+        if (pendingViewPostCreateProcess != null)
         {
             // Delegamos al final porque es necesario que antes se ejecute textIsSelectable="false"
-            pendingViewCreateProcess.addPendingSetAttribsTask(new Runnable()
+            pendingViewPostCreateProcess.addPendingSetAttribsTask(new Runnable()
             {
                 @Override
                 public void run()

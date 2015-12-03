@@ -23,9 +23,21 @@
             android:text="@string/button_reload" />
 
         <!-- Test include -->
-        <include layout="@layout/test_include" />
+        <include layout="@layout/test_include"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+            />
 
-        <include layout="@assets:layout/res/layout/test_include_2_dynamic.xml" />
+        <include layout="@assets:layout/res/layout/test_include_2_dynamic.xml"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+            />
+
+        <include layout="@assets:layout/res/layout/test_include_3_dynamic.xml"/>
+
+
 
         <!-- Testing misc attribs (for instance access resources by res id or literal) -->
         <RelativeLayout android:layout_width="match_parent"

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 /**
  * Created by jmarranz on 6/05/14.
  */
-public abstract class PendingViewCreateProcess
+public abstract class PendingViewPostCreateProcess
 {
     protected View view;
     protected LinkedList<Runnable> pendingSetAttribsTaskList;
@@ -17,7 +17,7 @@ public abstract class PendingViewCreateProcess
     protected LinkedList<Runnable> pendingPostAddViewTasks;
     protected boolean destroy = false;
 
-    public PendingViewCreateProcess(View view)
+    public PendingViewPostCreateProcess(View view)
     {
         this.view = view;
     }
@@ -47,7 +47,7 @@ public abstract class PendingViewCreateProcess
         pendingLayoutParamsTasks.add(task);
     }
 
-    public void executePendingLayoutParamsTasks()
+    public void executePendingLayoutParamsTasks() // Se debe ejecutar antes de que se añada el View al parent
     {
         if (destroy) throw new ItsNatDroidException("Is already destroyed");
         if (pendingLayoutParamsTasks != null)

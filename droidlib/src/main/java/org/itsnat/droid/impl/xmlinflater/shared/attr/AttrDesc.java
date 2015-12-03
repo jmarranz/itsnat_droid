@@ -197,7 +197,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
 
     protected void setToRemoveAttribute(TattrTarget target, String value, TattrContext attrCtx)
     {
-        // Este método es llamado desde removeAttribute, cuyo valor será o @null o un recurso de Android, no esperamos
+        // Este método es llamado desde removeAttributeFromRemote, cuyo valor será o @null o un recurso de Android, no esperamos
         // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrLocalResource
         DOMAttrLocalResource attr = (DOMAttrLocalResource) DOMAttr.create(InflatedXML.XMLNS_ANDROID, getName(), value);
 

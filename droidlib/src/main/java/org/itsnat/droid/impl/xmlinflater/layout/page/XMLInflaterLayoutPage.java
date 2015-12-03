@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.page;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
@@ -16,6 +17,7 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -42,22 +44,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         return (InflatedLayoutPageImpl) inflatedXML;
     }
 
-    public void setAttribute(View view, DOMAttr attr)
-    {
-        ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
-        ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
-        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
-        setAttribute(viewClassDesc, view, attr, attrCtx);
-    }
-
-    public void removeAttribute(View view, String namespaceURI, String name)
-    {
-        ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
-        ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        removeAttribute(viewClassDesc, view, namespaceURI, name);
-    }
-
-    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
+    public void setAttributeFromRemote(View view, DOMAttr attr,ClassDescViewBased viewClassDesc,AttrLayoutContext attrCtx)
     {
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
@@ -72,19 +59,35 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
                 if (viewData instanceof ItsNatViewNotNullImpl)
                     ((ItsNatViewNotNullImpl) viewData).registerEventListenerViewAdapter(type);
 
-                return true;
+                return;
             }
-            else
-                return super.setAttribute(viewClassDesc, view, attr, attrCtx);
         }
-        else
+
+        if (viewClassDesc == null)
         {
-            return super.setAttribute(viewClassDesc, view, attr, attrCtx);
+            ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
+            viewClassDesc = classDescViewMgr.get(view);
         }
+
+        boolean singleSetAttr = (attrCtx == null);
+        if (singleSetAttr)
+        {
+            // Consideramos que el setAttributeRemote en una operación "single" y por tanto si define alguna tarea pendiente tenemos que ejecutarla como si ya no hubiera más atributos pendientes
+            PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
+            attrCtx = new AttrLayoutContext(ctx, this, pendingViewPostCreateProcess, null);
+        }
+
+        setAttribute(viewClassDesc, view, attr, attrCtx);
+
+        if (singleSetAttr)
+            attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
     }
 
-    private boolean removeAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name)
+    public boolean removeAttributeFromRemote(View view, String namespaceURI, String name)
     {
+        ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewBased viewClassDesc = viewMgr.get(view);
+
         if (MiscUtil.isEmpty(namespaceURI))
         {
             String type = getTypeInlineEventHandler(name);

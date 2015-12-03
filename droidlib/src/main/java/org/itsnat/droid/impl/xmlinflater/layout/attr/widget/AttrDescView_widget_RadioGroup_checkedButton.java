@@ -22,17 +22,18 @@ public class AttrDescView_widget_RadioGroup_checkedButton extends AttrDescReflec
     @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
-        PendingPostInsertChildrenTasks pending = attrCtx.getPendingPostInsertChildrenTasks();
-        if (pending != null)
+        PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks = attrCtx.getPendingPostInsertChildrenTasks();
+        if (pendingPostInsertChildrenTasks != null)
         {
-            pending.addTask(new Runnable(){
+            pendingPostInsertChildrenTasks.addTask(new Runnable()
+            {
                 @Override
                 public void run()
                 {
                     // El addTask es porque referenciamos un View hijo antes de insertarse
                     // Pero NO es porque el id se referencia antes de insertar el hijo pues ese problema se resuelve con @+id
                     // en el propio checkedButton
-                    AttrDescView_widget_RadioGroup_checkedButton.super.setAttribute(view, attr,attrCtx);
+                    AttrDescView_widget_RadioGroup_checkedButton.super.setAttribute(view, attr, attrCtx);
                 }
             });
         }

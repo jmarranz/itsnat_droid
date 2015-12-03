@@ -50,7 +50,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
     }
 
     @Override
-    public View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
+    public View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         String spinnerMode = findSpinnerModeAttributeFromRemote(newChildToIn);
         return createSpinnerObject(idStyle, spinnerMode, ctx);
@@ -64,7 +64,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
     }
 
     @Override
-    public View createViewObject(DOMView domView, int idStyle, PendingPostInsertChildrenTasks pending, Context ctx)
+    public View createViewObject(DOMView domView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks, Context ctx)
     {
         String spinnerMode = findSpinnerModeAttributeFromRemote(domView);
         return createSpinnerObject(idStyle, spinnerMode, ctx);

@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
-import org.itsnat.droid.impl.dom.layout.DOMMerge;
+import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
@@ -68,7 +68,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
     private ElementDrawableRoot inflateRoot(XMLDOMDrawable xmlDOMDrawable)
     {
         DOMElement rootDOMElem = xmlDOMDrawable.getRootElement();
-        if (rootDOMElem instanceof DOMMerge) throw new ItsNatDroidException("Unexpected"); // <merge> sólo se usa en layouts
+        if (rootDOMElem instanceof DOMElemMerge) throw new ItsNatDroidException("Unexpected"); // <merge> sólo se usa en layouts
         return createRootDrawableAndFillAttributes(rootDOMElem,getInflatedDrawable());
     }
 

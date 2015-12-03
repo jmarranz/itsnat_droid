@@ -56,8 +56,9 @@ import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
+import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
@@ -206,7 +207,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             type = "id";
         }
 
-        return getResourceIdentifier(name,type,packageName);
+        return getResourceIdentifier(name, type, packageName);
     }
 
     @Override
@@ -265,7 +266,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public ItsNatViewImpl getItsNatViewImpl(View view)
     {
-        return ItsNatViewImpl.getItsNatView(this,view);
+        return ItsNatViewImpl.getItsNatView(this, view);
     }
 
 
@@ -400,32 +401,31 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
     }
 
-    private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pending)
+    private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         Context ctx = getContext();
-        View view = classDesc.createViewObjectFromRemote(newChildToIn, pending,ctx);
+        View view = classDesc.createViewObjectFromRemote(newChildToIn, pendingPostInsertChildrenTasks,ctx);
 
         newChildToIn.setView(view);
 
-        PendingViewCreateProcess pendingViewCreateProcess = classDesc.createPendingViewCreateProcess(view, viewParent);
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = classDesc.createPendingViewPostCreateProcess(view, viewParent);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
 
-        fillViewAttributes(classDesc,newChildToIn,xmlInflaterLayout, pendingViewCreateProcess);
-        classDesc.addViewObject(viewParent, view, index, pendingViewCreateProcess, getContext());
+        fillViewAttributes(classDesc,newChildToIn,xmlInflaterLayout, attrCtx);
+        classDesc.addViewObject(viewParent, view, index, pendingViewPostCreateProcess, getContext());
 
-        pendingViewCreateProcess.destroy();
+        pendingViewPostCreateProcess.destroy();
 
         return view;
     }
 
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,XMLInflaterLayout xmlInflaterLayout,PendingViewCreateProcess pendingViewCreateProcess)
+    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,XMLInflaterLayout xmlInflaterLayout,AttrLayoutContext attrCtx)
     {
         View view = newChildToIn.getView();
 
         if (newChildToIn.hasAttributes())
         {
-            AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),xmlInflaterLayout, pendingViewCreateProcess, null);
-
             for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
             {
                 DOMAttr attr = entry.getValue();
@@ -433,7 +433,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             }
         }
 
-        pendingViewCreateProcess.executePendingSetAttribsTasks();
+        attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
     }
 
     private Context getContext()
@@ -481,7 +481,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void alert(String title,Object value)
     {
         String text = value != null ? value.toString() : "null";
-        SimpleAlert.show(title,text,getContext());
+        SimpleAlert.show(title, text, getContext());
     }
 
     @Override
@@ -494,13 +494,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     @Override
     public void toast(Object value)
     {
-        toast(value,Toast.LENGTH_SHORT);
+        toast(value, Toast.LENGTH_SHORT);
     }
 
     @Override
     public void postDelayed(Runnable task,long delay)
     {
-        getHandler().postDelayed(task,delay);
+        getHandler().postDelayed(task, delay);
     }
 
     @Override
@@ -513,7 +513,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     @Override
     public void setAttribute(Node node,String name,String value)
     {
-        setAttributeNS(node,null,name,value);
+        setAttributeNS(node, null, name, value);
     }
 
     @Override
@@ -524,6 +524,50 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     @Override
     public void setAttributeNS(Node node,String namespaceURI,String name,String value)
+    {
+        setAttributeNSInternal(node, namespaceURI, name, value, null, null);
+    }
+
+    @Override
+    public void setAttributeNS2(Object[] idObj,String namespaceURI,String name,String value)
+    {
+        Node elem = getNode(idObj);
+        setAttributeNS(elem, namespaceURI, name, value);
+    }
+
+    @Override
+    public void setAttrBatch(Node node,String namespaceURI,String[] attrNames,String[] attrValues)
+    {
+        View view = node.getView();
+
+        ClassDescViewBased viewClassDesc = null;
+        AttrLayoutContext attrCtx = null;
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = null;
+
+        if (view != null) // Cuando Node es NodeToInsert el View es null pues no se ha creado, yo creo que nunca se llama a setAttrBatch con un nodo ya insertado pero intentamos optimizar por si cambiar ItsNat server eso ganamos
+        {
+            ClassDescViewMgr classDescViewMgr = getPageImpl().getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getClassDescViewMgr();
+            viewClassDesc = classDescViewMgr.get(view);
+
+            XMLInflaterLayoutPage xmlInflaterLayoutPage = page.getXMLInflaterLayoutPage();
+
+            pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
+            attrCtx = new AttrLayoutContext(getContext(), xmlInflaterLayoutPage, pendingViewPostCreateProcess, null);
+        }
+
+        int len = attrNames.length;
+        for(int i = 0; i < len; i++)
+        {
+            String name = attrNames[i];
+            String value = attrValues[i];
+            setAttributeNSInternal(node,namespaceURI,name,value,viewClassDesc,attrCtx);
+        }
+
+        if (pendingViewPostCreateProcess != null)
+            pendingViewPostCreateProcess.executePendingSetAttribsTasks();
+    }
+
+    private void setAttributeNSInternal(Node node,String namespaceURI,String name,String value,ClassDescViewBased viewClassDesc,AttrLayoutContext attrCtx)
     {
         if (namespaceURI == null)
         {
@@ -549,26 +593,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
 
         View view = node.getView();
-        page.getXMLInflaterLayoutPage().setAttribute(view,attr);
-    }
-
-    @Override
-    public void setAttributeNS2(Object[] idObj,String namespaceURI,String name,String value)
-    {
-        Node elem = getNode(idObj);
-        setAttributeNS(elem, namespaceURI, name, value);
-    }
-
-    @Override
-    public void setAttrBatch(Node node,String namespaceURI,String[] attrNames,String[] attrValues)
-    {
-        int len = attrNames.length;
-        for(int i = 0; i < len; i++)
-        {
-            String name = attrNames[i];
-            String value = attrValues[i];
-            setAttributeNS(node,namespaceURI,name,value);
-        }
+        page.getXMLInflaterLayoutPage().setAttributeFromRemote(view, attr,viewClassDesc,attrCtx);
     }
 
     private static String getPrefix(String name)
@@ -624,7 +649,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
 
         View view = node.getView();
-        page.getXMLInflaterLayoutPage().removeAttribute(view, namespaceURI, name);
+        page.getXMLInflaterLayoutPage().removeAttributeFromRemote(view, namespaceURI, name);
     }
 
     @Override
@@ -768,8 +793,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         View view = node.getView();
         return InflatedLayoutPageImpl.getChildViewIndex(parentView, view);
     }
-
-
 
     @Override
     public void insertBefore(Node parentNode,Node newChild,Node childRef)

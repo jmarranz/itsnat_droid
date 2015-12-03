@@ -24,9 +24,9 @@ import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessChildGridLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcessDefault;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessChildGridLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
@@ -222,15 +222,15 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (namespaceURI == null || "".equals(namespaceURI)) && "id".equals(name);
     }
 
-    public PendingViewCreateProcess createPendingViewCreateProcess(View view, ViewGroup viewParent)
+    public PendingViewPostCreateProcess createPendingViewPostCreateProcess(View view, ViewGroup viewParent)
     {
         // Se redefine en un caso
         return (viewParent instanceof GridLayout)
-                     ? new PendingViewCreateProcessChildGridLayout(view) // No llevar este código a ClassDescView_widget_GridLayout porque es el caso DE View PADRE y este ClassDesc es un hijo, NO es GridLayout
-                     : new PendingViewCreateProcessDefault(view);
+                     ? new PendingViewPostCreateProcessChildGridLayout(view) // No llevar este código a ClassDescView_widget_GridLayout porque es el caso DE View PADRE y este ClassDesc es un hijo, NO es GridLayout
+                     : new PendingViewPostCreateProcessDefault(view);
     }
 
-    public void addViewObject(ViewGroup viewParent,View view,int index,PendingViewCreateProcess pendingViewCreateProcess, Context ctx)
+    public void addViewObject(ViewGroup viewParent,View view,int index,PendingViewPostCreateProcess pendingViewPostCreateProcess, Context ctx)
     {
         if (view.getLayoutParams() != null) throw new ItsNatDroidException("Unexpected");
 
@@ -242,12 +242,12 @@ public class ClassDescViewBased extends ClassDesc<View>
             ViewGroup.LayoutParams params = methodGenerateLP.invoke(viewParent);
             view.setLayoutParams(params);
 
-            pendingViewCreateProcess.executePendingLayoutParamsTasks(); // Así ya definimos los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
+            pendingViewPostCreateProcess.executePendingLayoutParamsTasks(); // Así ya definimos los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
 
             if (index < 0) viewParent.addView(view);
             else viewParent.addView(view, index);
 
-            pendingViewCreateProcess.executePendingPostAddViewTasks();
+            pendingViewPostCreateProcess.executePendingPostAddViewTasks();
         }
         else // view es el ROOT
         {
@@ -257,9 +257,9 @@ public class ClassDescViewBased extends ClassDesc<View>
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(params);
 
-            pendingViewCreateProcess.executePendingLayoutParamsTasks();
+            pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
 
-            // No llamamos porque es el root: pendingViewCreateProcess.executePendingPostAddViewTasks();
+            // No llamamos porque es el root: pendingViewPostCreateProcess.executePendingPostAddViewTasks();
         }
     }
 
@@ -277,16 +277,16 @@ public class ClassDescViewBased extends ClassDesc<View>
         return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
-    public View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pending,Context ctx)
+    public View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         int idStyle = findStyleAttributeFromRemote(newChildToIn,ctx);
-        return createViewObjectFromRemote(newChildToIn,idStyle,pending,ctx);
+        return createViewObjectFromRemote(newChildToIn,idStyle,pendingPostInsertChildrenTasks,ctx);
     }
 
-    protected View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
+    protected View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         // Se redefine completamente en el caso de Spinner
-        return createViewObject(idStyle,pending,ctx);
+        return createViewObject(idStyle,pendingPostInsertChildrenTasks,ctx);
     }
 
     private int findStyleAttribute(DOMView domView,Context ctx)
@@ -296,19 +296,19 @@ public class ClassDescViewBased extends ClassDesc<View>
         return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
-    public View createViewObject(DOMView domView, PendingPostInsertChildrenTasks pending,Context ctx)
+    public View createViewObject(DOMView domView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         int idStyle = findStyleAttribute(domView,ctx);
-        return createViewObject(domView, idStyle, pending, ctx);
+        return createViewObject(domView, idStyle, pendingPostInsertChildrenTasks, ctx);
     }
 
-    protected View createViewObject(DOMView domView, int idStyle, PendingPostInsertChildrenTasks pending,Context ctx)
+    protected View createViewObject(DOMView domView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         // Se redefine completamente en el caso de Spinner
-        return createViewObject(idStyle,pending,ctx);
+        return createViewObject(idStyle,pendingPostInsertChildrenTasks,ctx);
     }
 
-    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pending,Context ctx)
+    protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         View view;
 

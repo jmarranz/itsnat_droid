@@ -68,10 +68,10 @@ public class NodeToInsertImpl extends NodeImpl
     }
 
     /*
-    public void setAttribute(String namespaceURI,String name,String value)
+    public void setAttributeFromRemote(String namespaceURI,String name,String value)
     {
         AttrParsed attr = AttrParsed.createAttrParsed(namespaceURI,name,value);
-        setAttribute(attr);
+        setAttributeFromRemote(attr);
     }
 */
 

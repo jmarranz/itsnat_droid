@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMInclude;
-import org.itsnat.droid.impl.dom.layout.DOMMerge;
+import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
@@ -80,7 +80,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         if ("merge".equals(name))
         {
             if (parent != null) throw new ItsNatDroidException("<merge> only can be used as a root element of the XML layout");
-            return new DOMMerge(name, null);
+            return new DOMElemMerge(name, null);
         }
         else
             return new DOMView(name,parent);

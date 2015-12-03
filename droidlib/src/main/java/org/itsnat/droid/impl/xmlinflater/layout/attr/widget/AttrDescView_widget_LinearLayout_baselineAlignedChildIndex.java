@@ -21,16 +21,16 @@ public class AttrDescView_widget_LinearLayout_baselineAlignedChildIndex extends 
     @Override
     public void setAttribute(final View view, final DOMAttr attr,final AttrLayoutContext attrCtx)
     {
-        PendingPostInsertChildrenTasks pending = attrCtx.getPendingPostInsertChildrenTasks();
-        if (pending != null)
+        PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks = attrCtx.getPendingPostInsertChildrenTasks();
+        if (pendingPostInsertChildrenTasks != null)
         {
             // Necesitamos añadir los children antes para poder referenciarlos por su índice de posición
-            pending.addTask(new Runnable()
+            pendingPostInsertChildrenTasks.addTask(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    AttrDescView_widget_LinearLayout_baselineAlignedChildIndex.super.setAttribute(view, attr,attrCtx);
+                    AttrDescView_widget_LinearLayout_baselineAlignedChildIndex.super.setAttribute(view, attr, attrCtx);
                 }
             });
         }

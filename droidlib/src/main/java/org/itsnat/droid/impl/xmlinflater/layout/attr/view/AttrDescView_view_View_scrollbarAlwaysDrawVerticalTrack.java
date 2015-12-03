@@ -5,7 +5,7 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewCreateProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldFieldMethod;
 
@@ -27,11 +27,11 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack extends Att
     {
         final boolean convertedValue = getBoolean(attr.getValue(),attrCtx.getContext());
 
-        PendingViewCreateProcess pendingViewCreateProcess = attrCtx.getPendingViewCreateProcess();
-        if (pendingViewCreateProcess != null)
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
+        if (pendingViewPostCreateProcess != null)
         {
             // Delegamos al final para que esté totalmente claro si hay o no scrollbars
-            pendingViewCreateProcess.addPendingSetAttribsTask(new Runnable()
+            pendingViewPostCreateProcess.addPendingSetAttribsTask(new Runnable()
             {
                 @Override
                 public void run()
