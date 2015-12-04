@@ -275,6 +275,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         }
 
         pendingViewPostCreateProcess.executePendingSetAttribsTasks();
+        pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
     }
 
 }

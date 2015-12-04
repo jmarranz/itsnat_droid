@@ -564,7 +564,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
 
         if (pendingViewPostCreateProcess != null)
+        {
             pendingViewPostCreateProcess.executePendingSetAttribsTasks();
+            pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
+        }
     }
 
     private void setAttributeNSInternal(Node node,String namespaceURI,String name,String value,ClassDescViewBased viewClassDesc,AttrLayoutContext attrCtx)

@@ -80,7 +80,11 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         setAttribute(viewClassDesc, view, attr, attrCtx);
 
         if (singleSetAttr)
-            attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
+        {
+            PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
+            pendingViewPostCreateProcess.executePendingSetAttribsTasks();
+            pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
+        }
     }
 
     public boolean removeAttributeFromRemote(View view, String namespaceURI, String name)
