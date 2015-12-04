@@ -69,13 +69,13 @@ public class ClassDescView_widget_SlidingDrawer extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecFieldSetBoolean(this, "allowSingleTap","mAllowSingleTap",true));
-        addAttrDesc(new AttrDescReflecFieldSetBoolean(this, "animateOnClick","mAnimateOnClick",true));
-        addAttrDesc(new AttrDescReflecFieldSetDimensionIntFloor(this, "bottomOffset","mBottomOffset",0));
-        addAttrDesc(new AttrDescReflecFieldSetId(this, "content","mContentId",-1));
-        addAttrDesc(new AttrDescReflecFieldSetId(this, "handle","mHandleId",-1));
-        addAttrDesc(new AttrDescView_widget_SlidingDrawer_orientation(this));
-        addAttrDesc(new AttrDescReflecFieldSetDimensionIntFloor(this, "topOffset","mTopOffset",0));
+        addAttrDescAN(new AttrDescReflecFieldSetBoolean(this, "allowSingleTap", "mAllowSingleTap", true));
+        addAttrDescAN(new AttrDescReflecFieldSetBoolean(this, "animateOnClick", "mAnimateOnClick", true));
+        addAttrDescAN(new AttrDescReflecFieldSetDimensionIntFloor(this, "bottomOffset", "mBottomOffset", 0));
+        addAttrDescAN(new AttrDescReflecFieldSetId(this, "content", "mContentId", -1));
+        addAttrDescAN(new AttrDescReflecFieldSetId(this, "handle", "mHandleId", -1));
+        addAttrDescAN(new AttrDescView_widget_SlidingDrawer_orientation(this));
+        addAttrDescAN(new AttrDescReflecFieldSetDimensionIntFloor(this, "topOffset", "mTopOffset", 0));
     }
 }
 

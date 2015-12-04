@@ -38,8 +38,8 @@ public class ClassDescAnimationDrawableItem extends ClassDescElementDrawableChil
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDrawable(this, "drawable", "@null"));
-        addAttrDesc(new AttrDescReflecMethodInt(this, "duration", -1));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "drawable", "@null"));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "duration", -1));
 
     }
 

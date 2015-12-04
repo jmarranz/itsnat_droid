@@ -38,10 +38,10 @@ public class ClassDescLevelListDrawableItem extends ClassDescElementDrawableChil
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDrawable(this, "drawable","@null"));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "drawable", "@null"));
 
-        addAttrDesc(new AttrDescReflecMethodInt(this, "maxLevel",0));
-        addAttrDesc(new AttrDescReflecMethodInt(this, "minLevel",0));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "maxLevel", 0));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "minLevel", 0));
     }
 
 }

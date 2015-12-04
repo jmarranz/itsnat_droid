@@ -64,7 +64,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this, "dither",true));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "dither", true));
     }
 
 

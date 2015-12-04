@@ -20,9 +20,9 @@ public class ClassDescView_widget_ToggleButton extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecFieldSetFloat(this,"disabledAlpha","mDisabledAlpha",0.5f));
-        addAttrDesc(new AttrDescView_widget_ToggleButton_textOffandOn(this,"textOff"));
-        addAttrDesc(new AttrDescView_widget_ToggleButton_textOffandOn(this,"textOn"));
+        addAttrDescAN(new AttrDescReflecFieldSetFloat(this, "disabledAlpha", "mDisabledAlpha", 0.5f));
+        addAttrDescAN(new AttrDescView_widget_ToggleButton_textOffandOn(this, "textOff"));
+        addAttrDescAN(new AttrDescView_widget_ToggleButton_textOffandOn(this, "textOn"));
     }
 }
 

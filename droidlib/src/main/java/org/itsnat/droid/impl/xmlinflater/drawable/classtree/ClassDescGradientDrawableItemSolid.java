@@ -37,7 +37,7 @@ public class ClassDescGradientDrawableItemSolid extends ClassDescElementDrawable
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodColor(this, "color", 0));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "color", 0));
     }
 
 }

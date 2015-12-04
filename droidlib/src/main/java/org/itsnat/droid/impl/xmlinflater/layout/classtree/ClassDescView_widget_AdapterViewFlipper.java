@@ -19,8 +19,8 @@ public class ClassDescView_widget_AdapterViewFlipper extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"autoStart",false));
-        addAttrDesc(new AttrDescReflecMethodInt(this,"flipInterval",10000));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "autoStart", false));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "flipInterval", 10000));
     }
 }
 

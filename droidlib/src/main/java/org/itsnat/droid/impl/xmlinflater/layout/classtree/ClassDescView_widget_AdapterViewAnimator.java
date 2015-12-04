@@ -21,10 +21,10 @@ public class ClassDescView_widget_AdapterViewAnimator extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"animateFirstView",true));
-        addAttrDesc(new AttrDescView_widget_AdapterViewAnimator_inAnimation(this));
-        addAttrDesc(new AttrDescReflecFieldSetBoolean(this,"loopViews","mLoopViews",false));
-        addAttrDesc(new AttrDescView_widget_AdapterViewAnimator_outAnimation(this));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "animateFirstView", true));
+        addAttrDescAN(new AttrDescView_widget_AdapterViewAnimator_inAnimation(this));
+        addAttrDescAN(new AttrDescReflecFieldSetBoolean(this, "loopViews", "mLoopViews", false));
+        addAttrDescAN(new AttrDescView_widget_AdapterViewAnimator_outAnimation(this));
     }
 }
 

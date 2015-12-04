@@ -18,7 +18,7 @@ public class ClassDescView_widget_ScrollView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"fillViewport",false));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "fillViewport", false));
     }
 }
 

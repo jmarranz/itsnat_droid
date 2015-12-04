@@ -26,18 +26,18 @@ public class ClassDescView_gesture_GestureOverlayView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"eventsInterceptionEnabled",true));
-        addAttrDesc(new AttrDescReflecFieldSetInt(this,"fadeDuration","mFadeDuration",150)); // Curiosamente mFadeDuration es long pero t_odo se procesa como int
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"fadeEnabled",true));
-        addAttrDesc(new AttrDescReflecMethodLong(this,"fadeOffset",420L));
-        addAttrDesc(new AttrDescView_gesture_GestureOverlayView_gestureColor(this));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"gestureStrokeAngleThreshold",40.0f));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"gestureStrokeLengthThreshold",50.0f));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"gestureStrokeSquarenessThreshold","setGestureStrokeSquarenessTreshold",0.275f));  // Es necesario el nombre del método por un gazapo, falta la h de Threshold
-        addAttrDesc(new AttrDescView_gesture_GestureOverlayView_gestureStrokeType(this));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"gestureStrokeWidth",12.0f)); // Sorprendetemente NO se admite dimensión (dp etc)
-        addAttrDesc(new AttrDescReflecMethodNameSingle(this,"orientation",int.class, OrientationUtil.valueMap,"vertical"));
-        addAttrDesc(new AttrDescReflecMethodColor(this, "uncertainGestureColor", "#48FFFF00"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "eventsInterceptionEnabled", true));
+        addAttrDescAN(new AttrDescReflecFieldSetInt(this, "fadeDuration", "mFadeDuration", 150)); // Curiosamente mFadeDuration es long pero t_odo se procesa como int
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "fadeEnabled", true));
+        addAttrDescAN(new AttrDescReflecMethodLong(this, "fadeOffset", 420L));
+        addAttrDescAN(new AttrDescView_gesture_GestureOverlayView_gestureColor(this));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "gestureStrokeAngleThreshold", 40.0f));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "gestureStrokeLengthThreshold", 50.0f));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "gestureStrokeSquarenessThreshold", "setGestureStrokeSquarenessTreshold", 0.275f));  // Es necesario el nombre del método por un gazapo, falta la h de Threshold
+        addAttrDescAN(new AttrDescView_gesture_GestureOverlayView_gestureStrokeType(this));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "gestureStrokeWidth", 12.0f)); // Sorprendetemente NO se admite dimensión (dp etc)
+        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "orientation", int.class, OrientationUtil.valueMap, "vertical"));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "uncertainGestureColor", "#48FFFF00"));
 
 
     }

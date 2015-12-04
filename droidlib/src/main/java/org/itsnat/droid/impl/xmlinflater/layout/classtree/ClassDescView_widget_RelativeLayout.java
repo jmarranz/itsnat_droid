@@ -20,8 +20,8 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"left|top"));
-        addAttrDesc(new AttrDescReflecMethodId(this,"ignoreGravity",-1));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "left|top"));
+        addAttrDescAN(new AttrDescReflecMethodId(this, "ignoreGravity", -1));
     }
 }
 

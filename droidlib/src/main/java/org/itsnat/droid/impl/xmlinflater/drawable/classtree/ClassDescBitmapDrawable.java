@@ -54,15 +54,15 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"antialias","setAntiAlias",false));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"dither",true));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"filter","setFilterBitmap",true));
-        addAttrDesc(new AttrDescReflecMethodNameMultiple<ClassDescBitmapDrawable,BitmapDrawable,AttrDrawableContext>(this,"gravity", GravityUtil.valueMap,"fill"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "antialias", "setAntiAlias", false));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "dither", true));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "filter", "setFilterBitmap", true));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple<ClassDescBitmapDrawable, BitmapDrawable, AttrDrawableContext>(this, "gravity", GravityUtil.valueMap, "fill"));
         // android:mipMap parece que es level 17
         // android:src se procesa en tiempo de creación
-        addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileMode(this,"tileMode"));
-        //addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileMode(this,"tileModeX"));  // API level 21
-        //addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileMode(this,"tileModeY"));  // API level 21
+        addAttrDescAN(new AttrDescDrawable_BitmapDrawable_tileMode(this, "tileMode"));
+        //addAttrDescAN(new AttrDescDrawable_BitmapDrawable_tileMode(this,"tileModeX"));  // API level 21
+        //addAttrDescAN(new AttrDescDrawable_BitmapDrawable_tileMode(this,"tileModeY"));  // API level 21
     }
 
 }

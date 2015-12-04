@@ -154,7 +154,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawable_Drawable_visible<RotateDrawable>(this));
+        addAttrDescAN(new AttrDescDrawable_Drawable_visible<RotateDrawable>(this));
     }
 
 }

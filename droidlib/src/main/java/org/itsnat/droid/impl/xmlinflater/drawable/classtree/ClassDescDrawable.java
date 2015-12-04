@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.TypedValue;
-import android.view.View;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -19,7 +18,6 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
@@ -89,7 +87,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
             if (isAttributeIgnored(draw, namespaceURI, name))
                 return true; // Se trata de forma especial en otro lugar
 
-            final AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(namespaceURI,name);
+            final AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(namespaceURI, name);
             if (attrDesc != null)
             {
                 Runnable task = new Runnable()

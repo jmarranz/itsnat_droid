@@ -68,8 +68,8 @@ public class ClassDescAnimationDrawable extends ClassDescDrawableContainer<Anima
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this, "oneshot", "setOneShot", false));
-        addAttrDesc(new AttrDescReflecFieldMethodBoolean(this, "variablePadding","mAnimationState", MiscUtil.resolveClass(DrawableContainer.class.getName() + "$DrawableContainerState"),"setVariablePadding",false));
-        addAttrDesc(new AttrDescDrawable_Drawable_visible<AnimationDrawable>(this));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "oneshot", "setOneShot", false));
+        addAttrDescAN(new AttrDescReflecFieldMethodBoolean(this, "variablePadding", "mAnimationState", MiscUtil.resolveClass(DrawableContainer.class.getName() + "$DrawableContainerState"), "setVariablePadding", false));
+        addAttrDescAN(new AttrDescDrawable_Drawable_visible<AnimationDrawable>(this));
     }
 }

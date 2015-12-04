@@ -37,10 +37,10 @@ public class ClassDescGradientDrawableItemPadding extends ClassDescElementDrawab
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this, "left", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this, "top", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this, "right", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this, "bottom", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "left", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "top", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "right", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "bottom", 0f));
     }
 
 }

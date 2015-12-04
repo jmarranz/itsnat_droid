@@ -17,7 +17,7 @@ public class ClassDescView_widget_Chronometer extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescView_widget_Chronometer_format(this));
+        addAttrDescAN(new AttrDescView_widget_Chronometer_format(this));
     }
 }
 

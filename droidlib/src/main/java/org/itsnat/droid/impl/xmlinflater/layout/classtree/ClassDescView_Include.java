@@ -24,15 +24,11 @@ public class ClassDescView_Include extends ClassDescViewBased
         super(classMgr,"include",parentClass);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected Class<? extends View> initClass()
+    @SuppressWarnings("unchecked")
+    protected Class<View> resolveClass()
     {
-        if (clasz == null)
-        {
-            this.clasz = (Class<View>) MiscUtil.resolveClass(_IncludeFakeViewGroup_.class.getName());
-        }
-        return clasz;
+        return (Class<View>)MiscUtil.resolveClass(_IncludeFakeViewGroup_.class.getName());
     }
 
     @Override

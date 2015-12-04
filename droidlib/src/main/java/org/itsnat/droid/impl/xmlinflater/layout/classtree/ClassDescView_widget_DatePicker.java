@@ -21,12 +21,12 @@ public class ClassDescView_widget_DatePicker extends ClassDescViewBased
         super.init();
 
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"calendarViewShown",true));
-        addAttrDesc(new AttrDescView_widget_DatePicker_endYear_startYear(this,"endYear"));
-        addAttrDesc(new AttrDescView_widget_DatePicker_maxDate_minDate(this,"maxDate"));
-        addAttrDesc(new AttrDescView_widget_DatePicker_maxDate_minDate(this,"minDate"));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"spinnersShown",true));
-        addAttrDesc(new AttrDescView_widget_DatePicker_endYear_startYear(this,"startYear"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "calendarViewShown", true));
+        addAttrDescAN(new AttrDescView_widget_DatePicker_endYear_startYear(this, "endYear"));
+        addAttrDescAN(new AttrDescView_widget_DatePicker_maxDate_minDate(this, "maxDate"));
+        addAttrDescAN(new AttrDescView_widget_DatePicker_maxDate_minDate(this, "minDate"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "spinnersShown", true));
+        addAttrDescAN(new AttrDescView_widget_DatePicker_endYear_startYear(this, "startYear"));
     }
 }
 

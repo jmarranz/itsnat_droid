@@ -45,15 +45,15 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodFloat(this, "angle", 0f));
-        addAttrDesc(new AttrDescReflecMethodColor(this, "centerColor",0));
-        addAttrDesc(new AttrDescReflecMethodDimensionPercFloat(this, "centerX",new PercFloat(0.5f)));
-        addAttrDesc(new AttrDescReflecMethodDimensionPercFloat(this, "centerY",new PercFloat(0.5f)));
-        addAttrDesc(new AttrDescReflecMethodColor(this, "endColor",0));
-        addAttrDesc(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius",new PercFloat(0.5f)));
-        addAttrDesc(new AttrDescReflecMethodColor(this, "startColor",0));
-        addAttrDesc(new AttrDescReflecMethodNameSingle<Integer,ClassDescDrawable,GradientDrawableItemGradient,AttrDrawableContext>(this, "type", int.class, GradientTypeUtil.valueMap,"linear"));
-        addAttrDesc(new AttrDescReflecMethodBoolean<ClassDescDrawable,GradientDrawableItemGradient,AttrDrawableContext>(this, "useLevel",false));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "angle", 0f));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "centerColor", 0));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerX", new PercFloat(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerY", new PercFloat(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "endColor", 0));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius", new PercFloat(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "startColor", 0));
+        addAttrDescAN(new AttrDescReflecMethodNameSingle<Integer, ClassDescDrawable, GradientDrawableItemGradient, AttrDrawableContext>(this, "type", int.class, GradientTypeUtil.valueMap, "linear"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescDrawable, GradientDrawableItemGradient, AttrDrawableContext>(this, "useLevel", false));
     }
 
     public static class GradientTypeUtil

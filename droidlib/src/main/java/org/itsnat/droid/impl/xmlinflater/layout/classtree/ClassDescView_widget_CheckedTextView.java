@@ -19,7 +19,7 @@ public class ClassDescView_widget_CheckedTextView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDrawable(this,"checkMark","setCheckMarkDrawable",null));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"checked",false));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "checkMark", "setCheckMarkDrawable", null));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "checked", false));
     }
 }

@@ -45,74 +45,74 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescView_widget_TextView_autoLink(this));
+        addAttrDescAN(new AttrDescView_widget_TextView_autoLink(this));
         // android:autoText está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
-        addAttrDesc(new AttrDescView_widget_TextView_bufferType(this));
+        addAttrDescAN(new AttrDescView_widget_TextView_bufferType(this));
         // android:capitalize está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"cursorVisible",true));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "cursorVisible", true));
         // android:digits no se implementarlo y mi impresión es que es similar a autoText, capitalize etc
 
-        addAttrDesc(new AttrDescView_widget_TextView_compoundDrawables(this,"drawableLeft"));
-        addAttrDesc(new AttrDescView_widget_TextView_compoundDrawables(this,"drawableTop"));
-        addAttrDesc(new AttrDescView_widget_TextView_compoundDrawables(this,"drawableRight"));
-        addAttrDesc(new AttrDescView_widget_TextView_compoundDrawables(this,"drawableBottom"));
+        addAttrDescAN(new AttrDescView_widget_TextView_compoundDrawables(this, "drawableLeft"));
+        addAttrDescAN(new AttrDescView_widget_TextView_compoundDrawables(this, "drawableTop"));
+        addAttrDescAN(new AttrDescView_widget_TextView_compoundDrawables(this, "drawableRight"));
+        addAttrDescAN(new AttrDescView_widget_TextView_compoundDrawables(this, "drawableBottom"));
         // android:drawableStart y android:drawableEnd en teoría existen pero su acceso via métodos es desde Level 17 y no los veo relevantes
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"drawablePadding","setCompoundDrawablePadding",0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "drawablePadding", "setCompoundDrawablePadding", 0f));
         // android:editable está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:editorExtras tiene un bug y no funciona ni con un layout compilado: https://code.google.com/p/android/issues/detail?id=38122
-        addAttrDesc(new AttrDescView_widget_TextView_ellipsize(this));
-        addAttrDesc(new AttrDescReflecMethodInt(this, "ems", -1));
+        addAttrDescAN(new AttrDescView_widget_TextView_ellipsize(this));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "ems", -1));
         // android:fontFamily creo que es Level 16
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"freezesText",false));
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"top|start"));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"height",-1f));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"hint",""));
-        addAttrDesc(new AttrDescView_widget_TextView_imeActionId(this));
-        addAttrDesc(new AttrDescView_widget_TextView_imeActionLabel(this));
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"imeOptions", ImeOptionsUtil.valueMap,"actionUnspecified"));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"includeFontPadding",true));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "freezesText", false));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "top|start"));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "height", -1f));
+        addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "hint", ""));
+        addAttrDescAN(new AttrDescView_widget_TextView_imeActionId(this));
+        addAttrDescAN(new AttrDescView_widget_TextView_imeActionLabel(this));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "imeOptions", ImeOptionsUtil.valueMap, "actionUnspecified"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "includeFontPadding", true));
         // android:inputMethod lleva deprecated desde Level 3, mal documentado, es difícil de implementar y tiene substituto en inputType
         //    una clase de ejemplo podría ser android.text.method.DateTimeInputMethod
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"inputType", InputTypeUtil.valueMap,"text")); // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
-        addAttrDesc(new AttrDescView_widget_TextView_lineSpacingExtra(this));
-        addAttrDesc(new AttrDescView_widget_TextView_lineSpacingMultiplier(this));
-        addAttrDesc(new AttrDescReflecMethodInt(this,"lines",-1));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"linksClickable",true));
-        addAttrDesc(new AttrDescView_widget_TextView_marqueeRepeatLimit(this));
-        addAttrDesc(new AttrDescReflecMethodInt(this,"maxEms", -1));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"maxHeight",-1f));
-        addAttrDesc(new AttrDescView_widget_TextView_maxLength(this));
-        addAttrDesc(new AttrDescReflecMethodInt(this,"maxLines",-1));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"maxWidth",-1f));
-        addAttrDesc(new AttrDescReflecMethodInt(this,"minEms", -1));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"minHeight",-1f));
-        addAttrDesc(new AttrDescReflecMethodInt(this,"minLines",-1));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"minWidth",-1f));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "inputType", InputTypeUtil.valueMap, "text")); // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
+        addAttrDescAN(new AttrDescView_widget_TextView_lineSpacingExtra(this));
+        addAttrDescAN(new AttrDescView_widget_TextView_lineSpacingMultiplier(this));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "lines", -1));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "linksClickable", true));
+        addAttrDescAN(new AttrDescView_widget_TextView_marqueeRepeatLimit(this));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "maxEms", -1));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "maxHeight", -1f));
+        addAttrDescAN(new AttrDescView_widget_TextView_maxLength(this));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "maxLines", -1));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "maxWidth", -1f));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "minEms", -1));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "minHeight", -1f));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "minLines", -1));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "minWidth", -1f));
         // android:numeric está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:password está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:phoneNumber está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
-        addAttrDesc(new AttrDescReflecMethodString(this,"privateImeOptions",""));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"scrollHorizontally","setHorizontallyScrolling",false));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"selectAllOnFocus",false));
-        addAttrDesc(new AttrDescView_widget_TextView_shadowLayer_base(this,"shadowColor"));
-        addAttrDesc(new AttrDescView_widget_TextView_shadowLayer_base(this,"shadowDx"));
-        addAttrDesc(new AttrDescView_widget_TextView_shadowLayer_base(this,"shadowDy"));
-        addAttrDesc(new AttrDescView_widget_TextView_shadowLayer_base(this,"shadowRadius"));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"singleLine",false));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this, "text","")); // El tipo de CharSequence resultante (Spannable etc) depende del bufferType definido pero el orden no importa pues al definir el bufferType exige dar el texto como param para "retransformarlo"
-        addAttrDesc(new AttrDescView_widget_TextView_textAllCaps(this));
-        addAttrDesc(new AttrDescView_widget_TextView_textAppearance(this)); // "textAppearance"
-        addAttrDesc(new AttrDescReflecMethodColor(this,"textColor","#000000"));
-        addAttrDesc(new AttrDescReflecMethodColor(this,"textColorHighlight","setHighlightColor",0));
-        addAttrDesc(new AttrDescReflecMethodColor(this,"textColorHint","setHintTextColor",0));
-        addAttrDesc(new AttrDescReflecMethodColor(this,"textColorLink","setLinkTextColor",0));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"textIsSelectable",false));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"textScaleX",1.0f));
+        addAttrDescAN(new AttrDescReflecMethodString(this, "privateImeOptions", ""));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "scrollHorizontally", "setHorizontallyScrolling", false));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "selectAllOnFocus", false));
+        addAttrDescAN(new AttrDescView_widget_TextView_shadowLayer_base(this, "shadowColor"));
+        addAttrDescAN(new AttrDescView_widget_TextView_shadowLayer_base(this, "shadowDx"));
+        addAttrDescAN(new AttrDescView_widget_TextView_shadowLayer_base(this, "shadowDy"));
+        addAttrDescAN(new AttrDescView_widget_TextView_shadowLayer_base(this, "shadowRadius"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "singleLine", false));
+        addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "text", "")); // El tipo de CharSequence resultante (Spannable etc) depende del bufferType definido pero el orden no importa pues al definir el bufferType exige dar el texto como param para "retransformarlo"
+        addAttrDescAN(new AttrDescView_widget_TextView_textAllCaps(this));
+        addAttrDescAN(new AttrDescView_widget_TextView_textAppearance(this)); // "textAppearance"
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "textColor", "#000000"));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "textColorHighlight", "setHighlightColor", 0));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "textColorHint", "setHintTextColor", 0));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "textColorLink", "setLinkTextColor", 0));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "textIsSelectable", false));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "textScaleX", 1.0f));
         // No, no es un error, no hay textScaleY (en Level 15 ni en superiores)
-        addAttrDesc(new AttrDescView_widget_TextView_textSize(this)); // textSize
-        addAttrDesc(new AttrDescView_widget_TextView_textStyle(this));
-        addAttrDesc(new AttrDescView_widget_TextView_typeface(this));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"width",-1f));
+        addAttrDescAN(new AttrDescView_widget_TextView_textSize(this)); // textSize
+        addAttrDescAN(new AttrDescView_widget_TextView_textStyle(this));
+        addAttrDescAN(new AttrDescView_widget_TextView_typeface(this));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "width", -1f));
     }
 }
 

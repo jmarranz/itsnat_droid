@@ -37,11 +37,11 @@ public class ClassDescGradientDrawableItemCorners extends ClassDescElementDrawab
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this, "radius", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this, "topLeftRadius", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this, "topRightRadius", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this, "bottomRightRadius", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this, "bottomLeftRadius", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "radius", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topLeftRadius", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topRightRadius", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomRightRadius", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomLeftRadius", 0f));
     }
 
 }

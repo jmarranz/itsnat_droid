@@ -22,16 +22,16 @@ public class ClassDescView_widget_AbsListView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodColor(this,"cacheColorHint",0));
-        addAttrDesc(new AttrDescView_widget_AbsListView_choiceMode(this));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"drawSelectorOnTop",false));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"fastScrollEnabled",false));
-        addAttrDesc(new AttrDescReflecMethodDrawable(this,"listSelector","setSelector",null)); // Hay un drawable por defecto de Android
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"scrollingCache","setScrollingCacheEnabled",false));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"smoothScrollbar","setSmoothScrollbarEnabled",true));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"stackFromBottom",false));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"textFilterEnabled",false));
-        addAttrDesc(new AttrDescView_widget_AbsListView_transcriptMode(this));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "cacheColorHint", 0));
+        addAttrDescAN(new AttrDescView_widget_AbsListView_choiceMode(this));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "drawSelectorOnTop", false));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "fastScrollEnabled", false));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "listSelector", "setSelector", null)); // Hay un drawable por defecto de Android
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "scrollingCache", "setScrollingCacheEnabled", false));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "smoothScrollbar", "setSmoothScrollbarEnabled", true));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "stackFromBottom", false));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "textFilterEnabled", false));
+        addAttrDescAN(new AttrDescView_widget_AbsListView_transcriptMode(this));
 
 
     }

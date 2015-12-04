@@ -37,8 +37,8 @@ public class ClassDescGradientDrawableItemSize extends ClassDescElementDrawableC
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this, "width", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this, "height", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "width", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "height", 0f));
     }
 
 }

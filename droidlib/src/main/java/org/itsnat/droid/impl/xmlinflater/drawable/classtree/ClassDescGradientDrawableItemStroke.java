@@ -39,10 +39,10 @@ public class ClassDescGradientDrawableItemStroke extends ClassDescElementDrawabl
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this, "width", 0f));
-        addAttrDesc(new AttrDescReflecMethodColor(this, "color", 0));
-        addAttrDesc(new AttrDescReflecMethodDimensionFloat(this, "dashGap", 0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionFloat(this, "dashWidth", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "width", 0f));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "color", 0));
+        addAttrDescAN(new AttrDescReflecMethodDimensionFloat(this, "dashGap", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionFloat(this, "dashWidth", 0f));
     }
 
 }

@@ -23,16 +23,16 @@ public class ClassDescView_widget_Switch extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecFieldSetDimensionIntRound(this,"switchMinWidth","mSwitchMinWidth",0));
-        addAttrDesc(new AttrDescReflecFieldSetDimensionIntRound(this,"switchPadding","mSwitchPadding",0));
-        addAttrDesc(new AttrDescView_widget_Switch_switchTextAppearance(this));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"textOff",null)); // Adnroid tiene un texto por defecto
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"textOn",null)); // Adnroid tiene un texto por defecto
-        addAttrDesc(new AttrDescView_widget_Switch_textStyle(this));
-        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"thumb","mThumbDrawable",null)); // Android tiene un drawable por defecto
-        addAttrDesc(new AttrDescReflecFieldSetDimensionIntRound(this,"thumbTextPadding","mThumbTextPadding",0));
-        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"track","mTrackDrawable",null)); // Android tiene un drawable por defecto
-        addAttrDesc(new AttrDescView_widget_Switch_typeface(this));
+        addAttrDescAN(new AttrDescReflecFieldSetDimensionIntRound(this, "switchMinWidth", "mSwitchMinWidth", 0));
+        addAttrDescAN(new AttrDescReflecFieldSetDimensionIntRound(this, "switchPadding", "mSwitchPadding", 0));
+        addAttrDescAN(new AttrDescView_widget_Switch_switchTextAppearance(this));
+        addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "textOff", null)); // Adnroid tiene un texto por defecto
+        addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "textOn", null)); // Adnroid tiene un texto por defecto
+        addAttrDescAN(new AttrDescView_widget_Switch_textStyle(this));
+        addAttrDescAN(new AttrDescReflecFieldSetDrawable(this, "thumb", "mThumbDrawable", null)); // Android tiene un drawable por defecto
+        addAttrDescAN(new AttrDescReflecFieldSetDimensionIntRound(this, "thumbTextPadding", "mThumbTextPadding", 0));
+        addAttrDescAN(new AttrDescReflecFieldSetDrawable(this, "track", "mTrackDrawable", null)); // Android tiene un drawable por defecto
+        addAttrDescAN(new AttrDescView_widget_Switch_typeface(this));
 
     }
 }

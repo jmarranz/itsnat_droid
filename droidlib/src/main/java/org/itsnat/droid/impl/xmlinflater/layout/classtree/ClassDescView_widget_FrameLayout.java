@@ -26,10 +26,10 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
 
         if (Build.VERSION.SDK_INT < MiscUtil.MARSHMALLOW) // < 23
         {
-            addAttrDesc(new AttrDescReflecMethodDrawable(this, "foreground", "@null")); // A partir de MARSHMALLOW se define en View
+            addAttrDescAN(new AttrDescReflecMethodDrawable(this, "foreground", "@null")); // A partir de MARSHMALLOW se define en View
         }
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"foregroundGravity", GravityUtil.valueMap,"fill"));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this, "measureAllChildren", false));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "foregroundGravity", GravityUtil.valueMap, "fill"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "measureAllChildren", false));
 
     }
 }

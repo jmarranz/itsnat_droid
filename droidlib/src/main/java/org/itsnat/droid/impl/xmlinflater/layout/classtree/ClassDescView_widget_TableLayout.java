@@ -19,9 +19,9 @@ public class ClassDescView_widget_TableLayout extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescView_widget_TableLayout_collapseColumns(this));
-        addAttrDesc(new AttrDescView_widget_TableLayout_shrinkColumns(this));
-        addAttrDesc(new AttrDescView_widget_TableLayout_stretchColumns(this));
+        addAttrDescAN(new AttrDescView_widget_TableLayout_collapseColumns(this));
+        addAttrDescAN(new AttrDescView_widget_TableLayout_shrinkColumns(this));
+        addAttrDescAN(new AttrDescView_widget_TableLayout_stretchColumns(this));
 
     }
 }

@@ -17,7 +17,7 @@ public class ClassDescView_widget_AbsSpinner extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescView_widget_ListViewAndAbsSpinner_entries(this));
+        addAttrDescAN(new AttrDescView_widget_ListViewAndAbsSpinner_entries(this));
     }
 }
 

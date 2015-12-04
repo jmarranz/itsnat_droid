@@ -18,8 +18,8 @@ public class ClassDescView_view_ViewStub extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodId(this,"inflatedId","setInflatedId",-1));
-        addAttrDesc(new AttrDescReflecMethodId(this,"layout","setLayoutResource",0)); // El valor por defecto curiosamente es 0 no -1 (lo normal)
+        addAttrDescAN(new AttrDescReflecMethodId(this, "inflatedId", "setInflatedId", -1));
+        addAttrDescAN(new AttrDescReflecMethodId(this, "layout", "setLayoutResource", 0)); // El valor por defecto curiosamente es 0 no -1 (lo normal)
 
     }
 }

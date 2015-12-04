@@ -21,11 +21,11 @@ public class ClassDescView_widget_ListView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDrawable(this,"divider",null)); // Android tiene un drawable por defecto
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"dividerHeight",0f));
-        addAttrDesc(new AttrDescView_widget_ListViewAndAbsSpinner_entries(this));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"footerDividersEnabled",true));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"headerDividersEnabled",true));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "divider", null)); // Android tiene un drawable por defecto
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "dividerHeight", 0f));
+        addAttrDescAN(new AttrDescView_widget_ListViewAndAbsSpinner_entries(this));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "footerDividersEnabled", true));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "headerDividersEnabled", true));
     }
 }
 

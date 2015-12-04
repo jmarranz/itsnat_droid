@@ -38,7 +38,7 @@ public class ClassDescColorDrawable extends ClassDescElementDrawableRoot<ColorDr
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodColor(this, "color",0));
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "color", 0));
     }
 
 }

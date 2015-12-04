@@ -24,15 +24,15 @@ public class ClassDescView_widget_ImageView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"adjustViewBounds",false));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"baseline",-1f));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"baselineAlignBottom",false));
-        addAttrDesc(new AttrDescReflecFieldSetBoolean(this,"cropToPadding","mCropToPadding",false));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"maxHeight",(float)Integer.MAX_VALUE));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"maxWidth",(float)Integer.MAX_VALUE));
-        addAttrDesc(new AttrDescView_widget_ImageView_scaleType(this));
-        addAttrDesc(new AttrDescReflecMethodDrawable(this,"src","setImageDrawable","@null"));
-        addAttrDesc(new AttrDescView_widget_ImageView_tint(this));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "adjustViewBounds", false));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "baseline", -1f));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "baselineAlignBottom", false));
+        addAttrDescAN(new AttrDescReflecFieldSetBoolean(this, "cropToPadding", "mCropToPadding", false));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "maxHeight", (float) Integer.MAX_VALUE));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "maxWidth", (float) Integer.MAX_VALUE));
+        addAttrDescAN(new AttrDescView_widget_ImageView_scaleType(this));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "src", "setImageDrawable", "@null"));
+        addAttrDescAN(new AttrDescView_widget_ImageView_tint(this));
     }
 }
 

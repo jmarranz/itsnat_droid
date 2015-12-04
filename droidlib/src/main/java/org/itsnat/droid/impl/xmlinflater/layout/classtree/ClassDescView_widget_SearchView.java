@@ -23,11 +23,11 @@ public class ClassDescView_widget_SearchView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"iconifiedByDefault",true));
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"imeOptions", ImeOptionsUtil.valueMap,"actionUnspecified"));
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"inputType", InputTypeUtil.valueMap,"text")); // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"maxWidth",0f));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"queryHint",""));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "iconifiedByDefault", true));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "imeOptions", ImeOptionsUtil.valueMap, "actionUnspecified"));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "inputType", InputTypeUtil.valueMap, "text")); // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "maxWidth", 0f));
+        addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "queryHint", ""));
     }
 }
 

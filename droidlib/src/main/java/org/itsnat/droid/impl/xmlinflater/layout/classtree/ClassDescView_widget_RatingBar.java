@@ -20,10 +20,10 @@ public class ClassDescView_widget_RatingBar extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"isIndicator",false));
-        addAttrDesc(new AttrDescReflecMethodInt(this,"numStars",5));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"rating",0f));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"stepSize",0.5f));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "isIndicator", false));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "numStars", 5));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "rating", 0f));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "stepSize", 0.5f));
     }
 }
 

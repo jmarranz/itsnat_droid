@@ -22,10 +22,10 @@ public class ClassDescView_widget_Gallery extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodInt(this,"animationDuration",400));
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"left")); // No está claro que left sea el valor por defecto
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"spacing",0f));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"unselectedAlpha",0.5f));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "animationDuration", 400));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "left")); // No está claro que left sea el valor por defecto
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "spacing", 0f));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "unselectedAlpha", 0.5f));
 
 
     }

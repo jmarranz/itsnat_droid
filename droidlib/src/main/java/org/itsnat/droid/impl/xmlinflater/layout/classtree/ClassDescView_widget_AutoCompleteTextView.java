@@ -27,15 +27,15 @@ public class ClassDescView_widget_AutoCompleteTextView extends ClassDescViewBase
     {
         super.init();
 
-        addAttrDesc(new AttrDescView_widget_AutoCompleteTextView_completionHint(this));
-        addAttrDesc(new AttrDescReflecFieldSetId(this,"completionHintView","mHintResource",null)); // Android tiene un recurso por defecto
-        addAttrDesc(new AttrDescReflecMethodInt(this,"completionThreshold","setThreshold",2));
-        addAttrDesc(new AttrDescReflecMethodId(this,"dropDownAnchor",-1));
-        addAttrDesc(new AttrDescReflecMethodDimensionWithNameInt(this,"dropDownHeight",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"dropDownHorizontalOffset",0.0f));
-        addAttrDesc(new AttrDescReflecFieldMethodDrawable(this,"dropDownSelector","mPopup",ListPopupWindow.class,"setListSelector",null)); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"dropDownVerticalOffset",0.0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionWithNameInt(this,"dropDownWidth",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
+        addAttrDescAN(new AttrDescView_widget_AutoCompleteTextView_completionHint(this));
+        addAttrDescAN(new AttrDescReflecFieldSetId(this, "completionHintView", "mHintResource", null)); // Android tiene un recurso por defecto
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "completionThreshold", "setThreshold", 2));
+        addAttrDescAN(new AttrDescReflecMethodId(this, "dropDownAnchor", -1));
+        addAttrDescAN(new AttrDescReflecMethodDimensionWithNameInt(this, "dropDownHeight", (float) ViewGroup.LayoutParams.WRAP_CONTENT));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "dropDownHorizontalOffset", 0.0f));
+        addAttrDescAN(new AttrDescReflecFieldMethodDrawable(this, "dropDownSelector", "mPopup", ListPopupWindow.class, "setListSelector", null)); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "dropDownVerticalOffset", 0.0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionWithNameInt(this, "dropDownWidth", (float) ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 }
 

@@ -80,6 +80,6 @@ public class ClassDescInsetDrawable extends ClassDescDrawableWrapper<InsetDrawab
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawable_Drawable_visible<InsetDrawable>(this));
+        addAttrDescAN(new AttrDescDrawable_Drawable_visible<InsetDrawable>(this));
     }
 }

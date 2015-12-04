@@ -27,16 +27,16 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"baselineAligned",true));
-        addAttrDesc(new AttrDescView_widget_LinearLayout_baselineAlignedChildIndex(this));
-        addAttrDesc(new AttrDescReflecMethodDrawable(this,"divider","setDividerDrawable",null)); // Hay un drawable por defecto de Android
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "baselineAligned", true));
+        addAttrDescAN(new AttrDescView_widget_LinearLayout_baselineAlignedChildIndex(this));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "divider", "setDividerDrawable", null)); // Hay un drawable por defecto de Android
         // showDividers y dividerPadding atributos los he descubierto por casualidad en StackOverflow y resulta que son atributos NO documentados de LinearLayout (se ven en el código fuente)
-        addAttrDesc(new AttrDescView_widget_LinearLayout_showDividers(this));  // showDividers
-        addAttrDesc(new AttrDescReflecMethodDimensionIntRound(this,"dividerPadding",0f));
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"start|top"));
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"measureWithLargestChild","setMeasureWithLargestChildEnabled",false));
-        addAttrDesc(new AttrDescReflecMethodNameSingle(this,"orientation",int.class, OrientationUtil.valueMap,"horizontal"));
-        addAttrDesc(new AttrDescReflecMethodFloat(this,"weightSum",-1.0f));
+        addAttrDescAN(new AttrDescView_widget_LinearLayout_showDividers(this));  // showDividers
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "dividerPadding", 0f));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "start|top"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "measureWithLargestChild", "setMeasureWithLargestChildEnabled", false));
+        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "orientation", int.class, OrientationUtil.valueMap, "horizontal"));
+        addAttrDescAN(new AttrDescReflecMethodFloat(this, "weightSum", -1.0f));
     }
 }
 

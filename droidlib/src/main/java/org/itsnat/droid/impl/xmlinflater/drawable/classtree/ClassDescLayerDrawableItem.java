@@ -39,13 +39,13 @@ public class ClassDescLayerDrawableItem extends ClassDescElementDrawableChildWit
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"bottom",0f));
-        addAttrDesc(new AttrDescReflecMethodDrawable(this,"drawable","@null"));
-        addAttrDesc(new AttrDescReflecMethodId(this,"id",-1));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"left",0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "bottom", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "drawable", "@null"));
+        addAttrDescAN(new AttrDescReflecMethodId(this, "id", -1));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "left", 0f));
         // android:paddingMode es level 21
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"right",0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"top",0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "right", 0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "top", 0f));
     }
 
 }

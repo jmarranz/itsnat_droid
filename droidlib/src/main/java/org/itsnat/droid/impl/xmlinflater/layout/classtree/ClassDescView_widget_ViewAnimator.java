@@ -19,9 +19,9 @@ public class ClassDescView_widget_ViewAnimator extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"animateFirstView",true));
-        addAttrDesc(new AttrDescView_widget_ViewAnimator_inoutAnimation(this,"inAnimation"));
-        addAttrDesc(new AttrDescView_widget_ViewAnimator_inoutAnimation(this,"outAnimation"));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "animateFirstView", true));
+        addAttrDescAN(new AttrDescView_widget_ViewAnimator_inoutAnimation(this, "inAnimation"));
+        addAttrDescAN(new AttrDescView_widget_ViewAnimator_inoutAnimation(this, "outAnimation"));
 
     }
 }

@@ -75,11 +75,18 @@ public class ClassDescViewBased extends ClassDesc<View>
         // El motivo de ésto es evitar usar el .class lo que obliga a cargar la clase aunque no se use, así la clase nativa se carga cuando se necesita por primera vez
         if (clasz == null)
         {
-            String className = getClassOrDOMElemName();
-            this.clasz = (Class<View>) MiscUtil.resolveClass(className);
+            this.clasz = resolveClass();
         }
         return clasz;
     }
+
+    @SuppressWarnings("unchecked")
+    protected Class<View> resolveClass()
+    {
+        String className = getClassOrDOMElemName();
+        return (Class<View>)MiscUtil.resolveClass(className);
+    }
+
 
     public ClassDescViewMgr getClassDescViewMgr()
     {

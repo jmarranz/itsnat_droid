@@ -69,7 +69,7 @@ public abstract class ClassDesc<Tnative>
         this.initiated = true;
     }
 
-    protected <T extends AttrDesc> void addAttrDesc(T attrDesc)
+    protected <T extends AttrDesc> void addAttrDescAN(T attrDesc) // AN = Android Namespace
     {
         if (attrDescAndroidNSMap == null) this.attrDescAndroidNSMap = new HashMap<String, AttrDesc>();
 
@@ -77,7 +77,7 @@ public abstract class ClassDesc<Tnative>
         if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class or element: " + getClassOrDOMElemName() + " " + InflatedXML.XMLNS_ANDROID + " " + attrDesc.getName());
     }
 
-    protected <T extends AttrDesc> void addAttrDescNoNS(T attrDesc)
+    protected <T extends AttrDesc> void addAttrDescNoNS(T attrDesc) // NoNS no namespace
     {
         if (attrDescNoNSMap == null) this.attrDescNoNSMap = new MapLight<String, AttrDesc>(3);
 
@@ -87,7 +87,7 @@ public abstract class ClassDesc<Tnative>
 
 
     @SuppressWarnings("unchecked")
-    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDesc(String name)
+    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDescAN(String name)
     {
         if (attrDescAndroidNSMap == null) return null;
         return attrDescAndroidNSMap.get(name);
@@ -101,10 +101,10 @@ public abstract class ClassDesc<Tnative>
     }
 
     @SuppressWarnings("unchecked")
-    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDesc(String namespaceURI,String name)
+    protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDesc(String namespaceURI, String name)
     {
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
-            return getAttrDesc(name);
+            return getAttrDescAN(name);
         else if (namespaceURI == null || namespaceURI.isEmpty())
             return getAttrDescNoNS(name);
         else

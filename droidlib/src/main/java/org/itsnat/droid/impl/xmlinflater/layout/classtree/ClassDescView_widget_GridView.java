@@ -22,12 +22,12 @@ public class ClassDescView_widget_GridView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"columnWidth",null));
-        addAttrDesc(new AttrDescReflecMethodNameMultiple(this,"gravity", GravityUtil.valueMap,"left"));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"horizontalSpacing",0f));
-        addAttrDesc(new AttrDescReflecMethodInt(this,"numColumns",1));
-        addAttrDesc(new AttrDescView_widget_GridView_stretchMode(this));
-        addAttrDesc(new AttrDescReflecMethodDimensionIntFloor(this,"verticalSpacing",0f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "columnWidth", null));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "left"));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "horizontalSpacing", 0f));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "numColumns", 1));
+        addAttrDescAN(new AttrDescView_widget_GridView_stretchMode(this));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "verticalSpacing", 0f));
     }
 }
 
