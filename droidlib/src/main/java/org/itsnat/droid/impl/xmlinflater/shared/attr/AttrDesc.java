@@ -19,6 +19,8 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
+import java.util.ArrayList;
+
 /**
  * Created by jmarranz on 4/11/14.
  */
@@ -152,9 +154,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getDrawable(attr, ctx, xmlInflater);
     }
 
-    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent)
+    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
     {
-        return getXMLInflateRegistry().getLayout(attr, ctx, xmlInflater,viewParent);
+        return getXMLInflateRegistry().getLayout(attr, ctx, xmlInflater,viewParent,includeAttribs);
     }
 
     public int getColor(String attrValue, Context ctx)

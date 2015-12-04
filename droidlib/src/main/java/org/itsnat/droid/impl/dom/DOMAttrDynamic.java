@@ -51,6 +51,20 @@ public abstract class DOMAttrDynamic extends DOMAttr
         }
     }
 
+    protected void clone(DOMAttr clone)
+    {
+        super.clone(clone);
+
+        DOMAttrDynamic cloneDyn = (DOMAttrDynamic)clone;
+        cloneDyn.resType = resType;
+        cloneDyn.extension = extension;
+        cloneDyn.ninePatch = ninePatch;
+        cloneDyn.mime = mime;
+        cloneDyn.location = location;
+        cloneDyn.resource = resource; // Umm dudoso
+    }
+
+
     public String getResourceType()
     {
         return resType;

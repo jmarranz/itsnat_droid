@@ -7,6 +7,15 @@ public abstract class DOMScript
 {
     protected String code;
 
+    public DOMScript()
+    {
+    }
+
+    public DOMScript(String code)
+    {
+        this.code = code;
+    }
+
     public String getCode()
     {
         return code;

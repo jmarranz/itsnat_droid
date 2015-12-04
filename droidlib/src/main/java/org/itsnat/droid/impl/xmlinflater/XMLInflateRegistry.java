@@ -31,6 +31,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -549,19 +550,38 @@ public class XMLInflateRegistry
         else throw new ItsNatDroidException("Internal Error");
     }
 
-    public View getLayout(String attrValue, Context ctx,ViewGroup viewParent)
+    public View getLayout(String attrValue, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
     {
         if (isResource(attrValue))
         {
             int resId = getIdentifier(attrValue, ctx);
             if (resId <= 0) return null;
-            return LayoutInflater.from(ctx).inflate(resId, viewParent);
+            int countBefore = 0;
+            if (viewParent != null) countBefore = viewParent.getChildCount();
+
+            View rootView = LayoutInflater.from(ctx).inflate(resId, viewParent);
+
+            if (viewParent != null)
+            {
+                if (rootView != viewParent) throw new ItsNatDroidException("Unexpected"); // rootView es igual a viewParent
+
+                int countAfter = viewParent.getChildCount();
+                if (countAfter - countBefore == 1 && includeAttribs != null)
+                {
+                    View rootViewChild = viewParent.getChildAt(countAfter - 1);
+                    XMLInflaterLayout xmlInflaterLayout = (XMLInflaterLayout)xmlInflater;
+
+                    xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent,includeAttribs);
+                }
+            }
+
+            return rootView;
         }
 
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent)
+    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
     {
         if (attr instanceof DOMAttrDynamic)
         {
@@ -578,6 +598,9 @@ public class XMLInflateRegistry
             String resourceMime = attrDyn.getResourceMime();
             if (MimeUtil.isMIMEResourceXML(resourceMime))
             {
+                int countBefore = 0;
+                if (viewParent != null) countBefore = viewParent.getChildCount();
+
                 ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
                 AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
                 AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
@@ -586,15 +609,30 @@ public class XMLInflateRegistry
 
                 String[] loadScript = null;
                 List<String> scriptList = null;
-                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,loadScript,scriptList,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
-                return xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
+                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,/*includeAttribs,*/loadScript,scriptList,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
+                View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
+
+                if (viewParent != null)
+                {
+                    if (rootView != viewParent) throw new ItsNatDroidException("Unexpected"); // rootView es igual a viewParent
+
+                    int countAfter = viewParent.getChildCount();
+                    if (countAfter - countBefore == 1 && includeAttribs != null)
+                    {
+                        View rootViewChild = viewParent.getChildAt(countAfter - 1);
+
+                        xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent, includeAttribs);
+                    }
+                }
+
+                return rootView;
             }
             else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
         }
         else if (attr instanceof DOMAttrLocalResource)
         {
             String attrValue = attr.getValue();
-            return getLayout(attrValue,ctx,viewParent);
+            return getLayout(attrValue,ctx,xmlInflater,viewParent,includeAttribs);
         }
         else throw new ItsNatDroidException("Internal Error");
     }

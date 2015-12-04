@@ -115,6 +115,18 @@ public class TestLocalLayout1
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 1");
             assertEquals(compTextView.getText(), parsedTextView.getText());
+
+            assertEquals(((TextView)comp.findViewById(R.id.testIncludeId1)),compTextView);
+            assertEquals(((TextView)parsed.findViewById(parsedTextView.getId())),parsedTextView);
+            assertEquals(compTextView.getId(),parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
+
+            ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+            ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+
+            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+            assertEquals(a_params.height, b_params.height);
+            assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
+            assertEquals(a_params.width, b_params.width);
         }
 
 
@@ -126,6 +138,18 @@ public class TestLocalLayout1
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 2");
             assertEquals(compTextView.getText(), parsedTextView.getText());
+
+            assertEquals(((TextView)comp.findViewById(R.id.testIncludeId2)),compTextView);
+            assertEquals(((TextView)parsed.findViewById(parsedTextView.getId())),parsedTextView);
+            assertEquals(compTextView.getId(),parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
+
+            ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+            ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+
+            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+            assertEquals(a_params.height, b_params.height);
+            assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
+            assertEquals(a_params.width, b_params.width);
         }
 
 
@@ -137,6 +161,14 @@ public class TestLocalLayout1
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 3");
             assertEquals(compTextView.getText(), parsedTextView.getText());
+
+            ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+            ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+
+            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+            assertEquals(a_params.height, b_params.height);
+            assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
+            assertEquals(a_params.width, b_params.width);
         }
 
         childCount++;
@@ -146,6 +178,14 @@ public class TestLocalLayout1
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 4");
             assertEquals(compTextView.getText(), parsedTextView.getText());
+
+            ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+            ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+
+            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+            assertEquals(a_params.height, b_params.height);
+            assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
+            assertEquals(a_params.width, b_params.width);
         }
 
 

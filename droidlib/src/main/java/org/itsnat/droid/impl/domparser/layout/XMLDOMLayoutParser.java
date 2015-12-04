@@ -6,7 +6,6 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.dom.layout.DOMInclude;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -107,12 +106,6 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
             DOMView domView = (DOMView)element;
             if (namespaceURI == null && "style".equals(name))
                 domView.setStyleAttr(value);
-        }
-        else if (element instanceof DOMInclude)
-        {
-            DOMInclude domInc = (DOMInclude)element;
-            if ((namespaceURI == null) && "layout".equals(name))
-                domInc.setLayout(value);
         }
         return domAttr;
     }

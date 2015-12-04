@@ -41,39 +41,47 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
 
 
     @Override
-    public void setAttribute(Page page, View view, String namespace, String name, String value)
+    public boolean setAttribute(Page page, View view, String namespace, String name, String value)
     {
         if (NAMESPACE_ANDROID.equals(namespace))
             throw new RuntimeException("Android layout attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
         System.out.println("NOT FOUND LAYOUT ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+
+        return true;
     }
 
     @Override
-    public void removeAttribute(Page page, View view, String namespace, String name)
+    public boolean removeAttribute(Page page, View view, String namespace, String name)
     {
         if (NAMESPACE_ANDROID.equals(namespace))
             throw new RuntimeException("Android layout attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
         System.out.println("NOT FOUND LAYOUT ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+
+        return true;
     }
 
     @Override
-    public void setAttribute(Page page, Drawable obj, String namespace, String name, String value)
+    public boolean setAttribute(Page page, Drawable obj, String namespace, String name, String value)
     {
         if (NAMESPACE_ANDROID.equals(namespace))
             throw new RuntimeException("Android drawable attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
         System.out.println("NOT FOUND Drawable ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+
+        return true;
     }
 
     @Override
-    public void removeAttribute(Page page, Drawable obj, String namespace, String name)
+    public boolean removeAttribute(Page page, Drawable obj, String namespace, String name)
     {
         if (NAMESPACE_ANDROID.equals(namespace))
             throw new RuntimeException("Android drawable attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
         System.out.println("NOT FOUND Drawable ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+
+        return true;
     }
 
     protected View loadCompiledAndBindBackReloadButtons(int layoutId)

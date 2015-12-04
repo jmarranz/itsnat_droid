@@ -3,8 +3,12 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout._IncludeFakeViewGroup_;
+import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDesc_Include_layout;
@@ -14,6 +18,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDesc_Include_layout;
  */
 public class ClassDescView_Include extends ClassDescViewBased
 {
+
     public ClassDescView_Include(ClassDescViewMgr classMgr, ClassDescView_widget_FrameLayout parentClass)
     {
         super(classMgr,"include",parentClass);
@@ -28,6 +33,18 @@ public class ClassDescView_Include extends ClassDescViewBased
             this.clasz = (Class<View>) MiscUtil.resolveClass(_IncludeFakeViewGroup_.class.getName());
         }
         return clasz;
+    }
+
+    @Override
+    public boolean setAttribute(final View view,final DOMAttr attr,final AttrLayoutContext attrCtx)
+    {
+        // Se redefine totalmente porque necesitamos memorizar los atributos (excepto el layout)
+        if (attr.getNamespaceURI() == null && attr.getName().equals("layout"))
+            return super.setAttribute(view, attr, attrCtx);
+
+        ((_IncludeFakeViewGroup_)view).saveAttrib(attr);
+
+        return true; // No los estamos ignorando
     }
 
     @Override

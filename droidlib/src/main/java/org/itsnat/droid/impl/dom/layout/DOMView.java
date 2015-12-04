@@ -21,10 +21,25 @@ public class DOMView extends DOMElement
             this.styleAttr = ((DOMView)toCopy).styleAttr;
     }
 
+    protected void clone(DOMElement clone,boolean cloneChildren)
+    {
+        super.clone(clone,cloneChildren);
+
+        ((DOMView)clone).styleAttr = styleAttr;
+    }
+
+    @Override
+    public DOMElement createDOMElement()
+    {
+        return new DOMView(name,parentElement);
+    }
+
+    /*
     public DOMView getParentDOMView()
     {
         return (DOMView) getParentDOMElement();
     }
+    */
 
     public String getStyleAttr()
     {
@@ -36,10 +51,10 @@ public class DOMView extends DOMElement
         this.styleAttr = styleAttr;
     }
 
+    /*
     public void addChildView(DOMView domView)
     {
         super.addChildDOMElement(domView);
     }
-
-
+    */
 }

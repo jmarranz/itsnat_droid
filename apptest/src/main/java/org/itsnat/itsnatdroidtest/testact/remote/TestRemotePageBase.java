@@ -222,27 +222,31 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     }
 
     @Override
-    public void setAttribute(final Page page,View view, String namespace, String name, final String value)
+    public boolean setAttribute(final Page page,View view, String namespace, String name, final String value)
     {
         System.out.println("NOT FOUND LAYOUT ATTRIBUTE: " + namespace + " " + name + " " + value);
+        return true;
     }
 
     @Override
-    public void removeAttribute(Page page,View view, String namespace, String name)
+    public boolean removeAttribute(Page page,View view, String namespace, String name)
     {
         System.out.println("NOT FOUND LAYOUT ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+        return true;
     }
 
     @Override
-    public void setAttribute(Page page, Drawable obj, String namespace, String name, String value)
+    public boolean setAttribute(Page page, Drawable obj, String namespace, String name, String value)
     {
         System.out.println("NOT FOUND DRAWABLE ATTRIBUTE: " + namespace + " " + name + " " + value);
+        return true;
     }
 
     @Override
-    public void removeAttribute(Page page, Drawable obj, String namespace, String name)
+    public boolean removeAttribute(Page page, Drawable obj, String namespace, String name)
     {
         System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+        return true;
     }
 
     protected void changeLayout(View rootView)

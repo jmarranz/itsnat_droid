@@ -7,12 +7,15 @@ import android.view.ViewGroup;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflated.layout._IncludeFakeViewGroup_;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
+
+import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -36,17 +39,17 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
                 int countBefore = viewParent.getChildCount();
 
                 viewParent.removeViewAt(countBefore - 1); // Eliminamos el falso View auxiliar que substituye al <include> y que está recien insertado
+                if (view.getParent() != null) throw new ItsNatDroidException("Unexpected");
 
                 countBefore = viewParent.getChildCount();
 
                 Context ctx = attrCtx.getContext();
-
                 XMLInflater xmlInflater = attrCtx.getXMLInflater();
-                ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
-                XMLInflateRegistry xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
 
-                View resView = xmlInflateRegistry.getLayout(attr, ctx, xmlInflater,viewParent);
-                if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views
+                ArrayList<DOMAttr> includeAttribs = ((_IncludeFakeViewGroup_)view).getAttribs();
+
+                View resView = getLayout(attr, ctx, xmlInflater,viewParent,includeAttribs);
+                if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views, si viewParent es no nulo se devuelve viewParent, idem que en el inflado nativo
 
                 // Test (eliminar en el futuro):
                 int countAfter = viewParent.getChildCount();

@@ -29,7 +29,17 @@ public abstract class DOMAttr
             return new DOMAttrLocalResource(namespaceURI,name,value);
     }
 
+    public DOMAttr cloneDOMAttr()
+    {
+        DOMAttr attr = create(namespaceURI,name,value);
+        clone(attr);
+        return attr;
+    }
 
+    protected void clone(DOMAttr clone)
+    {
+        // Redefinir
+    }
 
     public String getNamespaceURI()
     {
@@ -44,5 +54,10 @@ public abstract class DOMAttr
     public String getValue()
     {
         return value;
+    }
+
+    public void setValue(String value)
+    {
+        this.value = value;
     }
 }

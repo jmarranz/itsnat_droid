@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.TypedValue;
+import android.view.View;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -18,6 +19,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
@@ -85,7 +87,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         try
         {
             if (isAttributeIgnored(draw, namespaceURI, name))
-                return false; // Se trata de forma especial en otro lugar
+                return true; // Se trata de forma especial en otro lugar
 
             final AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(namespaceURI,name);
             if (attrDesc != null)
@@ -102,40 +104,43 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
                     AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
                 else
                     task.run();
+
+                return true;
             }
             else
             {
                 // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
                 // y tiene prioridad la clase más derivada
 
+                XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
+                String value = attr.getValue();
+
                 ClassDescDrawable parentClass = getParentClassDescDrawable();
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(draw, attr, attrCtx);
+                    if (parentClass.setAttribute(draw, attr, attrCtx))
+                        return true;
                 }
-                else
-                {
-                    // No se encuentra opción de proceso custom
-                    XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
-                    AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
-                    if (listener != null)
-                    {
-                        PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
-                        String value = attr.getValue();
-                        listener.setAttribute(page, draw.getDrawable(), namespaceURI, name, value);
-                    }
-                }
+
+                return processAttrCustom(draw,namespaceURI,name,value,xmlInflaterDrawable);
             }
         }
         catch(Exception ex)
         {
             throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + attr.getValue() + " in object " + draw.getInstanceToSetAttributes(), ex); // draw.getDrawable() devuelve null en este contexto en algunos casos (atributos en objetos item auxiliares)
         }
-
-        return true;
     }
 
-
+    private boolean processAttrCustom(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name,String value,XMLInflaterDrawable xmlInflaterDrawable)
+    {
+        AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
+        if (listener != null)
+        {
+            PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
+            return listener.setAttribute(page, draw.getDrawable(), namespaceURI, name, value);
+        }
+        return false;
+    }
 
     public static Bitmap getBitmapNoScale(DOMAttr attr,Context ctx,XMLInflateRegistry xmlInflateRegistry)
     {

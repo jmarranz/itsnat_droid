@@ -9,4 +9,10 @@ public class DOMElementDefault extends DOMElement
     {
         super(name, parentElement);
     }
+
+    @Override
+    public DOMElement createDOMElement()
+    {
+        return new DOMElementDefault(name,parentElement);
+    }
 }

@@ -12,4 +12,9 @@ public class DOMElemMerge extends DOMElement
         super(name,parentElement);
     }
 
+    @Override
+    public DOMElement createDOMElement()
+    {
+        return new DOMElemMerge(name,(DOMView)parentElement);
+    }
 }

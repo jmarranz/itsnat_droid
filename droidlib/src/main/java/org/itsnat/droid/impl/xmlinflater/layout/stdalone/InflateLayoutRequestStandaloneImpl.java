@@ -10,6 +10,7 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.IOUtil;
@@ -17,6 +18,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 5/06/14.
@@ -122,9 +124,9 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         boolean remotePageOrFrag = false;
         boolean loadingRemotePage = false;
         AssetManager assetManager = getContext().getResources().getAssets();
-        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, remotePageOrFrag, loadingRemotePage,assetManager);
+        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, remotePageOrFrag, loadingRemotePage, assetManager);
 
-        return (XMLInflaterLayoutStandalone)inflateLayout(domLayout,parentView, null, null, null);
+        return (XMLInflaterLayoutStandalone)inflateLayout(domLayout,parentView,null, null, null);
     }
 
 }

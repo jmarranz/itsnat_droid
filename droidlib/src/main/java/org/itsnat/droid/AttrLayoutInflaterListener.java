@@ -7,6 +7,6 @@ import android.view.View;
  */
 public interface AttrLayoutInflaterListener
 {
-    public void setAttribute(Page page,View view,String namespace,String name,String value);
-    public void removeAttribute(Page page,View view,String namespace,String name);
+    public boolean setAttribute(Page page,View view,String namespace,String name,String value);
+    public boolean removeAttribute(Page page,View view,String namespace,String name);
 }

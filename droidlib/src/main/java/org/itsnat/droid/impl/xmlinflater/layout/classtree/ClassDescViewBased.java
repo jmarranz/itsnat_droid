@@ -45,13 +45,13 @@ import java.lang.reflect.Method;
 public class ClassDescViewBased extends ClassDesc<View>
 {
     protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP =
-                        new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams");
+            new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class, "generateDefaultLayoutParams");
 
     protected Class<View> clasz;
     protected Constructor<? extends View> constructor1P;
     protected Constructor<? extends View> constructor3P;
 
-    public ClassDescViewBased(ClassDescViewMgr classMgr, String className,ClassDescViewBased parentClass)
+    public ClassDescViewBased(ClassDescViewMgr classMgr, String className, ClassDescViewBased parentClass)
     {
         super(classMgr, className, parentClass);
     }
@@ -83,27 +83,28 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public ClassDescViewMgr getClassDescViewMgr()
     {
-        return (ClassDescViewMgr)classMgr;
+        return (ClassDescViewMgr) classMgr;
     }
 
     public ClassDescViewBased getParentClassDescViewBased()
     {
-        return (ClassDescViewBased)getParentClassDesc();
+        return (ClassDescViewBased) getParentClassDesc();
     }
 
-    protected static boolean isStyleAttribute(String namespaceURI,String name)
+    protected static boolean isStyleAttribute(String namespaceURI, String name)
     {
         return MiscUtil.isEmpty(namespaceURI) && name.equals("style");
     }
 
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    protected boolean isAttributeIgnored(String namespaceURI, String name)
     {
-        return isStyleAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
+        return isStyleAttribute(namespaceURI, name); // Se trata de forma especial en otro lugar
     }
 
     //@SuppressWarnings("unchecked")
-    public boolean setAttribute(final View view,final DOMAttr attr,final AttrLayoutContext attrCtx)
+    public boolean setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
+        // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
         if (!isInit()) init();
 
         String namespaceURI = attr.getNamespaceURI();
@@ -114,9 +115,10 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         try
         {
-            if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
+            if (isAttributeIgnored(namespaceURI, name))
+                return true; // Se trata de forma especial en otro lugar
 
-            final AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(namespaceURI,name);
+            final AttrDesc<ClassDescViewBased, View, AttrLayoutContext> attrDesc = this.<ClassDescViewBased, View, AttrLayoutContext>getAttrDesc(namespaceURI, name);
             if (attrDesc != null)
             {
                 Runnable task = new Runnable()
@@ -124,46 +126,54 @@ public class ClassDescViewBased extends ClassDesc<View>
                     @Override
                     public void run()
                     {
-                        attrDesc.setAttribute(view, attr,attrCtx);
+                        attrDesc.setAttribute(view, attr, attrCtx);
                     }
                 };
                 if (DOMAttrRemote.isPendingToDownload(attr))
-                    AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
+                    AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
                 else
                     task.run();
+
+                return true;
             }
             else
             {
+                if (isXMLIdAttrAsDOM(namespaceURI, name))
+                {
+                    InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+                    inflated.setXMLId(value, view);
+
+                    return true;
+                }
+
                 // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
                 // y tiene prioridad la clase más derivada
                 ClassDescViewBased parentClass = getParentClassDescViewBased();
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(view, attr,attrCtx);
+                    if (parentClass.setAttribute(view, attr, attrCtx))
+                        return true;
                 }
-                else if (isXMLIdAttrAsDOM(namespaceURI, name))
-                {
-                    InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
-                    inflated.setXMLId(value, view);
-                }
-                else
-                {
-                    // No se encuentra opción de proceso custom
-                    AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
-                    if (listener != null)
-                    {
-                        PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
-                        listener.setAttribute(page, view, namespaceURI, name, value);
-                    }
-                }
-            }
 
-            return true;
+                return processAttrCustom(view,namespaceURI,name,value,xmlInflaterLayout);
+            }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + view, ex);
         }
+    }
+
+    private boolean processAttrCustom(View view,String namespaceURI,String name,String value,XMLInflaterLayout xmlInflaterLayout)
+    {
+        // No se encuentra opción de proceso custom
+        AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+        if(listener!=null)
+        {
+            PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+            return listener.setAttribute(page, view, namespaceURI, name, value);
+        }
+        return false;
     }
 
     //@SuppressWarnings("unchecked")

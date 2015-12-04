@@ -238,15 +238,14 @@ public abstract class XMLDOMParser
     {
         String resourceType = attr.getResourceType();
 
-        // Por ahora sólo drawable
         XMLDOM xmlDOM;
         if ("drawable".equals(resourceType))
         {
-            xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager); // Es multihilo el método
+            xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager);
         }
         else if ("layout".equals(resourceType))
         {
-            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, assetManager); // Es multihilo el método
+            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, assetManager);
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 

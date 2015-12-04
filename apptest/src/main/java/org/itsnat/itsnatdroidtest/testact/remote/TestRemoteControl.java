@@ -23,7 +23,7 @@ public class TestRemoteControl extends TestRemotePageBase
     }
 
     @Override
-    public void setAttribute(final Page page,View view, String namespace, String name, final String value)
+    public boolean setAttribute(final Page page,View view, String namespace, String name, final String value)
     {
         if (name.equals("url"))
         {
@@ -37,8 +37,9 @@ public class TestRemoteControl extends TestRemotePageBase
                     page.reusePageRequest().setURL(value).execute();
                 }
             });
+            return true;
         }
-        else super.setAttribute(page,view, namespace, name, value);
+        else return super.setAttribute(page,view, namespace, name, value);
     }
 
 }

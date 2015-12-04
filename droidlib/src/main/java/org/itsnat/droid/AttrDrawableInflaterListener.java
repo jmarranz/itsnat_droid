@@ -7,6 +7,6 @@ import android.graphics.drawable.Drawable;
  */
 public interface AttrDrawableInflaterListener
 {
-    public void setAttribute(Page page,Drawable obj, String namespace, String name, String value);
-    public void removeAttribute(Page page, Drawable obj, String namespace, String name);
+    public boolean setAttribute(Page page,Drawable obj, String namespace, String name, String value);
+    public boolean removeAttribute(Page page, Drawable obj, String namespace, String name);
 }

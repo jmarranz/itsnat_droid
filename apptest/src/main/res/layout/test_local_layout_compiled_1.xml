@@ -24,12 +24,14 @@
 
         <!-- Test include -->
         <include layout="@layout/test_include"
+                 android:id="@+id/testIncludeId1"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="10dp"
             />
 
         <include layout="@layout/test_include_2_compiled"
+                 android:id="@+id/testIncludeId2"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="10dp"
