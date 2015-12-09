@@ -67,4 +67,9 @@ public class MiscUtil
             return value1.equals(value2);
     }
 
+    public static void waitPlease(long lapse)
+    {
+        try { Thread.sleep(lapse); }
+        catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
+    }
 }

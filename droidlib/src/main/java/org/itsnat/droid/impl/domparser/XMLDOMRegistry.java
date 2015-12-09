@@ -38,14 +38,14 @@ public class XMLDOMRegistry
         // muchos más aciertos de cacheo y acelerar un montón al tener el parseo ya hecho.
         // Si el template no es generado por ItsNat server o bien el scripting está desactivado (itsNatServerVersion puede
         // ser no null pues es un header), loadScript será null y no pasa nada markupNoLoadScript[0] es el markup original
-        String[] markupNoLoadScript = new String[1];
+        String[] markupWithoutLoadScript = new String[1];
         String loadScript = null;
         if (itsNatServerVersion != null && loadingRemotePage)
-            loadScript = XMLDOMLayout.extractLoadScriptMarkup(markup, markupNoLoadScript);
+            loadScript = XMLDOMLayout.extractLoadScriptMarkup(markup, markupWithoutLoadScript);
         else
-            markupNoLoadScript[0] = markup;
+            markupWithoutLoadScript[0] = markup;
 
-        XMLDOMLayout cachedDOMLayout = domLayoutCache.get(markupNoLoadScript[0]);
+        XMLDOMLayout cachedDOMLayout = domLayoutCache.get(markupWithoutLoadScript[0]);
         if (cachedDOMLayout != null)
         {
             // Recuerda que cachedLayout tiene el timestamp actualizado por el hecho de llamar al get()
@@ -55,12 +55,11 @@ public class XMLDOMRegistry
             XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingRemotePage,remotePageOrFrag,this,assetManager);
 
             cachedDOMLayout = layoutParser.parse(markup);
-            cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar
-            domLayoutCache.put(markupNoLoadScript[0], cachedDOMLayout);
+            cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar en el cacheado
+            domLayoutCache.put(markupWithoutLoadScript[0], cachedDOMLayout);
         }
 
-        XMLDOMLayout cloned = cachedDOMLayout.partialClone(); // No devolvemos nunca el que cacheamos "por si acaso"
-        cloned.setLoadScript(loadScript);
+        XMLDOMLayout cloned = cachedDOMLayout.partialClone(loadScript); // No devolvemos nunca el que cacheamos "por si acaso"
         return cloned;
     }
 

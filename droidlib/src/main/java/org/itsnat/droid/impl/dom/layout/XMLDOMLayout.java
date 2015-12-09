@@ -62,12 +62,12 @@ public class XMLDOMLayout extends XMLDOM
         return loadScript;
     }
 
-    public XMLDOMLayout partialClone()
+    public XMLDOMLayout partialClone(String loadScript)
     {
         // Reutilizamos t_odo excepto el loadScript pues es la única parte que cambia
         XMLDOMLayout cloned = new XMLDOMLayout();
         partialClone(cloned);
-        cloned.loadScript = null; // Para que quede claro que no se clona
+        cloned.loadScript = loadScript; // queda claro que no se clona
         cloned.scriptList = this.scriptList;
         return cloned;
     }

@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrAsset;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 31/10/14.
@@ -212,30 +214,53 @@ public abstract class XMLDOMParser
                 if (ims != null) try { ims.close(); } catch (IOException ex) { throw new ItsNatDroidException(ex); }
             }
 
-            String resourceMime = assetAttr.getResourceMime();
-            if (MimeUtil.isMIMEResourceXML(resourceMime))
-            {
-                String markup = MiscUtil.toString(res, "UTF-8");
-
-                XMLDOM xmlDOMChild = processDOMAttrDynamicXML(assetAttr,markup,xmlDOMRegistry,assetManager);
-
-                LinkedList<DOMAttrRemote> attrRemoteList = xmlDOMChild.getDOMAttrRemoteList();
-                if (attrRemoteList != null)
-                    throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
-            }
-            else if (MimeUtil.isMIMEResourceImage(resourceMime))
-            {
-                assetAttr.setResource(res);
-            }
-            else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
+            processDOMAttrAsset(assetAttr, res);
         }
 
         return attrib;
     }
 
 
-    public static XMLDOM processDOMAttrDynamicXML(DOMAttrDynamic attr,String markup,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    private void processDOMAttrAsset(DOMAttrAsset assetAttr, byte[] res)
     {
+        String resourceMime = assetAttr.getResourceMime();
+        if (MimeUtil.isMIMEResourceXML(resourceMime))
+        {
+            String markup = MiscUtil.toString(res, "UTF-8");
+            XMLDOM xmlDOM = processDOMAttrDynamicXML(assetAttr, markup, xmlDOMRegistry, assetManager);
+
+            if (xmlDOM.getDOMAttrRemoteList() != null)
+                throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
+        }
+        else if (MimeUtil.isMIMEResourceImage(resourceMime))
+        {
+            assetAttr.setResource(res);
+        }
+        else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
+    }
+
+    public static LinkedList<DOMAttrRemote> processDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultImpl resultRes,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    {
+        // Método llamado en multihilo
+
+        String resourceMime = remoteAttr.getResourceMime();
+        if (MimeUtil.isMIMEResourceXML(resourceMime))
+        {
+            String markup = resultRes.getResponseText();
+            XMLDOM xmlDOM = processDOMAttrDynamicXML(remoteAttr, markup, xmlDOMRegistry, assetManager);
+            return xmlDOM.getDOMAttrRemoteList();
+        }
+        else if (MimeUtil.isMIMEResourceImage(resourceMime))
+        {
+            remoteAttr.setResource(resultRes.getResponseByteArray());
+            return null;
+        }
+        else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
+    }
+
+    private static XMLDOM processDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    {
+        // Es llamado en multihilo en el caso de DOMAttrRemote
         String resourceType = attr.getResourceType();
 
         XMLDOM xmlDOM;

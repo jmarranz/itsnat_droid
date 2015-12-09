@@ -21,6 +21,7 @@ public class DOMView extends DOMElement
             this.styleAttr = ((DOMView)toCopy).styleAttr;
     }
 
+    @Override
     protected void clone(DOMElement clone,boolean cloneChildren)
     {
         super.clone(clone,cloneChildren);

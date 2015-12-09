@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MimeUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -84,6 +85,7 @@ public class HttpResourceDownloader
                     String resourceMime = attr.getResourceMime();
                     String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), urlBase);
                     HttpRequestResultImpl resultResource = HttpUtil.httpGet(url, httpRequestData, null, resourceMime);
+
                     processHttpRequestResultResource(url, attr, resultResource, resultList);
                 }
                 catch (Exception ex)
@@ -103,21 +105,9 @@ public class HttpResourceDownloader
 
         if (resultList != null) resultList.add(resultRes);
 
-        String resourceMime = attr.getResourceMime();
-        if (MimeUtil.isMIMEResourceXML(resourceMime))
-        {
-            String markup = resultRes.getResponseText();
-            XMLDOM xmlDOM = XMLDOMParser.processDOMAttrDynamicXML(attr, markup, xmlDOMRegistry, assetManager);
-
-            LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
-            if (attrRemoteList != null)
-                downloadResources(urlBase, attrRemoteList, resultList);
-        }
-        else if (MimeUtil.isMIMEResourceImage(resourceMime))
-        {
-            attr.setResource(resultRes.getResponseByteArray());
-        }
-        else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
+        LinkedList<DOMAttrRemote> attrRemoteList = XMLDOMParser.processDOMAttrRemote(attr, resultRes, xmlDOMRegistry, assetManager);
+        if (attrRemoteList != null)
+            downloadResources(urlBase, attrRemoteList, resultList);
     }
 
 }

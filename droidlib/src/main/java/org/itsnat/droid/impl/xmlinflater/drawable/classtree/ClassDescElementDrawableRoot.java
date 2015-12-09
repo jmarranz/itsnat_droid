@@ -53,12 +53,13 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
 
         if (childList != null)
         {
-            if (childList.size() > 1)
-                throw new ItsNatDroidException("Expected just a single child element or none, processing " + getElementName());
             if (childList.size() == 1) {
+                // Si existe un drawable hijo gana el hijo sobre el drawable definido como atributo
                 ElementDrawableChildDrawableBridge childDrawable = (ElementDrawableChildDrawableBridge) childList.get(0);
                 drawable = childDrawable.getDrawable();
             }
+            else if (childList.size() > 1)
+                    throw new ItsNatDroidException("Expected just a single child element or none, processing " + getElementName());
         }
 
         if (drawable == null)

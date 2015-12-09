@@ -63,11 +63,6 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     {
         // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
         // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable remoto por ejemplo
-        downloadResources(attr, task, xmlInflater);
-    }
-
-    private static void downloadResources(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
-    {
         PageImpl page = ClassDesc.getPageImpl(xmlInflater); // NO puede ser nulo
 
         page.getItsNatDocImpl().downloadResources(attr, task);
