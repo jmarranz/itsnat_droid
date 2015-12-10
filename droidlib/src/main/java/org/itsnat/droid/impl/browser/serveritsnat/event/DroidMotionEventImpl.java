@@ -86,7 +86,8 @@ public class DroidMotionEventImpl extends DroidInputEventImpl
     {
         if (type.equals("click"))
             return MotionEvent.ACTION_UP;
-        else return getActionFromTouchType(type);
+        else
+            return getActionFromTouchType(type);
     }
 
 }

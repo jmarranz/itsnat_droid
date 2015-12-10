@@ -46,23 +46,6 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
 
     public void setAttributeFromRemote(View view, DOMAttr attr,ClassDescViewBased viewClassDesc,AttrLayoutContext attrCtx)
     {
-        String namespaceURI = attr.getNamespaceURI();
-        String name = attr.getName(); // El nombre devuelto no contiene el namespace
-        if (MiscUtil.isEmpty(namespaceURI))
-        {
-            String type = getTypeInlineEventHandler(name);
-            if (type != null)
-            {
-                String value = attr.getValue();
-                ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type,view);
-                viewData.setOnTypeInlineCode(name, value);
-                if (viewData instanceof ItsNatViewNotNullImpl)
-                    ((ItsNatViewNotNullImpl) viewData).registerEventListenerViewAdapter(type);
-
-                return;
-            }
-        }
-
         if (viewClassDesc == null)
         {
             ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
@@ -92,27 +75,8 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
 
-        if (MiscUtil.isEmpty(namespaceURI))
-        {
-            String type = getTypeInlineEventHandler(name);
-            if (type != null)
-            {
-                ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type,view);
-                viewData.removeOnTypeInlineCode(name);
-
-                return true;
-            }
-            else
-            {
-                AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
-                return viewClassDesc.removeAttribute(view, namespaceURI, name,attrCtx);
-            }
-        }
-        else
-        {
-            AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
-            return viewClassDesc.removeAttribute(view, namespaceURI, name,attrCtx);
-        }
+        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
+        return removeAttribute(viewClassDesc,view, namespaceURI, name,attrCtx);
     }
 
     private ItsNatViewImpl getItsNatViewOfInlineHandler(String type,View view)
@@ -135,5 +99,46 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         if (eventGroup.getEventGroupCode() == DroidEventGroupInfo.UNKNOWN_EVENT)
             return null;
         return type;
+    }
+
+    @Override
+    public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
+    {
+        String namespaceURI = attr.getNamespaceURI();
+        String name = attr.getName(); // El nombre devuelto no contiene el namespace
+        if (MiscUtil.isEmpty(namespaceURI))
+        {
+            String type = getTypeInlineEventHandler(name);
+            if (type != null)
+            {
+                String value = attr.getValue();
+                ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type,view);
+                viewData.setOnTypeInlineCode(name, value);
+                if (viewData instanceof ItsNatViewNotNullImpl)
+                    ((ItsNatViewNotNullImpl) viewData).registerEventListenerViewAdapter(type);
+
+                return true;
+            }
+        }
+
+        return super.setAttribute(classDesc,view, attr, attrCtx);
+    }
+
+    @Override
+    public boolean removeAttribute(ClassDescViewBased classDesc,View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
+    {
+        if (MiscUtil.isEmpty(namespaceURI))
+        {
+            String type = getTypeInlineEventHandler(name);
+            if (type != null)
+            {
+                ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type, view);
+                viewData.removeOnTypeInlineCode(name);
+
+                return true;
+            }
+        }
+
+        return super.removeAttribute(classDesc,view, namespaceURI, name, attrCtx);
     }
 }

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout._IncludeFakeViewGroup_;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;

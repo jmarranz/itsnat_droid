@@ -5,20 +5,20 @@ import org.itsnat.droid.impl.dom.DOMElement;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class DOMView extends DOMElement
+public class DOMElemView extends DOMElement
 {
     protected String styleAttr;
 
-    public DOMView(String name,DOMElement parentElement)
+    public DOMElemView(String name, DOMElement parentElement)
     {
         super(name,parentElement);
     }
 
-    public DOMView(DOMElement toCopy)
+    public DOMElemView(DOMElement toCopy)
     {
         super(toCopy);
-        if (toCopy instanceof DOMView)
-            this.styleAttr = ((DOMView)toCopy).styleAttr;
+        if (toCopy instanceof DOMElemView)
+            this.styleAttr = ((DOMElemView)toCopy).styleAttr;
     }
 
     @Override
@@ -26,13 +26,13 @@ public class DOMView extends DOMElement
     {
         super.clone(clone,cloneChildren);
 
-        ((DOMView)clone).styleAttr = styleAttr;
+        ((DOMElemView)clone).styleAttr = styleAttr;
     }
 
     @Override
     public DOMElement createDOMElement()
     {
-        return new DOMView(name,parentElement);
+        return new DOMElemView(name,parentElement);
     }
 
     /*

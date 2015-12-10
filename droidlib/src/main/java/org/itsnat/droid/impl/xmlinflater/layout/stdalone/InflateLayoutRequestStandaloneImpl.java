@@ -10,7 +10,6 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.IOUtil;
@@ -18,7 +17,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 5/06/14.

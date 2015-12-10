@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by jmarranz on 31/10/14.

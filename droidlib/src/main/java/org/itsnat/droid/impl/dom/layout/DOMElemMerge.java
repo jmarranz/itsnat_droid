@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
  */
 public class DOMElemMerge extends DOMElement
 {
-    public DOMElemMerge(String name, DOMView parentElement)
+    public DOMElemMerge(String name, DOMElemView parentElement)
     {
         super(name,parentElement);
     }
@@ -15,6 +15,6 @@ public class DOMElemMerge extends DOMElement
     @Override
     public DOMElement createDOMElement()
     {
-        return new DOMElemMerge(name,(DOMView)parentElement);
+        return new DOMElemMerge(name,(DOMElemView)parentElement);
     }
 }

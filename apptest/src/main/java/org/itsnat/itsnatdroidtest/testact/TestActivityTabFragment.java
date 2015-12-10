@@ -126,8 +126,8 @@ public class TestActivityTabFragment extends Fragment
         });
 
 
-        View testRemoteResources = rootView.findViewById(R.id.testRemoteLayoutDrawables);
-        testRemoteResources.setOnClickListener(new View.OnClickListener()
+        View testRemoteDrawables = rootView.findViewById(R.id.testRemoteLayoutDrawables);
+        testRemoteDrawables.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)

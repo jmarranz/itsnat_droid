@@ -2,46 +2,37 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
-import org.apache.http.params.HttpParams;
-import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 /**
  * Created by jmarranz on 4/06/14.
  */
 public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 {
-    protected final ItsNatDroidImpl itsNatDroid; // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
+    // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
     protected final PageRequestImpl pageRequest;
     protected final String url;
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
-    protected final XMLInflateRegistry xmlInflateRegistry;
     protected final XMLDOMRegistry xmlDOMRegistry;
-    protected final AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected final AssetManager assetManager;
 
-    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url, HttpParams httpParamsRequest)
+    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url)
     {
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
 
-        this.itsNatDroid = itsNatDroid;
+        // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.pageRequest = pageRequest;
         this.url = url;
         this.pageURLBase = pageRequest.getURLBase();
-        this.xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
         this.xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
-        this.attrDrawableInflaterListener = pageRequest.getAttrDrawableInflaterListener();
         this.assetManager = pageRequest.getContext().getAssets();
-
-        // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.httpRequestData = new HttpRequestData(pageRequest);
     }
 
@@ -67,7 +58,6 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
             if (errorListener != null)
             {
                 errorListener.onError(ex, pageRequest,result.getHttpRequestResultOKImpl()); // Para poder recogerla desde fuera
-                return;
             }
             else
             {
@@ -86,8 +76,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
             HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ?
                     ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
 
-            if (errorListener != null) errorListener.onError(ex, pageRequest,result);
-            return;
+            errorListener.onError(ex, pageRequest,result);
         }
         else
         {
@@ -95,8 +84,4 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
             else throw new ItsNatDroidException(ex);
         }
     }
-
-
-
-
 }

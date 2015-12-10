@@ -255,9 +255,7 @@ public class PageRequestImpl implements PageRequest
 
     private void executeAsync(String url)
     {
-        HttpParams httpParamsRequest = getHttpParams();
-
-        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,httpParamsRequest);
+        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

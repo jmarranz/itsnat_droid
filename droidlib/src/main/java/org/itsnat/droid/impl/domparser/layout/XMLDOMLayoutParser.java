@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
-import org.itsnat.droid.impl.dom.layout.DOMView;
+import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -82,7 +82,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
             return new DOMElemMerge(name, null);
         }
         else
-            return new DOMView(name,parent);
+            return new DOMElemView(name,parent);
     }
 
     @Override
@@ -90,7 +90,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     {
         if (name.equals("script"))
         {
-            parseScriptElement(parser,(DOMView)parentElement, xmlDOM);
+            parseScriptElement(parser,(DOMElemView)parentElement, xmlDOM);
             return null; // Ignorar porque "desaparece"
         }
         else return super.processElement(name,parentElement,parser, xmlDOM);
@@ -101,14 +101,14 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     {
         DOMAttr domAttr = super.createDOMAttr(element,namespaceURI,name,value,xmlDOMParent);
 
-        if (element instanceof DOMView)
+        if (element instanceof DOMElemView)
         {
-            DOMView domView = (DOMView)element;
+            DOMElemView domElemView = (DOMElemView)element;
             if (namespaceURI == null && "style".equals(name))
-                domView.setStyleAttr(value);
+                domElemView.setStyleAttr(value);
         }
         return domAttr;
     }
 
-    protected abstract void parseScriptElement(XmlPullParser parser,DOMView viewParent,XMLDOM xmlDOM) throws IOException, XmlPullParserException;
+    protected abstract void parseScriptElement(XmlPullParser parser,DOMElemView viewParent,XMLDOM xmlDOM) throws IOException, XmlPullParserException;
 }

@@ -16,7 +16,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.dom.layout.DOMView;
+import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
@@ -306,20 +306,20 @@ public class ClassDescViewBased extends ClassDesc<View>
         return createViewObject(idStyle,pendingPostInsertChildrenTasks,ctx);
     }
 
-    private int findStyleAttribute(DOMView domView,Context ctx)
+    private int findStyleAttribute(DOMElemView domElemView,Context ctx)
     {
-        String value = domView.getStyleAttr();
+        String value = domElemView.getStyleAttr();
         if (value == null) return 0;
         return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
-    public View createViewObject(DOMView domView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
+    public View createViewObject(DOMElemView domElemView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
-        int idStyle = findStyleAttribute(domView,ctx);
-        return createViewObject(domView, idStyle, pendingPostInsertChildrenTasks, ctx);
+        int idStyle = findStyleAttribute(domElemView,ctx);
+        return createViewObject(domElemView, idStyle, pendingPostInsertChildrenTasks, ctx);
     }
 
-    protected View createViewObject(DOMView domView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
+    protected View createViewObject(DOMElemView domElemView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         // Se redefine completamente en el caso de Spinner
         return createViewObject(idStyle,pendingPostInsertChildrenTasks,ctx);

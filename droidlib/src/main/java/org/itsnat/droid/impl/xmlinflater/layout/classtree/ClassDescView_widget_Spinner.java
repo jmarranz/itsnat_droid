@@ -9,7 +9,7 @@ import android.widget.Spinner;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.layout.DOMView;
+import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -56,17 +56,17 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 
-    private String findSpinnerModeAttributeFromRemote(DOMView domView)
+    private String findSpinnerModeAttributeFromRemote(DOMElemView domElemView)
     {
-        DOMAttr attr = domView.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
+        DOMAttr attr = domElemView.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
         if (attr == null) return null;
         return attr.getValue();
     }
 
     @Override
-    public View createViewObject(DOMView domView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks, Context ctx)
+    public View createViewObject(DOMElemView domElemView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks, Context ctx)
     {
-        String spinnerMode = findSpinnerModeAttributeFromRemote(domView);
+        String spinnerMode = findSpinnerModeAttributeFromRemote(domElemView);
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 

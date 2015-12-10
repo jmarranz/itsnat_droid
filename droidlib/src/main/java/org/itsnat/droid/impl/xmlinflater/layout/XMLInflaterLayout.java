@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
-import org.itsnat.droid.impl.dom.layout.DOMView;
+import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
@@ -47,7 +47,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(itsNatDroid, xmlDOMLayout,ctx) :
                                                             new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener, ctx, page);
-        xmlInflaterLayout.inflateLayout(viewParent,loadScript, scriptList /*,includeAttribs*/);
+        xmlInflaterLayout.inflateLayout(viewParent, loadScript, scriptList /*,includeAttribs*/);
         return xmlInflaterLayout;
     }
 
@@ -95,9 +95,9 @@ public abstract class XMLInflaterLayout extends XMLInflater
         }
     }
 
-    public ClassDescViewBased getClassDescViewBased(DOMView domView)
+    public ClassDescViewBased getClassDescViewBased(DOMElemView domElemView)
     {
-        String viewName = domView.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
+        String viewName = domElemView.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
         ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflateRegistry().getClassDescViewMgr();
         return classDescViewMgr.get(viewName);
     }
@@ -106,18 +106,18 @@ public abstract class XMLInflaterLayout extends XMLInflater
     {
         DOMElement rootDOMView = xmlDOMLayout.getRootElement();
 
-        DOMView newRootDOMView;
+        DOMElemView newRootDOMElemView;
         if (rootDOMView instanceof DOMElemMerge)
         {
             if (viewParent == null) throw new ItsNatDroidException("Only can be used <merge> on included layouts");
-            newRootDOMView = new DOMView(rootDOMView); // Reemplazamos el <merge> por el ViewGroup como elemento, conservando los hijos y atributos del <merge> original (el namespace de Android por ejemplo)
-            newRootDOMView.setName(viewParent.getClass().getName());
+            newRootDOMElemView = new DOMElemView(rootDOMView); // Reemplazamos el <merge> por el ViewGroup como elemento, conservando los hijos y atributos del <merge> original (el namespace de Android por ejemplo)
+            newRootDOMElemView.setName(viewParent.getClass().getName());
         }
         else
         {
             if (viewParent != null)
             {
-                newRootDOMView = new DOMView(viewParent.getClass().getName(), null); // Reemplazamos el <View> root por el ViewGroup padre y lo añadimos como hijo, para que se definan bien los Layout Params
+                newRootDOMElemView = new DOMElemView(viewParent.getClass().getName(), null); // Reemplazamos el <View> root por el ViewGroup padre y lo añadimos como hijo, para que se definan bien los Layout Params
                 /*
                 if (includeAttribs != null)
                 {
@@ -134,17 +134,17 @@ public abstract class XMLInflaterLayout extends XMLInflater
                     }
                 }
                 */
-                newRootDOMView.addChildDOMElement(rootDOMView);
+                newRootDOMElemView.addChildDOMElement(rootDOMView);
             }
             else
-                newRootDOMView = (DOMView)rootDOMView;
+                newRootDOMElemView = (DOMElemView)rootDOMView;
         }
 
         PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks = new PendingPostInsertChildrenTasks();
 
-        View rootView = createRootViewObjectAndFillAttributes(newRootDOMView, pendingPostInsertChildrenTasks);
+        View rootView = createRootViewObjectAndFillAttributes(newRootDOMElemView, pendingPostInsertChildrenTasks);
 
-        processChildViews(newRootDOMView, rootView, xmlDOMLayout);
+        processChildViews(newRootDOMElemView, rootView, xmlDOMLayout);
 
         pendingPostInsertChildrenTasks.executeTasks();
 
@@ -163,50 +163,50 @@ public abstract class XMLInflaterLayout extends XMLInflater
         else return rootView;
     }
 
-    public View createRootViewObjectAndFillAttributes(DOMView rootDOMView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        ClassDescViewBased classDesc = getClassDescViewBased(rootDOMView);
-        View rootView = createViewObject(classDesc, rootDOMView, pendingPostInsertChildrenTasks);
+        ClassDescViewBased classDesc = getClassDescViewBased(rootDOMElemView);
+        View rootView = createViewObject(classDesc, rootDOMElemView, pendingPostInsertChildrenTasks);
 
         getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
-        fillAttributesAndAddView(rootView, classDesc, null, rootDOMView, pendingPostInsertChildrenTasks);
+        fillAttributesAndAddView(rootView, classDesc, null, rootDOMElemView, pendingPostInsertChildrenTasks);
 
         return rootView;
     }
 
-    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMView domView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
         // a setRootView(view); cuando viewParent es null "para reutilizar código"
-        ClassDescViewBased classDesc = getClassDescViewBased(domView);
-        View view = createViewObject(classDesc,domView,pendingPostInsertChildrenTasks);
+        ClassDescViewBased classDesc = getClassDescViewBased(domElemView);
+        View view = createViewObject(classDesc, domElemView,pendingPostInsertChildrenTasks);
 
-        fillAttributesAndAddView(view,classDesc,viewParent, domView,pendingPostInsertChildrenTasks);
+        fillAttributesAndAddView(view,classDesc,viewParent, domElemView,pendingPostInsertChildrenTasks);
 
         return view;
     }
 
 
-    private View createViewObject(ClassDescViewBased classDesc,DOMView domView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private View createViewObject(ClassDescViewBased classDesc,DOMElemView domElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        return classDesc.createViewObject(domView, pendingPostInsertChildrenTasks, getContext());
+        return classDesc.createViewObject(domElemView, pendingPostInsertChildrenTasks, getContext());
     }
 
-    private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,DOMView domView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,DOMElemView domElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         PendingViewPostCreateProcess pendingViewPostCreateProcess = classDesc.createPendingViewPostCreateProcess(view, viewParent);
         AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
 
-        fillViewAttributes(classDesc,view, domView,attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        fillViewAttributes(classDesc,view, domElemView,attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         classDesc.addViewObject(viewParent, view, -1, pendingViewPostCreateProcess, ctx);
 
         pendingViewPostCreateProcess.destroy();
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc, View view, DOMView domView, AttrLayoutContext attrCtx)
+    private void fillViewAttributes(ClassDescViewBased classDesc, View view, DOMElemView domElemView, AttrLayoutContext attrCtx)
     {
-        ArrayList<DOMAttr> attribList = domView.getDOMAttributeList();
+        ArrayList<DOMAttr> attribList = domElemView.getDOMAttributeList();
         if (attribList != null)
         {
             for (int i = 0; i < attribList.size(); i++)
@@ -222,12 +222,17 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        return classDesc.setAttribute(view,attr,attrCtx);
+        return classDesc.setAttribute(view, attr, attrCtx);
     }
 
-    protected void processChildViews(DOMView domViewParent, View viewParent,XMLDOM xmlDOMParent)
+    public boolean removeAttribute(ClassDescViewBased classDesc,View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
     {
-        LinkedList<DOMElement> childElemList = domViewParent.getChildDOMElementList();
+        return classDesc.removeAttribute(view, namespaceURI,name,attrCtx);
+    }
+
+    protected void processChildViews(DOMElemView domElemViewParent, View viewParent,XMLDOM xmlDOMParent)
+    {
+        LinkedList<DOMElement> childElemList = domElemViewParent.getChildDOMElementList();
         if (childElemList != null)
         {
             ViewGroup viewParentGroup = (ViewGroup)viewParent;
@@ -238,9 +243,9 @@ public abstract class XMLInflaterLayout extends XMLInflater
         }
     }
 
-    public View insertFragment(DOMView rootDOMViewFragment,XMLDOM xmlDOMParent)
+    public View insertFragment(DOMElemView rootDOMElemViewFragment,XMLDOM xmlDOMParent)
     {
-        return inflateNextView(rootDOMViewFragment,null,xmlDOMParent);
+        return inflateNextView(rootDOMElemViewFragment,null,xmlDOMParent);
     }
 
     private View inflateNextView(DOMElement domElem, ViewGroup viewParent,XMLDOM xmlDOMParent)
@@ -249,9 +254,9 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
         PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks = new PendingPostInsertChildrenTasks();
 
-        View view = createViewObjectAndFillAttributesAndAdd( viewParent, (DOMView)domElem, pendingPostInsertChildrenTasks);
+        View view = createViewObjectAndFillAttributesAndAdd( viewParent, (DOMElemView)domElem, pendingPostInsertChildrenTasks);
 
-        processChildViews((DOMView)domElem,view,xmlDOMParent);
+        processChildViews((DOMElemView)domElem,view,xmlDOMParent);
 
         pendingPostInsertChildrenTasks.executeTasks();
 

@@ -7,10 +7,8 @@ import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

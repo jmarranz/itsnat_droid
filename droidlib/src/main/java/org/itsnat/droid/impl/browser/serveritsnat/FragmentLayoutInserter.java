@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
-import org.itsnat.droid.impl.dom.layout.DOMView;
+import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MapLight;
@@ -68,7 +68,7 @@ public class FragmentLayoutInserter
 
         XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), true, false, assetManager);
 
-        DOMView rootDOMView = (DOMView)xmlDOMLayout.getRootElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
+        DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
         LinkedList<DOMScript> scriptList = new LinkedList<DOMScript>();
 
@@ -76,7 +76,7 @@ public class FragmentLayoutInserter
         if (domScriptList != null)
             scriptList.addAll(domScriptList);
 
-        ViewGroup falseParentView = (ViewGroup) xmlLayoutInflaterPage.insertFragment(rootDOMView,xmlDOMLayout); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
+        ViewGroup falseParentView = (ViewGroup) xmlLayoutInflaterPage.insertFragment(rootDOMElemView,xmlDOMLayout); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
         int indexRef = viewRef != null ? InflatedLayoutImpl.getChildViewIndex(parentView, viewRef) : -1;
         while (falseParentView.getChildCount() > 0)
         {

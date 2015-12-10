@@ -5,10 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.layout._IncludeFakeViewGroup_;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;

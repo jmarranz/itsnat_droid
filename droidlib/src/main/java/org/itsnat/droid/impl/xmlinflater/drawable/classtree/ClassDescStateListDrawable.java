@@ -6,7 +6,6 @@ import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.StateListDrawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;

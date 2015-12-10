@@ -2,13 +2,9 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.LinkedList;
 import java.util.List;
