@@ -136,7 +136,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                         attrDesc.setAttribute(view, attr, attrCtx);
                     }
                 };
-                if (DOMAttrRemote.isPendingToDownload(attr))
+                if (DOMAttrRemote.isPendingToDownload(attr)) // Ocurre por ejemplo cuando con un click cambiamos el drawable background de un View via setAttribute de "background" o cualquier otro atributo con recurso remoto declarado como valor
                     AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
                 else
                     task.run();
@@ -236,7 +236,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public static boolean isXMLIdAttrAsDOM(String namespaceURI, String name)
     {
-        return (namespaceURI == null || "".equals(namespaceURI)) && "id".equals(name);
+        return MiscUtil.isEmpty(namespaceURI) && "id".equals(name);
     }
 
     public PendingViewPostCreateProcess createPendingViewPostCreateProcess(View view, ViewGroup viewParent)

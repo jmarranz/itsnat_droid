@@ -132,7 +132,7 @@ public class TestActivityTabFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                String url = act.getUrlTestRemoteResources();
+                String url = act.getUrlTestRemoteDrawables();
                 TestRemotePage test = new TestRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
                 test.test(url);
             }

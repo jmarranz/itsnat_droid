@@ -32,7 +32,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     protected ItsNatDroidBrowser droidBrowser;
     protected String urlTestCore;
     protected String urlTestIncludeLayout;
-    protected String urlTestRemResources;
+    protected String urlTestRemDrawables;
     protected String urlTestRemCtrl;
     protected String urlTestStatelessCore;
     protected String urlTestComponents;
@@ -67,7 +67,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
 
         this.urlTestCore =           urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_core";
         this.urlTestIncludeLayout =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_include_layout";
-        this.urlTestRemResources =   urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_resources";
+        this.urlTestRemDrawables =   urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_drawables";
         this.urlTestRemCtrl =        urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_ctrl";
         this.urlTestStatelessCore =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_stateless_core_initial";
         this.urlTestComponents =     urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_components";
@@ -142,9 +142,9 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     }
 
 
-    public String getUrlTestRemoteResources()
+    public String getUrlTestRemoteDrawables()
     {
-        return urlTestRemResources;
+        return urlTestRemDrawables;
     }
 
     public String getUrlTestRemCtrl()

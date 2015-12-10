@@ -224,7 +224,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     @Override
     public boolean setAttribute(final Page page,View view, String namespace, String name, final String value)
     {
-        System.out.println("NOT FOUND LAYOUT ATTRIBUTE: " + namespace + " " + name + " " + value);
+        System.out.println("NOT FOUND LAYOUT ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
         return true;
     }
 
@@ -238,7 +238,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     @Override
     public boolean setAttribute(Page page, Drawable obj, String namespace, String name, String value)
     {
-        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE: " + namespace + " " + name + " " + value);
+        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
         return true;
     }
 

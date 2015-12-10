@@ -68,7 +68,7 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
         if (NAMESPACE_ANDROID.equals(namespace))
             throw new RuntimeException("Android drawable attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
-        System.out.println("NOT FOUND Drawable ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
 
         return true;
     }
@@ -79,7 +79,7 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
         if (NAMESPACE_ANDROID.equals(namespace))
             throw new RuntimeException("Android drawable attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
-        System.out.println("NOT FOUND Drawable ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (removeAttribute): " + namespace + " " + name);
 
         return true;
     }
