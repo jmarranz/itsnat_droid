@@ -13,13 +13,18 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
+import org.itsnat.droid.impl.dom.layout.DOMScript;
+import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
+import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
@@ -33,8 +38,12 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import bsh.EvalError;
+import bsh.Interpreter;
 
 /**
  * Created by jmarranz on 25/06/14.
@@ -607,10 +616,32 @@ public class XMLInflateRegistry
 
                 XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) attrDyn.getResource();
 
-                String[] loadScript = null;
-                List<String> scriptList = null;
-                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,/*includeAttribs,*/loadScript,scriptList,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
+                String[] loadScriptArr = new String[1];
+                List<String> scriptList = new LinkedList<String>();
+                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,loadScriptArr,scriptList,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
                 View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
+
+                if (page != null) // existe página padre
+                {
+                    ItsNatDocImpl itsNatDoc = page.getItsNatDocImpl();
+
+                    if (!scriptList.isEmpty())
+                    {
+                        for (String code : scriptList)
+                        {
+                            itsNatDoc.eval(code);
+                        }
+                    }
+
+                    String loadScript = loadScriptArr[0];
+                    if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
+                    {
+                        if (viewParent != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server in referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
+                        itsNatDoc.eval(loadScript);
+                    }
+
+                }
+
 
                 if (viewParent != null)
                 {

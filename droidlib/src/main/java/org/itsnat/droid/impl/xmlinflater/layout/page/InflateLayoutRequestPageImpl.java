@@ -17,12 +17,13 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
 {
     protected PageImpl page;
 
-    public InflateLayoutRequestPageImpl(PageImpl page)
+    public InflateLayoutRequestPageImpl(ItsNatDroidImpl itsNatDroid,PageImpl page)
     {
-        super(getItsNatDroidImpl(page));
-        this.page = page;
+        super(itsNatDroid);
+        this.page = page; // NO puede ser nulo
     }
 
+    /*
     public static ItsNatDroidImpl getItsNatDroidImpl(PageImpl page)
     {
         PageRequestImpl pageRequest = page.getPageRequestClonedImpl();
@@ -30,6 +31,7 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
         ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
         return itsNatDroid;
     }
+*/
 
     public String getEncoding()
     {

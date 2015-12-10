@@ -6,6 +6,7 @@ import org.apache.http.params.HttpParams;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.OnEventErrorListener;
@@ -14,11 +15,13 @@ import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -62,49 +65,60 @@ public class PageImpl implements Page
         Integer bitmapDensityReference = httpReqResult.getBitmapDensityReference(); // Sólo está definida en el caso de ItsNat server, por eso se puede pasar por el usuario también a través del PageRequest
         this.bitmapDensityReference = bitmapDensityReference != null ? bitmapDensityReference : pageRequestCloned.getBitmapDensityReference();
 
-        InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(this);
+        ItsNatDroidImpl itsNatDroid = pageRequestCloned.getItsNatDroidBrowserImpl().getItsNatDroidImpl();
+        ItsNatDroidBrowserImpl browser = pageRequestCloned.getItsNatDroidBrowserImpl();
+
+        this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
+        this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter)); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
+
+        // Definimos pronto el itsNatDoc para que los layout incluidos tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc
+        try
+        {
+            interp.set("itsNatDoc", itsNatDoc);
+        }
+        catch (EvalError ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+        catch (Exception ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+
+        StringBuilder methods = new StringBuilder();
+        methods.append("alert(data){itsNatDoc.alert(data);}");
+        methods.append("toast(value,duration){itsNatDoc.toast(value,duration);}");
+        methods.append("toast(value){itsNatDoc.toast(value);}");
+        methods.append("eval(code){itsNatDoc.eval(code);}");
+        itsNatDoc.eval(methods.toString());
+
+
+        InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(itsNatDroid,this);
+
 
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
+
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
         this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null, loadScriptArr, scriptList, this);
 
-        ItsNatDroidBrowserImpl browser = pageRequestCloned.getItsNatDroidBrowserImpl();
+
         String loadScript = loadScriptArr[0];
 
-        this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
-        this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter)); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 //long start = System.currentTimeMillis();
-        try
+
+
+        if (!scriptList.isEmpty())
         {
-            interp.set("itsNatDoc", itsNatDoc);
-
-            StringBuilder methods = new StringBuilder();
-            methods.append("alert(data){itsNatDoc.alert(data);}");
-            methods.append("toast(value,duration){itsNatDoc.toast(value,duration);}");
-            methods.append("toast(value){itsNatDoc.toast(value);}");
-            methods.append("eval(code){itsNatDoc.eval(code);}");
-            interp.eval(methods.toString());
-
-            if (!scriptList.isEmpty())
+            for (String code : scriptList)
             {
-                for (String code : scriptList)
-                {
-                    interp.eval(code);
-                }
+                itsNatDoc.eval(code);
             }
+        }
 
-            if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
-                interp.eval(loadScript);
-        }
-        catch (EvalError ex)
-        {
-            throw new ItsNatDroidScriptException(ex, loadScript);
-        }
-        catch (Exception ex)
-        {
-            throw new ItsNatDroidScriptException(ex, loadScript);
-        }
+        if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
+            itsNatDoc.eval(loadScript);
+
 
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
@@ -212,7 +226,7 @@ public class PageImpl implements Page
 
     public Context getContext()
     {
-        return getInflatedLayoutPageImpl().getContext();
+        return pageRequestCloned.getContext();
     }
 
     public UserData getUserData()

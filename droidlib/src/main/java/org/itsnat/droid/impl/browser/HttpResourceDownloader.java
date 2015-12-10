@@ -80,7 +80,7 @@ public class HttpResourceDownloader
                 {
                     String resourceMime = attr.getResourceMime();
                     String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), urlBase);
-                    HttpRequestResultImpl resultResource = HttpUtil.httpGet(url, httpRequestData, null, resourceMime);
+                    HttpRequestResultOKImpl resultResource = HttpUtil.httpGet(url, httpRequestData, null, resourceMime);
 
                     processHttpRequestResultResource(url, attr, resultResource, resultList);
                 }
@@ -95,7 +95,7 @@ public class HttpResourceDownloader
         return thread;
     }
 
-    private void processHttpRequestResultResource(String urlBase, DOMAttrRemote attr, HttpRequestResultImpl resultRes, List<HttpRequestResultImpl> resultList) throws Exception
+    private void processHttpRequestResultResource(String urlBase, DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultImpl> resultList) throws Exception
     {
         // Método llamado en multihilo
 

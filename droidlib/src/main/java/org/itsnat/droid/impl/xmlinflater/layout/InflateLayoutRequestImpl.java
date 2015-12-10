@@ -8,6 +8,8 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.stdalone.InflateLayoutRequestStandaloneImpl;
 
 import java.util.List;
 
@@ -38,9 +40,9 @@ public abstract class InflateLayoutRequestImpl
 
     public abstract Context getContext();
 
-    public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup parentView,/*ArrayList<DOMAttr> includeAttribs,*/String[] loadScript, List<String> scriptList, PageImpl page)
+    public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup parentView,String[] loadScript, List<String> scriptList, PageImpl page)
     {
-        return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,parentView,/*includeAttribs,*/loadScript,scriptList,getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getContext(),page);
+        return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,parentView,loadScript,scriptList,getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getContext(),page);
     }
 
 }

@@ -5,6 +5,7 @@ import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
+import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrAsset;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
@@ -226,7 +227,7 @@ public abstract class XMLDOMParser
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = MiscUtil.toString(res, "UTF-8");
-            XMLDOM xmlDOM = processDOMAttrDynamicXML(assetAttr, markup, xmlDOMRegistry, assetManager);
+            XMLDOM xmlDOM = processDOMAttrAssetXML(assetAttr, markup, xmlDOMRegistry, assetManager);
 
             if (xmlDOM.getDOMAttrRemoteList() != null)
                 throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
@@ -238,7 +239,7 @@ public abstract class XMLDOMParser
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
 
-    public static LinkedList<DOMAttrRemote> processDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultImpl resultRes,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    public static LinkedList<DOMAttrRemote> processDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultOKImpl resultRes,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
     {
         // Método llamado en multihilo
 
@@ -246,7 +247,11 @@ public abstract class XMLDOMParser
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = resultRes.getResponseText();
-            XMLDOM xmlDOM = processDOMAttrDynamicXML(remoteAttr, markup, xmlDOMRegistry, assetManager);
+
+            String itsNatServerVersion = resultRes.getItsNatServerVersion(); // Puede ser null
+            boolean loadingRemotePage = true; // Sólo se utiliza si itsNatServerVersion es no nulo
+
+            XMLDOM xmlDOM = processDOMAttrRemoteXML(remoteAttr, markup,itsNatServerVersion,loadingRemotePage, xmlDOMRegistry, assetManager);
             return xmlDOM.getDOMAttrRemoteList();
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -257,7 +262,27 @@ public abstract class XMLDOMParser
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
 
-    private static XMLDOM processDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    private static XMLDOM processDOMAttrAssetXML(DOMAttrAsset attr, String markup, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    {
+        String resourceType = attr.getResourceType();
+
+        XMLDOM xmlDOM;
+        if ("drawable".equals(resourceType))
+        {
+            xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager);
+        }
+        else if ("layout".equals(resourceType))
+        {
+            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, assetManager);
+        }
+        else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
+
+        attr.setResource(xmlDOM);
+
+        return xmlDOM;
+    }
+
+    private static XMLDOM processDOMAttrRemoteXML(DOMAttrRemote attr, String markup, String itsNatServerVersion,boolean loadingRemotePage, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         // Es llamado en multihilo en el caso de DOMAttrRemote
         String resourceType = attr.getResourceType();
@@ -269,7 +294,7 @@ public abstract class XMLDOMParser
         }
         else if ("layout".equals(resourceType))
         {
-            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, assetManager);
+            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion,loadingRemotePage,assetManager);
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 

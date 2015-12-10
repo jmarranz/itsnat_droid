@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.domparser.layout;
 
 import android.content.res.AssetManager;
 
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
@@ -24,7 +25,7 @@ public abstract class XMLDOMLayoutParserPageOrFragment extends XMLDOMLayoutParse
     }
 
     @Override
-    protected void parseScriptElement(XmlPullParser parser, DOMElemView viewParent,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected void parseScriptElement(XmlPullParser parser, DOMElement parentElement,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         XMLDOMLayout domLayout = (XMLDOMLayout) xmlDOM;
 

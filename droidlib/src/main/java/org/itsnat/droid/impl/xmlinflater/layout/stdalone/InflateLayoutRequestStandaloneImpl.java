@@ -119,10 +119,9 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
 
         String itsNatServerVersion = null;
-        boolean remotePageOrFrag = false;
-        boolean loadingRemotePage = false;
+        boolean loadingRemotePage = false; // Ignorado por ser itsNatServerVersion nulo
         AssetManager assetManager = getContext().getResources().getAssets();
-        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, remotePageOrFrag, loadingRemotePage, assetManager);
+        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, loadingRemotePage, assetManager);
 
         return (XMLInflaterLayoutStandalone)inflateLayout(domLayout,parentView,null, null, null);
     }

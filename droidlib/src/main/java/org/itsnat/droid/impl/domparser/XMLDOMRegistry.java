@@ -27,7 +27,7 @@ public class XMLDOMRegistry
         return parent;
     }
 
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,boolean remotePageOrFrag, boolean loadingRemotePage,AssetManager assetManager)
+    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,boolean loadingRemotePage,AssetManager assetManager)
     {
         // Este método DEBE ser multihilo, el objeto domLayoutCache ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
@@ -52,21 +52,22 @@ public class XMLDOMRegistry
         }
         else
         {
-            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingRemotePage,remotePageOrFrag,this,assetManager);
+            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingRemotePage,this,assetManager);
 
             cachedDOMLayout = layoutParser.parse(markup);
             cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar en el cacheado
             domLayoutCache.put(markupWithoutLoadScript[0], cachedDOMLayout);
         }
 
-        XMLDOMLayout cloned = cachedDOMLayout.partialClone(loadScript); // No devolvemos nunca el que cacheamos "por si acaso"
+        XMLDOMLayout cloned = cachedDOMLayout.partialClone(loadScript); // Necesitamos un clone parcial porque el loadScript necesitamos alojarlo en un objeto nuevo pues no puede cachearse
         return cloned;
     }
 
     public XMLDOMLayout getXMLDOMLayoutCache(String markup,AssetManager assetManager)
     {
-        return getXMLDOMLayoutCache(markup,null,false,false,assetManager);
+        return getXMLDOMLayoutCache(markup,null,false,assetManager); // loadingRemotePage es ignorado si itsNatServerVersion es nulo
     }
+
 
     public XMLDOMDrawable getXMLDOMDrawableCache(String markup,AssetManager assetManager)
     {

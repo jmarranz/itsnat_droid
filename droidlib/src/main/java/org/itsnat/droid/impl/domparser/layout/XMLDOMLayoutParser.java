@@ -29,10 +29,10 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         super(xmlDOMRegistry,assetManager);
     }
 
-    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,boolean remotePageOrFrag,boolean loadingRemotePage,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,boolean loadingRemotePage,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         XMLDOMLayoutParser layoutParser;
-        if (remotePageOrFrag)
+        if (itsNatServerVersion != null)
             layoutParser = loadingRemotePage ? new XMLDOMLayoutParserPage(xmlDOMRegistry, assetManager, itsNatServerVersion) :
                                          new XMLDOMLayoutParserFragment(xmlDOMRegistry, assetManager);
         else
@@ -90,7 +90,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     {
         if (name.equals("script"))
         {
-            parseScriptElement(parser,(DOMElemView)parentElement, xmlDOM);
+            parseScriptElement(parser,parentElement, xmlDOM);
             return null; // Ignorar porque "desaparece"
         }
         else return super.processElement(name,parentElement,parser, xmlDOM);
@@ -110,5 +110,5 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         return domAttr;
     }
 
-    protected abstract void parseScriptElement(XmlPullParser parser,DOMElemView viewParent,XMLDOM xmlDOM) throws IOException, XmlPullParserException;
+    protected abstract void parseScriptElement(XmlPullParser parser,DOMElement parentElement,XMLDOM xmlDOM) throws IOException, XmlPullParserException;
 }

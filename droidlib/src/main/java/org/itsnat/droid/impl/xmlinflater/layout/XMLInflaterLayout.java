@@ -41,13 +41,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
         super(inflatedXML, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx);
     }
 
-    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,/*ArrayList<DOMAttr> includeAttribs,*/ String[] loadScript, List<String> scriptList,
+    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,String[] loadScript, List<String> scriptList,
                                                   int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
         InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(itsNatDroid, xmlDOMLayout,ctx) :
                                                             new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener, ctx, page);
-        xmlInflaterLayout.inflateLayout(viewParent, loadScript, scriptList /*,includeAttribs*/);
+        xmlInflaterLayout.inflateLayout(viewParent, loadScript, scriptList);
         return xmlInflaterLayout;
     }
 
@@ -72,7 +72,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return (InflatedLayoutImpl)inflatedXML;
     }
 
-    public View inflateLayout(ViewGroup viewParent,String[] loadScript, List<String> scriptList /*,ArrayList<DOMAttr> includeAttribs*/)
+    public View inflateLayout(ViewGroup viewParent,String[] loadScript, List<String> scriptList)
     {
         XMLDOMLayout domLayout = getInflatedLayoutImpl().getXMLDOMLayout();
         if (loadScript != null)
@@ -81,7 +81,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         if (scriptList != null)
             fillScriptList(domLayout,scriptList);
 
-        View rootView = inflateRootView(domLayout,viewParent /*,includeAttribs */);
+        View rootView = inflateRootView(domLayout,viewParent);
         return rootView;
     }
 

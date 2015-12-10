@@ -182,12 +182,11 @@ public class PageRequestImpl implements PageRequest
         // http://stackoverflow.com/questions/17481341/how-to-get-android-screen-size-programmatically-once-and-for-all
         // Recuerda que cambia con la orientación por eso hay que enviarlos "frescos"
         Resources resources = ctx.getResources();
-        Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
         ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
         int libVersionCode = itsNatDroid.getVersionCode();
         String libVersionName = itsNatDroid.getVersionName();
-        PackageInfo pInfo = null;
+        PackageInfo pInfo;
         try { pInfo = ctx.getPackageManager().getPackageInfo( ctx.getPackageName(), 0); }
         catch(PackageManager.NameNotFoundException ex) { throw new ItsNatDroidException(ex); }
 
@@ -265,12 +264,10 @@ public class PageRequestImpl implements PageRequest
     {
         String markup = result.getResponseText();
         String itsNatServerVersion = result.getItsNatServerVersion();
-        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, true, assetManager);
+        if (itsNatServerVersion == null) throw new ItsNatDroidException("Unexpected");
+        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, assetManager);
 
-
-        PageRequestResult pageReqResult = new PageRequestResult(result, domLayout);
-
-        if (!XMLDOMLayoutParserPage.PRELOAD_SCRIPTS || result.getItsNatServerVersion() == null)
+        if (!XMLDOMLayoutParserPage.PRELOAD_SCRIPTS || itsNatServerVersion == null)
         {
             // Página NO servida por ItsNat o bien se especifica que no se precargan, tenemos que descargar los <script src="..."> remótamente
             ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
@@ -289,15 +286,14 @@ public class PageRequestImpl implements PageRequest
             }
         }
 
-
         LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
         if (attrRemoteList != null)
         {
-            HttpFileCache httpFileCache = result.getHttpFileCache();
             HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList);
         }
 
+        PageRequestResult pageReqResult = new PageRequestResult(result, domLayout);
         return pageReqResult;
     }
 
@@ -332,7 +328,7 @@ public class PageRequestImpl implements PageRequest
     private static String downloadScript(String src,String pageURLBase,HttpRequestData httpRequestData) throws SocketTimeoutException
     {
         src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
-        HttpRequestResultImpl result = HttpUtil.httpGet(src, httpRequestData, null,MimeUtil.MIME_BEANSHELL);
+        HttpRequestResultOKImpl result = HttpUtil.httpGet(src, httpRequestData, null,MimeUtil.MIME_BEANSHELL);
         return result.getResponseText();
     }
 }

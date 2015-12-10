@@ -66,7 +66,7 @@ public class FragmentLayoutInserter
         XMLDOMRegistry xmlDOMRegistry = inflatedLayoutPage.getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
 
-        XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), true, false, assetManager);
+        XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(),false, assetManager);
 
         DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
