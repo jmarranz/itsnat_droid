@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
-import org.apache.http.params.HttpParams;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
@@ -30,7 +29,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected XMLDOMRegistry xmlDOMRegistry;
     protected AssetManager assetManager;
 
-    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, HttpParams httpParamsRequest, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode,AssetManager assetManager)
+    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode,AssetManager assetManager)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -38,7 +37,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.parent = parent;
         this.method = method;
         this.pageURLBase = pageURLBase;
-        this.httpRequestData = new HttpRequestData(page);
+        this.httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
         this.listener = listener;
         this.errorListener = errorListener;
         this.errorMode = errorMode;

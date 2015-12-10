@@ -25,7 +25,7 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
 
     public static ItsNatDroidImpl getItsNatDroidImpl(PageImpl page)
     {
-        PageRequestImpl pageRequest = page.getPageRequestImpl();
+        PageRequestImpl pageRequest = page.getPageRequestClonedImpl();
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
         return itsNatDroid;
@@ -43,17 +43,17 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
 
     public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
     {
-        return page.getPageRequestImpl().getAttrLayoutInflaterListener();
+        return page.getPageRequestClonedImpl().getAttrLayoutInflaterListener();
     }
 
     public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
     {
-        return page.getPageRequestImpl().getAttrDrawableInflaterListener();
+        return page.getPageRequestClonedImpl().getAttrDrawableInflaterListener();
     }
 
     public Context getContext()
     {
-        return page.getPageRequestImpl().getContext();
+        return page.getPageRequestClonedImpl().getContext();
     }
 
 }

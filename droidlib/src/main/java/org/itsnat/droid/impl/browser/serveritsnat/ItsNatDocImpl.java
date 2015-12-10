@@ -1334,7 +1334,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public void downloadFile(String src,String mime,OnHttpRequestListener listener)
     {
-        boolean sync = getPageImpl().getPageRequestImpl().isSynchronous();
+        boolean sync = getPageImpl().getPageRequestClonedImpl().isSynchronous();
 
         GenericHttpClientImpl client = createGenericHttpClientImpl();
 
@@ -1357,7 +1357,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             }
         };
 
-        boolean sync = getPageImpl().getPageRequestImpl().isSynchronous();
+        boolean sync = getPageImpl().getPageRequestClonedImpl().isSynchronous();
 
         DownloadResourcesHttpClient client = createDownloadResourcesHttpClient();
         client.setOnHttpRequestListenerNotFluid(listener);

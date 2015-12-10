@@ -35,9 +35,8 @@ import bsh.NameSpace;
  */
 public class PageImpl implements Page
 {
-    protected final HttpParams httpParams; // Los parámetros que se utilizarán en sucesivas requests desde la página
     protected final PageRequestResult pageReqResult;
-    protected final PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
+    protected final PageRequestImpl pageRequestCloned; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected final String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
     protected final int bitmapDensityReference;
     protected final XMLInflaterLayoutPage xmlInflaterLayoutPage;
@@ -52,17 +51,16 @@ public class PageImpl implements Page
     protected UserDataImpl userData;
     protected boolean dispose;
 
-    public PageImpl(PageRequestImpl pageRequest, HttpParams httpParams, PageRequestResult pageReqResult)
+    public PageImpl(PageRequestImpl pageRequestToClone,PageRequestResult pageReqResult)
     {
-        this.pageRequest = pageRequest.clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
-        this.httpParams = httpParams != null ? httpParams.copy() : null;
+        this.pageRequestCloned = pageRequestToClone.clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         this.pageReqResult = pageReqResult;
 
         HttpRequestResultOKImpl httpReqResult = pageReqResult.getHttpRequestResultOKImpl();
         this.itsNatServerVersion = httpReqResult.getItsNatServerVersion();
 
         Integer bitmapDensityReference = httpReqResult.getBitmapDensityReference(); // Sólo está definida en el caso de ItsNat server, por eso se puede pasar por el usuario también a través del PageRequest
-        this.bitmapDensityReference = bitmapDensityReference != null ? bitmapDensityReference : pageRequest.getBitmapDensityReference();
+        this.bitmapDensityReference = bitmapDensityReference != null ? bitmapDensityReference : pageRequestCloned.getBitmapDensityReference();
 
         InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(this);
 
@@ -71,7 +69,7 @@ public class PageImpl implements Page
         List<String> scriptList = new LinkedList<String>();
         this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null, loadScriptArr, scriptList, this);
 
-        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
+        ItsNatDroidBrowserImpl browser = pageRequestCloned.getItsNatDroidBrowserImpl();
         String loadScript = loadScriptArr[0];
 
         this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
@@ -118,7 +116,7 @@ public class PageImpl implements Page
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {
-        return pageRequest.getItsNatDroidBrowserImpl();
+        return pageRequestCloned.getItsNatDroidBrowserImpl();
     }
 
     public PageRequestResult getPageRequestResult()
@@ -126,9 +124,9 @@ public class PageImpl implements Page
         return pageReqResult;
     }
 
-    public PageRequestImpl getPageRequestImpl()
+    public PageRequestImpl getPageRequestClonedImpl()
     {
-        return pageRequest;
+        return pageRequestCloned;
     }
 
     @Override
@@ -140,7 +138,7 @@ public class PageImpl implements Page
     @Override
     public HttpParams getHttpParams()
     {
-        return httpParams;
+        return getPageRequestClonedImpl().getHttpParams();
     }
 
     @Override
@@ -162,12 +160,12 @@ public class PageImpl implements Page
     @Override
     public String getURL()
     {
-        return pageRequest.getURL();
+        return pageRequestCloned.getURL();
     }
 
     public String getURLBase()
     {
-        return pageRequest.getURLBase();
+        return pageRequestCloned.getURLBase();
     }
 
     public String getItsNatServerVersion()
@@ -266,7 +264,7 @@ public class PageImpl implements Page
 
     public PageRequest reusePageRequest()
     {
-        return pageRequest.clone();
+        return pageRequestCloned.clone();
     }
 
     public void dispose()

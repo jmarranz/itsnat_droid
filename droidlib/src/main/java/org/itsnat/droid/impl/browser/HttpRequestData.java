@@ -19,11 +19,6 @@ public class HttpRequestData
     public Map<String,String> httpHeaders;
     public boolean sslSelfSignedAllowed;
 
-    public HttpRequestData(PageImpl page)
-    {
-        this(page.getPageRequestImpl());
-    }
-
     public HttpRequestData(PageRequestImpl pageRequest)
     {
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();

@@ -308,7 +308,7 @@ public class PageRequestImpl implements PageRequest
         if (!MimeUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
             throw new ItsNatDroidServerResponseException("Expected " + MimeUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
 
-        PageImpl page = new PageImpl(this,httpParams,result);
+        PageImpl page = new PageImpl(this,result);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }

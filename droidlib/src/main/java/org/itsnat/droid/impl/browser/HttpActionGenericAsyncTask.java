@@ -33,7 +33,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
         this.parent = parent;
         this.method = method;
         this.url = url;
-        this.httpRequestData = new HttpRequestData(page);
+        this.httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
         this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
         this.listener = listener;
         this.errorListener = errorListener;

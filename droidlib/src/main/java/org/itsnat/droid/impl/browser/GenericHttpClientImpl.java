@@ -122,7 +122,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         PageImpl page = getPageImpl();
         String url = getFinalURL();
 
-        HttpRequestData httpRequestData = new HttpRequestData(page);
+        HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
         List<NameValuePair> params = this.paramList;
 
         HttpRequestResultImpl result = null;

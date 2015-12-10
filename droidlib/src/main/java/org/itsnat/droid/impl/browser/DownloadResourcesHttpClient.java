@@ -47,7 +47,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         // No hace falta clonar porque es síncrona la llamada
         String url = getFinalURL();
 
-        HttpRequestData httpRequestData = new HttpRequestData(page);
+        HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
 
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 
@@ -79,7 +79,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
     {
         String url = getFinalURL();
         AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
-        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,url,httpParamsRequest,listener,errorListener,errorMode,assetManager);
+        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,url,listener,errorListener,errorMode,assetManager);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
