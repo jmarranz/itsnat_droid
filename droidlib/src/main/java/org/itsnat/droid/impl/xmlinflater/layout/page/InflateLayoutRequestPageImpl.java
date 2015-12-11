@@ -17,7 +17,7 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
 {
     protected PageImpl page;
 
-    public InflateLayoutRequestPageImpl(ItsNatDroidImpl itsNatDroid,PageImpl page)
+    public InflateLayoutRequestPageImpl(ItsNatDroidImpl itsNatDroid, PageImpl page)
     {
         super(itsNatDroid);
         this.page = page; // NO puede ser nulo

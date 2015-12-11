@@ -7,9 +7,9 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 /**
  * Created by jmarranz on 14/11/14.
  */
-public class XMLDOMLayoutParserFragment extends XMLDOMLayoutParserPageOrFragment
+public class XMLDOMLayoutParserItsNatFragment extends XMLDOMLayoutParserItsNatPageOrFragment
 {
-    public XMLDOMLayoutParserFragment(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public XMLDOMLayoutParserItsNatFragment(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         super(xmlDOMRegistry,assetManager);
     }

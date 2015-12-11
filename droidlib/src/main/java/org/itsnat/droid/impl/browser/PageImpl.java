@@ -7,7 +7,6 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnHttpRequestErrorListener;
@@ -21,7 +20,6 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -36,18 +34,16 @@ import bsh.NameSpace;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class PageImpl implements Page
+public abstract class PageImpl implements Page
 {
     protected final PageRequestResult pageReqResult;
     protected final PageRequestImpl pageRequestCloned; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
-    protected final String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
+
     protected final int bitmapDensityReference;
     protected final XMLInflaterLayoutPage xmlInflaterLayoutPage;
     protected final String uniqueIdForInterpreter;
     protected final Interpreter interp;
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
-    protected ItsNatSessionImpl itsNatSession;
-    protected String clientId;
     protected OnEventErrorListener eventErrorListener;
     protected OnServerStateLostListener stateLostListener;
     protected OnHttpRequestErrorListener httpReqErrorListener;
@@ -60,7 +56,6 @@ public class PageImpl implements Page
         this.pageReqResult = pageReqResult;
 
         HttpRequestResultOKImpl httpReqResult = pageReqResult.getHttpRequestResultOKImpl();
-        this.itsNatServerVersion = httpReqResult.getItsNatServerVersion();
 
         Integer bitmapDensityReference = httpReqResult.getBitmapDensityReference(); // Sólo está definida en el caso de ItsNat server, por eso se puede pasar por el usuario también a través del PageRequest
         this.bitmapDensityReference = bitmapDensityReference != null ? bitmapDensityReference : pageRequestCloned.getBitmapDensityReference();
@@ -116,17 +111,10 @@ public class PageImpl implements Page
             }
         }
 
-        if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
-            itsNatDoc.eval(loadScript);
-
-
-//long end = System.currentTimeMillis();
-//System.out.println("LAPSE" + (end - start));
-
-        if (getId() != null && itsNatDoc.isEventsEnabled()) // Es página generada por ItsNat y tiene al menos scripting enabled
-            itsNatDoc.sendLoadEvent();
-        else dispose(); // En el servidor
+        finishLoad(loadScript);
     }
+
+    public abstract void finishLoad(String loadScript);
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {
@@ -182,10 +170,7 @@ public class PageImpl implements Page
         return pageRequestCloned.getURLBase();
     }
 
-    public String getItsNatServerVersion()
-    {
-        return itsNatServerVersion;
-    }
+    public abstract String getItsNatServerVersion();
 
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
     {
@@ -202,27 +187,6 @@ public class PageImpl implements Page
         return interp;
     }
 
-    public void setSessionIdAndClientId(String stdSessionId,String sessionToken,String sessionId,String clientId)
-    {
-        this.clientId = clientId;
-        this.itsNatSession = getItsNatDroidBrowserImpl().getItsNatSession(stdSessionId,sessionToken,sessionId);
-        itsNatSession.registerPage(this);
-    }
-
-    public ItsNatSession getItsNatSession()
-    {
-        return itsNatSession;
-    }
-
-    public ItsNatSessionImpl getItsNatSessionImpl()
-    {
-        return itsNatSession;
-    }
-
-    public String getId()
-    {
-        return clientId;
-    }
 
     public Context getContext()
     {
@@ -285,13 +249,6 @@ public class PageImpl implements Page
     {
         if (dispose) return;
         this.dispose = true;
-        if (getId() != null && itsNatDoc.isEventsEnabled())
-            itsNatDoc.sendUnloadEvent();
-        if (itsNatSession != null) // itsNatSession es null cuando la página no contiene script de inicialización
-        {
-            itsNatSession.disposePage(this);
-            getItsNatDroidBrowserImpl().disposeSessionIfEmpty(itsNatSession);
-        }
     }
 
 

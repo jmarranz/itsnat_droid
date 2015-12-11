@@ -20,11 +20,13 @@ public class XMLDOMLayoutParserStandalone extends XMLDOMLayoutParser
         super(xmlDOMRegistry,assetManager);
     }
 
+    /*
     @Override
     protected void parseScriptElement(XmlPullParser parser, DOMElement parentElement,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         android.util.Log.v("XMLDOMLayoutParserStand","<script> elements are ignored in standalone layouts");
 
-        while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+        while (parser.next() != XmlPullParser.END_TAG)  ; // nop
     }
+    */
 }

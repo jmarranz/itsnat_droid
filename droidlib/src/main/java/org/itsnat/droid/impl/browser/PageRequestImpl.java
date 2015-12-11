@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,7 +23,6 @@ import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserPage;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.net.SocketTimeoutException;
@@ -263,11 +261,10 @@ public class PageRequestImpl implements PageRequest
                                         XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         String markup = result.getResponseText();
-        String itsNatServerVersion = result.getItsNatServerVersion();
-        if (itsNatServerVersion == null) throw new ItsNatDroidException("Unexpected");
+        String itsNatServerVersion = result.getItsNatServerVersion(); // Puede ser null (no servida por ItsNat
         XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, assetManager);
 
-        if (!XMLDOMLayoutParserPage.PRELOAD_SCRIPTS || itsNatServerVersion == null)
+        if (itsNatServerVersion == null)
         {
             // Página NO servida por ItsNat o bien se especifica que no se precargan, tenemos que descargar los <script src="..."> remótamente
             ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
@@ -304,7 +301,9 @@ public class PageRequestImpl implements PageRequest
         if (!MimeUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
             throw new ItsNatDroidServerResponseException("Expected " + MimeUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
 
-        PageImpl page = new PageImpl(this,result);
+        String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
+
+        PageImpl page = itsNatServerVersion != null ? new PageItsNatImpl(this,result,itsNatServerVersion) : new PageNotItsNatImpl(this,result);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }

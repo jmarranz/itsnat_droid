@@ -8,8 +8,6 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.stdalone.InflateLayoutRequestStandaloneImpl;
 
 import java.util.List;
 

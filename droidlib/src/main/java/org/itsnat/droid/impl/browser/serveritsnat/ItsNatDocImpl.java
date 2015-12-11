@@ -30,6 +30,7 @@ import org.itsnat.droid.impl.browser.DownloadResourcesHttpClient;
 import org.itsnat.droid.impl.browser.GenericHttpClientImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientTimerRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientUnloadEventImpl;
@@ -272,10 +273,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public List<NameValuePair> genParamURL()
     {
+        PageItsNatImpl pageItsNat = (PageItsNatImpl)page;
         List<NameValuePair> params = new LinkedList<NameValuePair>();
-        params.add(new BasicNameValuePair("itsnat_client_id",page.getId()));
-        params.add(new BasicNameValuePair("itsnat_session_token",page.getItsNatSessionImpl().getToken()));
-        params.add(new BasicNameValuePair("itsnat_session_id",page.getItsNatSessionImpl().getId()));
+        params.add(new BasicNameValuePair("itsnat_client_id",pageItsNat.getId()));
+        params.add(new BasicNameValuePair("itsnat_session_token",pageItsNat.getItsNatSessionImpl().getToken()));
+        params.add(new BasicNameValuePair("itsnat_session_id",pageItsNat.getItsNatSessionImpl().getId()));
         return params;
     }
 
@@ -447,7 +449,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS)
             throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
 
-        page.setSessionIdAndClientId(stdSessionId,sessionToken,sessionId, clientId);
+        ((PageItsNatImpl)page).setSessionIdAndClientId(stdSessionId, sessionToken, sessionId, clientId);
         this.itsNatServletPath = servletPath;
         this.errorMode = errorMode;
         this.attachType = attachType;
