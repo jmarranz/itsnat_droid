@@ -21,6 +21,20 @@ public class WeakMapWithValue<Key,Value>
     {
     }
 
+    public void copyTo(WeakMapWithValue<Key,Value> target)
+    {
+        for(Map.Entry<Key,WeakReference<Value>> entry : mapByKey.entrySet())
+        {
+            Key key = entry.getKey();
+            WeakReference<Value> weakValue = entry.getValue();
+            Value value = weakValue.get(); // Puede ser null, significa que se ha perdido el Value, en el siguiente cleanUnused se normalizará
+            if (value == null)
+                continue;
+            target.put(key,value);
+        }
+    }
+
+
     public Value removeByKey(Key key)
     {
         cleanUnused();

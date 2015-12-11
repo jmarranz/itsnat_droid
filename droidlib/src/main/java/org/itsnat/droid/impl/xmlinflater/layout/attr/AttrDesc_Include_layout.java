@@ -74,34 +74,4 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
         setToRemoveAttribute(view, "@null", attrCtx);
     }
 
-/*
-    private View[] inflateInclude(DOMInclude domElemInc,ViewGroup viewParent,XMLDOM xmlDOMParent)
-    {
-        int countBefore = viewParent.getChildCount();
-
-        ItsNatDroidImpl itsNatDroid = getInflatedLayoutImpl().getItsNatDroidImpl();
-        XMLInflateRegistry xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
-        XMLDOMRegistry xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
-        AssetManager assetManager = getContext().getResources().getAssets();
-
-        String itsNatServerVersion = null;
-        boolean remotePageOrFrag = false;
-        boolean loadingRemotePage = false;
-        XMLDOMLayoutParser xmlDOMLayoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion, remotePageOrFrag, loadingRemotePage, xmlDOMRegistry, assetManager);
-        DOMAttr attr = xmlDOMLayoutParser.createDOMAttr(domElemInc, null, "layout", domElemInc.getLayout(), xmlDOMParent);
-
-        View resView = xmlInflateRegistry.getLayout(attr, ctx, this,viewParent);
-        if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views
-        int countAfter = viewParent.getChildCount();
-        View[] childList = new View[countAfter - countBefore];
-        int j = 0;
-        for(int i = countBefore; i < countAfter; i++)
-        {
-            childList[j] = viewParent.getChildAt(i);
-            j++;
-        }
-
-        return childList;
-    }
-    */
 }

@@ -19,7 +19,12 @@ public class ViewMapByXMLId
         this.layout = layout;
     }
 
-    private WeakMapWithValue<String,View> getMapIdViewXMLStd()
+    public WeakMapWithValue<String,View> getMapIdViewXMLStdPureField()
+    {
+        return mapIdViewXMLStd; // Puede ser nulo
+    }
+
+    public WeakMapWithValue<String,View> getMapIdViewXMLStd()
     {
         if (mapIdViewXMLStd == null) mapIdViewXMLStd = new WeakMapWithValue<String,View>();
         return mapIdViewXMLStd;
@@ -51,6 +56,8 @@ public class ViewMapByXMLId
     public View findViewByXMLId(String id)
     {
         // Busca sólo DENTRO del árbol de Views, si está desconectado devolverá null
+        if (mapIdViewXMLStd == null)
+            return null;
         View viewFound = getMapIdViewXMLStd().getValueByKey(id);
         if (viewFound == null) return null;
         // Ojo, puede estar desconectado aunque el objeto Java esté "vivo"

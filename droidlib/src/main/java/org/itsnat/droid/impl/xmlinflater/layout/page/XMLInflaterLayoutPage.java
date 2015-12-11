@@ -12,6 +12,8 @@ import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.layout.DOMScript;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
@@ -20,6 +22,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+
+import java.util.List;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -139,6 +143,30 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             }
         }
 
-        return super.removeAttribute(classDesc,view, namespaceURI, name, attrCtx);
+        return super.removeAttribute(classDesc, view, namespaceURI, name, attrCtx);
+    }
+
+    @Override
+    public View inflateLayout(ViewGroup viewParent)
+    {
+        InflatedLayoutPageImpl inflatedLayoutPage = getInflatedLayoutPageImpl();
+        XMLDOMLayout domLayout = inflatedLayoutPage.getXMLDOMLayout();
+
+        inflatedLayoutPage.setLoadScript(domLayout.getLoadScript());
+
+        fillScriptList(domLayout);
+
+        return super.inflateLayout(viewParent);
+    }
+
+    private void fillScriptList(XMLDOMLayout domLayout)
+    {
+        List<DOMScript> scriptListFromTree = domLayout.getDOMScriptList();
+        if (scriptListFromTree != null)
+        {
+            InflatedLayoutPageImpl inflatedLayoutPage = getInflatedLayoutPageImpl();
+            for (DOMScript script : scriptListFromTree)
+                inflatedLayoutPage.addScript(script.getCode());
+        }
     }
 }

@@ -21,6 +21,7 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
 
+
     public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,XMLDOMLayout domLayout,Context ctx)
     {
         super(itsNatDroid,domLayout,ctx);
@@ -66,7 +67,7 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     }
 
 
-    private ViewMapByXMLId getViewMapByXMLId()
+    public ViewMapByXMLId getViewMapByXMLId()
     {
         if (viewMapByXMLId == null) viewMapByXMLId = new ViewMapByXMLId(this);
         return viewMapByXMLId;

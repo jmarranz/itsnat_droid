@@ -4,11 +4,9 @@ import android.content.res.AssetManager;
 import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrAsset;
-import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;

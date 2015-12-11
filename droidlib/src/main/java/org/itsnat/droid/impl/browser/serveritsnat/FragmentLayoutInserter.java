@@ -6,10 +6,10 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
-import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MapLight;

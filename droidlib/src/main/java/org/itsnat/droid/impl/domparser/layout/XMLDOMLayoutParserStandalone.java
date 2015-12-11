@@ -2,13 +2,7 @@ package org.itsnat.droid.impl.domparser.layout;
 
 import android.content.res.AssetManager;
 
-import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 
 /**
  * Created by jmarranz on 27/10/14.

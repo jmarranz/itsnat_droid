@@ -13,7 +13,6 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
-import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
@@ -27,7 +26,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStanda
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -41,13 +39,14 @@ public abstract class XMLInflaterLayout extends XMLInflater
         super(inflatedXML, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx);
     }
 
-    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,String[] loadScript, List<String> scriptList,
-                                                  int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,
+                                                  int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
+                                                  Context ctx,PageImpl page)
     {
         InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(itsNatDroid, xmlDOMLayout,ctx) :
                                                             new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener, ctx, page);
-        xmlInflaterLayout.inflateLayout(viewParent, loadScript, scriptList);
+        xmlInflaterLayout.inflateLayout(viewParent);
         return xmlInflaterLayout;
     }
 
@@ -72,28 +71,15 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return (InflatedLayoutImpl)inflatedXML;
     }
 
-    public View inflateLayout(ViewGroup viewParent,String[] loadScript, List<String> scriptList)
+    public View inflateLayout(ViewGroup viewParent)
     {
-        XMLDOMLayout domLayout = getInflatedLayoutImpl().getXMLDOMLayout();
-        if (loadScript != null)
-            loadScript[0] = domLayout.getLoadScript();
-
-        if (scriptList != null)
-            fillScriptList(domLayout,scriptList);
+        InflatedLayoutImpl inflatedLayout = getInflatedLayoutImpl();
+        XMLDOMLayout domLayout = inflatedLayout.getXMLDOMLayout();
 
         View rootView = inflateRootView(domLayout,viewParent);
         return rootView;
     }
 
-    private static void fillScriptList(XMLDOMLayout domLayout,List<String> scriptList)
-    {
-        List<DOMScript> scriptListFromTree = domLayout.getDOMScriptList();
-        if (scriptListFromTree != null)
-        {
-            for (DOMScript script : scriptListFromTree)
-                scriptList.add(script.getCode());
-        }
-    }
 
     public ClassDescViewBased getClassDescViewBased(DOMElemView domElemView)
     {

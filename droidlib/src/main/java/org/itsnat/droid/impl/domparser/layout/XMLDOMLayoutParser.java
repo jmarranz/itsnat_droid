@@ -35,8 +35,8 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     {
         XMLDOMLayoutParser layoutParser;
         if (itsNatServerVersion != null)
-            layoutParser = loadingRemotePage ? new XMLDOMLayoutParserItsNatPage(xmlDOMRegistry, assetManager, itsNatServerVersion) :
-                                         new XMLDOMLayoutParserItsNatFragment(xmlDOMRegistry, assetManager);
+            layoutParser = loadingRemotePage ?  new XMLDOMLayoutParserItsNatPage(xmlDOMRegistry, assetManager, itsNatServerVersion) :
+                                                new XMLDOMLayoutParserItsNatFragment(xmlDOMRegistry, assetManager);
         else
             layoutParser = new XMLDOMLayoutParserStandalone(xmlDOMRegistry, assetManager);
         return layoutParser;
@@ -149,5 +149,4 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         domLayout.addDOMScript(script);
     }
 
-    // protected abstract void parseScriptElement(XmlPullParser parser,DOMElement parentElement,XMLDOM xmlDOM) throws IOException, XmlPullParserException;
 }

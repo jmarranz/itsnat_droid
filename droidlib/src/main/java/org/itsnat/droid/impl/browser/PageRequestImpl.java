@@ -260,28 +260,29 @@ public class PageRequestImpl implements PageRequest
                                         String pageURLBase,HttpRequestData httpRequestData,
                                         XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
+        // Método ejecutado en hilo downloader NO UI
+
         String markup = result.getResponseText();
         String itsNatServerVersion = result.getItsNatServerVersion(); // Puede ser null (no servida por ItsNat
         XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, assetManager);
 
-        if (itsNatServerVersion == null)
+
+        // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo UI downloader)
+        ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
+        if (scriptList != null)
         {
-            // Página NO servida por ItsNat o bien se especifica que no se precargan, tenemos que descargar los <script src="..."> remótamente
-            ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
-            if (scriptList != null)
+            for (int i = 0; i < scriptList.size(); i++)
             {
-                for (int i = 0; i < scriptList.size(); i++)
+                DOMScript script = scriptList.get(i);
+                if (script instanceof DOMScriptRemote)
                 {
-                    DOMScript script = scriptList.get(i);
-                    if (script instanceof DOMScriptRemote)
-                    {
-                        DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
-                        String code = downloadScript(scriptRemote.getSrc(),pageURLBase, httpRequestData);
-                        scriptRemote.setCode(code);
-                    }
+                    DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
+                    String code = downloadScript(scriptRemote.getSrc(),pageURLBase, httpRequestData);
+                    scriptRemote.setCode(code);
                 }
             }
         }
+
 
         LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
         if (attrRemoteList != null)

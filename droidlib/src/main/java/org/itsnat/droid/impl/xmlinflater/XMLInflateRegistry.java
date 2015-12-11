@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
@@ -22,28 +21,26 @@ import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
-import org.itsnat.droid.impl.dom.layout.DOMScript;
-import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
-import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MimeUtil;
+import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import bsh.EvalError;
-import bsh.Interpreter;
 
 /**
  * Created by jmarranz on 25/06/14.
@@ -590,19 +587,19 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
+    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflaterParent,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
     {
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
 
             PageImpl page = null;
-            if (xmlInflater instanceof XMLInflaterPage)
-                page = ((XMLInflaterPage)xmlInflater).getPageImpl();
+            if (xmlInflaterParent instanceof XMLInflaterPage)
+                page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
 
             if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
-            int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
+            int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
             String resourceMime = attrDyn.getResourceMime();
             if (MimeUtil.isMIMEResourceXML(resourceMime))
@@ -610,36 +607,37 @@ public class XMLInflateRegistry
                 int countBefore = 0;
                 if (viewParent != null) countBefore = viewParent.getChildCount();
 
-                ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
-                AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
-                AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
+                ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
+                AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
+                AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
 
                 XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) attrDyn.getResource();
 
-                String[] loadScriptArr = new String[1];
-                List<String> scriptList = new LinkedList<String>();
-                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,loadScriptArr,scriptList,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
+                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
                 View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
 
                 if (page != null) // existe página padre
                 {
+                    XMLInflaterLayoutPage xmlInflaterLayoutPageParent = (XMLInflaterLayoutPage)xmlInflaterParent; // No esperamos que sea XMLInflaterDrawablePage
+                    InflatedLayoutPageImpl inflatedLayoutPageParent = xmlInflaterLayoutPageParent.getInflatedLayoutPageImpl();
                     ItsNatDocImpl itsNatDoc = page.getItsNatDocImpl();
+
+                    InflatedLayoutPageImpl inflatedLayoutPage = ((XMLInflaterLayoutPage)xmlInflaterLayout).getInflatedLayoutPageImpl();
+                    List<String> scriptList = inflatedLayoutPage.getScriptList();
 
                     if (!scriptList.isEmpty())
                     {
-                        for (String code : scriptList)
-                        {
-                            itsNatDoc.eval(code);
-                        }
+                        inflatedLayoutPageParent.getScriptList().addAll(scriptList);
                     }
 
-                    String loadScript = loadScriptArr[0];
+                    String loadScript = inflatedLayoutPage.getLoadScript();
                     if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
                     {
-                        if (viewParent != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server in referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
+                        if (viewParent != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server document for referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
+
+                        // Por ahora no tengo ningún caso de uso de esto, quizás no deba de darse nunca
                         itsNatDoc.eval(loadScript);
                     }
-
                 }
 
 
@@ -654,6 +652,16 @@ public class XMLInflateRegistry
 
                         xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent, includeAttribs);
                     }
+
+                    InflatedLayoutImpl inflatedLayout = xmlInflaterLayout.getInflatedLayoutImpl();
+
+                    ViewMapByXMLId viewMapByXMLId = inflatedLayout.getViewMapByXMLId();
+                    WeakMapWithValue<String,View> weakMapWithValue = viewMapByXMLId.getMapIdViewXMLStdPureField();
+                    if (weakMapWithValue != null)
+                    {
+                        InflatedLayoutImpl inflatedLayoutParent = (InflatedLayoutImpl)xmlInflaterParent.getInflatedXML();
+                        weakMapWithValue.copyTo(inflatedLayoutParent.getViewMapByXMLId().getMapIdViewXMLStd());
+                    }
                 }
 
                 return rootView;
@@ -663,7 +671,7 @@ public class XMLInflateRegistry
         else if (attr instanceof DOMAttrLocalResource)
         {
             String attrValue = attr.getValue();
-            return getLayout(attrValue,ctx,xmlInflater,viewParent,includeAttribs);
+            return getLayout(attrValue,ctx,xmlInflaterParent,viewParent,includeAttribs);
         }
         else throw new ItsNatDroidException("Internal Error");
     }

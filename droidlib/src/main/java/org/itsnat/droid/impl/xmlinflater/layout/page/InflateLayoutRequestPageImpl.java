@@ -5,9 +5,7 @@ import android.content.Context;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.PageRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 
 /**

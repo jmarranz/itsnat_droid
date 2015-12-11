@@ -7,7 +7,6 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
@@ -16,7 +15,6 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
@@ -24,7 +22,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImp
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.io.StringReader;
-import java.util.LinkedList;
 import java.util.List;
 
 import bsh.EvalError;
@@ -93,15 +90,12 @@ public abstract class PageImpl implements Page
 
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
 
-        String[] loadScriptArr = new String[1];
-        List<String> scriptList = new LinkedList<String>();
-        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null, loadScriptArr, scriptList, this);
+        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null, this);
 
+        InflatedLayoutPageImpl inflatedLayoutPage = xmlInflaterLayoutPage.getInflatedLayoutPageImpl();
 
-        String loadScript = loadScriptArr[0];
-
-//long start = System.currentTimeMillis();
-
+        String loadScript = inflatedLayoutPage.getLoadScript();
+        List<String> scriptList = inflatedLayoutPage.getScriptList();
 
         if (!scriptList.isEmpty())
         {
