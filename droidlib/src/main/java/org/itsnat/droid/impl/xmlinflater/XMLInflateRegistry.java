@@ -536,8 +536,8 @@ public class XMLInflateRegistry
                 AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
 
                 XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
-                InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
-                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, page);
+                InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx,page) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
+                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener, attrDrawableInflaterListener);
                 return xmlInflaterDrawable.inflateDrawable();
             }
             else if (MimeUtil.isMIMEResourceImage(resourceMime))

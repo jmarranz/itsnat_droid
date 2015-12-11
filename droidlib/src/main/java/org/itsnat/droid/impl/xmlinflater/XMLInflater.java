@@ -15,15 +15,13 @@ public abstract class XMLInflater
     protected int bitmapDensityReference;
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
-    protected Context ctx;
 
-    protected XMLInflater(InflatedXML inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx)
+    protected XMLInflater(InflatedXML inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
         this.inflatedXML = inflatedXML;
         this.bitmapDensityReference = bitmapDensityReference;
         this.attrLayoutInflaterListener = attrLayoutInflaterListener;
         this.attrDrawableInflaterListener = attrDrawableInflaterListener;
-        this.ctx = ctx;
     }
 
     public InflatedXML getInflatedXML()
@@ -48,6 +46,6 @@ public abstract class XMLInflater
 
     public Context getContext()
     {
-        return ctx;
+        return inflatedXML.getContext();
     }
 }

@@ -36,20 +36,20 @@ import java.util.LinkedList;
  */
 public abstract class XMLInflaterDrawable extends XMLInflater
 {
-    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx)
+    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
+        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
         if (inflatedDrawable instanceof InflatedDrawablePage)
         {
-            return new XMLInflaterDrawablePage((InflatedDrawablePage)inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
+            return new XMLInflaterDrawablePage((InflatedDrawablePage)inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
         }
         else if (inflatedDrawable instanceof InflatedDrawableStandalone)
         {
-            return new XMLInflaterDrawableStandalone((InflatedDrawableStandalone)inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
+            return new XMLInflaterDrawableStandalone((InflatedDrawableStandalone)inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
         }
         return null; // Internal Error
     }
@@ -85,21 +85,23 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
         inflatedDrawable.setDrawable(drawable);
 
-        fillAttributes(classDesc, new DrawableWrapped(drawable), rootDOMElem,ctx);
+        fillAttributes(classDesc, new DrawableWrapped(drawable), rootDOMElem);
 
         return drawableElem;
     }
 
     private ElementDrawableRoot createRootElementDrawable(ClassDescElementDrawableRoot classDesc, DOMElement rootDOMElem)
     {
+        Context ctx = getContext();
         return classDesc.createElementDrawableRoot(rootDOMElem, this, ctx);
     }
 
-    private void fillAttributes(ClassDescDrawable classDesc,DrawableOrElementDrawableWrapper drawable,DOMElement domElement,Context ctx)
+    private void fillAttributes(ClassDescDrawable classDesc,DrawableOrElementDrawableWrapper drawable,DOMElement domElement)
     {
         ArrayList<DOMAttr> attribList = domElement.getDOMAttributeList();
         if (attribList != null)
         {
+            Context ctx = getContext();
             AttrDrawableContext attrCtx = new AttrDrawableContext(ctx,this);
             for (int i = 0; i < attribList.size(); i++)
             {
@@ -156,14 +158,14 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
         ElementDrawableChild childDrawable = createElementDrawableChild(classDesc, domElement, domElementParent, parentChildDrawable);
 
-        fillAttributes(classDesc, ElementDrawableChildContainer.create(childDrawable), domElement,ctx);
+        fillAttributes(classDesc, ElementDrawableChildContainer.create(childDrawable), domElement);
 
         return childDrawable;
     }
 
     private ElementDrawableChild createElementDrawableChild(ClassDescElementDrawableChild classDesc, DOMElement domElement, DOMElement domElementParent, ElementDrawable parentChildDrawable)
     {
-        return classDesc.createElementDrawableChild(domElement, domElementParent, this, parentChildDrawable, ctx);
+        return classDesc.createElementDrawableChild(domElement, domElementParent, this, parentChildDrawable,getContext());
     }
 
     public void processChildElements(DOMElement domElemParent,ElementDrawable parentChildDrawable)

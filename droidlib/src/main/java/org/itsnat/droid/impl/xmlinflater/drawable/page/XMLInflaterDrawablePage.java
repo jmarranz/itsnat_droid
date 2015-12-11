@@ -14,16 +14,18 @@ import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
  */
 public class XMLInflaterDrawablePage extends XMLInflaterDrawable implements XMLInflaterPage
 {
-    protected PageImpl page;
-
-    public XMLInflaterDrawablePage(InflatedDrawablePage inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public XMLInflaterDrawablePage(InflatedDrawablePage inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener, ctx);
-        this.page = page;
+        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
+    }
+
+    public InflatedDrawablePage getInflatedDrawablePage()
+    {
+        return (InflatedDrawablePage)getInflatedDrawable();
     }
 
     public PageImpl getPageImpl()
     {
-        return page;
+        return getInflatedDrawablePage().getPageImpl();
     }
 }

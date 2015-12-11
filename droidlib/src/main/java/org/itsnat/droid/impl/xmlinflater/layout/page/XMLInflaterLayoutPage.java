@@ -30,17 +30,14 @@ import java.util.List;
  */
 public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInflaterPage
 {
-    protected PageImpl page;
-
-    public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx,PageImpl page)
+    public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        super(inflatedXML,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener,ctx);
-        this.page = page;
+        super(inflatedXML,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
     }
 
     public PageImpl getPageImpl()
     {
-        return page;
+        return getInflatedLayoutPageImpl().getPageImpl(); // No puede ser nulo
     }
 
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
@@ -61,7 +58,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         {
             // Consideramos que el setAttributeRemote en una operación "single" y por tanto si define alguna tarea pendiente tenemos que ejecutarla como si ya no hubiera más atributos pendientes
             PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-            attrCtx = new AttrLayoutContext(ctx, this, pendingViewPostCreateProcess, null);
+            attrCtx = new AttrLayoutContext(getContext(), this, pendingViewPostCreateProcess, null);
         }
 
         setAttribute(viewClassDesc, view, attr, attrCtx);
@@ -79,7 +76,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
 
-        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this,null,null);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),this,null,null);
         return removeAttribute(viewClassDesc,view, namespaceURI, name,attrCtx);
     }
 
