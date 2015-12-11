@@ -21,7 +21,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         super(itsNatDoc);
     }
 
-    public List<HttpRequestResultImpl> request(DOMAttrRemote attrRemote,boolean async)
+    public List<HttpRequestResultOKImpl> request(DOMAttrRemote attrRemote,boolean async)
     {
         List<DOMAttrRemote> attrRemoteList = new LinkedList<DOMAttrRemote>();
         attrRemoteList.add(attrRemote);
@@ -29,7 +29,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         return request(attrRemoteList,async);
     }
 
-    public List<HttpRequestResultImpl> request(List<DOMAttrRemote> attrRemoteList,boolean async)
+    public List<HttpRequestResultOKImpl> request(List<DOMAttrRemote> attrRemoteList,boolean async)
     {
         if (async)
         {
@@ -39,7 +39,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         else return requestSync(attrRemoteList);
     }
 
-    public List<HttpRequestResultImpl> requestSync(List<DOMAttrRemote> attrRemoteList)
+    public List<HttpRequestResultOKImpl> requestSync(List<DOMAttrRemote> attrRemoteList)
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
@@ -53,7 +53,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
         AssetManager assetManager = page.getContext().getResources().getAssets();
 
-        List<HttpRequestResultImpl> resultList = new LinkedList<HttpRequestResultImpl>();
+        List<HttpRequestResultOKImpl> resultList = new LinkedList<HttpRequestResultOKImpl>();
 
         try
         {
@@ -69,7 +69,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        for(HttpRequestResultImpl result : resultList)
+        for(HttpRequestResultOKImpl result : resultList)
             processResult(result,listener,errorMode);
 
         return resultList;

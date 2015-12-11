@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.stdalone;
 
-import android.content.Context;
-
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;

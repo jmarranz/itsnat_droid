@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.page;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 

@@ -20,7 +20,6 @@ import java.io.InputStream;
  */
 public class HttpRequestResultOKImpl extends HttpRequestResultImpl
 {
-    private HttpFileCache httpFileCache;
     private String itsNatServerVersion;
     private Integer bitmapDensityReference;
     private JSONObject responseJSONObject;
@@ -114,11 +113,6 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
                 catch (JSONException ex) { throw new ItsNatDroidServerResponseException(ex, this); }
             }
         }
-    }
-
-    public HttpFileCache getHttpFileCache()
-    {
-        return httpFileCache;
     }
 
     public String getItsNatServerVersion()

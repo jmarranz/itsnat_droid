@@ -111,13 +111,13 @@ public abstract class GenericHttpClientBaseImpl //implements GenericHttpClient
             return new ItsNatDroidException(ex);
     }
 
-    public void processResult(HttpRequestResultImpl result,OnHttpRequestListener listener,int errorMode)
+    public void processResult(HttpRequestResultOKImpl result,OnHttpRequestListener listener,int errorMode)
     {
         if (result.isStatusOK())
         {
             if (listener != null) listener.onRequest(itsNatDoc.getPage(),result);
         }
-        else // Error del servidor, lo normal es que haya lanzado una excepción
+        else // Error del servidor, otro tipo de errores lanzan una excepción
         {
             ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
             itsNatDoc.showErrorMessage(true, result.getResponseText(),errorMode);

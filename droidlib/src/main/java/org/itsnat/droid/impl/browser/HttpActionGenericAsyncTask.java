@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestResultImpl>
+public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestResultOKImpl>
 {
     protected GenericHttpClientImpl parent;
     protected String method;
@@ -41,13 +41,14 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
         this.overrideMime = overrideMime;
     }
 
+    @Override
     protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
         return HttpUtil.httpAction(method,url, httpRequestData, params,overrideMime);
     }
 
     @Override
-    protected void onFinishOk(HttpRequestResultImpl result)
+    protected void onFinishOk(HttpRequestResultOKImpl result)
     {
         try
         {
@@ -58,7 +59,6 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
             if (errorListener != null)
             {
                 errorListener.onError(parent.getPageImpl(), ex, result);
-                return;
             }
             else
             {
@@ -78,12 +78,10 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
             HttpRequestResult result = (exFinal instanceof ItsNatDroidServerResponseException) ?
                     ((ItsNatDroidServerResponseException)exFinal).getHttpRequestResult() : null;
             errorListener.onError(parent.getPageImpl(),exFinal, result);
-            return;
         }
         else
         {
-            if (exFinal instanceof ItsNatDroidException) throw (ItsNatDroidException)exFinal;
-            else throw new ItsNatDroidException(exFinal);
+            throw exFinal;
         }
     }
 }

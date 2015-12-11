@@ -6,7 +6,7 @@ import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpRequestData;
-import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
+import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
@@ -44,7 +44,7 @@ public class EventSender
         HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
         httpRequestData.setTimeout(timeout);
 
-        HttpRequestResultImpl result = null;
+        HttpRequestResultOKImpl result = null;
         try
         {
             result = HttpUtil.httpPost(servletPath,httpRequestData, params,null);
@@ -66,7 +66,7 @@ public class EventSender
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public void processResult(EventGenericImpl evt,HttpRequestResultImpl result,boolean async)
+    public void processResult(EventGenericImpl evt,HttpRequestResultOKImpl result,boolean async)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         itsNatDoc.fireEventMonitors(false,false,evt);

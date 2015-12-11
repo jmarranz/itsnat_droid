@@ -32,12 +32,12 @@ public class HttpResourceDownloader
         downloadResources(attrRemoteList,null);
     }
 
-    public void downloadResources(List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultImpl> resultList) throws Exception
+    public void downloadResources(List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         downloadResources(pageURLBase,attrRemoteList,resultList);
     }
 
-    private void downloadResources(String urlBase,List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultImpl> resultList) throws Exception
+    private void downloadResources(String urlBase,List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         int len = attrRemoteList.size();
         final Thread[] threadArray = new Thread[len];
@@ -69,7 +69,7 @@ public class HttpResourceDownloader
     }
 
     private Thread downloadResource(final String urlBase,final DOMAttrRemote attr, final boolean[] stop, final int i,
-                                    final List<HttpRequestResultImpl> resultList,final Exception[] exList) throws Exception
+                                    final List<HttpRequestResultOKImpl> resultList,final Exception[] exList) throws Exception
     {
         Thread thread = new Thread()
         {
@@ -95,7 +95,7 @@ public class HttpResourceDownloader
         return thread;
     }
 
-    private void processHttpRequestResultResource(String urlBase, DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultImpl> resultList) throws Exception
+    private void processHttpRequestResultResource(String urlBase, DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         // Método llamado en multihilo
 

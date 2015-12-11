@@ -4,7 +4,7 @@ import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
-import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
+import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResultImpl>
+public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResultOKImpl>
 {
     protected EventSender eventSender;
     protected EventGenericImpl evt;
@@ -38,13 +38,14 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
     }
 
-    protected HttpRequestResultImpl executeInBackground() throws Exception
+    @Override
+    protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
         return HttpUtil.httpPost(servletPath, httpRequestData, params,null);
     }
 
     @Override
-    protected void onFinishOk(HttpRequestResultImpl result)
+    protected void onFinishOk(HttpRequestResultOKImpl result)
     {
         try
         {
@@ -56,7 +57,6 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
             if (errorListener != null)
             {
                 errorListener.onError(ex, evt);
-                return;
             }
             else
             {
@@ -75,12 +75,10 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         if (errorListener != null)
         {
             errorListener.onError(exFinal, evt);
-            return;
         }
         else
         {
-            if (exFinal instanceof ItsNatDroidException) throw (ItsNatDroidException)exFinal;
-            else throw new ItsNatDroidException(exFinal);
+            throw exFinal;
         }
 
     }

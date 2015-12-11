@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<HttpRequestResultImpl>>
+public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<HttpRequestResultOKImpl>>
 {
     protected List<DOMAttrRemote> attrRemoteList;
     protected DownloadResourcesHttpClient parent;
@@ -45,19 +45,19 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.assetManager = assetManager;
     }
 
-    protected List<HttpRequestResultImpl> executeInBackground() throws Exception
+    protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
         HttpResourceDownloader resDownloader =
                 new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
-        List<HttpRequestResultImpl> resultList = new LinkedList<HttpRequestResultImpl>();
+        List<HttpRequestResultOKImpl> resultList = new LinkedList<HttpRequestResultOKImpl>();
         resDownloader.downloadResources(attrRemoteList,resultList);
         return resultList;
     }
 
     @Override
-    protected void onFinishOk(List<HttpRequestResultImpl> resultList)
+    protected void onFinishOk(List<HttpRequestResultOKImpl> resultList)
     {
-        for (HttpRequestResultImpl result : resultList)
+        for (HttpRequestResultOKImpl result : resultList)
         {
             try
             {

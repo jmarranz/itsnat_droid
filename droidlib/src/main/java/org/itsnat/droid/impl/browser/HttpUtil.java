@@ -201,7 +201,6 @@ public class HttpUtil
 
         HttpRequestResultImpl result = HttpRequestResultImpl.createHttpRequestResult(url,httpFileCache,headers, input, status, mimeTypeRes[0], encodingRes[0]);
 
-
         if (result instanceof HttpRequestResultFailImpl)
         {
             throw new ItsNatDroidServerResponseException(result);

@@ -125,7 +125,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
         List<NameValuePair> params = this.paramList;
 
-        HttpRequestResultImpl result = null;
+        HttpRequestResultOKImpl result = null;
         try
         {
             result = HttpUtil.httpPost(url, httpRequestData, params,overrideMime);
