@@ -120,6 +120,14 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
 
+        if (isXMLIdAttrAsDOM(namespaceURI, name))
+        {
+            InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+            inflated.setXMLId(value, view);
+
+            return true;
+        }
+
         try
         {
             if (isAttributeIgnored(namespaceURI, name))
@@ -145,14 +153,6 @@ public class ClassDescViewBased extends ClassDesc<View>
             }
             else
             {
-                if (isXMLIdAttrAsDOM(namespaceURI, name))
-                {
-                    InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
-                    inflated.setXMLId(value, view);
-
-                    return true;
-                }
-
                 // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
                 // y tiene prioridad la clase más derivada
                 ClassDescViewBased parentClass = getParentClassDescViewBased();
@@ -160,9 +160,14 @@ public class ClassDescViewBased extends ClassDesc<View>
                 {
                     if (parentClass.setAttribute(view, attr, attrCtx))
                         return true;
+
+                    return false;
+                }
+                else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
+                {
+                    return processAttrCustom(view, namespaceURI, name, value, xmlInflaterLayout);
                 }
 
-                return processAttrCustom(view,namespaceURI,name,value,xmlInflaterLayout);
             }
         }
         catch (Exception ex)
@@ -234,10 +239,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         return true;
     }
 
-    public static boolean isXMLIdAttrAsDOM(String namespaceURI, String name)
-    {
-        return MiscUtil.isEmpty(namespaceURI) && "id".equals(name);
-    }
 
     public PendingViewPostCreateProcess createPendingViewPostCreateProcess(View view, ViewGroup viewParent)
     {

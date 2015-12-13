@@ -75,7 +75,26 @@ public class HttpUtil
     {
         if (sslSelfSignedAllowed && scheme.equals("https"))
             return getHttpClientSSLSelfSignedAllowed(httpParams);
-        return new DefaultHttpClient(httpParams);
+        else
+            return getHttpClientThreadSafe(httpParams);
+    }
+
+    private static DefaultHttpClient getHttpClientThreadSafe(HttpParams httpParams)
+    {
+        // Evitamos el error aleatorio:  java.lang.IllegalStateException: No wrapped connection
+        // http://www.androider.me/2013/11/solve-one-issue-because-of-thread-safe.html
+        // https://groups.google.com/forum/#!topic/android-developers/GUnCMjCnKKQ
+        // http://stackoverflow.com/questions/10795591/releasing-connection-in-android
+
+        DefaultHttpClient client = new DefaultHttpClient(httpParams);
+
+        ClientConnectionManager mgr = client.getConnectionManager();
+
+        HttpParams params = client.getParams();
+
+        client = new DefaultHttpClient(new ThreadSafeClientConnManager(params,mgr.getSchemeRegistry()), params);
+
+        return client;
     }
 
     public static HttpRequestResultOKImpl httpGet(String url,HttpRequestData httpRequestData,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException

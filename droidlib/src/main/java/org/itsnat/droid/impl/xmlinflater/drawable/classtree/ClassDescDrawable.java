@@ -12,6 +12,8 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -81,6 +83,9 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
 
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
+        String value = attr.getValue();
+
+        XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
 
         try
         {
@@ -110,17 +115,17 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
                 // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
                 // y tiene prioridad la clase más derivada
 
-                XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
-                String value = attr.getValue();
-
                 ClassDescDrawable parentClass = getParentClassDescDrawable();
                 if (parentClass != null)
                 {
                     if (parentClass.setAttribute(draw, attr, attrCtx))
                         return true;
+                    return false;
                 }
-
-                return processAttrCustom(draw,namespaceURI,name,value,xmlInflaterDrawable);
+                else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
+                {
+                    return processAttrCustom(draw,namespaceURI,name,value,xmlInflaterDrawable);
+                }
             }
         }
         catch(Exception ex)
