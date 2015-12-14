@@ -90,7 +90,7 @@ public abstract class PageImpl implements Page
 
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
 
-        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null, this);
+        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null,-1,this);
 
         InflatedLayoutPageImpl inflatedLayoutPage = xmlInflaterLayoutPage.getInflatedLayoutPageImpl();
 

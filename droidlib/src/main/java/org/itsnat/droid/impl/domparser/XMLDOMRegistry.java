@@ -63,12 +63,6 @@ public class XMLDOMRegistry
         return cloned;
     }
 
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup,AssetManager assetManager)
-    {
-        return getXMLDOMLayoutCache(markup,null,false,assetManager); // loadingRemotePage es ignorado si itsNatServerVersion es nulo
-    }
-
-
     public XMLDOMDrawable getXMLDOMDrawableCache(String markup,AssetManager assetManager)
     {
         // Ver notas de getXMLDOMLayoutCache()

@@ -113,7 +113,7 @@ public class TestLocalLayout1
         {
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView.getText(), "Included 1");
+            assertEquals(compTextView.getText(), "Included 1 w:match_parent by include");
             assertEquals(compTextView.getText(), parsedTextView.getText());
 
             assertEquals(((TextView)comp.findViewById(R.id.testIncludeId1)),compTextView);
@@ -136,7 +136,7 @@ public class TestLocalLayout1
         {
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView.getText(), "Included 2");
+            assertEquals(compTextView.getText(), "Included 2 w:match_parent by include");
             assertEquals(compTextView.getText(), parsedTextView.getText());
 
             assertEquals(((TextView)comp.findViewById(R.id.testIncludeId2)),compTextView);
@@ -159,7 +159,7 @@ public class TestLocalLayout1
         {
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView.getText(), "Included 3");
+            assertEquals(compTextView.getText(), "Included 3 w:wrap_content");
             assertEquals(compTextView.getText(), parsedTextView.getText());
 
             ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
@@ -176,7 +176,7 @@ public class TestLocalLayout1
         {
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView.getText(), "Included 4");
+            assertEquals(compTextView.getText(), "Included 4 w:match_parent");
             assertEquals(compTextView.getText(), parsedTextView.getText());
 
             ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();

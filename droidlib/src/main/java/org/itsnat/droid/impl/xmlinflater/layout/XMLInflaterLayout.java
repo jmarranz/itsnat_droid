@@ -38,14 +38,14 @@ public abstract class XMLInflaterLayout extends XMLInflater
         super(inflatedXML, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
     }
 
-    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,
+    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index,
                                                   int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
                                                   Context ctx,PageImpl page)
     {
         InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(page,itsNatDroid, xmlDOMLayout,ctx) :
                                                             new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
-        xmlInflaterLayout.inflateLayout(viewParent);
+        xmlInflaterLayout.inflateLayout(viewParent,index);
         return xmlInflaterLayout;
     }
 
@@ -70,12 +70,12 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return (InflatedLayoutImpl)inflatedXML;
     }
 
-    public View inflateLayout(ViewGroup viewParent)
+    public View inflateLayout(ViewGroup viewParent,int index)
     {
         InflatedLayoutImpl inflatedLayout = getInflatedLayoutImpl();
         XMLDOMLayout domLayout = inflatedLayout.getXMLDOMLayout();
 
-        View rootView = inflateRootView(domLayout,viewParent);
+        View rootView = inflateRootView(domLayout,viewParent,index);
         return rootView;
     }
 
@@ -87,7 +87,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return classDescViewMgr.get(viewName);
     }
 
-    private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent /*,ArrayList<DOMAttr> includeAttribs */)
+    private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index /*,ArrayList<DOMAttr> includeAttribs */)
     {
         DOMElement rootDOMView = xmlDOMLayout.getRootElement();
 
@@ -140,7 +140,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
             {
                 View child = falseParentView.getChildAt(0);
                 falseParentView.removeViewAt(0);
-                viewParent.addView(child);
+                viewParent.addView(child,index);
+                index++;
             }
             getInflatedLayoutImpl().setRootView(viewParent); // Corregimos el rootView pues se puso el falseParentView
             return viewParent;

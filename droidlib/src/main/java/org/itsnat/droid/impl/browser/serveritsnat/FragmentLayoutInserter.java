@@ -77,7 +77,7 @@ public class FragmentLayoutInserter
             scriptList.addAll(domScriptList);
 
         ViewGroup falseParentView = (ViewGroup) xmlLayoutInflaterPage.insertFragment(rootDOMElemView,xmlDOMLayout); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
-        int indexRef = viewRef != null ? InflatedLayoutImpl.getChildViewIndex(parentView, viewRef) : -1;
+        int indexRef = viewRef != null ? parentView.indexOfChild(viewRef) : -1;
         while (falseParentView.getChildCount() > 0)
         {
             View child = falseParentView.getChildAt(0);

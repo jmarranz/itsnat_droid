@@ -119,9 +119,11 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
 
         AssetManager assetManager = getContext().getResources().getAssets();
-        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, assetManager);
+        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup,null,false, assetManager);
 
-        return (XMLInflaterLayoutStandalone)inflateLayout(domLayout,parentView,null);
+        int indexChild = parentView != null ? parentView.getChildCount() - 1 : -1;
+
+        return (XMLInflaterLayoutStandalone)inflateLayout(domLayout,parentView,indexChild,null);
     }
 
 }

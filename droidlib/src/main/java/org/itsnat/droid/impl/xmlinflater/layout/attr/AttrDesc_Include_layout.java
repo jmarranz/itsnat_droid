@@ -33,23 +33,27 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
             @Override
             public void run()
             {
+
+                _IncludeFakeViewGroup_ viewIncludeFake = (_IncludeFakeViewGroup_)view;
+
                 ViewGroup viewParent = (ViewGroup)view.getParent();
-                int countBefore = viewParent.getChildCount();
 
-                viewParent.removeViewAt(countBefore - 1); // Eliminamos el falso View auxiliar que substituye al <include> y que está recien insertado
-                if (view.getParent() != null) throw new ItsNatDroidException("Unexpected");
+                int indexOfInclude = viewParent.indexOfChild(viewIncludeFake);
 
-                countBefore = viewParent.getChildCount();
+                viewParent.removeViewAt(indexOfInclude); // Eliminamos el falso View auxiliar que substituye al <include> y que está recien insertado
+                if (viewIncludeFake.getParent() != null) throw new ItsNatDroidException("Unexpected");
 
                 Context ctx = attrCtx.getContext();
                 XMLInflater xmlInflater = attrCtx.getXMLInflater();
 
                 ArrayList<DOMAttr> includeAttribs = ((_IncludeFakeViewGroup_)view).getAttribs();
 
-                View resView = getLayout(attr, ctx, xmlInflater,viewParent,includeAttribs);
+                int countBefore = viewParent.getChildCount();
+                View resView = getLayout(attr, ctx, xmlInflater,viewParent,indexOfInclude,includeAttribs);
                 if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views, si viewParent es no nulo se devuelve viewParent, idem que en el inflado nativo
 
-                // Test (eliminar en el futuro):
+                // Test para ver que se ha insertado si fue al final (eliminar en el futuro):
+                /*
                 int countAfter = viewParent.getChildCount();
                 View[] childList = new View[countAfter - countBefore];
                 int j = 0;
@@ -58,7 +62,7 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
                     childList[j] = viewParent.getChildAt(i);
                     j++;
                 }
-
+                */
             }
         };
         PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();

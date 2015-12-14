@@ -796,7 +796,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         // Esto es una chapuza pero no hay opción
         ViewGroup parentView = (ViewGroup)parentNode.getView();
         View view = node.getView();
-        return InflatedLayoutPageImpl.getChildViewIndex(parentView, view);
+        int index = parentView.indexOfChild(view);
+        return index;
     }
 
     @Override

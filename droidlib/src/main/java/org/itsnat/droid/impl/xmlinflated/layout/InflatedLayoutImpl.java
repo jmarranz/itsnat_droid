@@ -95,6 +95,7 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return viewMapByXMLId.findViewByXMLId(id);
     }
 
+/*
     public static int getChildViewIndex(ViewGroup parentView, View view)
     {
         if (view.getParent() != parentView) throw new ItsNatDroidException("View must be a direct child of parent View");
@@ -107,5 +108,5 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         }
         return -1; // No es hijo directo
     }
-
+*/
 }

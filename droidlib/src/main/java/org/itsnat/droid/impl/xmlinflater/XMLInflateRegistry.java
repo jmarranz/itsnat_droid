@@ -556,7 +556,7 @@ public class XMLInflateRegistry
         else throw new ItsNatDroidException("Internal Error");
     }
 
-    public View getLayout(String attrValue, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
+    public View getLayout(String attrValue, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
         if (isResource(attrValue))
         {
@@ -572,9 +572,10 @@ public class XMLInflateRegistry
                 if (rootView != viewParent) throw new ItsNatDroidException("Unexpected"); // rootView es igual a viewParent
 
                 int countAfter = viewParent.getChildCount();
-                if (countAfter - countBefore == 1 && includeAttribs != null)
+                int countInserted = countAfter - countBefore;
+                if (countInserted == 1 && includeAttribs != null)
                 {
-                    View rootViewChild = viewParent.getChildAt(countAfter - 1);
+                    View rootViewChild = viewParent.getChildAt(indexChild);
                     XMLInflaterLayout xmlInflaterLayout = (XMLInflaterLayout)xmlInflater;
 
                     xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent,includeAttribs);
@@ -587,7 +588,7 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflaterParent,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
+    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflaterParent,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
         if (attr instanceof DOMAttrDynamic)
         {
@@ -613,7 +614,7 @@ public class XMLInflateRegistry
 
                 XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) attrDyn.getResource();
 
-                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
+                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,indexChild,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
                 View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
 
                 if (page != null) // existe página padre
@@ -646,9 +647,10 @@ public class XMLInflateRegistry
                     if (rootView != viewParent) throw new ItsNatDroidException("Unexpected"); // rootView es igual a viewParent
 
                     int countAfter = viewParent.getChildCount();
-                    if (countAfter - countBefore == 1 && includeAttribs != null)
+                    int countInserted = countAfter - countBefore;
+                    if (countInserted == 1 && includeAttribs != null)
                     {
-                        View rootViewChild = viewParent.getChildAt(countAfter - 1);
+                        View rootViewChild = viewParent.getChildAt(indexChild);
 
                         xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent, includeAttribs);
                     }
@@ -671,7 +673,7 @@ public class XMLInflateRegistry
         else if (attr instanceof DOMAttrLocalResource)
         {
             String attrValue = attr.getValue();
-            return getLayout(attrValue,ctx,xmlInflaterParent,viewParent,includeAttribs);
+            return getLayout(attrValue,ctx,xmlInflaterParent,viewParent,indexChild,includeAttribs);
         }
         else throw new ItsNatDroidException("Internal Error");
     }

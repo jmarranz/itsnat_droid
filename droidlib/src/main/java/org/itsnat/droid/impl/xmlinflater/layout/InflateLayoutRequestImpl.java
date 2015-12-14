@@ -36,9 +36,9 @@ public abstract class InflateLayoutRequestImpl
 
     public abstract Context getContext();
 
-    public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup parentView,PageImpl page)
+    public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup parentView,int indexChild,PageImpl page)
     {
-        return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,parentView,getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getContext(),page);
+        return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,parentView,indexChild,getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getContext(),page);
     }
 
 }

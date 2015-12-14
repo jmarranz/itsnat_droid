@@ -149,9 +149,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getDrawable(attr, ctx, xmlInflater);
     }
 
-    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
+    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
-        return getXMLInflateRegistry().getLayout(attr, ctx, xmlInflater,viewParent,includeAttribs);
+        return getXMLInflateRegistry().getLayout(attr, ctx, xmlInflater,viewParent,indexChild,includeAttribs);
     }
 
     public int getColor(String attrValue, Context ctx)
