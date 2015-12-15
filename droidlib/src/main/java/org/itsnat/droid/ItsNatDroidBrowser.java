@@ -1,15 +1,14 @@
 package org.itsnat.droid;
 
-import org.apache.http.params.HttpParams;
-
 /**
  * Created by jmarranz on 4/06/14.
  */
 public interface ItsNatDroidBrowser
 {
     public ItsNatDroid getItsNatDroid();
-    public HttpParams getHttpParams();
-    public void setHttpParams(HttpParams httpParams);
+    public HttpParamMap getHttpParamMap();
+    public void setHttpParamMap(HttpParamMap httpParamMap);
+    public HttpParamMap createHttpParamMap();
     public PageRequest createPageRequest();
     public int getMaxPagesInSession();
     public void setMaxPagesInSession(int maxPages);

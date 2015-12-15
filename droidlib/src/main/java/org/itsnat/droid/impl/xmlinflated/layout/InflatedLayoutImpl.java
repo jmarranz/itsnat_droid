@@ -2,11 +2,9 @@ package org.itsnat.droid.impl.xmlinflated.layout;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MapLight;

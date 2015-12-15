@@ -2,10 +2,9 @@ package org.itsnat.droid.impl.browser.serveritsnat.event;
 
 import android.view.View;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.event.DroidEvent;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -67,15 +66,16 @@ public abstract class DroidEventImpl extends NormalEventImpl implements DroidEve
         this.viewTarget = view;
     }
 
-    public List<NameValuePair> genParamURL()
+    @Override
+    public List<NameValue> genParamURL()
     {
-        List<NameValuePair> params = super.genParamURL();
-        params.add(new BasicNameValuePair("itsnat_evt_eventPhase", "" + eventPhase));
+        List<NameValue> params = super.genParamURL();
+        params.add(new NameValue("itsnat_evt_eventPhase", "" + eventPhase));
 
         View view = getDroidEventListener().getCurrentTarget();
         String viewTargetStr = viewTarget != null && viewTarget != view? listener.getItsNatDocImpl().getStringPathFromView(viewTarget) : "null";
         // Si viewTarget == currentTarget enviamos null para evitar tráfico, ya sabemos que es el currentTarget
-        params.add(new BasicNameValuePair("itsnat_evt_target",viewTargetStr));
+        params.add(new NameValue("itsnat_evt_target",viewTargetStr));
 
         return params;
     }

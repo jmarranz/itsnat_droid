@@ -2,10 +2,9 @@ package org.itsnat.droid.impl.browser.serveritsnat.event;
 
 import android.view.KeyEvent;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -31,12 +30,13 @@ public class DroidKeyEventImpl extends DroidInputEventImpl
         return (KeyEvent)evtNative;
     }
 
-    public List<NameValuePair> genParamURL()
+    @Override
+    public List<NameValue> genParamURL()
     {
         KeyEvent evtNative = getKeyEvent();
 
-        List<NameValuePair> params = super.genParamURL();
-        params.add(new BasicNameValuePair("itsnat_evt_keyCode","" + evtNative.getKeyCode()));
+        List<NameValue> params = super.genParamURL();
+        params.add(new NameValue("itsnat_evt_keyCode","" + evtNative.getKeyCode()));
         return params;
     }
 

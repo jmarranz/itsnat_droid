@@ -1,9 +1,8 @@
 package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -45,8 +44,8 @@ public abstract class EventGenericListener
         return timeout;
     }
 
-    public void genParamURL(EventGenericImpl evt,List<NameValuePair> params)
+    public void genParamURL(EventGenericImpl evt,List<NameValue> paramList)
     {
-        params.add(new BasicNameValuePair("itsnat_action",action));
+        paramList.add(new NameValue("itsnat_action",action));
     }
 }

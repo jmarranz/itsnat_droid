@@ -3,10 +3,9 @@ package org.itsnat.droid.impl.browser.serveritsnat.event;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -25,15 +24,16 @@ public class DroidMotionEventImpl extends DroidInputEventImpl
         return (MotionEvent)evtNative;
     }
 
-    public List<NameValuePair> genParamURL()
+    @Override
+    public List<NameValue> genParamURL()
     {
         MotionEvent evtNative = getMotionEvent();
 
-        List<NameValuePair> params = super.genParamURL();
-        params.add(new BasicNameValuePair("itsnat_evt_x","" + evtNative.getX()));
-        params.add(new BasicNameValuePair("itsnat_evt_y","" + evtNative.getY()));
-        params.add(new BasicNameValuePair("itsnat_evt_rawX","" + evtNative.getRawX()));
-        params.add(new BasicNameValuePair("itsnat_evt_rawY","" + evtNative.getRawY()));
+        List<NameValue> params = super.genParamURL();
+        params.add(new NameValue("itsnat_evt_x","" + evtNative.getX()));
+        params.add(new NameValue("itsnat_evt_y","" + evtNative.getY()));
+        params.add(new NameValue("itsnat_evt_rawX","" + evtNative.getRawX()));
+        params.add(new NameValue("itsnat_evt_rawY","" + evtNative.getRawY()));
         return params;
     }
 

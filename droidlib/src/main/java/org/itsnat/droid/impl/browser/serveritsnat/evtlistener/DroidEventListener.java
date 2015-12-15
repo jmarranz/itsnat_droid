@@ -2,13 +2,12 @@ package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
 import android.view.View;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -39,14 +38,16 @@ public class DroidEventListener extends NormalEventListener
         return type;
     }
 
+    @Override
     public NormalEventImpl createNormalEvent(Object evt)
     {
         return DroidEventGroupInfo.createDroidEvent(eventGroupCode, this, evt);
     }
 
-    public void genParamURL(EventGenericImpl evt,List<NameValuePair> params)
+    @Override
+    public void genParamURL(EventGenericImpl evt,List<NameValue> paramList)
     {
-        super.genParamURL(evt,params);
-        params.add(new BasicNameValuePair("itsnat_evt_type", "" + this.type));
+        super.genParamURL(evt, paramList);
+        paramList.add(new NameValue("itsnat_evt_type", "" + this.type));
     }
 }

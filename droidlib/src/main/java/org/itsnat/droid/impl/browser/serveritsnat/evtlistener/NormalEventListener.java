@@ -2,12 +2,11 @@ package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
 import android.view.View;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -45,10 +44,11 @@ public abstract class NormalEventListener extends EventStfulListener
         evtWrapper.sendEvent();
     }
 
-    public void genParamURL(EventGenericImpl evt,List<NameValuePair> params)
+    @Override
+    public void genParamURL(EventGenericImpl evt,List<NameValue> paramList)
     {
-        super.genParamURL(evt,params);
-        params.add(new BasicNameValuePair("itsnat_listener_id", "" + getId()));
+        super.genParamURL(evt, paramList);
+        paramList.add(new NameValue("itsnat_listener_id", "" + getId()));
     }
 
     public abstract NormalEventImpl createNormalEvent(Object evt);

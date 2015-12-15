@@ -9,9 +9,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.DisplayMetrics;
 
-import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.HttpParamMap;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
@@ -23,6 +23,7 @@ import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.net.SocketTimeoutException;
@@ -38,7 +39,7 @@ public class PageRequestImpl implements PageRequest
 {
     protected ItsNatDroidBrowserImpl browser;
     protected Context ctx;
-    protected HttpParams httpParams;
+    protected HttpParamMapImpl httpParamMap;
     protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH;
     protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
@@ -132,15 +133,15 @@ public class PageRequestImpl implements PageRequest
     }
 
     @Override
-    public PageRequest setHttpParams(HttpParams httpParams)
+    public PageRequest setHttpParamMap(HttpParamMap httpParamMap)
     {
-        this.httpParams = httpParams;
+        this.httpParamMap = (HttpParamMapImpl)httpParamMap;
         return this;
     }
 
-    public HttpParams getHttpParams()
+    public HttpParamMapImpl getHttpParamMapImpl()
     {
-        return httpParams;
+        return httpParamMap;
     }
 
     public boolean isSynchronous()
@@ -311,11 +312,11 @@ public class PageRequestImpl implements PageRequest
 
     public PageRequestImpl clone()
     {
-        HttpParams httpParams = this.httpParams != null ? this.httpParams.copy() : null;
+        HttpParamMapImpl httpParamMapCopy = this.httpParamMap != null ? this.httpParamMap.copy() : null;
 
         PageRequestImpl request = new PageRequestImpl(browser);
         request.setContext(ctx)
-               .setHttpParams(httpParams)
+               .setHttpParamMap(httpParamMapCopy)
                .setOnPageLoadListener(pageListener)
                .setOnPageLoadErrorListener(errorListener)
                .setAttrLayoutInflaterListener(attrLayoutInflaterListener)

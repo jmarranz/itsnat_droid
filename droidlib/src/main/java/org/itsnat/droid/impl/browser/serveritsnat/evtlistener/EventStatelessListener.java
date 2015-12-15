@@ -1,9 +1,8 @@
 package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -17,11 +16,12 @@ public class EventStatelessListener extends EventGenericListener
         super(parent,"event_stateless",commMode, timeout);
     }
 
-    public void genParamURL(EventGenericImpl evt,List<NameValuePair> params)
+    @Override
+    public void genParamURL(EventGenericImpl evt,List<NameValue> paramList)
     {
-        super.genParamURL(evt,params);
+        super.genParamURL(evt, paramList);
         // Recuerda que al ser stateless tenemos que enviar el commMode y el eventTimeout, de hecho los proporciona el usuario desde el cliente
-        params.add(new BasicNameValuePair("itsnat_commMode", "" + commMode));
-        params.add(new BasicNameValuePair("itsnat_eventTimeout", "" + timeout));
+        paramList.add(new NameValue("itsnat_commMode", "" + commMode));
+        paramList.add(new NameValue("itsnat_eventTimeout", "" + timeout));
     }
 }

@@ -2,8 +2,6 @@ package org.itsnat.droid;
 
 import android.content.Context;
 
-import org.apache.http.params.HttpParams;
-
 /**
  * Created by jmarranz on 4/06/14.
  */
@@ -13,7 +11,7 @@ public interface Page
     public String getURL();
     public String getId();
     public Context getContext();
-    public HttpParams getHttpParams();
+    public HttpParamMap getHttpParamMap();
     public HttpRequestResult getHttpRequestResult();
     public ItsNatSession getItsNatSession();
     public UserData getUserData();

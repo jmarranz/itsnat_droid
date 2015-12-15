@@ -1,10 +1,9 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.event.Event;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.EventGenericListener;
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 import java.util.Map;
@@ -63,10 +62,10 @@ public abstract class EventGenericImpl implements Event
         extraParams.put(name,value);
     }
 
-    public List<NameValuePair> genParamURL()
+    public List<NameValue> genParamURL()
     {
-        List<NameValuePair> params = listener.getItsNatDocImpl().genParamURL();
-        listener.genParamURL(this,params);
+        List<NameValue> paramList = listener.getItsNatDocImpl().genParamURL();
+        listener.genParamURL(this,paramList);
 
         if (extraParams != null)
         {
@@ -80,18 +79,18 @@ public abstract class EventGenericImpl implements Event
                     for (int i = 0; i < valueArr.length; i++)
                     {
                         if (valueArr[i] == null) continue;
-                        params.add(new BasicNameValuePair(name,valueArr[i].toString()));
+                        paramList.add(new NameValue(name, valueArr[i].toString()));
                     }
                 }
                 else
                 {
                     if (value != null)
-                        params.add(new BasicNameValuePair(name,value.toString()));
+                        paramList.add(new NameValue(name,value.toString()));
                 }
             }
         }
 
-        return params;
+        return paramList;
     }
 
 }

@@ -3,11 +3,9 @@ package org.itsnat.droid.impl.browser;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.itsnat.droid.HttpParamMap;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
@@ -15,6 +13,7 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
+import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
@@ -32,7 +31,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
 {
     public final static String USER_AGENT = "Apache-HttpClient/UNAVAILABLE (java 1.4) ItsNatDroidBrowser"; // Valor por defecto de DefaultHttpClient sin parámetros en emulador 4.0.3, le añadimos ItsNatDroidBrowser
     protected ItsNatDroidImpl parent;
-    protected HttpParams httpParams;
+    protected HttpParamMapImpl httpParamMap;
     protected HttpContext httpContext = new BasicHttpContext(); // Para las cookies (ej para las sesiones), la verdad es que no se si es multihilo pero no tengo más remedio
     protected Interpreter interp = new Interpreter(); // Global
     protected UniqueIdGenerator idGenerator = new UniqueIdGenerator();
@@ -45,7 +44,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     public ItsNatDroidBrowserImpl(ItsNatDroidImpl parent)
     {
         this.parent = parent;
-        this.httpParams = getDefaultHttpParams();
+        this.httpParamMap = getDefaultHttpParamMap();
 
         // http://stackoverflow.com/questions/3587254/how-do-i-manage-cookies-with-httpclient-in-android-and-or-java
         CookieStore cookieStore = new BasicCookieStore();
@@ -79,24 +78,30 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         catch (EvalError ex) { throw new ItsNatDroidException(ex); }
     }
 
-    private static HttpParams getDefaultHttpParams()
+    @Override
+    public HttpParamMap createHttpParamMap()
+    {
+        return new HttpParamMapImpl();
+    }
+
+    private static HttpParamMapImpl getDefaultHttpParamMap()
     {
         // Parámetros copiados de los parámetros por defecto de AndroidHttpClient.newInstance(...)
         // podríamos crear un AndroidHttpClient y coger los parámetros pero el problema es que "hay que usarlo".
-        HttpParams httpParams = new BasicHttpParams();
+        HttpParamMapImpl httpParamMap = new HttpParamMapImpl();
 
-        httpParams.setParameter("http.useragent","Apache-HttpClient/UNAVAILABLE (java 1.4)"); // Emulador 4.0.3  SE CAMBIARÁ
-        httpParams.setIntParameter("http.socket.timeout",60000);
-        httpParams.setBooleanParameter("http.connection.stalecheck",false);
-        httpParams.setIntParameter("http.connection.timeout",60000);
-        httpParams.setBooleanParameter("http.protocol.handle-redirects",false);
-        httpParams.setIntParameter("http.socket.buffer-size",8192);
+        httpParamMap.setParameter("http.useragent", "Apache-HttpClient/UNAVAILABLE (java 1.4)"); // Emulador 4.0.3  SE CAMBIARÁ
+        httpParamMap.setIntParameter("http.socket.timeout", 60000);
+        httpParamMap.setBooleanParameter("http.connection.stalecheck", false);
+        httpParamMap.setIntParameter("http.connection.timeout", 60000);
+        httpParamMap.setBooleanParameter("http.protocol.handle-redirects", false);
+        httpParamMap.setIntParameter("http.socket.buffer-size", 8192);
 
         // AHORA cambiamos los que nos interesan para dejarlos por defecto
-        httpParams.setParameter("http.useragent",USER_AGENT);  // Añadimos ItsNatDroidBrowser
-        HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
+        httpParamMap.setParameter("http.useragent", USER_AGENT);  // Añadimos ItsNatDroidBrowser
+        httpParamMap.setIntParameter("http.connection.timeout", 5000);
 
-        return httpParams;
+        return httpParamMap;
     }
 
 
@@ -138,16 +143,23 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         if (session.getPageCount() == 0) sessionList.remove(session.getStandardSessionId());
     }
 
-    public HttpParams getHttpParams()
+    @Override
+    public HttpParamMap getHttpParamMap()
     {
-        return httpParams;
+        return httpParamMap;
+    }
+
+    public HttpParamMapImpl getHttpParamMapImpl()
+    {
+        return httpParamMap;
     }
 
     public HttpContext getHttpContext() { return httpContext; }
 
-    public void setHttpParams(HttpParams httpParams)
+    @Override
+    public void setHttpParamMap(HttpParamMap httpParamMap)
     {
-        this.httpParams = httpParams;
+        this.httpParamMap = (HttpParamMapImpl)httpParamMap;
     }
 
     @Override
@@ -171,31 +183,37 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         return interp;
     }
 
+    @Override
     public int getMaxPagesInSession()
     {
         return maxPagesInSession;
     }
 
+    @Override
     public void setMaxPagesInSession(int maxPagesInSession)
     {
         this.maxPagesInSession = maxPagesInSession;
     }
 
+    @Override
     public boolean isSSLSelfSignedAllowed()
     {
         return sslSelfSignedAllowed;
     }
 
+    @Override
     public void setSSLSelfSignedAllowed(boolean enable)
     {
         this.sslSelfSignedAllowed = enable;
     }
 
+    @Override
     public long getFileCacheMaxSize()
     {
         return fileCacheMaxSize;
     }
 
+    @Override
     public void setFileCacheMaxSize(long size)
     {
         this.fileCacheMaxSize = size;

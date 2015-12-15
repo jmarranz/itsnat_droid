@@ -87,6 +87,10 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (Class<View>)MiscUtil.resolveClass(className);
     }
 
+    public static boolean isXMLIdAttrAsDOM(String namespaceURI, String name)
+    {
+        return MiscUtil.isEmpty(namespaceURI) && "id".equals(name);
+    }
 
     public ClassDescViewMgr getClassDescViewMgr()
     {
@@ -120,6 +124,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
 
+/*
         if (isXMLIdAttrAsDOM(namespaceURI, name))
         {
             InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
@@ -127,6 +132,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
             return true;
         }
+*/
 
         try
         {
@@ -228,8 +234,6 @@ public class ClassDescViewBased extends ClassDesc<View>
                     }
                 }
             }
-
-
         }
         catch(Exception ex)
         {

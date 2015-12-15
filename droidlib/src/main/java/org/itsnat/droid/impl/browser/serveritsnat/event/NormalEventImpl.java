@@ -2,10 +2,9 @@ package org.itsnat.droid.impl.browser.serveritsnat.event;
 
 import android.view.View;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.event.NormalEvent;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.NormalEventListener;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -33,10 +32,10 @@ public abstract class NormalEventImpl extends EventStfulImpl implements NormalEv
         return getNormalEventListener().getCurrentTarget();
     }
 
-    public List<NameValuePair> genParamURL()
+    public List<NameValue> genParamURL()
     {
-        List<NameValuePair> params = super.genParamURL();
-        params.add(new BasicNameValuePair("itsnat_evt_timeStamp","" + timeStamp)); // En vez del problematico Event.timeStamp
+        List<NameValue> params = super.genParamURL();
+        params.add(new NameValue("itsnat_evt_timeStamp","" + timeStamp)); // En vez del problematico Event.timeStamp
 
         return params;
     }

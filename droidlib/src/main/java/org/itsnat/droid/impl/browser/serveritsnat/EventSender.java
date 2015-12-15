@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 
 import android.os.AsyncTask;
 
-import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpRequestData;
@@ -10,6 +9,7 @@ import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
@@ -36,7 +36,7 @@ public class EventSender
         return evtManager.getItsNatDocImpl();
     }
 
-    public void requestSync(EventGenericImpl evt, String servletPath, List<NameValuePair> params, long timeout)
+    public void requestSync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, long timeout)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
@@ -47,7 +47,7 @@ public class EventSender
         HttpRequestResultOKImpl result = null;
         try
         {
-            result = HttpUtil.httpPost(servletPath,httpRequestData, params,null);
+            result = HttpUtil.httpPost(servletPath,httpRequestData, paramList,null);
         }
         catch (Exception ex)
         {
@@ -60,9 +60,9 @@ public class EventSender
         processResult(evt,result,false);
     }
 
-    public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValuePair> params, long timeout)
+    public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, long timeout)
     {
-        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, params,timeout);
+        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, paramList,timeout);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

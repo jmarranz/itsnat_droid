@@ -1,8 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -19,11 +18,12 @@ public class AttachedClientCometTaskRefreshEventImpl extends AttachedClientEvent
         this.listenerId = listenerId;
     }
 
-    public List<NameValuePair> genParamURL()
+    @Override
+    public List<NameValue> genParamURL()
     {
-        List<NameValuePair> params = super.genParamURL();
+        List<NameValue> params = super.genParamURL();
 
-        params.add(new BasicNameValuePair("itsnat_listener_id",listenerId));
+        params.add(new NameValue("itsnat_listener_id",listenerId));
 
         return params;
     }

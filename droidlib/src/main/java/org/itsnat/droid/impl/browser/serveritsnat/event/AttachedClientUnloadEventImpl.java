@@ -1,8 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -21,11 +20,12 @@ public class AttachedClientUnloadEventImpl extends AttachedClientEventImpl
         return true; // Es un unload
     }
 
-    public List<NameValuePair> genParamURL()
+    @Override
+    public List<NameValue> genParamURL()
     {
-        List<NameValuePair> params = super.genParamURL();
+        List<NameValue> params = super.genParamURL();
 
-        params.add(new BasicNameValuePair("itsnat_unload","true"));
+        params.add(new NameValue("itsnat_unload","true"));
 
         return params;
     }

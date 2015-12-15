@@ -112,10 +112,6 @@ public abstract class ClassDesc<Tnative>
             return null; // Namespace no gestionado aquí
     }
 
-    public static boolean isXMLIdAttrAsDOM(String namespaceURI, String name)
-    {
-        return MiscUtil.isEmpty(namespaceURI) && "id".equals(name);
-    }
 
     public abstract Class<Tnative> getDeclaredClass();
 

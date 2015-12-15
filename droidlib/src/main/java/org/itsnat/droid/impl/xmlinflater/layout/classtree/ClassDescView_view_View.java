@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_XMLId;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_drawingCacheQuality;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_fadeScrollbars;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layerType;
@@ -63,6 +64,9 @@ public class ClassDescView_view_View extends ClassDescViewBased
     protected void init()
     {
         super.init();
+
+        addAttrDescNoNS(new AttrDescView_view_View_XMLId(this));  // OJO, es el id="..." estandar de XML SIN "android:" es decir SIN namespace por eso llamamos a addAttrDescNoNS
+
 
         // Atributos analizados para Android 4.4 (API Level: 19) pero teniendo en cuenta que sólo soportamos Level 15 (Android 4.0.3)
 

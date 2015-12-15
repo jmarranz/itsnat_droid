@@ -6,8 +6,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import org.apache.http.params.HttpParams;
 import org.itsnat.droid.EventMonitor;
+import org.itsnat.droid.HttpParamMap;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatView;
@@ -29,7 +29,7 @@ public class TestRemoteCore extends TestRemotePageBase
 
     public void test(String url)
     {
-        HttpParams httpParams = prepareLoad();
+        HttpParamMap httpParamMap = prepareLoad();
 
         TestActivity act = getTestActivity();
 
@@ -48,7 +48,7 @@ public class TestRemoteCore extends TestRemotePageBase
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)
         .setAttrDrawableInflaterListener(this)
-        .setHttpParams(httpParams)
+        .setHttpParamMap(httpParamMap)
         .setURL(url)
         .execute();
     }

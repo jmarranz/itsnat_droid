@@ -1,10 +1,10 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
-import org.apache.http.NameValuePair;
 import org.itsnat.droid.CommMode;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.EventGenericListener;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -87,13 +87,13 @@ public class EventManager
         String servletPath = itsNatDoc.getItsNatServletPath();
         int commMode = evtListener.getCommMode();
         long timeout = evtListener.getTimeout();
-        List<NameValuePair> params = evt.genParamURL();
+        List<NameValue> paramList = evt.genParamURL();
 
 
         if (commMode == CommMode.XHR_SYNC)
         {
             EventSender sender = new EventSender(this);
-            sender.requestSync(evt, servletPath, params, timeout);
+            sender.requestSync(evt, servletPath, paramList, timeout);
         }
         else if (commMode == CommMode.XHR_ASYNC || commMode == CommMode.XHR_ASYNC_HOLD)
         {
@@ -101,7 +101,7 @@ public class EventManager
                 this.holdEvt = evt;
 
             EventSender sender = new EventSender(this);
-            sender.requestAsync(evt, servletPath, params, timeout);
+            sender.requestAsync(evt, servletPath, paramList, timeout);
         }
         else  // if ((commMode == 4) /*CommMode.SCRIPT*/ || (commMode == 5) /*CommMode.SCRIPT_HOLD*/)
             throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");

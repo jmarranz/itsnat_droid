@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
-import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
@@ -9,6 +8,7 @@ import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,10 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     protected EventGenericImpl evt;
     protected String servletPath;
     protected HttpRequestData httpRequestData;
-    protected List<NameValuePair> params;
+    protected List<NameValue> paramList;
 
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
-            List<NameValuePair> params,long timeout)
+            List<NameValue> paramList,long timeout)
     {
         PageImpl page = eventSender.getItsNatDocImpl().getPageImpl();
 
@@ -35,13 +35,13 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.servletPath = servletPath;
         this.httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
         httpRequestData.setTimeout(timeout);
-        this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
+        this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
     }
 
     @Override
     protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpPost(servletPath, httpRequestData, params,null);
+        return HttpUtil.httpPost(servletPath, httpRequestData, paramList,null);
     }
 
     @Override

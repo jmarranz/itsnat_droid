@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
 
-import org.apache.http.params.HttpParams;
+import org.itsnat.droid.HttpParamMap;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
@@ -16,6 +16,7 @@ import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
@@ -132,9 +133,14 @@ public abstract class PageImpl implements Page
     }
 
     @Override
-    public HttpParams getHttpParams()
+    public HttpParamMap getHttpParamMap()
     {
-        return getPageRequestClonedImpl().getHttpParams();
+        return getHttpParamMapImpl();
+    }
+
+    public HttpParamMapImpl getHttpParamMapImpl()
+    {
+        return getPageRequestClonedImpl().getHttpParamMapImpl();
     }
 
     @Override

@@ -2,14 +2,13 @@ package org.itsnat.droid.impl.browser;
 
 import android.os.AsyncTask;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements GenericHttpClient
 {
-    protected List<NameValuePair> paramList = new ArrayList<NameValuePair>(10);
+    protected List<NameValue> paramList = new ArrayList<NameValue>(10);
     protected String overrideMime;
 
     public GenericHttpClientImpl(ItsNatDocImpl itsNatDoc)
@@ -65,7 +64,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public void addParamNotFluid(String name,String value)
     {
         // Si se añade el mismo parámetro varias veces, es el caso de multivalor
-        paramList.add(new BasicNameValuePair(name,value));
+        paramList.add(new NameValue(name,value));
     }
 
     public void clearParamsNotFluid()
@@ -123,7 +122,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         String url = getFinalURL();
 
         HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
-        List<NameValuePair> params = this.paramList;
+        List<NameValue> params = this.paramList;
 
         HttpRequestResultOKImpl result = null;
         try

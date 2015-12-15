@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser;
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
@@ -10,7 +11,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpOptions;
@@ -26,12 +26,15 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.DefaultedHttpParams;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,6 +55,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -65,14 +69,22 @@ import javax.net.ssl.X509TrustManager;
  */
 public class HttpUtil
 {
-
-    private static HttpParams getHttpParams(HttpParams httpParamsRequest, HttpParams httpParamsDefault)
+    private static HttpParamMapImpl getHttpParamMap(HttpParamMapImpl httpParamMapRequest, HttpParamMapImpl httpParamMapDefault)
     {
-        return httpParamsRequest != null ? new DefaultedHttpParams(httpParamsRequest,httpParamsDefault) : httpParamsDefault;
+        if (httpParamMapRequest != null)
+        {
+            httpParamMapRequest.getParamMap().putAll(httpParamMapDefault.getParamMap());
+            return httpParamMapRequest;
+        }
+        else return httpParamMapDefault;
     }
 
-    public static HttpClient createHttpClient(String scheme,boolean sslSelfSignedAllowed,HttpParams httpParams)
+    public static HttpClient createHttpClient(String scheme,boolean sslSelfSignedAllowed,HttpParamMapImpl httpParamMap)
     {
+        HttpParams httpParams = new BasicHttpParams();
+        for(Map.Entry<String,Object> paramEntry : httpParamMap.getParamMap().entrySet())
+            httpParams.setParameter(paramEntry.getKey(),paramEntry.getValue());
+
         if (sslSelfSignedAllowed && scheme.equals("https"))
             return getHttpClientSSLSelfSignedAllowed(httpParams);
         else
@@ -97,25 +109,25 @@ public class HttpUtil
         return client;
     }
 
-    public static HttpRequestResultOKImpl httpGet(String url,HttpRequestData httpRequestData,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpGet(String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
     {
         return httpAction("GET",url,httpRequestData,paramList,overrideMime);
     }
 
-    public static HttpRequestResultOKImpl httpPost(String url,HttpRequestData httpRequestData,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpPost(String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
     {
-        return httpAction("POST",url,httpRequestData,paramList,overrideMime);
+        return httpAction("POST", url, httpRequestData, paramList, overrideMime);
     }
 
-    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpRequestData httpRequestData,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
         catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
 
-        HttpParams httpParams = getHttpParams(httpRequestData.httpParamsRequest, httpRequestData.httpParamsDefault);
+        HttpParamMapImpl httpParamMap = getHttpParamMap(httpRequestData.httpParamMapRequest, httpRequestData.httpParamMapDefault);
 
-        HttpClient httpClient = createHttpClient(uri.getScheme(),httpRequestData.sslSelfSignedAllowed,httpParams);
+        HttpClient httpClient = createHttpClient(uri.getScheme(),httpRequestData.sslSelfSignedAllowed,httpParamMap);
 
         HttpUriRequest httpUriRequest = null;
 
@@ -129,8 +141,17 @@ public class HttpUtil
             // httpUriRequest.setHeader("Content-Type", "application/x-www-form-urlencoded");
             try
             {
-                if (paramList == null) paramList = new LinkedList<NameValuePair>(); // Creo que no se admite que sea nulo
-                ((HttpEntityEnclosingRequestBase)httpUriRequest).setEntity(new UrlEncodedFormEntity(paramList));
+                if (paramList == null) paramList = new LinkedList<NameValue>(); // Creo que no se admite que sea nulo
+
+                List<NameValuePair> paramListApache = new ArrayList<NameValuePair>(paramList.size());
+                for(NameValue nameValue : paramList)
+                {
+                    String name = nameValue.getName();
+                    String value = nameValue.getValue().toString();
+                    paramListApache.add(new BasicNameValuePair(name,value));
+                }
+
+                ((HttpEntityEnclosingRequest)httpUriRequest).setEntity(new UrlEncodedFormEntity(paramListApache));
             }
             catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
         }
@@ -138,8 +159,17 @@ public class HttpUtil
         {
             if (paramList != null && paramList.size() > 0)
             {
+                List<NameValuePair> paramListApache = new ArrayList<NameValuePair>(paramList.size());
+                for(NameValue nameValue : paramList)
+                {
+                    String name = nameValue.getName();
+                    String value = nameValue.getValue().toString();
+                    paramListApache.add(new BasicNameValuePair(name,value));
+                }
+
+
                 // http://stackoverflow.com/questions/2959316/how-to-add-parameters-to-a-http-get-request-in-android
-                String paramString = URLEncodedUtils.format(paramList, "utf-8");
+                String paramString = URLEncodedUtils.format(paramListApache, "utf-8");
                 int pos = url.lastIndexOf('?');
                 if (pos != -1) // Tiene ?
                 {

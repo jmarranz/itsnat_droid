@@ -1,9 +1,8 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.event.DroidFocusEvent;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -45,12 +44,13 @@ public class DroidFocusEventImpl extends DroidEventImpl implements DroidFocusEve
     {
     }
 
-    public List<NameValuePair> genParamURL()
+    @Override
+    public List<NameValue> genParamURL()
     {
         boolean hasFocus = hasFocus();
 
-        List<NameValuePair> params = super.genParamURL();
-        params.add(new BasicNameValuePair("itsnat_evt_hasFocus","" + hasFocus));
+        List<NameValue> params = super.genParamURL();
+        params.add(new NameValue("itsnat_evt_hasFocus","" + hasFocus));
         return params;
     }
 

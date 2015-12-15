@@ -1,12 +1,12 @@
 package org.itsnat.droid.impl.browser;
 
-import org.apache.http.params.HttpParams;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
 import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.net.SocketTimeoutException;
@@ -17,7 +17,7 @@ import java.net.SocketTimeoutException;
 public abstract class GenericHttpClientBaseImpl //implements GenericHttpClient
 {
     protected ItsNatDocImpl itsNatDoc;
-    protected HttpParams httpParamsRequest;
+    protected HttpParamMapImpl httpParamMapRequest;
     protected OnHttpRequestErrorListener errorListener;
     protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
     protected String userUrl;
@@ -28,8 +28,8 @@ public abstract class GenericHttpClientBaseImpl //implements GenericHttpClient
     {
         this.itsNatDoc = itsNatDoc;
         PageImpl page = itsNatDoc.getPageImpl();
-        HttpParams httpParamsRequest = page.getHttpParams();
-        this.httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
+        HttpParamMapImpl httpParamsRequest = page.getHttpParamMapImpl();
+        this.httpParamMapRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
     }
 
     protected GenericHttpClientBaseImpl()
@@ -80,15 +80,15 @@ public abstract class GenericHttpClientBaseImpl //implements GenericHttpClient
     public void setRequestHeaderNotFluid(String header, Object value)
     {
         if (value instanceof Boolean)
-            httpParamsRequest.setBooleanParameter(header,(Boolean)value);
+            httpParamMapRequest.setBooleanParameter(header,(Boolean)value);
         else if (value instanceof Integer)
-            httpParamsRequest.setIntParameter(header,(Integer)value);
+            httpParamMapRequest.setIntParameter(header,(Integer)value);
         else if (value instanceof Long)
-            httpParamsRequest.setLongParameter(header,(Long)value);
+            httpParamMapRequest.setLongParameter(header,(Long)value);
         else if (value instanceof Double)
-            httpParamsRequest.setDoubleParameter(header,(Double)value);
+            httpParamMapRequest.setDoubleParameter(header,(Double)value);
         else
-            httpParamsRequest.setParameter(header,value);
+            httpParamMapRequest.setParameter(header,value);
     }
 
     public String getPageURLBase()

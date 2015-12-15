@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.GenericHttpClient;
@@ -54,7 +52,7 @@ import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -271,14 +269,14 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
 
-    public List<NameValuePair> genParamURL()
+    public List<NameValue> genParamURL()
     {
         PageItsNatImpl pageItsNat = (PageItsNatImpl)page;
-        List<NameValuePair> params = new LinkedList<NameValuePair>();
-        params.add(new BasicNameValuePair("itsnat_client_id",pageItsNat.getId()));
-        params.add(new BasicNameValuePair("itsnat_session_token",pageItsNat.getItsNatSessionImpl().getToken()));
-        params.add(new BasicNameValuePair("itsnat_session_id",pageItsNat.getItsNatSessionImpl().getId()));
-        return params;
+        List<NameValue> paramList = new LinkedList<NameValue>();
+        paramList.add(new NameValue("itsnat_client_id", pageItsNat.getId()));
+        paramList.add(new NameValue("itsnat_session_token", pageItsNat.getItsNatSessionImpl().getToken()));
+        paramList.add(new NameValue("itsnat_session_id", pageItsNat.getItsNatSessionImpl().getId()));
+        return paramList;
     }
 
     public String getStringPathFromView(View view)

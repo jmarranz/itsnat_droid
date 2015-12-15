@@ -1,11 +1,11 @@
 package org.itsnat.droid.impl.browser;
 
-import org.apache.http.NameValuePair;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +19,14 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
     protected String method;
     protected String url;
     protected HttpRequestData httpRequestData;
-    protected List<NameValuePair> params;
+    protected List<NameValue> paramList;
     protected OnHttpRequestListener listener;
     protected OnHttpRequestErrorListener errorListener;
     protected int errorMode;
     protected String overrideMime;
 
 
-    public HttpActionGenericAsyncTask(GenericHttpClientImpl parent,String method, String url, List<NameValuePair> params, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode, String overrideMime)
+    public HttpActionGenericAsyncTask(GenericHttpClientImpl parent,String method, String url, List<NameValue> paramList, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode, String overrideMime)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -34,7 +34,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
         this.method = method;
         this.url = url;
         this.httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
-        this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
+        this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValue son de sólo lectura por lo que no hay problema compartirlos en hilos
         this.listener = listener;
         this.errorListener = errorListener;
         this.errorMode = errorMode;
@@ -44,7 +44,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
     @Override
     protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpAction(method,url, httpRequestData, params,overrideMime);
+        return HttpUtil.httpAction(method,url, httpRequestData, paramList,overrideMime);
     }
 
     @Override

@@ -1,9 +1,8 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.event.DroidTextChangeEvent;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
+import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
 
@@ -45,12 +44,13 @@ public class DroidTextChangeEventImpl extends DroidEventImpl implements DroidTex
     {
     }
 
-    public List<NameValuePair> genParamURL()
+    @Override
+    public List<NameValue> genParamURL()
     {
         CharSequence newText = getNewText();
 
-        List<NameValuePair> params = super.genParamURL();
-        params.add(new BasicNameValuePair("itsnat_evt_newText",newText.toString()));
+        List<NameValue> params = super.genParamURL();
+        params.add(new NameValue("itsnat_evt_newText",newText.toString()));
         return params;
     }
 
