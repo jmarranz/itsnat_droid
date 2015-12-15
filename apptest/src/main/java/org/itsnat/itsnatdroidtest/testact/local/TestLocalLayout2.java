@@ -337,8 +337,8 @@ public class TestLocalLayout2
             Calendar minDate = Calendar.getInstance();
             minDate.clear();
             minDate.set(Calendar.YEAR, 1901);
-            minDate.set(Calendar.MONTH,Calendar.JANUARY);
-            minDate.set(Calendar.DAY_OF_MONTH,1);
+            minDate.set(Calendar.MONTH, Calendar.JANUARY);
+            minDate.set(Calendar.DAY_OF_MONTH, 1);
             assertEquals(compLayout.getMinDate(), minDate.getTimeInMillis()); // Gana minDate sobre startYear
             assertEquals(compLayout.getMinDate(),parsedLayout.getMinDate());
 
@@ -457,13 +457,13 @@ public class TestLocalLayout2
 
             // ViewAnimator
 
-            assertTrue((Boolean)TestUtil.getField(compLayout,ViewAnimator.class,"mAnimateFirstTime"));
+            assertTrue((Boolean) TestUtil.getField(compLayout, ViewAnimator.class, "mAnimateFirstTime"));
             assertEquals((Boolean) TestUtil.getField(compLayout,ViewAnimator.class,"mAnimateFirstTime"), (Boolean) TestUtil.getField(parsedLayout,ViewAnimator.class,"mAnimateFirstTime"));
 
-            assertNotNull((AnimationSet)compLayout.getInAnimation());
+            assertNotNull((AnimationSet) compLayout.getInAnimation());
             assertEquals((AnimationSet)compLayout.getInAnimation(),(AnimationSet)parsedLayout.getInAnimation());
 
-            assertNotNull((AnimationSet)compLayout.getOutAnimation());
+            assertNotNull((AnimationSet) compLayout.getOutAnimation());
             assertEquals((AnimationSet)compLayout.getOutAnimation(),(AnimationSet)parsedLayout.getOutAnimation());
 
             // ViewFlipper
@@ -471,7 +471,7 @@ public class TestLocalLayout2
             assertEquals(compLayout.isAutoStart(),parsedLayout.isAutoStart());
 
             // android:flipInterval  (getFlipInterval es Level 16)
-            assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),2000);
+            assertEquals((Integer) TestUtil.getField(compLayout, "mFlipInterval"), 2000);
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
         }
 
@@ -524,7 +524,7 @@ public class TestLocalLayout2
         {
             final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
             final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
-            assertEquals(compLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
+            assertEquals(compLayout.getAlignmentMode(), GridLayout.ALIGN_BOUNDS);
             assertEquals(compLayout.getColumnCount(),3);
             assertEquals(compLayout.getColumnCount(), parsedLayout.getColumnCount());
             assertFalse(compLayout.isColumnOrderPreserved());
@@ -677,11 +677,11 @@ public class TestLocalLayout2
             assertEquals(compQueryTextView.getInputType(), InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL | InputType.TYPE_CLASS_DATETIME | InputType.TYPE_DATETIME_VARIATION_DATE);
             assertEquals(compQueryTextView.getInputType(), parsedQueryTextView.getInputType());
 
-            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),ValueUtil.dpToPixelIntRound(250.3f, res));
-            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),(Integer)TestUtil.getField(parsedLayout, "mMaxWidth"));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"), ValueUtil.dpToPixelIntRound(250.3f, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"), (Integer) TestUtil.getField(parsedLayout, "mMaxWidth"));
 
-            assertEquals((CharSequence)TestUtil.getField(compLayout, "mQueryHint"),"The hint (SearchView)");
-            assertEquals((CharSequence)TestUtil.getField(compLayout, "mQueryHint"),(CharSequence)TestUtil.getField(parsedLayout, "mQueryHint"));
+            assertEquals((CharSequence) TestUtil.getField(compLayout, "mQueryHint"), "The hint (SearchView)");
+            assertEquals((CharSequence) TestUtil.getField(compLayout, "mQueryHint"), (CharSequence) TestUtil.getField(parsedLayout, "mQueryHint"));
         }
 
         childCount++;
@@ -765,14 +765,14 @@ public class TestLocalLayout2
             final RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             final RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             // Tests android:gravity (getGravity() es Level 16):
-            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.BOTTOM|Gravity.RIGHT);
+            assertEquals((Integer) TestUtil.getField(compLayout, "mGravity"), Gravity.BOTTOM | Gravity.RIGHT);
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
+                    assertEquals((Integer) TestUtil.getField(compLayout, "mGravity"), (Integer) TestUtil.getField(parsedLayout, "mGravity"));
                 }
             });
 
@@ -901,11 +901,16 @@ public class TestLocalLayout2
             {
                 TextView compTextView0 = (TextView) compLayout.getChildAt(0);
                 TextView parsedTextView0 = (TextView) parsedLayout.getChildAt(0);
+                assertEquals(compTextView0.getText(),"ViewStub test 1");
+                assertEquals(compTextView0.getText(),parsedTextView0.getText());
 
                 TextView compTextView1 = (TextView) compLayout.getChildAt(1);
                 TextView parsedTextView1 = (TextView) parsedLayout.getChildAt(1);
+                assertEquals(compTextView1.getText(),"ViewStub test 2");
+                assertEquals(compTextView1.getText(),parsedTextView1.getText());
             }
         }
+
 
 
 

@@ -138,9 +138,12 @@ public class XMLInflateRegistry
         return getIdentifier(attrValue,ctx,true);
     }
 
-    private int getIdentifier(String value, Context ctx,boolean throwErr)
+    public int getIdentifier(String value, Context ctx,boolean throwErr)
     {
         if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
+
+        if (!isResource(value))
+            throw new ItsNatDroidException("Bad format in id declaration: " + value);
 
         int id;
         char first = value.charAt(0);
@@ -156,11 +159,10 @@ public class XMLInflateRegistry
                 return id;
             id = getIdentifierDynamicallyAdded(value);
         }
-        else
-            throw new ItsNatDroidException("Bad format in id declaration: " + value);
+        else throw new ItsNatDroidException("Unexpected"); // Por isResource(value) sabemos que es ? o @
 
         if (throwErr && id <= 0)
-            throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
+            throw new ItsNatDroidException("Not found resource with id value \"" + value + "\"");
         return id;
     }
 
@@ -193,7 +195,7 @@ public class XMLInflateRegistry
         return res.getIdentifier(value, null, packageName);
     }
 
-    public int getIdentifierDynamicallyAdded(String value)
+    private int getIdentifierDynamicallyAdded(String value)
     {
         if (value.indexOf(':') != -1) // Tiene package, ej "@+android:id/", no se encontrará un id registrado como "@+id/..." y los posibles casos con package NO los hemos contemplado
             return 0; // No encontrado
@@ -496,7 +498,7 @@ public class XMLInflateRegistry
         return "#00000000";
     }
 
-    public Drawable getDrawable(String attrValue, Context ctx)
+    private Drawable getDrawable(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {

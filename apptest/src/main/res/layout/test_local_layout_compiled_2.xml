@@ -567,6 +567,11 @@
                   /> <!-- layout_width/layout_height se imponen en el layout inflado -->
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SOME FINAL TEXT"/>
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

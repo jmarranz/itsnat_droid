@@ -277,7 +277,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
             pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
 
-            // No llamamos porque es el root: pendingViewPostCreateProcess.executePendingPostAddViewTasks();
+            pendingViewPostCreateProcess.executePendingPostAddViewTasks(); // Aunque sea el root lo llamamos pues de otra manera podemos dejar alguna acción sin ejecutar
         }
     }
 
