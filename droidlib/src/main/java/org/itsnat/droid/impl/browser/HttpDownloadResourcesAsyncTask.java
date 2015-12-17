@@ -72,7 +72,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
                 }
                 else
                 {
-                    if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;
+                    if (ex instanceof RuntimeException) throw (RuntimeException) ex;
                     else throw new ItsNatDroidException(ex);
                 }
             }

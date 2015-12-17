@@ -3,9 +3,10 @@ package org.itsnat.droid.impl.browser;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.itsnat.droid.HttpParamMap;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
@@ -13,12 +14,13 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
-import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
+import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import bsh.EvalError;
@@ -31,7 +33,10 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
 {
     public final static String USER_AGENT = "Apache-HttpClient/UNAVAILABLE (java 1.4) ItsNatDroidBrowser"; // Valor por defecto de DefaultHttpClient sin parámetros en emulador 4.0.3, le añadimos ItsNatDroidBrowser
     protected ItsNatDroidImpl parent;
-    protected HttpParamMapImpl httpParamMap;
+    protected RequestPropertyMap requestPropertyMap;
+    protected int connectTimeout = 6 * 1000;
+    protected int readTimeout = 7 * 1000;
+    protected HttpParams httpParams;
     protected HttpContext httpContext = new BasicHttpContext(); // Para las cookies (ej para las sesiones), la verdad es que no se si es multihilo pero no tengo más remedio
     protected Interpreter interp = new Interpreter(); // Global
     protected UniqueIdGenerator idGenerator = new UniqueIdGenerator();
@@ -44,7 +49,8 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     public ItsNatDroidBrowserImpl(ItsNatDroidImpl parent)
     {
         this.parent = parent;
-        this.httpParamMap = getDefaultHttpParamMap();
+        this.requestPropertyMap = new RequestPropertyMap();
+        this.httpParams = getDefaultHttpParams();
 
         // http://stackoverflow.com/questions/3587254/how-do-i-manage-cookies-with-httpclient-in-android-and-or-java
         CookieStore cookieStore = new BasicCookieStore();
@@ -78,30 +84,24 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         catch (EvalError ex) { throw new ItsNatDroidException(ex); }
     }
 
-    @Override
-    public HttpParamMap createHttpParamMap()
-    {
-        return new HttpParamMapImpl();
-    }
-
-    private static HttpParamMapImpl getDefaultHttpParamMap()
+    private static HttpParams getDefaultHttpParams()
     {
         // Parámetros copiados de los parámetros por defecto de AndroidHttpClient.newInstance(...)
         // podríamos crear un AndroidHttpClient y coger los parámetros pero el problema es que "hay que usarlo".
-        HttpParamMapImpl httpParamMap = new HttpParamMapImpl();
-
-        httpParamMap.setParameter("http.useragent", "Apache-HttpClient/UNAVAILABLE (java 1.4)"); // Emulador 4.0.3  SE CAMBIARÁ
-        httpParamMap.setIntParameter("http.socket.timeout", 60000);
-        httpParamMap.setBooleanParameter("http.connection.stalecheck", false);
-        httpParamMap.setIntParameter("http.connection.timeout", 60000);
-        httpParamMap.setBooleanParameter("http.protocol.handle-redirects", false);
-        httpParamMap.setIntParameter("http.socket.buffer-size", 8192);
+        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/net/http/AndroidHttpClient.java?av=f
+        BasicHttpParams httpParams = new BasicHttpParams();
+        httpParams.setParameter("http.useragent", "Apache-HttpClient/UNAVAILABLE (java 1.4)"); // Emulador 4.0.3  SE CAMBIARÁ
+        httpParams.setIntParameter("http.socket.timeout", 60 * 1000);
+        httpParams.setBooleanParameter("http.connection.stalecheck", false);
+        httpParams.setIntParameter("http.connection.timeout", 60 * 1000);
+        httpParams.setBooleanParameter("http.protocol.handle-redirects", false);
+        httpParams.setIntParameter("http.socket.buffer-size", 8192);
 
         // AHORA cambiamos los que nos interesan para dejarlos por defecto
-        httpParamMap.setParameter("http.useragent", USER_AGENT);  // Añadimos ItsNatDroidBrowser
-        httpParamMap.setIntParameter("http.connection.timeout", 5000);
+        httpParams.setParameter("http.useragent", USER_AGENT);  // Añadimos ItsNatDroidBrowser
+        httpParams.setIntParameter("http.connection.timeout", 5000);
 
-        return httpParamMap;
+        return httpParams;
     }
 
 
@@ -143,23 +143,72 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         if (session.getPageCount() == 0) sessionList.remove(session.getStandardSessionId());
     }
 
-    @Override
-    public HttpParamMap getHttpParamMap()
-    {
-        return httpParamMap;
-    }
-
-    public HttpParamMapImpl getHttpParamMapImpl()
-    {
-        return httpParamMap;
-    }
-
     public HttpContext getHttpContext() { return httpContext; }
 
-    @Override
-    public void setHttpParamMap(HttpParamMap httpParamMap)
+    public HttpParams getHttpParams() { return httpParams; }
+
+    public RequestPropertyMap getRequestPropertyMap()
     {
-        this.httpParamMap = (HttpParamMapImpl)httpParamMap;
+        return requestPropertyMap;
+    }
+
+    @Override
+    public void addRequestProperty(String name, String value)
+    {
+        requestPropertyMap.addProperty(name, value);
+    }
+
+    @Override
+    public void setRequestProperty(String name, String value)
+    {
+        requestPropertyMap.setProperty(name, value);
+    }
+
+    @Override
+    public boolean removeProperty(String name)
+    {
+        return requestPropertyMap.removeProperty(name);
+    }
+
+    @Override
+    public String getRequestProperty(String name)
+    {
+        return requestPropertyMap.getPropertySingle(name);
+    }
+
+    @Override
+    public Map<String, List<String>> getRequestProperties()
+    {
+        return requestPropertyMap.getPropertyUnmodifiableMap();
+    }
+
+    @Override
+    public void setConnectTimeout(int timeoutMillis)
+    {
+        this.connectTimeout = timeoutMillis;
+
+        int timeout = timeoutMillis < 0 ? Integer.MAX_VALUE : (int) timeoutMillis;
+        httpParams.setIntParameter("http.connection.timeout", timeout);
+    }
+
+    @Override
+    public int getConnectTimeout()
+    {
+        return connectTimeout;
+    }
+
+    public void setReadTimeout(int timeoutMillis)
+    {
+        this.readTimeout = timeoutMillis;
+
+        // PROVISIONAL
+        int soTimeout = timeoutMillis < 0 ? Integer.MAX_VALUE : (int) timeoutMillis;
+        httpParams.setIntParameter("http.socket.timeout", soTimeout);
+    }
+
+    public int getReadTimeout()
+    {
+        return readTimeout;
     }
 
     @Override

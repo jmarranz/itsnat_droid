@@ -42,12 +42,16 @@ public class EventSender
         PageImpl page = itsNatDoc.getPageImpl();
 
         HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
-        httpRequestData.setTimeout(timeout);
+        httpRequestData.setReadTimeout(timeout);
 
         HttpRequestResultOKImpl result = null;
         try
         {
             result = HttpUtil.httpPost(servletPath,httpRequestData, paramList,null);
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
         }
         catch (Exception ex)
         {

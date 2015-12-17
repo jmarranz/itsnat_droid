@@ -32,7 +32,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
+import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
 
@@ -69,22 +69,8 @@ import javax.net.ssl.X509TrustManager;
  */
 public class HttpUtil
 {
-    private static HttpParamMapImpl getHttpParamMap(HttpParamMapImpl httpParamMapRequest, HttpParamMapImpl httpParamMapDefault)
+    public static HttpClient createHttpClient(String scheme,boolean sslSelfSignedAllowed,HttpParams httpParams)
     {
-        if (httpParamMapRequest != null)
-        {
-            httpParamMapRequest.getParamMap().putAll(httpParamMapDefault.getParamMap());
-            return httpParamMapRequest;
-        }
-        else return httpParamMapDefault;
-    }
-
-    public static HttpClient createHttpClient(String scheme,boolean sslSelfSignedAllowed,HttpParamMapImpl httpParamMap)
-    {
-        HttpParams httpParams = new BasicHttpParams();
-        for(Map.Entry<String,Object> paramEntry : httpParamMap.getParamMap().entrySet())
-            httpParams.setParameter(paramEntry.getKey(),paramEntry.getValue());
-
         if (sslSelfSignedAllowed && scheme.equals("https"))
             return getHttpClientSSLSelfSignedAllowed(httpParams);
         else
@@ -125,9 +111,7 @@ public class HttpUtil
         try { uri = new URI(url); }
         catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
 
-        HttpParamMapImpl httpParamMap = getHttpParamMap(httpRequestData.httpParamMapRequest, httpRequestData.httpParamMapDefault);
-
-        HttpClient httpClient = createHttpClient(uri.getScheme(),httpRequestData.sslSelfSignedAllowed,httpParamMap);
+        HttpClient httpClient = createHttpClient(uri.getScheme(),httpRequestData.sslSelfSignedAllowed,httpRequestData.httpParams);
 
         HttpUriRequest httpUriRequest = null;
 
@@ -138,7 +122,7 @@ public class HttpUtil
                 httpUriRequest = new HttpPost(url);
             else // PUT
                 httpUriRequest = new HttpPut(url); // http://stackoverflow.com/questions/3649814/android-httpput-example-code
-            // httpUriRequest.setHeader("Content-Type", "application/x-www-form-urlencoded");
+                                                    // httpUriRequest.setHeader("Content-Type", "application/x-www-form-urlencoded");
             try
             {
                 if (paramList == null) paramList = new LinkedList<NameValue>(); // Creo que no se admite que sea nulo

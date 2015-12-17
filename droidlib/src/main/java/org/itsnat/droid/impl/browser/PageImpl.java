@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
 
-import org.itsnat.droid.HttpParamMap;
+import org.apache.http.params.HttpParams;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
@@ -16,7 +16,7 @@ import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
+import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
@@ -24,6 +24,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.Map;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -68,6 +69,10 @@ public abstract class PageImpl implements Page
         try
         {
             interp.set("itsNatDoc", itsNatDoc);
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
         }
         catch (EvalError ex)
         {
@@ -132,16 +137,36 @@ public abstract class PageImpl implements Page
         return getItsNatDroidBrowserImpl();
     }
 
+
     @Override
-    public HttpParamMap getHttpParamMap()
+    public Map<String, List<String>> getRequestProperties()
     {
-        return getHttpParamMapImpl();
+        return pageRequestCloned.getRequestProperties();
     }
 
-    public HttpParamMapImpl getHttpParamMapImpl()
+    public RequestPropertyMap getRequestPropertyMapImpl()
     {
-        return getPageRequestClonedImpl().getHttpParamMapImpl();
+        return getPageRequestClonedImpl().getRequestPropertyMap();
     }
+
+    @Override
+    public int getConnectTimeout()
+    {
+        return getPageRequestClonedImpl().getConnectTimeout();
+    }
+
+    @Override
+    public int getReadTimeout()
+    {
+        return getPageRequestClonedImpl().getReadTimeout();
+    }
+
+    public HttpParams getHttpParams()
+    {
+        return getPageRequestClonedImpl().getHttpParams();
+    }
+
+
 
     @Override
     public HttpRequestResult getHttpRequestResult()

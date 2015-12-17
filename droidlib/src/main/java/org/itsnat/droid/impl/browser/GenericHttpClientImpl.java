@@ -2,28 +2,40 @@ package org.itsnat.droid.impl.browser;
 
 import android.os.AsyncTask;
 
+import org.apache.http.params.HttpParams;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 9/10/14.
  */
 public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements GenericHttpClient
 {
+    protected RequestPropertyMap requestPropertyMap;
+    protected int connectTimeout;
+    protected int readTimeout;
+    protected HttpParams httpParams;
     protected List<NameValue> paramList = new ArrayList<NameValue>(10);
     protected String overrideMime;
 
     public GenericHttpClientImpl(ItsNatDocImpl itsNatDoc)
     {
         super(itsNatDoc);
+        PageImpl page = itsNatDoc.getPageImpl();
+        this.requestPropertyMap = page.getRequestPropertyMapImpl().copy();
+        this.connectTimeout = page.getConnectTimeout();
+        this.readTimeout = page.getReadTimeout();
+        this.httpParams = page.getHttpParams();
     }
 
     @Override
@@ -64,7 +76,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public void addParamNotFluid(String name,String value)
     {
         // Si se añade el mismo parámetro varias veces, es el caso de multivalor
-        paramList.add(new NameValue(name,value));
+        paramList.add(new NameValue(name, value));
     }
 
     public void clearParamsNotFluid()
@@ -73,25 +85,89 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     }
 
     @Override
-    public GenericHttpClient addParam(String name,String value)
+    public GenericHttpClient addParameter(String name, String value)
     {
-        addParamNotFluid(name,value);
+        addParamNotFluid(name, value);
         return this;
     }
 
     @Override
-    public GenericHttpClient clearParams()
+    public GenericHttpClient clearParameters()
     {
         clearParamsNotFluid();
         return this;
     }
 
-    @Override
-    public GenericHttpClient setRequestHeader(String header, Object value)
+    public RequestPropertyMap getRequestPropertyMap()
     {
-        setRequestHeaderNotFluid(header,value);
+        return requestPropertyMap;
+    }
+
+    @Override
+    public GenericHttpClient addRequestProperty(String name, String value)
+    {
+        requestPropertyMap.addProperty(name, value);
         return this;
     }
+
+    @Override
+    public GenericHttpClient setRequestProperty(String name, String value)
+    {
+        requestPropertyMap.setProperty(name, value);
+        return this;
+    }
+
+    @Override
+    public boolean removeProperty(String name)
+    {
+        return requestPropertyMap.removeProperty(name);
+    }
+
+    @Override
+    public String getRequestProperty(String name)
+    {
+        return requestPropertyMap.getPropertySingle(name);
+    }
+
+    @Override
+    public Map<String, List<String>> getRequestProperties()
+    {
+        return requestPropertyMap.getPropertyUnmodifiableMap();
+    }
+
+    @Override
+    public GenericHttpClient setConnectTimeout(int timeoutMillis)
+    {
+        this.connectTimeout = timeoutMillis;
+
+        int timeout = timeoutMillis < 0 ? Integer.MAX_VALUE : (int) timeoutMillis;
+        httpParams.setIntParameter("http.connection.timeout", timeout);
+        return this;
+    }
+
+    @Override
+    public int getConnectTimeout()
+    {
+        return connectTimeout;
+    }
+
+    @Override
+    public GenericHttpClient setReadTimeout(int timeoutMillis)
+    {
+        this.readTimeout = timeoutMillis;
+
+        // PROVISIONAL
+        int soTimeout = timeoutMillis < 0 ? Integer.MAX_VALUE : (int) timeoutMillis;
+        httpParams.setIntParameter("http.socket.timeout", soTimeout);
+        return this;
+    }
+
+    @Override
+    public int getReadTimeout()
+    {
+        return readTimeout;
+    }
+
 
     public void setOverrideMimeTypeNotFluid(String mime)
     {
@@ -124,10 +200,14 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
         List<NameValue> params = this.paramList;
 
-        HttpRequestResultOKImpl result = null;
+        HttpRequestResultOKImpl result;
         try
         {
             result = HttpUtil.httpPost(url, httpRequestData, params,overrideMime);
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
         }
         catch (Exception ex)
         {

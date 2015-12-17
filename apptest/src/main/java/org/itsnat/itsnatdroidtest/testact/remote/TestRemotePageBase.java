@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
-import org.itsnat.droid.HttpParamMap;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidScriptException;
@@ -66,15 +65,14 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         return fragment.getTestActivity();
     }
 
-    protected HttpParamMap prepareLoad()
+    public int getConnectionTimeout()
     {
-        TestActivity act = getTestActivity();
-        Toast.makeText(act, "DOWNLOADING", Toast.LENGTH_SHORT).show();
+        return 4000;
+    }
 
-        HttpParamMap httpParamMap = droidBrowser.createHttpParamMap();
-        httpParamMap.setIntParameter("http.connection.timeout", 4000);
-
-        return httpParamMap;
+    public int getReadTimeout()
+    {
+        return 6000;
     }
 
     protected void bindBackAndReloadButton(final Page page,View rootView)
@@ -255,8 +253,6 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
     public void executePageRequest(String url)
     {
-        HttpParamMap httpParamMap = prepareLoad();
-
         TestActivity act = getTestActivity();
 
         PageRequest pageRequest = droidBrowser.createPageRequest();
@@ -267,7 +263,8 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)
         .setAttrDrawableInflaterListener(this)
-        .setHttpParamMap(httpParamMap)
+        .setConnectTimeout(getConnectionTimeout())
+        .setReadTimeout(getReadTimeout())
         .setURL(url)
         .execute();
     }

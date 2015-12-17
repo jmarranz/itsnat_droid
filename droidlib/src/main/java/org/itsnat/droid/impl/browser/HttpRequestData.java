@@ -1,7 +1,8 @@
 package org.itsnat.droid.impl.browser;
 
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
-import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
+import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 
 import java.util.Map;
 
@@ -12,8 +13,10 @@ public class HttpRequestData
 {
     public HttpFileCache httpFileCache;
     public HttpContext httpContext;
-    public HttpParamMapImpl httpParamMapRequest;
-    public HttpParamMapImpl httpParamMapDefault;
+    public RequestPropertyMap requestPropertyMap;
+    public int connectTimeout;
+    public int readTimeout;
+    public HttpParams httpParams;
     public Map<String,String> httpHeaders;
     public boolean sslSelfSignedAllowed;
 
@@ -21,30 +24,24 @@ public class HttpRequestData
     {
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
 
-        HttpFileCache httpFileCache = browser.getHttpFileCache();
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParamMapImpl httpParamMapRequest = pageRequest.getHttpParamMapImpl();
-        HttpParamMapImpl httpParamMapDefault = browser.getHttpParamMapImpl();
-        Map<String, String> httpHeaders = pageRequest.createHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
-
-        this.httpFileCache = httpFileCache;
-        this.httpContext = httpContext;
-        this.httpParamMapRequest = httpParamMapRequest != null ? httpParamMapRequest.copy() : null; // En las requests sincronas no haria falta clonar pero no es importante
-        this.httpParamMapDefault = httpParamMapDefault != null ? httpParamMapDefault.copy() : null;
-        this.httpHeaders = httpHeaders; // No hace falta clone porque createHttpHeaders() crea un Map
-        this.sslSelfSignedAllowed = sslSelfSignedAllowed;
+        this.httpFileCache = browser.getHttpFileCache();
+        this.httpContext = browser.getHttpContext();
+        this.requestPropertyMap = pageRequest.getRequestPropertyMap().copy(); // Así permitimos en el PageRequest modificarlo y volver a llamar a execute(). En las requests sincronas no haria falta clonar pero no es importante
+        this.connectTimeout = pageRequest.getConnectTimeout();
+        this.readTimeout = pageRequest.getReadTimeout();
+        this.httpParams = pageRequest.getHttpParams().copy();
+        this.httpHeaders = pageRequest.createHttpHeaders(); // No hace falta clone porque createHttpHeaders() crea un nuevo Map
+        this.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
     }
 
-    public void setTimeout(long timeout)
+    public void setReadTimeout(long timeout)
     {
-        if (httpParamMapRequest == null) httpParamMapRequest = new HttpParamMapImpl();
-        setTimeout(timeout, httpParamMapRequest);
-    }
+        // ESTO HA DE CAMBIARSE PARA SER COMPATIBLE CON HttpUrlConnection
 
-    public static void setTimeout(long timeout,HttpParamMapImpl httpParamsRequest)
-    {
         int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int) timeout;
-        httpParamsRequest.setIntParameter("http.socket.timeout", soTimeout);
+        httpParams.setIntParameter("http.socket.timeout", soTimeout);
+
+        this.readTimeout = (int)timeout;
     }
+
 }

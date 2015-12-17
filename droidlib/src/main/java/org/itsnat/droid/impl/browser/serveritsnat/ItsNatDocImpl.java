@@ -113,6 +113,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return client;
     }
 
+    @Override
     public GenericHttpClient createGenericHttpClient()
     {
         return createGenericHttpClientImpl();

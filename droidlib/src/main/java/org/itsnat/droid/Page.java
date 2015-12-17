@@ -2,6 +2,9 @@ package org.itsnat.droid;
 
 import android.content.Context;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by jmarranz on 4/06/14.
  */
@@ -11,7 +14,9 @@ public interface Page
     public String getURL();
     public String getId();
     public Context getContext();
-    public HttpParamMap getHttpParamMap();
+    public Map<String, List<String>> getRequestProperties();
+    public int getConnectTimeout();
+    public int getReadTimeout();
     public HttpRequestResult getHttpRequestResult();
     public ItsNatSession getItsNatSession();
     public UserData getUserData();

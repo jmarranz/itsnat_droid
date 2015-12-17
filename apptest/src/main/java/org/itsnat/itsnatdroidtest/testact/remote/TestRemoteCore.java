@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.EventMonitor;
-import org.itsnat.droid.HttpParamMap;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatView;
@@ -29,8 +28,6 @@ public class TestRemoteCore extends TestRemotePageBase
 
     public void test(String url)
     {
-        HttpParamMap httpParamMap = prepareLoad();
-
         TestActivity act = getTestActivity();
 
         boolean testSSLSelfSignedAllowed = false;
@@ -48,7 +45,8 @@ public class TestRemoteCore extends TestRemotePageBase
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)
         .setAttrDrawableInflaterListener(this)
-        .setHttpParamMap(httpParamMap)
+        .setConnectTimeout(getConnectionTimeout())
+        .setReadTimeout(getReadTimeout())
         .setURL(url)
         .execute();
     }

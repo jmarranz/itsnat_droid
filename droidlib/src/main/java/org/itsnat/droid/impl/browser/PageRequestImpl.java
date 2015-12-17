@@ -9,9 +9,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.DisplayMetrics;
 
+import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
-import org.itsnat.droid.HttpParamMap;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
@@ -23,13 +23,14 @@ import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.httputil.HttpParamMapImpl;
+import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +40,10 @@ public class PageRequestImpl implements PageRequest
 {
     protected ItsNatDroidBrowserImpl browser;
     protected Context ctx;
-    protected HttpParamMapImpl httpParamMap;
+    protected RequestPropertyMap requestPropertyMap;
+    protected int connectTimeout;
+    protected int readTimeout;
+    protected HttpParams httpParams;
     protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH;
     protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
@@ -53,6 +57,28 @@ public class PageRequestImpl implements PageRequest
     public PageRequestImpl(ItsNatDroidBrowserImpl browser)
     {
         this.browser = browser;
+        this.requestPropertyMap = browser.getRequestPropertyMap().copy();
+        this.connectTimeout = browser.getConnectTimeout();
+        this.readTimeout = browser.getReadTimeout();
+        this.httpParams = browser.getHttpParams().copy();
+    }
+
+    public PageRequestImpl(PageRequestImpl origin) // clone to this
+    {
+        this.browser = origin.browser;
+        this.ctx = origin.ctx;
+        this.requestPropertyMap = origin.requestPropertyMap.copy();
+        this.connectTimeout = origin.connectTimeout;
+        this.readTimeout = origin.readTimeout;
+        this.httpParams = origin.httpParams.copy();
+        this.bitmapDensityReference = origin.bitmapDensityReference;
+        this.pageListener = origin.pageListener;
+        this.errorListener = origin.errorListener;
+        this.attrLayoutInflaterListener = origin.attrLayoutInflaterListener;
+        this.attrDrawableInflaterListener = origin.attrDrawableInflaterListener;
+        this.sync = origin.sync;
+        this.url = origin.url;
+        this.urlBase = origin.urlBase;
     }
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
@@ -132,16 +158,72 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
-    @Override
-    public PageRequest setHttpParamMap(HttpParamMap httpParamMap)
+    public HttpParams getHttpParams() { return httpParams; }
+
+    public RequestPropertyMap getRequestPropertyMap()
     {
-        this.httpParamMap = (HttpParamMapImpl)httpParamMap;
+        return requestPropertyMap;
+    }
+
+    @Override
+    public PageRequest addRequestProperty(String name, String value)
+    {
+        requestPropertyMap.addProperty(name, value);
         return this;
     }
 
-    public HttpParamMapImpl getHttpParamMapImpl()
+    @Override
+    public PageRequest setRequestProperty(String name, String value)
     {
-        return httpParamMap;
+        requestPropertyMap.setProperty(name, value);
+        return this;
+    }
+
+    @Override
+    public boolean removeProperty(String name)
+    {
+        return requestPropertyMap.removeProperty(name);
+    }
+
+    @Override
+    public String getRequestProperty(String name)
+    {
+        return requestPropertyMap.getPropertySingle(name);
+    }
+
+    @Override
+    public Map<String, List<String>> getRequestProperties()
+    {
+        return requestPropertyMap.getPropertyUnmodifiableMap();
+    }
+
+    @Override
+    public PageRequest setConnectTimeout(int timeoutMillis)
+    {
+        this.connectTimeout = timeoutMillis;
+        return this;
+    }
+
+    @Override
+    public int getConnectTimeout()
+    {
+        return connectTimeout;
+    }
+
+    public PageRequest setReadTimeout(int timeoutMillis)
+    {
+        this.readTimeout = timeoutMillis;
+
+        // PROVISIONAL
+        int soTimeout = timeoutMillis < 0 ? Integer.MAX_VALUE : (int) timeoutMillis;
+        httpParams.setIntParameter("http.socket.timeout", soTimeout);
+
+        return this;
+    }
+
+    public int getReadTimeout()
+    {
+        return readTimeout;
     }
 
     public boolean isSynchronous()
@@ -312,18 +394,7 @@ public class PageRequestImpl implements PageRequest
 
     public PageRequestImpl clone()
     {
-        HttpParamMapImpl httpParamMapCopy = this.httpParamMap != null ? this.httpParamMap.copy() : null;
-
-        PageRequestImpl request = new PageRequestImpl(browser);
-        request.setContext(ctx)
-               .setHttpParamMap(httpParamMapCopy)
-               .setOnPageLoadListener(pageListener)
-               .setOnPageLoadErrorListener(errorListener)
-               .setAttrLayoutInflaterListener(attrLayoutInflaterListener)
-               .setAttrDrawableInflaterListener(attrDrawableInflaterListener)
-               .setSynchronous(sync)
-               .setURL(url);
-        return request;
+        return new PageRequestImpl(this);
     }
 
     private static String downloadScript(String src,String pageURLBase,HttpRequestData httpRequestData) throws SocketTimeoutException

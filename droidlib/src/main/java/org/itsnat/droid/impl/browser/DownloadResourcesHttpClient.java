@@ -61,6 +61,10 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
                     new HttpResourceDownloader(url,httpRequestData,xmlDOMRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList,resultList);
         }
+        catch (RuntimeException ex)
+        {
+            throw ex;
+        }
         catch (Exception ex)
         {
             ItsNatDroidException exFinal = convertException(ex);

@@ -34,7 +34,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.evt = evt;
         this.servletPath = servletPath;
         this.httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
-        httpRequestData.setTimeout(timeout);
+        httpRequestData.setReadTimeout(timeout);
         this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
     }
 
