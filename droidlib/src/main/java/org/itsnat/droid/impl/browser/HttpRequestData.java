@@ -17,8 +17,13 @@ public class HttpRequestData
     public int connectTimeout;
     public int readTimeout;
     public HttpParams httpParams;
-    public Map<String,String> httpHeaders;
     public boolean sslSelfSignedAllowed;
+
+
+    public HttpRequestData(PageImpl page)
+    {
+        this(page.getPageRequestClonedImpl()); // Para acciones de carga de recursos, eventos etc una vez cargada la página reutilizando su configuración de red
+    }
 
     public HttpRequestData(PageRequestImpl pageRequest)
     {
@@ -30,8 +35,25 @@ public class HttpRequestData
         this.connectTimeout = pageRequest.getConnectTimeout();
         this.readTimeout = pageRequest.getReadTimeout();
         this.httpParams = pageRequest.getHttpParams().copy();
-        this.httpHeaders = pageRequest.createHttpHeaders(); // No hace falta clone porque createHttpHeaders() crea un nuevo Map
         this.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
+        pageRequest.addCurrentDeviceStateHttpHeaders(requestPropertyMap);
+    }
+
+    public HttpRequestData(GenericHttpClientImpl genericHttpClient)
+    {
+        PageImpl page = genericHttpClient.getItsNatDocImpl().getPageImpl();
+        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+
+        this.httpFileCache = browser.getHttpFileCache();
+        this.httpContext = browser.getHttpContext();
+        this.requestPropertyMap = genericHttpClient.getRequestPropertyMap().copy(); // Así permitimos en el PageRequest modificarlo y volver a llamar a execute(). En las requests sincronas no haria falta clonar pero no es importante
+        this.connectTimeout = genericHttpClient.getConnectTimeout();
+        this.readTimeout = genericHttpClient.getReadTimeout();
+        this.httpParams = genericHttpClient.getHttpParams().copy();
+        this.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
+        page.getPageRequestClonedImpl().addCurrentDeviceStateHttpHeaders(requestPropertyMap);
     }
 
     public void setReadTimeout(long timeout)
@@ -44,4 +66,8 @@ public class HttpRequestData
         this.readTimeout = (int)timeout;
     }
 
+    private void copyDeviceNowHttpHeaders()
+    {
+
+    }
 }

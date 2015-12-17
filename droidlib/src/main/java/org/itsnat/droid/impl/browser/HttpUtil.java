@@ -174,11 +174,11 @@ public class HttpUtil
             else throw new ItsNatDroidException("Unsupported HTTP method: " + method);
         }
 
-        HttpResponse response = execute(httpClient,httpUriRequest,httpRequestData.httpContext,httpRequestData.httpHeaders);
+        HttpResponse response = execute(httpClient,httpUriRequest,httpRequestData.httpContext,httpRequestData.requestPropertyMap);
         return processResponse(url,httpRequestData.httpFileCache,response,overrideMime);
     }
 
-    private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,Map<String,String> httpHeaders) throws SocketTimeoutException
+    private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,RequestPropertyMap requestPropertyMap) throws SocketTimeoutException
     {
         try
         {
@@ -189,15 +189,15 @@ public class HttpUtil
             httpUriRequest.setHeader("Pragma", "no-httpFileCache"); // HTTP 1.0.
             httpUriRequest.setHeader("Expires","0"); // Proxies.
 
-            for(Map.Entry<String,String> header : httpHeaders.entrySet())
+            for(Map.Entry<String,List<String>> header : requestPropertyMap.getPropertyMap().entrySet())
             {
                 String name = header.getKey();
-                String value = header.getValue();
-                httpUriRequest.setHeader(name,value);
+                List<String> valueList = header.getValue();
+                for(String value : valueList)
+                    httpUriRequest.addHeader(name,value);
             }
 
             HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
-
             return response;
         }
         catch(SocketTimeoutException ex)

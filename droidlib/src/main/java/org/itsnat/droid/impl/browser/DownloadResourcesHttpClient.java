@@ -47,7 +47,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         // No hace falta clonar porque es síncrona la llamada
         String url = getFinalURL();
 
-        HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
+        HttpRequestData httpRequestData = new HttpRequestData(page);
 
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 

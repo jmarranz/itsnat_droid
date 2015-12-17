@@ -256,9 +256,7 @@ public class PageRequestImpl implements PageRequest
         return urlBase;
     }
 
-
-
-    public Map<String,String> createHttpHeaders()
+    public void addCurrentDeviceStateHttpHeaders(RequestPropertyMap requestPropertyMap)
     {
         // http://stackoverflow.com/questions/17481341/how-to-get-android-screen-size-programmatically-once-and-for-all
         // Recuerda que cambia con la orientación por eso hay que enviarlos "frescos"
@@ -271,19 +269,15 @@ public class PageRequestImpl implements PageRequest
         try { pInfo = ctx.getPackageManager().getPackageInfo( ctx.getPackageName(), 0); }
         catch(PackageManager.NameNotFoundException ex) { throw new ItsNatDroidException(ex); }
 
-        Map<String, String> httpHeaders = new HashMap<String, String>();
-
-        httpHeaders.put("ItsNat-model", "" + Build.MODEL);
-        httpHeaders.put("ItsNat-sdk-int", "" + Build.VERSION.SDK_INT);
-        httpHeaders.put("ItsNat-lib-version-name", "" + libVersionName);
-        httpHeaders.put("ItsNat-lib-version-code", "" + libVersionCode);
-        httpHeaders.put("ItsNat-app-version-name", "" + pInfo.versionName);
-        httpHeaders.put("ItsNat-app-version-code", "" + pInfo.versionCode);
-        httpHeaders.put("ItsNat-display-width", "" + dm.widthPixels);
-        httpHeaders.put("ItsNat-display-height", "" + dm.heightPixels);
-        httpHeaders.put("ItsNat-display-density", "" + dm.density);
-
-        return httpHeaders;
+        requestPropertyMap.addProperty("ItsNat-model", "" + Build.MODEL);
+        requestPropertyMap.addProperty("ItsNat-sdk-int", "" + Build.VERSION.SDK_INT);
+        requestPropertyMap.addProperty("ItsNat-lib-version-name", "" + libVersionName);
+        requestPropertyMap.addProperty("ItsNat-lib-version-code", "" + libVersionCode);
+        requestPropertyMap.addProperty("ItsNat-app-version-name", "" + pInfo.versionName);
+        requestPropertyMap.addProperty("ItsNat-app-version-code", "" + pInfo.versionCode);
+        requestPropertyMap.addProperty("ItsNat-display-width", "" + dm.widthPixels);
+        requestPropertyMap.addProperty("ItsNat-display-height", "" + dm.heightPixels);
+        requestPropertyMap.addProperty("ItsNat-display-density", "" + dm.density);
     }
 
     @Override

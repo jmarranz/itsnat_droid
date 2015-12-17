@@ -35,7 +35,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         this.requestPropertyMap = page.getRequestPropertyMapImpl().copy();
         this.connectTimeout = page.getConnectTimeout();
         this.readTimeout = page.getReadTimeout();
-        this.httpParams = page.getHttpParams();
+        this.httpParams = page.getHttpParams().copy();
     }
 
     @Override
@@ -135,6 +135,11 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         return requestPropertyMap.getPropertyUnmodifiableMap();
     }
 
+    public HttpParams getHttpParams()
+    {
+        return httpParams;
+    }
+
     @Override
     public GenericHttpClient setConnectTimeout(int timeoutMillis)
     {
@@ -197,7 +202,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         PageImpl page = getPageImpl();
         String url = getFinalURL();
 
-        HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
+        HttpRequestData httpRequestData = new HttpRequestData(this);
         List<NameValue> params = this.paramList;
 
         HttpRequestResultOKImpl result;

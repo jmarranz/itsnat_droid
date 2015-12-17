@@ -37,7 +37,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.parent = parent;
         this.method = method;
         this.pageURLBase = pageURLBase;
-        this.httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
+        this.httpRequestData = new HttpRequestData(page);
         this.listener = listener;
         this.errorListener = errorListener;
         this.errorMode = errorMode;

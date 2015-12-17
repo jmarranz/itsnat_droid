@@ -41,7 +41,7 @@ public class EventSender
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
 
-        HttpRequestData httpRequestData = new HttpRequestData(page.getPageRequestClonedImpl());
+        HttpRequestData httpRequestData = new HttpRequestData(page);
         httpRequestData.setReadTimeout(timeout);
 
         HttpRequestResultOKImpl result = null;
