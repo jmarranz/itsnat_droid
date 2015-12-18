@@ -49,7 +49,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     public ItsNatDroidBrowserImpl(ItsNatDroidImpl parent)
     {
         this.parent = parent;
-        this.requestPropertyMap = new RequestPropertyMap();
+        this.requestPropertyMap = getDefaultRequestPropertyMap();
         this.httpParams = getDefaultHttpParams();
 
         // http://stackoverflow.com/questions/3587254/how-do-i-manage-cookies-with-httpclient-in-android-and-or-java
@@ -82,6 +82,13 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
             interp.eval(code.toString());
         }
         catch (EvalError ex) { throw new ItsNatDroidException(ex); }
+    }
+
+    private static RequestPropertyMap getDefaultRequestPropertyMap()
+    {
+        RequestPropertyMap requestPropertyMap = new RequestPropertyMap();
+        requestPropertyMap.addProperty("User-Agent",USER_AGENT);
+        return requestPropertyMap;
     }
 
     private static HttpParams getDefaultHttpParams()

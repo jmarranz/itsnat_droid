@@ -1,11 +1,11 @@
 package org.itsnat.droid.impl.browser;
 
-import org.apache.http.Header;
-import org.apache.http.StatusLine;
 import org.itsnat.droid.HttpRequestResult;
+import org.itsnat.droid.ItsNatDroidException;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.net.HttpURLConnection;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -13,29 +13,27 @@ import java.util.ArrayList;
 public abstract class HttpRequestResultImpl implements HttpRequestResult
 {
     private String url;
+    protected HttpURLConnection conn;
     protected byte[] responseByteArray;
-    private StatusLine status;
     private String mimeType;
     private String encoding;
-    private Header[] headerList;
     protected String responseText;
 
 
-    protected HttpRequestResultImpl(String url,Header[] headerList,StatusLine status, String mimeType, String encoding)
+    protected HttpRequestResultImpl(String url,HttpURLConnection conn,String mimeType, String encoding)
     {
         this.url = url;
-        this.headerList = headerList;
-        this.status = status;
+        this.conn = conn;
         this.mimeType = mimeType;
         this.encoding = encoding;
     }
 
-    public static HttpRequestResultImpl createHttpRequestResult(String url,HttpFileCache httpFileCache,Header[] headerList,InputStream input,StatusLine status, String mimeType, String encoding)
+    public static HttpRequestResultImpl createHttpRequestResult(String url,HttpURLConnection httpURLConnection,HttpFileCache httpFileCache,String mimeType, String encoding)
     {
-        if (isStatusOK(status))
-            return new HttpRequestResultOKImpl(url,httpFileCache,headerList,input,status,mimeType,encoding);
+        if (isStatusOK(httpURLConnection))
+            return new HttpRequestResultOKImpl(url,httpURLConnection,httpFileCache,mimeType,encoding);
         else
-            return new HttpRequestResultFailImpl(url,headerList,input,status,mimeType,encoding);
+            return new HttpRequestResultFailImpl(url,httpURLConnection,mimeType,encoding);
     }
 
     public String getUrl()
@@ -46,18 +44,13 @@ public abstract class HttpRequestResultImpl implements HttpRequestResult
 
     public boolean isStatusOK()
     {
-        return isStatusOK(status);
+        return isStatusOK(conn);
     }
 
-    public static boolean isStatusOK(StatusLine status)
+    public static boolean isStatusOK(HttpURLConnection httpURLConnection)
     {
-        return status.getStatusCode() == 200;
-    }
-
-    @Override
-    public StatusLine getStatusLine()
-    {
-        return status;
+        try { return httpURLConnection.getResponseCode() == 200; }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
     }
 
     @Override
@@ -73,24 +66,9 @@ public abstract class HttpRequestResultImpl implements HttpRequestResult
     }
 
     @Override
-    public Header[] getResponseHeaders(String name)
+    public HttpURLConnection getConn()
     {
-        // http://grepcode.com/file/repo1.maven.org/maven2/org.apache.httpcomponents/httpcore/4.0/org/apache/http/message/HeaderGroup.java#HeaderGroup.getHeaders%28java.lang.String%29
-        ArrayList<Header> headersFound = new ArrayList<Header>();
-        for (int i = 0; i < headerList.length; i++)
-        {
-            Header header = headerList[i];
-            if (header.getName().equalsIgnoreCase(name))
-                    headersFound.add(header);
-        }
-        if (headersFound.size() == 0) return null;
-        // No me fio de ArrayList.toArray(Array) cuando apenas tenemos 1 elemento
-        // http://stackoverflow.com/questions/8526907/is-javas-system-arraycopy-efficient-for-small-arrays
-        Header[] arrayRes = new Header[headersFound.size()];
-        for(int i = 0; i < headersFound.size(); i++)
-            arrayRes[i] = headersFound.get(i);
-
-        return arrayRes;
+        return conn;
     }
 
     @Override

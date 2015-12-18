@@ -63,7 +63,7 @@ public class PageRequestImpl implements PageRequest
         this.httpParams = browser.getHttpParams().copy();
     }
 
-    public PageRequestImpl(PageRequestImpl origin) // clone to this
+    public PageRequestImpl(PageRequestImpl origin) // clone/copy origin to "this"
     {
         this.browser = origin.browser;
         this.ctx = origin.ctx;

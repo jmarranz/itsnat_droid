@@ -231,7 +231,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public void requestAsync()
     {
         String url = getFinalURL();
-        HttpActionGenericAsyncTask postTask = new HttpActionGenericAsyncTask(this,method,url, paramList, listener,errorListener,errorMode,overrideMime);
+        GenericHttpClientAsyncTask postTask = new GenericHttpClientAsyncTask(this,method,url, paramList, listener,errorListener,errorMode,overrideMime);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

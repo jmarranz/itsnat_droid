@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestResultOKImpl>
+public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestResultOKImpl>
 {
     protected GenericHttpClientImpl parent;
     protected String method;
@@ -26,15 +26,13 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
     protected String overrideMime;
 
 
-    public HttpActionGenericAsyncTask(GenericHttpClientImpl parent,String method, String url, List<NameValue> paramList, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode, String overrideMime)
+    public GenericHttpClientAsyncTask(GenericHttpClientImpl parent, String method, String url, List<NameValue> paramList, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode, String overrideMime)
     {
-        PageImpl page = parent.getPageImpl();
-
         this.parent = parent;
         this.method = method;
         this.url = url;
         this.httpRequestData = new HttpRequestData(parent);
-        this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValue son de sólo lectura por lo que no hay problema compartirlos en hilos
+        this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValue son de sólo lectura por lo que no hay problema de compartirlos en hilos
         this.listener = listener;
         this.errorListener = errorListener;
         this.errorMode = errorMode;

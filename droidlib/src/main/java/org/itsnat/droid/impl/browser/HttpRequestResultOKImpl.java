@@ -14,9 +14,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+import java.util.TimeZone;
 
 /**
- * Created by Jose on 18/06/2015.
+ * Created by jmarranz on 18/06/2015.
  */
 public class HttpRequestResultOKImpl extends HttpRequestResultImpl
 {
@@ -24,21 +31,23 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
     private Integer bitmapDensityReference;
     private JSONObject responseJSONObject;
 
-    public HttpRequestResultOKImpl(String url,HttpFileCache httpFileCache,Header[] headerList,InputStream input, StatusLine status, String mimeType, String encoding)
+    public HttpRequestResultOKImpl(String url,HttpURLConnection conn,HttpFileCache httpFileCache,String mimeType, String encoding)
     {
-        super(url,headerList, status, mimeType, encoding);
+        super(url, conn, mimeType, encoding);
+
+        InputStream input;
+
+        try { input = conn.getInputStream(); }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
 
         // Tomcat v6 devuelve por ejemplo:
         // Last-Modified: Wed, 10 Jun 2015 19:48:47 GMT
-        Header[] lastModifiedHeader = getResponseHeaders("Last-Modified"); // Es devuelto cuando se accede a un archivo
-        if (lastModifiedHeader != null)
+
+        long lastModified;
+        String lastModifiedStr = conn.getHeaderField("Last-Modified"); // Es devuelto cuando se accede a un archivo
+        if (lastModifiedStr != null)
         {
-            long lastModified;
-            try {
-                lastModified = DateUtils.parseDate(lastModifiedHeader[0].getValue()).getTime();
-            } catch (DateParseException ex) {
-                throw new ItsNatDroidException(ex);
-            }
+            lastModified = conn.getHeaderFieldDate("Last-Modified", 0);
 
             HttpFileCache.FileCached fileCached = httpFileCache.get(url);
 
@@ -92,11 +101,11 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
             this.responseByteArray = IOUtil.read(input);
         }
 
+        this.itsNatServerVersion = conn.getHeaderField("ItsNat-version");
+        String bitmapDensityReferenceStr = conn.getHeaderField("ItsNat-bitmapDensityReference");
+        this.bitmapDensityReference = bitmapDensityReferenceStr != null ? new Integer(bitmapDensityReferenceStr) : null;
 
-        Header[] itsNatServerVersionArr = getResponseHeaders("ItsNat-version");
-        this.itsNatServerVersion = itsNatServerVersionArr != null ? itsNatServerVersionArr[0].getValue() : null;
-        Header[] bitmapDensityReferenceArr = getResponseHeaders("ItsNat-bitmapDensityReference");
-        this.bitmapDensityReference = bitmapDensityReferenceArr != null ? new Integer(bitmapDensityReferenceArr[0].getValue()) : null;
+        conn.disconnect();
 
         // Intentamos hacer procesos de conversion/parsing aqui para aprovechar el multinucleo y evitar usar el hilo UI
         if (MimeUtil.MIME_ANDROID_LAYOUT.equals(mimeType) ||
@@ -129,5 +138,6 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
     {
         return responseJSONObject;
     }
+
 
 }

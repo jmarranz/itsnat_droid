@@ -3,12 +3,12 @@ package org.itsnat.droid.impl.util;
 /**
  * Created by Jose on 15/12/2015.
  */
-public class NameValue
+public class NameValue<V>
 {
     protected String name;
-    protected Object value;
+    protected String value;
 
-    public NameValue(String name, Object value)
+    public NameValue(String name, String value)
     {
         this.name = name;
         this.value = value;
@@ -19,7 +19,7 @@ public class NameValue
         return name;
     }
 
-    public Object getValue()
+    public String getValue()
     {
         return value;
     }

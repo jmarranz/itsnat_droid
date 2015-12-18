@@ -6,18 +6,22 @@ import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 
 /**
  * Created by Jose on 18/06/2015.
  */
 public class HttpRequestResultFailImpl extends HttpRequestResultImpl
 {
-    public HttpRequestResultFailImpl(String url,Header[] headerList,InputStream input, StatusLine status, String mimeType, String encoding)
+    public HttpRequestResultFailImpl(String url,HttpURLConnection conn,String mimeType, String encoding)
     {
-        super(url,headerList, status, mimeType, encoding);
+        super(url, conn, mimeType, encoding);
 
         // Normalmente sera el texto del error que envia el servidor, por ejemplo el stacktrace
-        this.responseByteArray = IOUtil.read(input);
+        this.responseByteArray = IOUtil.read(conn.getErrorStream());
+
+        conn.disconnect();
+
         this.responseText = MiscUtil.toString(responseByteArray, getEncoding());
     }
 }

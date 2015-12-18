@@ -1,100 +1,37 @@
 package org.itsnat.droid.impl.browser;
 
 import org.apache.http.Header;
-import org.apache.http.HeaderElement;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpHead;
-import org.apache.http.client.methods.HttpOptions;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpTrace;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.Socket;
+import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by jmarranz on 23/05/14.
  */
 public class HttpUtil
 {
-    public static HttpClient createHttpClient(String scheme,boolean sslSelfSignedAllowed,HttpParams httpParams)
-    {
-        if (sslSelfSignedAllowed && scheme.equals("https"))
-            return getHttpClientSSLSelfSignedAllowed(httpParams);
-        else
-            return getHttpClientThreadSafe(httpParams);
-    }
-
-    private static DefaultHttpClient getHttpClientThreadSafe(HttpParams httpParams)
-    {
-        // Evitamos el error aleatorio:  java.lang.IllegalStateException: No wrapped connection
-        // http://www.androider.me/2013/11/solve-one-issue-because-of-thread-safe.html
-        // https://groups.google.com/forum/#!topic/android-developers/GUnCMjCnKKQ
-        // http://stackoverflow.com/questions/10795591/releasing-connection-in-android
-
-        DefaultHttpClient client = new DefaultHttpClient(httpParams);
-
-        ClientConnectionManager mgr = client.getConnectionManager();
-
-        HttpParams params = client.getParams();
-
-        client = new DefaultHttpClient(new ThreadSafeClientConnManager(params,mgr.getSchemeRegistry()), params);
-
-        return client;
-    }
-
     public static HttpRequestResultOKImpl httpGet(String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
     {
         return httpAction("GET",url,httpRequestData,paramList,overrideMime);
@@ -105,134 +42,110 @@ public class HttpUtil
         return httpAction("POST", url, httpRequestData, paramList, overrideMime);
     }
 
-    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime)
     {
-        URI uri;
-        try { uri = new URI(url); }
-        catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
+        // http://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
+        // http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/net/URLConnection.java
+        // http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/net/HttpURLConnection.java
 
-        HttpClient httpClient = createHttpClient(uri.getScheme(),httpRequestData.sslSelfSignedAllowed,httpRequestData.httpParams);
+        method = method.toUpperCase(); // Se debe de especificar que sea en mayúsculas pero por si acaso
 
-        HttpUriRequest httpUriRequest = null;
-
-        method = method.toUpperCase(); // Se especifica que sea en mayúsculas pero por si acaso
-        if ("POST".equals(method) || "PUT".equals(method)) // PATCH no está implementado (sería HttpPatch)
+        if ("GET".equals(method))
         {
-            if ("POST".equals(method))
-                httpUriRequest = new HttpPost(url);
-            else // PUT
-                httpUriRequest = new HttpPut(url); // http://stackoverflow.com/questions/3649814/android-httpput-example-code
-                                                    // httpUriRequest.setHeader("Content-Type", "application/x-www-form-urlencoded");
-            try
-            {
-                if (paramList == null) paramList = new LinkedList<NameValue>(); // Creo que no se admite que sea nulo
-
-                List<NameValuePair> paramListApache = new ArrayList<NameValuePair>(paramList.size());
-                for(NameValue nameValue : paramList)
-                {
-                    String name = nameValue.getName();
-                    String value = nameValue.getValue().toString();
-                    paramListApache.add(new BasicNameValuePair(name,value));
-                }
-
-                ((HttpEntityEnclosingRequest)httpUriRequest).setEntity(new UrlEncodedFormEntity(paramListApache));
-            }
-            catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
-        }
-        else
-        {
-            if (paramList != null && paramList.size() > 0)
-            {
-                List<NameValuePair> paramListApache = new ArrayList<NameValuePair>(paramList.size());
-                for(NameValue nameValue : paramList)
-                {
-                    String name = nameValue.getName();
-                    String value = nameValue.getValue().toString();
-                    paramListApache.add(new BasicNameValuePair(name,value));
-                }
-
-
-                // http://stackoverflow.com/questions/2959316/how-to-add-parameters-to-a-http-get-request-in-android
-                String paramString = URLEncodedUtils.format(paramListApache, "utf-8");
-                int pos = url.lastIndexOf('?');
-                if (pos != -1) // Tiene ?
-                {
-                    if (!url.endsWith("?")) url += '&'; // Tiene parámetros
-                }
-                else // No tiene ?
-                {
-                    url += '?';
-                }
-                url += paramString;
-            }
-
-            if ("GET".equals(method)) { httpUriRequest = new HttpGet(url); }
-            else if ("DELETE".equals(method)) { httpUriRequest = new HttpDelete(url); }
-            else if ("HEAD".equals(method)) { httpUriRequest = new HttpHead(url); }
-            else if ("OPTIONS".equals(method)) { httpUriRequest = new HttpOptions(url); }
-            else if ("TRACE".equals(method)) { httpUriRequest = new HttpTrace(url); }
-            else throw new ItsNatDroidException("Unsupported HTTP method: " + method);
+            url += formURLQuery(url,paramList,true);
         }
 
-        HttpResponse response = execute(httpClient,httpUriRequest,httpRequestData.httpContext,httpRequestData.requestPropertyMap);
-        return processResponse(url,httpRequestData.httpFileCache,response,overrideMime);
-    }
-
-    private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,RequestPropertyMap requestPropertyMap) throws SocketTimeoutException
-    {
+        URI uriObj;
+        URL urlObj;
         try
         {
-            // Para evitar cacheados (en el caso de GET) por si acaso
-            // http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
-            httpUriRequest.setHeader("If-Modified-Since","Wed, 15 Nov 1995 00:00:00 GMT");
-            httpUriRequest.setHeader("Cache-Control","no-store,no-httpFileCache,must-revalidate");
-            httpUriRequest.setHeader("Pragma", "no-httpFileCache"); // HTTP 1.0.
-            httpUriRequest.setHeader("Expires","0"); // Proxies.
+            uriObj = new URI(url);
+            urlObj = uriObj.toURL();
+        }
+        catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
+        catch (MalformedURLException ex) { throw new ItsNatDroidException(ex); }
 
-            for(Map.Entry<String,List<String>> header : requestPropertyMap.getPropertyMap().entrySet())
+        HttpURLConnection conn;
+
+        try { conn = (HttpURLConnection)urlObj.openConnection(); }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
+
+        // Headers:
+
+        conn.setConnectTimeout(httpRequestData.connectTimeout);
+        conn.setReadTimeout(httpRequestData.readTimeout);
+
+        // Para evitar cacheados (en el caso de GET) por si acaso
+        // http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
+        conn.addRequestProperty("If-Modified-Since", "Wed, 15 Nov 1995 00:00:00 GMT");
+        conn.addRequestProperty("Cache-Control", "no-store,no-httpFileCache,must-revalidate");
+        conn.addRequestProperty("Pragma", "no-httpFileCache"); // HTTP 1.0.
+        conn.addRequestProperty("Expires","0"); // Proxies.
+
+        for(Map.Entry<String,List<String>> header : httpRequestData.requestPropertyMap.getPropertyMap().entrySet())
+        {
+            String name = header.getKey();
+            for(String value : header.getValue())
+                conn.addRequestProperty(name,value);
+        }
+
+        try { conn.setRequestMethod(method); }
+        catch (ProtocolException ex) { throw new ItsNatDroidException(ex); }
+
+        conn.setDoInput(true);
+
+        if ("POST".equals(method))
+        {
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            conn.setDoOutput(true);
+
+            String postParams = formURLQuery(url,paramList,false);
+
+            OutputStream os;
+            try { os = conn.getOutputStream(); }
+            catch (IOException ex) { throw new ItsNatDroidException(ex); }
+
+            BufferedWriter writer;
+            try { writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8")); }
+            catch (UnsupportedEncodingException ex)
             {
-                String name = header.getKey();
-                List<String> valueList = header.getValue();
-                for(String value : valueList)
-                    httpUriRequest.addHeader(name,value);
+                try { os.close(); } catch (IOException ex2) { throw new ItsNatDroidException(ex2); } // Nunca debería ocurrir
+                throw new ItsNatDroidException(ex);
             }
 
-            HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
-            return response;
+            try
+            {
+                writer.write(postParams);
+                writer.flush();
+            }
+            catch (IOException ex) { throw new ItsNatDroidException(ex); }
+            finally
+            {
+                try { writer.close(); }
+                catch (IOException ex) { throw new ItsNatDroidException(ex); } // Nunca debería ocurrir, cierra también OutputStream os
+            }
         }
-        catch(SocketTimeoutException ex)
-        {
-            throw ex; // Nos interesa tratarlo explícitamente y por tanto NO envolverlo en un ItsNatDroidException
-        }
-        catch(ClientProtocolException ex) { throw new ItsNatDroidException(ex); }
-        catch(IOException ex) { throw new ItsNatDroidException(ex); }
+
+        // No hace falta llamar a connect() porque en POST basta enviar datos y en GET getResponseCode() hace efectiva la conexión
+        int responseCode;
+        try { responseCode = conn.getResponseCode(); }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
+
+        return processResponse(url,conn,responseCode,httpRequestData.httpFileCache,overrideMime);
     }
 
-    private static HttpRequestResultOKImpl processResponse(String url,HttpFileCache httpFileCache,HttpResponse response,String overrideMime)
+
+    private static HttpRequestResultOKImpl processResponse(String url,HttpURLConnection conn,int responseCode,HttpFileCache httpFileCache,String overrideMime)
     {
-        // Get hold of the response entity
-        HttpEntity entity = response.getEntity();
-        // If the response does not enclose an entity, there is no need
-        // to worry about connection release
-
-        if (entity == null) throw new ItsNatDroidException("Unexpected"); // null es muy raro incluso en caso de error
-
-        StatusLine status = response.getStatusLine();
-
         String[] mimeTypeRes = new String[1];
         String[] encodingRes = new String[1];
 
-        getMimeTypeEncoding(response, mimeTypeRes, encodingRes);
+        getMimeTypeEncoding(conn, mimeTypeRes, encodingRes);
 
         if (!MiscUtil.isEmpty(overrideMime)) mimeTypeRes[0] = overrideMime;
 
-        Header[] headers = response.getAllHeaders();
-
-        InputStream input = null;
-        try { input = entity.getContent(); } // Interesa incluso cuando hay error (statusCode != 200) porque obtenemos el texto del error
-        catch (IOException ex) { throw new ItsNatDroidException(ex); }
-
-        HttpRequestResultImpl result = HttpRequestResultImpl.createHttpRequestResult(url,httpFileCache,headers, input, status, mimeTypeRes[0], encodingRes[0]);
+        HttpRequestResultImpl result = HttpRequestResultImpl.createHttpRequestResult(url, conn, httpFileCache, mimeTypeRes[0], encodingRes[0]);
 
         if (result instanceof HttpRequestResultFailImpl)
         {
@@ -242,34 +155,72 @@ public class HttpUtil
         return (HttpRequestResultOKImpl)result;
     }
 
-    private static void getMimeTypeEncoding(HttpResponse response, String[] mimeType, String[] encoding)
+    private static void getMimeTypeEncoding(HttpURLConnection conn, String[] mimeType, String[] encoding)
     {
-        Header[] contentTypes = response.getHeaders("Content-Type"); // Internamente ignora mayúsculas y minúsculas, no hay que preocuparse
-        if (contentTypes != null && contentTypes.length > 0)
-        {
-            // Ej: Content-Type: android/layout;charset=UTF-8
-            HeaderElement[] elems = contentTypes[0].getElements(); // https://hc.apache.org/httpclient-3.x/apidocs/org/apache/commons/httpclient/HeaderElement.html
-            for (HeaderElement elem : elems)
-            {
-                mimeType[0] = elem.getName();
-                NameValuePair[] params = elem.getParameters();
-                for (NameValuePair param : params)
-                {
-                    String name = param.getName();
-                    if (name.equalsIgnoreCase("charset"))
-                    {
-                        encoding[0] = param.getValue();
-                        break;
-                    }
-                }
-                if (encoding != null) break;
-            }
-        }
+        mimeType[0] = "android/layout"; // Por defecto y por si acaso
+        encoding[0] = "UTF-8";
 
-        if (mimeType[0] == null) mimeType[0] = "android/layout"; // Por si acaso
-        if (encoding[0] == null) encoding[0] = "UTF-8"; // Por si acaso
+        String contentType = conn.getContentType();
+        if (contentType == null) // Por si acaso
+            return;
+
+        // Ej: Content-Type: android/layout;charset=UTF-8
+
+        int posCharset = contentType.lastIndexOf(';');
+        if (posCharset != -1)
+        {
+            mimeType[0] = contentType.substring(0,posCharset);
+            String charset = contentType.substring(posCharset + 1); // Ej charset=UTF-8
+            int posEq = charset.indexOf('=');
+            encoding[0] = charset.substring(posEq + 1);
+        }
+        else
+        {
+            mimeType[0] = contentType;
+            // Usar conn.getContentEncoding() por si acaso ????
+        }
     }
 
+    private static String formURLQuery(String url,List<NameValue> paramList,boolean get)
+    {
+        if (paramList != null && paramList.size() > 0)
+        {
+            StringBuilder query = new StringBuilder();
+
+            if (get)
+            {
+                int pos = url.indexOf('?');
+                if (pos != -1) // Tiene ?
+                {
+                    if (!url.endsWith("?")) query.append('&'); // Tiene ya parámetros y tenemos que añadir más
+                }
+            }
+
+            int i = 0;
+            for(NameValue param : paramList)
+            {
+                try
+                {
+                    query.append(URLEncoder.encode(param.getName(), "UTF-8"));
+                    query.append("=");
+                    query.append(URLEncoder.encode(param.getValue(), "UTF-8"));
+                    if (i < paramList.size() - 1)
+                        query.append('&'); // Hay más parámetros
+
+                    i++;
+                }
+                catch (UnsupportedEncodingException ex)
+                {
+                    throw new ItsNatDroidException(ex);
+                }
+            }
+            return query.toString();
+        }
+        else
+        {
+            return "";
+        }
+    }
 
     public static String composeAbsoluteURL(String src,String pageURL)
     {
@@ -346,66 +297,6 @@ public class HttpUtil
         */
         return result.toString();
     }
-
-
-    private static class SSLSocketFactoryForSelfSigned extends SSLSocketFactory
-    {
-        private SSLContext sslContext = SSLContext.getInstance("TLS");
-
-        public SSLSocketFactoryForSelfSigned(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException
-        {
-            super(truststore);
-
-            TrustManager tm = new X509TrustManager() {
-                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException { }
-                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException { }
-                public X509Certificate[] getAcceptedIssuers() { return null; }
-            };
-
-            sslContext.init(null, new TrustManager[] { tm }, null);
-        }
-
-        @Override
-        public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException, UnknownHostException
-        {
-            return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
-        }
-
-        @Override
-        public Socket createSocket() throws IOException {
-            return sslContext.getSocketFactory().createSocket();
-        }
-    }
-
-    public static HttpClient getHttpClientSSLSelfSignedAllowed(HttpParams params)
-    {
-        // URLs para probar: "https://www.pcwebshop.co.uk/" "https://mms.nw.ru/"
-        try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            trustStore.load(null, null);
-
-            SSLSocketFactory sf = new SSLSocketFactoryForSelfSigned(trustStore);
-            sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-            //HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-            //HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
-
-            SchemeRegistry registry = new SchemeRegistry();
-            registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-            registry.register(new Scheme("https", sf, 443));
-
-            ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
-
-            return new DefaultHttpClient(ccm, params);
-        }
-        catch (KeyStoreException ex) { throw new ItsNatDroidException(ex); }
-        catch (NoSuchAlgorithmException ex) { throw new ItsNatDroidException(ex); }
-        catch (IOException ex) { throw new ItsNatDroidException(ex); }
-        catch (CertificateException ex) { throw new ItsNatDroidException(ex); }
-        catch (KeyManagementException ex) { throw new ItsNatDroidException(ex); }
-        catch (UnrecoverableKeyException ex) { throw new ItsNatDroidException(ex); }
-    }
-
 
     private static String convertStreamToString_NO_SE_USA(InputStream is)
     {

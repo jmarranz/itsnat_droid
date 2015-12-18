@@ -72,7 +72,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
     public int getReadTimeout()
     {
-        return 6000;
+        return 10000;
     }
 
     protected void bindBackAndReloadButton(final Page page,View rootView)
