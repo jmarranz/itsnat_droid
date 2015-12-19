@@ -55,14 +55,11 @@ public class HttpUtil
             url += formURLQuery(url,paramList,true);
         }
 
-        URI uriObj;
         URL urlObj;
         try
         {
-            uriObj = new URI(url);
-            urlObj = uriObj.toURL();
+            urlObj = new URL(url);
         }
-        catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
         catch (MalformedURLException ex) { throw new ItsNatDroidException(ex); }
 
         HttpURLConnection conn;
@@ -72,8 +69,8 @@ public class HttpUtil
 
         // Headers:
 
-        conn.setConnectTimeout(httpRequestData.connectTimeout);
-        conn.setReadTimeout(httpRequestData.readTimeout);
+        conn.setConnectTimeout(httpRequestData.getConnectTimeout());
+        conn.setReadTimeout(httpRequestData.getReadTimeout());
 
         // Para evitar cacheados (en el caso de GET) por si acaso
         // http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
@@ -82,7 +79,7 @@ public class HttpUtil
         conn.addRequestProperty("Pragma", "no-httpFileCache"); // HTTP 1.0.
         conn.addRequestProperty("Expires","0"); // Proxies.
 
-        for(Map.Entry<String,List<String>> header : httpRequestData.requestPropertyMap.getPropertyMap().entrySet())
+        for(Map.Entry<String,List<String>> header : httpRequestData.getRequestPropertyMap().getPropertyMap().entrySet())
         {
             String name = header.getKey();
             for(String value : header.getValue())
@@ -132,7 +129,7 @@ public class HttpUtil
         try { responseCode = conn.getResponseCode(); }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
 
-        return processResponse(url,conn,responseCode,httpRequestData.httpFileCache,overrideMime);
+        return processResponse(url,conn,responseCode,httpRequestData.getHttpFileCache(),overrideMime);
     }
 
 

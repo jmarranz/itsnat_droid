@@ -204,6 +204,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         return connectTimeout;
     }
 
+    @Override
     public void setReadTimeout(int timeoutMillis)
     {
         this.readTimeout = timeoutMillis;
@@ -213,6 +214,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         httpParams.setIntParameter("http.socket.timeout", soTimeout);
     }
 
+    @Override
     public int getReadTimeout()
     {
         return readTimeout;

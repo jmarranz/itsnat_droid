@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public class HttpRequestData
 {
-    public HttpFileCache httpFileCache;
-    public HttpContext httpContext;
-    public RequestPropertyMap requestPropertyMap;
-    public int connectTimeout;
-    public int readTimeout;
-    public HttpParams httpParams;
-    public boolean sslSelfSignedAllowed;
+    private HttpFileCache httpFileCache;
+    private HttpContext httpContext;
+    private RequestPropertyMap requestPropertyMap;
+    private int connectTimeout;
+    private int readTimeout;
+    private HttpParams httpParams;
+    private boolean sslSelfSignedAllowed;
 
 
     public HttpRequestData(PageImpl page)
@@ -48,7 +48,7 @@ public class HttpRequestData
         this.httpParams = copy ? httpParams.copy() : httpParams;
         this.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        pageRequest.addCurrentDeviceStateHttpHeaders(requestPropertyMap); // Da igual el flag copy, hay que enviar el estado del dispositivo lo más fresco posible
+        pageRequest.addCurrentDeviceStateHttpHeaders(this.requestPropertyMap); // Da igual el flag copy, hay que enviar el estado del dispositivo lo más fresco posible
     }
 
     public HttpRequestData(GenericHttpClientImpl genericHttpClient)
@@ -64,17 +64,49 @@ public class HttpRequestData
         this.httpParams = genericHttpClient.getHttpParams().copy();
         this.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        page.getPageRequestClonedImpl().addCurrentDeviceStateHttpHeaders(requestPropertyMap);
+        page.getPageRequestClonedImpl().addCurrentDeviceStateHttpHeaders(this.requestPropertyMap);
+    }
+
+    public HttpFileCache getHttpFileCache()
+    {
+        return httpFileCache;
+    }
+
+    public HttpContext getHttpContext()
+    {
+        return httpContext;
+    }
+
+    public RequestPropertyMap getRequestPropertyMap()
+    {
+        return requestPropertyMap;
+    }
+
+    public int getConnectTimeout()
+    {
+        return connectTimeout;
+    }
+
+    public int getReadTimeout()
+    {
+        return readTimeout;
     }
 
     public void setReadTimeout(long timeout)
     {
-        // ESTO HA DE CAMBIARSE PARA SER COMPATIBLE CON HttpUrlConnection
+        this.readTimeout = (int)timeout;
 
         int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int) timeout;
         httpParams.setIntParameter("http.socket.timeout", soTimeout);
-
-        this.readTimeout = (int)timeout;
     }
 
+    public HttpParams getHttpParams()
+    {
+        return httpParams;
+    }
+
+    public boolean isSslSelfSignedAllowed()
+    {
+        return sslSelfSignedAllowed;
+    }
 }
