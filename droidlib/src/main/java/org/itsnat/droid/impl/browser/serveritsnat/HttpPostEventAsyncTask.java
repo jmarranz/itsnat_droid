@@ -34,7 +34,10 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.evt = evt;
         this.servletPath = servletPath;
         this.httpRequestData = new HttpRequestData(page);
-        httpRequestData.setReadTimeout(timeout);
+        int timeoutInt = (int)timeout;
+        if (timeoutInt < 0)
+            timeoutInt = Integer.MAX_VALUE;
+        httpRequestData.setReadTimeout(timeoutInt);
         this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
     }
 

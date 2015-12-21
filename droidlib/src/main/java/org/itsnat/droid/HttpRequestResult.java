@@ -14,7 +14,7 @@ public interface HttpRequestResult
 {
     public String getMimeType();
     public String getEncoding();
-    public HttpURLConnection getConn();
+    public HttpURLConnection getHttpURLConnection();
     public byte[] getResponseByteArray();
     public String getResponseText();
 }

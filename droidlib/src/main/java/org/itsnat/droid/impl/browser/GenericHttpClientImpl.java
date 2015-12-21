@@ -160,10 +160,6 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public GenericHttpClient setReadTimeout(int timeoutMillis)
     {
         this.readTimeout = timeoutMillis;
-
-        // PROVISIONAL
-        int soTimeout = timeoutMillis < 0 ? Integer.MAX_VALUE : (int) timeoutMillis;
-        httpParams.setIntParameter("http.socket.timeout", soTimeout);
         return this;
     }
 
@@ -231,8 +227,15 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public void requestAsync()
     {
         String url = getFinalURL();
-        GenericHttpClientAsyncTask postTask = new GenericHttpClientAsyncTask(this,method,url, paramList, listener,errorListener,errorMode,overrideMime);
-        postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+        GenericHttpClientAsyncTask task = new GenericHttpClientAsyncTask(this,method,url, paramList, listener,errorListener,errorMode,overrideMime);
+        if (true)
+        {
+            task.execute();
+        }
+        else
+        {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+        }
     }
 
 }

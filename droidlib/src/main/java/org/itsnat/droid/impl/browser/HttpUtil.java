@@ -32,6 +32,13 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class HttpUtil
 {
+    static
+    {
+        // Desactivamos el pool de conexiones pues nos da un error de IllegalArgumentException: timeout < 0 al utilizar varios hilos
+        // http://developer.android.com/reference/java/net/HttpURLConnection.html
+        System.setProperty("http.keepAlive", "false");
+    }
+
     public static HttpRequestResultOKImpl httpGet(String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
     {
         return httpAction("GET",url,httpRequestData,paramList,overrideMime);
@@ -44,6 +51,7 @@ public class HttpUtil
 
     public static HttpRequestResultOKImpl httpAction(String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime)
     {
+        // http://android-developers.blogspot.com.es/2011/09/androids-http-clients.html
         // http://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
         // http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/net/URLConnection.java
         // http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/net/HttpURLConnection.java
@@ -63,14 +71,21 @@ public class HttpUtil
         catch (MalformedURLException ex) { throw new ItsNatDroidException(ex); }
 
         HttpURLConnection conn;
-
         try { conn = (HttpURLConnection)urlObj.openConnection(); }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
 
+        conn.setDefaultUseCaches(false);
+        conn.setUseCaches(false);
+        conn.setAllowUserInteraction(false);
+        conn.setInstanceFollowRedirects(false);
+
         // Headers:
 
-        conn.setConnectTimeout(httpRequestData.getConnectTimeout());
-        conn.setReadTimeout(httpRequestData.getReadTimeout());
+        int connTimeout = httpRequestData.getConnectTimeout();
+        int readTimeout = httpRequestData.getReadTimeout();
+
+        conn.setConnectTimeout(connTimeout);
+        conn.setReadTimeout(readTimeout);
 
         // Para evitar cacheados (en el caso de GET) por si acaso
         // http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
@@ -86,8 +101,17 @@ public class HttpUtil
                 conn.addRequestProperty(name,value);
         }
 
-        try { conn.setRequestMethod(method); }
-        catch (ProtocolException ex) { throw new ItsNatDroidException(ex); }
+        if ("GET".equals(method))
+        {
+            try
+            {
+                conn.setRequestMethod(method);
+            }
+            catch (ProtocolException ex)
+            {
+                throw new ItsNatDroidException(ex);
+            }
+        }
 
         conn.setDoInput(true);
 
@@ -98,6 +122,24 @@ public class HttpUtil
             conn.setDoOutput(true);
 
             String postParams = formURLQuery(url,paramList,false);
+
+            
+
+            try {
+                synchronized(HttpUtil.class)
+                {
+                    conn.connect();
+                }
+            }  // En teoría no hace falta llamar a connect() porque en POST basta enviar datos
+            catch (IOException ex)
+            {
+                throw new ItsNatDroidException(ex);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                // ex.fillInStackTrace();
+                throw new ItsNatDroidException(ex);
+            }
 
             OutputStream os;
             try { os = conn.getOutputStream(); }
@@ -123,8 +165,25 @@ public class HttpUtil
                 catch (IOException ex) { throw new ItsNatDroidException(ex); } // Nunca debería ocurrir, cierra también OutputStream os
             }
         }
+        else // GET (y otros???)
+        {
+            try {
+                synchronized(HttpUtil.class)
+                {
+                    conn.connect();
+                }
+            } // En teoría no hace falta llamar a connect() porque en GET getResponseCode() hace efectiva la conexión
+            catch (IOException ex)
+            {
+                throw new ItsNatDroidException(ex);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                // ex.fillInStackTrace();
+                throw new ItsNatDroidException(ex);
+            }
+        }
 
-        // No hace falta llamar a connect() porque en POST basta enviar datos y en GET getResponseCode() hace efectiva la conexión
         int responseCode;
         try { responseCode = conn.getResponseCode(); }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }

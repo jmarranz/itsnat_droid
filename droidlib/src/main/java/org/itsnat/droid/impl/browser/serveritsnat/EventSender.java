@@ -42,7 +42,10 @@ public class EventSender
         PageImpl page = itsNatDoc.getPageImpl();
 
         HttpRequestData httpRequestData = new HttpRequestData(page);
-        httpRequestData.setReadTimeout(timeout);
+        int timeoutInt = (int)timeout;
+        if (timeoutInt < 0)
+            timeoutInt = Integer.MAX_VALUE;
+        httpRequestData.setReadTimeout(timeoutInt);
 
         HttpRequestResultOKImpl result = null;
         try
@@ -66,8 +69,15 @@ public class EventSender
 
     public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, long timeout)
     {
-        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, paramList,timeout);
-        postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+        HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList,timeout);
+        if (true)
+        {
+            task.execute();
+        }
+        else
+        {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+        }
     }
 
     public void processResult(EventGenericImpl evt,HttpRequestResultOKImpl result,boolean async)

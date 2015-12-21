@@ -84,7 +84,14 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         String url = getFinalURL();
         AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
         HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,url,listener,errorListener,errorMode,assetManager);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+        if (true)
+        {
+            task.execute();
+        }
+        else
+        {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+        }
     }
 
 }

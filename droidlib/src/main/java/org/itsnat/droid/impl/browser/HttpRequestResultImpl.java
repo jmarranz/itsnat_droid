@@ -66,7 +66,7 @@ public abstract class HttpRequestResultImpl implements HttpRequestResult
     }
 
     @Override
-    public HttpURLConnection getConn()
+    public HttpURLConnection getHttpURLConnection()
     {
         return conn;
     }

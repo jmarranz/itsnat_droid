@@ -256,30 +256,6 @@ public class PageRequestImpl implements PageRequest
         return urlBase;
     }
 
-    public void addCurrentDeviceStateHttpHeaders(RequestPropertyMap requestPropertyMap)
-    {
-        // http://stackoverflow.com/questions/17481341/how-to-get-android-screen-size-programmatically-once-and-for-all
-        // Recuerda que cambia con la orientación por eso hay que enviarlos "frescos"
-        Resources resources = ctx.getResources();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
-        int libVersionCode = itsNatDroid.getVersionCode();
-        String libVersionName = itsNatDroid.getVersionName();
-        PackageInfo pInfo;
-        try { pInfo = ctx.getPackageManager().getPackageInfo( ctx.getPackageName(), 0); }
-        catch(PackageManager.NameNotFoundException ex) { throw new ItsNatDroidException(ex); }
-
-        requestPropertyMap.addProperty("ItsNat-model", "" + Build.MODEL);
-        requestPropertyMap.addProperty("ItsNat-sdk-int", "" + Build.VERSION.SDK_INT);
-        requestPropertyMap.addProperty("ItsNat-lib-version-name", "" + libVersionName);
-        requestPropertyMap.addProperty("ItsNat-lib-version-code", "" + libVersionCode);
-        requestPropertyMap.addProperty("ItsNat-app-version-name", "" + pInfo.versionName);
-        requestPropertyMap.addProperty("ItsNat-app-version-code", "" + pInfo.versionCode);
-        requestPropertyMap.addProperty("ItsNat-display-width", "" + dm.widthPixels);
-        requestPropertyMap.addProperty("ItsNat-display-height", "" + dm.heightPixels);
-        requestPropertyMap.addProperty("ItsNat-display-density", "" + dm.density);
-    }
-
     @Override
     public void execute()
     {
@@ -330,7 +306,14 @@ public class PageRequestImpl implements PageRequest
     private void executeAsync(String url)
     {
         HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+        if (true)
+        {
+            task.execute();
+        }
+        else
+        {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+        }
     }
 
     public static PageRequestResult processHttpRequestResult(HttpRequestResultOKImpl result,
