@@ -29,6 +29,6 @@ public abstract class EventStfulListener extends EventGenericListener
     public void genParamURL(EventGenericImpl evt,List<NameValue> paramList)
     {
         super.genParamURL(evt, paramList);
-        paramList.add(new NameValue("itsnat_eventType", "" + getEventType()));
+        paramList.add(new NameValue("itsnat_eventType", getEventType()));
     }
 }

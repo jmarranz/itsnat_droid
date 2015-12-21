@@ -21,7 +21,7 @@ public abstract class ProcessingAsyncTask<ResOk> extends AsyncTask<Void, Void, O
         }
         catch(Exception ex)
         {
-            ex.printStackTrace();
+            // ex.printStackTrace();
             return ex;
         }
     }

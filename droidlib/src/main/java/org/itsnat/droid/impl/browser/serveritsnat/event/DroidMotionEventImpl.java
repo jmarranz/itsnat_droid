@@ -30,10 +30,10 @@ public class DroidMotionEventImpl extends DroidInputEventImpl
         MotionEvent evtNative = getMotionEvent();
 
         List<NameValue> params = super.genParamURL();
-        params.add(new NameValue("itsnat_evt_x","" + evtNative.getX()));
-        params.add(new NameValue("itsnat_evt_y","" + evtNative.getY()));
-        params.add(new NameValue("itsnat_evt_rawX","" + evtNative.getRawX()));
-        params.add(new NameValue("itsnat_evt_rawY","" + evtNative.getRawY()));
+        params.add(new NameValue("itsnat_evt_x",evtNative.getX()));
+        params.add(new NameValue("itsnat_evt_y",evtNative.getY()));
+        params.add(new NameValue("itsnat_evt_rawX",evtNative.getRawX()));
+        params.add(new NameValue("itsnat_evt_rawY",evtNative.getRawY()));
         return params;
     }
 

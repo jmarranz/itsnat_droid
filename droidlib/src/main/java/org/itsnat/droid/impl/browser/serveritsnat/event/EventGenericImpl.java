@@ -79,13 +79,13 @@ public abstract class EventGenericImpl implements Event
                     for (int i = 0; i < valueArr.length; i++)
                     {
                         if (valueArr[i] == null) continue;
-                        paramList.add(new NameValue(name, valueArr[i].toString()));
+                        paramList.add(new NameValue(name, valueArr[i]));
                     }
                 }
                 else
                 {
                     if (value != null)
-                        paramList.add(new NameValue(name,value.toString()));
+                        paramList.add(new NameValue(name,value));
                 }
             }
         }

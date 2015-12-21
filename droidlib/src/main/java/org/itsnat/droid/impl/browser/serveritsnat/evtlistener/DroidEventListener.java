@@ -48,6 +48,6 @@ public class DroidEventListener extends NormalEventListener
     public void genParamURL(EventGenericImpl evt,List<NameValue> paramList)
     {
         super.genParamURL(evt, paramList);
-        paramList.add(new NameValue("itsnat_evt_type", "" + this.type));
+        paramList.add(new NameValue("itsnat_evt_type", this.type));
     }
 }

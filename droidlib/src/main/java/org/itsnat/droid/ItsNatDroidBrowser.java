@@ -13,11 +13,11 @@ public interface ItsNatDroidBrowser
     public void setRequestProperty(String name, String value);
     public boolean removeProperty(String name);
     public String getRequestProperty(String name);
+    public Map<String, List<String>> getRequestProperties();
     public void setConnectTimeout(int timeoutMillis);
     public int getConnectTimeout();
     public void setReadTimeout(int timeoutMillis);
     public int getReadTimeout();
-    public Map<String, List<String>> getRequestProperties();
     public PageRequest createPageRequest();
     public int getMaxPagesInSession();
     public void setMaxPagesInSession(int maxPages);

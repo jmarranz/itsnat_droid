@@ -48,7 +48,7 @@ public abstract class NormalEventListener extends EventStfulListener
     public void genParamURL(EventGenericImpl evt,List<NameValue> paramList)
     {
         super.genParamURL(evt, paramList);
-        paramList.add(new NameValue("itsnat_listener_id", "" + getId()));
+        paramList.add(new NameValue("itsnat_listener_id", getId()));
     }
 
     public abstract NormalEventImpl createNormalEvent(Object evt);

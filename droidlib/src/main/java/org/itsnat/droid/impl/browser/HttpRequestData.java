@@ -21,9 +21,9 @@ public class HttpRequestData
     private HttpFileCache httpFileCache;
     private HttpContext httpContext;
     private RequestPropertyMap requestPropertyMap;
+    private HttpParams httpParams;
     private int connectTimeout;
     private int readTimeout;
-    private HttpParams httpParams;
     private boolean sslSelfSignedAllowed;
 
 
@@ -43,15 +43,13 @@ public class HttpRequestData
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         Context ctx = pageRequest.getContext();
 
-        RequestPropertyMap requestPropertyMap = pageRequest.getRequestPropertyMap();
-        HttpParams httpParams = pageRequest.getHttpParams();
 
         this.httpFileCache = browser.getHttpFileCache();
         this.httpContext = browser.getHttpContext();
-        this.requestPropertyMap = requestPropertyMap.copy();
+        this.requestPropertyMap = pageRequest.getRequestPropertyMap().copy();
+        this.httpParams = pageRequest.getHttpParams().copy();
         this.connectTimeout = pageRequest.getConnectTimeout();
         this.readTimeout = pageRequest.getReadTimeout();
-        this.httpParams = httpParams.copy();
         this.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         setCurrentDeviceStateHttpHeaders(this.requestPropertyMap,browser,ctx); // Da igual el flag copy, hay que enviar el estado del dispositivo lo más fresco posible
@@ -66,12 +64,12 @@ public class HttpRequestData
         this.httpFileCache = browser.getHttpFileCache();
         this.httpContext = browser.getHttpContext();
         this.requestPropertyMap = genericHttpClient.getRequestPropertyMap().copy();
+        this.httpParams = genericHttpClient.getHttpParams().copy();
         this.connectTimeout = genericHttpClient.getConnectTimeout();
         this.readTimeout = genericHttpClient.getReadTimeout();
-        this.httpParams = genericHttpClient.getHttpParams().copy();
         this.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        setCurrentDeviceStateHttpHeaders(this.requestPropertyMap,browser, ctx);
+        setCurrentDeviceStateHttpHeaders(this.requestPropertyMap, browser, ctx);
     }
 
     private void setCurrentDeviceStateHttpHeaders(RequestPropertyMap requestPropertyMap,ItsNatDroidBrowserImpl browser,Context ctx)
@@ -116,6 +114,11 @@ public class HttpRequestData
         return requestPropertyMap;
     }
 
+    public HttpParams getHttpParams()
+    {
+        return httpParams;
+    }
+
     public int getConnectTimeout()
     {
         return connectTimeout;
@@ -129,11 +132,6 @@ public class HttpRequestData
     public void setReadTimeout(int timeout)
     {
         this.readTimeout = timeout;
-    }
-
-    public HttpParams getHttpParams()
-    {
-        return httpParams;
     }
 
     public boolean isSslSelfSignedAllowed()

@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.os.AsyncTask;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
@@ -70,14 +69,7 @@ public class EventSender
     public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, long timeout)
     {
         HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList,timeout);
-        if (true)
-        {
-            task.execute();
-        }
-        else
-        {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
-        }
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public void processResult(EventGenericImpl evt,HttpRequestResultOKImpl result,boolean async)
@@ -86,17 +78,9 @@ public class EventSender
         itsNatDoc.fireEventMonitors(false,false,evt);
 
         String responseText = result.getResponseText();
-        if (result.isStatusOK())
-        {
-            itsNatDoc.eval(responseText);
+        itsNatDoc.eval(responseText);
 
-            if (async) evtManager.returnedEvent(evt);
-        }
-        else // Error del servidor, lo normal es que haya lanzado una excepción
-        {
-            itsNatDoc.showErrorMessage(true, responseText);
-            throw new ItsNatDroidServerResponseException(result);
-        }
+        if (async) evtManager.returnedEvent(evt);
     }
 
     public ItsNatDroidException convertException(EventGenericImpl evt, Exception ex)

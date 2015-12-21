@@ -36,7 +36,7 @@ public class DroidKeyEventImpl extends DroidInputEventImpl
         KeyEvent evtNative = getKeyEvent();
 
         List<NameValue> params = super.genParamURL();
-        params.add(new NameValue("itsnat_evt_keyCode","" + evtNative.getKeyCode()));
+        params.add(new NameValue("itsnat_evt_keyCode",evtNative.getKeyCode()));
         return params;
     }
 

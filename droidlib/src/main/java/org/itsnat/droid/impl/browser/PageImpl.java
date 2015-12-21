@@ -149,6 +149,11 @@ public abstract class PageImpl implements Page
         return getPageRequestClonedImpl().getRequestPropertyMap();
     }
 
+    public HttpParams getHttpParams()
+    {
+        return getPageRequestClonedImpl().getHttpParams();
+    }
+
     @Override
     public int getConnectTimeout()
     {
@@ -160,13 +165,6 @@ public abstract class PageImpl implements Page
     {
         return getPageRequestClonedImpl().getReadTimeout();
     }
-
-    public HttpParams getHttpParams()
-    {
-        return getPageRequestClonedImpl().getHttpParams();
-    }
-
-
 
     @Override
     public HttpRequestResult getHttpRequestResult()

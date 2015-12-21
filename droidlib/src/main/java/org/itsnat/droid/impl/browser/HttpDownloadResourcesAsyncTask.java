@@ -25,11 +25,10 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected HttpRequestData httpRequestData;
     protected OnHttpRequestListener listener;
     protected OnHttpRequestErrorListener errorListener;
-    protected int errorMode;
     protected XMLDOMRegistry xmlDOMRegistry;
     protected AssetManager assetManager;
 
-    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode,AssetManager assetManager)
+    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, AssetManager assetManager)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -40,7 +39,6 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.httpRequestData = new HttpRequestData(page);
         this.listener = listener;
         this.errorListener = errorListener;
-        this.errorMode = errorMode;
         this.xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         this.assetManager = assetManager;
     }
@@ -61,7 +59,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         {
             try
             {
-                parent.processResult(result, listener, errorMode);
+                parent.processResult(result, listener);
             }
             catch (Exception ex)
             {

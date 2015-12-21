@@ -22,9 +22,9 @@ import java.util.Map;
 public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements GenericHttpClient
 {
     protected RequestPropertyMap requestPropertyMap;
+    protected HttpParams httpParams;
     protected int connectTimeout;
     protected int readTimeout;
-    protected HttpParams httpParams;
     protected List<NameValue> paramList = new ArrayList<NameValue>(10);
     protected String overrideMime;
 
@@ -33,9 +33,9 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         super(itsNatDoc);
         PageImpl page = itsNatDoc.getPageImpl();
         this.requestPropertyMap = page.getRequestPropertyMapImpl().copy();
+        this.httpParams = page.getHttpParams().copy();
         this.connectTimeout = page.getConnectTimeout();
         this.readTimeout = page.getReadTimeout();
-        this.httpParams = page.getHttpParams().copy();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         return this;
     }
 
-    public void addParamNotFluid(String name,String value)
+    public void addParamNotFluid(String name,Object value)
     {
         // Si se añade el mismo parámetro varias veces, es el caso de multivalor
         paramList.add(new NameValue(name, value));
@@ -85,7 +85,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     }
 
     @Override
-    public GenericHttpClient addParameter(String name, String value)
+    public GenericHttpClient addParameter(String name, Object value)
     {
         addParamNotFluid(name, value);
         return this;
@@ -144,9 +144,6 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public GenericHttpClient setConnectTimeout(int timeoutMillis)
     {
         this.connectTimeout = timeoutMillis;
-
-        int timeout = timeoutMillis < 0 ? Integer.MAX_VALUE : (int) timeoutMillis;
-        httpParams.setIntParameter("http.connection.timeout", timeout);
         return this;
     }
 
@@ -218,7 +215,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(result,listener,errorMode);
+        processResult(result,listener);
 
         return result;
     }
@@ -227,15 +224,8 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public void requestAsync()
     {
         String url = getFinalURL();
-        GenericHttpClientAsyncTask task = new GenericHttpClientAsyncTask(this,method,url, paramList, listener,errorListener,errorMode,overrideMime);
-        if (true)
-        {
-            task.execute();
-        }
-        else
-        {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
-        }
+        GenericHttpClientAsyncTask task = new GenericHttpClientAsyncTask(this,method,url, paramList, listener,errorListener,overrideMime);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
 }

@@ -25,7 +25,7 @@ public class AttachedClientUnloadEventImpl extends AttachedClientEventImpl
     {
         List<NameValue> params = super.genParamURL();
 
-        params.add(new NameValue("itsnat_unload","true"));
+        params.add(new NameValue("itsnat_unload",true));
 
         return params;
     }

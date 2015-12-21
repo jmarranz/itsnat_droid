@@ -70,7 +70,7 @@ public abstract class DroidEventImpl extends NormalEventImpl implements DroidEve
     public List<NameValue> genParamURL()
     {
         List<NameValue> params = super.genParamURL();
-        params.add(new NameValue("itsnat_evt_eventPhase", "" + eventPhase));
+        params.add(new NameValue("itsnat_evt_eventPhase",eventPhase));
 
         View view = getDroidEventListener().getCurrentTarget();
         String viewTargetStr = viewTarget != null && viewTarget != view? listener.getItsNatDocImpl().getStringPathFromView(viewTarget) : "null";

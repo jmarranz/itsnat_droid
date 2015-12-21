@@ -21,7 +21,7 @@ public class EventStatelessListener extends EventGenericListener
     {
         super.genParamURL(evt, paramList);
         // Recuerda que al ser stateless tenemos que enviar el commMode y el eventTimeout, de hecho los proporciona el usuario desde el cliente
-        paramList.add(new NameValue("itsnat_commMode", "" + commMode));
-        paramList.add(new NameValue("itsnat_eventTimeout", "" + timeout));
+        paramList.add(new NameValue("itsnat_commMode", commMode));
+        paramList.add(new NameValue("itsnat_eventTimeout", timeout));
     }
 }

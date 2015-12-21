@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.browser;
 
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
@@ -95,18 +94,9 @@ public abstract class GenericHttpClientBaseImpl
             return new ItsNatDroidException(ex);
     }
 
-    public void processResult(HttpRequestResultOKImpl result,OnHttpRequestListener listener,int errorMode)
+    public void processResult(HttpRequestResultOKImpl result,OnHttpRequestListener listener)
     {
-        if (result.isStatusOK())
-        {
-            if (listener != null) listener.onRequest(itsNatDoc.getPage(),result);
-        }
-        else // Error del servidor, otro tipo de errores lanzan una excepción
-        {
-            ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-            itsNatDoc.showErrorMessage(true, result.getResponseText(),errorMode);
-            throw new ItsNatDroidServerResponseException(result);
-        }
+        if (listener != null) listener.onRequest(itsNatDoc.getPage(),result);
     }
 
 }

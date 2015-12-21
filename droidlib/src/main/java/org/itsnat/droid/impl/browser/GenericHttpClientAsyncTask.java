@@ -22,11 +22,10 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
     protected List<NameValue> paramList;
     protected OnHttpRequestListener listener;
     protected OnHttpRequestErrorListener errorListener;
-    protected int errorMode;
     protected String overrideMime;
 
 
-    public GenericHttpClientAsyncTask(GenericHttpClientImpl parent, String method, String url, List<NameValue> paramList, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode, String overrideMime)
+    public GenericHttpClientAsyncTask(GenericHttpClientImpl parent, String method, String url, List<NameValue> paramList, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, String overrideMime)
     {
         this.parent = parent;
         this.method = method;
@@ -35,7 +34,6 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
         this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValue son de sólo lectura por lo que no hay problema de compartirlos en hilos
         this.listener = listener;
         this.errorListener = errorListener;
-        this.errorMode = errorMode;
         this.overrideMime = overrideMime;
     }
 
@@ -50,7 +48,7 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
     {
         try
         {
-            parent.processResult(result,listener,errorMode);
+            parent.processResult(result,listener);
         }
         catch(Exception ex)
         {

@@ -1,12 +1,8 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.DisplayMetrics;
 
 import org.apache.http.params.HttpParams;
@@ -17,7 +13,6 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
-import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
@@ -28,7 +23,6 @@ import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +35,9 @@ public class PageRequestImpl implements PageRequest
     protected ItsNatDroidBrowserImpl browser;
     protected Context ctx;
     protected RequestPropertyMap requestPropertyMap;
+    protected HttpParams httpParams;
     protected int connectTimeout;
     protected int readTimeout;
-    protected HttpParams httpParams;
     protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH;
     protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
@@ -58,9 +52,9 @@ public class PageRequestImpl implements PageRequest
     {
         this.browser = browser;
         this.requestPropertyMap = browser.getRequestPropertyMap().copy();
+        this.httpParams = browser.getHttpParams().copy();
         this.connectTimeout = browser.getConnectTimeout();
         this.readTimeout = browser.getReadTimeout();
-        this.httpParams = browser.getHttpParams().copy();
     }
 
     public PageRequestImpl(PageRequestImpl origin) // clone/copy origin to "this"
@@ -68,9 +62,9 @@ public class PageRequestImpl implements PageRequest
         this.browser = origin.browser;
         this.ctx = origin.ctx;
         this.requestPropertyMap = origin.requestPropertyMap.copy();
+        this.httpParams = origin.getHttpParams().copy();
         this.connectTimeout = origin.connectTimeout;
         this.readTimeout = origin.readTimeout;
-        this.httpParams = origin.httpParams.copy();
         this.bitmapDensityReference = origin.bitmapDensityReference;
         this.pageListener = origin.pageListener;
         this.errorListener = origin.errorListener;
@@ -158,7 +152,6 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
-    public HttpParams getHttpParams() { return httpParams; }
 
     public RequestPropertyMap getRequestPropertyMap()
     {
@@ -197,6 +190,11 @@ public class PageRequestImpl implements PageRequest
         return requestPropertyMap.getPropertyUnmodifiableMap();
     }
 
+    public HttpParams getHttpParams()
+    {
+        return httpParams;
+    }
+
     @Override
     public PageRequest setConnectTimeout(int timeoutMillis)
     {
@@ -213,11 +211,6 @@ public class PageRequestImpl implements PageRequest
     public PageRequest setReadTimeout(int timeoutMillis)
     {
         this.readTimeout = timeoutMillis;
-
-        // PROVISIONAL
-        int soTimeout = timeoutMillis < 0 ? Integer.MAX_VALUE : (int) timeoutMillis;
-        httpParams.setIntParameter("http.socket.timeout", soTimeout);
-
         return this;
     }
 
@@ -306,14 +299,7 @@ public class PageRequestImpl implements PageRequest
     private void executeAsync(String url)
     {
         HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url);
-        if (true)
-        {
-            task.execute();
-        }
-        else
-        {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
-        }
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public static PageRequestResult processHttpRequestResult(HttpRequestResultOKImpl result,

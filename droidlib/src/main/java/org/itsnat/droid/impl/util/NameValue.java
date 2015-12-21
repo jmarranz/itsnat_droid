@@ -6,9 +6,9 @@ package org.itsnat.droid.impl.util;
 public class NameValue<V>
 {
     protected String name;
-    protected String value;
+    protected Object value;
 
-    public NameValue(String name, String value)
+    public NameValue(String name, Object value)
     {
         this.name = name;
         this.value = value;
@@ -19,7 +19,7 @@ public class NameValue<V>
         return name;
     }
 
-    public String getValue()
+    public Object getValue()
     {
         return value;
     }

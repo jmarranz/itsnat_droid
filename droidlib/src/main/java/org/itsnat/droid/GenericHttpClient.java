@@ -14,7 +14,7 @@ public interface GenericHttpClient
     public GenericHttpClient setOnHttpRequestErrorListener(OnHttpRequestErrorListener listener);
     public GenericHttpClient setMethod(String method);
     public GenericHttpClient setURL(String url);
-    public GenericHttpClient addParameter(String name, String value);
+    public GenericHttpClient addParameter(String name, Object value);
     public GenericHttpClient clearParameters();
     public GenericHttpClient addRequestProperty(String name, String value);
     public GenericHttpClient setRequestProperty(String name, String value);

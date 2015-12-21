@@ -50,7 +50,7 @@ public class DroidFocusEventImpl extends DroidEventImpl implements DroidFocusEve
         boolean hasFocus = hasFocus();
 
         List<NameValue> params = super.genParamURL();
-        params.add(new NameValue("itsnat_evt_hasFocus","" + hasFocus));
+        params.add(new NameValue("itsnat_evt_hasFocus",hasFocus));
         return params;
     }
 
