@@ -1,10 +1,12 @@
 package org.itsnat.droid.impl.browser;
 
+import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
     protected OnHttpRequestListener listener;
     protected OnHttpRequestErrorListener errorListener;
     protected String overrideMime;
-
+    protected int errorMode;
 
     public GenericHttpClientAsyncTask(GenericHttpClientImpl parent, String method, String url, List<NameValue> paramList, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, String overrideMime)
     {
@@ -35,6 +37,7 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
         this.listener = listener;
         this.errorListener = errorListener;
         this.overrideMime = overrideMime;
+        this.errorMode = parent.getErrorMode();
     }
 
     @Override
@@ -54,7 +57,8 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
         {
             if (errorListener != null)
             {
-                errorListener.onError(parent.getPageImpl(), ex, result);
+                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
+                errorListener.onError(parent.getPageImpl(), ex, resultError);
             }
             else
             {
@@ -67,17 +71,23 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
     @Override
     protected void onFinishError(Exception ex)
     {
-        ItsNatDroidException exFinal = parent.convertException(ex);
+        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ?  ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+        ItsNatDroidException exFinal = GenericHttpClientBaseImpl.convertException(ex);
 
         if (errorListener != null)
         {
-            HttpRequestResult result = (exFinal instanceof ItsNatDroidServerResponseException) ?
-                    ((ItsNatDroidServerResponseException)exFinal).getHttpRequestResult() : null;
             errorListener.onError(parent.getPageImpl(),exFinal, result);
         }
         else
         {
-            throw exFinal;
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                // Error del servidor, lo normal es que haya lanzado una excepción
+                ItsNatDocImpl itsNatDoc = parent.getItsNatDocImpl();
+                itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
+            }
+            else throw exFinal;
         }
     }
 }

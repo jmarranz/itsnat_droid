@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser;
 import android.os.AsyncTask;
 
 import org.apache.http.params.HttpParams;
+import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
@@ -27,6 +28,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     protected int readTimeout;
     protected List<NameValue> paramList = new ArrayList<NameValue>(10);
     protected String overrideMime;
+    protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
 
     public GenericHttpClientImpl(ItsNatDocImpl itsNatDoc)
     {
@@ -45,6 +47,17 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         return this;
     }
 
+    public int getErrorMode()
+    {
+        return errorMode;
+    }
+
+    public void setErrorModeNotFluid(int errorMode)
+    {
+        // if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS) throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
+        this.errorMode = errorMode;
+    }
+
     @Override
     public GenericHttpClient setOnHttpRequestListener(OnHttpRequestListener listener)
     {
@@ -60,7 +73,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     }
 
     @Override
-    public GenericHttpClient setMethod(String method)
+    public GenericHttpClient setRequestMethod(String method)
     {
         setMethodNotFluid(method);
         return this;
@@ -215,7 +228,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(result,listener);
+        processResult(result, httpRequestListener);
 
         return result;
     }
@@ -224,7 +237,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public void requestAsync()
     {
         String url = getFinalURL();
-        GenericHttpClientAsyncTask task = new GenericHttpClientAsyncTask(this,method,url, paramList, listener,errorListener,overrideMime);
+        GenericHttpClientAsyncTask task = new GenericHttpClientAsyncTask(this,method,url, paramList, httpRequestListener,errorListener,overrideMime);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

@@ -51,13 +51,9 @@ public class EventSender
         {
             result = HttpUtil.httpPost(servletPath,httpRequestData, paramList,null);
         }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (Exception ex)
         {
-            ItsNatDroidException exFinal = convertException(evt, ex);
+            ItsNatDroidException exFinal = convertExceptionAndFireEventMonitors(evt, ex);
             throw exFinal;
 
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
@@ -83,23 +79,22 @@ public class EventSender
         if (async) evtManager.returnedEvent(evt);
     }
 
-    public ItsNatDroidException convertException(EventGenericImpl evt, Exception ex)
+    public ItsNatDroidException convertExceptionAndFireEventMonitors(EventGenericImpl evt, Exception ex)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
 
-        if (ex instanceof SocketTimeoutException) // Esperamos este error en el caso de timeout
+        if (ex instanceof ItsNatDroidException && ex.getCause() instanceof SocketTimeoutException)
         {
+            // Esperamos este error en el caso de timeout y lo tratamos de forma singular en fireEventMonitors (el segundo param a true)
             itsNatDoc.fireEventMonitors(false, true, evt);
-
-            return new ItsNatDroidException(ex);
         }
         else
         {
             itsNatDoc.fireEventMonitors(false, false, evt);
-
-            if (ex instanceof ItsNatDroidException) return (ItsNatDroidException)ex;
-            else return new ItsNatDroidException(ex);
         }
+
+        if (ex instanceof ItsNatDroidException) return (ItsNatDroidException)ex;
+        else return new ItsNatDroidException(ex);
     }
 
 

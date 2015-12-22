@@ -16,6 +16,7 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
@@ -53,6 +54,7 @@ import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.NameValue;
+import org.itsnat.droid.impl.util.UINotification;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -364,13 +366,19 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
         catch (EvalError ex)
         {
-            showErrorMessage(false, ex.getMessage());
-            throw new ItsNatDroidScriptException(ex, code);
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                showErrorMessage(false, ex.getMessage());
+            }
+            else throw new ItsNatDroidScriptException(ex, code);
         }
         catch (Exception ex)
         {
-            showErrorMessage(false, ex.getMessage());
-            throw new ItsNatDroidScriptException(ex, code);
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                showErrorMessage(false, ex.getMessage());
+            }
+            else throw new ItsNatDroidScriptException(ex, code);
         }
     }
 
@@ -378,6 +386,14 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void showErrorMessage(boolean serverErr, String msg)
     {
         int errorMode = getErrorMode();
+        showErrorMessage(serverErr,msg,errorMode);
+    }
+
+    public void showErrorMessage(boolean serverErr,HttpRequestResult result,Exception ex,int errorMode)
+    {
+        String msg;
+        if (result != null) msg = result.getResponseText(); // Normalmente el error del servidor, en el caso de SockectTimeoutException será null y usaremos la exception
+        else msg = ex.getMessage();
         showErrorMessage(serverErr,msg,errorMode);
     }
 
@@ -481,15 +497,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     @Override
     public void alert(String title,Object value)
     {
-        String text = value != null ? value.toString() : "null";
-        SimpleAlert.show(title, text, getContext());
+        UINotification.alert(title, value, getContext());
     }
 
     @Override
     public void toast(Object value,int duration)
     {
-        String text = value != null ? value.toString() : "null";
-        Toast.makeText(getContext(),text, duration).show();
+        UINotification.toast(value, duration, getContext());
     }
 
     @Override
@@ -1134,16 +1148,23 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
                 }
                 catch(Exception ex)
                 {
+                    HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+                    ItsNatDroidException exFinal = (ex instanceof ItsNatDroidException) ? (ItsNatDroidException)ex : new ItsNatDroidException(ex);
+
                     OnEventErrorListener errorListener = getPageImpl().getOnEventErrorListener();
                     if (errorListener != null)
                     {
-                        errorListener.onError(ex, evtWrapper);
-                        return;
+                        errorListener.onError(exFinal, evtWrapper,result);
                     }
                     else
                     {
-                        if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;
-                        else throw new ItsNatDroidException(ex);
+                        if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                        {
+                            // Error del servidor, lo normal es que haya lanzado una excepción
+                            showErrorMessage(true, result,exFinal, errorMode);
+                        }
+                        else throw exFinal;
                     }
                 }
             }
@@ -1276,8 +1297,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
                 OnEventErrorListener errorListener = getPageImpl().getOnEventErrorListener();
                 if (errorListener != null)
                 {
-                    errorListener.onError(ex, evtWrapper);
-                    return;
+                    HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+                    errorListener.onError(ex, evtWrapper,resultError);
                 }
                 else
                 {

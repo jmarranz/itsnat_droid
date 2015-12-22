@@ -68,17 +68,17 @@ import javax.net.ssl.X509TrustManager;
  */
 public class HttpUtil
 {
-    public static HttpRequestResultOKImpl httpGet(String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpGet(String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime)
     {
         return httpAction("GET",url,httpRequestData,paramList,overrideMime);
     }
 
-    public static HttpRequestResultOKImpl httpPost(String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpPost(String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime)
     {
         return httpAction("POST", url, httpRequestData, paramList, overrideMime);
     }
 
-    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime)
     {
         URI uri;
         try { uri = new URI(url); }
@@ -160,7 +160,6 @@ public class HttpUtil
     }
 
     private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,RequestPropertyMap requestPropertyMap)
-            throws SocketTimeoutException
     {
         try
         {
@@ -183,9 +182,7 @@ public class HttpUtil
             return response;
         }
         catch(SocketTimeoutException ex)
-        {
-            throw ex; // Nos interesa tratarlo explícitamente y por tanto NO envolverlo en un ItsNatDroidException
-        }
+        { throw new ItsNatDroidException(ex); }   // Hay un caso en que se ejecuta fireEventMonitors de forma específica al detectar esta excepción
         catch(ClientProtocolException ex) { throw new ItsNatDroidException(ex); }
         catch(IOException ex) { throw new ItsNatDroidException(ex); }
     }

@@ -2,11 +2,13 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
+import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
@@ -23,12 +25,13 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected String method;
     protected String pageURLBase;
     protected HttpRequestData httpRequestData;
-    protected OnHttpRequestListener listener;
+    protected OnHttpRequestListener httpRequestListener;
     protected OnHttpRequestErrorListener errorListener;
+    protected int errorMode;
     protected XMLDOMRegistry xmlDOMRegistry;
     protected AssetManager assetManager;
 
-    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, AssetManager assetManager)
+    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener httpRequestListener, OnHttpRequestErrorListener errorListener,int errorMode, AssetManager assetManager)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -37,8 +40,9 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.method = method;
         this.pageURLBase = pageURLBase;
         this.httpRequestData = new HttpRequestData(page);
-        this.listener = listener;
+        this.httpRequestListener = httpRequestListener;
         this.errorListener = errorListener;
+        this.errorMode = errorMode;
         this.xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         this.assetManager = assetManager;
     }
@@ -59,18 +63,19 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         {
             try
             {
-                parent.processResult(result, listener);
+                parent.processResult(result, httpRequestListener);
             }
             catch (Exception ex)
             {
                 if (errorListener != null)
                 {
-                    errorListener.onError(parent.getPageImpl(), ex, result);
-                    return;
+                    HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
+                    errorListener.onError(parent.getPageImpl(), ex, resultError);
+                    return; // Paramos en el primer error
                 }
                 else
                 {
-                    if (ex instanceof RuntimeException) throw (RuntimeException) ex;
+                    if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
                     else throw new ItsNatDroidException(ex);
                 }
             }
@@ -80,19 +85,23 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     @Override
     protected void onFinishError(Exception ex)
     {
-        ItsNatDroidException exFinal = parent.convertException(ex);
+        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+        ItsNatDroidException exFinal = GenericHttpClientBaseImpl.convertException(ex);
 
         if (errorListener != null)
         {
-            HttpRequestResult result = (exFinal instanceof ItsNatDroidServerResponseException) ?
-                    ((ItsNatDroidServerResponseException)exFinal).getHttpRequestResult() : null;
             errorListener.onError(parent.getPageImpl(),exFinal, result);
-            return;
         }
         else
         {
-            if (exFinal instanceof ItsNatDroidException) throw (ItsNatDroidException)exFinal;
-            else throw new ItsNatDroidException(exFinal);
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                // Error del servidor, lo normal es que haya lanzado una excepción
+                ItsNatDocImpl itsNatDoc = parent.getItsNatDocImpl();
+                itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
+            }
+            else throw exFinal;
         }
     }
 }

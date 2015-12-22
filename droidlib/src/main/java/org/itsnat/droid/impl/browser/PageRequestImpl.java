@@ -21,7 +21,6 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MimeUtil;
 
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -268,13 +267,14 @@ public class PageRequestImpl implements PageRequest
 
         String pageURLBase = getURLBase();
 
-        PageRequestResult result = null;
+        PageRequestResult pageRequestResult;
+        HttpRequestResultOKImpl httpReqResult = null;
         try
         {
-            HttpRequestResultOKImpl httpReqResult = HttpUtil.httpGet(url,httpRequestData,null,null);
+            httpReqResult = HttpUtil.httpGet(url,httpRequestData,null,null);
 
             AssetManager assetManager = getContext().getResources().getAssets();
-            result = processHttpRequestResult(httpReqResult,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+            pageRequestResult = processHttpRequestResult(httpReqResult,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
         }
         catch(Exception ex)
         {
@@ -283,7 +283,7 @@ public class PageRequestImpl implements PageRequest
             OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, this, result.getHttpRequestResultOKImpl()); // Para poder recogerla desde fuera
+                errorListener.onError(ex, this, httpReqResult); // Para poder recogerla desde fuera
                 return;
             }
             else
@@ -293,7 +293,7 @@ public class PageRequestImpl implements PageRequest
             }
         }
 
-        processResponse(result);
+        processResponse(pageRequestResult);
     }
 
     private void executeAsync(String url)
@@ -360,7 +360,7 @@ public class PageRequestImpl implements PageRequest
         return new PageRequestImpl(this);
     }
 
-    private static String downloadScript(String src,String pageURLBase,HttpRequestData httpRequestData) throws SocketTimeoutException
+    private static String downloadScript(String src,String pageURLBase,HttpRequestData httpRequestData)
     {
         src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
         HttpRequestResultOKImpl result = HttpUtil.httpGet(src, httpRequestData, null,MimeUtil.MIME_BEANSHELL);

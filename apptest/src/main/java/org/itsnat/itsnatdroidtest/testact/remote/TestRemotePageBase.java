@@ -147,7 +147,9 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         bindBackAndReloadButton(page, rootView);
 
         if (useItsNatServer)
-            page.setOnEventErrorListener(this);
+        {
+            page.setOnEventErrorListener(this); // Comentar para testear el sistema de errores built-in
+        }
 
         page.setOnHttpRequestErrorListener(new OnHttpRequestErrorListener(){
             @Override
@@ -192,7 +194,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     }
 
     @Override
-    public void onError(Exception ex, Event evt)
+    public void onError(Exception ex, Event evt,HttpRequestResult response)
     {
         TestActivity act = getTestActivity();
 

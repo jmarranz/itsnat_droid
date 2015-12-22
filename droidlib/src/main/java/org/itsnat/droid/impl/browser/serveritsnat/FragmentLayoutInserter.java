@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
@@ -106,8 +107,24 @@ public class FragmentLayoutInserter
                 {
                     interp.eval(code);
                 }
-                catch (EvalError ex) { throw new ItsNatDroidScriptException(ex, code); }
-                catch (Exception ex) { throw new ItsNatDroidScriptException(ex, code); }
+                catch (EvalError ex)
+                {
+                    int errorMode = itsNatDoc.getErrorMode();
+                    if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                    {
+                        itsNatDoc.showErrorMessage(false, ex.getMessage());
+                    }
+                    else throw new ItsNatDroidScriptException(ex, code);
+                }
+                catch (Exception ex)
+                {
+                    int errorMode = itsNatDoc.getErrorMode();
+                    if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                    {
+                        itsNatDoc.showErrorMessage(false, ex.getMessage());
+                    }
+                    else throw new ItsNatDroidScriptException(ex, code);
+                }
             }
             else if (script instanceof DOMScriptRemote)
             {

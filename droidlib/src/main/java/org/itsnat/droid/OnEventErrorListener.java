@@ -7,5 +7,5 @@ import org.itsnat.droid.event.Event;
  */
 public interface OnEventErrorListener
 {
-    public void onError(Exception ex,Event evt);
+    public void onError(Exception ex,Event evt,HttpRequestResult response);
 }

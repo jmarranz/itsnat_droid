@@ -2,11 +2,13 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
+import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 /**
@@ -57,7 +59,8 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
             OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, pageRequest,result.getHttpRequestResultOKImpl()); // Para poder recogerla desde fuera
+                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result.getHttpRequestResultOKImpl();
+                errorListener.onError(ex, pageRequest,resultError); // Para poder recogerla desde fuera
             }
             else
             {
@@ -70,18 +73,19 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     @Override
     protected void onFinishError(Exception ex)
     {
+        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+        ItsNatDroidException exFinal = (ex instanceof ItsNatDroidException) ? (ItsNatDroidException)ex : new ItsNatDroidException(ex);
+
         OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
         if (errorListener != null)
         {
-            HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ?
-                    ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
-
-            errorListener.onError(ex, pageRequest,result);
+            errorListener.onError(exFinal, pageRequest,result);
         }
         else
         {
-            if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
-            else throw new ItsNatDroidException(ex);
+            // No se ha cargado la página en este contexto, no tenemos por ejemplo un errorMode
+            throw exFinal;
         }
     }
 }

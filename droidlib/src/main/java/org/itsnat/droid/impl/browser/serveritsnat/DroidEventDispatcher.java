@@ -3,8 +3,11 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.view.View;
 import android.view.ViewParent;
 
+import org.itsnat.droid.ClientErrorMode;
+import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidInputEventImpl;
@@ -50,7 +53,7 @@ public class DroidEventDispatcher
         {
             if (checkUseCapture && listener.isUseCapture())
             {
-                dispatchCapture(viewDataCurrentTarget,viewCurrentTarget,type,nativeEvt,viewTarget);
+                dispatchCapture(viewCurrentTarget,type,nativeEvt,viewTarget);
             }
 
             DroidEventImpl evtWrapper = (DroidEventImpl)listener.createNormalEvent(nativeEvt);
@@ -64,11 +67,12 @@ public class DroidEventDispatcher
             {
                 // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatchEvent(String,InputEvent) nunca debería
                 // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
+
                 OnEventErrorListener errorListener = itsNatDoc.getPageImpl().getOnEventErrorListener();
                 if (errorListener != null)
                 {
-                    errorListener.onError(ex, evtWrapper);
-                    continue;
+                    HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+                    errorListener.onError(ex, evtWrapper,result);
                 }
                 else
                 {
@@ -79,7 +83,7 @@ public class DroidEventDispatcher
         }
     }
 
-    private void dispatchCapture(ItsNatViewImpl viewData,View view,String type,Object nativeEvt,View viewTarget)
+    private void dispatchCapture(View view,String type,Object nativeEvt,View viewTarget)
     {
         List<ViewParent> tree = getViewTreeParent(view);
         for (ViewParent viewParent : tree)
@@ -113,6 +117,7 @@ public class DroidEventDispatcher
         event.setEventPhase(DroidEventImpl.AT_TARGET);
         event.setTarget(event.getCurrentTarget()); // El inline handler no participa en capture en web
 
+
         Interpreter interp = itsNatDoc.getPageImpl().getInterpreter();
         try
         {
@@ -128,11 +133,21 @@ public class DroidEventDispatcher
         }
         catch (EvalError ex)
         {
-            throw new ItsNatDroidScriptException(ex, inlineCode);
+            int errorMode = itsNatDoc.getErrorMode();
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                itsNatDoc.showErrorMessage(false, ex.getMessage());
+            }
+            else throw new ItsNatDroidScriptException(ex, inlineCode);
         }
         catch (Exception ex)
         {
-            throw new ItsNatDroidScriptException(ex, inlineCode);
+            int errorMode = itsNatDoc.getErrorMode();
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                itsNatDoc.showErrorMessage(false, ex.getMessage());
+            }
+            else throw new ItsNatDroidScriptException(ex, inlineCode);
         }
     }
 }

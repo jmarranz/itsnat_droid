@@ -1,6 +1,9 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
+import org.itsnat.droid.ClientErrorMode;
+import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
@@ -23,6 +26,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     protected String servletPath;
     protected HttpRequestData httpRequestData;
     protected List<NameValue> paramList;
+    protected int errorMode;
 
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
             List<NameValue> paramList,long timeout)
@@ -32,6 +36,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
         this.evt = evt;
+        this.errorMode = eventSender.getItsNatDocImpl().getErrorMode();
         this.servletPath = servletPath;
         this.httpRequestData = new HttpRequestData(page);
         int timeoutInt = (int)timeout;
@@ -59,7 +64,8 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
             OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocImpl().getPageImpl().getOnEventErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, evt);
+                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
+                errorListener.onError(ex, evt,resultError);
             }
             else
             {
@@ -72,16 +78,24 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     @Override
     protected void onFinishError(Exception ex)
     {
-        ItsNatDroidException exFinal = eventSender.convertException(evt, ex);
+        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+        ItsNatDroidException exFinal = eventSender.convertExceptionAndFireEventMonitors(evt, ex);
 
         OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocImpl().getPageImpl().getOnEventErrorListener();
         if (errorListener != null)
         {
-            errorListener.onError(exFinal, evt);
+            errorListener.onError(exFinal, evt,result);
         }
         else
         {
-            throw exFinal;
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                // Error del servidor, lo normal es que haya lanzado una excepción
+                ItsNatDocImpl itsNatDoc = eventSender.getItsNatDocImpl();
+                itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
+            }
+            else throw exFinal;
         }
 
     }
