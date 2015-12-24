@@ -14,16 +14,16 @@ import java.util.List;
  */
 public class EventManager
 {
-    protected ItsNatDocImpl itsNatDoc;
+    protected ItsNatDocItsNatImpl itsNatDoc;
     protected EventGenericImpl holdEvt = null;
     protected List<EventGenericImpl> queue = new LinkedList<EventGenericImpl>();
 
-    public EventManager(ItsNatDocImpl itsNatDoc)
+    public EventManager(ItsNatDocItsNatImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
     }
 
-    public ItsNatDocImpl getItsNatDocImpl()
+    public ItsNatDocItsNatImpl getItsNatDocItsNatImpl()
     {
         return itsNatDoc;
     }

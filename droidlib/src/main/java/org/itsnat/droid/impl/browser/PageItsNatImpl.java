@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import org.itsnat.droid.ItsNatSession;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
 
 /**
@@ -17,6 +18,12 @@ public class PageItsNatImpl extends PageImpl
         super(pageRequestToClone, pageReqResult);
         this.itsNatServerVersion = itsNatServerVersion;
     }
+
+    public ItsNatDocItsNatImpl getItsNatDocItsNatImpl()
+    {
+        return (ItsNatDocItsNatImpl)itsNatDoc;
+    }
+
 
     @Override
     public String getItsNatServerVersion()
@@ -44,6 +51,8 @@ public class PageItsNatImpl extends PageImpl
     @Override
     public void finishLoad(String loadScript)
     {
+        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
+
         if (loadScript != null) // El caso null es cuando se devuelve un layout sin script inicial (layout sin scripting)
             itsNatDoc.eval(loadScript);
 
@@ -66,6 +75,8 @@ public class PageItsNatImpl extends PageImpl
         if (dispose) return;
 
         super.dispose();
+
+        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
         if (getId() != null && itsNatDoc.isEventsEnabled())
             itsNatDoc.sendUnloadEvent();

@@ -4,6 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.UserEventImpl;
 
@@ -14,7 +15,7 @@ public class UserEventListener extends DOMExtEventListener
 {
     protected String name;
 
-    public UserEventListener(ItsNatDocImpl parent, View currentTarget,String name, CustomFunction customFunc, String id, int commMode, long timeout)
+    public UserEventListener(ItsNatDocItsNatImpl parent, View currentTarget,String name, CustomFunction customFunc, String id, int commMode, long timeout)
     {
         super(parent,"user",currentTarget,customFunc,id,commMode,timeout);
     }

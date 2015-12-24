@@ -4,6 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DOMExtEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
 
@@ -12,7 +13,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
  */
 public class AsyncTaskEventListener extends DOMExtEventListener
 {
-    public AsyncTaskEventListener(ItsNatDocImpl parent, View currentTarget, CustomFunction customFunc, String id, int commMode, long timeout)
+    public AsyncTaskEventListener(ItsNatDocItsNatImpl parent, View currentTarget, CustomFunction customFunc, String id, int commMode, long timeout)
     {
         super(parent,"asyncret",currentTarget,customFunc,id,commMode,timeout);
     }

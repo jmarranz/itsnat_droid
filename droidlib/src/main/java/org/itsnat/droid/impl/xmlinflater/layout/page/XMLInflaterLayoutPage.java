@@ -8,6 +8,8 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -88,7 +90,13 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             if (view != getInflatedLayoutPageImpl().getRootView())
                 throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
         }
-        return getPageImpl().getItsNatDocImpl().getItsNatViewImpl(view);
+
+        ItsNatDocImpl itsNatDoc = getPageImpl().getItsNatDocImpl();
+        if (itsNatDoc instanceof ItsNatDocItsNatImpl)
+        {
+            return ((ItsNatDocItsNatImpl)itsNatDoc).getItsNatViewImpl(view);
+        }
+        return null;
     }
 
     private String getTypeInlineEventHandler(String name)
@@ -113,9 +121,12 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             {
                 String value = attr.getValue();
                 ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type,view);
-                viewData.setOnTypeInlineCode(name, value);
-                if (viewData instanceof ItsNatViewNotNullImpl)
-                    ((ItsNatViewNotNullImpl) viewData).registerEventListenerViewAdapter(type);
+                if (viewData != null)
+                {
+                    viewData.setOnTypeInlineCode(name, value);
+                    if (viewData instanceof ItsNatViewNotNullImpl)
+                        ((ItsNatViewNotNullImpl) viewData).registerEventListenerViewAdapter(type);
+                }
 
                 return true;
             }
@@ -133,7 +144,8 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             if (type != null)
             {
                 ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type, view);
-                viewData.removeOnTypeInlineCode(name);
+                if (viewData != null)
+                    viewData.removeOnTypeInlineCode(name);
 
                 return true;
             }

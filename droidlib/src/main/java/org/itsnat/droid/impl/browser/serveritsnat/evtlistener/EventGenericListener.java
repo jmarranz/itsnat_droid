@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.util.NameValue;
 
@@ -11,12 +12,12 @@ import java.util.List;
  */
 public abstract class EventGenericListener
 {
-    protected ItsNatDocImpl parent;
+    protected ItsNatDocItsNatImpl parent;
     protected String action;
     protected int commMode;
     protected long timeout;
 
-    public EventGenericListener(ItsNatDocImpl parent, String action, int commMode, long timeout)
+    public EventGenericListener(ItsNatDocItsNatImpl parent, String action, int commMode, long timeout)
     {
         this.parent = parent;
         this.action = action;
@@ -24,7 +25,7 @@ public abstract class EventGenericListener
         this.timeout = timeout;
     }
 
-    public ItsNatDocImpl getItsNatDocImpl()
+    public ItsNatDocItsNatImpl getItsNatDocItsNatImpl()
     {
         return parent;
     }

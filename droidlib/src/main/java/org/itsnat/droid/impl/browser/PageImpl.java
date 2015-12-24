@@ -39,10 +39,11 @@ public abstract class PageImpl implements Page
     protected final PageRequestImpl pageRequestCloned; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
 
     protected final int bitmapDensityReference;
+    protected int errorMode;
     protected final XMLInflaterLayoutPage xmlInflaterLayoutPage;
     protected final String uniqueIdForInterpreter;
     protected final Interpreter interp;
-    protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
+    protected final ItsNatDocImpl itsNatDoc;
     protected OnEventErrorListener eventErrorListener;
     protected OnServerStateLostListener stateLostListener;
     protected OnHttpRequestErrorListener httpReqErrorListener;
@@ -65,14 +66,13 @@ public abstract class PageImpl implements Page
         this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter)); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 
-        // Definimos pronto el itsNatDoc para que los layout incluidos tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc
+        int errorMode = pageRequestCloned.getClientErrorMode(); // En una página devuelta por ItsNat Server será reemplazado en el init
+        this.itsNatDoc = ItsNatDocImpl.createItsNatDoc(this,errorMode);
+
+        // Definimos pronto el itsNatDoc para que los layout include tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc antes de inflarlos
         try
         {
             interp.set("itsNatDoc", itsNatDoc);
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
         }
         catch (EvalError ex)
         {
@@ -180,6 +180,11 @@ public abstract class PageImpl implements Page
     public int getBitmapDensityReference()
     {
         return bitmapDensityReference;
+    }
+
+    public int getClientErrorMode()
+    {
+        return errorMode;
     }
 
     @Override

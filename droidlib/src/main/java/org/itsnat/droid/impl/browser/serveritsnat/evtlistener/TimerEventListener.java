@@ -4,6 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DOMExtEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
 
@@ -14,7 +15,7 @@ public class TimerEventListener extends DOMExtEventListener
 {
     protected Runnable callback;
 
-    public TimerEventListener(ItsNatDocImpl parent, View currentTarget, CustomFunction customFunc, String id, int commMode, long timeout)
+    public TimerEventListener(ItsNatDocItsNatImpl parent, View currentTarget, CustomFunction customFunc, String id, int commMode, long timeout)
     {
         super(parent,"timer",currentTarget,customFunc,id,commMode,timeout);
     }

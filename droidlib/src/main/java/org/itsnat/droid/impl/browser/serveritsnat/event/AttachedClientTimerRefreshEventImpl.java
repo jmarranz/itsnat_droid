@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 
 /**
  * Created by jmarranz on 8/08/14.
@@ -9,7 +10,7 @@ public class AttachedClientTimerRefreshEventImpl extends AttachedClientEventImpl
 {
     protected long interval;
 
-    public AttachedClientTimerRefreshEventImpl(ItsNatDocImpl parent,int interval,int commMode, long timeout)
+    public AttachedClientTimerRefreshEventImpl(ItsNatDocItsNatImpl parent,int interval,int commMode, long timeout)
     {
         super(parent,commMode,timeout);
         this.interval = interval;
@@ -19,7 +20,7 @@ public class AttachedClientTimerRefreshEventImpl extends AttachedClientEventImpl
     {
         super.onEventReturned();
 
-        ItsNatDocImpl itsNatDoc = getAttachedClientEventListener().getItsNatDocImpl();
+        ItsNatDocItsNatImpl itsNatDoc = getAttachedClientEventListener().getItsNatDocItsNatImpl();
         itsNatDoc.getHandler().postDelayed(itsNatDoc.getAttachTimerRefreshCallback(), interval);
     }
 }

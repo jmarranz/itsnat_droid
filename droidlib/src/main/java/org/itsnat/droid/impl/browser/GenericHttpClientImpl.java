@@ -41,13 +41,13 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     }
 
     @Override
-    public GenericHttpClient setErrorMode(int errorMode)
+    public GenericHttpClient setClientErrorMode(int errorMode)
     {
         setErrorModeNotFluid(errorMode);
         return this;
     }
 
-    public int getErrorMode()
+    public int getClientErrorMode()
     {
         return errorMode;
     }

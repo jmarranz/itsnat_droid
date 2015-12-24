@@ -22,7 +22,7 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
     protected FocusEventListenerViewAdapter focusEvtListenerViewAdapter;
     protected TextChangeEventListenerViewAdapter textChangeEvtListenerViewAdapter;
 
-    public ItsNatViewNotNullImpl(ItsNatDocImpl itsNatDoc, View view)
+    public ItsNatViewNotNullImpl(ItsNatDocItsNatImpl itsNatDoc, View view)
     {
         super(itsNatDoc);
         this.view = view;

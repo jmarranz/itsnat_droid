@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.util.NameValue;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class EventStatelessListener extends EventGenericListener
 {
-    public EventStatelessListener(ItsNatDocImpl parent, int commMode, long timeout)
+    public EventStatelessListener(ItsNatDocItsNatImpl parent, int commMode, long timeout)
     {
         super(parent,"event_stateless",commMode, timeout);
     }

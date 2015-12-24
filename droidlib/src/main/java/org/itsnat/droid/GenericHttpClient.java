@@ -8,8 +8,8 @@ import java.util.Map;
  */
 public interface GenericHttpClient
 {
-    //public int getErrorMode();
-    public GenericHttpClient setErrorMode(int errorMode);
+    //public int getClientErrorMode();
+    public GenericHttpClient setClientErrorMode(int errorMode);
     public GenericHttpClient setOnHttpRequestListener(OnHttpRequestListener listener);
     public GenericHttpClient setOnHttpRequestErrorListener(OnHttpRequestErrorListener listener);
     public GenericHttpClient setRequestMethod(String method);

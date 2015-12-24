@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.AttachedClientEventListener;
 
 /**
@@ -8,7 +9,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.AttachedClientEven
  */
 public abstract class AttachedClientEventImpl extends EventStfulImpl
 {
-    public AttachedClientEventImpl(ItsNatDocImpl parent,int commMode, long timeout)
+    public AttachedClientEventImpl(ItsNatDocItsNatImpl parent,int commMode, long timeout)
     {
         super(new AttachedClientEventListener(parent,commMode,timeout));
     }

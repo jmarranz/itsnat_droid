@@ -73,7 +73,7 @@ public abstract class DroidEventImpl extends NormalEventImpl implements DroidEve
         params.add(new NameValue("itsnat_evt_eventPhase",eventPhase));
 
         View view = getDroidEventListener().getCurrentTarget();
-        String viewTargetStr = viewTarget != null && viewTarget != view? listener.getItsNatDocImpl().getStringPathFromView(viewTarget) : "null";
+        String viewTargetStr = viewTarget != null && viewTarget != view? listener.getItsNatDocItsNatImpl().getStringPathFromView(viewTarget) : "null";
         // Si viewTarget == currentTarget enviamos null para evitar tráfico, ya sabemos que es el currentTarget
         params.add(new NameValue("itsnat_evt_target",viewTargetStr));
 

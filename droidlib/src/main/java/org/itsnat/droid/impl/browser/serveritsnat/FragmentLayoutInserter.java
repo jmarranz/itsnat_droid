@@ -109,7 +109,7 @@ public class FragmentLayoutInserter
                 }
                 catch (EvalError ex)
                 {
-                    int errorMode = itsNatDoc.getErrorMode();
+                    int errorMode = itsNatDoc.getClientErrorMode();
                     if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
                     {
                         itsNatDoc.showErrorMessage(false, ex.getMessage());
@@ -118,7 +118,7 @@ public class FragmentLayoutInserter
                 }
                 catch (Exception ex)
                 {
-                    int errorMode = itsNatDoc.getErrorMode();
+                    int errorMode = itsNatDoc.getClientErrorMode();
                     if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
                     {
                         itsNatDoc.showErrorMessage(false, ex.getMessage());

@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
@@ -38,6 +39,7 @@ public class PageRequestImpl implements PageRequest
     protected int connectTimeout;
     protected int readTimeout;
     protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH;
+    protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
     protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
@@ -65,6 +67,7 @@ public class PageRequestImpl implements PageRequest
         this.connectTimeout = origin.connectTimeout;
         this.readTimeout = origin.readTimeout;
         this.bitmapDensityReference = origin.bitmapDensityReference;
+        this.errorMode = origin.errorMode;
         this.pageListener = origin.pageListener;
         this.errorListener = origin.errorListener;
         this.attrLayoutInflaterListener = origin.attrLayoutInflaterListener;
@@ -100,6 +103,18 @@ public class PageRequestImpl implements PageRequest
     public PageRequest setBitmapDensityReference(int bitmapDensityReference)
     {
         this.bitmapDensityReference = bitmapDensityReference;
+        return this;
+    }
+
+    public int getClientErrorMode()
+    {
+        return errorMode;
+    }
+
+    @Override
+    public PageRequest setErrorMode(int errorMode)
+    {
+        this.errorMode = errorMode;
         return this;
     }
 

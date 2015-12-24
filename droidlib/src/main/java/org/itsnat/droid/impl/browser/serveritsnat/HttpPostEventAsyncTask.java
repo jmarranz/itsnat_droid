@@ -31,12 +31,12 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
             List<NameValue> paramList,long timeout)
     {
-        PageImpl page = eventSender.getItsNatDocImpl().getPageImpl();
+        PageImpl page = eventSender.getItsNatDocItsNatImpl().getPageImpl();
 
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
         this.evt = evt;
-        this.errorMode = eventSender.getItsNatDocImpl().getErrorMode();
+        this.errorMode = eventSender.getItsNatDocItsNatImpl().getClientErrorMode();
         this.servletPath = servletPath;
         this.httpRequestData = new HttpRequestData(page);
         int timeoutInt = (int)timeout;
@@ -61,7 +61,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         }
         catch(Exception ex)
         {
-            OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocImpl().getPageImpl().getOnEventErrorListener();
+            OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl().getOnEventErrorListener();
             if (errorListener != null)
             {
                 HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
@@ -82,7 +82,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
 
         ItsNatDroidException exFinal = eventSender.convertExceptionAndFireEventMonitors(evt, ex);
 
-        OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocImpl().getPageImpl().getOnEventErrorListener();
+        OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl().getOnEventErrorListener();
         if (errorListener != null)
         {
             errorListener.onError(exFinal, evt,result);
@@ -92,7 +92,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 // Error del servidor, lo normal es que haya lanzado una excepción
-                ItsNatDocImpl itsNatDoc = eventSender.getItsNatDocImpl();
+                ItsNatDocImpl itsNatDoc = eventSender.getItsNatDocItsNatImpl();
                 itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
             }
             else throw exFinal;

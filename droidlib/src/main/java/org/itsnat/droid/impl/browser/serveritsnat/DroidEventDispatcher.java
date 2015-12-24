@@ -24,9 +24,9 @@ import bsh.Interpreter;
  */
 public class DroidEventDispatcher
 {
-    protected ItsNatDocImpl itsNatDoc;
+    protected ItsNatDocItsNatImpl itsNatDoc;
 
-    public DroidEventDispatcher(ItsNatDocImpl itsNatDoc)
+    public DroidEventDispatcher(ItsNatDocItsNatImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
     }
@@ -133,7 +133,7 @@ public class DroidEventDispatcher
         }
         catch (EvalError ex)
         {
-            int errorMode = itsNatDoc.getErrorMode();
+            int errorMode = itsNatDoc.getClientErrorMode();
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 itsNatDoc.showErrorMessage(false, ex.getMessage());
@@ -142,7 +142,7 @@ public class DroidEventDispatcher
         }
         catch (Exception ex)
         {
-            int errorMode = itsNatDoc.getErrorMode();
+            int errorMode = itsNatDoc.getClientErrorMode();
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 itsNatDoc.showErrorMessage(false, ex.getMessage());

@@ -5,6 +5,7 @@ import android.view.View;
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
 import org.itsnat.droid.impl.util.NameValue;
@@ -20,7 +21,7 @@ public class DroidEventListener extends NormalEventListener
     protected boolean useCapture;
     protected int eventGroupCode;
 
-    public DroidEventListener(ItsNatDocImpl parent, View currentTarget, String type, CustomFunction customFunc, String id, boolean useCapture, int commMode, long timeout, int eventGroupCode)
+    public DroidEventListener(ItsNatDocItsNatImpl parent, View currentTarget, String type, CustomFunction customFunc, String id, boolean useCapture, int commMode, long timeout, int eventGroupCode)
     {
         super(parent,"droid",currentTarget,customFunc,id,commMode,timeout);
         this.type = type;

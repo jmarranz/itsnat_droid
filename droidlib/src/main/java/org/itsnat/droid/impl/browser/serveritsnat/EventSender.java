@@ -30,14 +30,14 @@ public class EventSender
         return evtManager;
     }
 
-    public ItsNatDocImpl getItsNatDocImpl()
+    public ItsNatDocItsNatImpl getItsNatDocItsNatImpl()
     {
-        return evtManager.getItsNatDocImpl();
+        return evtManager.getItsNatDocItsNatImpl();
     }
 
     public void requestSync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, long timeout)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
+        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
         PageImpl page = itsNatDoc.getPageImpl();
 
         HttpRequestData httpRequestData = new HttpRequestData(page);
@@ -70,7 +70,7 @@ public class EventSender
 
     public void processResult(EventGenericImpl evt,HttpRequestResultOKImpl result,boolean async)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
+        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
         itsNatDoc.fireEventMonitors(false,false,evt);
 
         String responseText = result.getResponseText();
@@ -81,7 +81,7 @@ public class EventSender
 
     public ItsNatDroidException convertExceptionAndFireEventMonitors(EventGenericImpl evt, Exception ex)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
+        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
         if (ex instanceof ItsNatDroidException && ex.getCause() instanceof SocketTimeoutException)
         {

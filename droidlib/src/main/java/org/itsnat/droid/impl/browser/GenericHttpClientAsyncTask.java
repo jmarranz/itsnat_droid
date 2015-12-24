@@ -37,7 +37,7 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
         this.listener = listener;
         this.errorListener = errorListener;
         this.overrideMime = overrideMime;
-        this.errorMode = parent.getErrorMode();
+        this.errorMode = parent.getClientErrorMode();
     }
 
     @Override

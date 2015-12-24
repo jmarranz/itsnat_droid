@@ -25,7 +25,7 @@ public abstract class EventGenericImpl implements Event
     public void setMustBeSent(boolean value) { this.mustBeSent = value; }
     public void sendEvent()
     {
-        if (this.mustBeSent) listener.getItsNatDocImpl().getEventManager().sendEvent(this);
+        if (this.mustBeSent) listener.getItsNatDocItsNatImpl().getEventManager().sendEvent(this);
     }
 
     public boolean isIgnoreHold()
@@ -64,7 +64,7 @@ public abstract class EventGenericImpl implements Event
 
     public List<NameValue> genParamURL()
     {
-        List<NameValue> paramList = listener.getItsNatDocImpl().genParamURL();
+        List<NameValue> paramList = listener.getItsNatDocItsNatImpl().genParamURL();
         listener.genParamURL(this,paramList);
 
         if (extraParams != null)
