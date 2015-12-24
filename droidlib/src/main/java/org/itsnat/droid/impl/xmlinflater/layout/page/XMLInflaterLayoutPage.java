@@ -9,7 +9,6 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -92,11 +91,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         }
 
         ItsNatDocImpl itsNatDoc = getPageImpl().getItsNatDocImpl();
-        if (itsNatDoc instanceof ItsNatDocItsNatImpl)
-        {
-            return ((ItsNatDocItsNatImpl)itsNatDoc).getItsNatViewImpl(view);
-        }
-        return null;
+        return itsNatDoc.getItsNatViewImpl(view);
     }
 
     private String getTypeInlineEventHandler(String name)
@@ -121,12 +116,9 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             {
                 String value = attr.getValue();
                 ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type,view);
-                if (viewData != null)
-                {
-                    viewData.setOnTypeInlineCode(name, value);
-                    if (viewData instanceof ItsNatViewNotNullImpl)
-                        ((ItsNatViewNotNullImpl) viewData).registerEventListenerViewAdapter(type);
-                }
+                viewData.setOnTypeInlineCode(name, value);
+                if (viewData instanceof ItsNatViewNotNullImpl)
+                    ((ItsNatViewNotNullImpl) viewData).registerEventListenerViewAdapter(type);
 
                 return true;
             }
@@ -144,8 +136,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             if (type != null)
             {
                 ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type, view);
-                if (viewData != null)
-                    viewData.removeOnTypeInlineCode(name);
+                viewData.removeOnTypeInlineCode(name);
 
                 return true;
             }

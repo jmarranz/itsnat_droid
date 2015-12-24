@@ -13,14 +13,10 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.OnServerStateLostListener;
-import org.itsnat.droid.Page;
 import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.browser.GenericHttpClientImpl;
-import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientTimerRefreshEventImpl;
@@ -43,7 +39,6 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
-import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
@@ -82,8 +77,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     protected boolean enableEvtMonitors = true;
     protected List<EventMonitor> evtMonitorList;
     protected EventManager evtManager = new EventManager(this);
-    protected ItsNatViewNullImpl nullView = new ItsNatViewNullImpl(this); // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
-    protected DroidEventDispatcher eventDispatcher = new DroidEventDispatcher(this);
+
 
     public ItsNatDocItsNatImpl(PageItsNatImpl page,int errorMode)
     {
@@ -113,10 +107,6 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         return evtManager;
     }
 
-    public DroidEventDispatcher getDroidEventDispatcher()
-    {
-        return eventDispatcher;
-    }
 
 
     public Runnable getAttachTimerRefreshCallback()
@@ -140,22 +130,6 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     public boolean isDisabledEvents()
     {
         return disabledEvents;
-    }
-
-    @Override
-    public ItsNatView getItsNatView(View view)
-    {
-        return getItsNatViewImpl(view);
-    }
-
-    public ItsNatViewNullImpl getItsNatViewNull()
-    {
-        return nullView;
-    }
-
-    public ItsNatViewImpl getItsNatViewImpl(View view)
-    {
-        return ItsNatViewImpl.getItsNatView(this, view);
     }
 
 
@@ -202,11 +176,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         }
     }
 
-    @Override
-    public void appendFragment(View parentView, String markup)
-    {
-        insertFragment(parentView,markup,null);
-    }
+
 
 
     public List<NameValue> genParamURL()

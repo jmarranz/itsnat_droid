@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DOMExtEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;

@@ -24,18 +24,18 @@ public abstract class ItsNatViewImpl implements ItsNatView
 {
     public static final int ITSNAT_VIEW_KEY = 1111111111;
 
-    protected ItsNatDocItsNatImpl itsNatDoc;
+    protected ItsNatDocImpl itsNatDoc;
     protected MapList<String,DroidEventListener> eventListeners;
     protected String nodeCacheId;
     protected UserDataImpl userData;
     protected MapLight<String,String> onTypeInlineCodeMap;
 
-    public ItsNatViewImpl(ItsNatDocItsNatImpl itsNatDoc)
+    public ItsNatViewImpl(ItsNatDocImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
     }
 
-    public static ItsNatViewImpl getItsNatView(ItsNatDocItsNatImpl itsNatDoc,View view)
+    public static ItsNatViewImpl getItsNatView(ItsNatDocImpl itsNatDoc,View view)
     {
         if (view == null)
             return itsNatDoc.getItsNatViewNull();
@@ -48,7 +48,7 @@ public abstract class ItsNatViewImpl implements ItsNatView
         return viewData;
     }
 
-    public ItsNatDocItsNatImpl getItsNatDocItsNatImpl()
+    public ItsNatDocImpl getItsNatDocImpl()
     {
         return itsNatDoc;
     }

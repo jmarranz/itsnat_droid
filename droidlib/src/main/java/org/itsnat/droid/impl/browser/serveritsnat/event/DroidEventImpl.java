@@ -52,6 +52,7 @@ public abstract class DroidEventImpl extends NormalEventImpl implements DroidEve
     {
         return eventPhase;
     }
+
     public void setEventPhase(int eventPhase)
     {
         this.eventPhase = eventPhase;

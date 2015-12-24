@@ -3,72 +3,28 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.itsnat.droid.ClientErrorMode;
-import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.ItsNatView;
-import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
-import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
-import org.itsnat.droid.event.Event;
-import org.itsnat.droid.event.EventStateless;
-import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.DownloadResourcesHttpClient;
 import org.itsnat.droid.impl.browser.GenericHttpClientImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.PageNotItsNatImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientCometTaskRefreshEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientTimerRefreshEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientUnloadEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.DOMExtEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.DroidFocusEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.DroidKeyEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.DroidMotionEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.DroidOtherEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.DroidTextChangeEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.EventStatelessImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.event.UserEventImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.AsyncTaskEventListener;
-import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.CometTaskEventListener;
-import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.ContinueEventListener;
-import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
-import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener;
-import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
-import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.util.MapList;
-import org.itsnat.droid.impl.util.MapListLight;
-import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.util.UINotification;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
-import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -83,7 +39,8 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     protected int errorMode;
     protected Handler handler;
     protected FragmentLayoutInserter fragmentLayoutInserter = new FragmentLayoutInserter(this);
-
+    protected ItsNatViewNullImpl nullView = new ItsNatViewNullImpl(this); // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
+    protected DroidEventDispatcher eventDispatcher = DroidEventDispatcher.createDroidEventDispatcher(this);
 
     public ItsNatDocImpl(PageImpl page,int errorMode)
     {
@@ -98,6 +55,22 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         else if (page instanceof PageNotItsNatImpl)
             return new ItsNatDocNotItsNatImpl((PageNotItsNatImpl)page,errorMode);
         return null; // Impossible
+    }
+
+    @Override
+    public ItsNatView getItsNatView(View view)
+    {
+        return getItsNatViewImpl(view);
+    }
+
+    public ItsNatViewNullImpl getItsNatViewNull()
+    {
+        return nullView;
+    }
+
+    public ItsNatViewImpl getItsNatViewImpl(View view)
+    {
+        return ItsNatViewImpl.getItsNatView(this, view);
     }
 
     public GenericHttpClientImpl createGenericHttpClientImpl()
@@ -129,6 +102,12 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     {
         return page.getURLBase(); // Para la carga de recursos (scripts, imágenes etc)
     }
+
+    public DroidEventDispatcher getDroidEventDispatcher()
+    {
+        return eventDispatcher;
+    }
+
 
     @Override
     public View getRootView()
@@ -189,6 +168,12 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         XMLInflateRegistry layoutService = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
         id = layoutService.findId(name);
         return id;
+    }
+
+    @Override
+    public void appendFragment(View parentView, String markup)
+    {
+        insertFragment(parentView,markup,null);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.util.NameValue;
 

@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TouchEventListe
  */
 public class ItsNatViewNullImpl extends ItsNatViewImpl
 {
-    public ItsNatViewNullImpl(ItsNatDocItsNatImpl itsNatDoc)
+    public ItsNatViewNullImpl(ItsNatDocImpl itsNatDoc)
     {
         super(itsNatDoc);
     }
