@@ -84,15 +84,15 @@ public class HttpUtil
         try { uri = new URI(url); }
         catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
 
-        HttpParams params = httpRequestData.getHttpParams();
+        HttpParams httpParams = httpRequestData.getHttpParams();
 
         int connTimeout = httpRequestData.getConnectTimeout();
         int readTimeout = httpRequestData.getReadTimeout();
 
-        params.setIntParameter("http.connection.timeout", connTimeout);
-        params.setIntParameter("http.socket.timeout", readTimeout);
+        httpParams.setIntParameter("http.connection.timeout", connTimeout);
+        httpParams.setIntParameter("http.socket.timeout", readTimeout);
 
-        HttpClient httpClient = createHttpClient(uri.getScheme(),httpRequestData.isSslSelfSignedAllowed(),params);
+        HttpClient httpClient = createHttpClient(uri.getScheme(),httpRequestData.isSslSelfSignedAllowed(),httpParams);
 
         HttpUriRequest httpUriRequest = null;
 
@@ -106,17 +106,18 @@ public class HttpUtil
             // httpUriRequest.setHeader("Content-Type", "application/x-www-form-urlencoded");
             try
             {
-                if (paramList == null) paramList = new LinkedList<NameValue>(); // Creo que no se admite que sea nulo
-
-                List<NameValuePair> paramListApache = new ArrayList<NameValuePair>(paramList.size());
-                for(NameValue nameValue : paramList)
+                List<NameValuePair> paramListApache = new ArrayList<NameValuePair>(paramList.size()); // Creo que no se admite que sea nulo
+                if (paramList != null)
                 {
-                    String name = nameValue.getName();
-                    String value = nameValue.getValue().toString();
-                    paramListApache.add(new BasicNameValuePair(name,value));
+                    for (NameValue nameValue : paramList)
+                    {
+                        String name = nameValue.getName();
+                        String value = nameValue.getValue().toString();
+                        paramListApache.add(new BasicNameValuePair(name, value));
+                    }
                 }
 
-                ((HttpEntityEnclosingRequest)httpUriRequest).setEntity(new UrlEncodedFormEntity(paramListApache));
+                ((HttpEntityEnclosingRequest)httpUriRequest).setEntity(new UrlEncodedFormEntity(paramListApache,"UTF-8"));
             }
             catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
         }
@@ -133,7 +134,7 @@ public class HttpUtil
                 }
 
                 // http://stackoverflow.com/questions/2959316/how-to-add-parameters-to-a-http-get-request-in-android
-                String paramString = URLEncodedUtils.format(paramListApache, "utf-8");
+                String paramString = URLEncodedUtils.format(paramListApache, "UTF-8");
                 int pos = url.lastIndexOf('?');
                 if (pos != -1) // Tiene ?
                 {
