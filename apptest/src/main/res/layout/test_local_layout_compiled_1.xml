@@ -39,6 +39,14 @@
 
         <include layout="@layout/test_include_3_compiled"/>
 
+        <TextView
+            android:text="Test misc attribs"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+
         <!-- Testing misc attribs (for instance access resources by res id or literal) -->
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -72,12 +80,26 @@
                       android:layout_below="@id/textViewTest2" />
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test Custom View"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Testing custom class derivada de TextView -->
         <org.itsnat.itsnatdroidtest.testact.util.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test Custom View"
+            android:text="Custom View"
             android:background="#ffdddd"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test View Attribs"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test View Attribs (level 15)-->
         <LinearLayout
@@ -170,6 +192,13 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test AnalogClock"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test AnalogClock  -->
         <AnalogClock
             android:layout_width="match_parent"
@@ -181,6 +210,12 @@
 
         </AnalogClock>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ImageView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test ImageView  -->
         <ImageView
@@ -196,6 +231,13 @@
             android:scaleType="centerInside"
             android:src="@drawable/child_indicator_test"
             android:tint="#55eeee55"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ProgressBar"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test ProgressBar (indeterminate) -->
         <ProgressBar
@@ -226,6 +268,13 @@
             android:secondaryProgress="50"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test RatingBar"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test RatingBar
          Leer en el javadoc la necesidad de layout_width="wrap_content"
         -->
@@ -240,6 +289,13 @@
             /> <!-- android:rating sufre de alguna corrección por eso ponemos un valor ya corregido
                 idem stepSize -->
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test SeekBar"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test SeekBar -->
         <SeekBar
             android:layout_width="match_parent"
@@ -248,6 +304,13 @@
             android:thumb="@drawable/seek_thumb"
             android:progress="30"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test TextView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- TextView 1 -->
         <TextView
@@ -338,6 +401,13 @@
             android:textAppearance="@style/text_appearance_test"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test CompoundButton via CheckBox"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- CompoundButton Tests via CheckBox -->
         <CheckBox
             android:layout_width="wrap_content"
@@ -347,6 +417,13 @@
             android:button="@drawable/btn_check_holo_light"
             android:checked="true"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test Switch"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Switch Tests -->
         <Switch
@@ -365,6 +442,13 @@
             android:typeface="serif"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ToggleButton"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- ToggleButton Tests -->
         <!-- Nota: ha sido reemplazado por Switch, lo implementamos para los despistados -->
         <ToggleButton
@@ -374,6 +458,13 @@
             android:textOff="NORL"
             android:textOn="YESRL"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test CheckedTextView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- CheckedTextView tests -->
         <!-- http://www.wingnity.com/blog/use-checkedtextview-android/ -->
@@ -386,6 +477,13 @@
             android:text="CheckedTextView Tests"
             /> <!-- Alternativa: btn_check_holo_light del del ejemplo de CheckBox -->
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test Chronometer"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Chronometer tests -->
         <Chronometer
             android:layout_width="wrap_content"
@@ -393,6 +491,13 @@
             android:background="#ffdddd"
             android:format="Time: %s"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test EditText"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- EditText tests
              No tiene atributos propios pero nos interesa probar si funciona visualmente inputType -->
@@ -407,6 +512,13 @@
             android:inputType="numberDecimal|numberSigned"
             android:textIsSelectable="false"
         /> <!-- textIsSelectable parece que es ignorado -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test AutoCompleteTextView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- AutoCompleteTextView tests  -->
         <AutoCompleteTextView
@@ -433,8 +545,14 @@
             android:text="Anchor of AutoCompleteTextView Suggest Drop Down"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test AdapterViewFlipper (and AdapterViewAnimator)"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
-        <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
+        <!-- Test AdapterViewFlipper (and AdapterViewAnimator)   -->
         <AdapterViewFlipper
             android:id="@id/adapterViewAnimatorTestId"
             android:layout_width="match_parent"
@@ -448,6 +566,13 @@
             >
 
         </AdapterViewFlipper>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ViewGroup attrs and ViewGroup.LayoutParams"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test ViewGroup Attribs and ViewGroup.LayoutParams -->
         <LinearLayout
@@ -481,6 +606,13 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ViewGroup.MarginLayoutParams"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test ViewGroup.MarginLayoutParams -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -507,6 +639,13 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test AbsListView (and AdapterView) via ListView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test AbsListView (y AdapterView) -->
         <ListView
             android:layout_width="match_parent"
@@ -525,6 +664,13 @@
             android:transcriptMode="alwaysScroll">
         </ListView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test GridView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test GridView -->
         <GridView android:id="@id/gridViewTestId"
                   android:layout_width="match_parent"
@@ -538,12 +684,13 @@
                   android:verticalSpacing="5.3dp">
         </GridView>
 
-        <!-- space for page scrolling -->
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="(space for page scrolling)"
-            android:gravity="center"/>
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ListView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test ListView -->
         <ListView
@@ -558,6 +705,13 @@
 
             > <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
         </ListView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ExpandableListView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test ExpandableListView -->
         <!-- childIndicator* e indicator* están un poco al tontún porque no consigo
@@ -577,6 +731,13 @@
             android:indicatorRight="40dp">
         </ExpandableListView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test Gallery"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test AbsSpinner (entries sólo) y Gallery
         Gallery está deprecated pero desde el level 16 -->
         <Gallery
@@ -589,6 +750,13 @@
             android:spacing="50.3dp"
             android:unselectedAlpha="0.6">
         </Gallery>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test Spinner"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test Spinner (dropdown)
         Las diferencias visuales entre compilado y dinámico se deben inexplicablemente al uso de style -->
@@ -615,13 +783,6 @@
             android:spinnerMode="dialog"
             >
         </Spinner>
-
-        <!-- space for page scrolling -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="(space for page scrolling)"
-            android:gravity="center"/>
 
 
 

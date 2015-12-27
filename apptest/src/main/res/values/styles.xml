@@ -1,14 +1,30 @@
 <resources>
 
+<!-- http://stackoverflow.com/questions/23812156/overriding-style-in-custom-view-constructor
+     to use: style="?attr/title_test_style"
+    <attr name="title_test_style" format="reference" />
+-->
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <!-- <item name="title_test_style">@style/title_test</item> -->
     </style>
+
+    <!--
+       <style name="title_test">
+           <item name="android:layout_width">match_parent</item>
+           <item name="android:layout_height">25dp</item>
+           <item name="android:textSize">15dp</item>
+           <item name="android:background">#00ff00</item>
+       </style>
+    -->
 
     <style name="test">
         <item name="android:paddingLeft">21.3dp</item>
         <item name="android:paddingRight">21.3dp</item>
     </style>
+
 
     <style name="spinner_style_test" parent="android:style/Widget.DeviceDefault.Light.Spinner">
         <item name="android:paddingLeft">21.3dp</item>

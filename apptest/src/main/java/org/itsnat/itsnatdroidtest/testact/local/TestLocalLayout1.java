@@ -56,6 +56,7 @@ import android.widget.ToggleButton;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.itsnatdroidtest.R;
+import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 
@@ -97,10 +98,9 @@ public class TestLocalLayout1
             assertEquals(compButton.getText(), parsedButton.getText());
         }
 
-        childCount++;
-
         // buttonReload
         {
+            childCount++;
             Button compButton = (Button) comp.getChildAt(childCount);
             Button parsedButton = (Button) parsed.getChildAt(childCount);
             assertEquals(compButton.getId(), parsedButton.getId());
@@ -108,9 +108,8 @@ public class TestLocalLayout1
         }
 
         // test <include>
-        childCount++;
-
         {
+            childCount++;
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 1 w:match_parent by include");
@@ -131,16 +130,16 @@ public class TestLocalLayout1
 
 
         // test <include> dynamic (assets) 2
-        childCount++;
-
         {
+            childCount++;
+
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 2 w:match_parent by include");
             assertEquals(compTextView.getText(), parsedTextView.getText());
 
             assertEquals(((TextView)comp.findViewById(R.id.testIncludeId2)),compTextView);
-            assertEquals(((TextView)parsed.findViewById(parsedTextView.getId())),parsedTextView);
+            assertEquals(((TextView) parsed.findViewById(parsedTextView.getId())), parsedTextView);
             assertEquals(compTextView.getId(),parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
 
             ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
@@ -154,9 +153,9 @@ public class TestLocalLayout1
 
 
         // test <include> dynamic (assets) 3
-        childCount++;
-
         {
+            childCount++;
+
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 3 w:wrap_content");
@@ -171,9 +170,9 @@ public class TestLocalLayout1
             assertEquals(a_params.width, b_params.width);
         }
 
-        childCount++;
-
         {
+            childCount++;
+
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 4 w:match_parent");
@@ -189,97 +188,149 @@ public class TestLocalLayout1
         }
 
 
-        childCount++;
-
         // Testing misc attribs
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test misc attribs");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             {
+                int childCountL2 = 0;
 
-                final TextView compTextView1 = (TextView) compLayout.getChildAt(0);
-                final TextView parsedTextView1 = (TextView) parsedLayout.getChildAt(0);
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                // Test id ya definido como recurso compilado
-                assertEquals(compTextView1.getId(),R.id.textViewTest1);
-                assertEquals(compTextView1.getId(), parsedTextView1.getId());
+                    // Test id ya definido como recurso compilado
+                    assertEquals(compTextView.getId(), R.id.textViewTest1);
+                    assertEquals(compTextView.getId(), parsedTextView.getId());
 
-                // Test findViewByXMLId
-                if (compTextView1 != compLayout.findViewById(R.id.textViewTest1)) throw new RuntimeException("FAIL");
-                if (parsedTextView1 != layout.findViewByXMLId("textViewTest1")) throw new RuntimeException("FAIL");
+                    // Test findViewByXMLId
+                    if (compTextView != compLayout.findViewById(R.id.textViewTest1))
+                        throw new RuntimeException("FAIL");
+                    if (parsedTextView != layout.findViewByXMLId("textViewTest1"))
+                        throw new RuntimeException("FAIL");
 
+                    assertEquals(compTextView.getText(), "Hello world 1!");
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
 
-                assertEquals(compTextView1.getText(), parsedTextView1.getText());
+                    assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelFloatRound(15.3f, res));
+                    assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
 
-                assertEquals(compTextView1.getTextSize(), ValueUtil.dpToPixelFloatRound(15.3f, res));
-                assertEquals(compTextView1.getTextSize(), parsedTextView1.getTextSize());
+                    // Test style
+                    assertEquals(compTextView.getPaddingLeft(), ValueUtil.dpToPixelIntRound(21.3f, res));
+                    assertEquals(compTextView.getPaddingLeft(), parsedTextView.getPaddingLeft());
+                    assertEquals(compTextView.getPaddingRight(), ValueUtil.dpToPixelIntRound(21.3f, res));
+                    assertEquals(compTextView.getPaddingRight(), parsedTextView.getPaddingRight());
 
-                // Test style
-                assertEquals(compTextView1.getPaddingLeft(),ValueUtil.dpToPixelIntRound(21.3f, res));
-                assertEquals(compTextView1.getPaddingLeft(),parsedTextView1.getPaddingLeft());
-                assertEquals(compTextView1.getPaddingRight(),ValueUtil.dpToPixelIntRound(21.3f, res));
-                assertEquals(compTextView1.getPaddingRight(),parsedTextView1.getPaddingRight());
+                    assertEquals(compTextView.getPaddingTop(), ValueUtil.dpToPixelIntRound(10.3f, res));
+                    assertEquals(compTextView.getPaddingTop(), parsedTextView.getPaddingTop());
 
-                assertEquals(compTextView1.getPaddingTop(),ValueUtil.dpToPixelIntRound(10.3f, res));
-                assertEquals(compTextView1.getPaddingTop(),parsedTextView1.getPaddingTop());
+                    assertEquals(compTextView.getPaddingBottom(), ValueUtil.dpToPixelIntRound(10.3f, res));
+                    assertEquals(compTextView.getPaddingBottom(), parsedTextView.getPaddingBottom());
 
-                assertEquals(compTextView1.getPaddingBottom(),ValueUtil.dpToPixelIntRound(10.3f, res));
-                assertEquals(compTextView1.getPaddingBottom(),parsedTextView1.getPaddingBottom());
+                    assertEquals(compTextView.getTextColors().getDefaultColor(), 0xff0000ff);
+                    assertEquals(compTextView.getTextColors(), parsedTextView.getTextColors());
 
-                assertEquals(compTextView1.getTextColors().getDefaultColor(),0xff0000ff);
-                assertEquals(compTextView1.getTextColors(), parsedTextView1.getTextColors());
+                    assertEquals(((ColorDrawable) compTextView.getBackground()).getColor(), res.getColor(res.getIdentifier("@android:color/holo_green_light", null, null)));
+                    assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+                }
 
-                assertEquals(((ColorDrawable)compTextView1.getBackground()).getColor(), res.getColor(res.getIdentifier("@android:color/holo_green_light",null,null)));
-                assertEquals(compTextView1.getBackground(), parsedTextView1.getBackground());
-
-                final TextView compTextView2 = (TextView) compLayout.getChildAt(1);
-                final TextView parsedTextView2 = (TextView) parsedLayout.getChildAt(1);
-
-                // Test id añadido dinámicamente "@+id/..."
-                // En este caso el valor del id compilado (que existe) no es igual al añadido dinámicamente
-                assertEquals(((TextView)compLayout.findViewById(R.id.textViewTest2)),compTextView2);
-                assertEquals(((TextView)parsedLayout.findViewById(parsedTextView2.getId())),parsedTextView2);
-                assertEquals(compTextView2.getId(),parsedTextView2.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
-
-                assertEquals(compTextView2.getText(), parsedTextView2.getText());
-                assertEquals(compTextView2.getBackground(), parsedTextView2.getBackground());
-
-                // Test atributo style
-                // No tenemos una forma de testear "textAppearanceMedium" de forma directa, una forma es testear una de las propiedades que impone, ej el tamaño del texto
-                assertEquals(compTextView2.getTextSize(), parsedTextView2.getTextSize());
-
-                final TextView compTextView3 = (TextView) compLayout.getChildAt(2);
-                final TextView parsedTextView3 = (TextView) parsedLayout.getChildAt(2);
+                childCountL2++;
 
 
-                RelativeLayout.LayoutParams compTextParams3 = (RelativeLayout.LayoutParams)compTextView3.getLayoutParams();
-                RelativeLayout.LayoutParams parsedTextParams3 = (RelativeLayout.LayoutParams)parsedTextView3.getLayoutParams();
-                int[] compTextRules3 = compTextParams3.getRules();
-                int[] parsedTextRules3 = parsedTextParams3.getRules();
-                assertEquals(compTextRules3.length, parsedTextRules3.length); // Por si acaso pero son todas las posibles rules
-                assertPositive(compTextRules3[RelativeLayout.BELOW]);
-                assertEquals(compTextRules3[RelativeLayout.BELOW],compTextView2.getId());
-                assertPositive(parsedTextRules3[RelativeLayout.BELOW]);
-                assertEquals(parsedTextRules3[RelativeLayout.BELOW],parsedTextView2.getId());
+                TextView compTextViewUpper;
+                TextView parsedTextViewUpper;
 
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+
+                    // Test id añadido dinámicamente "@+id/..."
+                    // En este caso el valor del id compilado (que existe) no es igual al añadido dinámicamente
+                    assertEquals(((TextView) compLayout.findViewById(R.id.textViewTest2)), compTextView);
+                    assertEquals(((TextView) parsedLayout.findViewById(parsedTextView.getId())), parsedTextView);
+                    assertEquals(compTextView.getId(), parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
+
+                    assertEquals(compTextView.getText(), "Hello world 2!");
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+                    assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+
+                    // Test atributo style
+                    // No tenemos una forma de testear "textAppearanceMedium" de forma directa, una forma es testear una de las propiedades que impone, ej el tamaño del texto
+                    assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
+                }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getText(), "Hello world 3");
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    int[] compTextRules = compTextParams.getRules();
+                    int[] parsedTextRules = parsedTextParams.getRules();
+                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
+                    assertPositive(compTextRules[RelativeLayout.BELOW]);
+                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
+                    assertPositive(parsedTextRules[RelativeLayout.BELOW]);
+                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+                }
             }
         }
 
-        childCount++;
 
-        // Testing custom class
+        // Testing custom View
         {
-            final TextView compCustomTextView = (TextView) comp.getChildAt(childCount);
-            final TextView parsedCustomTextView = (TextView) parsed.getChildAt(childCount);
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test Custom View");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
+            final CustomTextView compCustomTextView = (CustomTextView) comp.getChildAt(childCount);
+            final CustomTextView parsedCustomTextView = (CustomTextView) parsed.getChildAt(childCount);
+
+            assertEquals(compCustomTextView.getText(), "Custom View");
             assertEquals(compCustomTextView.getText(), parsedCustomTextView.getText());
             assertEquals(compCustomTextView.getBackground(), parsedCustomTextView.getBackground());
         }
 
 
-        childCount++;
-
         // Test View Attribs
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test View Attribs");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
             {
@@ -431,15 +482,25 @@ public class TestLocalLayout1
 
         }
 
-        childCount++;
-
         // Test AnalogClock
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test AnalogClock");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
             final AnalogClock compLayout = (AnalogClock) comp.getChildAt(childCount);
             final AnalogClock parsedLayout = (AnalogClock) parsed.getChildAt(childCount);
 
             // android:dial
-            assertNotNull((Drawable)TestUtil.getField(compLayout, "mDial"));
+            assertNotNull((Drawable) TestUtil.getField(compLayout, "mDial"));
             assertEquals((Drawable)TestUtil.getField(compLayout,"mDial"),(Drawable)TestUtil.getField(parsedLayout,"mDial"));
 
             // android:hand_hour
@@ -447,16 +508,24 @@ public class TestLocalLayout1
             assertEquals((Drawable)TestUtil.getField(compLayout,"mHourHand"),(Drawable)TestUtil.getField(parsedLayout,"mHourHand"));
 
             // android:hand_minute
-            assertNotNull((Drawable)TestUtil.getField(compLayout,"mMinuteHand"));
+            assertNotNull((Drawable) TestUtil.getField(compLayout, "mMinuteHand"));
             assertEquals((Drawable)TestUtil.getField(compLayout,"mMinuteHand"),(Drawable)TestUtil.getField(parsedLayout,"mMinuteHand"));
         }
 
-
-
-        childCount++;
-
         // Test ImageView
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ImageView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
             final ImageView compLayout = (ImageView) comp.getChildAt(childCount);
             final ImageView parsedLayout = (ImageView) parsed.getChildAt(childCount);
 
@@ -508,10 +577,20 @@ public class TestLocalLayout1
             }
         }
 
-        childCount++;
+        // Test ProgressBar
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ProgressBar");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
 
         // Test ProgressBar (indeterminate)
         {
+            childCount++;
+
             final ProgressBar compLayout = (ProgressBar) comp.getChildAt(childCount);
             final ProgressBar parsedLayout = (ProgressBar) parsed.getChildAt(childCount);
 
@@ -542,26 +621,26 @@ public class TestLocalLayout1
             assertNotNull((LinearInterpolator)parsedLayout.getInterpolator());
         }
 
-        childCount++;
-
         // Test ProgressBar (determinate)
         {
+            childCount++;
+
             final ProgressBar compLayout = (ProgressBar) comp.getChildAt(childCount);
             final ProgressBar parsedLayout = (ProgressBar) parsed.getChildAt(childCount);
 
-            assertEquals(compLayout.getMax(),90);
+            assertEquals(compLayout.getMax(), 90);
             assertEquals(compLayout.getMax(),parsedLayout.getMax());
 
             assertEquals((Integer) TestUtil.getField(compLayout,"mMaxHeight"),ValueUtil.dpToPixelIntRound(30.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMaxHeight"), (Integer) TestUtil.getField(parsedLayout, "mMaxHeight"));
 
-            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxWidth"),ValueUtil.dpToPixelIntRound(30.3f, res));
-            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxWidth"), (Integer) TestUtil.getField(parsedLayout, "mMaxWidth"));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"), ValueUtil.dpToPixelIntRound(30.3f, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"), (Integer) TestUtil.getField(parsedLayout, "mMaxWidth"));
 
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinHeight"),ValueUtil.dpToPixelIntRound(20.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinHeight"), (Integer) TestUtil.getField(parsedLayout, "mMinHeight"));
 
-            assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"),ValueUtil.dpToPixelIntRound(20.3f, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mMinWidth"), ValueUtil.dpToPixelIntRound(20.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"), (Integer) TestUtil.getField(parsedLayout, "mMinWidth"));
 
             assertEquals(compLayout.getProgress(),30);
@@ -570,14 +649,24 @@ public class TestLocalLayout1
             assertNotNull((LayerDrawable)compLayout.getProgressDrawable());
             assertEquals((LayerDrawable)compLayout.getProgressDrawable(),(LayerDrawable)parsedLayout.getProgressDrawable());
 
-            assertEquals(compLayout.getSecondaryProgress(),50);
-            assertEquals(compLayout.getSecondaryProgress(),parsedLayout.getSecondaryProgress());
+            assertEquals(compLayout.getSecondaryProgress(), 50);
+            assertEquals(compLayout.getSecondaryProgress(), parsedLayout.getSecondaryProgress());
         }
-
-        childCount++;
 
         // Test RatingBar
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test RatingBar");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
             final RatingBar compLayout = (RatingBar) comp.getChildAt(childCount);
             final RatingBar parsedLayout = (RatingBar) parsed.getChildAt(childCount);
 
@@ -594,10 +683,20 @@ public class TestLocalLayout1
             assertEquals(compLayout.getStepSize(),parsedLayout.getStepSize());
         }
 
-        childCount++;
-
-        // Test SeekBar
+         // Test SeekBar
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test SeekBar");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
             final SeekBar compLayout = (SeekBar) comp.getChildAt(childCount);
             final SeekBar parsedLayout = (SeekBar) parsed.getChildAt(childCount);
 
@@ -606,10 +705,20 @@ public class TestLocalLayout1
             assertEquals((StateListDrawable) TestUtil.getField(parsedLayout, AbsSeekBar.class, "mThumb"),(StateListDrawable) TestUtil.getField(parsedLayout, AbsSeekBar.class, "mThumb"));
         }
 
-        childCount++;
+        // Test TextView
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test TextView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
 
         // Test TextView 1
         {
+            childCount++;
+
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
@@ -850,11 +959,11 @@ public class TestLocalLayout1
                 assertEquals((Long)TestUtil.getField(compTf,"native_instance"),(Long)TestUtil.getField(parsedTf,"native_instance"));
         }
 
-        childCount++;
-
         // Test TextView 2
         // Se testean de nuevo algunos atributos y otros que no podían testearse antes
         {
+            childCount++;
+
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
@@ -893,8 +1002,8 @@ public class TestLocalLayout1
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // Ver notas de android:height, android:maxHeight
-                    assertEquals(compLayout.getWidth(),ValueUtil.dpToPixelIntRound(200.3f, res));
-                    assertEquals(compLayout.getWidth(),parsedLayout.getWidth());
+                    assertEquals(compLayout.getWidth(), ValueUtil.dpToPixelIntRound(200.3f, res));
+                    assertEquals(compLayout.getWidth(), parsedLayout.getWidth());
                 }
             });
 
@@ -902,7 +1011,7 @@ public class TestLocalLayout1
             // y no es "editable"
             TransformationMethod comp_trans = compLayout.getTransformationMethod();
             TransformationMethod parsed_trans = parsedLayout.getTransformationMethod();
-            assertEquals(comp_trans.getClass().getName(),"android.text.method.AllCapsTransformationMethod");
+            assertEquals(comp_trans.getClass().getName(), "android.text.method.AllCapsTransformationMethod");
             assertEquals(comp_trans.getClass().getName(),parsed_trans.getClass().getName());
 
             assertFalse(compLayout.isTextSelectable());
@@ -910,14 +1019,14 @@ public class TestLocalLayout1
 
 
             // Test android:singleLine
-            assertTrue((Boolean)TestUtil.getField(compLayout,"mSingleLine"));
+            assertTrue((Boolean) TestUtil.getField(compLayout, "mSingleLine"));
             assertEquals((Boolean)TestUtil.getField(compLayout,"mSingleLine"),(Boolean)TestUtil.getField(parsedLayout,"mSingleLine"));
         }
 
-        childCount++;
-
         // Test TextView 3 (textAppearance y hint)
         {
+            childCount++;
+
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
@@ -928,10 +1037,20 @@ public class TestLocalLayout1
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
         }
 
-        childCount++;
-
         // CompoundButton Tests (a través de CheckBox)
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test CompoundButton via CheckBox");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
             final CheckBox compLayout = (CheckBox) comp.getChildAt(childCount);
             final CheckBox parsedLayout = (CheckBox) parsed.getChildAt(childCount);
 
@@ -946,10 +1065,20 @@ public class TestLocalLayout1
 
         }
 
-        childCount++;
-
         // Switch Tests
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test Switch");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
             final Switch compLayout = (Switch) comp.getChildAt(childCount);
             final Switch parsedLayout = (Switch) parsed.getChildAt(childCount);
 
@@ -1003,11 +1132,21 @@ public class TestLocalLayout1
 
         }
 
-        childCount++;
-
         // ToggleButton Tests
         // Nota: ToggleButton ha sido reemplazado totalmente por Switch, lo implementamos para los despistados
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ToggleButton");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
             final ToggleButton compLayout = (ToggleButton) comp.getChildAt(childCount);
             final ToggleButton parsedLayout = (ToggleButton) parsed.getChildAt(childCount);
 
@@ -1021,24 +1160,44 @@ public class TestLocalLayout1
             assertEquals(compLayout.getTextOn(),parsedLayout.getTextOn());
         }
 
-        childCount++;
 
         // CheckedTextView Tests
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test CheckedTextView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        {
+            childCount++;
+
             final CheckedTextView compLayout = (CheckedTextView) comp.getChildAt(childCount);
             final CheckedTextView parsedLayout = (CheckedTextView) parsed.getChildAt(childCount);
 
-            assertNotNull((StateListDrawable) TestUtil.getField(compLayout,"mCheckMarkDrawable"));
+            assertNotNull((StateListDrawable) TestUtil.getField(compLayout, "mCheckMarkDrawable"));
             assertEquals((StateListDrawable) TestUtil.getField(parsedLayout,"mCheckMarkDrawable"),(StateListDrawable) TestUtil.getField(parsedLayout,"mCheckMarkDrawable"));
 
             assertTrue(compLayout.isChecked());
             assertEquals(compLayout.isChecked(),parsedLayout.isChecked());
         }
 
-        childCount++;
-
         // Chronometer Tests
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test Chronometer");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final Chronometer compLayout = (Chronometer) comp.getChildAt(childCount);
             final Chronometer parsedLayout = (Chronometer) parsed.getChildAt(childCount);
 
@@ -1046,11 +1205,20 @@ public class TestLocalLayout1
             assertEquals(compLayout.getFormat(),parsedLayout.getFormat());
         }
 
-        childCount++;
-
         // EditText Tests
         // No tiene atributos propios pero nos interesa probar si funciona visualmente inputType
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test EditText");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final EditText compLayout = (EditText) comp.getChildAt(childCount);
             final EditText parsedLayout = (EditText) parsed.getChildAt(childCount);
 
@@ -1071,10 +1239,19 @@ public class TestLocalLayout1
         }
 
 
-        childCount++;
-
         // AutoCompleteTextView Tests
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test AutoCompleteTextView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final AutoCompleteTextView compLayout = (AutoCompleteTextView) comp.getChildAt(childCount);
             final AutoCompleteTextView parsedLayout = (AutoCompleteTextView) parsed.getChildAt(childCount);
 
@@ -1106,10 +1283,10 @@ public class TestLocalLayout1
             assertEquals(compLayout.getDropDownWidth(),parsedLayout.getDropDownWidth());
         }
 
-        childCount++;
-
         // TextView used as anchor of AutoCompleteTextView Suggest Drop Down (upper View)
         {
+            childCount++;
+
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
@@ -1118,10 +1295,19 @@ public class TestLocalLayout1
         }
 
 
-        childCount++;
-
-        // Test AdapterViewAnimator y AdapterViewFlipper
+        // Test AdapterViewFlipper y AdapterViewAnimator
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test AdapterViewFlipper (and AdapterViewAnimator)");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final AdapterViewFlipper compLayout = (AdapterViewFlipper) comp.getChildAt(childCount);
             final AdapterViewFlipper parsedLayout = (AdapterViewFlipper) parsed.getChildAt(childCount);
 
@@ -1148,10 +1334,19 @@ public class TestLocalLayout1
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
         }
 
-        childCount++;
-
         // Test ViewGroup Attribs and ViewGroup.LayoutParams
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ViewGroup attrs and ViewGroup.LayoutParams");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
             final LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
 
@@ -1232,10 +1427,19 @@ public class TestLocalLayout1
 
         }
 
-        childCount++;
-
         // Test ViewGroup.MarginLayoutParams
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ViewGroup.MarginLayoutParams");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
             for(int i = 0; i < 2; i++)
@@ -1260,10 +1464,19 @@ public class TestLocalLayout1
             }
         }
 
-        childCount++;
-
         // Test AbsListView
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test AbsListView (and AdapterView) via ListView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             ListView compLayout = (ListView) comp.getChildAt(childCount);
             ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
 
@@ -1290,10 +1503,19 @@ public class TestLocalLayout1
 
         }
 
-        childCount++;
-
         // Test GridView
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test GridView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final GridView compLayout = (GridView) comp.getChildAt(childCount);
             final GridView parsedLayout = (GridView) parsed.getChildAt(childCount);
 
@@ -1353,21 +1575,20 @@ public class TestLocalLayout1
             });
         }
 
-        childCount++;
-
-        // Space for page scrolling
-        {
-            final TextView compTextView = (TextView) comp.getChildAt(childCount);
-            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView.getText(), "(space for page scrolling)");
-            assertEquals(compTextView.getText(), parsedTextView.getText());
-        }
-
-
-        childCount++;
 
         // Test ListView
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ListView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final ListView compLayout = (ListView) comp.getChildAt(childCount);
             final ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
 
@@ -1386,10 +1607,19 @@ public class TestLocalLayout1
 
         }
 
-        childCount++;
-
         // Test ExpandableListView
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ExpandableListView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final ExpandableListView compLayout = (ExpandableListView) comp.getChildAt(childCount);
             final ExpandableListView parsedLayout = (ExpandableListView) parsed.getChildAt(childCount);
 
@@ -1415,10 +1645,19 @@ public class TestLocalLayout1
             //assertPositive((Integer)getField(compLayout,"mIndicatorLeft"));
         }
 
-        childCount++;
-
         // Test AbsSpinner (entries sólo) y Gallery
         {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test Gallery");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final Gallery compLayout = (Gallery) comp.getChildAt(childCount);
             final Gallery parsedLayout = (Gallery) parsed.getChildAt(childCount);
             assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"), 100);
@@ -1439,10 +1678,20 @@ public class TestLocalLayout1
             assertEquals((Float)TestUtil.getField(compLayout, "mUnselectedAlpha"),(Float)TestUtil.getField(parsedLayout, "mUnselectedAlpha"));
         }
 
-        childCount++;
+        // Test Spinner
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test Spinner");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
 
         // Test Spinner (dropdown)
         {
+            childCount++;
+
             final Spinner compLayout = (Spinner) comp.getChildAt(childCount);
             final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
 
@@ -1501,25 +1750,15 @@ public class TestLocalLayout1
 
         }
 
-        childCount++;
-
         // Test Spinner (dialog)
         {
+            childCount++;
+
             final Spinner compLayout = (Spinner) comp.getChildAt(childCount);
             final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
 
             assertEquals(compLayout.getPrompt(), "Sport List");
             assertEquals(compLayout.getPrompt(), parsedLayout.getPrompt());
-        }
-
-        childCount++;
-
-        // Space for page scrolling
-        {
-            final TextView compTextView = (TextView) comp.getChildAt(childCount);
-            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView.getText(), "(space for page scrolling)");
-            assertEquals(compTextView.getText(), parsedTextView.getText());
         }
 
 

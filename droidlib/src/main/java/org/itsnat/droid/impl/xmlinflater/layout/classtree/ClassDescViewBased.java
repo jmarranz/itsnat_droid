@@ -341,6 +341,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             if (idStyle != 0)
             {
                 // http://stackoverflow.com/questions/3142067/android-set-style-in-code
+                // http://stackoverflow.com/questions/11723881/android-set-view-style-programatically
                 // En teoría un parámetro es suficiente (con ContextThemeWrapper) pero curiosamente por ej en ProgressBar son necesarios los tres parámetros
                 // de otra manera el idStyle es ignorado, por tanto aunque parece redundate el paso del idStyle, ambos params son necesarios en algún caso
                 if (constructor3P == null) constructor3P = clasz.getConstructor(Context.class, AttributeSet.class, int.class);
