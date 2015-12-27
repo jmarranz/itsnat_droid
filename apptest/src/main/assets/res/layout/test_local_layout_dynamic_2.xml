@@ -29,6 +29,13 @@
             android:layout_height="wrap_content"
             android:text="@string/button_reload" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test FrameLayout"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test FrameLayout Attribs -->
         <FrameLayout
             android:layout_width="match_parent"
@@ -44,7 +51,12 @@
                 android:background="#dddddd" />
         </FrameLayout>
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test CalendarView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test CalendarView Attribs -->
         <CalendarView
@@ -69,12 +81,12 @@
         <!-- Es necesario un layout_height concreto de otra forma tarda infinito y se ve mal
             @android:style/Widget.CalendarView -->
 
-        <!-- space for page scrolling -->
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="(space for page scrolling)"
-            android:gravity="center"/>
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test DatePicker"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test DatePicker Attribs -->
         <DatePicker
@@ -89,6 +101,13 @@
             android:spinnersShown="true"
             >
         </DatePicker> <!-- minDate y maxDate acaban ganando sobre startYear y endYear  -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test GestureOverlayView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test GestureOverlayView Attribs -->
         <android.gesture.GestureOverlayView
@@ -115,6 +134,13 @@
 
         </android.gesture.GestureOverlayView> <!-- no consigo que se vea uncertainGestureColor -->
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test HorizontalScrollView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test HorizontalScrollView -->
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -129,6 +155,13 @@
                 android:textSize="40dp"/>
 
         </HorizontalScrollView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ScrollView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test ScrollView -->
         <ScrollView
@@ -145,7 +178,14 @@
 
         </ScrollView>
 
-        <!-- Test ViewAnimator y ViewFlipper  -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ViewFlipper (and ViewAnimator)"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <!-- Test ViewFlipper (and ViewAnimator) -->
         <ViewFlipper
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -171,6 +211,13 @@
                 android:textSize="20dp"/>
 
         </ViewFlipper>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test GridLayout"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test GridLayout Attribs Horizontal -->
         <GridLayout
@@ -236,6 +283,12 @@
                 android:background="#dddddd" />
         </GridLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test LinearLayout"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
@@ -313,6 +366,13 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test RadioGroup (and RadioButton)"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test RadioGroup (y RadioButton que no tiene atribs) -->
         <RadioGroup
             android:layout_width="wrap_content"
@@ -334,6 +394,13 @@
 
         </RadioGroup>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test SearchView"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test SearchView attribs -->
         <SearchView
             android:layout_width="wrap_content"
@@ -345,6 +412,13 @@
             android:queryHint="The hint (SearchView)"
             >
         </SearchView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test TabWidget (and TabHost)"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test TabWidget (y necesariamente TabHost) -->
         <TabHost
@@ -406,6 +480,13 @@
             </LinearLayout>
         </TabHost>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test TableLayout,TableRow,TableLayout.LayoutParams"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- Test TableLayout (y TableRow y TableLayout.LayoutParams)
          http://www.mkyong.com/android/android-tablelayout-example/
         -->
@@ -465,6 +546,12 @@
 
         </TableLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test RelativeLayout"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
 
         <!-- Test RelativeLayout (gravity) -->
         <RelativeLayout
@@ -523,6 +610,13 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test SlidingDrawer"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
         <!-- SlidingDrawer
          Es necesario un FrameLayout o similar contenedor con dimensiones concretas
         -->
@@ -559,6 +653,14 @@
 
         </FrameLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Test ViewStub"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <!-- ViewStub -->
         <ViewStub android:id="@+id/viewStubTestId"
                   android:inflatedId="@+id/viewStubInsertedId"
                   android:layout="@layout/test_viewstub"
@@ -566,11 +668,6 @@
                   android:layout_height="40.3dp"
             /> <!-- layout_width/layout_height se imponen en el layout inflado -->
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SOME FINAL TEXT"/>
 
     </LinearLayout>
 

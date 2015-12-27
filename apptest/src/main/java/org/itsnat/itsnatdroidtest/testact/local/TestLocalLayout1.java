@@ -88,10 +88,12 @@ public class TestLocalLayout1
 
         assertEquals(comp.getOrientation(),parsed.getOrientation());
 
-        int childCount = 0;
+        int childCount;
 
         // buttonBack
         {
+            childCount = 0;
+
             Button compButton = (Button) comp.getChildAt(childCount);
             Button parsedButton = (Button) parsed.getChildAt(childCount);
             assertEquals(compButton.getId(), parsedButton.getId());
@@ -101,6 +103,7 @@ public class TestLocalLayout1
         // buttonReload
         {
             childCount++;
+
             Button compButton = (Button) comp.getChildAt(childCount);
             Button parsedButton = (Button) parsed.getChildAt(childCount);
             assertEquals(compButton.getId(), parsedButton.getId());
@@ -110,6 +113,7 @@ public class TestLocalLayout1
         // test <include>
         {
             childCount++;
+
             TextView compTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Included 1 w:match_parent by include");
@@ -1545,7 +1549,7 @@ public class TestLocalLayout1
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),(Integer)TestUtil.getField(parsedLayout, "mHorizontalSpacing"));
+                    assertEquals((Integer) TestUtil.getField(compLayout, "mHorizontalSpacing"), (Integer) TestUtil.getField(parsedLayout, "mHorizontalSpacing"));
                 }
             });
             assertEquals(compLayout.getNumColumns(), 3);
@@ -1556,21 +1560,21 @@ public class TestLocalLayout1
                 {
                     // Usamos un OnLayoutChangeListener porque el setNumColumns define un atributo "request" que no es el atributo
                     // donde va el numColumns definitivo el cual se calcula al hacer el layout
-                    assertEquals(compLayout.getNumColumns(),parsedLayout.getNumColumns());
+                    assertEquals(compLayout.getNumColumns(), parsedLayout.getNumColumns());
                 }
             });
-            assertEquals(compLayout.getStretchMode(),GridView.STRETCH_COLUMN_WIDTH); // Es el modo por defecto pero los demás modos en nuestro test se ven muy mal
+            assertEquals(compLayout.getStretchMode(), GridView.STRETCH_COLUMN_WIDTH); // Es el modo por defecto pero los demás modos en nuestro test se ven muy mal
             assertEquals(compLayout.getStretchMode(), parsedLayout.getStretchMode());
 
             // Tests android:verticalSpacing (getVerticalSpacing es Level 16):
-            assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),ValueUtil.dpToPixelIntFloor(5.3f, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mVerticalSpacing"), ValueUtil.dpToPixelIntFloor(5.3f, res));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),(Integer)TestUtil.getField(parsedLayout, "mVerticalSpacing"));
+                    assertEquals((Integer) TestUtil.getField(compLayout, "mVerticalSpacing"), (Integer) TestUtil.getField(parsedLayout, "mVerticalSpacing"));
                 }
             });
         }
@@ -1599,7 +1603,7 @@ public class TestLocalLayout1
             assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelIntRound(2.3f, res));
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
             // Test android:footerDividersEnabled (areFooterDividersEnabled es Level 19)
-            assertFalse((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"));
+            assertFalse((Boolean) TestUtil.getField(compLayout, "mFooterDividersEnabled"));
             assertEquals((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"), (Boolean)TestUtil.getField(parsedLayout, "mFooterDividersEnabled"));
             // Test android:headerDividersEnabled (areHeaderDividersEnabled es Level 19)
             assertFalse((Boolean)TestUtil.getField(compLayout, "mHeaderDividersEnabled"));
@@ -1638,7 +1642,7 @@ public class TestLocalLayout1
             // No testeamos android:childIndicatorRight pues tenemos idéntico problema que childIndicatorLeft
 
             // Test android:groupIndicator, no hay método get
-            assertNotNull((StateListDrawable)TestUtil.getField(compLayout, "mGroupIndicator"));
+            assertNotNull((StateListDrawable) TestUtil.getField(compLayout, "mGroupIndicator"));
             assertEquals((StateListDrawable) TestUtil.getField(parsedLayout, "mGroupIndicator"), (StateListDrawable) TestUtil.getField(parsedLayout, "mGroupIndicator"));
 
             // No testeamos android:indicatorLeft ni indicatorRight porque les pasa igual que a childIndicatorLeft

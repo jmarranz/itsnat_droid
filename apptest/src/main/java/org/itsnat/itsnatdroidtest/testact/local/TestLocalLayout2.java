@@ -110,30 +110,41 @@ public class TestLocalLayout2
 
         assertEquals(comp.getOrientation(), parsed.getOrientation());
 
-        int childCount = 0;
+        int childCount;
 
         // buttonBack
         {
+            childCount = 0;
+
             Button compButton = (Button) comp.getChildAt(childCount);
             Button parsedButton = (Button) parsed.getChildAt(childCount);
             assertEquals(compButton.getId(), parsedButton.getId());
             assertEquals(compButton.getText(), parsedButton.getText());
         }
-
-        childCount++;
 
         // buttonReload
         {
+            childCount++;
+
             Button compButton = (Button) comp.getChildAt(childCount);
             Button parsedButton = (Button) parsed.getChildAt(childCount);
             assertEquals(compButton.getId(), parsedButton.getId());
             assertEquals(compButton.getText(), parsedButton.getText());
         }
 
-        childCount++;
-
         // Test FrameLayout Attribs
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test FrameLayout");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final FrameLayout compLayout = (FrameLayout) comp.getChildAt(childCount);
             final FrameLayout parsedLayout = (FrameLayout) parsed.getChildAt(childCount);
 
@@ -160,13 +171,19 @@ public class TestLocalLayout2
             assertEquals(compLayout.getMeasureAllChildren(), parsedLayout.getMeasureAllChildren());
         }
 
-
-
-
-        childCount++;
-
         // Test CalendarView Attribs
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test CalendarView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final CalendarView compLayout = (CalendarView) comp.getChildAt(childCount);
             final CalendarView parsedLayout = (CalendarView) parsed.getChildAt(childCount);
 
@@ -183,7 +200,7 @@ public class TestLocalLayout2
             }
 
             assertEquals(compLayout.getFirstDayOfWeek(),3);
-            assertEquals(compLayout.getFirstDayOfWeek(),parsedLayout.getFirstDayOfWeek());
+            assertEquals(compLayout.getFirstDayOfWeek(), parsedLayout.getFirstDayOfWeek());
 
             if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
             {
@@ -206,7 +223,7 @@ public class TestLocalLayout2
                 parseDate(compLayoutFinal, "01/01/2101", outDate);
             }
             assertEquals(compLayout.getMaxDate(), outDate.getTimeInMillis());
-            assertEquals(compLayout.getMaxDate(),parsedLayout.getMaxDate());
+            assertEquals(compLayout.getMaxDate(), parsedLayout.getMaxDate());
 
             {
                 Object compLayoutFinal = getCalendarObject(compLayout);
@@ -240,7 +257,7 @@ public class TestLocalLayout2
             }
 
             assertTrue(compLayout.getShowWeekNumber());
-            assertEquals(compLayout.getShowWeekNumber(),parsedLayout.getShowWeekNumber());
+            assertEquals(compLayout.getShowWeekNumber(), parsedLayout.getShowWeekNumber());
 
             // Test shownWeekCount
             if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1)
@@ -308,21 +325,20 @@ public class TestLocalLayout2
 
         }
 
-        childCount++;
-
-        // Space for page scrolling
-        {
-            final TextView compTextView = (TextView) comp.getChildAt(childCount);
-            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView.getText(), "(space for page scrolling)");
-            assertEquals(compTextView.getText(), parsedTextView.getText());
-        }
-
-
-        childCount++;
 
         // Test DatePicker Attribs
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test DatePicker");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final DatePicker compLayout = (DatePicker) comp.getChildAt(childCount);
             final DatePicker parsedLayout = (DatePicker) parsed.getChildAt(childCount);
 
@@ -358,10 +374,19 @@ public class TestLocalLayout2
             assertTrue(parsedLayout.getSpinnersShown());
         }
 
-        childCount++;
-
         // Test android.gesture.GestureOverlayView Attribs
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test GestureOverlayView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final GestureOverlayView compLayout = (GestureOverlayView) comp.getChildAt(childCount);
             final GestureOverlayView parsedLayout = (GestureOverlayView) parsed.getChildAt(childCount);
 
@@ -410,10 +435,19 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
-
         // Test HorizontalScrollView Attribs
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test HorizontalScrollView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final HorizontalScrollView compLayout = (HorizontalScrollView) comp.getChildAt(childCount);
             final HorizontalScrollView parsedLayout = (HorizontalScrollView) parsed.getChildAt(childCount);
 
@@ -429,10 +463,19 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
-
         // Test ScrollView Attribs
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ScrollView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final ScrollView compLayout = (ScrollView) comp.getChildAt(childCount);
             final ScrollView parsedLayout = (ScrollView) parsed.getChildAt(childCount);
 
@@ -448,10 +491,19 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
-
-        // Test ViewAnimator y ViewFlipper
+        // Test ViewFlipper y ViewAnimator
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ViewFlipper (and ViewAnimator)");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final ViewFlipper compLayout = (ViewFlipper) comp.getChildAt(childCount);
             final ViewFlipper parsedLayout = (ViewFlipper) parsed.getChildAt(childCount);
 
@@ -475,14 +527,23 @@ public class TestLocalLayout2
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
         }
 
+        // Test GridLayout
+        {
+            childCount++;
 
-        childCount++;
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test GridLayout");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
 
         // Test GridLayout Attribs Horizontal
         {
+            childCount++;
+
             final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
             final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
-            assertEquals(compLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
+            assertEquals(compLayout.getAlignmentMode(), GridLayout.ALIGN_BOUNDS);
             assertEquals(compLayout.getColumnCount(),3);
             assertEquals(compLayout.getColumnCount(), parsedLayout.getColumnCount());
             assertFalse(compLayout.isColumnOrderPreserved());
@@ -518,10 +579,10 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
-
         // Test GridLayout Attribs Vertical
         {
+            childCount++;
+
             final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
             final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
             assertEquals(compLayout.getAlignmentMode(), GridLayout.ALIGN_BOUNDS);
@@ -563,12 +624,19 @@ public class TestLocalLayout2
         }
 
 
-
-
-        childCount++;
-
         // Test LinearLayout Attribs
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test LinearLayout");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
             final LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
 
@@ -589,10 +657,10 @@ public class TestLocalLayout2
             assertEquals(compLayout.getWeightSum(), parsedLayout.getWeightSum());
         }
 
-        childCount++;
-
         // Test LinearLayout gravity
         {
+            childCount++;
+
             LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
             assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.TOP |Gravity.RIGHT);
@@ -607,10 +675,10 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
-
         // Testing LinearLayout.LayoutParams
         {
+            childCount++;
+
             LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
             for(int i = 0; i < 2; i++)
@@ -633,10 +701,19 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
-
         // Test Test RadioGroup (y RadioButton que no tiene atribs)
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test RadioGroup (and RadioButton)");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final RadioGroup compLayout = (RadioGroup) comp.getChildAt(childCount);
             final RadioGroup parsedLayout = (RadioGroup) parsed.getChildAt(childCount);
 
@@ -649,17 +726,26 @@ public class TestLocalLayout2
             assertEquals(compLayout.getCheckedRadioButtonId(), R.id.radioFemale);
             assertEquals(parsedLayout.getCheckedRadioButtonId(),parsedFemaleView.getId());
 
-            assertEquals(((TextView)compLayout.findViewById(R.id.radioFemale)),compFemaleView);
-            assertEquals(((TextView)parsedLayout.findViewById(parsedFemaleView.getId())),parsedFemaleView);
+            assertEquals(((TextView) compLayout.findViewById(R.id.radioFemale)), compFemaleView);
+            assertEquals(((TextView) parsedLayout.findViewById(parsedFemaleView.getId())), parsedFemaleView);
 
-            assertEquals(compLayout.getOrientation(),LinearLayout.HORIZONTAL);
-            assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
+            assertEquals(compLayout.getOrientation(), LinearLayout.HORIZONTAL);
+            assertEquals(compLayout.getOrientation(), parsedLayout.getOrientation());
         }
-
-        childCount++;
 
         // Test SearchView
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test SearchView");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final SearchView compLayout = (SearchView) comp.getChildAt(childCount);
             final SearchView parsedLayout = (SearchView) parsed.getChildAt(childCount);
 
@@ -684,10 +770,19 @@ public class TestLocalLayout2
             assertEquals((CharSequence) TestUtil.getField(compLayout, "mQueryHint"), (CharSequence) TestUtil.getField(parsedLayout, "mQueryHint"));
         }
 
-        childCount++;
-
         // Test TabWidget (y necesariamente TabHost)
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test TabWidget (and TabHost)");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final TabHost compLayout = (TabHost) comp.getChildAt(childCount);
             final TabHost parsedLayout = (TabHost) parsed.getChildAt(childCount);
 
@@ -716,10 +811,19 @@ public class TestLocalLayout2
 
         }
 
-        childCount++;
-
         // Test TableLayout (y TableRow y TableLayout.LayoutParams)
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test TableLayout,TableRow,TableLayout.LayoutParams");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             final TableLayout compLayout = (TableLayout) comp.getChildAt(childCount);
             final TableLayout parsedLayout = (TableLayout) parsed.getChildAt(childCount);
 
@@ -757,11 +861,20 @@ public class TestLocalLayout2
             assertEquals(compParams.span, parsedParams.span);
         }
 
+        // Test RelativeLayout
+        {
+            childCount++;
 
-        childCount++;
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test RelativeLayout");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
 
         // Test RelativeLayout (gravity)
         {
+            childCount++;
+
             final RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             final RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             // Tests android:gravity (getGravity() es Level 16):
@@ -784,10 +897,10 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
-
         // Test RelativeLayout (ignoreGravity)
         {
+            childCount++;
+
             RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             // Tests android:ignoreGravity que es un id (no hay get):
@@ -802,10 +915,11 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
 
         // Test RelativeLayout.LayoutParams
         {
+            childCount++;
+
             RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
 
@@ -842,10 +956,20 @@ public class TestLocalLayout2
             }
         }
 
-        childCount++;
 
         // Test SlidingDrawer (necesita un FrameLayout o similar como padre)
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test SlidingDrawer");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             FrameLayout compLayout = (FrameLayout) comp.getChildAt(childCount);
             FrameLayout parsedLayout = (FrameLayout) parsed.getChildAt(childCount);
 
@@ -881,11 +1005,21 @@ public class TestLocalLayout2
             assertEquals((Integer)TestUtil.getField(compDrawer,"mTopOffset"), (Integer)TestUtil.getField(parsedDrawer, "mTopOffset"));
         }
 
-        childCount++;
 
         // Test ViewStub
         // se reemplaza por el android:layout especificado, indirectamente testeamos los ViewStub
         {
+            childCount++;
+
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Test ViewStub");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
             LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
 
@@ -912,9 +1046,6 @@ public class TestLocalLayout2
         }
 
 
-
-
-//         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());
         //System.out.println("\n\n\n");
 
     }
