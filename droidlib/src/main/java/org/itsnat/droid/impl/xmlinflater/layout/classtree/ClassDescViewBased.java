@@ -252,37 +252,40 @@ public class ClassDescViewBased extends ClassDesc<View>
                      : new PendingViewPostCreateProcessDefault(view);
     }
 
-    public void addViewObject(ViewGroup viewParent,View view,int index,PendingViewPostCreateProcess pendingViewPostCreateProcess, Context ctx)
+    public void addViewObject(ViewGroup viewParent,View view,int index,PendingViewPostCreateProcess pendingViewPostCreateProcess)
     {
         if (view.getLayoutParams() != null) throw new ItsNatDroidException("Unexpected");
 
+        setLayoutParams(viewParent, view, pendingViewPostCreateProcess);
+
+        if (viewParent != null) // Si es null es el caso de root view
+        {
+            if (index < 0) viewParent.addView(view);
+            else viewParent.addView(view, index);
+        }
+
+        pendingViewPostCreateProcess.executePendingPostAddViewTasks(); // Aunque sea el root lo llamamos pues de otra manera podemos dejar alguna acción sin ejecutar
+    }
+
+    protected void setLayoutParams(ViewGroup viewParent,View view,PendingViewPostCreateProcess pendingViewPostCreateProcess)
+    {
         if (viewParent != null)
         {
- //           AttributeSet layoutAttrDefault = readAttributeSetLayout(ctx, R.layout.layout_params); // No se puede cachear el AttributeSet, ya lo he intentado
+//           AttributeSet layoutAttrDefault = readAttributeSetLayout(ctx, R.layout.layout_params); // No se puede cachear el AttributeSet, ya lo he intentado
 //            ViewGroup.LayoutParams params = viewParent.generateLayoutParams(layoutAttrDefault);
 
             ViewGroup.LayoutParams params = methodGenerateLP.invoke(viewParent);
             view.setLayoutParams(params);
-
-            pendingViewPostCreateProcess.executePendingLayoutParamsTasks(); // Así ya definimos los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
-
-            if (index < 0) viewParent.addView(view);
-            else viewParent.addView(view, index);
-
-            pendingViewPostCreateProcess.executePendingPostAddViewTasks();
         }
-        else // view es el ROOT
+        else
         {
             // Esto ocurre con el View root del layout porque hasta el final no podemos insertarlo en el ViewGroup contenedor que nos ofrece Android por ej en la Actividad, no creo que sea necesario algo diferente a un ViewGroup.LayoutParams
-            // aunque creo que no funciona el poner valores concretos salvo el match_parent que afortunadamente es el único que interesa para
-            // un View root que se inserta.
+            // aunque creo que no funciona el poner valores concretos salvo el match_parent que afortunadamente es el único que interesa para un View root que se inserta.
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(params);
-
-            pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
-
-            pendingViewPostCreateProcess.executePendingPostAddViewTasks(); // Aunque sea el root lo llamamos pues de otra manera podemos dejar alguna acción sin ejecutar
         }
+
+        pendingViewPostCreateProcess.executePendingLayoutParamsTasks(); // Aquí ya definimos los atributos para los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
     }
 
     protected static String findAttributeFromRemote(String namespaceURI, String attrName, NodeToInsertImpl newChildToIn)
@@ -343,9 +346,9 @@ public class ClassDescViewBased extends ClassDesc<View>
                 // http://stackoverflow.com/questions/3142067/android-set-style-in-code
                 // http://stackoverflow.com/questions/11723881/android-set-view-style-programatically
                 // En teoría un parámetro es suficiente (con ContextThemeWrapper) pero curiosamente por ej en ProgressBar son necesarios los tres parámetros
-                // de otra manera el idStyle es ignorado, por tanto aunque parece redundate el paso del idStyle, ambos params son necesarios en algún caso
+                // de otra manera el idStyle es ignorado, por tanto aunque parece redundate el paso del idStyle, ambos params son necesarios en algún caso (NO ESTA CLARO)
                 if (constructor3P == null) constructor3P = clasz.getConstructor(Context.class, AttributeSet.class, int.class);
-                view = constructor3P.newInstance(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,idStyle);
+                view = constructor3P.newInstance(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null, 0 /*idStyle */);
 
                 // ALTERNATIVA QUE NO FUNCIONA (idStyle es ignorado):
                 //if (constructor3P == null) constructor3P = clasz.getConstructor(Context.class, AttributeSet.class, int.class);

@@ -11,14 +11,14 @@
         <!-- <item name="title_test_style">@style/title_test</item> -->
     </style>
 
-    <!--
+
        <style name="title_test">
-           <item name="android:layout_width">match_parent</item>
-           <item name="android:layout_height">25dp</item>
-           <item name="android:textSize">15dp</item>
+           <item name="android:layout_width">wrap_content</item>
+           <item name="android:layout_height">45dp</item>
+           <item name="android:textSize">25dp</item>
            <item name="android:background">#00ff00</item>
-       </style>
-    -->
+       </style> <!-- 25dp, 15dp -->
+
 
     <style name="test">
         <item name="android:paddingLeft">21.3dp</item>

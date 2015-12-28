@@ -539,11 +539,13 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
         newChildToIn.setView(view);
 
+
+
         PendingViewPostCreateProcess pendingViewPostCreateProcess = classDesc.createPendingViewPostCreateProcess(view, viewParent);
         AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
 
         fillViewAttributes(classDesc,newChildToIn,xmlInflaterLayout, attrCtx);
-        classDesc.addViewObject(viewParent, view, index, pendingViewPostCreateProcess, getContext());
+        classDesc.addViewObject(viewParent, view, index, pendingViewPostCreateProcess);
 
         pendingViewPostCreateProcess.destroy();
 

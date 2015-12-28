@@ -1,8 +1,11 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
 import android.graphics.Paint;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
@@ -18,6 +21,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.TransformationMethod;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +59,8 @@ import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
@@ -75,7 +81,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 public class TestLocalLayout1
 {
 
-    public static void test(ScrollView compRoot,ScrollView parsedRoot,InflatedLayout layout)
+    public static void test(ScrollView compRoot, ScrollView parsedRoot, InflatedLayout layout)
     {
         Context ctx = compRoot.getContext();
         final Resources res = ctx.getResources();
@@ -200,6 +206,74 @@ public class TestLocalLayout1
             final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Test misc attribs");
             assertEquals(compTextView.getText(), parsedTextView.getText());
+
+
+            /*
+
+            Class class_R_styleable = MiscUtil.resolveClass("com.android.internal.R$styleable");
+
+            FieldContainer<int[]> field_ViewGroup_Layout = new FieldContainer<int[]>(class_R_styleable, "ViewGroup_Layout"); // com.android.internal.R.styleable.ViewGroup_Layout
+
+            FieldContainer<Integer> field_ViewGroup_Layout_layout_width = new FieldContainer<Integer>(class_R_styleable, "ViewGroup_Layout_layout_width"); // com.android.internal.R.styleable.ViewGroup_Layout_layout_width
+            FieldContainer<Integer> field_ViewGroup_Layout_layout_height = new FieldContainer<Integer>(class_R_styleable, "ViewGroup_Layout_layout_height"); // com.android.internal.R.styleable.ViewGroup_Layout_layout_height
+            */
+
+
+            // http://stackoverflow.com/questions/13719103/how-to-retrieve-style-attributes-programatically-from-styles-xml
+
+            Context context = parsedTextView.getContext();
+            int[] attrs = new int[]{android.R.attr.layout_width,android.R.attr.layout_height,android.R.attr.text};
+            TypedArray a = context.obtainStyledAttributes(R.style.title_test, attrs);
+
+            {
+                int index = 0;
+
+                int dimension;
+                TypedValue outValue = new TypedValue();
+                a.getValue(index,outValue);
+                if (outValue.type == TypedValue.TYPE_INT_DEC)
+                {
+                    dimension = outValue.data;
+                }
+                else
+                {
+                    dimension = a.getDimensionPixelSize(index, ViewGroup.LayoutParams.MATCH_PARENT);
+                }
+                dimension = dimension;
+            }
+
+            {
+                int index = 1;
+
+                int dimension;
+                TypedValue outValue = new TypedValue();
+                a.getValue(index,outValue);
+                if (outValue.type == TypedValue.TYPE_INT_DEC)
+                {
+                    dimension = outValue.data;
+                }
+                else
+                {
+                    dimension = a.getDimensionPixelSize(index, ViewGroup.LayoutParams.MATCH_PARENT);
+                }
+                dimension = dimension;
+            }
+
+
+            {
+                int index = 2;
+                TypedValue outValue = new TypedValue();
+                a.getValue(index,outValue);
+                if (outValue.type != TypedValue.TYPE_NULL)
+                {
+                    throw new ItsNatDroidException("Unexpected");
+                }
+                outValue.toString();
+            }
+
+            a.recycle();
+
+
         }
 
         {

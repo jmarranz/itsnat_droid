@@ -32,8 +32,8 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
         {
-            this.fieldTextAppearance = new FieldContainer<int[]>(class_R_styleable, "TextAppearance");
-            this.fieldTextAppearance_textSize = new FieldContainer<Integer>(class_R_styleable, "TextAppearance_textSize");
+            this.fieldTextAppearance = new FieldContainer<int[]>(class_R_styleable, "TextAppearance"); // com.android.internal.R.styleable.TextAppearance
+            this.fieldTextAppearance_textSize = new FieldContainer<Integer>(class_R_styleable, "TextAppearance_textSize"); // com.android.internal.R.styleable.TextAppearance_textSize
             this.fieldDateTextSize = new FieldContainer<Integer>(parent.getDeclaredClass(), "mDateTextSize");
         }
         else // A partir de level 16 hay un método setDateTextAppearance (int resourceId). Podríamos usar lo de ICS pero en Lollipop cambia CalendarView a fondo usando un "delegate"

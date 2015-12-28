@@ -87,9 +87,9 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
             // Pasamos new ContextThemeWrapper(ctx,idStyle) porque como parámetro el idStyle es ignorado
             // La aplicación de un style de todas formas hace alguna cosa rara, si se puede, evitar usar style en un Spinner
             if (mode != -1)
-                view = new Spinner(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,idStyle,mode);
+                view = new Spinner(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,0 /*idStyle */,mode);
             else
-                view = new Spinner(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,idStyle);
+                view = new Spinner(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,0 /*idStyle */);
         }
         else
         {

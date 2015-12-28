@@ -38,13 +38,17 @@
             />
 
         <include layout="@assets:layout/res/layout/test_include_3_dynamic.xml"/>
-
+<!--
         <TextView
             android:text="Test misc attribs"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:textSize="15dp"
             android:background="#00ff00"/>
+-->
+        <TextView
+            android:text="Test misc attribs"
+            style="@style/title_test"/>
 
         <!-- Testing misc attribs (for instance access resources by res id or literal) -->
         <RelativeLayout android:layout_width="match_parent"

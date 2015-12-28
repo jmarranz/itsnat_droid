@@ -37,7 +37,7 @@ public class ClassDescView_widget_SlidingDrawer extends ClassDescViewBased
         AttributeSet attrSetDefault = readAttributeSetLayout(ctx,R.layout.slidingdrawer_default);
         if (idStyle != 0)
         {
-            view = new SlidingDrawer(new ContextThemeWrapper(ctx,idStyle),attrSetDefault,idStyle);
+            view = new SlidingDrawer(new ContextThemeWrapper(ctx,idStyle),attrSetDefault,0 /*idStyle */);
         }
         else
         {
