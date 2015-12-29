@@ -45,7 +45,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(page,itsNatDroid, xmlDOMLayout,ctx) :
                                                             new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
-        xmlInflaterLayout.inflateLayout(viewParent,index);
+        xmlInflaterLayout.inflateLayout(viewParent, index);
         return xmlInflaterLayout;
     }
 
@@ -75,7 +75,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         InflatedLayoutImpl inflatedLayout = getInflatedLayoutImpl();
         XMLDOMLayout domLayout = inflatedLayout.getXMLDOMLayout();
 
-        View rootView = inflateRootView(domLayout,viewParent,index);
+        View rootView = inflateRootView(domLayout, viewParent, index);
         return rootView;
     }
 
@@ -152,70 +152,15 @@ public abstract class XMLInflaterLayout extends XMLInflater
     public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ClassDescViewBased classDesc = getClassDescViewBased(rootDOMElemView);
-        View rootView = createViewObject(classDesc, rootDOMElemView, pendingPostInsertChildrenTasks);
-
-        getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
-
-        fillAttributesAndAddView(rootView, classDesc, null, rootDOMElemView, pendingPostInsertChildrenTasks);
-
-        return rootView;
+        return classDesc.createRootViewObjectAndFillAttributes(rootDOMElemView,this,pendingPostInsertChildrenTasks);
     }
 
     public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
-        // a setRootView(view); cuando viewParent es null "para reutilizar código"
         ClassDescViewBased classDesc = getClassDescViewBased(domElemView);
-        View view = createViewObject(classDesc, domElemView,pendingPostInsertChildrenTasks);
-
-        fillAttributesAndAddView(view,classDesc,viewParent, domElemView,pendingPostInsertChildrenTasks);
-
-        return view;
+        return classDesc.createViewObjectAndFillAttributesAndAdd(viewParent,domElemView,this,pendingPostInsertChildrenTasks);
     }
 
-
-    private View createViewObject(ClassDescViewBased classDesc,DOMElemView domElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
-    {
-        return classDesc.createViewObject(domElemView, pendingPostInsertChildrenTasks, getContext());
-    }
-
-    private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,DOMElemView domElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
-    {
-        Context ctx = getContext();
-        PendingViewPostCreateProcess pendingViewPostCreateProcess = classDesc.createPendingViewPostCreateProcess(view, viewParent);
-        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
-
-        fillViewAttributes(classDesc,view, domElemView,attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
-        classDesc.addViewObject(viewParent, view, -1, pendingViewPostCreateProcess);
-
-        pendingViewPostCreateProcess.destroy();
-    }
-
-    private void fillViewAttributes(ClassDescViewBased classDesc, View view, DOMElemView domElemView, AttrLayoutContext attrCtx)
-    {
-        ArrayList<DOMAttr> attribList = domElemView.getDOMAttributeList();
-        if (attribList != null)
-        {
-            for (int i = 0; i < attribList.size(); i++)
-            {
-                DOMAttr attr = attribList.get(i);
-                setAttribute(classDesc, view, attr,attrCtx);
-            }
-        }
-
-        attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
-    }
-
-
-    public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
-    {
-        return classDesc.setAttribute(view, attr, attrCtx);
-    }
-
-    public boolean removeAttribute(ClassDescViewBased classDesc,View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
-    {
-        return classDesc.removeAttribute(view, namespaceURI,name,attrCtx);
-    }
 
     protected void processChildViews(DOMElemView domElemViewParent, View viewParent,XMLDOM xmlDOMParent)
     {
@@ -252,23 +197,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public void fillIncludeAttributesFromGetLayout(View rootViewChild,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
     {
-        Context ctx = getContext();
         String className = rootViewChild.getClass().getName();
         XMLInflateRegistry xmlInflateRegistry = getInflatedLayoutImpl().getItsNatDroidImpl().getXMLInflateRegistry();
 
         ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(className);
-
-        PendingViewPostCreateProcess pendingViewPostCreateProcess = classDesc.createPendingViewPostCreateProcess(rootViewChild,viewParent);
-        AttrLayoutContext attrCtx = new AttrLayoutContext(ctx,this, pendingViewPostCreateProcess, null);
-
-        for (int i = 0; i < includeAttribs.size(); i++)
-        {
-            DOMAttr attr = includeAttribs.get(i);
-            setAttribute(classDesc,rootViewChild, attr,attrCtx);
-        }
-
-        pendingViewPostCreateProcess.executePendingSetAttribsTasks();
-        pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
+        classDesc.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent,this,includeAttribs);
     }
 
+    public abstract boolean setAttributeInlineEventHandler(View view, DOMAttr attr);
+    public abstract boolean removeAttributeInlineEventHandler(View view, String namespaceURI, String name);
 }

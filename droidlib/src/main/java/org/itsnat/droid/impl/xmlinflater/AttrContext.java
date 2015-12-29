@@ -7,18 +7,16 @@ import android.content.Context;
  */
 public abstract class AttrContext
 {
-    protected Context ctx;
     protected XMLInflater xmlInflater;
 
-    public AttrContext(Context ctx, XMLInflater xmlInflater)
+    public AttrContext(XMLInflater xmlInflater)
     {
-        this.ctx = ctx;
         this.xmlInflater = xmlInflater;
     }
 
     public Context getContext()
     {
-        return ctx;
+        return xmlInflater.getContext();
     }
 
     public XMLInflater getXMLInflater()

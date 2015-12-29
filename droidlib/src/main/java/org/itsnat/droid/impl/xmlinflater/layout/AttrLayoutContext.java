@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 
 /**
@@ -12,9 +10,9 @@ public class AttrLayoutContext extends AttrContext
     protected PendingViewPostCreateProcess pendingViewPostCreateProcess;
     protected PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks;
 
-    public AttrLayoutContext(Context ctx, XMLInflaterLayout xmlInflaterLayout, PendingViewPostCreateProcess pendingViewPostCreateProcess, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public AttrLayoutContext(XMLInflaterLayout xmlInflaterLayout, PendingViewPostCreateProcess pendingViewPostCreateProcess, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        super(ctx,xmlInflaterLayout);
+        super(xmlInflaterLayout);
         this.pendingViewPostCreateProcess = pendingViewPostCreateProcess;
         this.pendingPostInsertChildrenTasks = pendingPostInsertChildrenTasks;
     }

@@ -208,17 +208,6 @@ public class TestLocalLayout1
             assertEquals(compTextView.getText(), parsedTextView.getText());
 
 
-            /*
-
-            Class class_R_styleable = MiscUtil.resolveClass("com.android.internal.R$styleable");
-
-            FieldContainer<int[]> field_ViewGroup_Layout = new FieldContainer<int[]>(class_R_styleable, "ViewGroup_Layout"); // com.android.internal.R.styleable.ViewGroup_Layout
-
-            FieldContainer<Integer> field_ViewGroup_Layout_layout_width = new FieldContainer<Integer>(class_R_styleable, "ViewGroup_Layout_layout_width"); // com.android.internal.R.styleable.ViewGroup_Layout_layout_width
-            FieldContainer<Integer> field_ViewGroup_Layout_layout_height = new FieldContainer<Integer>(class_R_styleable, "ViewGroup_Layout_layout_height"); // com.android.internal.R.styleable.ViewGroup_Layout_layout_height
-            */
-
-
             // http://stackoverflow.com/questions/13719103/how-to-retrieve-style-attributes-programatically-from-styles-xml
 
             Context context = parsedTextView.getContext();

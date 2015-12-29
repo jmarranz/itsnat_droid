@@ -58,10 +58,10 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         {
             // Consideramos que el setAttributeRemote en una operación "single" y por tanto si define alguna tarea pendiente tenemos que ejecutarla como si ya no hubiera más atributos pendientes
             PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-            attrCtx = new AttrLayoutContext(getContext(), this, pendingViewPostCreateProcess, null);
+            attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null);
         }
 
-        setAttribute(viewClassDesc, view, attr, attrCtx);
+        viewClassDesc.setAttribute(view, attr, attrCtx);
 
         if (singleSetAttr)
         {
@@ -76,8 +76,8 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
 
-        AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),this,null,null);
-        return removeAttribute(viewClassDesc,view, namespaceURI, name,attrCtx);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(this,null,null);
+        return viewClassDesc.removeAttribute(view, namespaceURI, name, attrCtx);
     }
 
     private ItsNatViewImpl getItsNatViewOfInlineHandler(String type,View view)
@@ -105,7 +105,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
     }
 
     @Override
-    public boolean setAttribute(ClassDescViewBased classDesc, View view, DOMAttr attr, AttrLayoutContext attrCtx)
+    public boolean setAttributeInlineEventHandler(View view, DOMAttr attr)
     {
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
@@ -124,11 +124,11 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             }
         }
 
-        return super.setAttribute(classDesc,view, attr, attrCtx);
+        return false;
     }
 
     @Override
-    public boolean removeAttribute(ClassDescViewBased classDesc,View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
+    public boolean removeAttributeInlineEventHandler(View view, String namespaceURI, String name)
     {
         if (MiscUtil.isEmpty(namespaceURI))
         {
@@ -142,7 +142,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             }
         }
 
-        return super.removeAttribute(classDesc, view, namespaceURI, name, attrCtx);
+        return false;
     }
 
     @Override

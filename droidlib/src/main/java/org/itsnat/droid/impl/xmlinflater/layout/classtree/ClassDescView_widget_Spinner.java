@@ -56,7 +56,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 
-    private String findSpinnerModeAttributeFromRemote(DOMElemView domElemView)
+    private static String findSpinnerModeAttribute(DOMElemView domElemView)
     {
         DOMAttr attr = domElemView.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
         if (attr == null) return null;
@@ -66,7 +66,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
     @Override
     public View createViewObject(DOMElemView domElemView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks, Context ctx)
     {
-        String spinnerMode = findSpinnerModeAttributeFromRemote(domElemView);
+        String spinnerMode = findSpinnerModeAttribute(domElemView);
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 

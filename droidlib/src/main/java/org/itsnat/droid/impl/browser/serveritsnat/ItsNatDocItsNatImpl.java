@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
-import android.content.Context;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,9 +42,7 @@ import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -275,7 +272,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
             XMLInflaterLayoutPage xmlInflaterLayoutPage = page.getXMLInflaterLayoutPage();
 
             pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-            attrCtx = new AttrLayoutContext(getContext(), xmlInflaterLayoutPage, pendingViewPostCreateProcess, null);
+            attrCtx = new AttrLayoutContext(xmlInflaterLayoutPage, pendingViewPostCreateProcess, null);
         }
 
         int len = attrNames.length;
@@ -532,42 +529,6 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         return index;
     }
 
-    private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
-    {
-        Context ctx = getContext();
-        View view = classDesc.createViewObjectFromRemote(newChildToIn, pendingPostInsertChildrenTasks, ctx);
-
-        newChildToIn.setView(view);
-
-
-
-        PendingViewPostCreateProcess pendingViewPostCreateProcess = classDesc.createPendingViewPostCreateProcess(view, viewParent);
-        AttrLayoutContext attrCtx = new AttrLayoutContext(getContext(),xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
-
-        fillViewAttributes(classDesc,newChildToIn,xmlInflaterLayout, attrCtx);
-        classDesc.addViewObject(viewParent, view, index, pendingViewPostCreateProcess);
-
-        pendingViewPostCreateProcess.destroy();
-
-        return view;
-    }
-
-
-    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,XMLInflaterLayout xmlInflaterLayout,AttrLayoutContext attrCtx)
-    {
-        View view = newChildToIn.getView();
-
-        if (newChildToIn.hasAttributes())
-        {
-            for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
-            {
-                DOMAttr attr = entry.getValue();
-                xmlInflaterLayout.setAttribute(classDesc, view, attr,attrCtx);
-            }
-        }
-
-        attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
-    }
 
     @Override
     public void insertBefore(Node parentNode,Node newChild,Node childRef)
@@ -579,7 +540,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
-        View view = createViewObjectAndFillAttributesAndAdd(classDesc, (ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout, null);
+        View view = classDesc.createViewObjectAndFillAttributesAndAddFromRemote((ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout, null, getContext());
 
         newChildToIn.setInserted();
     }

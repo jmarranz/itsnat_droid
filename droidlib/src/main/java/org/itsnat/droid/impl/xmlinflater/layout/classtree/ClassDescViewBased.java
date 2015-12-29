@@ -38,6 +38,8 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -87,11 +89,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (Class<View>)MiscUtil.resolveClass(className);
     }
 
-    public static boolean isXMLIdAttrAsDOM(String namespaceURI, String name)
-    {
-        return MiscUtil.isEmpty(namespaceURI) && "id".equals(name);
-    }
-
     public ClassDescViewMgr getClassDescViewMgr()
     {
         return (ClassDescViewMgr) classMgr;
@@ -102,7 +99,12 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (ClassDescViewBased) getParentClassDesc();
     }
 
-    protected static boolean isStyleAttribute(String namespaceURI, String name)
+    private static boolean isXMLIdAttrAsDOM(String namespaceURI, String name)
+    {
+        return MiscUtil.isEmpty(namespaceURI) && "id".equals(name);
+    }
+
+    private static boolean isStyleAttribute(String namespaceURI, String name)
     {
         return MiscUtil.isEmpty(namespaceURI) && name.equals("style");
     }
@@ -116,13 +118,16 @@ public class ClassDescViewBased extends ClassDesc<View>
     public boolean setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
+
+        XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
+        if (xmlInflaterLayout.setAttributeInlineEventHandler(view,attr)) // ej onclick="..."
+            return true;
+
         if (!isInit()) init();
 
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
         String value = attr.getValue();
-
-        XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
 
 /*
         if (isXMLIdAttrAsDOM(namespaceURI, name))
@@ -197,13 +202,15 @@ public class ClassDescViewBased extends ClassDesc<View>
     //@SuppressWarnings("unchecked")
     public boolean removeAttribute(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
     {
+        XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
+        if (xmlInflaterLayout.removeAttributeInlineEventHandler(view,namespaceURI,name)) // ej onclick="..."
+            return true;
+
         if (!isInit()) init();
 
         try
         {
             if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
-
-            XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
 
             AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(namespaceURI, name);
             if (attrDesc != null)
@@ -252,7 +259,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                      : new PendingViewPostCreateProcessDefault(view);
     }
 
-    public void addViewObject(ViewGroup viewParent,View view,int index,PendingViewPostCreateProcess pendingViewPostCreateProcess)
+    private void addViewObject(ViewGroup viewParent,View view,int index,PendingViewPostCreateProcess pendingViewPostCreateProcess)
     {
         if (view.getLayoutParams() != null) throw new ItsNatDroidException("Unexpected");
 
@@ -267,7 +274,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         pendingViewPostCreateProcess.executePendingPostAddViewTasks(); // Aunque sea el root lo llamamos pues de otra manera podemos dejar alguna acción sin ejecutar
     }
 
-    protected void setLayoutParams(ViewGroup viewParent,View view,PendingViewPostCreateProcess pendingViewPostCreateProcess)
+    private void setLayoutParams(ViewGroup viewParent,View view,PendingViewPostCreateProcess pendingViewPostCreateProcess)
     {
         if (viewParent != null)
         {
@@ -288,30 +295,27 @@ public class ClassDescViewBased extends ClassDesc<View>
         pendingViewPostCreateProcess.executePendingLayoutParamsTasks(); // Aquí ya definimos los atributos para los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
     }
 
-    protected static String findAttributeFromRemote(String namespaceURI, String attrName, NodeToInsertImpl newChildToIn)
+    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        DOMAttr attr = newChildToIn.getAttribute(namespaceURI,attrName);
-        if (attr == null) return null;
-        return attr.getValue();
+        Context ctx = xmlInflaterLayout.getContext();
+        View rootView = createViewObject(rootDOMElemView, pendingPostInsertChildrenTasks,ctx);
+
+        xmlInflaterLayout.getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
+
+        fillAttributesAndAddView(rootView, null, rootDOMElemView, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+
+        return rootView;
     }
 
-    private int findStyleAttributeFromRemote(NodeToInsertImpl newChildToIn,Context ctx)
+    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView,XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        String value = findAttributeFromRemote(null, "style", newChildToIn);
-        if (value == null) return 0;
-        return getXMLInflateRegistry().getIdentifier(value, ctx);
-    }
+        // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
+        // a setRootView(view); cuando viewParent es null "para reutilizar código"
+        Context ctx = xmlInflaterLayout.getContext();
+        View view = createViewObject(domElemView,pendingPostInsertChildrenTasks,ctx);
+        fillAttributesAndAddView(view, viewParent, domElemView, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
-    public View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
-    {
-        int idStyle = findStyleAttributeFromRemote(newChildToIn,ctx);
-        return createViewObjectFromRemote(newChildToIn,idStyle,pendingPostInsertChildrenTasks,ctx);
-    }
-
-    protected View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
-    {
-        // Se redefine completamente en el caso de Spinner
-        return createViewObject(idStyle,pendingPostInsertChildrenTasks,ctx);
+        return view;
     }
 
     private int findStyleAttribute(DOMElemView domElemView,Context ctx)
@@ -323,14 +327,14 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public View createViewObject(DOMElemView domElemView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
-        int idStyle = findStyleAttribute(domElemView,ctx);
+        int idStyle = findStyleAttribute(domElemView, ctx);
         return createViewObject(domElemView, idStyle, pendingPostInsertChildrenTasks, ctx);
     }
 
     protected View createViewObject(DOMElemView domElemView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         // Se redefine completamente en el caso de Spinner
-        return createViewObject(idStyle,pendingPostInsertChildrenTasks,ctx);
+        return createViewObject(idStyle, pendingPostInsertChildrenTasks, ctx);
     }
 
     protected View createViewObject(int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
@@ -372,6 +376,106 @@ public class ClassDescViewBased extends ClassDesc<View>
         return view;
     }
 
+    private void fillAttributesAndAddView(View view,ViewGroup viewParent,DOMElemView domElemView,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    {
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(view, viewParent);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
+
+        fillViewAttributes(view, domElemView, attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        addViewObject(viewParent, view, -1, pendingViewPostCreateProcess);
+
+        pendingViewPostCreateProcess.destroy();
+    }
+
+    private void fillViewAttributes(View view, DOMElemView domElemView, AttrLayoutContext attrCtx)
+    {
+        ArrayList<DOMAttr> attribList = domElemView.getDOMAttributeList();
+        if (attribList != null)
+        {
+            for (int i = 0; i < attribList.size(); i++)
+            {
+                DOMAttr attr = attribList.get(i);
+                setAttribute(view, attr, attrCtx);
+            }
+        }
+
+        attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
+    }
+
+
+    public void fillIncludeAttributesFromGetLayout(View rootViewChild,ViewGroup viewParent,XMLInflaterLayout xmlInflaterLayout,ArrayList<DOMAttr> includeAttribs)
+    {
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(rootViewChild, viewParent);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, null);
+
+        for (int i = 0; i < includeAttribs.size(); i++)
+        {
+            DOMAttr attr = includeAttribs.get(i);
+            setAttribute(rootViewChild, attr, attrCtx);
+        }
+
+        pendingViewPostCreateProcess.executePendingSetAttribsTasks();
+        pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
+    }
+
+    protected static String findAttributeFromRemote(String namespaceURI, String attrName, NodeToInsertImpl newChildToIn)
+    {
+        DOMAttr attr = newChildToIn.getAttribute(namespaceURI, attrName);
+        if (attr == null) return null;
+        return attr.getValue();
+    }
+
+    private int findStyleAttributeFromRemote(NodeToInsertImpl newChildToIn,Context ctx)
+    {
+        String value = findAttributeFromRemote(null, "style", newChildToIn);
+        if (value == null) return 0;
+        return getXMLInflateRegistry().getIdentifier(value, ctx);
+    }
+
+    private View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
+    {
+        int idStyle = findStyleAttributeFromRemote(newChildToIn, ctx);
+        return createViewObjectFromRemote(newChildToIn, idStyle, pendingPostInsertChildrenTasks, ctx);
+    }
+
+    protected View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
+    {
+        // Se redefine completamente en el caso de Spinner
+        return createViewObject(idStyle, pendingPostInsertChildrenTasks, ctx);
+    }
+
+    public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
+    {
+        View view = createViewObjectFromRemote(newChildToIn, pendingPostInsertChildrenTasks, ctx);
+
+        newChildToIn.setView(view);
+
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(view, viewParent);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
+
+        fillViewAttributesFromRemote(newChildToIn, attrCtx);
+        addViewObject(viewParent, view, index, pendingViewPostCreateProcess);
+
+        pendingViewPostCreateProcess.destroy();
+
+        return view;
+    }
+
+    private void fillViewAttributesFromRemote(NodeToInsertImpl newChildToIn, AttrLayoutContext attrCtx)
+    {
+        View view = newChildToIn.getView();
+
+        if (newChildToIn.hasAttributes())
+        {
+            for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
+            {
+                DOMAttr attr = entry.getValue();
+                setAttribute(view, attr, attrCtx);
+            }
+        }
+
+        attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
+    }
 
     protected static AttributeSet readAttributeSetLayout(Context ctx,int layoutId)
     {
@@ -433,6 +537,5 @@ public class ClassDescViewBased extends ClassDesc<View>
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
     }
-
 
 }

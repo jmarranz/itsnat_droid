@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 
 /**
@@ -9,9 +7,9 @@ import org.itsnat.droid.impl.xmlinflater.AttrContext;
  */
 public class AttrDrawableContext extends AttrContext
 {
-    public AttrDrawableContext(Context ctx, XMLInflaterDrawable xmlInflaterDrawable)
+    public AttrDrawableContext(XMLInflaterDrawable xmlInflaterDrawable)
     {
-        super(ctx,xmlInflaterDrawable);
+        super(xmlInflaterDrawable);
     }
 
     public XMLInflaterDrawable getXMLInflaterDrawable()
