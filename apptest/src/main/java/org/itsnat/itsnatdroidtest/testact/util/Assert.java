@@ -41,6 +41,12 @@ import java.util.Set;
  */
 public class Assert
 {
+    public static void assertNotZero(int a)
+    {
+        if (a == 0)
+            throw new ItsNatDroidException("Failed " + a);
+    }
+
     public static void assertPositive(int a)
     {
         if (a <= 0)

@@ -67,14 +67,6 @@ public class NodeToInsertImpl extends NodeImpl
         return getAttributes().get(key);
     }
 
-    /*
-    public void setAttributeFromRemote(String namespaceURI,String name,String value)
-    {
-        AttrParsed attr = AttrParsed.createAttrParsed(namespaceURI,name,value);
-        setAttributeFromRemote(attr);
-    }
-*/
-
     public void setAttribute(DOMAttr attr)
     {
         String namespaceURI = attr.getNamespaceURI();

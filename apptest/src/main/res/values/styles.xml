@@ -12,15 +12,16 @@
     </style>
 
 
-       <style name="title_test">
+       <style name="test_style">
            <item name="android:layout_width">wrap_content</item>
-           <item name="android:layout_height">45dp</item>
-           <item name="android:textSize">25dp</item>
-           <item name="android:background">#00ff00</item>
+           <item name="android:layout_height">40.3dp</item>
+           <item name="android:layout_alignParentTop">true</item>
+           <item name="android:textSize">15.3dp</item>
+           <item name="android:background">#dddddd</item>
        </style> <!-- 25dp, 15dp -->
 
 
-    <style name="test">
+    <style name="test_style2">
         <item name="android:paddingLeft">21.3dp</item>
         <item name="android:paddingRight">21.3dp</item>
     </style>

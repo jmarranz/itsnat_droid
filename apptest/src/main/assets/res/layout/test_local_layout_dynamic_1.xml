@@ -38,21 +38,24 @@
             />
 
         <include layout="@assets:layout/res/layout/test_include_3_dynamic.xml"/>
-<!--
+
         <TextView
             android:text="Test misc attribs"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:textSize="15dp"
             android:background="#00ff00"/>
--->
-        <TextView
-            android:text="Test misc attribs"
-            style="@style/title_test"/>
+
+
 
         <!-- Testing misc attribs (for instance access resources by res id or literal) -->
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/testStyle"
+                android:text="Test style including LayoutParams attribs"
+                style="@style/test_style"/>
 
             <TextView id="textViewTest1"
                 android:id="@id/textViewTest1"
@@ -64,8 +67,8 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:textColor="#0000ff"
                 android:background="@android:color/holo_green_light"
-                android:layout_alignParentTop="true"
-                style="@style/test"/>
+                android:layout_below="@id/testStyle"
+                style="@style/test_style2"/>
 
             <TextView android:id="@+id/textViewTest2"
                 android:layout_width="wrap_content"

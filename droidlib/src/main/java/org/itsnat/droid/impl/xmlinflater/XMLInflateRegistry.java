@@ -326,7 +326,7 @@ public class XMLInflateRegistry
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
     }
 
-    private Dimension getDimensionObject(String attrValue)
+    private static Dimension getDimensionObject(String attrValue)
     {
         // Suponemos que NO es un recurso externo
         // El retorno es en px
@@ -467,13 +467,13 @@ public class XMLInflateRegistry
         int dimension;
 
         // No hace falta hacer trim en caso de "match_parent" etc un espacio fastidia el attr
-        if ("fill_parent".equals(value)) dimension = ViewGroup.LayoutParams.MATCH_PARENT;
-        else if ("match_parent".equals(value)) dimension = ViewGroup.LayoutParams.MATCH_PARENT;
-        else if ("wrap_content".equals(value)) dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
+        if ("match_parent".equals(value) || "fill_parent".equals(value))
+            dimension = ViewGroup.LayoutParams.MATCH_PARENT;
+        else if ("wrap_content".equals(value))
+            dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
         else
-        {
             dimension = getDimensionIntRound(value, ctx);
-        }
+
         return dimension;
     }
 

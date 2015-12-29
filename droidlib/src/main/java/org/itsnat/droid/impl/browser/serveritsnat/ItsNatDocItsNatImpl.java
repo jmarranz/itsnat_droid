@@ -173,9 +173,6 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         }
     }
 
-
-
-
     public List<NameValue> genParamURL()
     {
         PageItsNatImpl pageItsNat = (PageItsNatImpl)page;

@@ -69,6 +69,7 @@ import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotZero;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 
@@ -206,63 +207,6 @@ public class TestLocalLayout1
             final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compTextView.getText(), "Test misc attribs");
             assertEquals(compTextView.getText(), parsedTextView.getText());
-
-
-            // http://stackoverflow.com/questions/13719103/how-to-retrieve-style-attributes-programatically-from-styles-xml
-
-            Context context = parsedTextView.getContext();
-            int[] attrs = new int[]{android.R.attr.layout_width,android.R.attr.layout_height,android.R.attr.text};
-            TypedArray a = context.obtainStyledAttributes(R.style.title_test, attrs);
-
-            {
-                int index = 0;
-
-                int dimension;
-                TypedValue outValue = new TypedValue();
-                a.getValue(index,outValue);
-                if (outValue.type == TypedValue.TYPE_INT_DEC)
-                {
-                    dimension = outValue.data;
-                }
-                else
-                {
-                    dimension = a.getDimensionPixelSize(index, ViewGroup.LayoutParams.MATCH_PARENT);
-                }
-                dimension = dimension;
-            }
-
-            {
-                int index = 1;
-
-                int dimension;
-                TypedValue outValue = new TypedValue();
-                a.getValue(index,outValue);
-                if (outValue.type == TypedValue.TYPE_INT_DEC)
-                {
-                    dimension = outValue.data;
-                }
-                else
-                {
-                    dimension = a.getDimensionPixelSize(index, ViewGroup.LayoutParams.MATCH_PARENT);
-                }
-                dimension = dimension;
-            }
-
-
-            {
-                int index = 2;
-                TypedValue outValue = new TypedValue();
-                a.getValue(index,outValue);
-                if (outValue.type != TypedValue.TYPE_NULL)
-                {
-                    throw new ItsNatDroidException("Unexpected");
-                }
-                outValue.toString();
-            }
-
-            a.recycle();
-
-
         }
 
         {
@@ -271,9 +215,44 @@ public class TestLocalLayout1
             RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             {
-                int childCountL2 = 0;
+                int childCountL2;
+
 
                 {
+                    childCountL2 = 0;
+
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getText(), "Test style including LayoutParams attribs");
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelFloatRound(15.3f, res));
+                    assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
+
+                    assertEquals(((ColorDrawable) compTextView.getBackground()).getColor(), 0xffdddddd);
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+
+                    assertEquals(a_params.height, ValueUtil.dpToPixelFloatRound(40.3f, res));
+                    assertEquals(a_params.height, b_params.height);
+                    assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    assertEquals(a_params.width, b_params.width);
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    int[] compTextRules = compTextParams.getRules();
+                    int[] parsedTextRules = parsedTextParams.getRules();
+                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
+                    assertNotZero(compTextRules[RelativeLayout.ALIGN_PARENT_TOP]);
+                    assertEquals(compTextRules[RelativeLayout.ALIGN_PARENT_TOP], parsedTextRules[RelativeLayout.ALIGN_PARENT_TOP]);
+                }
+
+
+                {
+                    childCountL2++;
+
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
@@ -353,9 +332,9 @@ public class TestLocalLayout1
                     int[] compTextRules = compTextParams.getRules();
                     int[] parsedTextRules = parsedTextParams.getRules();
                     assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
-                    assertPositive(compTextRules[RelativeLayout.BELOW]);
+                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
                     assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
-                    assertPositive(parsedTextRules[RelativeLayout.BELOW]);
+                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
                     assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
                 }
             }

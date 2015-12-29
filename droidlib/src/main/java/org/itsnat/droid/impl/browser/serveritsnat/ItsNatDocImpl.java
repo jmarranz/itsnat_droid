@@ -159,8 +159,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         // http://developer.android.com/reference/android/content/res/Resources.html#getIdentifier(java.lang.String, java.lang.String, java.lang.String)
         // Formato esperado: package:type/entry  ej my.app:id/someId  o bien type y package vienen dados como parámetros
 
-        Context ctx = getContext();
-        Resources res = ctx.getResources();
+        Resources res = getContext().getResources();
         int id = res.getIdentifier(name, defType, defPackage);
         if (id > 0)
             return id;
