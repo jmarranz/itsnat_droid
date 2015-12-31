@@ -169,16 +169,16 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getPercent(attrValue, ctx);
     }
 
-    public static <T> T parseSingleName(String value, MapSmart<String, T> valueMap)
+    public static <T> T parseSingleName(String value, MapSmart<String, T> nameValueMap)
     {
         // Se llama directamente sin Context porque es para atributos que no pueden ser un recurso
-        T valueRes = valueMap.get(value);
+        T valueRes = nameValueMap.get(value);
         if (valueRes == null)
             throw new ItsNatDroidException("Unrecognized value name " + value + " for attribute");
         return valueRes;
     }
 
-    public static int parseMultipleName(String value, MapSmart<String, Integer> valueMap)
+    public static int parseMultipleName(String value, MapSmart<String, Integer> nameValueMap)
     {
         // Se llama directamente sin Context porque es para atributos que no pueden ser un recurso
         String[] names = value.split("\\|");
@@ -187,7 +187,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         {
             // No hace falta hacer trim, los espacios dan error
             String name = names[i];
-            Integer valueInt = valueMap.get(name);
+            Integer valueInt = nameValueMap.get(name);
             if (valueInt == null)
                 throw new ItsNatDroidException("Unrecognized value name " + name + " for attribute");
 

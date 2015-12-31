@@ -1,10 +1,14 @@
-package org.itsnat.droid.impl.browser.serveritsnat;
+package org.itsnat.droid.impl.browser;
 
 import android.view.View;
 
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidScriptException;
+import org.itsnat.droid.impl.browser.serveritsnat.DroidEventDispatcherItsNat;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.eventfake.DroidEventFakeImpl;
+import org.itsnat.droid.impl.browser.servernotitsnat.DroidEventDispatcherNotItsNat;
+import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocNotItsNatImpl;
 
 import bsh.EvalError;
 import bsh.Interpreter;

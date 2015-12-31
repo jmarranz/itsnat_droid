@@ -14,12 +14,12 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public abstract class AttrDescViewTextStyle extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 3 );
     static
     {
-        valueMap.put("normal", Typeface.NORMAL); // 0
-        valueMap.put("bold",   Typeface.BOLD);   // 1
-        valueMap.put("italic", Typeface.ITALIC); // 2
+        nameValueMap.put("normal", Typeface.NORMAL); // 0
+        nameValueMap.put("bold", Typeface.BOLD);   // 1
+        nameValueMap.put("italic", Typeface.ITALIC); // 2
     }
 
     public AttrDescViewTextStyle(ClassDescViewBased parent, String name)
@@ -30,7 +30,7 @@ public abstract class AttrDescViewTextStyle extends AttrDesc<ClassDescViewBased,
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int style = parseMultipleName(attr.getValue(), valueMap);
+        int style = parseMultipleName(attr.getValue(), nameValueMap);
         setTextStyle(view,style);
     }
 

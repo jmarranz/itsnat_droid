@@ -13,16 +13,16 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_gesture_GestureOverlayView_gestureStrokeType extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 2 );
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 2 );
     static
     {
-        valueMap.put("single", GestureOverlayView.GESTURE_STROKE_TYPE_SINGLE);
-        valueMap.put("multiple",GestureOverlayView.GESTURE_STROKE_TYPE_MULTIPLE);
+        nameValueMap.put("single", GestureOverlayView.GESTURE_STROKE_TYPE_SINGLE);
+        nameValueMap.put("multiple", GestureOverlayView.GESTURE_STROKE_TYPE_MULTIPLE);
     }
 
     public AttrDescView_gesture_GestureOverlayView_gestureStrokeType(ClassDescViewBased parent)
     {
-        super(parent,"gestureStrokeType",int.class,valueMap,"single");
+        super(parent,"gestureStrokeType",int.class, nameValueMap,"single");
     }
 
 }

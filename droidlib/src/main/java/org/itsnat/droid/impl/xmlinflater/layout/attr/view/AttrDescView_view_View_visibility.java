@@ -12,16 +12,16 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_view_View_visibility extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 3 );
     static
     {
-        valueMap.put("visible", View.VISIBLE);
-        valueMap.put("invisible",View.INVISIBLE);
-        valueMap.put("gone",View.GONE);
+        nameValueMap.put("visible", View.VISIBLE);
+        nameValueMap.put("invisible", View.INVISIBLE);
+        nameValueMap.put("gone", View.GONE);
     }
 
     public AttrDescView_view_View_visibility(ClassDescViewBased parent)
     {
-        super(parent,"visibility",int.class,valueMap,"visible");
+        super(parent,"visibility",int.class, nameValueMap,"visible");
     }
 }

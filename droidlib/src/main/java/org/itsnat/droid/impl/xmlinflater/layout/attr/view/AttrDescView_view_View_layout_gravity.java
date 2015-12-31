@@ -30,7 +30,7 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int valueInt = parseMultipleName(attr.getValue(), GravityUtil.valueMap);
+        final int valueInt = parseMultipleName(attr.getValue(), GravityUtil.nameValueMap);
 
         final PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
 

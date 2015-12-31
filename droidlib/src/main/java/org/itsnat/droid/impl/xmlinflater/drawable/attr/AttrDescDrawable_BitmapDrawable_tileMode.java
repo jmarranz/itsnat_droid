@@ -14,13 +14,13 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDesc<ClassDescDrawable,BitmapDrawable,AttrDrawableContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 4 );
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 4 );
     static
     {
-        valueMap.put("disabled", -1);
-        valueMap.put("clamp", 0);
-        valueMap.put("repeat",1);
-        valueMap.put("mirror",2);
+        nameValueMap.put("disabled", -1);
+        nameValueMap.put("clamp", 0);
+        nameValueMap.put("repeat", 1);
+        nameValueMap.put("mirror", 2);
     }
 
     public AttrDescDrawable_BitmapDrawable_tileMode(ClassDescDrawable parent, String name)
@@ -31,7 +31,7 @@ public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDesc<ClassDesc
     @Override
     public void setAttribute(BitmapDrawable target, DOMAttr attr, AttrDrawableContext attrCtx)
     {
-        int tileMode = AttrDesc.<Integer>parseSingleName(attr.getValue(), valueMap); // Valor concreto no puede ser un recurso
+        int tileMode = AttrDesc.<Integer>parseSingleName(attr.getValue(), nameValueMap); // Valor concreto no puede ser un recurso
 
         Shader.TileMode tileModeObj;
         if (tileMode != -1)

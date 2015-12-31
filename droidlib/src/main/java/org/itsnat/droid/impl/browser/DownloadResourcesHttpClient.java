@@ -4,7 +4,6 @@ import android.content.res.AssetManager;
 import android.os.AsyncTask;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 

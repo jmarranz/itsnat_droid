@@ -13,18 +13,18 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_widget_GridView_stretchMode extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(4);
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create(4);
     static
     {
-        valueMap.put("none", GridView.NO_STRETCH);
-        valueMap.put("spacingWidth",GridView.STRETCH_SPACING);
-        valueMap.put("columnWidth",GridView.STRETCH_COLUMN_WIDTH);
-        valueMap.put("spacingWidthUniform",GridView.STRETCH_SPACING_UNIFORM);
+        nameValueMap.put("none", GridView.NO_STRETCH);
+        nameValueMap.put("spacingWidth", GridView.STRETCH_SPACING);
+        nameValueMap.put("columnWidth", GridView.STRETCH_COLUMN_WIDTH);
+        nameValueMap.put("spacingWidthUniform", GridView.STRETCH_SPACING_UNIFORM);
     }
 
     public AttrDescView_widget_GridView_stretchMode(ClassDescViewBased parent)
     {
-        super(parent,"stretchMode",int.class,valueMap,"columnWidth");
+        super(parent,"stretchMode",int.class, nameValueMap,"columnWidth");
     }
 
 }

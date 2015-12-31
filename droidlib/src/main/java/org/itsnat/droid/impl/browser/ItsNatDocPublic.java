@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.serveritsnat;
+package org.itsnat.droid.impl.browser;
 
 /**
  * Métodos llamados por el servidor pero ninguno público para el usuario

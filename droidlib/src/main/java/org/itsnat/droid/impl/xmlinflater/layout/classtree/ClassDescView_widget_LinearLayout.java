@@ -1,5 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
+import android.content.res.TypedArray;
+import android.view.ContextThemeWrapper;
+
+import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.OrientationUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_LinearLayout_baselineAlignedChildIndex;
@@ -12,14 +18,45 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
+import java.util.List;
+
 /**
  * Created by jmarranz on 30/04/14.
  */
 public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
 {
+    private static final int[] layoutParamsAttrs = new int[]{android.R.attr.layout_weight,android.R.attr.layout_gravity};
+    private static final String[] layoutParamsNames = new String[] {"layout_weight","layout_gravity"};
+
     public ClassDescView_widget_LinearLayout(ClassDescViewMgr classMgr,ClassDescView_view_ViewGroup parentClass)
     {
         super(classMgr,"android.widget.LinearLayout",parentClass);
+    }
+
+    public static void getLinearLayoutLayoutParamsFromStyleId(int styleId, List<DOMAttr> styleLayoutParamsAttribs, ContextThemeWrapper ctx)
+    {
+        if (styleId == 0) throw new ItsNatDroidException("Unexpected");
+
+        TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
+        for(int i = 0; i < layoutParamsAttrs.length; i++)
+        {
+            String value = a.getString(i);
+            if (value == null)
+                continue;
+
+            String name = layoutParamsNames[i];
+
+            if ("layout_gravity".equals(name))
+                value = GravityUtil.getNameFromValue(value);
+
+            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
+            styleLayoutParamsAttribs.add(attr);
+        }
+
+        a.recycle();
+
+        // Llamamos a la clase base
+        ClassDescView_view_ViewGroup.getViewGroupMarginLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx);
     }
 
     @SuppressWarnings("unchecked")
@@ -33,9 +70,9 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
         // showDividers y dividerPadding atributos los he descubierto por casualidad en StackOverflow y resulta que son atributos NO documentados de LinearLayout (se ven en el código fuente)
         addAttrDescAN(new AttrDescView_widget_LinearLayout_showDividers(this));  // showDividers
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "dividerPadding", 0f));
-        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "start|top"));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.nameValueMap, "start|top"));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "measureWithLargestChild", "setMeasureWithLargestChildEnabled", false));
-        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "orientation", int.class, OrientationUtil.valueMap, "horizontal"));
+        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "orientation", int.class, OrientationUtil.nameValueMap, "horizontal"));
         addAttrDescAN(new AttrDescReflecMethodFloat(this, "weightSum", -1.0f));
     }
 }

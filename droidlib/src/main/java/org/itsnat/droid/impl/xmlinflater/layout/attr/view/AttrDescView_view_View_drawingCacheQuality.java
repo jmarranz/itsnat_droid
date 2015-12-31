@@ -12,17 +12,17 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_view_View_drawingCacheQuality extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 3 );
     static
     {
-        valueMap.put("auto", View.DRAWING_CACHE_QUALITY_AUTO);
-        valueMap.put("low",View.DRAWING_CACHE_QUALITY_LOW);
-        valueMap.put("high",View.DRAWING_CACHE_QUALITY_HIGH);
+        nameValueMap.put("auto", View.DRAWING_CACHE_QUALITY_AUTO);
+        nameValueMap.put("low", View.DRAWING_CACHE_QUALITY_LOW);
+        nameValueMap.put("high", View.DRAWING_CACHE_QUALITY_HIGH);
     }
 
     public AttrDescView_view_View_drawingCacheQuality(ClassDescViewBased parent)
     {
-        super(parent,"drawingCacheQuality",int.class,valueMap,"auto");
+        super(parent,"drawingCacheQuality",int.class, nameValueMap,"auto");
     }
 
 }

@@ -1,5 +1,8 @@
 package org.itsnat.droid.impl.util;
 
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Created by Jose on 09/11/2015.
  */
@@ -11,7 +14,13 @@ public class MapSmartArray<Key,Value> extends MapSmart<Key,Value>
     {
         this.map = new MapLight<Key,Value>(items);
     }
-    
+
+    @Override
+    public Iterator<Map.Entry<Key,Value>> iterator()
+    {
+        return map.iterator();
+    }
+
     @Override
     public Value get(Key o)
     {

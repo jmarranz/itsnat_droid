@@ -52,19 +52,19 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
         addAttrDescAN(new AttrDescReflecMethodColor(this, "endColor", 0));
         addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius", new PercFloat(0.5f)));
         addAttrDescAN(new AttrDescReflecMethodColor(this, "startColor", 0));
-        addAttrDescAN(new AttrDescReflecMethodNameSingle<Integer, ClassDescDrawable, GradientDrawableItemGradient, AttrDrawableContext>(this, "type", int.class, GradientTypeUtil.valueMap, "linear"));
+        addAttrDescAN(new AttrDescReflecMethodNameSingle<Integer, ClassDescDrawable, GradientDrawableItemGradient, AttrDrawableContext>(this, "type", int.class, GradientTypeUtil.nameValueMap, "linear"));
         addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescDrawable, GradientDrawableItemGradient, AttrDrawableContext>(this, "useLevel", false));
     }
 
     public static class GradientTypeUtil
     {
 
-        public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(3);
+        public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create(3);
         static
         {
-            valueMap.put("linear", GradientDrawable.LINEAR_GRADIENT);
-            valueMap.put("radial", GradientDrawable.RADIAL_GRADIENT);
-            valueMap.put("sweep",  GradientDrawable.SWEEP_GRADIENT);
+            nameValueMap.put("linear", GradientDrawable.LINEAR_GRADIENT);
+            nameValueMap.put("radial", GradientDrawable.RADIAL_GRADIENT);
+            nameValueMap.put("sweep", GradientDrawable.SWEEP_GRADIENT);
         }
     }
 

@@ -27,6 +27,11 @@ public class MapLight<Key,Value>
         this.list = new ArrayList<Map.Entry<Key,Value>>(initialCap);
     }
 
+    public Iterator<Map.Entry<Key,Value>> iterator()
+    {
+        return list.iterator();
+    }
+
     public Value get(Key key)
     {
         int size = list.size();

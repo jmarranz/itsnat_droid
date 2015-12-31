@@ -1,9 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
-import android.content.Context;
 import android.content.res.TypedArray;
+import android.view.ContextThemeWrapper;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -13,11 +12,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_ViewGroup_descendantFocusability;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_ViewGroup_layoutAnimation;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_ViewGroup_persistentDrawingCache;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_margin;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginBottom;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginLeft;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginRight;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_marginTop;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 import java.util.List;
@@ -27,26 +21,33 @@ import java.util.List;
  */
 public class ClassDescView_view_ViewGroup extends ClassDescViewBased
 {
+    private static final int[] layoutParamsAttrs = new int[]{android.R.attr.layout_width,android.R.attr.layout_height}; // android.R.attr.layout_width etc pre-existen en Android, de otra manera habría que declararlos como <declare-styleable>
+    private static final String[] layoutParamsNames = new String[] {"layout_width","layout_height"};
+
+    private static final int[] marginLayoutParamsAttrs = new int[]{android.R.attr.layout_marginBottom,android.R.attr.layout_marginLeft,android.R.attr.layout_marginTop,
+                                                                    android.R.attr.layout_marginRight,android.R.attr.layout_margin};
+    private static final String[] marginlayoutParamsNames = new String[] {"layout_marginBottom","layout_marginLeft","layout_marginTop",
+                                                                    "layout_marginRight","layout_margin"};
+
     public ClassDescView_view_ViewGroup(ClassDescViewMgr classMgr, ClassDescView_view_View parentClass)
     {
         super(classMgr,"android.view.ViewGroup",parentClass);
     }
 
-    public static void getViewGroupLayoutParamsFromStyleId(int styleId, ViewGroup.LayoutParams layoutParams, List<DOMAttr> styleLayoutParamsAttribs, Context ctx)
+    public static void getViewGroupLayoutParamsFromStyleId(int styleId, List<DOMAttr> styleLayoutParamsAttribs, ContextThemeWrapper ctx)
     {
         if (styleId == 0) throw new ItsNatDroidException("Unexpected");
 
-        int[] attrs = new int[]{android.R.attr.layout_width,android.R.attr.layout_height}; // android.R.attr.layout_width etc pre-existing en Android, de otra manera habría que declararlos como <declare-styleable>
-        String[] names = new String[] {"layout_width","layout_height"};
-        TypedArray a = ctx.obtainStyledAttributes(styleId, attrs);
+
+        TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         // Esperamos 2 resultados aunque no existan, si se utilizara a.getValue(index,outValue) el type del TypedValue outValue sería TypedValue.TYPE_NULL
-        for(int i = 0; i < attrs.length; i++)
+        for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
             String value = a.getString(i);
             if (value == null)
                 continue;
 
-            String name = names[i];
+            String name = layoutParamsNames[i];
             if (value.equals("" + ViewGroup.LayoutParams.MATCH_PARENT))
                 value = "match_parent";
             else if (value.equals("" + ViewGroup.LayoutParams.WRAP_CONTENT))
@@ -58,28 +59,31 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
         }
 
         a.recycle();
+
+        // No hay clase base
     }
 
-    public static void getViewGroupMarginLayoutParamsFromStyleId(int styleId,ViewGroup.MarginLayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,Context ctx)
+    public static void getViewGroupMarginLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
         if (styleId == 0) throw new ItsNatDroidException("Unexpected");
 
-        int[] attrs = new int[]{android.R.attr.layout_marginBottom,android.R.attr.layout_marginLeft,android.R.attr.layout_marginTop,android.R.attr.layout_marginRight,android.R.attr.layout_margin};
-        String[] names = new String[] {"layout_marginBottom","layout_marginLeft","layout_marginTop","layout_marginRight","layout_margin"};
-        TypedArray a = ctx.obtainStyledAttributes(styleId, attrs);
-        for(int i = 0; i < attrs.length; i++)
+        TypedArray a = ctx.obtainStyledAttributes(styleId, marginLayoutParamsAttrs);
+        for(int i = 0; i < marginLayoutParamsAttrs.length; i++)
         {
             String value = a.getString(i);
             if (value == null)
                 continue;
 
-            String name = names[i];
+            String name = marginlayoutParamsNames[i];
 
             DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
             styleLayoutParamsAttribs.add(attr);
         }
 
         a.recycle();
+
+        // Llamamos a la clase base
+        getViewGroupLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs,ctx);
     }
 
 

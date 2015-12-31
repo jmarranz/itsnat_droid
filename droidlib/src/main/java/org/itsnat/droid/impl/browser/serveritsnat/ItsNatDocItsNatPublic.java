@@ -5,13 +5,14 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.itsnat.droid.event.UserEvent;
+import org.itsnat.droid.impl.browser.ItsNatDocPublic;
 
 /**
  * Métodos llamados por el servidor pero ninguno público para el usuario
  *
  * Created by jmarranz on 8/07/14.
  */
-public interface ItsNatDocItsNatPublic
+public interface ItsNatDocItsNatPublic extends ItsNatDocPublic
 {
     public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType,boolean eventsEnabled);
 
@@ -92,5 +93,4 @@ public interface ItsNatDocItsNatPublic
     public void sendAttachCometTaskRefresh(String listenerId,int commMode,long timeout);
     public void addAttachUnloadListener(int commMode);
 
-    public void downloadScript(String src);
 }

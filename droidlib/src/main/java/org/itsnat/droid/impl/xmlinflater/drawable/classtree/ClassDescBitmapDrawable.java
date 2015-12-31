@@ -57,7 +57,7 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "antialias", "setAntiAlias", false));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "dither", true));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "filter", "setFilterBitmap", true));
-        addAttrDescAN(new AttrDescReflecMethodNameMultiple<ClassDescBitmapDrawable, BitmapDrawable, AttrDrawableContext>(this, "gravity", GravityUtil.valueMap, "fill"));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple<ClassDescBitmapDrawable, BitmapDrawable, AttrDrawableContext>(this, "gravity", GravityUtil.nameValueMap, "fill"));
         // android:mipMap parece que es level 17
         // android:src se procesa en tiempo de creación
         addAttrDescAN(new AttrDescDrawable_BitmapDrawable_tileMode(this, "tileMode"));

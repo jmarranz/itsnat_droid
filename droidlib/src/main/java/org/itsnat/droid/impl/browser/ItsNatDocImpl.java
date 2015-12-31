@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.serveritsnat;
+package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,12 +15,10 @@ import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.Page;
-import org.itsnat.droid.impl.browser.DownloadResourcesHttpClient;
-import org.itsnat.droid.impl.browser.GenericHttpClientImpl;
-import org.itsnat.droid.impl.browser.HttpUtil;
-import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.PageItsNatImpl;
-import org.itsnat.droid.impl.browser.PageNotItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
+import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocNotItsNatImpl;
+import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.UINotification;

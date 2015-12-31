@@ -1,18 +1,52 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
+import android.content.res.TypedArray;
+import android.view.ContextThemeWrapper;
+
+import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TableLayout_collapseColumns;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TableLayout_shrinkColumns;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TableLayout_stretchColumns;
+
+import java.util.List;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
 public class ClassDescView_widget_TableLayout extends ClassDescViewBased
 {
+    private static final int[] layoutParamsAttrs = new int[] {android.R.attr.layout_column,android.R.attr.layout_span};
+    private static final String[] layoutParamsNames = new String[] {"layout_column","layout_span"};
+
     public ClassDescView_widget_TableLayout(ClassDescViewMgr classMgr, ClassDescView_widget_LinearLayout parentClass)
     {
         super(classMgr,"android.widget.TableLayout",parentClass);
+    }
+
+    public static void getTableRowLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
+    {
+        if (styleId == 0) throw new ItsNatDroidException("Unexpected");
+
+        TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
+        for(int i = 0; i < layoutParamsAttrs.length; i++)
+        {
+            String value = a.getString(i);
+            if (value == null)
+                continue;
+
+            String name = layoutParamsNames[i];
+
+            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
+            styleLayoutParamsAttribs.add(attr);
+        }
+
+        a.recycle();
+
+        // Llamamos a la clase base:
+        ClassDescView_widget_LinearLayout.getLinearLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
     }
 
     protected void init()

@@ -7,6 +7,8 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.impl.browser.DroidEventDispatcher;
+import org.itsnat.droid.impl.browser.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidInputEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;

@@ -113,7 +113,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
         // Es de traca pero android:dropDownSelector NO tiene implementación alguna en el código fuente
         addAttrDescAN(new AttrDescView_widget_Spinner_dropDownVerticalOffset(this));
         addAttrDescAN(new AttrDescReflecFieldSetDimensionWithNameIntRound(this, "dropDownWidth", "mDropDownWidth", "wrap_content"));
-        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "center"));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.nameValueMap, "center"));
         addAttrDescAN(new AttrDescView_widget_Spinner_popupBackground(this));
         addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "prompt", "")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
         // android:spinnerMode no es un atributo normal, se pasa por el constructor del objeto Spinner

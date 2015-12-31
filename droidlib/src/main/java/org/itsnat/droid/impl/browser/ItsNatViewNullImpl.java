@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.serveritsnat;
+package org.itsnat.droid.impl.browser;
 
 import android.view.View;
 

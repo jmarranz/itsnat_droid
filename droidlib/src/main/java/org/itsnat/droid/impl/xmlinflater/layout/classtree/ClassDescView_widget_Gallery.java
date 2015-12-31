@@ -23,7 +23,7 @@ public class ClassDescView_widget_Gallery extends ClassDescViewBased
         super.init();
 
         addAttrDescAN(new AttrDescReflecMethodInt(this, "animationDuration", 400));
-        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "left")); // No está claro que left sea el valor por defecto
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.nameValueMap, "left")); // No está claro que left sea el valor por defecto
         addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "spacing", 0f));
         addAttrDescAN(new AttrDescReflecMethodFloat(this, "unselectedAlpha", 0.5f));
 

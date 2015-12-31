@@ -13,16 +13,16 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_widget_GridLayout_alignmentMode extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 2 );
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 2 );
     static
     {
-        valueMap.put("alignBounds", GridLayout.ALIGN_BOUNDS);
-        valueMap.put("alignMargins",GridLayout.ALIGN_MARGINS);
+        nameValueMap.put("alignBounds", GridLayout.ALIGN_BOUNDS);
+        nameValueMap.put("alignMargins", GridLayout.ALIGN_MARGINS);
     }
 
     public AttrDescView_widget_GridLayout_alignmentMode(ClassDescViewBased parent)
     {
-        super(parent,"alignmentMode",int.class,valueMap,"alignMargins");
+        super(parent,"alignmentMode",int.class, nameValueMap,"alignMargins");
     }
 
 }

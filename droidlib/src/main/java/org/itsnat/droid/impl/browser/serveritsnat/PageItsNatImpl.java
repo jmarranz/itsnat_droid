@@ -1,8 +1,9 @@
-package org.itsnat.droid.impl.browser;
+package org.itsnat.droid.impl.browser.serveritsnat;
 
 import org.itsnat.droid.ItsNatSession;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.PageRequestImpl;
+import org.itsnat.droid.impl.browser.PageRequestResult;
 
 /**
  * Created by Jose on 11/12/2015.

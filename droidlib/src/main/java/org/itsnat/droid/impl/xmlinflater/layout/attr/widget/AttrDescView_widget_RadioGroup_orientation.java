@@ -20,7 +20,7 @@ public class AttrDescView_widget_RadioGroup_orientation extends AttrDescReflecMe
 {
     public AttrDescView_widget_RadioGroup_orientation(ClassDescView_widget_RadioGroup parent)
     {
-        super(parent,"orientation",int.class, OrientationUtil.valueMap,"vertical");
+        super(parent,"orientation",int.class, OrientationUtil.nameValueMap,"vertical");
 
         // Redefinimos el atributo method para cambiar el Class contenedor a LinearLayout pues setOrientation está ahí no en RadioGroup
         this.method = new MethodContainer(parent.getParentClassDescViewBased().getDeclaredClass(),

@@ -13,18 +13,18 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMul
  */
 public class AttrDescView_view_ViewGroup_persistentDrawingCache extends AttrDescReflecMethodNameMultiple<ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(4);
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create(4);
     static
     {
-        valueMap.put("none",ViewGroup.PERSISTENT_NO_CACHE);
-        valueMap.put("animation",ViewGroup.PERSISTENT_ANIMATION_CACHE);
-        valueMap.put("scrolling",ViewGroup.PERSISTENT_SCROLLING_CACHE);
-        valueMap.put("all",ViewGroup.PERSISTENT_ALL_CACHES);
+        nameValueMap.put("none", ViewGroup.PERSISTENT_NO_CACHE);
+        nameValueMap.put("animation", ViewGroup.PERSISTENT_ANIMATION_CACHE);
+        nameValueMap.put("scrolling", ViewGroup.PERSISTENT_SCROLLING_CACHE);
+        nameValueMap.put("all", ViewGroup.PERSISTENT_ALL_CACHES);
     }
 
     public AttrDescView_view_ViewGroup_persistentDrawingCache(ClassDescViewBased parent)
     {
-        super(parent,"persistentDrawingCache",valueMap,"scrolling");
+        super(parent,"persistentDrawingCache", nameValueMap,"scrolling");
     }
 
 }

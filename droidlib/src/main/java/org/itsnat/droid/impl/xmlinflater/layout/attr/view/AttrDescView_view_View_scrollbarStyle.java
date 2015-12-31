@@ -12,18 +12,18 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_view_View_scrollbarStyle extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 4 );
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 4 );
     static
     {
-        valueMap.put("insideOverlay", View.SCROLLBARS_INSIDE_OVERLAY);
-        valueMap.put("insideInset",   View.SCROLLBARS_INSIDE_INSET);
-        valueMap.put("outsideOverlay",View.SCROLLBARS_OUTSIDE_OVERLAY);
-        valueMap.put("outsideInset",View.SCROLLBARS_OUTSIDE_INSET);
+        nameValueMap.put("insideOverlay", View.SCROLLBARS_INSIDE_OVERLAY);
+        nameValueMap.put("insideInset", View.SCROLLBARS_INSIDE_INSET);
+        nameValueMap.put("outsideOverlay", View.SCROLLBARS_OUTSIDE_OVERLAY);
+        nameValueMap.put("outsideInset", View.SCROLLBARS_OUTSIDE_INSET);
     }
 
     public AttrDescView_view_View_scrollbarStyle(ClassDescViewBased parent)
     {
-        super(parent,"scrollbarStyle","setScrollBarStyle",int.class,valueMap,"insideOverlay");
+        super(parent,"scrollbarStyle","setScrollBarStyle",int.class, nameValueMap,"insideOverlay");
     }
 
 }

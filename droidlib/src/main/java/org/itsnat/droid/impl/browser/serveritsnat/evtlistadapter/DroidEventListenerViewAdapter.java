@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter;
 
-import org.itsnat.droid.impl.browser.serveritsnat.DroidEventDispatcher;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.DroidEventDispatcher;
+import org.itsnat.droid.impl.browser.ItsNatViewImpl;
 
 /**
  * Created by jmarranz on 4/07/14.

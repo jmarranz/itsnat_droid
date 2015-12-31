@@ -8,8 +8,11 @@ import android.util.Xml;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -250,7 +253,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     private void addViewObject(ViewGroup viewParent,View view,int index,PendingViewPostCreateProcess pendingViewPostCreateProcess)
     {
-        setLayoutParams(viewParent, view, pendingViewPostCreateProcess);
+        pendingViewPostCreateProcess.executePendingLayoutParamsTasks(); // Aquí ya definimos los atributos para los LayoutParams inmediatamente antes de añadir al View padre que es más o menos lo que se hace en addView antes de añadir al padre y después de definir el LayoutParams del View via generateDefaultLayoutParams(AttributeSet)
 
         if (viewParent != null) // Si es null es el caso de root view
         {
@@ -261,46 +264,19 @@ public class ClassDescViewBased extends ClassDesc<View>
         pendingViewPostCreateProcess.executePendingPostAddViewTasks(); // Aunque sea el root lo llamamos pues de otra manera podemos dejar alguna acción sin ejecutar
     }
 
-    private void setLayoutParams(ViewGroup viewParent,View view,PendingViewPostCreateProcess pendingViewPostCreateProcess)
-    {
-        if (viewParent != null)
-        {
-//           AttributeSet layoutAttrDefault = readAttributeSetLayout(ctx, R.layout.layout_params); // No se puede cachear el AttributeSet, ya lo he intentado
-//            ViewGroup.LayoutParams params = viewParent.generateLayoutParams(layoutAttrDefault);
-
-            if (view.getLayoutParams() != null) throw new ItsNatDroidException("Unexpected");
-
-            ViewGroup.LayoutParams params = methodGenerateLP.invoke(viewParent);
-            view.setLayoutParams(params);
-        }
-        else
-        {
-            // Esto ocurre con el View root del layout porque hasta el final no podemos insertarlo en el ViewGroup contenedor que nos ofrece Android por ej en la Actividad, no creo que sea necesario algo diferente a un ViewGroup.LayoutParams
-            // aunque creo que no funciona el poner valores concretos salvo el match_parent que afortunadamente es el único que interesa para un View root que se inserta.
-            if (view.getLayoutParams() == null)
-            {
-                ViewGroup.LayoutParams params = createDefaultLayoutParams();
-                view.setLayoutParams(params);
-            }
-        }
-
-        pendingViewPostCreateProcess.executePendingLayoutParamsTasks(); // Aquí ya definimos los atributos para los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
-    }
-
-    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView, XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         Context ctx = xmlInflaterLayout.getContext();
 
-        ViewGroup.LayoutParams layoutParams = createDefaultLayoutParams();
+        ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(null);
         ArrayList<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
         View rootView = createViewObject(rootDOMElemView,layoutParams,styleLayoutParamsAttribs, pendingPostInsertChildrenTasks,ctx);
+        xmlInflaterLayout.getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
 
         rootView.setLayoutParams(layoutParams);
-
-        xmlInflaterLayout.getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
         fillAttributesAndAddView(rootView, null, rootDOMElemView,styleLayoutParamsAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
@@ -309,16 +285,16 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView,XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
-        // a setRootView(view); cuando viewParent es null "para reutilizar código"
         Context ctx = xmlInflaterLayout.getContext();
 
-        ViewGroup.LayoutParams layoutParams = viewParent.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(viewParent);
         ArrayList<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
         View view = createViewObject(domElemView, layoutParams, styleLayoutParamsAttribs, pendingPostInsertChildrenTasks, ctx);
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
+
+        view.setLayoutParams(layoutParams);
 
         fillAttributesAndAddView(view, viewParent, domElemView,styleLayoutParamsAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
@@ -328,15 +304,18 @@ public class ClassDescViewBased extends ClassDesc<View>
     private int findStyleAttribute(DOMElemView domElemView,Context ctx)
     {
         String value = domElemView.getStyleAttr();
-        if (value == null) return 0;
+        if (value == null)
+            return 0;
         return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
     public View createViewObject(DOMElemView domElemView,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         int idStyle = findStyleAttribute(domElemView, ctx);
-        getLayoutParamsFromStyleId(idStyle,layoutParams,styleLayoutParamsAttribs,ctx);
-        return createViewObject(domElemView, idStyle, pendingPostInsertChildrenTasks, ctx);
+        View view = createViewObject(domElemView, idStyle, pendingPostInsertChildrenTasks, ctx);
+        if (idStyle != 0)
+            getLayoutParamsFromStyleId(idStyle,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext());
+        return view;
     }
 
     protected View createViewObject(DOMElemView domElemView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
@@ -442,15 +421,18 @@ public class ClassDescViewBased extends ClassDesc<View>
     private int findStyleAttributeFromRemote(NodeToInsertImpl newChildToIn,Context ctx)
     {
         String value = findAttributeFromRemote(null, "style", newChildToIn);
-        if (value == null) return 0;
+        if (value == null)
+            return 0;
         return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
     private View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,ViewGroup.LayoutParams layoutParams,ArrayList<DOMAttr> styleLayoutParamsAttribs,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
         int idStyle = findStyleAttributeFromRemote(newChildToIn, ctx);
-        getLayoutParamsFromStyleId(idStyle,layoutParams,styleLayoutParamsAttribs,ctx);
-        return createViewObjectFromRemote(newChildToIn, idStyle, pendingPostInsertChildrenTasks, ctx);
+        View view = createViewObjectFromRemote(newChildToIn, idStyle, pendingPostInsertChildrenTasks, ctx);
+        if (idStyle != 0)
+            getLayoutParamsFromStyleId(idStyle,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext());
+        return view;
     }
 
     protected View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
@@ -461,24 +443,34 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
     {
-        ViewGroup.LayoutParams layoutParams = viewParent.getLayoutParams();
+        // viewParent es NO nulo, de otra manera el método se llamaría createRootView... pues el caso root lo tratamos siempre aparte
+
+        ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(viewParent);
         ArrayList<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
         View view = createViewObjectFromRemote(newChildToIn,layoutParams,styleLayoutParamsAttribs,pendingPostInsertChildrenTasks, ctx);
+        newChildToIn.setView(view); // No es necesariamente root
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
 
-        newChildToIn.setView(view);
+        view.setLayoutParams(layoutParams);
+
+        fillViewAttributesAndAddViewFromRemote(newChildToIn, viewParent, index, styleLayoutParamsAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+
+        return view;
+    }
+
+    private void fillViewAttributesAndAddViewFromRemote(NodeToInsertImpl newChildToIn, ViewGroup viewParent, int index, ArrayList<DOMAttr> styleLayoutParamsAttribs, XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    {
+        View view = newChildToIn.getView();
 
         PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(view, viewParent);
         AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
 
-        fillViewAttributesFromRemote(newChildToIn,styleLayoutParamsAttribs, attrCtx);
+        fillViewAttributesFromRemote(newChildToIn, styleLayoutParamsAttribs, attrCtx);
         addViewObject(viewParent, view, index, pendingViewPostCreateProcess);
 
         pendingViewPostCreateProcess.destroy();
-
-        return view;
     }
 
     private void fillViewAttributesFromRemote(NodeToInsertImpl newChildToIn,ArrayList<DOMAttr> styleLayoutParamsAttribs, AttrLayoutContext attrCtx)
@@ -503,30 +495,64 @@ public class ClassDescViewBased extends ClassDesc<View>
         attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
     }
 
-    public static void getLayoutParamsFromStyleId(int styleId,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,Context ctx)
+    public static void getLayoutParamsFromStyleId(int styleId,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
+        // ctx es el ContextThemeWrapper creado para pasar el style al View en creación, él conoce los atributos del style que se meten en el theme pues se pasó en el constructor, el Context padre NO conoce los atributos asociados al style
+
         // Este método es debido a que cuando usamos un atributo style podemos "incluir" indirectamente atributos destinados a objetos LayoutParams tal y como layout_width y layout_height
-        // el problema es que son nativos, Android los "extrae" y los añade al AttributeSet que es pasado al método generateDefaultLayoutParams, eso no lo podemmos hacer de forma tan fácil
-        // por lo que nosotros tenemos que extraerlos manualmente (si se usaron) y convertirlos en atributos normales DOMAttr
+        // el problema es que son internos y nativos, Android en compilación los "extrae" y los añade al AttributeSet que es pasado al método generateDefaultLayoutParams, eso no lo podemmos hacer de forma tan fácil
+        // por lo que nosotros tenemos que extraerlos manualmente (si se usaron en el style) y convertirlos en atributos normales DOMAttr
 
         // http://stackoverflow.com/questions/13719103/how-to-retrieve-style-attributes-programatically-from-styles-xml
 
-        if (styleId == 0) return;
-
-        ClassDescView_view_ViewGroup.getViewGroupLayoutParamsFromStyleId(styleId, layoutParams, styleLayoutParamsAttribs, ctx);
-
-        if (layoutParams instanceof ViewGroup.MarginLayoutParams)
-                ClassDescView_view_ViewGroup.getViewGroupMarginLayoutParamsFromStyleId(styleId, (ViewGroup.MarginLayoutParams)layoutParams, styleLayoutParamsAttribs, ctx);
+        if (styleId == 0) throw new ItsNatDroidException("Unexpected");
 
 
+        // El orden es importante, cada clase con instanceof debe estar ANTES que el instanceof de su clase base
 
-        //else if (layoutParams instanceof RelativeLayout.LayoutParams)
-        //    ClassDescView_widget_RelativeLayout.getRelativeLayoutLayoutParamsFromStyleId(styleId, (RelativeLayout.LayoutParams)layoutParams, styleLayoutParamsAttribs, ctx);
+        if (layoutParams instanceof TableRow.LayoutParams) // Clase base: LinearLayout.LayoutParams
+        {
+            ClassDescView_widget_TableLayout.getTableRowLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+        }
+        else if (layoutParams instanceof FrameLayout.LayoutParams) // Clase base: ViewGroup.MarginLayoutParams
+        {
+            ClassDescView_widget_FrameLayout.getFrameLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+        }
+        else if (layoutParams instanceof GridLayout.LayoutParams) // Clase base: ViewGroup.MarginLayoutParams
+        {
+            ClassDescView_widget_GridLayout.getGridLayoutLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx);
+        }
+        else if (layoutParams instanceof LinearLayout.LayoutParams) // Clase base: ViewGroup.MarginLayoutParams
+        {
+            ClassDescView_widget_LinearLayout.getLinearLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+        }
+        else if (layoutParams instanceof RelativeLayout.LayoutParams) // Clase base: ViewGroup.MarginLayoutParams
+        {
+            ClassDescView_widget_RelativeLayout.getRelativeLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+        }
+        else if (layoutParams instanceof ViewGroup.MarginLayoutParams) // Clase base: ViewGroup.LayoutParams
+        {
+            ClassDescView_view_ViewGroup.getViewGroupMarginLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx);
+        }
+        else // ViewGroup.LayoutParams
+        {
+            ClassDescView_view_ViewGroup.getViewGroupLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx);
+        }
+
     }
 
-    public static ViewGroup.LayoutParams createDefaultLayoutParams()
+    public static ViewGroup.LayoutParams generateDefaultLayoutParams(ViewGroup viewParent)
     {
-        return new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (viewParent == null)
+        {
+            // Esto ocurre con el View root del layout cuando no se ha suministrado un parent externo, hasta el final del inflado no podemos insertarlo en el ViewGroup contenedor que nos ofrece Android por ej en la actividad, no creo que sea necesario algo diferente a un ViewGroup.LayoutParams
+            // aunque creo que no funciona el poner valores concretos salvo el match_parent que afortunadamente es el único que interesa para un View root que se inserta.
+            return new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        else
+        {
+            return methodGenerateLP.invoke(viewParent);
+        }
     }
 
     protected static AttributeSet readAttributeSetLayout(Context ctx,int layoutId)

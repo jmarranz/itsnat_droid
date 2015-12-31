@@ -275,6 +275,7 @@ public class TestLocalLayout1
                     // Test style
                     assertEquals(compTextView.getPaddingLeft(), ValueUtil.dpToPixelIntRound(21.3f, res));
                     assertEquals(compTextView.getPaddingLeft(), parsedTextView.getPaddingLeft());
+
                     assertEquals(compTextView.getPaddingRight(), ValueUtil.dpToPixelIntRound(21.3f, res));
                     assertEquals(compTextView.getPaddingRight(), parsedTextView.getPaddingRight());
 

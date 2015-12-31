@@ -13,12 +13,12 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public class AttrDescView_view_View_layerType extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create( 3 );
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 3 );
     static
     {
-        valueMap.put("none", View.LAYER_TYPE_NONE);
-        valueMap.put("software",View.LAYER_TYPE_SOFTWARE);
-        valueMap.put("hardware",View.LAYER_TYPE_HARDWARE);
+        nameValueMap.put("none", View.LAYER_TYPE_NONE);
+        nameValueMap.put("software", View.LAYER_TYPE_SOFTWARE);
+        nameValueMap.put("hardware", View.LAYER_TYPE_HARDWARE);
     }
 
     public AttrDescView_view_View_layerType(ClassDescViewBased parent)
@@ -29,7 +29,7 @@ public class AttrDescView_view_View_layerType extends AttrDesc<ClassDescViewBase
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convertedValue = AttrDesc.<Integer>parseSingleName(attr.getValue(), valueMap);
+        int convertedValue = AttrDesc.<Integer>parseSingleName(attr.getValue(), nameValueMap);
 
         int layerType = convertedValue;
         view.setLayerType(layerType,null);

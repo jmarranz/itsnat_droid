@@ -11,9 +11,9 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
  */
 public class DOMPathResolverImpl implements DOMPathResolver
 {
-    protected ItsNatDocImpl itsNatDoc;
+    protected ItsNatDocItsNatImpl itsNatDoc;
 
-    public DOMPathResolverImpl(ItsNatDocImpl itsNatDoc)
+    public DOMPathResolverImpl(ItsNatDocItsNatImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
     }

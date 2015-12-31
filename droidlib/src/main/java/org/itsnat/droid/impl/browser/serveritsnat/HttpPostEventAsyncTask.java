@@ -92,7 +92,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 // Error del servidor, lo normal es que haya lanzado una excepción
-                ItsNatDocImpl itsNatDoc = eventSender.getItsNatDocItsNatImpl();
+                ItsNatDocItsNatImpl itsNatDoc = eventSender.getItsNatDocItsNatImpl();
                 itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
             }
             else throw exFinal;

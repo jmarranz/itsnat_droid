@@ -167,8 +167,10 @@ public class ClassDescView_view_View extends ClassDescViewBased
         // Debidos a LinearLayout.LayoutParams, FrameLayout.LayoutParams y GridLayout.LayoutParams
         addAttrDescAN(new AttrDescView_view_View_layout_gravity(this));
 
-        // Debidos a GridLayout.LayoutParams
+        // Debidos a GridLayout.LayoutParams, TableRow.LayoutParams
         addAttrDescAN(new AttrDescView_view_View_layout_column(this));
+
+        // Debidos a GridLayout.LayoutParams
         addAttrDescAN(new AttrDescView_view_View_layout_columnSpan(this));
         addAttrDescAN(new AttrDescView_view_View_layout_row(this));
         addAttrDescAN(new AttrDescView_view_View_layout_rowSpan(this));

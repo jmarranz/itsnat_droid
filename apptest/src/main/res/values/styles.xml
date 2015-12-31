@@ -26,6 +26,10 @@
         <item name="android:paddingRight">21.3dp</item>
     </style>
 
+    <style name="test_style_layout_below">
+        <item name="android:layout_below">@id/textViewTest1</item>
+    </style>
+
 
     <style name="spinner_style_test" parent="android:style/Widget.DeviceDefault.Light.Spinner">
         <item name="android:paddingLeft">21.3dp</item>

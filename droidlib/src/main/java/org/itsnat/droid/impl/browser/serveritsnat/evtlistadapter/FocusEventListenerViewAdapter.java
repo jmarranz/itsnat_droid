@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter;
 
 import android.view.View;
 
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidFocusEventImpl;
 
 /**

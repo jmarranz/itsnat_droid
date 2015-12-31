@@ -152,7 +152,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
     public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ClassDescViewBased classDesc = getClassDescViewBased(rootDOMElemView);
-        return classDesc.createRootViewObjectAndFillAttributes(rootDOMElemView,this,pendingPostInsertChildrenTasks);
+        return classDesc.createRootViewObjectAndFillAttributes(rootDOMElemView, this, pendingPostInsertChildrenTasks);
     }
 
     public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)

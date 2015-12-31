@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.serveritsnat;
+package org.itsnat.droid.impl.browser.servernotitsnat;
 
 import android.view.View;
 
@@ -6,7 +6,7 @@ import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.browser.PageNotItsNatImpl;
+import org.itsnat.droid.impl.browser.ItsNatDocImpl;
 
 /**
  * Created by jmarranz on 23/12/2015.

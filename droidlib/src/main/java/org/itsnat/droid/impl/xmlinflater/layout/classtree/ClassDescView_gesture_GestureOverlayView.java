@@ -36,7 +36,7 @@ public class ClassDescView_gesture_GestureOverlayView extends ClassDescViewBased
         addAttrDescAN(new AttrDescReflecMethodFloat(this, "gestureStrokeSquarenessThreshold", "setGestureStrokeSquarenessTreshold", 0.275f));  // Es necesario el nombre del método por un gazapo, falta la h de Threshold
         addAttrDescAN(new AttrDescView_gesture_GestureOverlayView_gestureStrokeType(this));
         addAttrDescAN(new AttrDescReflecMethodFloat(this, "gestureStrokeWidth", 12.0f)); // Sorprendetemente NO se admite dimensión (dp etc)
-        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "orientation", int.class, OrientationUtil.valueMap, "vertical"));
+        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "orientation", int.class, OrientationUtil.nameValueMap, "vertical"));
         addAttrDescAN(new AttrDescReflecMethodColor(this, "uncertainGestureColor", "#48FFFF00"));
 
 

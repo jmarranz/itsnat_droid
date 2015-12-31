@@ -25,11 +25,11 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
 {
     // Para el atributo clipOrientation
     // No podemos usar OrientationUtil porque los valores numéricos SON DIFERENTES (1 y 2 en vez de 0 y 1), hay que joderse con la falta de homogeneidad
-    private static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(2);
+    private static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create(2);
     static
     {
-        valueMap.put("horizontal", ClipDrawable.HORIZONTAL /* 1 */);
-        valueMap.put("vertical", ClipDrawable.VERTICAL /* 2 */);
+        nameValueMap.put("horizontal", ClipDrawable.HORIZONTAL /* 1 */);
+        nameValueMap.put("vertical", ClipDrawable.VERTICAL /* 2 */);
     }
 
     public ClassDescClipDrawable(ClassDescDrawableMgr classMgr)
@@ -50,10 +50,10 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
         //XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
         DOMAttr attrGravity = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "gravity");
-        int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.valueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
+        int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
 
         DOMAttr attrClipOrientation = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "clipOrientation");
-        int orientation = attrClipOrientation != null ? AttrDesc.<Integer>parseSingleName(attrClipOrientation.getValue(), valueMap) : ClipDrawable.HORIZONTAL; // Valor concreto no puede ser un recurso
+        int orientation = attrClipOrientation != null ? AttrDesc.<Integer>parseSingleName(attrClipOrientation.getValue(), nameValueMap) : ClipDrawable.HORIZONTAL; // Valor concreto no puede ser un recurso
 
         ClipDrawable drawable = new ClipDrawable(childDrawable,gravity,orientation);
 

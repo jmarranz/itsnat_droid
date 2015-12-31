@@ -22,7 +22,6 @@ public class CustomTextView extends CustomTextViewBase
     public CustomTextView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-
     }
 
     public CustomTextView(Context context, AttributeSet attrs, int defStyle)

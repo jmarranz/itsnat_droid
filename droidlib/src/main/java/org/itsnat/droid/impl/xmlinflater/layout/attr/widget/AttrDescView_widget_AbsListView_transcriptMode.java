@@ -13,17 +13,17 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSin
  */
 public class AttrDescView_widget_AbsListView_transcriptMode extends AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(3);
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create(3);
     static
     {
-        valueMap.put("disabled", AbsListView.TRANSCRIPT_MODE_DISABLED);
-        valueMap.put("normal",AbsListView.TRANSCRIPT_MODE_NORMAL);
-        valueMap.put("alwaysScroll",AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        nameValueMap.put("disabled", AbsListView.TRANSCRIPT_MODE_DISABLED);
+        nameValueMap.put("normal", AbsListView.TRANSCRIPT_MODE_NORMAL);
+        nameValueMap.put("alwaysScroll", AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
     }
 
     public AttrDescView_widget_AbsListView_transcriptMode(ClassDescViewBased parent)
     {
-        super(parent,"transcriptMode",int.class,valueMap,"disabled");
+        super(parent,"transcriptMode",int.class, nameValueMap,"disabled");
     }
 
 

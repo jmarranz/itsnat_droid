@@ -76,7 +76,7 @@
                 android:text="@string/hello_world2"
                 android:background="#dddddd"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_below="@id/textViewTest1" />
+                style="@style/test_style_layout_below" />
 
             <TextView
                 android:layout_width="wrap_content"

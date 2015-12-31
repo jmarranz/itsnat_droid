@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.util;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -12,6 +13,12 @@ public class MapSmartNormal<Key,Value> extends MapSmart<Key,Value>
 
     public MapSmartNormal()
     {
+    }
+
+    @Override
+    public Iterator<Map.Entry<Key,Value>> iterator()
+    {
+        return map.entrySet().iterator();
     }
 
     @Override

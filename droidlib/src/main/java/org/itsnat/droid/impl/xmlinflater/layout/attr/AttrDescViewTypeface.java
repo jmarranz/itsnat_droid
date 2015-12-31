@@ -15,13 +15,13 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public abstract class AttrDescViewTypeface extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static final MapSmart<String,Integer> valueMap = MapSmart.<String,Integer>create(4);
+    public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create(4);
     static
     {
-        valueMap.put("normal",    0 );
-        valueMap.put("sans",      1 );
-        valueMap.put("serif",     2 );
-        valueMap.put("monospace", 3 );
+        nameValueMap.put("normal", 0);
+        nameValueMap.put("sans", 1);
+        nameValueMap.put("serif", 2);
+        nameValueMap.put("monospace", 3);
     }
 
     public AttrDescViewTypeface(ClassDescViewBased parent, String name)
@@ -33,7 +33,7 @@ public abstract class AttrDescViewTypeface extends AttrDesc<ClassDescViewBased,V
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         Typeface tf = null; // El caso null
-        int convValue = AttrDesc.<Integer>parseSingleName(attr.getValue(), valueMap);
+        int convValue = AttrDesc.<Integer>parseSingleName(attr.getValue(), nameValueMap);
         switch(convValue)
         {
             case 0: tf = null;

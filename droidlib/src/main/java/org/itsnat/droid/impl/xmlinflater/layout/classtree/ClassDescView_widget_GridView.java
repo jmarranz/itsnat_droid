@@ -23,7 +23,7 @@ public class ClassDescView_widget_GridView extends ClassDescViewBased
         super.init();
 
         addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "columnWidth", null));
-        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.valueMap, "left"));
+        addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.nameValueMap, "left"));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "horizontalSpacing", 0f));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "numColumns", 1));
         addAttrDescAN(new AttrDescView_widget_GridView_stretchMode(this));
