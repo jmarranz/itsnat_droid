@@ -38,13 +38,23 @@ public class ClassDescView_widget_GridLayout extends ClassDescViewBased
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
-            String value = a.getString(i);
-            if (value == null)
+            if (!a.hasValue(i))
                 continue;
 
             String name = layoutParamsNames[i];
+
+            String value;
             if ("layout_gravity".equals(name))
-                value = GravityUtil.getNameFromValue(value); // Ej 0x30 | 0x50 => "top|bottom"
+            {
+                int valueInt = a.getInt(i,0);
+                value = GravityUtil.getNameFromValue(valueInt);
+            }
+            else
+            {
+                // Los demás atributos son enteros normales
+                value = a.getString(i);
+            }
+
 
             DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
             styleLayoutParamsAttribs.add(attr);

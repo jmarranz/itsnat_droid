@@ -43,9 +43,10 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
         // Esperamos 2 resultados aunque no existan, si se utilizara a.getValue(index,outValue) el type del TypedValue outValue sería TypedValue.TYPE_NULL
         for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
-            String value = a.getString(i);
-            if (value == null)
+            if (!a.hasValue(i))
                 continue;
+
+            String value = a.getString(i);
 
             String name = layoutParamsNames[i];
             if (value.equals("" + ViewGroup.LayoutParams.MATCH_PARENT))
@@ -70,9 +71,11 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
         TypedArray a = ctx.obtainStyledAttributes(styleId, marginLayoutParamsAttrs);
         for(int i = 0; i < marginLayoutParamsAttrs.length; i++)
         {
-            String value = a.getString(i);
-            if (value == null)
+            if (!a.hasValue(i))
                 continue;
+
+            // Nada especial, los atributos son dimensiones y getString devuelve el original ej 20dp
+            String value = a.getString(i);
 
             String name = marginlayoutParamsNames[i];
 

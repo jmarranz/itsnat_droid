@@ -36,15 +36,16 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
-            String value = a.getString(i);
-            if (value == null)
+            if (!a.hasValue(i))
                 continue;
+
+            int value = a.getInt(i,0);
 
             String name = layoutParamsNames[i];
             // Esperamos sólo name = "layout_gravity"
-            value = GravityUtil.getNameFromValue(value); // Ej 0x30 | 0x50 => "top|bottom"
+            String valueStr = GravityUtil.getNameFromValue(value); // Ej 0x30 | 0x50 => "top|bottom"
 
-            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,valueStr);
             styleLayoutParamsAttribs.add(attr);
         }
 

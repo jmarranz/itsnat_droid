@@ -33,9 +33,11 @@ public class ClassDescView_widget_TableLayout extends ClassDescViewBased
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
-            String value = a.getString(i);
-            if (value == null)
+            if (!a.hasValue(i))
                 continue;
+
+            // Nada especial, layout_column y layout_span son números enteros (no dimensiones)
+            String value = a.getString(i);
 
             String name = layoutParamsNames[i];
 

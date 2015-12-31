@@ -20,16 +20,20 @@
            <item name="android:background">#dddddd</item>
        </style> <!-- 25dp, 15dp -->
 
-
     <style name="test_style2">
         <item name="android:paddingLeft">21.3dp</item>
         <item name="android:paddingRight">21.3dp</item>
     </style>
 
+    <item name="test_layout_below_id" type="id">@id/textViewTest1</item>
+
     <style name="test_style_layout_below">
-        <item name="android:layout_below">@id/textViewTest1</item>
+        <item name="android:layout_below">@id/test_layout_below_id</item>
     </style>
 
+    <style name="test_style_layout_gravity">
+        <item name="android:layout_gravity">bottom|right</item>
+    </style>
 
     <style name="spinner_style_test" parent="android:style/Widget.DeviceDefault.Light.Spinner">
         <item name="android:paddingLeft">21.3dp</item>

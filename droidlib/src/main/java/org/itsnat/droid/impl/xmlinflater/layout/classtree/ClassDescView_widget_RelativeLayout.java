@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import android.content.res.TypedArray;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -41,9 +42,22 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
-            String value = a.getString(i); // Si es boolean devolverá "true" o "false" que es lo que queremos
-            if (value == null)
+            if (!a.hasValue(i))
                 continue;
+
+            // Los atributos son de dos tipos, o boolean o de tipo "id"
+            String value;
+            TypedValue outValue = a.peekValue(i);
+            if (outValue.type == TypedValue.TYPE_INT_BOOLEAN)
+            {
+                value = a.getString(i); // Devolverá "true" o "false" que es lo que queremos
+            }
+            else if (outValue.type == TypedValue.TYPE_STRING)
+            {
+                value = a.getString(i); // Devolverá "textViewTest1" si originalmente es "@id/textViewTest1" o también devolverá lo mismo aunque el original sea un "@id/test_layout_below_id" que referencie a un <item name="test_layout_below_id" type="id">@id/textViewTest1</item>, al final getString(int) devuelve el nombre último referenciado
+                value = "@+id/" + value; // Añadimos el "+" por prudencia
+            }
+            else throw new ItsNatDroidException("Unexpected");
 
             String name = layoutParamsNames[i];
 

@@ -325,7 +325,7 @@ public class TestLocalLayout1
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                    assertEquals(compTextView.getText(), "Hello world 3");
+                    assertEquals(compTextView.getText(), "Hello world 3!");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();

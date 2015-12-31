@@ -36,10 +36,10 @@
             android:textSize="15dp"
             android:background="#00ff00"/>
 
-        <!-- Test FrameLayout Attribs -->
+        <!-- Test FrameLayout and FrameLayout.LayoutParams Attribs -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30.3dp"
             android:foreground="#55ddffdd"
             android:foregroundGravity="top|left"
             android:measureAllChildren="true"
@@ -48,7 +48,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test FrameLayout Attribs"
-                android:background="#dddddd" />
+                android:background="#dddddd"
+                style="@style/test_style_layout_gravity"
+                /> <!-- style is android:layout_gravity="bottom|right" -->
         </FrameLayout>
 
         <TextView

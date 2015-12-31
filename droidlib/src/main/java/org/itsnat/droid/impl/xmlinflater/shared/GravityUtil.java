@@ -64,12 +64,18 @@ public class GravityUtil
     }
     */
 
+    /*
     public static String getNameFromValue(String value)
+    {
+        int valueInt = Integer.valueOf(value);
+        return getNameFromValue(valueInt);
+    }
+*/
+    public static String getNameFromValue(int valueInt)
     {
         // Ej 0x30 | 0x50 => "top|bottom"
         StringBuilder nameRes = new StringBuilder();
         boolean empty = true;
-        int valueInt = Integer.valueOf(value);
         for(Iterator<Map.Entry<String,Integer>> it = nameValueMap.iterator(); it.hasNext(); )
         {
             Map.Entry<String,Integer> entry = it.next();

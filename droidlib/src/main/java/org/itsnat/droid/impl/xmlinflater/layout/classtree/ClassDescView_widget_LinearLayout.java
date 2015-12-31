@@ -40,16 +40,24 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
-            String value = a.getString(i);
-            if (value == null)
+            if (!a.hasValue(i))
                 continue;
 
             String name = layoutParamsNames[i];
 
+            String value;
             if ("layout_gravity".equals(name))
-                value = GravityUtil.getNameFromValue(value);
+            {
+                int valueInt = a.getInt(i,0);
+                value = GravityUtil.getNameFromValue(valueInt);
+            }
+            else
+            {
+                // layout_weight es un entero normal no dimensión
+                value = a.getString(i);
+            }
 
-            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name, value);
             styleLayoutParamsAttribs.add(attr);
         }
 

@@ -169,6 +169,19 @@ public class TestLocalLayout2
             }
             assertTrue(compLayout.getMeasureAllChildren());
             assertEquals(compLayout.getMeasureAllChildren(), parsedLayout.getMeasureAllChildren());
+
+
+            {
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+                assertEquals(compTextView.getText(), "Test FrameLayout Attribs");
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                FrameLayout.LayoutParams compLP = (FrameLayout.LayoutParams)compTextView.getLayoutParams();
+                FrameLayout.LayoutParams parseLP = (FrameLayout.LayoutParams)parsedTextView.getLayoutParams();
+                assertEquals(compLP.gravity, Gravity.BOTTOM | Gravity.RIGHT);
+                assertEquals(compLP.gravity, parseLP.gravity);
+            }
         }
 
         // Test CalendarView Attribs
