@@ -155,6 +155,8 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
             @Override
             public void onError(Page page, Exception ex, HttpRequestResult response)
             {
+                ex.printStackTrace();
+
                 String responseText = response != null ? response.getResponseText() : null;
                 TestUtil.alertDialog(act, "User Msg: Failed HTTP request! \n" + responseText);
             }
@@ -173,10 +175,12 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     @Override
     public void onError(Exception ex,PageRequest pageRequest,HttpRequestResult response)
     {
+        ex.printStackTrace();
+
         TestActivity act = getTestActivity();
         Toast.makeText(act, "ERROR:" + ex.getMessage(), Toast.LENGTH_SHORT).show();
         //throw new RuntimeException(ex);
-        ex.printStackTrace();
+
         if (ex instanceof ItsNatDroidScriptException)
         {
             ItsNatDroidScriptException exScr = (ItsNatDroidScriptException) ex;
@@ -199,6 +203,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         TestActivity act = getTestActivity();
 
         ex.printStackTrace();
+
         StringBuilder msg = new StringBuilder();
         msg.append("User Msg: Event processing error");
         if (evt instanceof NormalEvent)

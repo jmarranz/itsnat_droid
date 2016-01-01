@@ -640,7 +640,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="10.3dp"
                 android:text="Test Margins 2"
                 android:background="#aaaaaa"/>
 

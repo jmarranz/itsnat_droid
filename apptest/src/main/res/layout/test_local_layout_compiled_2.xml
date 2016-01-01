@@ -48,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test FrameLayout Attribs"
+                android:textSize="15dp"
                 android:background="#dddddd"
                 style="@style/test_style_layout_gravity"
                 /> <!-- style is android:layout_gravity="bottom|right" -->

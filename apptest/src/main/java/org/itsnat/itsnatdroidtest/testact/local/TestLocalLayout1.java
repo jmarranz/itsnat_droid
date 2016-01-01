@@ -1489,25 +1489,46 @@ public class TestLocalLayout1
 
             LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
-            for(int i = 0; i < 2; i++)
+
             {
                 final TextView compTextView = (TextView) compLinLayout.getChildAt(0);
                 final TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
 
+                assertEquals(compTextView.getText(), "Test Margins 1");
                 assertEquals(compTextView.getText(), parsedTextView.getText());
-                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
 
-                ViewGroup.MarginLayoutParams a_params = (ViewGroup.MarginLayoutParams)compTextView.getLayoutParams();
-                ViewGroup.MarginLayoutParams b_params = (ViewGroup.MarginLayoutParams)parsedTextView.getLayoutParams();
+                ViewGroup.MarginLayoutParams a_params = (ViewGroup.MarginLayoutParams) compTextView.getLayoutParams();
+                ViewGroup.MarginLayoutParams b_params = (ViewGroup.MarginLayoutParams) parsedTextView.getLayoutParams();
 
-                assertEquals(a_params.topMargin,ValueUtil.dpToPixelIntRound(15.3f, res));
-                assertEquals(a_params.topMargin,b_params.topMargin);
-                assertEquals(a_params.leftMargin,ValueUtil.dpToPixelIntRound(10.3f, res));
-                assertEquals(a_params.leftMargin,b_params.leftMargin);
-                assertEquals(a_params.bottomMargin,ValueUtil.dpToPixelIntRound(5.3f, res));
-                assertEquals(a_params.bottomMargin,b_params.bottomMargin);
-                assertEquals(a_params.rightMargin,ValueUtil.dpToPixelIntRound(1.3f, res));
-                assertEquals(a_params.rightMargin,b_params.rightMargin);
+                assertEquals(a_params.topMargin, ValueUtil.dpToPixelIntRound(15.3f, res));
+                assertEquals(a_params.topMargin, b_params.topMargin);
+                assertEquals(a_params.leftMargin, ValueUtil.dpToPixelIntRound(10.3f, res));
+                assertEquals(a_params.leftMargin, b_params.leftMargin);
+                assertEquals(a_params.bottomMargin, ValueUtil.dpToPixelIntRound(5.3f, res));
+                assertEquals(a_params.bottomMargin, b_params.bottomMargin);
+                assertEquals(a_params.rightMargin, ValueUtil.dpToPixelIntRound(1.3f, res));
+                assertEquals(a_params.rightMargin, b_params.rightMargin);
+            }
+
+            {
+                final TextView compTextView = (TextView) compLinLayout.getChildAt(1);
+                final TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(1);
+
+                assertEquals(compTextView.getText(), "Test Margins 2");
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                ViewGroup.MarginLayoutParams a_params = (ViewGroup.MarginLayoutParams) compTextView.getLayoutParams();
+                ViewGroup.MarginLayoutParams b_params = (ViewGroup.MarginLayoutParams) parsedTextView.getLayoutParams();
+
+                int margin = ValueUtil.dpToPixelIntRound(10.3f, res);
+                assertEquals(a_params.topMargin, margin);
+                assertEquals(a_params.topMargin, b_params.topMargin);
+                assertEquals(a_params.leftMargin, margin);
+                assertEquals(a_params.leftMargin, b_params.leftMargin);
+                assertEquals(a_params.bottomMargin, margin);
+                assertEquals(a_params.bottomMargin, b_params.bottomMargin);
+                assertEquals(a_params.rightMargin, margin);
+                assertEquals(a_params.rightMargin, b_params.rightMargin);
             }
         }
 
