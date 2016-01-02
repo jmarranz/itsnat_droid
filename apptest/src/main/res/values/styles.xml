@@ -35,10 +35,10 @@
         <item name="android:layout_gravity">bottom|right</item>
     </style>
 
-    <style name="spinner_style_test" parent="android:style/Widget.DeviceDefault.Light.Spinner">
+    <style name="spinner_style_test" parent="android:Widget.Holo.Light.Spinner" >
         <item name="android:paddingLeft">21.3dp</item>
         <item name="android:paddingRight">21.3dp</item>
-    </style> <!-- android:style/Widget.DeviceDefault.Light.Spinner -->
+    </style> <!--   parent="android:style/Widget.DeviceDefault.Light.Spinner" http://stackoverflow.com/questions/30712235/spinner-dropdown-arrow -->
 
     <style name="text_appearance_test" parent="android:TextAppearance.DeviceDefault.Medium">
         <!-- http://stackoverflow.com/questions/5337680/using-androidtextappearance-on-textview-edittext-fails-but-style-works -->

@@ -1051,6 +1051,10 @@ public class TestLocalLayout1
                     // Ver notas de android:height, android:maxHeight
                     assertEquals(compLayout.getWidth(), ValueUtil.dpToPixelIntRound(200.3f, res));
                     assertEquals(compLayout.getWidth(), parsedLayout.getWidth());
+
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"), ValueUtil.dpToPixelIntRound(200.3f, res));
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"), (Integer)TestUtil.getField(parsedLayout, "mMaxWidth"));
+
                 }
             });
 
@@ -1595,15 +1599,7 @@ public class TestLocalLayout1
 
             // Tests android:gravity (getGravity es Level 16)
             assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
-                }
-            });
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
 
             // Tests android:horizontalSpacing (getHorizontalSpacing es Level 16):
             assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),ValueUtil.dpToPixelIntFloor(5.3f, res));
@@ -1731,15 +1727,7 @@ public class TestLocalLayout1
             assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"), 100);
             assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"),(Integer)TestUtil.getField(parsedLayout, "mAnimationDuration"));
             assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL);
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
-                }
-            });
+            assertEquals((Integer) TestUtil.getField(compLayout, "mGravity"), (Integer) TestUtil.getField(parsedLayout, "mGravity"));
             assertEquals((Integer)TestUtil.getField(compLayout, "mSpacing"),ValueUtil.dpToPixelIntFloor(50.3f, res));
             assertEquals((Integer)TestUtil.getField(compLayout, "mSpacing"),(Integer)TestUtil.getField(parsedLayout, "mSpacing"));
             assertEquals((Float)TestUtil.getField(compLayout, "mUnselectedAlpha"), 0.6f);
@@ -1767,27 +1755,11 @@ public class TestLocalLayout1
             // Este atributo es difícil de testear pues se solapa con paddingLeft (definido en el style en este ejemplo) el cual suele imponer su valor
             // http://stackoverflow.com/questions/21503142/android-spinner-dropdownhorizontaloffset-not-functioning-but-dropdownverticleoff
             assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), ValueUtil.dpToPixelIntFloor(21.3f, res));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}));
-                }
-            });
+            assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}));
 
             // Tests android:dropDownVerticalOffset
-            assertPositive((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
-                }
-            });
+            assertEquals((Integer) TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}), ValueUtil.dpToPixelIntFloor(10.3f, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}), (Integer) TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
 
             // Tests android:dropDownWidth ( getDropDownWidth() es Level 16)
             assertEquals((Integer)TestUtil.getField(compLayout, "mDropDownWidth"),ValueUtil.dpToPixelIntRound(200.3f, res));
@@ -1795,15 +1767,7 @@ public class TestLocalLayout1
 
             // Tests android:gravity (no get en Level 15)
             assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
-                }
-            });
+            assertEquals((Integer) TestUtil.getField(compLayout, "mGravity"), (Integer) TestUtil.getField(parsedLayout, "mGravity"));
 
             // Tests android:popupBackground
             assertEquals(((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"})).getColor(), 0xffeeee55);

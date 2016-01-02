@@ -579,7 +579,7 @@ public class TestLocalLayout2
 
                     final GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
                     final GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    parsedTextView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                    parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
                     {
                         @Override
                         public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
@@ -621,7 +621,7 @@ public class TestLocalLayout2
                     // Testeamos via Specs los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
                     final GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
                     final GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    parsedTextView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                    parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
                     {
                         @Override
                         public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
@@ -892,15 +892,7 @@ public class TestLocalLayout2
             final RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             // Tests android:gravity (getGravity() es Level 16):
             assertEquals((Integer) TestUtil.getField(compLayout, "mGravity"), Gravity.BOTTOM | Gravity.RIGHT);
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer) TestUtil.getField(compLayout, "mGravity"), (Integer) TestUtil.getField(parsedLayout, "mGravity"));
-                }
-            });
+            assertEquals((Integer) TestUtil.getField(compLayout, "mGravity"), (Integer) TestUtil.getField(parsedLayout, "mGravity"));
 
             {
                 final TextView compTextView = (TextView) compLayout.getChildAt(0);
