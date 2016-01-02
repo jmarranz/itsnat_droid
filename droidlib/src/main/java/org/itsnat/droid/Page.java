@@ -21,6 +21,7 @@ public interface Page
     public ItsNatSession getItsNatSession();
     public UserData getUserData();
     public ItsNatDoc getItsNatDoc();
+    public void setOnScriptErrorListener(OnScriptErrorListener listener);
     public void setOnEventErrorListener(OnEventErrorListener listener);
     public void setOnServerStateLostListener(OnServerStateLostListener listener);
     public void setOnHttpRequestErrorListener(OnHttpRequestErrorListener listener);

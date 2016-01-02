@@ -12,9 +12,10 @@ public interface PageRequest
 {
     public PageRequest setContext(Context ctx);
     public PageRequest setBitmapDensityReference(int density);
-    public PageRequest setErrorMode(int errorMode);
+    public PageRequest setClientErrorMode(int errorMode);
     public PageRequest setOnPageLoadListener(OnPageLoadListener listener);
     public PageRequest setOnPageLoadErrorListener(OnPageLoadErrorListener listener);
+    public PageRequest setOnScriptErrorListener(OnScriptErrorListener listener);
     public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
     public PageRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener listener);
     public PageRequest addRequestProperty(String name, String value);

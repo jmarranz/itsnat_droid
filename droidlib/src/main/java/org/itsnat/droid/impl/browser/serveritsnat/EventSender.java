@@ -74,7 +74,7 @@ public class EventSender
         itsNatDoc.fireEventMonitors(false,false,evt);
 
         String responseText = result.getResponseText();
-        itsNatDoc.eval(responseText);
+        itsNatDoc.eval(responseText,evt);
 
         if (async) evtManager.returnedEvent(evt);
     }

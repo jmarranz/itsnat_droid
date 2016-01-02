@@ -13,6 +13,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
+import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
@@ -42,8 +43,9 @@ public class PageRequestImpl implements PageRequest
     protected int readTimeout;
     protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH;
     protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
-    protected OnPageLoadListener pageListener;
-    protected OnPageLoadErrorListener errorListener;
+    protected OnPageLoadListener pageLoadListener;
+    protected OnPageLoadErrorListener pageLoadErrorListener;
+    protected OnScriptErrorListener scriptErrorListener;
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected boolean sync = false;
@@ -70,8 +72,9 @@ public class PageRequestImpl implements PageRequest
         this.readTimeout = origin.readTimeout;
         this.bitmapDensityReference = origin.bitmapDensityReference;
         this.errorMode = origin.errorMode;
-        this.pageListener = origin.pageListener;
-        this.errorListener = origin.errorListener;
+        this.pageLoadListener = origin.pageLoadListener;
+        this.pageLoadErrorListener = origin.pageLoadErrorListener;
+        this.scriptErrorListener = origin.getOnScriptErrorListener();
         this.attrLayoutInflaterListener = origin.attrLayoutInflaterListener;
         this.attrDrawableInflaterListener = origin.attrDrawableInflaterListener;
         this.sync = origin.sync;
@@ -114,7 +117,7 @@ public class PageRequestImpl implements PageRequest
     }
 
     @Override
-    public PageRequest setErrorMode(int errorMode)
+    public PageRequest setClientErrorMode(int errorMode)
     {
         this.errorMode = errorMode;
         return this;
@@ -122,25 +125,37 @@ public class PageRequestImpl implements PageRequest
 
     public OnPageLoadListener getOnPageLoadListener()
     {
-        return pageListener;
+        return pageLoadListener;
     }
 
     @Override
     public PageRequest setOnPageLoadListener(OnPageLoadListener pageListener)
     {
-        this.pageListener = pageListener;
+        this.pageLoadListener = pageListener;
         return this;
     }
 
     public OnPageLoadErrorListener getOnPageLoadErrorListener()
     {
-        return errorListener;
+        return pageLoadErrorListener;
     }
 
     @Override
     public PageRequest setOnPageLoadErrorListener(OnPageLoadErrorListener errorListener)
     {
-        this.errorListener = errorListener;
+        this.pageLoadErrorListener = errorListener;
+        return this;
+    }
+
+    public OnScriptErrorListener getOnScriptErrorListener()
+    {
+        return scriptErrorListener;
+    }
+
+    @Override
+    public PageRequest setOnScriptErrorListener(OnScriptErrorListener listener)
+    {
+        this.scriptErrorListener = listener;
         return this;
     }
 

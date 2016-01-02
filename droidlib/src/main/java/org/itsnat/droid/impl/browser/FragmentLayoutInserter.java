@@ -102,28 +102,7 @@ public class FragmentLayoutInserter
             if (script instanceof DOMScriptInline)
             {
                 String code = script.getCode();
-                try
-                {
-                    interp.eval(code);
-                }
-                catch (EvalError ex)
-                {
-                    int errorMode = itsNatDoc.getClientErrorMode();
-                    if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
-                    {
-                        itsNatDoc.showErrorMessage(false, ex.getMessage());
-                    }
-                    else throw new ItsNatDroidScriptException(ex, code);
-                }
-                catch (Exception ex)
-                {
-                    int errorMode = itsNatDoc.getClientErrorMode();
-                    if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
-                    {
-                        itsNatDoc.showErrorMessage(false, ex.getMessage());
-                    }
-                    else throw new ItsNatDroidScriptException(ex, code);
-                }
+                itsNatDoc.eval(code);
             }
             else if (script instanceof DOMScriptRemote)
             {

@@ -18,6 +18,7 @@ import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
+import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
@@ -33,7 +34,7 @@ import bsh.EvalError;
 /**
  * Created by jmarranz on 13/08/14.
  */
-public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnEventErrorListener,
+public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnScriptErrorListener,OnEventErrorListener,
         AttrLayoutInflaterListener,AttrDrawableInflaterListener
 {
     public static final boolean TEST_SYNC_REQUESTS = false;
@@ -151,6 +152,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
             page.setOnEventErrorListener(this); // Comentar para testear el sistema de errores built-in
         }
 
+
         page.setOnHttpRequestErrorListener(new OnHttpRequestErrorListener(){
             @Override
             public void onError(Page page, Exception ex, HttpRequestResult response)
@@ -195,6 +197,15 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
             TestUtil.alertDialog(act, "User Msg: Server loaded content returned error: " + ex2.getMessage() + "\n" + ex2.getHttpRequestResult().getResponseText());
             Log.v("TestActivity", "RESPONSE:" + ex2.getHttpRequestResult().getResponseText());
         }
+    }
+
+    @Override
+    public void onError(String code, Exception ex, Object context)
+    {
+        ex.printStackTrace();
+
+        TestActivity act = getTestActivity();
+        TestUtil.alertDialog(act, "Error in Code: \n" + code + "\nContext:" + context);
     }
 
     @Override
@@ -268,6 +279,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH)
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
+        .setOnScriptErrorListener(this) // Comentar para ver el modo de error built-in
         .setAttrLayoutInflaterListener(this)
         .setAttrDrawableInflaterListener(this)
         .setConnectTimeout(getConnectionTimeout())

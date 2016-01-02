@@ -55,7 +55,7 @@ public class PageItsNatImpl extends PageImpl
         ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
         if (loadScript != null) // El caso null es cuando se devuelve un layout sin script inicial (layout sin scripting)
-            itsNatDoc.eval(loadScript);
+            itsNatDoc.eval(loadScript,this);
 
         if (getId() != null && itsNatDoc.isEventsEnabled()) // Es página generada por ItsNat con scripting y tiene los eventos enabled
             itsNatDoc.sendLoadEvent();

@@ -639,7 +639,7 @@ public class XMLInflateRegistry
                         if (viewParent != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server document for referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
 
                         // Por ahora no tengo ningún caso de uso de esto, quizás no deba de darse nunca
-                        itsNatDoc.eval(loadScript);
+                        itsNatDoc.eval(loadScript,rootView);
                     }
                 }
 

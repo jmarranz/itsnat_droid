@@ -42,7 +42,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     @Override
     public GenericHttpClient setClientErrorMode(int errorMode)
     {
-        setErrorModeNotFluid(errorMode);
+        setClientErrorModeNotFluid(errorMode);
         return this;
     }
 
@@ -51,7 +51,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         return errorMode;
     }
 
-    public void setErrorModeNotFluid(int errorMode)
+    public void setClientErrorModeNotFluid(int errorMode)
     {
         // if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS) throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
         this.errorMode = errorMode;

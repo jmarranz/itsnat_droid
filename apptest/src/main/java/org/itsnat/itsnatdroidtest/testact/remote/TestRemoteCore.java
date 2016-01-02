@@ -42,7 +42,8 @@ public class TestRemoteCore extends TestRemotePageBase
         .setSynchronous(TEST_SYNC_REQUESTS)
         .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH)
         .setOnPageLoadListener(this)
-        .setOnPageLoadErrorListener(this)
+        .setOnPageLoadErrorListener(this)  // Comentar para ver el modo de error built-in
+        .setOnScriptErrorListener(this)
         .setAttrLayoutInflaterListener(this)
         .setAttrDrawableInflaterListener(this)
         .setConnectTimeout(getConnectionTimeout())

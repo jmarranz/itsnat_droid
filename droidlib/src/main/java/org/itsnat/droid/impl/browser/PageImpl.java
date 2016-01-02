@@ -9,6 +9,7 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnHttpRequestErrorListener;
+import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
@@ -43,6 +44,7 @@ public abstract class PageImpl implements Page
     protected final String uniqueIdForInterpreter;
     protected final Interpreter interp;
     protected final ItsNatDocImpl itsNatDoc;
+    protected OnScriptErrorListener scriptErrorListener;
     protected OnEventErrorListener eventErrorListener;
     protected OnServerStateLostListener stateLostListener;
     protected OnHttpRequestErrorListener httpReqErrorListener;
@@ -53,6 +55,8 @@ public abstract class PageImpl implements Page
     {
         this.pageRequestCloned = pageRequestToClone.clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         this.pageReqResult = pageReqResult;
+
+        this.scriptErrorListener = pageRequestToClone.getOnScriptErrorListener();
 
         HttpRequestResultOKImpl httpReqResult = pageReqResult.getHttpRequestResultOKImpl();
 
@@ -87,7 +91,7 @@ public abstract class PageImpl implements Page
         methods.append("toast(value,duration){itsNatDoc.toast(value,duration);}");
         methods.append("toast(value){itsNatDoc.toast(value);}");
         methods.append("eval(code){itsNatDoc.eval(code);}");
-        itsNatDoc.eval(methods.toString());
+        itsNatDoc.eval(methods.toString(),this); // Rarísimo que de error
 
 
         InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(itsNatDroid,this);
@@ -106,7 +110,7 @@ public abstract class PageImpl implements Page
         {
             for (String code : scriptList)
             {
-                itsNatDoc.eval(code);
+                itsNatDoc.eval(code,this);
             }
         }
 
@@ -245,6 +249,17 @@ public abstract class PageImpl implements Page
     public void setOnEventErrorListener(OnEventErrorListener listener)
     {
         this.eventErrorListener = listener;
+    }
+
+    public OnScriptErrorListener getOnScriptErrorListener()
+    {
+        return scriptErrorListener;
+    }
+
+    @Override
+    public void setOnScriptErrorListener(OnScriptErrorListener listener)
+    {
+        this.scriptErrorListener = listener;
     }
 
     public OnServerStateLostListener getOnServerStateLostListener()

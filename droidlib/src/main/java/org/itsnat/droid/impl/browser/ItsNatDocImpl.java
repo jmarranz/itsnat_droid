@@ -14,6 +14,7 @@ import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnHttpRequestListener;
+import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
@@ -186,6 +187,11 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     @Override
     public void eval(String code)
     {
+        eval(code,null);
+    }
+
+    public void eval(String code,Object context)
+    {
         Interpreter interp = page.getInterpreter();
         try
         {
@@ -198,19 +204,37 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         }
         catch (EvalError ex)
         {
-            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            OnScriptErrorListener errorListener = getPageImpl().getOnScriptErrorListener();
+            if (errorListener != null)
             {
-                showErrorMessage(false, ex.getMessage());
+                errorListener.onError(code, ex, context);
             }
-            else throw new ItsNatDroidScriptException(ex, code);
+            else
+            {
+                int errorMode = getClientErrorMode();
+                if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                {
+                    showErrorMessage(false, ex.getMessage());
+                }
+                else throw new ItsNatDroidScriptException(ex, code);
+            }
         }
         catch (Exception ex)
         {
-            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            OnScriptErrorListener errorListener = getPageImpl().getOnScriptErrorListener();
+            if (errorListener != null)
             {
-                showErrorMessage(false, ex.getMessage());
+                errorListener.onError(code, ex, context);
             }
-            else throw new ItsNatDroidScriptException(ex, code);
+            else
+            {
+                int errorMode = getClientErrorMode();
+                if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                {
+                    showErrorMessage(false, ex.getMessage());
+                }
+                else throw new ItsNatDroidScriptException(ex, code);
+            }
         }
     }
 
@@ -315,7 +339,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
             @Override
             public void onRequest(Page page,HttpRequestResult response)
             {
-                eval(response.getResponseText());
+                eval(response.getResponseText(),page);
             }
         };
 

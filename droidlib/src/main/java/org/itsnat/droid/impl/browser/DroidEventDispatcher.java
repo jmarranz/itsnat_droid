@@ -4,6 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidScriptException;
+import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventDispatcherItsNat;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.eventfake.DroidEventFakeImpl;
@@ -72,21 +73,37 @@ public abstract class DroidEventDispatcher
         }
         catch (EvalError ex)
         {
-            int errorMode = itsNatDoc.getClientErrorMode();
-            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            OnScriptErrorListener errorListener = itsNatDoc.getPageImpl().getOnScriptErrorListener();
+            if (errorListener != null)
             {
-                itsNatDoc.showErrorMessage(false, ex.getMessage());
+                errorListener.onError(inlineCode,ex, event);
             }
-            else throw new ItsNatDroidScriptException(ex, inlineCode);
+            else
+            {
+                int errorMode = itsNatDoc.getClientErrorMode();
+                if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                {
+                    itsNatDoc.showErrorMessage(false, ex.getMessage());
+                }
+                else throw new ItsNatDroidScriptException(ex, inlineCode);
+            }
         }
         catch (Exception ex)
         {
-            int errorMode = itsNatDoc.getClientErrorMode();
-            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            OnScriptErrorListener errorListener = itsNatDoc.getPageImpl().getOnScriptErrorListener();
+            if (errorListener != null)
             {
-                itsNatDoc.showErrorMessage(false, ex.getMessage());
+                errorListener.onError(inlineCode, ex, event);
             }
-            else throw new ItsNatDroidScriptException(ex, inlineCode);
+            else
+            {
+                int errorMode = itsNatDoc.getClientErrorMode();
+                if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                {
+                    itsNatDoc.showErrorMessage(false, ex.getMessage());
+                }
+                else throw new ItsNatDroidScriptException(ex, inlineCode);
+            }
         }
     }
 }
