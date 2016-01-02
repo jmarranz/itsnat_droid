@@ -7,5 +7,5 @@ import org.itsnat.droid.event.Event;
  */
 public interface OnScriptErrorListener
 {
-    public void onError(String code,Exception ex,Object context);
+    public void onError(Page page, String code, Exception ex, Object context);
 }

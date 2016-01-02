@@ -58,7 +58,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
             if (errorListener != null)
             {
                 HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result.getHttpRequestResultOKImpl();
-                errorListener.onError(ex, pageRequest,resultError); // Para poder recogerla desde fuera
+                errorListener.onError(pageRequest, ex, resultError); // Para poder recogerla desde fuera
             }
             else
             {
@@ -78,7 +78,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
         if (errorListener != null)
         {
-            errorListener.onError(exFinal, pageRequest,result);
+            errorListener.onError(pageRequest, exFinal, result);
         }
         else
         {

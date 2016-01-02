@@ -315,7 +315,7 @@ public class PageRequestImpl implements PageRequest
             OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, this, httpReqResult); // Para poder recogerla desde fuera
+                errorListener.onError(this, ex, httpReqResult); // Para poder recogerla desde fuera
                 return;
             }
             else

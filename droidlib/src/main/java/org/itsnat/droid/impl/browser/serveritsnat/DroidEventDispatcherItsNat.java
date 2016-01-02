@@ -9,6 +9,7 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.DroidEventDispatcher;
 import org.itsnat.droid.impl.browser.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidInputEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
@@ -59,11 +60,12 @@ public class DroidEventDispatcherItsNat extends DroidEventDispatcher
                 // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatchEvent(String,InputEvent) nunca debería
                 // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
 
-                OnEventErrorListener errorListener = itsNatDoc.getPageImpl().getOnEventErrorListener();
+                PageImpl page = itsNatDoc.getPageImpl();
+                OnEventErrorListener errorListener = page.getOnEventErrorListener();
                 if (errorListener != null)
                 {
                     HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
-                    errorListener.onError(ex, evtWrapper,result);
+                    errorListener.onError(page, evtWrapper, ex, result);
                 }
                 else
                 {

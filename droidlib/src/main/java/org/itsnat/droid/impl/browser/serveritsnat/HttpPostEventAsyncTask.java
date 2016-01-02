@@ -61,11 +61,12 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         }
         catch(Exception ex)
         {
-            OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl().getOnEventErrorListener();
+            PageImpl page = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl();
+            OnEventErrorListener errorListener = page.getOnEventErrorListener();
             if (errorListener != null)
             {
                 HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
-                errorListener.onError(ex, evt,resultError);
+                errorListener.onError(page, evt, ex, resultError);
             }
             else
             {
@@ -82,10 +83,11 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
 
         ItsNatDroidException exFinal = eventSender.convertExceptionAndFireEventMonitors(evt, ex);
 
-        OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl().getOnEventErrorListener();
+        PageImpl page = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl();
+        OnEventErrorListener errorListener = page.getOnEventErrorListener();
         if (errorListener != null)
         {
-            errorListener.onError(exFinal, evt,result);
+            errorListener.onError(page, evt, exFinal, result);
         }
         else
         {

@@ -20,6 +20,7 @@ import org.itsnat.droid.impl.browser.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewNullImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientTimerRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientUnloadEventImpl;
@@ -853,10 +854,11 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
                     ItsNatDroidException exFinal = (ex instanceof ItsNatDroidException) ? (ItsNatDroidException)ex : new ItsNatDroidException(ex);
 
-                    OnEventErrorListener errorListener = getPageImpl().getOnEventErrorListener();
+                    PageImpl page = getPageImpl();
+                    OnEventErrorListener errorListener = page.getOnEventErrorListener();
                     if (errorListener != null)
                     {
-                        errorListener.onError(exFinal, evtWrapper,result);
+                        errorListener.onError(page, evtWrapper, exFinal, result);
                     }
                     else
                     {
@@ -995,11 +997,12 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
                 }
                 catch(Exception ex)
                 {
-                    OnEventErrorListener errorListener = getPageImpl().getOnEventErrorListener();
+                    PageImpl page = getPageImpl();
+                    OnEventErrorListener errorListener = page.getOnEventErrorListener();
                     if (errorListener != null)
                     {
                         HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
-                        errorListener.onError(ex, evtWrapper,resultError);
+                        errorListener.onError(page, evtWrapper, ex, resultError);
                     }
                     else
                     {

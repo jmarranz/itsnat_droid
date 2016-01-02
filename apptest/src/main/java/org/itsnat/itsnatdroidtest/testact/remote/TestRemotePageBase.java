@@ -175,7 +175,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     }
 
     @Override
-    public void onError(Exception ex,PageRequest pageRequest,HttpRequestResult response)
+    public void onError(PageRequest pageRequest, Exception ex, HttpRequestResult response)
     {
         ex.printStackTrace();
 
@@ -200,7 +200,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     }
 
     @Override
-    public void onError(String code, Exception ex, Object context)
+    public void onError(Page page,String code, Exception ex, Object context)
     {
         ex.printStackTrace();
 
@@ -209,7 +209,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     }
 
     @Override
-    public void onError(Exception ex, Event evt,HttpRequestResult response)
+    public void onError(Page page,Event evt, Exception ex, HttpRequestResult response)
     {
         TestActivity act = getTestActivity();
 

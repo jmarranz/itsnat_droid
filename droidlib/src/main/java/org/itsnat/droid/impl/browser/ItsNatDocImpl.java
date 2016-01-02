@@ -204,10 +204,11 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         }
         catch (EvalError ex)
         {
-            OnScriptErrorListener errorListener = getPageImpl().getOnScriptErrorListener();
+            PageImpl page = getPageImpl();
+            OnScriptErrorListener errorListener = page.getOnScriptErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(code, ex, context);
+                errorListener.onError(page, code, ex, context);
             }
             else
             {
@@ -221,10 +222,11 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         }
         catch (Exception ex)
         {
-            OnScriptErrorListener errorListener = getPageImpl().getOnScriptErrorListener();
+            PageImpl page = getPageImpl();
+            OnScriptErrorListener errorListener = page.getOnScriptErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(code, ex, context);
+                errorListener.onError(page, code, ex, context);
             }
             else
             {
