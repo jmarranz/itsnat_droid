@@ -3,6 +3,9 @@ package org.itsnat.droid.impl.xmlinflater.layout;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -63,28 +66,70 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
         initClassDesc();
     }
 
+    public ClassDescViewBased get(NodeToInsertImpl node)
+    {
+        String className = node.getName();
+        if ("view".equals(className))
+        {
+            DOMAttr classAttr = node.getAttribute(null,"class");
+            if (classAttr == null) throw new ItsNatDroidException("Expecified <view> but missing class attribute");
+            String classAttrValue = classAttr.getValue();
+            return get(className,classAttrValue);
+        }
+        return get(className,null);
+    }
+
+    public ClassDescViewBased get(DOMElemView domElemView)
+    {
+        String className = domElemView.getName();
+        if ("view".equals(className))
+        {
+            DOMAttr classAttr = domElemView.findDOMAttribute(null, "class");
+            if (classAttr == null) throw new ItsNatDroidException("Expecified <view> but missing class attribute");
+            String classAttrValue = classAttr.getValue();
+            return get(className,classAttrValue);
+        }
+        return get(className,null);
+    }
+
     @Override
     public ClassDescViewBased get(String className)
     {
-        ClassDescViewBased classDesc = classes.get(className);
-        if (classDesc != null)
-            return classDesc;
-        if (isSimpleClassName(className))
+        return get(className,null);
+    }
+
+    private ClassDescViewBased get(String className,String classAttrValue)
+    {
+        if (classAttrValue == null)
         {
-            for(String implicit : implicitImports)
+            ClassDescViewBased classDesc = classes.get(className);
+            if (classDesc != null)
+                return classDesc;
+            if (isSimpleClassName(className))
             {
-                String classNameCandidate = implicit + className;
-                classDesc = classes.get(classNameCandidate);
-                if (classDesc != null)
-                    return classDesc;
+                for (String implicit : implicitImports)
+                {
+                    String classNameCandidate = implicit + className;
+                    classDesc = classes.get(classNameCandidate);
+                    if (classDesc != null)
+                        return classDesc;
+                }
+                // Hay algún caso como CheckBox que no está registrado en ItsNat Droid porque NO tiene atributos específicos (la clase base sí), luego al llamarse a resolveClass() se intentará de nuevo cargar
+                // usando los implicit imports pues es posible que exista (puede ser un componente no existente en API 15 pero sí en superiores)
+                // También puede ser un custom view con package por defecto (sin package)
             }
-            // Fallará seguramente después pues es muy raro que usemos una custom view con clase en el package por defecto
         }
+        else if ("view".equals(className))
+        {
+            // Caso <view class="className">
+            className = classAttrValue;
+        }
+        else throw new ItsNatDroidException("Unexpected");
 
         Class<? extends View> nativeClass = null;
         try { nativeClass = resolveClass(className); }
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
-        classDesc = get(nativeClass);
+        ClassDescViewBased classDesc = get(nativeClass);
         return classDesc;
     }
 

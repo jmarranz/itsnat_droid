@@ -30,11 +30,21 @@ public class TestRemoteCore extends TestRemotePageBase
     {
         TestActivity act = getTestActivity();
 
-        boolean testSSLSelfSignedAllowed = false;
-        if (testSSLSelfSignedAllowed)
+        boolean testSSL = false;
+        boolean testSSLSelfSignedAllowed = true;
+        if (testSSL)
         {
-            droidBrowser.setSSLSelfSignedAllowed(true);
-            url = "https://www.pcwebshop.co.uk"; // Alternativa: https://mms.nw.ru
+            if (testSSLSelfSignedAllowed)
+            {
+                droidBrowser.setSSLSelfSignedAllowed(true);
+                url = "https://mms.nw.ru";
+                // url = "https://www.pcwebshop.co.uk";  ya no funciona?
+            }
+            else
+            {
+                droidBrowser.setSSLSelfSignedAllowed(false); // Idem valor por defecto
+                url = "https://www.google.com";
+            }
         }
 
         PageRequest pageRequest = droidBrowser.createPageRequest();

@@ -4,8 +4,6 @@ import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.ClientErrorMode;
-import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
@@ -20,7 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import bsh.EvalError;
 import bsh.Interpreter;
 
 /**

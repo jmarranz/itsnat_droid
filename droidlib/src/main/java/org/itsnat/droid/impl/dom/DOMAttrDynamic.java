@@ -99,7 +99,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
 
     public void setResource(Object resource)
     {
-        // Es llamado en multihilo en el caso de recurso remoto
+        // Es llamado en multihilo en el caso de recurso remoto (por eso es volatile)
         // No pasa nada porque se llame e inmediatamente después se cambie el valor, puede ocurrir que se esté procesando
         // el mismo atributo a la vez por dos hilos, ten en cuenta que el template puede estar cacheado y reutilizado, pero no pasa nada
         // porque el nuevo remoteResource NUNCA es null y es siempre el mismo recurso como mucho actualizado si ha cambiado

@@ -341,7 +341,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
             @Override
             public void onRequest(Page page,HttpRequestResult response)
             {
-                eval(response.getResponseText(),page);
+                eval(response.getResponseText());
             }
         };
 

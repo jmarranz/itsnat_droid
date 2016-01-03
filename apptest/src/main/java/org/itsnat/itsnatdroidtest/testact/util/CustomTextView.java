@@ -1,13 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.util;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
-
-import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflater.FieldContainer;
-import org.itsnat.itsnatdroidtest.R;
 
 /**
  * Created by jmarranz on 20/06/14.

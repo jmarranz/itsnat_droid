@@ -1,11 +1,8 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.graphics.Paint;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
@@ -21,7 +18,6 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.TransformationMethod;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +55,6 @@ import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
@@ -359,7 +353,18 @@ public class TestLocalLayout1
             final CustomTextView compCustomTextView = (CustomTextView) comp.getChildAt(childCount);
             final CustomTextView parsedCustomTextView = (CustomTextView) parsed.getChildAt(childCount);
 
-            assertEquals(compCustomTextView.getText(), "Custom View");
+            assertEquals(compCustomTextView.getText(), "Custom View 1");
+            assertEquals(compCustomTextView.getText(), parsedCustomTextView.getText());
+            assertEquals(compCustomTextView.getBackground(), parsedCustomTextView.getBackground());
+        }
+
+        {
+            childCount++;
+
+            final CustomTextView compCustomTextView = (CustomTextView) comp.getChildAt(childCount);
+            final CustomTextView parsedCustomTextView = (CustomTextView) parsed.getChildAt(childCount);
+
+            assertEquals(compCustomTextView.getText(), "Custom View 2");
             assertEquals(compCustomTextView.getText(), parsedCustomTextView.getText());
             assertEquals(compCustomTextView.getBackground(), parsedCustomTextView.getBackground());
         }

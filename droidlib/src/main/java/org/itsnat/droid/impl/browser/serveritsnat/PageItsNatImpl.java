@@ -10,8 +10,8 @@ import org.itsnat.droid.impl.browser.PageRequestResult;
  */
 public class PageItsNatImpl extends PageImpl
 {
-    protected final String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
-    protected ItsNatSessionImpl itsNatSession;
+    protected final String itsNatServerVersion;  // NO PUEDE SER NULL
+    protected ItsNatSessionImpl itsNatSession; // itsNatSession es null cuando la página no contiene script de inicialización aunque sea generada por ItsNat
     protected String clientId;
 
     public PageItsNatImpl(PageRequestImpl pageRequestToClone, PageRequestResult pageReqResult,String itsNatServerVersion)
@@ -55,7 +55,7 @@ public class PageItsNatImpl extends PageImpl
         ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
         if (loadScript != null) // El caso null es cuando se devuelve un layout sin script inicial (layout sin scripting)
-            itsNatDoc.eval(loadScript,this);
+            itsNatDoc.eval(loadScript);
 
         if (getId() != null && itsNatDoc.isEventsEnabled()) // Es página generada por ItsNat con scripting y tiene los eventos enabled
             itsNatDoc.sendLoadEvent();

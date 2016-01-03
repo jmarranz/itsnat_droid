@@ -82,9 +82,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public ClassDescViewBased getClassDescViewBased(DOMElemView domElemView)
     {
-        String viewName = domElemView.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
         ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflateRegistry().getClassDescViewMgr();
-        return classDescViewMgr.get(viewName);
+        return classDescViewMgr.get(domElemView);
     }
 
     private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index /*,ArrayList<DOMAttr> includeAttribs */)
@@ -199,8 +198,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
     {
         String className = rootViewChild.getClass().getName();
         XMLInflateRegistry xmlInflateRegistry = getInflatedLayoutImpl().getItsNatDroidImpl().getXMLInflateRegistry();
-
         ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(className);
+
         classDesc.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent,this,includeAttribs);
     }
 

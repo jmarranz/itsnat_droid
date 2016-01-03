@@ -85,13 +85,18 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         super(page,errorMode); // errorMode el valor inicial, será cambiado por el método init() (si hay scripting)
     }
 
+    public PageItsNatImpl getPageItsNatImpl()
+    {
+        return (PageItsNatImpl)page;
+    }
+
     @Override
     public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType,boolean eventsEnabled)
     {
         if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS)
             throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
 
-        ((PageItsNatImpl)page).setSessionIdAndClientId(stdSessionId, sessionToken, sessionId, clientId);
+        getPageItsNatImpl().setSessionIdAndClientId(stdSessionId, sessionToken, sessionId, clientId);
         this.itsNatServletPath = servletPath;
         this.errorMode = errorMode; // Modifica el valor inicial
         this.attachType = attachType;
@@ -179,7 +184,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
     public List<NameValue> genParamURL()
     {
-        PageItsNatImpl pageItsNat = (PageItsNatImpl)page;
+        PageItsNatImpl pageItsNat = getPageItsNatImpl();
         List<NameValue> paramList = new LinkedList<NameValue>();
         paramList.add(new NameValue("itsnat_client_id", pageItsNat.getId()));
         paramList.add(new NameValue("itsnat_session_token", pageItsNat.getItsNatSessionImpl().getToken()));
@@ -538,7 +543,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
         XMLInflaterLayoutPage xmlInflaterLayout = page.getXMLInflaterLayoutPage();
         XMLInflateRegistry xmlInflateRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
-        ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(newChildToIn.getName());
+        ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(newChildToIn);
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
         View view = classDesc.createViewObjectAndFillAttributesAndAddFromRemote((ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout, null, getContext());

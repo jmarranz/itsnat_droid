@@ -91,7 +91,7 @@ public abstract class PageImpl implements Page
         methods.append("toast(value,duration){itsNatDoc.toast(value,duration);}");
         methods.append("toast(value){itsNatDoc.toast(value);}");
         methods.append("eval(code){itsNatDoc.eval(code);}");
-        itsNatDoc.eval(methods.toString(),this); // Rarísimo que de error
+        itsNatDoc.eval(methods.toString()); // Rarísimo que de error
 
 
         InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(itsNatDroid,this);
@@ -110,7 +110,7 @@ public abstract class PageImpl implements Page
         {
             for (String code : scriptList)
             {
-                itsNatDoc.eval(code,this);
+                itsNatDoc.eval(code);
             }
         }
 

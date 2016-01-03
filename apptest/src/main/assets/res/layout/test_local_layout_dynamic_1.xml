@@ -97,7 +97,13 @@
         <org.itsnat.itsnatdroidtest.testact.util.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Custom View"
+            android:text="Custom View 1"
+            android:background="#ffdddd"/>
+
+        <view class="org.itsnat.itsnatdroidtest.testact.util.CustomTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Custom View 2"
             android:background="#ffdddd"/>
 
         <TextView
