@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -21,7 +21,7 @@ public class ClassDescColorDrawable extends ClassDescElementDrawableRoot<ColorDr
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         Drawable drawable = new ColorDrawable();
         return new ElementDrawableRoot(drawable);

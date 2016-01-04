@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
 
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemPadding;
@@ -27,7 +27,7 @@ public class ClassDescGradientDrawableItemPadding extends ClassDescElementDrawab
     }
 
     @Override
-    public ElementDrawableChild createElementDrawableChild(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
+    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
     {
         return new GradientDrawableItemPadding(parentChildDrawable);
     }

@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
@@ -35,7 +35,7 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
     }
 
     @Override
-    public ElementDrawableChild createElementDrawableChild(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
+    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
     {
         return new GradientDrawableItemGradient(parentChildDrawable);
     }

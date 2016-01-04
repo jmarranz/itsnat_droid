@@ -30,31 +30,6 @@ public abstract class DOMElement
         this.childList = toCopy.childList;
     }
 
-    public abstract DOMElement createDOMElement();
-
-    public DOMElement cloneButNotChildren()
-    {
-        DOMElement clone = createDOMElement();
-        clone(clone,false);
-        return clone;
-    }
-
-    protected void clone(DOMElement clone,boolean cloneChildren)
-    {
-        clone.name = name;
-        clone.parentElement = parentElement;
-        clone.attribs = attribs != null ? new ArrayList<DOMAttr>(attribs.size()) : null;
-        if (attribs != null)
-        {
-            for(DOMAttr attr : attribs)
-            {
-                DOMAttr attrClone = attr.cloneDOMAttr();
-                clone.attribs.add(attrClone);
-            }
-        }
-        if (cloneChildren)
-            throw new ItsNatDroidException("Not implemented");
-    }
 
     public String getName()
     {

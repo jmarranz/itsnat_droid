@@ -4,7 +4,7 @@ import android.content.res.AssetManager;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.dom.DOMElementDefault;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -63,6 +63,6 @@ public class XMLDOMDrawableParser extends XMLDOMParser
     @Override
     protected DOMElement createElement(String name,DOMElement parent)
     {
-        return new DOMElementDefault(name,parent);
+        return new DOMElemDrawable(name,(DOMElemDrawable)parent);
     }
 }

@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
@@ -38,7 +38,7 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 

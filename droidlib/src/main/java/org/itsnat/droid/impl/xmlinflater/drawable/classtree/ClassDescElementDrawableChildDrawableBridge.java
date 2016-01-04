@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
@@ -36,7 +36,7 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     }
 
     @Override
-    public ElementDrawableChild createElementDrawableChild(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
+    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
     {
         String name = domElement.getName();
         ClassDescElementDrawableRoot classDescBridgeRealTarget = (ClassDescElementDrawableRoot)getClassDescDrawableMgr().get(name);

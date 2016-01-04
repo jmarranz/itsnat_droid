@@ -55,7 +55,7 @@ public abstract class XMLDOM
         return namespacesByPrefix.get(prefix);
     }
 
-    public DOMElement getRootElement()
+    public DOMElement getRootDOMElement()
     {
         return rootElement;
     }

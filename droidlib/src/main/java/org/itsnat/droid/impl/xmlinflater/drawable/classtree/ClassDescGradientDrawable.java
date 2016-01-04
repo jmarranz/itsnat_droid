@@ -9,7 +9,7 @@ import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
@@ -99,7 +99,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 

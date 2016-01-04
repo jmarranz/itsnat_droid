@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
 
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.LevelListDrawableItem;
@@ -24,7 +24,7 @@ public class ClassDescLevelListDrawable extends ClassDescDrawableContainer<Level
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 

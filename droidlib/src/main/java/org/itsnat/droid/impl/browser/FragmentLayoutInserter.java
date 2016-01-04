@@ -64,7 +64,7 @@ public class FragmentLayoutInserter
 
         XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(),false, assetManager);
 
-        DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
+        DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootDOMElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
         LinkedList<DOMScript> scriptList = new LinkedList<DOMScript>();
 

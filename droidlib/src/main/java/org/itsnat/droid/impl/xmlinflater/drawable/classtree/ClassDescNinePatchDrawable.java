@@ -6,7 +6,7 @@ import android.graphics.drawable.NinePatchDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -25,7 +25,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
         // http://stackoverflow.com/questions/5079868/create-a-ninepatch-ninepatchdrawable-in-runtime

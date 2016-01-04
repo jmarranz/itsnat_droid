@@ -6,6 +6,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.dom.layout.DOMElemLayout;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
@@ -84,7 +85,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
             return new DOMElemMerge(name, null);
         }
         else
-            return new DOMElemView(name,parent);
+            return new DOMElemView(name,(DOMElemLayout)parent);
     }
 
     @Override
@@ -92,7 +93,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     {
         if (name.equals("script"))
         {
-            parseScriptElement(parser,parentElement, xmlDOM);
+            parseScriptElement(parser,xmlDOM);
             return null; // Ignorar porque "desaparece"
         }
         else return super.processElement(name,parentElement,parser, xmlDOM);
@@ -112,7 +113,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         return domAttr;
     }
 
-    protected void parseScriptElement(XmlPullParser parser, DOMElement parentElement,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected void parseScriptElement(XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         XMLDOMLayout domLayout = (XMLDOMLayout) xmlDOM;
 

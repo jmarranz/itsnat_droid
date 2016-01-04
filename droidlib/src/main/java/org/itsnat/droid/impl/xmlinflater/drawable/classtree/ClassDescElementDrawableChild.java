@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -24,5 +25,5 @@ public abstract class ClassDescElementDrawableChild<TelementDrawable extends Ele
     }
 
 
-    public abstract ElementDrawableChild createElementDrawableChild(DOMElement domElement, DOMElement domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx);
+    public abstract ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx);
 }

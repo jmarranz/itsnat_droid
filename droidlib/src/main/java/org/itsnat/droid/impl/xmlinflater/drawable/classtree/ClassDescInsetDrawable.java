@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
@@ -27,7 +27,7 @@ public class ClassDescInsetDrawable extends ClassDescDrawableWrapper<InsetDrawab
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 

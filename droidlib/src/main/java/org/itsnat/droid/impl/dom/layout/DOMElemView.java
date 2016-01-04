@@ -5,34 +5,20 @@ import org.itsnat.droid.impl.dom.DOMElement;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class DOMElemView extends DOMElement
+public class DOMElemView extends DOMElemLayout
 {
     protected String styleAttr;
 
-    public DOMElemView(String name, DOMElement parentElement)
+    public DOMElemView(String name, DOMElemLayout parentElement)
     {
         super(name,parentElement);
     }
 
-    public DOMElemView(DOMElement toCopy)
+    public DOMElemView(DOMElemLayout toCopy)
     {
         super(toCopy);
         if (toCopy instanceof DOMElemView)
             this.styleAttr = ((DOMElemView)toCopy).styleAttr;
-    }
-
-    @Override
-    protected void clone(DOMElement clone,boolean cloneChildren)
-    {
-        super.clone(clone,cloneChildren);
-
-        ((DOMElemView)clone).styleAttr = styleAttr;
-    }
-
-    @Override
-    public DOMElement createDOMElement()
-    {
-        return new DOMElemView(name,parentElement);
     }
 
     /*

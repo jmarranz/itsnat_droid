@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.dom.layout.DOMElemLayout;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -88,7 +89,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index /*,ArrayList<DOMAttr> includeAttribs */)
     {
-        DOMElement rootDOMView = xmlDOMLayout.getRootElement();
+        DOMElemLayout rootDOMView = (DOMElemLayout)xmlDOMLayout.getRootDOMElement();
 
         DOMElemView newRootDOMElemView;
         if (rootDOMView instanceof DOMElemMerge)
@@ -169,7 +170,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
             ViewGroup viewParentGroup = (ViewGroup)viewParent;
             for (DOMElement childDOMElem : childElemList)
             {
-                View childView = inflateNextView(childDOMElem,viewParentGroup,xmlDOMParent);
+                View childView = inflateNextView((DOMElemLayout)childDOMElem,viewParentGroup,xmlDOMParent);
             }
         }
     }
@@ -179,7 +180,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return inflateNextView(rootDOMElemViewFragment,null,xmlDOMParent);
     }
 
-    private View inflateNextView(DOMElement domElem, ViewGroup viewParent,XMLDOM xmlDOMParent)
+    private View inflateNextView(DOMElemLayout domElem, ViewGroup viewParent,XMLDOM xmlDOMParent)
     {
         // Es llamado también para insertar fragmentos
 

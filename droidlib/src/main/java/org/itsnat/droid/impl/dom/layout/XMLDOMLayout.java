@@ -19,7 +19,7 @@ public class XMLDOMLayout extends XMLDOM
     /*
     public DOMView getRootView()
     {
-        return (DOMView)getRootElement();
+        return (DOMView)getRootDOMElement();
     }
 */
     public String getLoadScript()

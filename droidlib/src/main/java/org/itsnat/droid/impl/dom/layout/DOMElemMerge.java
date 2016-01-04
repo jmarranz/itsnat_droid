@@ -5,16 +5,11 @@ import org.itsnat.droid.impl.dom.DOMElement;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class DOMElemMerge extends DOMElement
+public class DOMElemMerge extends DOMElemLayout
 {
     public DOMElemMerge(String name, DOMElemView parentElement)
     {
         super(name,parentElement);
     }
 
-    @Override
-    public DOMElement createDOMElement()
-    {
-        return new DOMElemMerge(name,(DOMElemView)parentElement);
-    }
 }
