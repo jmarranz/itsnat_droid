@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
 
@@ -16,11 +17,11 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLevelListDrawable extends ClassDescDrawableContainer<LevelListDrawable>
+public class ClassDescLevelListDrawable extends ClassDescElementDrawableRoot<LevelListDrawable> // ClassDescDrawableContainerBASE<LevelListDrawable>
 {
-    public ClassDescLevelListDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescLevelListDrawable(ClassDescDrawableMgr classMgr,ClassDescDrawable<? super LevelListDrawable> parentClass)
     {
-        super(classMgr,"level-list");
+        super(classMgr, "level-list", parentClass);
     }
 
     @Override

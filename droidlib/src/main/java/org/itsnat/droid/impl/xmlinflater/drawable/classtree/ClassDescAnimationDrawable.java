@@ -21,11 +21,11 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescAnimationDrawable extends ClassDescDrawableContainer<AnimationDrawable>
+public class ClassDescAnimationDrawable extends ClassDescElementDrawableRoot<AnimationDrawable> // ClassDescDrawableContainerBASE<AnimationDrawable>
 {
-    public ClassDescAnimationDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescAnimationDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawable<? super AnimationDrawable> parentClass)
     {
-        super(classMgr, "animation-list");
+        super(classMgr, "animation-list", parentClass);
     }
 
     @Override

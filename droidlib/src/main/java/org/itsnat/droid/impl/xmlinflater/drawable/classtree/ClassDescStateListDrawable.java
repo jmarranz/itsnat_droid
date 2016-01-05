@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
+import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.StateListDrawable;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
@@ -19,14 +20,14 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescStateListDrawable extends ClassDescDrawableContainer<StateListDrawable>
+public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<StateListDrawable> // ClassDescDrawableContainerBASE<StateListDrawable>
 {
     protected MethodContainer<DrawableContainer.DrawableContainerState> methodGetStateListState;
     protected MethodContainer<Void> methodGetStateListStateIsConstantSize;
 
-    public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawable<? super StateListDrawable> parentClass)
     {
-        super(classMgr,"selector");
+        super(classMgr, "selector", parentClass);
 
         this.methodGetStateListState = new MethodContainer<DrawableContainer.DrawableContainerState>(StateListDrawable.class,"getStateListState");
         this.methodGetStateListStateIsConstantSize =
