@@ -8,11 +8,12 @@ import org.itsnat.droid.impl.util.MimeUtil;
  */
 public abstract class DOMAttrDynamic extends DOMAttr
 {
-    protected String resType;
-    protected String extension;
-    protected boolean ninePatch = false;
-    protected String mime;
-    protected String location;
+    protected final String resType;
+    protected final String extension; // xml, png...
+    protected final String valuesResourceName; // No nulo sólo en el caso de "values" tras el :
+    protected final boolean ninePatch;
+    protected final String mime;
+    protected final String location;
     protected volatile Object resource;
 
     public DOMAttrDynamic(String namespaceURI, String name, String value)
@@ -26,45 +27,52 @@ public abstract class DOMAttrDynamic extends DOMAttr
         //     @remote:drawable/http://somehost/res/drawable/file.png  Remote Path: http://somehost/res/drawable/file.png
         //     @remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable
 
-        int pos1 = value.indexOf(':');
-        int pos2 = value.indexOf('/');
-        this.resType = value.substring(pos1 + 1,pos2); // Ej. "drawable"
-        this.location = value.substring(pos2 + 1);
-        int posExt = value.lastIndexOf('.');
+        // Ej. values:  @assets:dimen/res/values/filename.xml:size
+        //              @remote:dimen/res/values/filename.xml:size
+
+        int posType = value.indexOf(':');
+        int posPath = value.indexOf('/');
+        this.resType = value.substring(posType + 1,posPath); // Ej. "drawable"
+
+        int valuesResourcePos = value.lastIndexOf(':'); // Esperamos el de por ej "...filename.xml:size" pero puede devolvernos el de "@assets:dimen..." lo que significa que no existe valuesResourceName
+        if (valuesResourcePos > posType) // Existe un segundo ":" para el valuesResourceName
+        {
+            this.location = value.substring(posPath + 1,valuesResourcePos); // incluye la extension
+            this.valuesResourceName = value.substring(valuesResourcePos + 1);
+        }
+        else
+        {
+            this.location = value.substring(posPath + 1);
+            this.valuesResourceName = null;
+        }
+
+        int posExt = location.lastIndexOf('.');
         if (posExt != -1)
         {
-            this.extension = value.substring(posExt + 1).toLowerCase(); // xml, png...
-            // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
-            String mime = MimeUtil.MIME_BY_EXT.get(extension);
-            if (mime == null)
-                throw new ItsNatDroidException("Unexpected extension: \"" + extension + "\" Remote resource: " + value);
-            this.mime = mime;
-            if (MimeUtil.MIME_PNG.equals(mime) && value.endsWith(".9.png"))
-                this.ninePatch = true;
+            this.extension = location.substring(posExt + 1).toLowerCase(); // xml, png...
         }
         else
         {
             // Por ejemplo:  @remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable
             // Suponemos que se genera el XML por ej del drawable
             this.extension = null;
+        }
+
+        if (extension != null)
+        {
+            // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
+            String mime = MimeUtil.MIME_BY_EXT.get(extension);
+            if (mime == null)
+                throw new ItsNatDroidException("Unexpected extension: \"" + extension + "\" Remote resource: " + value);
+            this.mime = mime;
+            this.ninePatch = MimeUtil.MIME_PNG.equals(mime) && value.endsWith(".9.png");
+        }
+        else
+        {
             this.mime = MimeUtil.MIME_XML;
+            this.ninePatch = false;
         }
     }
-
-    @Override
-    protected void clone(DOMAttr clone)
-    {
-        super.clone(clone);
-
-        DOMAttrDynamic cloneDyn = (DOMAttrDynamic)clone;
-        cloneDyn.resType = resType;
-        cloneDyn.extension = extension;
-        cloneDyn.ninePatch = ninePatch;
-        cloneDyn.mime = mime;
-        cloneDyn.location = location;
-        cloneDyn.resource = resource; // Umm dudoso
-    }
-
 
     public String getResourceType()
     {
@@ -74,6 +82,11 @@ public abstract class DOMAttrDynamic extends DOMAttr
     public String getExtension()
     {
         return extension;
+    }
+
+    public String getValuesResourceName()
+    {
+        return valuesResourceName;
     }
 
     public boolean isNinePatch()

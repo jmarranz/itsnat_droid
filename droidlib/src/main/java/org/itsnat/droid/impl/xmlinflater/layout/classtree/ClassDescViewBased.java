@@ -108,19 +108,31 @@ public class ClassDescViewBased extends ClassDesc<View>
         return MiscUtil.isEmpty(namespaceURI) && name.equals("style");
     }
 
-    protected boolean isAttributeIgnored(String namespaceURI, String name)
+    private static boolean isClassAttribute(String namespaceURI, String name)
     {
-        return isStyleAttribute(namespaceURI, name); // Se trata de forma especial en otro lugar
+        return MiscUtil.isEmpty(namespaceURI) && name.equals("class"); // En teoría es sólo en el caso de <view class="..."> pero me da pereza chequear el "view", el que use el atributo class en otro contexto es que es tonto
     }
 
-    //@SuppressWarnings("unchecked")
-    public boolean setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
+    protected boolean isAttributeIgnored(String namespaceURI, String name)
+    {
+        return isStyleAttribute(namespaceURI, name) || isClassAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
+    }
+
+    public boolean setAttributeOrInlineEventHandler(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
 
         XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-        if (xmlInflaterLayout.setAttributeInlineEventHandler(view,attr)) // ej onclick="..."
+        if (xmlInflaterLayout.setAttributeInlineEventHandler(view, attr)) // ej onclick="..."
             return true;
+
+        return setAttribute(view, attr, attrCtx);
+    }
+
+    //@SuppressWarnings("unchecked")
+    protected boolean setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
+    {
+        // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
 
         if (!isInit()) init();
 
@@ -165,6 +177,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                 }
                 else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
                 {
+                    XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
                     return processSetAttrCustom(view, namespaceURI, name, value, xmlInflaterLayout);
                 }
 
@@ -173,6 +186,54 @@ public class ClassDescViewBased extends ClassDesc<View>
         catch (Exception ex)
         {
             throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + view, ex);
+        }
+    }
+
+    public boolean removeAttributeOrInlineEventHandler(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
+    {
+        XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
+        if (xmlInflaterLayout.removeAttributeInlineEventHandler(view, namespaceURI, name)) // ej onclick="..."
+            return true;
+
+        return removeAttribute(view, namespaceURI, name, attrCtx);
+    }
+
+    //@SuppressWarnings("unchecked")
+    protected boolean removeAttribute(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
+    {
+        if (!isInit()) init();
+
+        try
+        {
+            if (isAttributeIgnored(namespaceURI,name))
+                return true; // Se trata de forma especial en otro lugar
+
+            AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(namespaceURI, name);
+            if (attrDesc != null)
+            {
+                attrDesc.removeAttribute(view,attrCtx);
+                // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
+                return true;
+            }
+            else
+            {
+                ClassDescViewBased parentClass = getParentClassDescViewBased();
+                if (parentClass != null)
+                {
+                    if (parentClass.removeAttribute(view, namespaceURI, name, attrCtx))
+                        return true;
+                    return false;
+                }
+                else
+                {
+                    XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
+                    return processRemoveAttrCustom(view, namespaceURI, name, xmlInflaterLayout);
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            throw new ItsNatDroidException("Error removing attribute: " + namespaceURI + " " + name + " in object " + view, ex);
         }
     }
 
@@ -199,49 +260,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         }
         return false;
     }
-
-    //@SuppressWarnings("unchecked")
-    public boolean removeAttribute(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
-    {
-        XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-        if (xmlInflaterLayout.removeAttributeInlineEventHandler(view,namespaceURI,name)) // ej onclick="..."
-            return true;
-
-        if (!isInit()) init();
-
-        try
-        {
-            if (isAttributeIgnored(namespaceURI,name))
-                return true; // Se trata de forma especial en otro lugar
-
-            AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(namespaceURI, name);
-            if (attrDesc != null)
-            {
-                attrDesc.removeAttribute(view,attrCtx);
-                // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
-                return true;
-            }
-            else
-            {
-                ClassDescViewBased parentClass = getParentClassDescViewBased();
-                if (parentClass != null)
-                {
-                    if (parentClass.removeAttribute(view, namespaceURI, name,attrCtx))
-                        return true;
-                    return false;
-                }
-                else
-                {
-                    return processRemoveAttrCustom(view,namespaceURI,name,xmlInflaterLayout);
-                }
-            }
-        }
-        catch(Exception ex)
-        {
-            throw new ItsNatDroidException("Error removing attribute: " + namespaceURI + " " + name + " in object " + view, ex);
-        }
-    }
-
 
     public PendingViewPostCreateProcess createPendingViewPostCreateProcess(View view, ViewGroup viewParent)
     {
@@ -380,7 +398,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         if (styleLayoutParamsAttribs != null)
         {
             for(DOMAttr attr : styleLayoutParamsAttribs)
-                setAttribute(view, attr, attrCtx);
+                setAttributeOrInlineEventHandler(view, attr, attrCtx);
         }
 
         ArrayList<DOMAttr> attribList = domElemView.getDOMAttributeList();
@@ -389,7 +407,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             for (int i = 0; i < attribList.size(); i++)
             {
                 DOMAttr attr = attribList.get(i);
-                setAttribute(view, attr, attrCtx);
+                setAttributeOrInlineEventHandler(view, attr, attrCtx);
             }
         }
 
@@ -405,7 +423,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         for (int i = 0; i < includeAttribs.size(); i++)
         {
             DOMAttr attr = includeAttribs.get(i);
-            setAttribute(rootViewChild, attr, attrCtx);
+            setAttributeOrInlineEventHandler(rootViewChild, attr, attrCtx);
         }
 
         pendingViewPostCreateProcess.executePendingSetAttribsTasks();
@@ -481,7 +499,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         if (styleLayoutParamsAttribs != null)
         {
             for(DOMAttr attr : styleLayoutParamsAttribs)
-                setAttribute(view, attr, attrCtx);
+                setAttributeOrInlineEventHandler(view, attr, attrCtx);
         }
 
         if (newChildToIn.hasAttributes())
@@ -489,7 +507,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
             {
                 DOMAttr attr = entry.getValue();
-                setAttribute(view, attr, attrCtx);
+                setAttributeOrInlineEventHandler(view, attr, attrCtx);
             }
         }
 

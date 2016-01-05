@@ -68,7 +68,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<Cla
     @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
-        Drawable convValue = getDrawable(attr,attrCtx.getContext(),attrCtx.getXMLInflaterLayout());
+        Drawable convValue = getDrawable(attr,attrCtx.getXMLInflaterLayout());
 
         int index = drawableMap.get(name);
 

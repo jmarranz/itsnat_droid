@@ -28,13 +28,13 @@ public class AttrDescReflecMethodColor<TclassDesc extends ClassDesc,TattrTarget,
     public AttrDescReflecMethodColor(TclassDesc parent, String name, String methodName, int defaultValue)
     {
         super(parent,name,methodName,getClassParam());
-        this.defaultValue = XMLInflateRegistry.toStringColor(defaultValue);
+        this.defaultValue = XMLInflateRegistry.toStringColorTransparent(defaultValue);
     }
 
     public AttrDescReflecMethodColor(TclassDesc parent, String name, int defaultValue)
     {
         super(parent, name,getClassParam());
-        this.defaultValue = XMLInflateRegistry.toStringColor(defaultValue);
+        this.defaultValue = XMLInflateRegistry.toStringColorTransparent(defaultValue);
     }
 
 
@@ -46,7 +46,7 @@ public class AttrDescReflecMethodColor<TclassDesc extends ClassDesc,TattrTarget,
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        int convValue = getColor(attr.getValue(),attrCtx.getContext());
+        int convValue = getColor(attr, attrCtx.getContext(),attrCtx.getXMLInflater());
         callMethod(target, convValue);
     }
 

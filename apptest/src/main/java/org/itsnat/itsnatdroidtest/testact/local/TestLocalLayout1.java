@@ -322,6 +322,12 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getText(), "Hello world 3!");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
+                    assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res));
+                    assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
+
+                    assertEquals(compTextView.getTextColors().getDefaultColor(), 0xffff0000);
+                    assertEquals(compTextView.getTextColors(), parsedTextView.getTextColors());
+
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
                     int[] compTextRules = compTextParams.getRules();

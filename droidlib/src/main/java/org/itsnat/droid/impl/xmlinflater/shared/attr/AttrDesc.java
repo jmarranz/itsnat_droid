@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
+import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -149,19 +149,19 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getDimensionWithNameIntRound(attrValue, ctx);
     }
 
-    public Drawable getDrawable(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
+    public Drawable getDrawable(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDrawable(attr, ctx, xmlInflater);
+        return getXMLInflateRegistry().getDrawable(attr,xmlInflater);
     }
 
-    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
+    public View getLayout(DOMAttr attr,XMLInflater xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
-        return getXMLInflateRegistry().getLayout(attr, ctx, xmlInflater,viewParent,indexChild,includeAttribs);
+        return getXMLInflateRegistry().getLayout(attr, xmlInflater,viewParent,indexChild,includeAttribs);
     }
 
-    public int getColor(String attrValue, Context ctx)
+    public int getColor(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getColor(attrValue, ctx);
+        return getXMLInflateRegistry().getColor(attr, ctx, xmlInflater);
     }
 
     public float getPercent(String attrValue, Context ctx)
@@ -200,8 +200,8 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     protected void setToRemoveAttribute(TattrTarget target, String value, TattrContext attrCtx)
     {
         // Este método es llamado desde removeAttributeFromRemote, cuyo valor será o @null o un recurso de Android, no esperamos
-        // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrLocalResource
-        DOMAttrLocalResource attr = (DOMAttrLocalResource) DOMAttr.create(InflatedXML.XMLNS_ANDROID, getName(), value);
+        // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrCompiledResource
+        DOMAttrCompiledResource attr = (DOMAttrCompiledResource) DOMAttr.create(InflatedXML.XMLNS_ANDROID, getName(), value);
 
         setAttribute(target, attr,attrCtx);
     }

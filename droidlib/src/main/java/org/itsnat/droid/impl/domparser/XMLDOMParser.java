@@ -64,7 +64,7 @@ public abstract class XMLDOMParser
             xmlDOM.addNamespace(prefix, ns);
         }
 
-        if (xmlDOM.getAndroidNSPrefix() == null)
+        if (isAndroidNSPrefixNeeded() && xmlDOM.getAndroidNSPrefix() == null)
             throw new ItsNatDroidException("Missing android namespace declaration in root element");
 
         DOMElement rootElement = createRootElementAndFillAttributes(rootElemName, parser, xmlDOM);
@@ -74,6 +74,11 @@ public abstract class XMLDOMParser
         setRootElement(rootElement, xmlDOM);
 
         return rootElement;
+    }
+
+    protected boolean isAndroidNSPrefixNeeded()
+    {
+        return true; // Se redefine
     }
 
     protected DOMElement createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
@@ -274,6 +279,10 @@ public abstract class XMLDOMParser
         else if ("layout".equals(resourceType))
         {
             xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion,loadingRemotePage,assetManager);
+        }
+        else if ("color".equals(resourceType))
+        {
+            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup, assetManager);
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 

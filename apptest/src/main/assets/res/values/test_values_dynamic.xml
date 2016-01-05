@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="test_dimen_textSize">15.3dp</dimen>
+
+</resources>

@@ -82,6 +82,8 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="Hello world 3!"
+                      android:textSize="@dimen/test_dimen_textSize"
+                      android:textColor="@color/test_color_textColor"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest2" />
         </RelativeLayout>

@@ -7,16 +7,16 @@ import org.itsnat.droid.ItsNatDroidException;
  */
 public abstract class DOMAttr
 {
-    protected String namespaceURI;
-    protected String name;
-    protected String value;
+    protected final String namespaceURI;
+    protected final String name;
+    protected final String value;
 
     protected DOMAttr(String namespaceURI, String name, String value)
     {
+        if ("".equals(namespaceURI)) throw new ItsNatDroidException("Internal error: empty string not allowed"); // Debe ser null o una cadena no vacía
         this.namespaceURI = namespaceURI;
         this.name = name;
         this.value = value;
-        if ("".equals(namespaceURI)) throw new ItsNatDroidException("Internal error: empty string not allowed"); // Debe ser null o una cadena no vacía
     }
 
     public static DOMAttr create(String namespaceURI, String name, String value)
@@ -26,20 +26,9 @@ public abstract class DOMAttr
         else if (DOMAttrAsset.isAsset( value))
             return new DOMAttrAsset(namespaceURI,name,value);
         else
-            return new DOMAttrLocalResource(namespaceURI,name,value);
+            return new DOMAttrCompiledResource(namespaceURI,name,value);
     }
 
-    public DOMAttr cloneDOMAttr()
-    {
-        DOMAttr attr = create(namespaceURI,name,value);
-        clone(attr);
-        return attr;
-    }
-
-    protected void clone(DOMAttr clone)
-    {
-        // Redefinir
-    }
 
     public String getNamespaceURI()
     {
@@ -56,8 +45,4 @@ public abstract class DOMAttr
         return value;
     }
 
-    public void setValue(String value)
-    {
-        this.value = value;
-    }
 }

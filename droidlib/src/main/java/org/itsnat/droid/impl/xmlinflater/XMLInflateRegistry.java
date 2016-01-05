@@ -18,10 +18,11 @@ import org.itsnat.droid.impl.browser.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
-import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
+import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
@@ -189,7 +190,7 @@ public class XMLInflateRegistry
         }
         else
         {
-            packageName = ctx.getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos locales)
+            packageName = ctx.getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos compilados)
         }
 
         return res.getIdentifier(value, null, packageName);
@@ -368,11 +369,11 @@ public class XMLInflateRegistry
     public float getDimensionFloat(String attrValue, Context ctx)
     {
         // El retorno es en px
-        Resources res = ctx.getResources();
-
         Dimension dimen = getDimensionObject(attrValue, ctx);
         int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
         float num = dimen.getValue();
+
+        Resources res = ctx.getResources();
         return toPixelFloat(unit, num, res);
     }
 
@@ -431,19 +432,20 @@ public class XMLInflateRegistry
     {
         // El retorno es en px
         int dataType;
-        boolean fractionParent = false;
+
         int pos;
         pos = attrValue.lastIndexOf("%");
         if (pos != -1)
         {
             dataType = TypedValue.TYPE_FRACTION;
-            fractionParent = (attrValue.lastIndexOf("%p") != -1);
+            boolean fractionParent = (attrValue.lastIndexOf("%p") != -1);
             attrValue = attrValue.substring(0,pos);
             float value = Float.parseFloat(attrValue);
             return new PercFloat(dataType,fractionParent,value);
         }
         else
         {
+            final boolean fractionParent = false;
             dataType = TypedValue.TYPE_FLOAT;
             char last = attrValue.charAt(attrValue.length() - 1);
             if (Character.isDigit(last))
@@ -477,7 +479,7 @@ public class XMLInflateRegistry
         return dimension;
     }
 
-    public int getColor(String attrValue, Context ctx)
+    private int getColorCompiled(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -492,13 +494,51 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public static String toStringColor(int value)
+    public int getColor(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+
+            String resourceMime = attrDyn.getResourceMime();
+            if (MimeUtil.isMIMEResourceXML(resourceMime))
+            {
+                PageImpl page = null;
+                if (xmlInflater instanceof XMLInflaterPage)
+                    page = ((XMLInflaterPage)xmlInflater).getPageImpl();
+
+                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
+
+                ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
+                AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
+                AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
+
+                XMLDOMValues xmlDOMValues = (XMLDOMValues) attrDyn.getResource();
+                /*
+                InflatedValues inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx,page) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
+                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener, attrDrawableInflaterListener);
+                return xmlInflaterDrawable.inflateDrawable();
+                */
+
+                throw new ItsNatDroidException("PROVISIONAL");
+            }
+            else throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            String attrValue = attr.getValue();
+            return getColorCompiled(attrValue, ctx);
+        }
+        else throw new ItsNatDroidException("Internal Error");
+    }
+
+    public static String toStringColorTransparent(int value)
     {
         if (value != Color.TRANSPARENT) throw new ItsNatDroidException("Unexpected");
         return "#00000000";
     }
 
-    private Drawable getDrawable(String attrValue, Context ctx)
+    private Drawable getDrawableCompiled(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -515,24 +555,26 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public Drawable getDrawable(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
+    public Drawable getDrawable(DOMAttr attr,XMLInflater xmlInflater)
     {
+        Context ctx = xmlInflater.getContext();
+
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-
-            PageImpl page = null;
-            if (xmlInflater instanceof XMLInflaterPage)
-                page = ((XMLInflaterPage)xmlInflater).getPageImpl();
-
-            if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
             int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
 
             String resourceMime = attrDyn.getResourceMime();
             if (MimeUtil.isMIMEResourceXML(resourceMime))
             {
-                // Esperamos un drawable no una animación
+                // Esperamos un drawable
+                PageImpl page = null;
+                if (xmlInflater instanceof XMLInflaterPage)
+                    page = ((XMLInflaterPage)xmlInflater).getPageImpl();
+
+                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
+
                 ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
                 AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
                 AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
@@ -550,18 +592,20 @@ public class XMLInflateRegistry
             }
             else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
         }
-        else if (attr instanceof DOMAttrLocalResource)
+        else if (attr instanceof DOMAttrCompiledResource)
         {
             String attrValue = attr.getValue();
-            return getDrawable(attrValue,ctx);
+            return getDrawableCompiled(attrValue, ctx);
         }
         else throw new ItsNatDroidException("Internal Error");
     }
 
-    public View getLayout(String attrValue, Context ctx,XMLInflater xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
+    private View getLayoutCompiled(String attrValue, XMLInflater xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
         if (isResource(attrValue))
         {
+            Context ctx = xmlInflater.getContext();
+
             int resId = getIdentifier(attrValue, ctx);
             if (resId <= 0) return null;
             int countBefore = 0;
@@ -590,23 +634,25 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public View getLayout(DOMAttr attr, Context ctx,XMLInflater xmlInflaterParent,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
+    public View getLayout(DOMAttr attr, XMLInflater xmlInflaterParent,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
+        Context ctx = xmlInflaterParent.getContext();
+
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-
-            PageImpl page = null;
-            if (xmlInflaterParent instanceof XMLInflaterPage)
-                page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
-
-            if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
             int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
             String resourceMime = attrDyn.getResourceMime();
             if (MimeUtil.isMIMEResourceXML(resourceMime))
             {
+                PageImpl page = null;
+                if (xmlInflaterParent instanceof XMLInflaterPage)
+                    page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
+
+                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
+
                 int countBefore = 0;
                 if (viewParent != null) countBefore = viewParent.getChildCount();
 
@@ -672,10 +718,10 @@ public class XMLInflateRegistry
             }
             else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
         }
-        else if (attr instanceof DOMAttrLocalResource)
+        else if (attr instanceof DOMAttrCompiledResource)
         {
             String attrValue = attr.getValue();
-            return getLayout(attrValue,ctx,xmlInflaterParent,viewParent,indexChild,includeAttribs);
+            return getLayoutCompiled(attrValue,xmlInflaterParent, viewParent, indexChild, includeAttribs);
         }
         else throw new ItsNatDroidException("Internal Error");
     }

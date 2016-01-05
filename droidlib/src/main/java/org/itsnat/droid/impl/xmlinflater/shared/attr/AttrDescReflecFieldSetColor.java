@@ -22,13 +22,13 @@ public class AttrDescReflecFieldSetColor<TclassDesc extends ClassDesc,TattrTarge
     public AttrDescReflecFieldSetColor(TclassDesc parent, String name, String fieldName, int defaultValue)
     {
         super(parent,name,fieldName);
-        this.defaultValue = XMLInflateRegistry.toStringColor(defaultValue);
+        this.defaultValue = XMLInflateRegistry.toStringColorTransparent(defaultValue);
     }
 
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        int convertedValue = getColor(attr.getValue(),attrCtx.getContext());
+        int convertedValue = getColor(attr, attrCtx.getContext(),attrCtx.getXMLInflater());
 
         setField(target,convertedValue);
     }

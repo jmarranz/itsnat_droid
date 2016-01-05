@@ -134,7 +134,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         }
         else
         {
-            packageName = getContext().getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos locales)
+            packageName = getContext().getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos compilados)
         }
 
         String type;

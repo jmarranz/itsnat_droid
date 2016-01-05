@@ -5,8 +5,10 @@ import android.content.res.AssetManager;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
+import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
 
 /**
  * Created by Jose on 01/12/2015.
@@ -16,6 +18,7 @@ public class XMLDOMRegistry
     protected ItsNatDroidImpl parent;
     protected XMLDOMCache<XMLDOMLayout> domLayoutCache = new XMLDOMCache<XMLDOMLayout>();
     protected XMLDOMCache<XMLDOMDrawable> domDrawableCache = new XMLDOMCache<XMLDOMDrawable>();
+    protected XMLDOMCache<XMLDOMValues> domValuesCache = new XMLDOMCache<XMLDOMValues>();
 
     public XMLDOMRegistry(ItsNatDroidImpl parent)
     {
@@ -77,4 +80,17 @@ public class XMLDOMRegistry
         }
     }
 
+    public XMLDOMValues getXMLDOMValuesCache(String markup,AssetManager assetManager)
+    {
+        // Ver notas de getXMLDOMLayoutCache()
+        XMLDOMValues cachedValues = domValuesCache.get(markup);
+        if (cachedValues != null) return cachedValues;
+        else
+        {
+            XMLDOMValuesParser parser = XMLDOMValuesParser.createXMLDOMValuesParser(this, assetManager);
+            XMLDOMValues xmlDOMValues = parser.parse(markup);
+            domValuesCache.put(markup, xmlDOMValues);
+            return xmlDOMValues;
+        }
+    }
 }

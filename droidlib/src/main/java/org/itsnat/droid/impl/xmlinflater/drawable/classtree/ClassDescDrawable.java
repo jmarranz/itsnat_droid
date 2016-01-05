@@ -10,7 +10,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
-import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
+import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
@@ -158,7 +158,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
             Resources res = ctx.getResources();
             return DrawableUtil.createBitmap(byteArray, bitmapDensityReference, res);
         }
-        else if (attr instanceof DOMAttrLocalResource)
+        else if (attr instanceof DOMAttrCompiledResource)
         {
             String attrValue = attr.getValue();
             if (XMLInflateRegistry.isResource(attrValue))

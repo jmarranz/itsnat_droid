@@ -43,7 +43,7 @@ public class AttrDescView_widget_ImageView_tint extends AttrDescReflecMethod<Cla
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int convValue = getColor(attr.getValue(), attrCtx.getContext());
+        final int convValue = getColor(attr, attrCtx.getContext(),attrCtx.getXMLInflater());
         if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
         {
             callMethod(view, convValue);

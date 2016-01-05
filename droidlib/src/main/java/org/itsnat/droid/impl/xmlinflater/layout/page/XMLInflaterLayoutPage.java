@@ -61,7 +61,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
             attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null);
         }
 
-        viewClassDesc.setAttribute(view, attr, attrCtx);
+        viewClassDesc.setAttributeOrInlineEventHandler(view, attr, attrCtx);
 
         if (singleSetAttr)
         {
@@ -77,7 +77,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
 
         AttrLayoutContext attrCtx = new AttrLayoutContext(this,null,null);
-        return viewClassDesc.removeAttribute(view, namespaceURI, name, attrCtx);
+        return viewClassDesc.removeAttributeOrInlineEventHandler(view, namespaceURI, name, attrCtx);
     }
 
     private ItsNatViewImpl getItsNatViewOfInlineHandler(String type,View view)
@@ -94,7 +94,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         return itsNatDoc.getItsNatViewImpl(view);
     }
 
-    private String getTypeInlineEventHandler(String name)
+    private static String getTypeInlineEventHandler(String name)
     {
         if (!name.startsWith("on")) return null;
         String type = name.substring(2);
