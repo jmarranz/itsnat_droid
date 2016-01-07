@@ -12,6 +12,12 @@ public class ElementValuesResources extends ElementValues
 
     public String getColor(String attrName)
     {
+        //HACER;
+        return "";
+    }
+
+    public String getDimension(String attrName)
+    {
         return "";
     }
 

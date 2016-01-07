@@ -56,7 +56,7 @@ public class XMLInflateRegistry
 {
     protected ItsNatDroidImpl parent;
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
-    protected Map<String,Integer> newIdMap = new HashMap<String,Integer>();
+    protected Map<String, Integer> newIdMap = new HashMap<String, Integer>();
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
     protected ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
     protected ClassDescValuesMgr classDescValuesMgr = new ClassDescValuesMgr(this);
@@ -117,7 +117,7 @@ public class XMLInflateRegistry
     private int addNewId(String name)
     {
         int newId = generateViewId();
-        newIdMap.put(name,newId);
+        newIdMap.put(name, newId);
         return newId;
     }
 
@@ -137,19 +137,19 @@ public class XMLInflateRegistry
                 String idName = value.substring(pos + 1);
                 if (value.startsWith("@+id/")) id = findIdAddIfNecessary(idName);
                 else id = findId(idName);
-                if (id <= 0) throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
+                if (id <= 0)
+                    throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
             }
-        }
-        else id = getIdentifier(value, ctx);
+        } else id = getIdentifier(value, ctx);
         return id;
     }
 
     public int getIdentifier(String attrValue, Context ctx)
     {
-        return getIdentifier(attrValue,ctx,true);
+        return getIdentifier(attrValue, ctx, true);
     }
 
-    public int getIdentifier(String value, Context ctx,boolean throwErr)
+    public int getIdentifier(String value, Context ctx, boolean throwErr)
     {
         if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
 
@@ -161,16 +161,15 @@ public class XMLInflateRegistry
         if (first == '?')
         {
             id = getIdentifierTheme(value, ctx);
-        }
-        else if (first == '@')
+        } else if (first == '@')
         {
             // En este caso es posible que se haya registrado dinámicamente el id via "@+id/..." Tiene prioridad el registro de Android que el de ItsNat, para qué generar un id si ya existe como recurso
             id = getIdentifierResource(value, ctx);
             if (id > 0)
                 return id;
             id = getIdentifierDynamicallyAdded(value);
-        }
-        else throw new ItsNatDroidException("Unexpected"); // Por isResource(value) sabemos que es ? o @
+        } else
+            throw new ItsNatDroidException("Unexpected"); // Por isResource(value) sabemos que es ? o @
 
         if (throwErr && id <= 0)
             throw new ItsNatDroidException("Not found resource with id value \"" + value + "\"");
@@ -197,8 +196,7 @@ public class XMLInflateRegistry
         if (value.indexOf(':') != -1) // Tiene package el value, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
         {
             packageName = null;
-        }
-        else
+        } else
         {
             packageName = ctx.getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos compilados)
         }
@@ -230,8 +228,7 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getInteger(resId);
-        }
-        else
+        } else
         {
             if (attrValue.startsWith("0x"))
             {
@@ -249,8 +246,7 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getDimension(resId); // No hay getFloat
-        }
-        else return parseFloat(attrValue);
+        } else return parseFloat(attrValue);
     }
 
     public String getString(String attrValue, Context ctx)
@@ -259,8 +255,7 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getString(resId);
-        }
-        else return attrValue;
+        } else return attrValue;
     }
 
     public CharSequence getText(String attrValue, Context ctx)
@@ -269,8 +264,7 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getText(resId);
-        }
-        else return attrValue;
+        } else return attrValue;
     }
 
     public CharSequence[] getTextArray(String attrValue, Context ctx)
@@ -279,8 +273,7 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getTextArray(resId);
-        }
-        else return null;
+        } else return null;
     }
 
     public boolean getBoolean(String attrValue, Context ctx)
@@ -289,8 +282,7 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getBoolean(resId);
-        }
-        else return Boolean.parseBoolean(attrValue);
+        } else return Boolean.parseBoolean(attrValue);
     }
 
     private static int getDimensionSuffixAsInt(String suffix)
@@ -329,7 +321,7 @@ public class XMLInflateRegistry
         return parseFloat(value);
     }
 
-    private static float toPixelFloat(int unit,float value, Resources res)
+    private static float toPixelFloat(int unit, float value, Resources res)
     {
         // Nexus 4 tiene un scale 2 de dp a px (xhdpi),  con un valor de 0.3 devuelve 0.6 bien para probar si usar round/floor
         // Nexus 5 tiene un scale 3 de dp a px (xxhdpi), con un valor de 0.3 devuelve 0.9 bien para probar si usar round/floor
@@ -356,8 +348,7 @@ public class XMLInflateRegistry
             int resId = getIdentifier(attrValue, ctx);
             float num = ctx.getResources().getDimension(resId);
             return new Dimension(TypedValue.COMPLEX_UNIT_PX, num);
-        }
-        else
+        } else
         {
             return getDimensionObject(attrValue);
         }
@@ -367,7 +358,7 @@ public class XMLInflateRegistry
     public int getDimensionIntFloor(String attrValue, Context ctx)
     {
         // TypedValue.complexToDimensionPixelOffset
-        return (int)getDimensionFloat(attrValue,ctx);
+        return (int) getDimensionFloat(attrValue, ctx);
     }
 
     public int getDimensionIntRound(String attrValue, Context ctx)
@@ -391,7 +382,7 @@ public class XMLInflateRegistry
     {
         // El retorno es en px
         float num = getDimensionFloat(attrValue, ctx);
-        num = (float)Math.floor(num);
+        num = (float) Math.floor(num);
         return num;
     }
 
@@ -429,9 +420,8 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             String value = res.getString(resId);
-            return parseDimensionPercFloat(value,ctx);
-        }
-        else
+            return parseDimensionPercFloat(value, ctx);
+        } else
         {
             return parseDimensionPercFloat(attrValue, ctx);
         }
@@ -449,11 +439,10 @@ public class XMLInflateRegistry
         {
             dataType = TypedValue.TYPE_FRACTION;
             boolean fractionParent = (attrValue.lastIndexOf("%p") != -1);
-            attrValue = attrValue.substring(0,pos);
+            attrValue = attrValue.substring(0, pos);
             float value = Float.parseFloat(attrValue);
-            return new PercFloat(dataType,fractionParent,value);
-        }
-        else
+            return new PercFloat(dataType, fractionParent, value);
+        } else
         {
             final boolean fractionParent = false;
             dataType = TypedValue.TYPE_FLOAT;
@@ -461,15 +450,14 @@ public class XMLInflateRegistry
             if (Character.isDigit(last))
             {
                 float value = Float.parseFloat(attrValue);
-                return new PercFloat(dataType,fractionParent,value); // fractionParent es indiferente
-            }
-            else
+                return new PercFloat(dataType, fractionParent, value); // fractionParent es indiferente
+            } else
             {
                 Dimension dimen = getDimensionObject(attrValue);
                 int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
                 float num = dimen.getValue();
                 float value = toPixelFloat(unit, num, ctx.getResources());
-                return new PercFloat(dataType,fractionParent,value); // fractionParent es indiferente
+                return new PercFloat(dataType, fractionParent, value); // fractionParent es indiferente
             }
         }
     }
@@ -489,6 +477,34 @@ public class XMLInflateRegistry
         return dimension;
     }
 
+    private static ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflater)
+    {
+        Context ctx = xmlInflater.getContext();
+
+        String resourceMime = attrDyn.getResourceMime();
+        if (!MimeUtil.isMIMEResourceXML(resourceMime))
+            throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
+
+        PageImpl page = null;
+        if (xmlInflater instanceof XMLInflaterPage)
+            page = ((XMLInflaterPage)xmlInflater).getPageImpl();
+
+        if (attrDyn instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
+
+        int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
+
+        ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
+        AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
+        AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
+
+        XMLDOMValues xmlDOMValues = (XMLDOMValues) attrDyn.getResource();
+
+        InflatedValues inflatedValues = page != null ? new InflatedValuesPage(itsNatDroid, xmlDOMValues, ctx, page) : new InflatedValuesStandalone(itsNatDroid, xmlDOMValues, ctx);
+        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
+        ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
+        return elementResources;
+    }
+
     private int getColorCompiled(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
@@ -504,44 +520,24 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
+
     public int getColor(DOMAttr attr,XMLInflater xmlInflater)
     {
         Context ctx = xmlInflater.getContext();
+        String colorValue;
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-
-            String resourceMime = attrDyn.getResourceMime();
-            if (MimeUtil.isMIMEResourceXML(resourceMime))
-            {
-                PageImpl page = null;
-                if (xmlInflater instanceof XMLInflaterPage)
-                    page = ((XMLInflaterPage)xmlInflater).getPageImpl();
-
-                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
-
-                int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
-
-                ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
-                AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
-                AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
-
-                XMLDOMValues xmlDOMValues = (XMLDOMValues) attrDyn.getResource();
-
-                InflatedValues inflatedValues = page != null ? new InflatedValuesPage(itsNatDroid, xmlDOMValues, ctx,page) : new InflatedValuesStandalone(itsNatDroid, xmlDOMValues, ctx);
-                XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
-                ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
-                String colorValue = elementResources.getColor(attrDyn.getValuesResourceName());
-                return getColorCompiled(colorValue, ctx);
-            }
-            else throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            colorValue = elementResources.getColor(attrDyn.getValuesResourceName());
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
-            String attrValue = attr.getValue();
-            return getColorCompiled(attrValue, ctx);
+            colorValue = attr.getValue();
         }
         else throw new ItsNatDroidException("Internal Error");
+
+        return getColorCompiled(colorValue, ctx);
     }
 
     public static String toStringColorTransparent(int value)

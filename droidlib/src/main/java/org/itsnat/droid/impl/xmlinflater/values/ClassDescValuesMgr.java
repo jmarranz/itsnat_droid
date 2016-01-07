@@ -4,6 +4,7 @@ import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValues;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesColor;
+import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesDimen;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -28,5 +29,8 @@ public class ClassDescValuesMgr extends ClassDescMgr<ClassDescValues>
     {
         ClassDescValuesColor color = new ClassDescValuesColor(this);
         addClassDesc(color);
+
+        ClassDescValuesDimen dimen = new ClassDescValuesDimen(this);
+        addClassDesc(dimen);
     }
 }
