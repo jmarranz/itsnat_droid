@@ -30,14 +30,15 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
     {
+        Context ctx = inflaterDrawable.getContext();
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
         ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
 
-        Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, ctx, childList);
+        Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, childList);
 
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 

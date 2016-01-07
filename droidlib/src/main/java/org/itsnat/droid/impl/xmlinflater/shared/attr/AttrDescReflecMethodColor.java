@@ -46,7 +46,7 @@ public class AttrDescReflecMethodColor<TclassDesc extends ClassDesc,TattrTarget,
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        int convValue = getColor(attr, attrCtx.getContext(),attrCtx.getXMLInflater());
+        int convValue = getColor(attr, attrCtx.getXMLInflater());
         callMethod(target, convValue);
     }
 

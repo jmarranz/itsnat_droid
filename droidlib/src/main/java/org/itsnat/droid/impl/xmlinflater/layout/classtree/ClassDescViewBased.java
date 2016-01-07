@@ -460,14 +460,14 @@ public class ClassDescViewBased extends ClassDesc<View>
         return createViewObject(idStyle, pendingPostInsertChildrenTasks, ctx);
     }
 
-    public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
+    public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         // viewParent es NO nulo, de otra manera el método se llamaría createRootView... pues el caso root lo tratamos siempre aparte
 
         ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(viewParent);
         ArrayList<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
-        View view = createViewObjectFromRemote(newChildToIn,layoutParams,styleLayoutParamsAttribs,pendingPostInsertChildrenTasks, ctx);
+        View view = createViewObjectFromRemote(newChildToIn,layoutParams,styleLayoutParamsAttribs,pendingPostInsertChildrenTasks, xmlInflaterLayout.getContext());
         newChildToIn.setView(view); // No es necesariamente root
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;

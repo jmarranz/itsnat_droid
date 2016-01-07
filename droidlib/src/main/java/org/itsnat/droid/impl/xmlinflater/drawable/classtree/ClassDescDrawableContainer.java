@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import android.content.Context;
 import android.graphics.drawable.DrawableContainer;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
@@ -19,7 +18,7 @@ public class ClassDescDrawableContainer extends ClassDescElementDrawableRoot<Dra
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
     {
         return null;
     }

@@ -1,9 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
-import android.graphics.drawable.LevelListDrawable;
 import android.graphics.drawable.StateListDrawable;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
@@ -35,7 +33,7 @@ public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<Sta
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 

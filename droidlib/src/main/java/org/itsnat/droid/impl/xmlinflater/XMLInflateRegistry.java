@@ -17,8 +17,8 @@ import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
+import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -30,6 +30,10 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
+import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
+import org.itsnat.droid.impl.xmlinflated.values.InflatedValuesPage;
+import org.itsnat.droid.impl.xmlinflated.values.InflatedValuesStandalone;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -37,6 +41,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
+import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
+import org.itsnat.droid.impl.xmlinflater.values.XMLInflaterValues;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +59,7 @@ public class XMLInflateRegistry
     protected Map<String,Integer> newIdMap = new HashMap<String,Integer>();
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
     protected ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
-
+    protected ClassDescValuesMgr classDescValuesMgr = new ClassDescValuesMgr(this);
 
     public XMLInflateRegistry(ItsNatDroidImpl parent)
     {
@@ -75,6 +81,10 @@ public class XMLInflateRegistry
         return classDescDrawableMgr;
     }
 
+    public ClassDescValuesMgr getClassDescValuesMgr()
+    {
+        return classDescValuesMgr;
+    }
 
     public int generateViewId()
     {
@@ -494,8 +504,9 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public int getColor(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
+    public int getColor(DOMAttr attr,XMLInflater xmlInflater)
     {
+        Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
@@ -509,18 +520,19 @@ public class XMLInflateRegistry
 
                 if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
+                int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
+
                 ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
                 AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
                 AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
 
                 XMLDOMValues xmlDOMValues = (XMLDOMValues) attrDyn.getResource();
-                /*
-                InflatedValues inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx,page) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
-                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener, attrDrawableInflaterListener);
-                return xmlInflaterDrawable.inflateDrawable();
-                */
 
-                throw new ItsNatDroidException("PROVISIONAL");
+                InflatedValues inflatedValues = page != null ? new InflatedValuesPage(itsNatDroid, xmlDOMValues, ctx,page) : new InflatedValuesStandalone(itsNatDroid, xmlDOMValues, ctx);
+                XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
+                ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
+                String colorValue = elementResources.getColor(attrDyn.getValuesResourceName());
+                return getColorCompiled(colorValue, ctx);
             }
             else throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
         }

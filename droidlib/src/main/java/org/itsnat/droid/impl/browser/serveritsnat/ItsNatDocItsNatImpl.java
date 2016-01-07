@@ -546,7 +546,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(newChildToIn);
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
-        View view = classDesc.createViewObjectAndFillAttributesAndAddFromRemote((ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout, null, getContext());
+        View view = classDesc.createViewObjectAndFillAttributesAndAddFromRemote((ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout, null);
 
         newChildToIn.setInserted();
     }

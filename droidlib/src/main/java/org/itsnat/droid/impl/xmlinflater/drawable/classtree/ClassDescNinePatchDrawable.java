@@ -25,10 +25,12 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
     {
         // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
         // http://stackoverflow.com/questions/5079868/create-a-ninepatch-ninepatchdrawable-in-runtime
+
+        Context ctx = inflaterDrawable.getContext();
 
         DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
         if (attrSrc == null) throw new ItsNatDroidException("Missing src attribute in element " + rootElem.getName());

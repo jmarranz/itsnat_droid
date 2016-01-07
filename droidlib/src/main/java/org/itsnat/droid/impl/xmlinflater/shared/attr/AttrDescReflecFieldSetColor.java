@@ -28,7 +28,7 @@ public class AttrDescReflecFieldSetColor<TclassDesc extends ClassDesc,TattrTarge
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        int convertedValue = getColor(attr, attrCtx.getContext(),attrCtx.getXMLInflater());
+        int convertedValue = getColor(attr,attrCtx.getXMLInflater());
 
         setField(target,convertedValue);
     }

@@ -19,7 +19,7 @@ public abstract class InflatedXML
 
     protected InflatedXML(ItsNatDroidImpl itsNatDroid, XMLDOM xmlDOM, Context ctx)
     {
-        // Este constructor puede llegar a ejecutarse en un hilo NO UI, no hacer nada más
+        // Este constructor puede llegar a ejecutarse en un hilo NO UI, no hacer nada más (YA NO ES VERDAD, REVISAR)
         this.itsNatDroid = itsNatDroid;
         this.xmlDOM = xmlDOM;
         this.ctx = ctx;

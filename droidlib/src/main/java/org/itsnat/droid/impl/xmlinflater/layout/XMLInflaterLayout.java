@@ -87,7 +87,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return classDescViewMgr.get(domElemView);
     }
 
-    private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index /*,ArrayList<DOMAttr> includeAttribs */)
+    private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index)
     {
         DOMElemLayout rootDOMView = (DOMElemLayout)xmlDOMLayout.getRootDOMElement();
 
@@ -200,6 +200,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
         String className = rootViewChild.getClass().getName();
         XMLInflateRegistry xmlInflateRegistry = getInflatedLayoutImpl().getItsNatDroidImpl().getXMLInflateRegistry();
         ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(className);
+        if (classDesc == null)
+            throw new ItsNatDroidException("Not found processor for " + className);
 
         classDesc.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent,this,includeAttribs);
     }

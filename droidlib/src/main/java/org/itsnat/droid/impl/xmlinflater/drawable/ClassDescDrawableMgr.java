@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable;
 
-import android.graphics.drawable.Drawable;
-
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawable;
@@ -35,7 +33,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionD
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable,Drawable>
+public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
 {
     public ClassDescDrawableMgr(XMLInflateRegistry parent)
     {

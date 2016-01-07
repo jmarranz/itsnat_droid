@@ -159,9 +159,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getLayout(attr, xmlInflater,viewParent,indexChild,includeAttribs);
     }
 
-    public int getColor(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
+    public int getColor(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getColor(attr, ctx, xmlInflater);
+        return getXMLInflateRegistry().getColor(attr,xmlInflater);
     }
 
     public float getPercent(String attrValue, Context ctx)

@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
@@ -29,7 +27,7 @@ public class ClassDescGradientDrawableItemStroke extends ClassDescElementDrawabl
     }
 
     @Override
-    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
+    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable)
     {
         return new GradientDrawableItemStroke(parentChildDrawable);
     }

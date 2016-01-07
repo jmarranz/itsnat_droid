@@ -59,7 +59,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
         String value = attr.getValue();
         if (name.equals("shadowColor"))
         {
-            int convValue = getColor(attr, ctx,attrCtx.getXMLInflater());
+            int convValue = getColor(attr,attrCtx.getXMLInflater());
 
             radius = fieldShadowRadius.get(textView);
             dx = fieldShadowDx.get(textView);

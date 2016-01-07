@@ -56,7 +56,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_widget_V
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
+public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 {
     public final String[] implicitImports = new String[] { "android.view.", "android.widget." };  // Es para añadir imports implícitos tal y como hace Android en los layouts
 

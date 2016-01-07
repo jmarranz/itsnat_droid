@@ -36,14 +36,15 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     }
 
     @Override
-    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable, Context ctx)
+    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, XMLInflaterDrawable inflaterDrawable, ElementDrawable parentChildDrawable)
     {
+        Context ctx = inflaterDrawable.getContext();
         String name = domElement.getName();
         ClassDescElementDrawableRoot classDescBridgeRealTarget = (ClassDescElementDrawableRoot)getClassDescDrawableMgr().get(name);
         if (classDescBridgeRealTarget == null)
             throw new ItsNatDroidException("Not found processor for " + domElementParent.getName() + ":" + name);
 
-        ElementDrawableRoot childDrawable = classDescBridgeRealTarget.createElementDrawableRoot(domElement, inflaterDrawable, ctx);
+        ElementDrawableRoot childDrawable = classDescBridgeRealTarget.createElementDrawableRoot(domElement, inflaterDrawable);
         Drawable drawable = childDrawable.getDrawable();
 
         return new ElementDrawableChildDrawableBridge(parentChildDrawable,classDescBridgeRealTarget,drawable);

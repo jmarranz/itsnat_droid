@@ -1,11 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
@@ -44,7 +42,7 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
         return drawableLayers;
     }
 
-    public Drawable getChildDrawable(String drawableAttrName,DOMElemDrawable domElement, XMLInflaterDrawable inflaterDrawable, Context ctx,ArrayList<ElementDrawable> childList)
+    public Drawable getChildDrawable(String drawableAttrName,DOMElemDrawable domElement, XMLInflaterDrawable inflaterDrawable,ArrayList<ElementDrawable> childList)
     {
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
@@ -69,6 +67,6 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
         return drawable; // Puede ser null
     }
 
-    public abstract ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx);
+    public abstract ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable);
 }
 

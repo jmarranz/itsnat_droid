@@ -59,8 +59,9 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
     {
+        Context ctx = inflaterDrawable.getContext();
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         RotateDrawable drawable = new RotateDrawable();
@@ -71,7 +72,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
         Drawable.ConstantState rotateState = rotateStateField.get(drawable);
 
-        Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, ctx, childList);
+        Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, childList);
         if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // level 23, v6.0
             mDrawableField.set(drawable,childDrawable);
         else

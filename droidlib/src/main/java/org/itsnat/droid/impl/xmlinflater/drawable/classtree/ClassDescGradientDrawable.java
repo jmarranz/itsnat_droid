@@ -99,8 +99,9 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
     {
+        Context ctx = inflaterDrawable.getContext();
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         GradientDrawable drawable = new GradientDrawable();
