@@ -75,7 +75,7 @@ public class NodeToInsertImpl extends NodeImpl
         getAttributes().put(key,attr);
     }
 
-    public void removeAttribute(String namespaceURI,String name)
+    public void removeAttribute(String namespaceURI,String name) // No se llama nunca pero lo dejamos por coherencia
     {
         String key = toKey(namespaceURI, name);
         getAttributes().remove(key);

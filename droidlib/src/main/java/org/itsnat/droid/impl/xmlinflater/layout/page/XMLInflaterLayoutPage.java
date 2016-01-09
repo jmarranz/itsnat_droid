@@ -45,30 +45,26 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         return (InflatedLayoutPageImpl) inflatedXML;
     }
 
-    public void setAttributeFromRemote(View view, DOMAttr attr,ClassDescViewBased viewClassDesc,AttrLayoutContext attrCtx)
+    public void setAttributeFromRemoteSingle(View view, DOMAttr attr)
     {
-        if (viewClassDesc == null)
-        {
-            ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
-            viewClassDesc = classDescViewMgr.get(view);
-        }
+        ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
 
-        boolean singleSetAttr = (attrCtx == null);
-        if (singleSetAttr)
-        {
-            // Consideramos que el setAttributeRemote en una operación "single" y por tanto si define alguna tarea pendiente tenemos que ejecutarla como si ya no hubiera más atributos pendientes
-            PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-            attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null);
-        }
+        // Es single y por tanto  si define alguna tarea pendiente tenemos que ejecutarla como si ya no hubiera más atributos pendientes
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
+        AttrLayoutContext attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null);
 
         viewClassDesc.setAttributeOrInlineEventHandler(view, attr, attrCtx);
 
-        if (singleSetAttr)
-        {
-            PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
-            pendingViewPostCreateProcess.executePendingSetAttribsTasks();
-            pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
-        }
+        pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
+        pendingViewPostCreateProcess.executePendingSetAttribsTasks();
+        pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
+    }
+
+    public void setAttributeFromRemoteMultiple(View view, DOMAttr attr, ClassDescViewBased viewClassDesc, AttrLayoutContext attrCtx)
+    {
+        // viewClassDesc y attrCtx no pueden ser nulos
+        viewClassDesc.setAttributeOrInlineEventHandler(view, attr, attrCtx);
     }
 
     public boolean removeAttributeFromRemote(View view, String namespaceURI, String name)

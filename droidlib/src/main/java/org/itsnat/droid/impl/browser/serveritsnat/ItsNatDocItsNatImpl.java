@@ -206,8 +206,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         return name.substring(pos + 1);
     }
 
-
-    private void setAttributeNSInternal(Node node,String namespaceURI,String name,String value,ClassDescViewBased viewClassDesc,AttrLayoutContext attrCtx)
+    private String extractLocalName(String namespaceURI,String name)
     {
         if (namespaceURI == null)
         {
@@ -219,8 +218,19 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
                     name = getLocalName(name);
             }
         }
+        return name;
+    }
 
+    private DOMAttr toDOMAttr(String namespaceURI,String name,String value)
+    {
+        name = extractLocalName(namespaceURI,name);
         DOMAttr attr = DOMAttr.create(namespaceURI, name, value);
+        return attr;
+    }
+
+    private void setAttributeNSInternalSingle(Node node, String namespaceURI, String name, String value)
+    {
+        DOMAttr attr = toDOMAttr(namespaceURI, name, value);
 
         if (node instanceof NodeToInsertImpl)
         {
@@ -233,7 +243,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         }
 
         View view = node.getView();
-        page.getXMLInflaterLayoutPage().setAttributeFromRemote(view, attr, viewClassDesc, attrCtx);
+        page.getXMLInflaterLayoutPage().setAttributeFromRemoteSingle(view, attr);
     }
 
     @Override
@@ -251,7 +261,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void setAttributeNS(Node node,String namespaceURI,String name,String value)
     {
-        setAttributeNSInternal(node, namespaceURI, name, value, null, null);
+        setAttributeNSInternalSingle(node, namespaceURI, name, value);
     }
 
     @Override
@@ -264,35 +274,47 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void setAttrBatch(Node node,String namespaceURI,String[] attrNames,String[] attrValues)
     {
+        if (node == null) throw new ItsNatDroidException("Unexpected");
+
         View view = node.getView();
 
-        ClassDescViewBased viewClassDesc = null;
-        AttrLayoutContext attrCtx = null;
-        PendingViewPostCreateProcess pendingViewPostCreateProcess = null;
-
-        if (view != null) // Cuando Node es NodeToInsert el View es null pues no se ha creado, yo creo que nunca se llama a setAttrBatch con un nodo ya insertado pero intentamos optimizar por si cambiar ItsNat server eso ganamos
+        if (view != null) // El node ya se ha insertado. Este caso no se da nunca todavía pero el nombre es suficientemente ambiguo para dejarlo ya programado por si somos capaces de usar setAttrBatch con un nodo ya insertado
         {
-            ClassDescViewMgr classDescViewMgr = getPageImpl().getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getClassDescViewMgr();
-            viewClassDesc = classDescViewMgr.get(view);
+            PageImpl page = getPageImpl();
+            ClassDescViewMgr classDescViewMgr = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getClassDescViewMgr();
+            ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
 
             XMLInflaterLayoutPage xmlInflaterLayoutPage = page.getXMLInflaterLayoutPage();
 
-            pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-            attrCtx = new AttrLayoutContext(xmlInflaterLayoutPage, pendingViewPostCreateProcess, null);
-        }
+            PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
+            AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayoutPage, pendingViewPostCreateProcess, null);
 
-        int len = attrNames.length;
-        for(int i = 0; i < len; i++)
-        {
-            String name = attrNames[i];
-            String value = attrValues[i];
-            setAttributeNSInternal(node,namespaceURI,name,value,viewClassDesc,attrCtx);
-        }
+            int len = attrNames.length;
+            for(int i = 0; i < len; i++)
+            {
+                String name = attrNames[i];
+                String value = attrValues[i];
+                DOMAttr attr = toDOMAttr(namespaceURI, name, value);
+                page.getXMLInflaterLayoutPage().setAttributeFromRemoteMultiple(view, attr, viewClassDesc, attrCtx);
+            }
 
-        if (pendingViewPostCreateProcess != null)
-        {
             pendingViewPostCreateProcess.executePendingSetAttribsTasks();
             pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
+        }
+        else // Es un nodo no insertado todavía
+        {
+            if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Unexpected");
+
+            NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
+
+            int len = attrNames.length;
+            for(int i = 0; i < len; i++)
+            {
+                String name = attrNames[i];
+                String value = attrValues[i];
+                DOMAttr attr = toDOMAttr(namespaceURI, name, value);
+                nodeToIn.setAttribute(attr);
+            }
         }
     }
 
@@ -311,31 +333,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void removeAttributeNS(Node node, String namespaceURI, String name)
     {
-        if (namespaceURI == null)
-        {
-            String prefix = getPrefix(name);
-            if (prefix != null)
-            {
-                namespaceURI = getPageImpl().getInflatedLayoutPageImpl().getNamespace(prefix);
-                if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
-                    name = getLocalName(name);
-            }
-        }
-
-        if (node instanceof NodeToInsertImpl)
-        {
-            // Esto es raro pero es por si cambia de opinión para un atributo recién definido
-            NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
-            if (!nodeToIn.isInserted())
-            {
-                nodeToIn.removeAttribute(namespaceURI, name);
-                return;
-            }
-        }
-
-
-        View view = node.getView();
-        page.getXMLInflaterLayoutPage().removeAttributeFromRemote(view, namespaceURI, name);
+        removeAttributeNSInternal(node, namespaceURI, name);
     }
 
     @Override
@@ -343,6 +341,18 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     {
         Node node = getNode(idObj);
         removeAttributeNS(node, namespaceURI, name);
+    }
+
+    private void removeAttributeNSInternal(Node node, String namespaceURI, String name)
+    {
+        // Si node es un NodeToInsertImpl debe estar ya insertado
+        if (node instanceof NodeToInsertImpl && !((NodeToInsertImpl)node).isInserted())
+                throw new ItsNatDroidException("Unexpected"); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
+
+        name = extractLocalName(namespaceURI,name);
+
+        View view = node.getView();
+        page.getXMLInflaterLayoutPage().removeAttributeFromRemote(view, namespaceURI, name);
     }
 
     @Override
