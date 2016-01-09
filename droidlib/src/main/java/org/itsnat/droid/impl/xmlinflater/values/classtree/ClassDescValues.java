@@ -49,7 +49,7 @@ public abstract class ClassDescValues<T extends ElementValuesChild> extends Clas
 
         DOMAttr attrName = domElement.findDOMAttribute(null, "name");
         if (attrName == null) throw new ItsNatDroidException("Unexpected");
-        String name = attrName.getName();
+        String name = attrName.getValue();
 
         String value = domElement.getText();
 

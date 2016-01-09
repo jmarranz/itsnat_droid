@@ -21,7 +21,7 @@ public abstract class AttrDescReflecFieldGetIntRound<TclassDesc extends ClassDes
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        int convValue = getDimensionIntRound(attr.getValue(), attrCtx.getContext());
+        int convValue = getDimensionIntRound(attr, attrCtx.getXMLInflater());
 
         callMethod(target, convValue);
     }

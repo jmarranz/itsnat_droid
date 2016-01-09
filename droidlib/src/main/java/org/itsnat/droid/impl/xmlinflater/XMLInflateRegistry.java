@@ -340,7 +340,26 @@ public class XMLInflateRegistry
         return new Dimension(complexUnit, num);
     }
 
-    private Dimension getDimensionObject(String attrValue, Context ctx)
+    public Dimension getDimensionObject(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        Context ctx = xmlInflater.getContext();
+        String originalValue;
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            originalValue = elementResources.getDimension(attrDyn.getValuesResourceName());
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            originalValue = attr.getValue();
+        }
+        else throw new ItsNatDroidException("Internal Error");
+
+        return getDimensionObjectCompiled(originalValue, ctx);
+    }
+
+    private Dimension getDimensionObjectCompiled(String attrValue, Context ctx)
     {
         // El retorno es en px
         if (isResource(attrValue))
@@ -348,53 +367,73 @@ public class XMLInflateRegistry
             int resId = getIdentifier(attrValue, ctx);
             float num = ctx.getResources().getDimension(resId);
             return new Dimension(TypedValue.COMPLEX_UNIT_PX, num);
-        } else
+        }
+        else
         {
             return getDimensionObject(attrValue);
         }
     }
 
 
-    public int getDimensionIntFloor(String attrValue, Context ctx)
+    public int getDimensionIntFloor(DOMAttr attr,XMLInflater xmlInflater)
     {
         // TypedValue.complexToDimensionPixelOffset
-        return (int) getDimensionFloat(attrValue, ctx);
+        return (int) getDimensionFloat(attr, xmlInflater);
     }
 
-    public int getDimensionIntRound(String attrValue, Context ctx)
+    public int getDimensionIntRound(DOMAttr attr,XMLInflater xmlInflater)
     {
         // TypedValue.complexToDimensionPixelSize
-        return Math.round(getDimensionFloat(attrValue, ctx));
+        return Math.round(getDimensionFloat(attr, xmlInflater));
     }
 
-    public float getDimensionFloat(String attrValue, Context ctx)
+    public float getDimensionFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
         // El retorno es en px
-        Dimension dimen = getDimensionObject(attrValue, ctx);
+        Dimension dimen = getDimensionObject(attr, xmlInflater);
         int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
         float num = dimen.getValue();
 
-        Resources res = ctx.getResources();
+        Resources res = xmlInflater.getContext().getResources();
         return toPixelFloat(unit, num, res);
     }
 
-    public float getDimensionFloatFloor(String attrValue, Context ctx)
+    public float getDimensionFloatFloor(DOMAttr attr,XMLInflater xmlInflater)
     {
         // El retorno es en px
-        float num = getDimensionFloat(attrValue, ctx);
+        float num = getDimensionFloat(attr, xmlInflater);
         num = (float) Math.floor(num);
         return num;
     }
 
-    public float getDimensionFloatRound(String attrValue, Context ctx)
+    public float getDimensionFloatRound(DOMAttr attr,XMLInflater xmlInflater)
     {
         // El retorno es en px
-        float num = getDimensionFloat(attrValue, ctx);
+        float num = getDimensionFloat(attr,xmlInflater);
         num = Math.round(num);
         return num;
     }
 
-    public PercFloat getDimensionPercFloat(String attrValue, Context ctx)
+    public PercFloat getDimensionPercFloat(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        Context ctx = xmlInflater.getContext();
+        String originalValue;
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            originalValue = elementResources.getDimension(attrDyn.getValuesResourceName());
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            originalValue = attr.getValue();
+        }
+        else throw new ItsNatDroidException("Internal Error");
+
+        return getDimensionPercFloatCompiled(originalValue, ctx);
+    }
+
+    private PercFloat getDimensionPercFloatCompiled(String attrValue, Context ctx)
     {
         // Este método y PercFloat sólo se usa para el gradientRadius de GradientDrawable <shape> <gradient android:gradientRadius android:centerX y centerY>
 
@@ -442,7 +481,8 @@ public class XMLInflateRegistry
             attrValue = attrValue.substring(0, pos);
             float value = Float.parseFloat(attrValue);
             return new PercFloat(dataType, fractionParent, value);
-        } else
+        }
+        else
         {
             final boolean fractionParent = false;
             dataType = TypedValue.TYPE_FLOAT;
@@ -451,7 +491,8 @@ public class XMLInflateRegistry
             {
                 float value = Float.parseFloat(attrValue);
                 return new PercFloat(dataType, fractionParent, value); // fractionParent es indiferente
-            } else
+            }
+            else
             {
                 Dimension dimen = getDimensionObject(attrValue);
                 int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
@@ -462,17 +503,18 @@ public class XMLInflateRegistry
         }
     }
 
-    public int getDimensionWithNameIntRound(String value, Context ctx)
+    public int getDimensionWithNameIntRound(DOMAttr attr,XMLInflater xmlInflater)
     {
         int dimension;
 
+        String value = attr.getValue();
         // No hace falta hacer trim en caso de "match_parent" etc un espacio fastidia el attr
         if ("match_parent".equals(value) || "fill_parent".equals(value))
             dimension = ViewGroup.LayoutParams.MATCH_PARENT;
         else if ("wrap_content".equals(value))
             dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
         else
-            dimension = getDimensionIntRound(value, ctx);
+            dimension = getDimensionIntRound(attr, xmlInflater);
 
         return dimension;
     }

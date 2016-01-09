@@ -79,7 +79,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
             mDrawableField.set(rotateState,childDrawable);
 
         DOMAttr pivotXAttr = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "pivotX");
-        PercFloat pivotXObj = pivotXAttr != null ? xmlInflateRegistry.getDimensionPercFloat(pivotXAttr.getValue(),ctx) : null;
+        PercFloat pivotXObj = pivotXAttr != null ? xmlInflateRegistry.getDimensionPercFloat(pivotXAttr,inflaterDrawable) : null;
         boolean pivotXRel;
         float pivotX;
         if (pivotXObj == null)
@@ -96,7 +96,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         mPivotXField.set(rotateState,pivotX);
 
         DOMAttr pivotYAttr = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "pivotY");
-        PercFloat pivotYObj = pivotYAttr != null ? xmlInflateRegistry.getDimensionPercFloat(pivotYAttr.getValue(),ctx) : null;
+        PercFloat pivotYObj = pivotYAttr != null ? xmlInflateRegistry.getDimensionPercFloat(pivotYAttr,inflaterDrawable) : null;
         boolean pivotYRel;
         float pivotY;
         if (pivotYObj == null)

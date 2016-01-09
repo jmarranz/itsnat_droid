@@ -113,40 +113,40 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getBoolean(attrValue, ctx);
     }
 
-    public int getDimensionIntFloor(String attrValue, Context ctx)
+    public int getDimensionIntFloor(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionIntFloor(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionIntFloor(attr, xmlInflater);
     }
 
-    public int getDimensionIntRound(String attrValue, Context ctx)
+    public int getDimensionIntRound(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionIntRound(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionIntRound(attr, xmlInflater);
     }
 
-    public float getDimensionFloat(String attrValue, Context ctx)
+    public float getDimensionFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionFloat(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionFloat(attr, xmlInflater);
     }
 
-    public float getDimensionFloatFloor(String attrValue, Context ctx)
+    public float getDimensionFloatFloor(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionFloatFloor(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionFloatFloor(attr, xmlInflater);
     }
 
-    public float getDimensionFloatRound(String attrValue, Context ctx)
+    public float getDimensionFloatRound(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionFloatRound(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionFloatRound(attr, xmlInflater);
     }
 
 
-    public PercFloat getDimensionPercFloat(String attrValue, Context ctx)
+    public PercFloat getDimensionPercFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionPercFloat(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionPercFloat(attr, xmlInflater);
     }
 
-    public int getDimensionWithNameIntRound(String attrValue, Context ctx)
+    public int getDimensionWithNameIntRound(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionWithNameIntRound(attrValue, ctx);
+        return getXMLInflateRegistry().getDimensionWithNameIntRound(attr, xmlInflater);
     }
 
     public Drawable getDrawable(DOMAttr attr, XMLInflater xmlInflater)

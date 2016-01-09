@@ -33,7 +33,7 @@ public class AttrDescReflecMethodDimensionWithNameInt<TclassDesc extends ClassDe
     @Override
     public void setAttribute(TattrTarget target,DOMAttr attr, TattrContext attrCtx)
     {
-        int convValue = getDimensionWithNameIntRound(attr.getValue(), attrCtx.getContext());
+        int convValue = getDimensionWithNameIntRound(attr, attrCtx.getXMLInflater());
         callMethod(target, convValue);
     }
 

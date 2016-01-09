@@ -120,7 +120,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         if (shape == RING)
         {
             DOMAttr attrInnerRadius = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "innerRadius");
-            int innerRadius = attrInnerRadius != null ? xmlInflateRegistry.getDimensionIntRound(attrInnerRadius.getValue(), ctx) : -1; // Hay que iniciar en -1 para que no se use
+            int innerRadius = attrInnerRadius != null ? xmlInflateRegistry.getDimensionIntRound(attrInnerRadius, inflaterDrawable) : -1; // Hay que iniciar en -1 para que no se use
             innerRadiusField.set(gradientState,innerRadius);
             if (innerRadius == -1)
             {
@@ -133,7 +133,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
             }
 
             DOMAttr attrThickness = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "thickness");
-            int thickness = attrThickness != null ? xmlInflateRegistry.getDimensionIntRound(attrThickness.getValue(), ctx) : -1;   // Hay que iniciar en -1 para que no se use
+            int thickness = attrThickness != null ? xmlInflateRegistry.getDimensionIntRound(attrThickness, inflaterDrawable) : -1;   // Hay que iniciar en -1 para que no se use
             thicknessField.set(gradientState,thickness);
             if (thickness == -1)
             {

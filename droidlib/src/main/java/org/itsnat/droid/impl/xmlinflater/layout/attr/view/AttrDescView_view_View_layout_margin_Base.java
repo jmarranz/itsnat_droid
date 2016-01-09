@@ -22,7 +22,7 @@ public abstract class AttrDescView_view_View_layout_margin_Base extends AttrDesc
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int valueInt = getDimensionIntRound(attr.getValue(), attrCtx.getContext());
+        final int valueInt = getDimensionIntRound(attr, attrCtx.getXMLInflaterLayout());
 
         Runnable task = new Runnable(){
             @Override
