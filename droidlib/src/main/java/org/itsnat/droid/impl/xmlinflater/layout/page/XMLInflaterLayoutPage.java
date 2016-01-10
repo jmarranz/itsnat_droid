@@ -45,7 +45,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         return (InflatedLayoutPageImpl) inflatedXML;
     }
 
-    public void setAttributeFromRemoteSingle(View view, DOMAttr attr)
+    public void setAttributeSingleFromRemote(View view, DOMAttr attr)
     {
         ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
@@ -61,10 +61,28 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
     }
 
-    public void setAttributeFromRemoteMultiple(View view, DOMAttr attr, ClassDescViewBased viewClassDesc, AttrLayoutContext attrCtx)
+    public void setAttrBatchFromRemote(View view,DOMAttr[] attrArray)
     {
-        // viewClassDesc y attrCtx no pueden ser nulos
-        viewClassDesc.setAttributeOrInlineEventHandler(view, attr, attrCtx);
+        // Este método por ahora no se llama nunca, pero lo dejamos programado por si ItsNat Server amplía su uso (ver código y notas del llamador de este método)
+
+        PageImpl page = getPageImpl();
+        ClassDescViewMgr classDescViewMgr = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
+
+        XMLInflaterLayoutPage xmlInflaterLayoutPage = page.getXMLInflaterLayoutPage();
+
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
+        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayoutPage, pendingViewPostCreateProcess, null);
+
+        int len = attrArray.length;
+        for(int i = 0; i < len; i++)
+        {
+            DOMAttr attr = attrArray[i];
+            viewClassDesc.setAttributeOrInlineEventHandler(view, attr, attrCtx);
+        }
+
+        pendingViewPostCreateProcess.executePendingSetAttribsTasks();
+        pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
     }
 
     public boolean removeAttributeFromRemote(View view, String namespaceURI, String name)

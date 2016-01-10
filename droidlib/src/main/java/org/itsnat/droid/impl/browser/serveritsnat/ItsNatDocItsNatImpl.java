@@ -44,9 +44,6 @@ import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
-import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -93,9 +90,6 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType,boolean eventsEnabled)
     {
-        if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS)
-            throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
-
         getPageItsNatImpl().setSessionIdAndClientId(stdSessionId, sessionToken, sessionId, clientId);
         this.itsNatServletPath = servletPath;
         this.errorMode = errorMode; // Modifica el valor inicial
@@ -208,42 +202,57 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
     private String extractLocalName(String namespaceURI,String name)
     {
-        if (namespaceURI == null)
+        if (namespaceURI != null) return name;
+
+        // El namespace puede estar en el name como prefijo por ejemplo "android:"
+        String prefix = getPrefix(name);
+        if (prefix != null)
         {
-            String prefix = getPrefix(name);
-            if (prefix != null)
-            {
-                namespaceURI = getPageImpl().getInflatedLayoutPageImpl().getNamespace(prefix);
-                if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
-                    name = getLocalName(name);
-            }
+            namespaceURI = getPageImpl().getInflatedLayoutPageImpl().getNamespace(prefix);
+            if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
+                name = getLocalName(name);
         }
+
         return name;
     }
 
     private DOMAttr toDOMAttr(String namespaceURI,String name,String value)
     {
-        name = extractLocalName(namespaceURI,name);
+        name = extractLocalName(namespaceURI,name); // NECESARIO
         DOMAttr attr = DOMAttr.create(namespaceURI, name, value);
         return attr;
     }
 
-    private void setAttributeNSInternalSingle(Node node, String namespaceURI, String name, String value)
+    private DOMAttr[] toDOMAttr(String namespaceURI,String[] attrNames,String[] attrValues)
     {
-        DOMAttr attr = toDOMAttr(namespaceURI, name, value);
+        DOMAttr[] attrArray = new DOMAttr[attrNames.length];
 
-        if (node instanceof NodeToInsertImpl)
+        for(int i = 0; i < attrNames.length; i++)
         {
-            NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
-            if (!nodeToIn.isInserted())
-            {
-                nodeToIn.setAttribute(attr);
-                return;
-            }
+            String name = extractLocalName(namespaceURI, attrNames[i]); // NECESARIO
+            attrArray[i] = DOMAttr.create(namespaceURI, name, attrValues[i]);
         }
 
+        return attrArray;
+    }
+
+    private void setAttributeNSInternalSingle(Node node, String namespaceURI, String name, String value)
+    {
         View view = node.getView();
-        page.getXMLInflaterLayoutPage().setAttributeFromRemoteSingle(view, attr);
+
+        DOMAttr attr = toDOMAttr(namespaceURI, name, value);
+
+        if (view != null)
+        {
+            page.getXMLInflaterLayoutPage().setAttributeSingleFromRemote(view, attr);
+        }
+        else // Es un nodo que no se ha insertado todavía
+        {
+            if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Unexpected");
+
+            NodeToInsertImpl nodeToIn = (NodeToInsertImpl) node;
+            nodeToIn.setAttribute(attr);
+        }
     }
 
     @Override
@@ -274,32 +283,13 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void setAttrBatch(Node node,String namespaceURI,String[] attrNames,String[] attrValues)
     {
-        if (node == null) throw new ItsNatDroidException("Unexpected");
-
         View view = node.getView();
 
         if (view != null) // El node ya se ha insertado. Este caso no se da nunca todavía pero el nombre es suficientemente ambiguo para dejarlo ya programado por si somos capaces de usar setAttrBatch con un nodo ya insertado
         {
-            PageImpl page = getPageImpl();
-            ClassDescViewMgr classDescViewMgr = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getClassDescViewMgr();
-            ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
+            DOMAttr[] attrArray = toDOMAttr(namespaceURI,attrNames,attrValues);
 
-            XMLInflaterLayoutPage xmlInflaterLayoutPage = page.getXMLInflaterLayoutPage();
-
-            PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-            AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayoutPage, pendingViewPostCreateProcess, null);
-
-            int len = attrNames.length;
-            for(int i = 0; i < len; i++)
-            {
-                String name = attrNames[i];
-                String value = attrValues[i];
-                DOMAttr attr = toDOMAttr(namespaceURI, name, value);
-                page.getXMLInflaterLayoutPage().setAttributeFromRemoteMultiple(view, attr, viewClassDesc, attrCtx);
-            }
-
-            pendingViewPostCreateProcess.executePendingSetAttribsTasks();
-            pendingViewPostCreateProcess.executePendingLayoutParamsTasks();
+            page.getXMLInflaterLayoutPage().setAttrBatchFromRemote(view, attrArray);
         }
         else // Es un nodo no insertado todavía
         {
@@ -349,7 +339,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         if (node instanceof NodeToInsertImpl && !((NodeToInsertImpl)node).isInserted())
                 throw new ItsNatDroidException("Unexpected"); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
 
-        name = extractLocalName(namespaceURI,name);
+        name = extractLocalName(namespaceURI,name); // NECESARIO
 
         View view = node.getView();
         page.getXMLInflaterLayoutPage().removeAttributeFromRemote(view, namespaceURI, name);

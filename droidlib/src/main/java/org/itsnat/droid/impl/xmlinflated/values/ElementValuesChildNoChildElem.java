@@ -8,7 +8,7 @@ package org.itsnat.droid.impl.xmlinflated.values;
  *
  * Created by jmarranz on 27/11/14.
  */
-public abstract class ElementValuesChildNoChildElem extends ElementValuesChild
+public class ElementValuesChildNoChildElem extends ElementValuesChild
 {
     protected String type;
     protected String name;

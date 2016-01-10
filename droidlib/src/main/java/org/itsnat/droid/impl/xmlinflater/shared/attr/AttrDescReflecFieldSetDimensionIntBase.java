@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
