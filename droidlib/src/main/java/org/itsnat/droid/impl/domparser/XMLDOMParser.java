@@ -280,7 +280,7 @@ public abstract class XMLDOMParser
         {
             xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion,loadingRemotePage,assetManager);
         }
-        else if ("color".equals(resourceType))
+        else if ("color".equals(resourceType) || "dimen".equals(resourceType))
         {
             xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup, assetManager);
         }

@@ -80,12 +80,12 @@ public abstract class XMLInflaterValues extends XMLInflater
 
     protected ElementValues inflateNextElement(DOMElemValues domElement,DOMElemValues domElementParent,ElementValues parentChildValues)
     {
-        ElementValues childElem = createElementValuesChildNoChildren(domElement, domElementParent, parentChildValues);
+        ElementValues childElem = createElementValuesChildNoChildren(domElement, parentChildValues);
         // No procesamos los child elements porque cada ElementValues sabe como gestionar sus hijos si es que los tiene
         return childElem;
     }
 
-    private ElementValues createElementValuesChildNoChildren(DOMElemValues domElement, DOMElemValues domElementParent, ElementValues parentChildValues)
+    private ElementValues createElementValuesChildNoChildren(DOMElemValues domElement,ElementValues parentChildValues)
     {
         String resourceType = getResourceType(domElement);
 
@@ -94,15 +94,10 @@ public abstract class XMLInflaterValues extends XMLInflater
         if (classDesc == null)
             throw new ItsNatDroidException("Not found processor for resource type: " + resourceType);
 
-        ElementValuesChild childValuesChild = createElementValuesChildNoChildren(classDesc, domElement, domElementParent, parentChildValues);
+        ElementValuesChild childValuesChild = classDesc.createElementValuesChildNoChildren(domElement, parentChildValues);
         return childValuesChild;
     }
 
-
-    private ElementValuesChild createElementValuesChildNoChildren(ClassDescValues classDesc, DOMElemValues domElement, DOMElemValues domElementParent, ElementValues parentChildValues)
-    {
-        return classDesc.createElementValuesChildNoChildren(domElement, domElementParent, this, parentChildValues);
-    }
 
     private String getResourceType(DOMElemValues domElement)
     {

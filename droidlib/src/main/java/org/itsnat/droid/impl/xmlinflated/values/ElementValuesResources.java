@@ -30,18 +30,23 @@ public class ElementValuesResources extends ElementValues
         if (child instanceof ElementValuesChildNoChildElem)
         {
             ElementValuesChildNoChildElem childNoChildElem = (ElementValuesChildNoChildElem)child;
-            String key = childNoChildElem.getType() + "#" + childNoChildElem.getName();
+            String key = genKey(childNoChildElem.getType(),childNoChildElem.getName());
             elemValuesNoChildElemMap.put(key,childNoChildElem);
         }
     }
 
     public String getElementValuesChildNoChildElemValue(String type,String name)
     {
-        String key = type + "#" + name;
+        String key = genKey(type,name);
         ElementValuesChildNoChildElem child = elemValuesNoChildElemMap.get(key);
         if (child == null)
             throw new ItsNatDroidException("Not found item of type: " + type + " and name: " + name);
         return child.getValue();
+    }
+
+    private static String genKey(String type,String name)
+    {
+        return type + "#" + name;
     }
 
     public String getColor(String name)

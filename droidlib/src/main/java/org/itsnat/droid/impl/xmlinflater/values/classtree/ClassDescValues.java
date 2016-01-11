@@ -43,7 +43,7 @@ public abstract class ClassDescValues<T extends ElementValuesChild> extends Clas
         return (xmlInflaterValues instanceof XMLInflaterValuesPage) ? ((XMLInflaterValuesPage) xmlInflaterValues).getPageImpl() : null;
     }
 
-    public ElementValuesChildNoChildElem createElementValuesChildNoChildren(DOMElemValues domElement, DOMElemValues domElementParent,XMLInflaterValues xmlInflaterValues, ElementValues parentChildValues)
+    public ElementValuesChildNoChildElem createElementValuesChildNoChildren(DOMElemValues domElement, ElementValues parentChildValues)
     {
         // Se ha chequeado antes que está t_odo bien en domElement (existe type, name y value de una de las dos formas)
 

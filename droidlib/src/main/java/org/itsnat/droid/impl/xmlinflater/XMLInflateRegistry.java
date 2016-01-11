@@ -54,12 +54,13 @@ import java.util.Map;
  */
 public class XMLInflateRegistry
 {
-    protected ItsNatDroidImpl parent;
+    private ItsNatDroidImpl parent;
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
-    protected Map<String, Integer> newIdMap = new HashMap<String, Integer>();
-    protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
-    protected ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
-    protected ClassDescValuesMgr classDescValuesMgr = new ClassDescValuesMgr(this);
+    private Map<String, Integer> newIdMap = new HashMap<String, Integer>();
+    private ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
+    private ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
+    private ClassDescValuesMgr classDescValuesMgr = new ClassDescValuesMgr(this);
+    private Map<XMLDOMValues,ElementValuesResources> cacheXMLDOMValuesXMLInflaterValuesMap = new HashMap<XMLDOMValues, ElementValuesResources>();
 
     public XMLInflateRegistry(ItsNatDroidImpl parent)
     {
@@ -138,9 +139,10 @@ public class XMLInflateRegistry
                 if (value.startsWith("@+id/")) id = findIdAddIfNecessary(idName);
                 else id = findId(idName);
                 if (id <= 0)
-                    throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
+                    throw new ItsNatDroidException("Not found resource with id \"" + value + "\" you could use @+id/ ");
             }
-        } else id = getIdentifier(value, ctx);
+        }
+        else id = getIdentifier(value, ctx);
         return id;
     }
 
@@ -519,8 +521,21 @@ public class XMLInflateRegistry
         return dimension;
     }
 
-    private static ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflater)
+    private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflater)
     {
+        XMLDOMValues xmlDOMValues = (XMLDOMValues) attrDyn.getResource();
+
+        // Una vez parseado XMLDOMValues y cargados los recursos remotos se cachea y NO se modifica (no hay un pre-clonado
+        // El resultado de inflar es ElementValuesResources que básicamente contiene los valores de <item> <dim> etc ORIGINALES SIN RESOLVER RESPECTO AL Context, dichos valores sólo pueden
+        // cambiar si cambia el XMLDOMValues original (lo cual es posible) pero entonces será un XMLDOMValues
+        // A donde quiero llegar es que PODEMOS CACHEAR ElementValuesResources sin miedo respecto a XMLDOMValues, no es el caso de cachear InflatedValues (el objeto padre) el cual contiene el Context
+        // Afortunadamente aunque InflatedValues es el objeto padre de ElementValuesResources, este último NO tiene referencia alguna a InflatedValues padre por lo que éste se pierde y no retiene el Context
+        // Es importante cachear ElementValuesResources de otra manera inflar por cada obtención de un valor es costosísimo
+
+        ElementValuesResources elementValuesResources = cacheXMLDOMValuesXMLInflaterValuesMap.get(xmlDOMValues);
+        if (elementValuesResources != null)
+            return elementValuesResources;
+
         Context ctx = xmlInflater.getContext();
 
         String resourceMime = attrDyn.getResourceMime();
@@ -539,11 +554,12 @@ public class XMLInflateRegistry
         AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
         AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
 
-        XMLDOMValues xmlDOMValues = (XMLDOMValues) attrDyn.getResource();
-
         InflatedValues inflatedValues = page != null ? new InflatedValuesPage(itsNatDroid, xmlDOMValues, ctx, page) : new InflatedValuesStandalone(itsNatDroid, xmlDOMValues, ctx);
         XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
         ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
+
+        cacheXMLDOMValuesXMLInflaterValuesMap.put(xmlDOMValues,elementResources);
+
         return elementResources;
     }
 
