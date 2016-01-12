@@ -41,7 +41,7 @@ public class AttrDescView_view_View_layout_width extends AttrDesc<ClassDescViewB
         else
         {
             task.run();
-            view.setLayoutParams(view.getLayoutParams());
+            PendingViewPostCreateProcess.onChangedLayoutParams(view);
         }
     }
 
@@ -52,6 +52,6 @@ public class AttrDescView_view_View_layout_width extends AttrDesc<ClassDescViewB
 
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
 
-        view.setLayoutParams(params);
+        PendingViewPostCreateProcess.onChangedLayoutParams(view);
     }
 }

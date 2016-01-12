@@ -52,7 +52,7 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDesc<Class
         else
         {
             task.run();
-            view.setLayoutParams(view.getLayoutParams());
+            PendingViewPostCreateProcess.onChangedLayoutParams(view);
         }
     }
 
@@ -62,6 +62,6 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDesc<Class
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
         params.addRule(selector, 0);
 
-        view.setLayoutParams(view.getLayoutParams());
+        PendingViewPostCreateProcess.onChangedLayoutParams(view);
     }
 }

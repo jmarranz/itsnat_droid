@@ -99,20 +99,6 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         else return super.processElement(name,parentElement,parser, xmlDOM);
     }
 
-    @Override
-    public DOMAttr createDOMAttr(DOMElement element,String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
-    {
-        DOMAttr domAttr = super.createDOMAttr(element,namespaceURI,name,value,xmlDOMParent);
-
-        if (element instanceof DOMElemView)
-        {
-            DOMElemView domElemView = (DOMElemView)element;
-            if (namespaceURI == null && "style".equals(name))
-                domElemView.setStyleAttr(value);
-        }
-        return domAttr;
-    }
-
     protected void parseScriptElement(XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         XMLDOMLayout domLayout = (XMLDOMLayout) xmlDOM;

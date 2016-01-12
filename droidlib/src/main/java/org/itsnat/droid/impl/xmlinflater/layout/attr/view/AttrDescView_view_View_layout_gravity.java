@@ -69,7 +69,7 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
         else
         {
             task.run();
-            view.setLayoutParams(view.getLayoutParams());
+            PendingViewPostCreateProcess.onChangedLayoutParams(view);
         }
 
     }
@@ -85,6 +85,6 @@ public class AttrDescView_view_View_layout_gravity extends AttrDesc<ClassDescVie
         else if (params instanceof GridLayout.LayoutParams)
             ((GridLayout.LayoutParams)params).setGravity(Gravity.LEFT); // La doc habla también de un BASELINE pero no lo encuentro como Gravity
 
-        view.setLayoutParams(params);
+        PendingViewPostCreateProcess.onChangedLayoutParams(view);
     }
 }

@@ -39,6 +39,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyle;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrList;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleIdentifier;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
@@ -218,6 +221,27 @@ public class XMLInflateRegistry
         return findId(idName);
     }
 
+    public ViewStyle getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        Context ctx = xmlInflater.getContext();
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            List<DOMAttr> domAttrList = elementResources.getViewStyle(attrDyn.getValuesResourceName());
+            return new ViewStyleAttrList(domAttrList);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            String attrValue = attr.getValue();
+            int styleId = getIdentifier(attrValue, ctx);
+            if (styleId == 0)
+                return null;
+            return new ViewStyleIdentifier(styleId);
+        }
+        else throw new ItsNatDroidException("Internal Error");
+    }
+
     public static boolean isResource(String attrValue)
     {
         // No hace falta hacer un trim, un espacio al ppio invalida el atributo
@@ -230,7 +254,8 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getInteger(resId);
-        } else
+        }
+        else
         {
             if (attrValue.startsWith("0x"))
             {
@@ -331,7 +356,7 @@ public class XMLInflateRegistry
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
     }
 
-    private static Dimension getDimensionObject(String attrValue)
+    private static Dimension getDimensionObjectCompiled(String attrValue)
     {
         // Suponemos que NO es un recurso externo
         // El retorno es en px
@@ -372,7 +397,7 @@ public class XMLInflateRegistry
         }
         else
         {
-            return getDimensionObject(attrValue);
+            return getDimensionObjectCompiled(attrValue);
         }
     }
 
@@ -496,7 +521,7 @@ public class XMLInflateRegistry
             }
             else
             {
-                Dimension dimen = getDimensionObject(attrValue);
+                Dimension dimen = getDimensionObjectCompiled(attrValue);
                 int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
                 float num = dimen.getValue();
                 float value = toPixelFloat(unit, num, ctx.getResources());
@@ -521,7 +546,7 @@ public class XMLInflateRegistry
         return dimension;
     }
 
-    private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflater)
+    private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
     {
         XMLDOMValues xmlDOMValues = (XMLDOMValues) attrDyn.getResource();
 
@@ -534,25 +559,28 @@ public class XMLInflateRegistry
 
         ElementValuesResources elementValuesResources = cacheXMLDOMValuesXMLInflaterValuesMap.get(xmlDOMValues);
         if (elementValuesResources != null)
+        {
+//System.out.println("CACHED elementValuesResources");
             return elementValuesResources;
+        }
 
-        Context ctx = xmlInflater.getContext();
+        Context ctx = xmlInflaterParent.getContext();
 
         String resourceMime = attrDyn.getResourceMime();
         if (!MimeUtil.isMIMEResourceXML(resourceMime))
             throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
 
         PageImpl page = null;
-        if (xmlInflater instanceof XMLInflaterPage)
-            page = ((XMLInflaterPage)xmlInflater).getPageImpl();
+        if (xmlInflaterParent instanceof XMLInflaterPage)
+            page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
 
         if (attrDyn instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
-        int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
+        int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
-        ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
-        AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
-        AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
+        ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
+        AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
+        AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
 
         InflatedValues inflatedValues = page != null ? new InflatedValuesPage(itsNatDroid, xmlDOMValues, ctx, page) : new InflatedValuesStandalone(itsNatDroid, xmlDOMValues, ctx);
         XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
@@ -621,29 +649,29 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public Drawable getDrawable(DOMAttr attr,XMLInflater xmlInflater)
+    public Drawable getDrawable(DOMAttr attr,XMLInflater xmlInflaterParent)
     {
-        Context ctx = xmlInflater.getContext();
+        Context ctx = xmlInflaterParent.getContext();
 
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
 
-            int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
+            int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
             String resourceMime = attrDyn.getResourceMime();
             if (MimeUtil.isMIMEResourceXML(resourceMime))
             {
                 // Esperamos un drawable
                 PageImpl page = null;
-                if (xmlInflater instanceof XMLInflaterPage)
-                    page = ((XMLInflaterPage)xmlInflater).getPageImpl();
+                if (xmlInflaterParent instanceof XMLInflaterPage)
+                    page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
 
                 if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
-                ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
-                AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
-                AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
+                ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
+                AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
+                AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
 
                 XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
                 InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx,page) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);

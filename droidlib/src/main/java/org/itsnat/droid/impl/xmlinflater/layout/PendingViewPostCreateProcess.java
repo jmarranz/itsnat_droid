@@ -54,7 +54,7 @@ public abstract class PendingViewPostCreateProcess
         {
             for (Runnable task : pendingLayoutParamsTasks) task.run();
 
-            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+            onChangedLayoutParams(view);
 
             this.pendingLayoutParamsTasks = null;
         }
@@ -72,10 +72,17 @@ public abstract class PendingViewPostCreateProcess
         if (destroy) throw new ItsNatDroidException("Is already destroyed");
         if (pendingPostAddViewTasks != null)
         {
-            for (Runnable task : pendingPostAddViewTasks) task.run();
+            for (Runnable task : pendingPostAddViewTasks)
+                task.run();
 
             this.pendingPostAddViewTasks = null;
         }
+    }
+
+    public static void onChangedLayoutParams(View view)
+    {
+        // Para que los cambios que se han hecho en los objetos "stand-alone" (ya renderizados) *.LayoutParams se entere el View asociado (esa llamada hace poco más que un requestLayout()), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+        view.setLayoutParams(view.getLayoutParams());
     }
 
     public void destroy()

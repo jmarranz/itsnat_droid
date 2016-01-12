@@ -95,7 +95,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         if (rootDOMView instanceof DOMElemMerge)
         {
             if (viewParent == null) throw new ItsNatDroidException("Only can be used <merge> on included layouts");
-            newRootDOMElemView = new DOMElemView(rootDOMView); // Reemplazamos el <merge> por el ViewGroup como elemento, conservando los hijos y atributos del <merge> original (el namespace de Android por ejemplo)
+            newRootDOMElemView = new DOMElemView((DOMElemMerge)rootDOMView); // Reemplazamos el <merge> por el ViewGroup como elemento, conservando los hijos y atributos del <merge> original (el namespace de Android por ejemplo)
             newRootDOMElemView.setName(viewParent.getClass().getName());
         }
         else

@@ -109,6 +109,8 @@ public abstract class XMLDOMParser
     protected void fillElementAttributes(DOMElement element,XmlPullParser parser,XMLDOM xmlDOM)
     {
         int len = parser.getAttributeCount();
+        if (len == 0) return;
+
         element.initDOMAttribList(len);
         for (int i = 0; i < len; i++)
         {

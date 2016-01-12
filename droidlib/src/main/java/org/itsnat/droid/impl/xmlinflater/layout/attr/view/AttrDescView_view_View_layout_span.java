@@ -40,7 +40,7 @@ public class AttrDescView_view_View_layout_span extends AttrDesc<ClassDescViewBa
         else
         {
             task.run();
-            view.setLayoutParams(view.getLayoutParams());
+            PendingViewPostCreateProcess.onChangedLayoutParams(view);
         }
     }
 
@@ -51,6 +51,6 @@ public class AttrDescView_view_View_layout_span extends AttrDesc<ClassDescViewBa
 
         params.span = 1;
 
-        view.setLayoutParams(view.getLayoutParams());
+        PendingViewPostCreateProcess.onChangedLayoutParams(view);
     }
 }

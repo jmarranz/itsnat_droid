@@ -46,7 +46,10 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
 
     private static String findSpinnerModeAttributeFromRemote(NodeToInsertImpl newChildToIn)
     {
-        return findAttributeFromRemote(InflatedXML.XMLNS_ANDROID, "spinnerMode", newChildToIn);
+        DOMAttr domAttr = findAttributeFromRemote(InflatedXML.XMLNS_ANDROID, "spinnerMode", newChildToIn);
+        if (domAttr == null)
+            return null;
+        return domAttr.getValue();
     }
 
     @Override
@@ -59,7 +62,8 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
     private static String findSpinnerModeAttribute(DOMElemView domElemView)
     {
         DOMAttr attr = domElemView.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
-        if (attr == null) return null;
+        if (attr == null)
+            return null;
         return attr.getValue();
     }
 

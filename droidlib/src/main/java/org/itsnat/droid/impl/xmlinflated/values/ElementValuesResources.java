@@ -1,8 +1,10 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,5 +61,8 @@ public class ElementValuesResources extends ElementValues
         return getElementValuesChildNoChildElemValue("dimen",name);
     }
 
-
+    public List<DOMAttr> getViewStyle(String name)
+    {
+        return null;
+    }
 }

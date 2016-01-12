@@ -40,7 +40,7 @@ public abstract class AttrDescView_view_View_layout_margin_Base extends AttrDesc
         else
         {
             task.run();
-            view.setLayoutParams(view.getLayoutParams());
+            PendingViewPostCreateProcess.onChangedLayoutParams(view);
         }
     }
 
@@ -52,7 +52,7 @@ public abstract class AttrDescView_view_View_layout_margin_Base extends AttrDesc
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
         removeAttribute(params);
 
-        view.setLayoutParams(params);
+        PendingViewPostCreateProcess.onChangedLayoutParams(view);
     }
 
     protected abstract void removeAttribute(ViewGroup.MarginLayoutParams params);

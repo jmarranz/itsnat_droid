@@ -48,45 +48,49 @@ public class XMLDOMRegistry
         else
             markupWithoutLoadScript[0] = markup;
 
-        XMLDOMLayout cachedDOMLayout = domLayoutCache.get(markupWithoutLoadScript[0]);
-        if (cachedDOMLayout == null)
+        XMLDOMLayout cachedXMLDOMLayout = domLayoutCache.get(markupWithoutLoadScript[0]);
+        if (cachedXMLDOMLayout == null)
         {
             XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingRemotePage,this,assetManager);
 
-            cachedDOMLayout = layoutParser.parse(markup);
-            cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
-            domLayoutCache.put(markupWithoutLoadScript[0], cachedDOMLayout);
+            cachedXMLDOMLayout = layoutParser.parse(markup);
+            cachedXMLDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
+            domLayoutCache.put(markupWithoutLoadScript[0], cachedXMLDOMLayout);
         }
         else // cachedDOMLayout != null
         {
             // Recuerda que cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
         }
 
-        XMLDOMLayout clonedDOMLayout = cachedDOMLayout.partialClone(loadScript); // Necesitamos un clone parcial porque el loadScript necesitamos alojarlo en un objeto nuevo pues no puede cachearse
+        XMLDOMLayout clonedDOMLayout = cachedXMLDOMLayout.partialClone(loadScript); // Necesitamos un clone parcial porque el loadScript necesitamos alojarlo en un objeto nuevo pues no puede cachearse
         return clonedDOMLayout;
     }
 
     public XMLDOMDrawable getXMLDOMDrawableCache(String markup,AssetManager assetManager)
     {
         // Ver notas de getXMLDOMLayoutCache()
-        XMLDOMDrawable cachedDrawable = domDrawableCache.get(markup);
-        if (cachedDrawable != null) return cachedDrawable;
+        XMLDOMDrawable cachedXMLDOMDrawable = domDrawableCache.get(markup);
+        if (cachedXMLDOMDrawable != null) return cachedXMLDOMDrawable;
 
-        XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(this,assetManager);
-        XMLDOMDrawable xmlDOMDrawable = parser.parse(markup);
-        domDrawableCache.put(markup, xmlDOMDrawable);
-        return xmlDOMDrawable;
+        XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(this, assetManager);
+        cachedXMLDOMDrawable = parser.parse(markup);
+        domDrawableCache.put(markup, cachedXMLDOMDrawable);
+        return cachedXMLDOMDrawable;
     }
 
     public XMLDOMValues getXMLDOMValuesCache(String markup,AssetManager assetManager)
     {
         // Ver notas de getXMLDOMLayoutCache()
-        XMLDOMValues cachedValues = domValuesCache.get(markup);
-        if (cachedValues != null) return cachedValues;
+        XMLDOMValues cachedXMLDOMValues = domValuesCache.get(markup);
+        if (cachedXMLDOMValues != null)
+        {
+//System.out.println("CACHED cachedXMLDOMValues");
+            return cachedXMLDOMValues;
+        }
 
         XMLDOMValuesParser parser = XMLDOMValuesParser.createXMLDOMValuesParser(this, assetManager);
-        XMLDOMValues xmlDOMValues = parser.parse(markup);
-        domValuesCache.put(markup, xmlDOMValues);
-        return xmlDOMValues;
+        cachedXMLDOMValues = parser.parse(markup);
+        domValuesCache.put(markup, cachedXMLDOMValues);
+        return cachedXMLDOMValues;
     }
 }

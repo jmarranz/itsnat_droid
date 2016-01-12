@@ -47,12 +47,11 @@ public abstract class DOMElement
 
     public ArrayList<DOMAttr> getDOMAttributeList()
     {
-        return attribs;
+        return attribs; // Puede ser null
     }
 
     public void initDOMAttribList(int count)
     {
-        // Aunque luego sea alguno menos (el style de los View no se guarda aquí por ej.) no importa, así evitamos que reconstruya el array interno
         this.attribs = new ArrayList<DOMAttr>(count);
     }
 
@@ -63,6 +62,9 @@ public abstract class DOMElement
 
     public DOMAttr findDOMAttribute(String namespaceURI, String name)
     {
+        if (attribs == null)
+            return null;
+
         for(int i = 0; i < attribs.size(); i++)
         {
             DOMAttr attr = attribs.get(i);

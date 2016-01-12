@@ -61,7 +61,7 @@ public class AttrDescView_view_View_layout_column extends AttrDesc<ClassDescView
             else if (params instanceof TableRow.LayoutParams)
             {
                 task.run();
-                view.setLayoutParams(view.getLayoutParams());
+                PendingViewPostCreateProcess.onChangedLayoutParams(view);
             }
         }
     }
@@ -78,7 +78,7 @@ public class AttrDescView_view_View_layout_column extends AttrDesc<ClassDescView
         {
             ((TableRow.LayoutParams)params).column = -1;
 
-            view.setLayoutParams(view.getLayoutParams());
+            PendingViewPostCreateProcess.onChangedLayoutParams(view);
         }
 
     }

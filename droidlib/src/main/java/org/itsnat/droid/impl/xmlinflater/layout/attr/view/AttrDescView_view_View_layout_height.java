@@ -40,7 +40,7 @@ public class AttrDescView_view_View_layout_height extends AttrDesc<ClassDescView
         else
         {
             task.run();
-            view.setLayoutParams(view.getLayoutParams());
+            PendingViewPostCreateProcess.onChangedLayoutParams(view);
         }
 
     }
@@ -52,6 +52,6 @@ public class AttrDescView_view_View_layout_height extends AttrDesc<ClassDescView
 
         params.height = ViewGroup.LayoutParams.MATCH_PARENT; // Por poner algo, no lo tengo claro y yo creo que puede cambiar según el ViewGroup padre
 
-        view.setLayoutParams(params);
+        PendingViewPostCreateProcess.onChangedLayoutParams(view);
     }
 }

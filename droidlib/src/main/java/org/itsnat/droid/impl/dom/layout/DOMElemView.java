@@ -5,8 +5,6 @@ package org.itsnat.droid.impl.dom.layout;
  */
 public class DOMElemView extends DOMElemLayout
 {
-    protected String styleAttr;
-
     public DOMElemView(String name, DOMElemLayout parentElement)
     {
         super(name,parentElement);
@@ -15,8 +13,6 @@ public class DOMElemView extends DOMElemLayout
     public DOMElemView(DOMElemLayout toCopy)
     {
         super(toCopy);
-        if (toCopy instanceof DOMElemView)
-            this.styleAttr = ((DOMElemView)toCopy).styleAttr;
     }
 
     /*
@@ -25,16 +21,6 @@ public class DOMElemView extends DOMElemLayout
         return (DOMView) getParentDOMElement();
     }
     */
-
-    public String getStyleAttr()
-    {
-        return styleAttr;
-    }
-
-    public void setStyleAttr(String styleAttr)
-    {
-        this.styleAttr = styleAttr;
-    }
 
     /*
     public void addChildView(DOMView domView)
