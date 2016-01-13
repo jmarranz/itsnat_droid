@@ -6,6 +6,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Map;
 public class NodeToInsertImpl extends NodeImpl
 {
     protected String viewName;
-    protected Map<String,DOMAttr> attribs;
+    protected LinkedHashMap<String,DOMAttr> attribs;
     protected boolean inserted = false;
 
     public NodeToInsertImpl(String viewName)
@@ -35,7 +36,7 @@ public class NodeToInsertImpl extends NodeImpl
 
     public Map<String,DOMAttr> getAttributes()
     {
-        if (attribs == null) this.attribs = new HashMap<String,DOMAttr>();
+        if (attribs == null) this.attribs = new LinkedHashMap<String,DOMAttr>();
         return attribs;
     }
 

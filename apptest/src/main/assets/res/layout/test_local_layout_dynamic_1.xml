@@ -79,8 +79,6 @@
                 style="@style/test_style_layout_below" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Hello world 3!"
                 android:textSize="@assets:dimen/res/values/test_values_dynamic.xml:test_dimen_textSize"
                 android:textColor="@assets:color/res/values/test_values_dynamic.xml:test_color_textColor"

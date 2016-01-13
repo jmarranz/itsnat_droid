@@ -24,6 +24,7 @@ import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -31,8 +32,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrCompiled;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
@@ -287,8 +288,6 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView, XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        Context ctx = xmlInflaterLayout.getContext();
-
         ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(null);
         List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
@@ -301,15 +300,13 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         rootView.setLayoutParams(layoutParams);
 
-        fillAttributesAndAddView(rootView, null, rootDOMElemView, styleLayoutParamsAttribs,styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+        fillViewAttributesAndAddView(rootView, null, -1, rootDOMElemView.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
         return rootView;
     }
 
     public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView,XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        Context ctx = xmlInflaterLayout.getContext();
-
         ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(viewParent);
         List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
@@ -321,7 +318,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         view.setLayoutParams(layoutParams);
 
-        fillAttributesAndAddView(view, viewParent, domElemView,styleLayoutParamsAttribs,styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+        fillViewAttributesAndAddView(view, viewParent, -1, domElemView.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
         return view;
     }
@@ -411,18 +408,18 @@ public class ClassDescViewBased extends ClassDesc<View>
         return view;
     }
 
-    private void fillAttributesAndAddView(View view,ViewGroup viewParent,DOMElemView domElemView,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private void fillViewAttributesAndAddView(View view,ViewGroup viewParent,int index,Map<String,DOMAttr> attribMap,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(view, viewParent);
         AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
 
-        fillViewAttributes(view, domElemView,styleLayoutParamsAttribs,styleDynamicAttribs, attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
-        addViewObject(viewParent, view, -1, pendingViewPostCreateProcess);
+        fillViewAttributes(view, attribMap,styleLayoutParamsAttribs,styleDynamicAttribs, attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        addViewObject(viewParent, view, index, pendingViewPostCreateProcess);
 
         pendingViewPostCreateProcess.destroy();
     }
 
-    private void fillViewAttributes(View view, DOMElemView domElemView,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, AttrLayoutContext attrCtx)
+    private void fillViewAttributes(View view,Map<String,DOMAttr> attribMap,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, AttrLayoutContext attrCtx)
     {
         if (styleLayoutParamsAttribs != null) // Definimos antes los styleLayoutParamsAttribs que los definidos en el View XML porque si está alguno repetido en el XML del View gana el éste sobre el style
         {
@@ -436,15 +433,15 @@ public class ClassDescViewBased extends ClassDesc<View>
                 setAttributeOrInlineEventHandler(view, attr, attrCtx);
         }
 
-        ArrayList<DOMAttr> attribList = domElemView.getDOMAttributeList();
-        if (attribList != null)
+        if (attribMap != null)
         {
-            for (int i = 0; i < attribList.size(); i++)
+            for (Map.Entry<String,DOMAttr> entry : attribMap.entrySet())
             {
-                DOMAttr attr = attribList.get(i);
+                DOMAttr attr = entry.getValue();
                 setAttributeOrInlineEventHandler(view, attr, attrCtx);
             }
         }
+
 
         attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
     }
@@ -504,7 +501,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
-        View view = createViewObjectFromRemote(newChildToIn, xmlInflaterLayout,layoutParams,styleLayoutParamsAttribs,styleDynamicAttribs,pendingPostInsertChildrenTasks);
+        View view = createViewObjectFromRemote(newChildToIn, xmlInflaterLayout, layoutParams, styleLayoutParamsAttribs, styleDynamicAttribs, pendingPostInsertChildrenTasks);
         newChildToIn.setView(view); // No es necesariamente root
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
@@ -512,51 +509,11 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         view.setLayoutParams(layoutParams);
 
-        fillViewAttributesAndAddViewFromRemote(newChildToIn, viewParent, index, styleLayoutParamsAttribs,styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+        fillViewAttributesAndAddView(newChildToIn.getView(), viewParent, index, newChildToIn.getAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
         return view;
     }
 
-    private void fillViewAttributesAndAddViewFromRemote(NodeToInsertImpl newChildToIn, ViewGroup viewParent, int index, List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
-    {
-        View view = newChildToIn.getView();
-
-        PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(view, viewParent);
-        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
-
-        fillViewAttributesFromRemote(newChildToIn, styleLayoutParamsAttribs,styleDynamicAttribs, attrCtx);
-        addViewObject(viewParent, view, index, pendingViewPostCreateProcess);
-
-        pendingViewPostCreateProcess.destroy();
-    }
-
-    private void fillViewAttributesFromRemote(NodeToInsertImpl newChildToIn,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, AttrLayoutContext attrCtx)
-    {
-        View view = newChildToIn.getView();
-
-        if (styleLayoutParamsAttribs != null)
-        {
-            for(DOMAttr attr : styleLayoutParamsAttribs)
-                setAttributeOrInlineEventHandler(view, attr, attrCtx);
-        }
-
-        if (styleDynamicAttribs != null)
-        {
-            for(DOMAttr attr : styleDynamicAttribs)
-                setAttributeOrInlineEventHandler(view, attr, attrCtx);
-        }
-
-        if (newChildToIn.hasAttributes())
-        {
-            for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
-            {
-                DOMAttr attr = entry.getValue();
-                setAttributeOrInlineEventHandler(view, attr, attrCtx);
-            }
-        }
-
-        attrCtx.getPendingViewPostCreateProcess().executePendingSetAttribsTasks();
-    }
 
     public static void getLayoutParamsFromStyleId(int styleId,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {

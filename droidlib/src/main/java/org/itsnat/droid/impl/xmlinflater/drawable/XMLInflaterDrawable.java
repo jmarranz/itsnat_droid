@@ -25,8 +25,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDra
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableWrapped;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ElementDrawableChildContainer;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -90,19 +91,18 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
     private ElementDrawableRoot createRootElementDrawable(ClassDescElementDrawableRoot classDesc, DOMElemDrawable rootDOMElem)
     {
-        Context ctx = getContext();
         return classDesc.createElementDrawableRoot(rootDOMElem, this);
     }
 
     private void fillAttributes(ClassDescDrawable classDesc,DrawableOrElementDrawableWrapper drawable,DOMElemDrawable domElement)
     {
-        ArrayList<DOMAttr> attribList = domElement.getDOMAttributeList();
-        if (attribList != null)
+        Map<String,DOMAttr> attribMap = domElement.getDOMAttributes();
+        if (attribMap != null)
         {
             AttrDrawableContext attrCtx = new AttrDrawableContext(this);
-            for (int i = 0; i < attribList.size(); i++)
+            for (Map.Entry<String,DOMAttr> entry : attribMap.entrySet())
             {
-                DOMAttr attr = attribList.get(i);
+                DOMAttr attr = entry.getValue();
                 setAttribute(classDesc, drawable, attr,attrCtx);
             }
         }

@@ -1,10 +1,5 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.values.DOMElemValues;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-
 /**
  * Soportamos en la misma clase los dos formatos equivalentes a la hora de definir un valor cuyo tipo hay que especificar explícitamente:
  *

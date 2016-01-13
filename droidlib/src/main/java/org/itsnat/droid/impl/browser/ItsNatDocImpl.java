@@ -348,7 +348,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         downloadFile(src, MimeUtil.MIME_BEANSHELL,listener);
     }
 
-    public void downloadFile(String src,String mime,OnHttpRequestListener listener)
+    private void downloadFile(String src,String mime,OnHttpRequestListener listener)
     {
         boolean sync = getPageImpl().getPageRequestClonedImpl().isSynchronous();
 

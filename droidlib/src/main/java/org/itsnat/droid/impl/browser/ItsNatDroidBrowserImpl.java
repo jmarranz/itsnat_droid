@@ -18,7 +18,6 @@ import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 import java.util.Iterator;
 import java.util.List;

@@ -3,6 +3,9 @@
     <color name="test_color_textColor">#ff0000</color>
 
     <style name="test_style_dynamic">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
         <item name="android:paddingLeft">21.3dp</item>
         <item name="android:paddingRight">21.3dp</item>
     </style>

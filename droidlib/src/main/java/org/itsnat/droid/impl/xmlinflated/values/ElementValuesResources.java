@@ -34,19 +34,24 @@ public class ElementValuesResources extends ElementValues
 
         // Es posible repetir en dos items el name, incluso style puede tener el name de un <dimen>, lo importante es que NO coincida exactamente el mismo tipo y nombre
 
+        ElementValuesChild old = null;
         if (child instanceof ElementValuesChildNoChildElem)
         {
             ElementValuesChildNoChildElem childNoChildElem = (ElementValuesChildNoChildElem)child;
-            String key = genKey(childNoChildElem.getType(),childNoChildElem.getName());
-            elemValuesElemMap.put(key,childNoChildElem);
+            String key = genKey(childNoChildElem.getType(), childNoChildElem.getName());
+            old = elemValuesElemMap.put(key,childNoChildElem);
+            if (old != null) throw new ItsNatDroidException("Already exists an element with type " + childNoChildElem.getType() + " and name " + childNoChildElem.getName());
         }
         else if (child instanceof ElementValuesChildStyle)
         {
             ElementValuesChildStyle childStyle = (ElementValuesChildStyle)child;
             String key = genKey("style",childStyle.getName());
-            elemValuesElemMap.put(key,childStyle);
+            old = elemValuesElemMap.put(key,childStyle);
+            if (old != null) throw new ItsNatDroidException("Already exists an element with type style and name " + childStyle.getName());
         }
         else throw new ItsNatDroidException("Not supported in values folder the element : " + child.getElementName());
+
+
     }
 
     public String getElementValuesChildNoChildElemValue(String type,String name)

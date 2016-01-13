@@ -4,13 +4,10 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
-import org.itsnat.droid.impl.xmlinflated.values.ElementValues;
-import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildNoChildElem;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildStyle;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildStyleChild;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
-import org.itsnat.droid.impl.xmlinflater.values.XMLInflaterValues;
 
 import java.util.LinkedList;
 

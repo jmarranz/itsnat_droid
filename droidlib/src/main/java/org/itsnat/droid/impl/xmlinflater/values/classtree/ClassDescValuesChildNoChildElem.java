@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflater.values.classtree;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
-import org.itsnat.droid.impl.xmlinflated.values.ElementValues;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildNoChildElem;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;

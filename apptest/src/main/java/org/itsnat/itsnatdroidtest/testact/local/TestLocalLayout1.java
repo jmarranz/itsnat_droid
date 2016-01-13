@@ -322,11 +322,27 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getText(), "Hello world 3!");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+
+                    assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
+                    assertEquals(a_params.width, b_params.width);
+                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    assertEquals(a_params.height, b_params.height);
+
                     assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res));
                     assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
 
                     assertEquals(compTextView.getTextColors().getDefaultColor(), 0xffff0000);
                     assertEquals(compTextView.getTextColors(), parsedTextView.getTextColors());
+
+                    // Test style
+                    assertEquals(compTextView.getPaddingLeft(), ValueUtil.dpToPixelIntRound(21.3f, res));
+                    assertEquals(compTextView.getPaddingLeft(), parsedTextView.getPaddingLeft());
+
+                    assertEquals(compTextView.getPaddingRight(), ValueUtil.dpToPixelIntRound(21.3f, res));
+                    assertEquals(compTextView.getPaddingRight(), parsedTextView.getPaddingRight());
+
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();

@@ -22,7 +22,7 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
 {
     private String itsNatServerVersion;
     private Integer bitmapDensityReference;
-    private JSONObject responseJSONObject;
+    //private JSONObject responseJSONObject;
 
     public HttpRequestResultOKImpl(String url,HttpResponse httpResponse,InputStream input,HttpFileCache httpFileCache,String mimeType, String encoding)
     {
@@ -102,16 +102,18 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
         if (MimeUtil.MIME_ANDROID_LAYOUT.equals(mimeType) ||
                 MimeUtil.MIME_XML.equals(mimeType) ||  // Ej. un XML drawable
                 MimeUtil.MIME_BEANSHELL.equals(mimeType) ||
-                MimeUtil.MIME_JSON.equals(mimeType) ||
+                /* MimeUtil.MIME_JSON.equals(mimeType) || */
                 mimeType.startsWith("text/"))
         {
             this.responseText = MiscUtil.toString(responseByteArray, getEncoding());
 
+            /*
             if (MimeUtil.MIME_JSON.equals(mimeType))
             {
                 try { this.responseJSONObject = new JSONObject(this.responseText) ; }
                 catch (JSONException ex) { throw new ItsNatDroidServerResponseException(ex, this); }
             }
+            */
         }
     }
 
@@ -125,10 +127,11 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
         return bitmapDensityReference;
     }
 
+    /*
     public JSONObject getResponseJSONObject()
     {
         return responseJSONObject;
     }
-
+    */
 
 }

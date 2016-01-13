@@ -3,7 +3,10 @@ package org.itsnat.droid.impl.dom;
 import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 31/10/14.
@@ -12,7 +15,7 @@ public abstract class DOMElement
 {
     protected String name;
     protected DOMElement parentElement; // Si es null es el root
-    protected ArrayList<DOMAttr> attribs;
+    protected LinkedHashMap<String,DOMAttr> attribMapList;
     protected LinkedList<DOMElement> childList;
 
     public DOMElement(String name,DOMElement parentElement)
@@ -25,7 +28,7 @@ public abstract class DOMElement
     {
         this.name = toCopy.name;
         this.parentElement = toCopy.parentElement;
-        this.attribs = toCopy.attribs;
+        this.attribMapList = toCopy.attribMapList;
         this.childList = toCopy.childList;
     }
 
@@ -45,36 +48,34 @@ public abstract class DOMElement
         return parentElement;
     }
 
-    public ArrayList<DOMAttr> getDOMAttributeList()
+    public Map<String,DOMAttr> getDOMAttributes()
     {
-        return attribs; // Puede ser null
+        return attribMapList; // Puede ser null
     }
 
     public void initDOMAttribList(int count)
     {
-        this.attribs = new ArrayList<DOMAttr>(count);
+        this.attribMapList = new LinkedHashMap<String,DOMAttr>(count);
     }
 
     public void addDOMAttribute(DOMAttr attr)
     {
-        attribs.add(attr);
+        String key = toKey(attr.getNamespaceURI(),attr.getName());
+        attribMapList.put(key,attr);
     }
 
     public DOMAttr findDOMAttribute(String namespaceURI, String name)
     {
-        if (attribs == null)
+        if (attribMapList == null)
             return null;
 
-        for(int i = 0; i < attribs.size(); i++)
-        {
-            DOMAttr attr = attribs.get(i);
-            String currNamespaceURI = attr.getNamespaceURI();
-            if (!MiscUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
-            String currName = attr.getName(); // El nombre devuelto no contiene el namespace
-            if (!name.equals(currName)) continue;
-            return attr;
-        }
-        return null;
+        String key = toKey(namespaceURI,name);
+        return attribMapList.get(key);
+    }
+
+    private static String toKey(String namespaceURI, String name)
+    {
+        return MiscUtil.isEmpty(namespaceURI) ? name : (namespaceURI + ":" + name);
     }
 
     public LinkedList<DOMElement> getChildDOMElementList()

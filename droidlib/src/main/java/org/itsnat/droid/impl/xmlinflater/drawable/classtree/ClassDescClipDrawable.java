@@ -9,7 +9,6 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -41,7 +40,6 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
     @Override
     public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
     {
-        Context ctx = inflaterDrawable.getContext();
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
