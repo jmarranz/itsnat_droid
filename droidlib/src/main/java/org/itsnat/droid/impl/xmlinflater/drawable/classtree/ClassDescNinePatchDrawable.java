@@ -7,6 +7,7 @@ import android.graphics.drawable.NinePatchDrawable;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -32,7 +33,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
 
         Context ctx = inflaterDrawable.getContext();
 
-        DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
+        DOMAttr attrSrc = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "src");
         if (attrSrc == null) throw new ItsNatDroidException("Missing src attribute in element " + rootElem.getName());
 
         // No necesita escalar pues por definición es "flexible"
@@ -52,7 +53,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
 
     private static boolean isSrcAttribute(String namespaceURI,String name)
     {
-        return InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && name.equals("src");
+        return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && name.equals("src");
     }
 
     @Override

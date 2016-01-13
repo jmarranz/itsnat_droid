@@ -43,19 +43,6 @@ public abstract class ClassDescValues<T extends ElementValuesChild> extends Clas
         return (xmlInflaterValues instanceof XMLInflaterValuesPage) ? ((XMLInflaterValuesPage) xmlInflaterValues).getPageImpl() : null;
     }
 
-    public ElementValuesChildNoChildElem createElementValuesChildNoChildren(DOMElemValues domElement, ElementValues parentChildValues)
-    {
-        // Se ha chequeado antes que está t_odo bien en domElement (existe type, name y value de una de las dos formas)
-
-        DOMAttr attrName = domElement.findDOMAttribute(null, "name");
-        if (attrName == null) throw new ItsNatDroidException("Unexpected");
-        String name = attrName.getValue();
-
-        String value = domElement.getText();
-
-        return createElementValuesChildNoChildren(parentChildValues,name,value);
-    }
-
     @Override
     protected void init()
     {
@@ -64,5 +51,4 @@ public abstract class ClassDescValues<T extends ElementValuesChild> extends Clas
         super.init();
     }
 
-    public abstract ElementValuesChildNoChildElem createElementValuesChildNoChildren(ElementValues parentChildValues, String name,String value);
 }

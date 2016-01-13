@@ -5,11 +5,19 @@ package org.itsnat.droid.impl.xmlinflated.values;
  */
 public abstract class ElementValuesChild extends ElementValues
 {
+    protected String name;
     protected ElementValues parentElement;
 
-    protected ElementValuesChild(ElementValues parentElement)
+    protected ElementValuesChild(String elementName,String name,ElementValues parentElement)
     {
+        super(elementName);
+        this.name = name;
         this.parentElement = parentElement;
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public ElementValues getParentElement()

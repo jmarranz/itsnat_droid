@@ -129,7 +129,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         int posPkg = name.indexOf(':');
         if (posPkg != -1)
         {
-            packageName = null; // Tiene package el value, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
+            packageName = null; // Tiene el package en el value, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
             name = name.substring(posPkg + 1);
         }
         else

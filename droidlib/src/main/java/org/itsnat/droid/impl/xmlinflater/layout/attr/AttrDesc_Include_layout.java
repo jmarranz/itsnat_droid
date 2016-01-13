@@ -41,7 +41,7 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
                 int indexOfInclude = viewParent.indexOfChild(viewIncludeFake);
 
                 viewParent.removeViewAt(indexOfInclude); // Eliminamos el falso View auxiliar que substituye al <include> y que está recien insertado
-                if (viewIncludeFake.getParent() != null) throw new ItsNatDroidException("Unexpected");
+                if (viewIncludeFake.getParent() != null) throw new ItsNatDroidException("Internal Error");
 
                 Context ctx = attrCtx.getContext();
                 XMLInflater xmlInflater = attrCtx.getXMLInflater();
@@ -50,7 +50,7 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
 
                 //int countBefore = viewParent.getChildCount();
                 View resView = getLayout(attr, xmlInflater,viewParent,indexOfInclude,includeAttribs);
-                if (resView != viewParent) throw new ItsNatDroidException("Unexpected"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views, si viewParent es no nulo se devuelve viewParent, idem que en el inflado nativo
+                if (resView != viewParent) throw new ItsNatDroidException("Internal Error"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views, si viewParent es no nulo se devuelve viewParent, idem que en el inflado nativo
 
                 // Test para ver que se ha insertado si fue al final (eliminar en el futuro):
                 /*

@@ -11,8 +11,6 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
  */
 public abstract class InflatedXML
 {
-    public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
-
     protected ItsNatDroidImpl itsNatDroid;
     protected XMLDOM xmlDOM;
     protected Context ctx;

@@ -1,5 +1,10 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
+import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.values.DOMElemValues;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
+
 /**
  * Soportamos en la misma clase los dos formatos equivalentes a la hora de definir un valor cuyo tipo hay que especificar explícitamente:
  *
@@ -10,32 +15,25 @@ package org.itsnat.droid.impl.xmlinflated.values;
  */
 public class ElementValuesChildNoChildElem extends ElementValuesChild
 {
-    protected String type;
-    protected String name;
+    protected String type; // dimen, color etc
     protected String value;
 
-    public ElementValuesChildNoChildElem(ElementValues parentElement, String type, String name, String value)
+    public ElementValuesChildNoChildElem(String elementName,ElementValuesResources parentElement, String type, String name, String value)
     {
-        super(parentElement);
+        super(elementName,name,parentElement);
 
         this.type = type;
-        this.name = name;
         this.value = value;
     }
-
 
     public String getType()
     {
         return type;
     }
 
-    public String getName()
-    {
-        return name;
-    }
-
     public String getValue()
     {
         return value;
     }
+
 }

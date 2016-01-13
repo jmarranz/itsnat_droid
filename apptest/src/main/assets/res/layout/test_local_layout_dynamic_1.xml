@@ -85,12 +85,8 @@
                 android:textSize="@assets:dimen/res/values/test_values_dynamic.xml:test_dimen_textSize"
                 android:textColor="@assets:color/res/values/test_values_dynamic.xml:test_color_textColor"
                 android:background="#dddddd"
-                android:layout_below="@id/textViewTest2" />
-                <!--
-                    android:textSize="@dimen/test_dimen_textSize"    @assets:dimen/res/values/test_values_dynamic.xml:test_dimen_textSize
-                    android:textColor="@color/test_color_textColor"  @assets:color/res/values/test_values_dynamic.xml:test_color_textColor
-                -->
-
+                android:layout_below="@id/textViewTest2"
+                style="@assets:style/res/values/test_values_dynamic.xml:test_style_dynamic" />
 
         </RelativeLayout>
 

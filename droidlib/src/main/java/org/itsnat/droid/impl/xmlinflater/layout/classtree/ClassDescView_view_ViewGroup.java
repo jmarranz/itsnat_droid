@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_ViewGroup_animateLayoutChanges;
@@ -36,7 +37,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
 
     public static void getViewGroupLayoutParamsFromStyleId(int styleId, List<DOMAttr> styleLayoutParamsAttribs, ContextThemeWrapper ctx)
     {
-        if (styleId == 0) throw new ItsNatDroidException("Unexpected");
+        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
 
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
@@ -55,7 +56,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
                 value = "wrap_content";
             // Si no es uno de los casos anteriores esperamos el valor original ej "20dp"
 
-            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value);
             styleLayoutParamsAttribs.add(attr);
         }
 
@@ -66,7 +67,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
 
     public static void getViewGroupMarginLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
-        if (styleId == 0) throw new ItsNatDroidException("Unexpected");
+        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, marginLayoutParamsAttrs);
         for(int i = 0; i < marginLayoutParamsAttrs.length; i++)
@@ -79,7 +80,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
 
             String name = marginlayoutParamsNames[i];
 
-            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value);
             styleLayoutParamsAttribs.add(attr);
         }
 

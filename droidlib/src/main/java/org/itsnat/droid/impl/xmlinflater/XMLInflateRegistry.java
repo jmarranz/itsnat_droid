@@ -39,9 +39,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyle;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrList;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleIdentifier;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrCompiled;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
@@ -174,7 +174,7 @@ public class XMLInflateRegistry
                 return id;
             id = getIdentifierDynamicallyAdded(value);
         } else
-            throw new ItsNatDroidException("Unexpected"); // Por isResource(value) sabemos que es ? o @
+            throw new ItsNatDroidException("Internal Error"); // Por isResource(value) sabemos que es ? o @
 
         if (throwErr && id <= 0)
             throw new ItsNatDroidException("Not found resource with id value \"" + value + "\"");
@@ -201,7 +201,8 @@ public class XMLInflateRegistry
         if (value.indexOf(':') != -1) // Tiene package el value, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
         {
             packageName = null;
-        } else
+        }
+        else
         {
             packageName = ctx.getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos compilados)
         }
@@ -221,15 +222,17 @@ public class XMLInflateRegistry
         return findId(idName);
     }
 
-    public ViewStyle getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
+    public ViewStyleAttr getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
     {
+        if (attr.getNamespaceURI() != null || !"style".equals(attr.getName())) throw new ItsNatDroidException("Internal Error");
+
         Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
             List<DOMAttr> domAttrList = elementResources.getViewStyle(attrDyn.getValuesResourceName());
-            return new ViewStyleAttrList(domAttrList);
+            return new ViewStyleAttrDynamic(domAttrList);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
@@ -237,7 +240,7 @@ public class XMLInflateRegistry
             int styleId = getIdentifier(attrValue, ctx);
             if (styleId == 0)
                 return null;
-            return new ViewStyleIdentifier(styleId);
+            return new ViewStyleAttrCompiled(styleId);
         }
         else throw new ItsNatDroidException("Internal Error");
     }
@@ -574,7 +577,7 @@ public class XMLInflateRegistry
         if (xmlInflaterParent instanceof XMLInflaterPage)
             page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
 
-        if (attrDyn instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
+        if (attrDyn instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
 
         int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
@@ -628,7 +631,7 @@ public class XMLInflateRegistry
 
     public static String toStringColorTransparent(int value)
     {
-        if (value != Color.TRANSPARENT) throw new ItsNatDroidException("Unexpected");
+        if (value != Color.TRANSPARENT) throw new ItsNatDroidException("Internal Error");
         return "#00000000";
     }
 
@@ -667,7 +670,7 @@ public class XMLInflateRegistry
                 if (xmlInflaterParent instanceof XMLInflaterPage)
                     page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
 
-                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
+                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
 
                 ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
                 AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
@@ -709,7 +712,7 @@ public class XMLInflateRegistry
 
             if (viewParent != null)
             {
-                if (rootView != viewParent) throw new ItsNatDroidException("Unexpected"); // rootView es igual a viewParent
+                if (rootView != viewParent) throw new ItsNatDroidException("Internal Error"); // rootView es igual a viewParent
 
                 int countAfter = viewParent.getChildCount();
                 int countInserted = countAfter - countBefore;
@@ -745,7 +748,7 @@ public class XMLInflateRegistry
                 if (xmlInflaterParent instanceof XMLInflaterPage)
                     page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
 
-                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
+                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
 
                 int countBefore = 0;
                 if (viewParent != null) countBefore = viewParent.getChildCount();
@@ -786,7 +789,7 @@ public class XMLInflateRegistry
 
                 if (viewParent != null)
                 {
-                    if (rootView != viewParent) throw new ItsNatDroidException("Unexpected"); // rootView es igual a viewParent
+                    if (rootView != viewParent) throw new ItsNatDroidException("Internal Error"); // rootView es igual a viewParent
 
                     int countAfter = viewParent.getChildCount();
                     int countInserted = countAfter - countBefore;

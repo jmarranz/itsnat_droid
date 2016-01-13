@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
@@ -201,7 +202,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     {
         // Este método es llamado desde removeAttributeFromRemote, cuyo valor será o @null o un recurso de Android, no esperamos
         // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrCompiledResource
-        DOMAttrCompiledResource attr = (DOMAttrCompiledResource) DOMAttr.create(InflatedXML.XMLNS_ANDROID, getName(), value);
+        DOMAttrCompiledResource attr = (DOMAttrCompiledResource) DOMAttr.create(NamespaceUtil.XMLNS_ANDROID, getName(), value);
 
         setAttribute(target, attr,attrCtx);
     }

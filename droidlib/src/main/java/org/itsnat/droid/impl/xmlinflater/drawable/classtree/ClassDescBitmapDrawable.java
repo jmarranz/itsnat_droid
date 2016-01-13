@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
@@ -30,7 +31,7 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
     public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
     {
         Context ctx = inflaterDrawable.getContext();
-        DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
+        DOMAttr attrSrc = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "src");
 
         Bitmap bitmap = ClassDescDrawable.getBitmap(attrSrc,inflaterDrawable.getBitmapDensityReference(), ctx, classMgr.getXMLInflateRegistry());
         return new ElementDrawableRoot(new BitmapDrawable(ctx.getResources(),bitmap));
@@ -41,7 +42,7 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
-        return InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && name.equals("src");
+        return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && name.equals("src");
     }
 
     @Override

@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflater.values;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
@@ -14,7 +13,8 @@ import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValuesPage;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValuesStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValues;
+import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesChildNoChildElem;
+import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesChildStyle;
 
 import java.util.LinkedList;
 
@@ -59,13 +59,12 @@ public abstract class XMLInflaterValues extends XMLInflater
         ElementValuesResources elementResources = new ElementValuesResources();
         getInflatedValues().setRootElementResources(elementResources);
 
-        processChildElements(rootDOMElem, elementResources);
+        processChildNoChildElemElements(rootDOMElem, elementResources);
 
         return elementResources;
     }
 
-
-    public void processChildElements(DOMElemValues domElemParent,ElementValues parentChildValues)
+    private void processChildNoChildElemElements(DOMElemValues domElemParent, ElementValuesResources parentChildValues)
     {
         LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return;
@@ -78,48 +77,43 @@ public abstract class XMLInflaterValues extends XMLInflater
         }
     }
 
-    protected ElementValues inflateNextElement(DOMElemValues domElement,DOMElemValues domElementParent,ElementValues parentChildValues)
+    protected ElementValues inflateNextElement(DOMElemValues domElement,DOMElemValues domElementParent,ElementValuesResources parentChildValues)
     {
-        ElementValues childElem = createElementValuesChildNoChildren(domElement, parentChildValues);
+        ElementValues childElem;
+        String elemName = domElement.getName();
+        if ("style".equals(elemName))
+        {
+           childElem = createElementValuesChildStyle(domElement, parentChildValues);
+        }
+        else
+        {
+            childElem = createElementValuesChildNoChildren(domElement, parentChildValues);
+        }
+
         // No procesamos los child elements porque cada ElementValues sabe como gestionar sus hijos si es que los tiene
         return childElem;
     }
 
-    private ElementValues createElementValuesChildNoChildren(DOMElemValues domElement,ElementValues parentChildValues)
+    private ElementValues createElementValuesChildStyle(DOMElemValues domElement,ElementValuesResources parentChildValues)
     {
-        String resourceType = getResourceType(domElement);
+        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
+        ClassDescValuesChildStyle classDesc = (ClassDescValuesChildStyle)classDescValuesMgr.get("style");
+
+        ElementValuesChild childValuesChild = classDesc.createElementValuesChildStyle(domElement, parentChildValues);
+        return childValuesChild;
+    }
+
+    private ElementValues createElementValuesChildNoChildren(DOMElemValues domElement,ElementValuesResources parentChildValues)
+    {
+        String resourceType = ClassDescValuesChildNoChildElem.getResourceType(domElement);
 
         ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
-        ClassDescValues classDesc = classDescValuesMgr.get(resourceType);
+        ClassDescValuesChildNoChildElem classDesc = (ClassDescValuesChildNoChildElem)classDescValuesMgr.get(resourceType);
         if (classDesc == null)
             throw new ItsNatDroidException("Not found processor for resource type: " + resourceType);
 
         ElementValuesChild childValuesChild = classDesc.createElementValuesChildNoChildren(domElement, parentChildValues);
         return childValuesChild;
-    }
-
-
-    private String getResourceType(DOMElemValues domElement)
-    {
-        // Sólo vale para los elementos directamente por debajo de <resources> no para los hijos de <style> cuyos <item> no tienen atributo "type"
-        String elemName = domElement.getName();
-        if (elemName.equals("item"))
-        {
-            DOMAttr attrType = domElement.findDOMAttribute(null, "type");
-            if (attrType == null)
-            {
-                DOMAttr attrName = domElement.findDOMAttribute(null, "name");
-                if (attrName == null)
-                    throw new ItsNatDroidException("Missing attribute name in <item>");
-
-                throw new ItsNatDroidException("Missing attribute type in <item> with name: " + attrName.getValue());
-            }
-            return attrType.getValue();
-        }
-        else
-        {
-            return elemName; // Ej <dimen> <color> etc
-        }
     }
 
 }

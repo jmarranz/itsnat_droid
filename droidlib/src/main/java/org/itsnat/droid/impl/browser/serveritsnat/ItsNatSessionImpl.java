@@ -66,7 +66,7 @@ public class ItsNatSessionImpl implements ItsNatSession
     public void registerPage(PageImpl page)
     {
         PageImpl prev = pageMap.put(page.getId(), page);
-        if (prev != null && prev != page) throw new ItsNatDroidException("Unexpected");
+        if (prev != null && prev != page) throw new ItsNatDroidException("Internal Error");
         pageList.add(page);
         removeExcess();
     }

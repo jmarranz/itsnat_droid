@@ -85,7 +85,8 @@
                       android:textSize="@dimen/test_dimen_textSize"
                       android:textColor="@color/test_color_textColor"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest2" />
+                      android:layout_below="@id/textViewTest2"
+                      style="@style/test_style_compiled" />
         </RelativeLayout>
 
         <TextView

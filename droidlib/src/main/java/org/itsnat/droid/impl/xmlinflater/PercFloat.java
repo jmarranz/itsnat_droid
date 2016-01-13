@@ -46,7 +46,7 @@ public class PercFloat
         {
             valueTmp = valueTmp / 100;
         }
-        else if (dataType != TypedValue.TYPE_FLOAT) throw new ItsNatDroidException("Unexpected");
+        else if (dataType != TypedValue.TYPE_FLOAT) throw new ItsNatDroidException("Internal Error");
         return valueTmp;
     }
 }

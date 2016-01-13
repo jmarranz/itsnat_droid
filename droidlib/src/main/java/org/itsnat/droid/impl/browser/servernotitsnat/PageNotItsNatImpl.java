@@ -37,7 +37,7 @@ public class PageNotItsNatImpl extends PageImpl
     @Override
     public void finishLoad(String loadScript)
     {
-        if (loadScript != null) throw new ItsNatDroidException("Unexpected");
+        if (loadScript != null) throw new ItsNatDroidException("Internal Error");
 
         dispose(); // En el servidor
     }

@@ -16,6 +16,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
 import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
@@ -58,7 +59,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         try
         {
 
-            interp.set("NSAND", InflatedXML.XMLNS_ANDROID);
+            interp.set("NSAND", NamespaceUtil.XMLNS_ANDROID);
             // No definimos aquí set("itsNatDoc",null) o similar para poder definir métodos alert y toast
             // porque queda "itsNatDoc" como global y cualquier set() cambia valor global y por tanto ya no es local por Page
 

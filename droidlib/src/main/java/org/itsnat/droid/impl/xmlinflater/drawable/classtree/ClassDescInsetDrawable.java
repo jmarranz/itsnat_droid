@@ -6,6 +6,7 @@ import android.graphics.drawable.InsetDrawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
@@ -39,16 +40,16 @@ public class ClassDescInsetDrawable extends ClassDescDrawableWrapper<InsetDrawab
 
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-        DOMAttr attrInsetTop = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetTop");
+        DOMAttr attrInsetTop = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetTop");
         int insetTop = attrInsetTop != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetTop, inflaterDrawable) : 0;
 
-        DOMAttr attrInsetRight = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetRight");
+        DOMAttr attrInsetRight = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetRight");
         int insetRight = attrInsetRight != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetRight,inflaterDrawable) : 0;
 
-        DOMAttr attrInsetBottom = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetBottom");
+        DOMAttr attrInsetBottom = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetBottom");
         int insetBottom = attrInsetBottom != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetBottom,inflaterDrawable) : 0;
 
-        DOMAttr attrInsetLeft = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "insetLeft");
+        DOMAttr attrInsetLeft = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetLeft");
         int insetLeft = attrInsetLeft != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetLeft,inflaterDrawable) : 0;
 
         elementDrawableRoot.setDrawable(new InsetDrawable(childDrawable,insetLeft, insetTop, insetRight, insetBottom));
@@ -62,7 +63,7 @@ public class ClassDescInsetDrawable extends ClassDescDrawableWrapper<InsetDrawab
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
 
-        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+        if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))
         {
             // Se usan en tiempo de construcción
             return ("drawable".equals(name) || "insetTop".equals(name) || "insetRight".equals(name) || "insetBottom".equals(name) || "insetLeft".equals(name));

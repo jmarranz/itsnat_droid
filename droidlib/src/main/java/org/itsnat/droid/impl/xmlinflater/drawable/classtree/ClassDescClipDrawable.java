@@ -8,6 +8,7 @@ import android.view.Gravity;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MapSmart;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
@@ -50,10 +51,10 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
 
         //XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-        DOMAttr attrGravity = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "gravity");
+        DOMAttr attrGravity = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "gravity");
         int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
 
-        DOMAttr attrClipOrientation = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "clipOrientation");
+        DOMAttr attrClipOrientation = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "clipOrientation");
         int orientation = attrClipOrientation != null ? AttrDesc.<Integer>parseSingleName(attrClipOrientation.getValue(), nameValueMap) : ClipDrawable.HORIZONTAL; // Valor concreto no puede ser un recurso
 
         ClipDrawable drawable = new ClipDrawable(childDrawable,gravity,orientation);
@@ -69,7 +70,7 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
 
-        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+        if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))
         {
             // Se usan en tiempo de construcción
             return ("clipOrientation".equals(name) || "drawable".equals(name) || "gravity".equals(name));

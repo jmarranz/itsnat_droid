@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
@@ -78,7 +79,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         else
             mDrawableField.set(rotateState,childDrawable);
 
-        DOMAttr pivotXAttr = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "pivotX");
+        DOMAttr pivotXAttr = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "pivotX");
         PercFloat pivotXObj = pivotXAttr != null ? xmlInflateRegistry.getDimensionPercFloat(pivotXAttr,inflaterDrawable) : null;
         boolean pivotXRel;
         float pivotX;
@@ -95,7 +96,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         mPivotXRelField.set(rotateState,pivotXRel);
         mPivotXField.set(rotateState,pivotX);
 
-        DOMAttr pivotYAttr = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "pivotY");
+        DOMAttr pivotYAttr = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "pivotY");
         PercFloat pivotYObj = pivotYAttr != null ? xmlInflateRegistry.getDimensionPercFloat(pivotYAttr,inflaterDrawable) : null;
         boolean pivotYRel;
         float pivotY;
@@ -113,12 +114,12 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         mPivotYField.set(rotateState,pivotY);
 
 
-        DOMAttr fromDegreesAttr = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "fromDegrees");
+        DOMAttr fromDegreesAttr = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "fromDegrees");
         float fromDegrees = fromDegreesAttr != null ? xmlInflateRegistry.getFloat(fromDegreesAttr.getValue(),ctx) : 0.0f;
         mFromDegreesField.set(rotateState,fromDegrees);
         mCurrentDegreesField.set(rotateState,fromDegrees);
 
-        DOMAttr toDegreesAttr = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "toDegrees");
+        DOMAttr toDegreesAttr = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "toDegrees");
         float toDegrees = toDegreesAttr != null ? xmlInflateRegistry.getFloat(toDegreesAttr.getValue(),ctx) : 360.0f;
         mToDegreesField.set(rotateState,toDegrees);
 
@@ -142,7 +143,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
 
-        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+        if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))
         {
             // Se usan en tiempo de construcción
             return ("drawable".equals(name) || "pivotX".equals(name) || "pivotY".equals(name) || "fromDegrees".equals(name) || "toDegrees".equals(name));

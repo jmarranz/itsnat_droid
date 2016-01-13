@@ -95,7 +95,7 @@ public abstract class XMLDOMParser
         // parentElementDrawable es null en el caso de parseo de fragment
         DOMElement element = createElement(name,parentElement);
 
-        fillAttributesAndAddElement(parentElement, element,parser, xmlDOM);
+        fillAttributesAndAddElement(parentElement, element, parser, xmlDOM);
 
         return element;
     }
@@ -282,7 +282,7 @@ public abstract class XMLDOMParser
         {
             xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion,loadingRemotePage,assetManager);
         }
-        else if ("color".equals(resourceType) || "dimen".equals(resourceType))
+        else if ("style".equals(resourceType) || "color".equals(resourceType) || "dimen".equals(resourceType))
         {
             xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup, assetManager);
         }

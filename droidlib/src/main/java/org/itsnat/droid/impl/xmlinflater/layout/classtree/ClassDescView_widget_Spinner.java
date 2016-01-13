@@ -10,6 +10,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -41,12 +42,12 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
 
     private static boolean isSpinnerModeAttribute(String namespaceURI,String name)
     {
-        return InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
+        return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
     }
 
     private static String findSpinnerModeAttributeFromRemote(NodeToInsertImpl newChildToIn)
     {
-        DOMAttr domAttr = findAttributeFromRemote(InflatedXML.XMLNS_ANDROID, "spinnerMode", newChildToIn);
+        DOMAttr domAttr = findAttributeFromRemote(NamespaceUtil.XMLNS_ANDROID, "spinnerMode", newChildToIn);
         if (domAttr == null)
             return null;
         return domAttr.getValue();
@@ -61,7 +62,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
 
     private static String findSpinnerModeAttribute(DOMElemView domElemView)
     {
-        DOMAttr attr = domElemView.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
+        DOMAttr attr = domElemView.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "spinnerMode");
         if (attr == null)
             return null;
         return attr.getValue();

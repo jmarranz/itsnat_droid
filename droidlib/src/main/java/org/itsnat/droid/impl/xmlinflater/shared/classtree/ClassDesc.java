@@ -4,6 +4,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
@@ -75,7 +76,7 @@ public abstract class ClassDesc<Tnative>
         if (attrDescAndroidNSMap == null) this.attrDescAndroidNSMap = new HashMap<String, AttrDesc>();
 
         AttrDesc old = attrDescAndroidNSMap.put(attrDesc.getName(),attrDesc);
-        if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class or element: " + getClassOrDOMElemName() + " " + InflatedXML.XMLNS_ANDROID + " " + attrDesc.getName());
+        if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class or element: " + getClassOrDOMElemName() + " " + NamespaceUtil.XMLNS_ANDROID + " " + attrDesc.getName());
     }
 
     protected <T extends AttrDesc> void addAttrDescNoNS(T attrDesc) // NoNS no namespace
@@ -104,7 +105,7 @@ public abstract class ClassDesc<Tnative>
     @SuppressWarnings("unchecked")
     protected <TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext> AttrDesc<TclassDesc,TattrTarget,TattrContext> getAttrDesc(String namespaceURI, String name)
     {
-        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+        if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))
             return getAttrDescAN(name);
         else if (MiscUtil.isEmpty(namespaceURI))
             return getAttrDescNoNS(name);

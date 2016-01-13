@@ -7,6 +7,7 @@ import android.view.ContextThemeWrapper;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
@@ -31,7 +32,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
 
     public static void getFrameLayoutLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
-        if (styleId == 0) throw new ItsNatDroidException("Unexpected");
+        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
@@ -45,7 +46,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
             // Esperamos sólo name = "layout_gravity"
             String valueStr = GravityUtil.getNameFromValue(value); // Ej 0x30 | 0x50 => "top|bottom"
 
-            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,valueStr);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,valueStr);
             styleLayoutParamsAttribs.add(attr);
         }
 

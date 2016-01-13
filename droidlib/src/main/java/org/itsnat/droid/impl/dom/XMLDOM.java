@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 import java.util.LinkedList;
@@ -41,7 +42,7 @@ public abstract class XMLDOM
     public void addNamespace(String prefix,String ns)
     {
         namespacesByPrefix.put(prefix,ns);
-        if (InflatedXML.XMLNS_ANDROID.equals(ns))
+        if (NamespaceUtil.XMLNS_ANDROID.equals(ns))
             this.androidNSPrefix = prefix;
     }
 

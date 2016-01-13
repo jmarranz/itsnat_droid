@@ -49,7 +49,7 @@ public class MapLightAndRealPerformTest
                 {
                     res = hashMap.get(keys[j]);
                 }
-                if (res != j) throw new RuntimeException("Unexpected");
+                if (res != j) throw new RuntimeException("Internal Error");
             }
         }
         long end = System.currentTimeMillis();

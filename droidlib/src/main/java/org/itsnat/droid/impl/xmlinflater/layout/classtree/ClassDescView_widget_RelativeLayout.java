@@ -6,6 +6,7 @@ import android.view.ContextThemeWrapper;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
@@ -37,7 +38,7 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
 
     public static void getRelativeLayoutLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
-        if (styleId == 0) throw new ItsNatDroidException("Unexpected");
+        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
@@ -57,11 +58,11 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
                 value = a.getString(i); // Devolverá "textViewTest1" si originalmente es "@id/textViewTest1" o también devolverá lo mismo aunque el original sea un "@id/test_layout_below_id" que referencie a un <item name="test_layout_below_id" type="id">@id/textViewTest1</item>, al final getString(int) devuelve el nombre último referenciado
                 value = "@+id/" + value; // Añadimos el "+" por prudencia
             }
-            else throw new ItsNatDroidException("Unexpected");
+            else throw new ItsNatDroidException("Internal Error");
 
             String name = layoutParamsNames[i];
 
-            DOMAttr attr = DOMAttr.create(InflatedXML.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value);
             styleLayoutParamsAttribs.add(attr);
         }
 

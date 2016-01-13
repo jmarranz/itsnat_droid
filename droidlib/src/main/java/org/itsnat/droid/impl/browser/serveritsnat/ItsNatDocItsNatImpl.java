@@ -43,6 +43,7 @@ import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.NameValue;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
@@ -186,31 +187,17 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         return paramList;
     }
 
-    private static String getPrefix(String name)
-    {
-        int pos = name.indexOf(':');
-        if (pos == -1) return null;
-        return name.substring(0,pos);
-    }
-
-    private static String getLocalName(String name)
-    {
-        int pos = name.indexOf(':');
-        if (pos == -1) return name;
-        return name.substring(pos + 1);
-    }
-
     private String extractLocalName(String namespaceURI,String name)
     {
         if (namespaceURI != null) return name;
 
         // El namespace puede estar en el name como prefijo por ejemplo "android:"
-        String prefix = getPrefix(name);
+        String prefix = NamespaceUtil.getPrefix(name);
         if (prefix != null)
         {
             namespaceURI = getPageImpl().getInflatedLayoutPageImpl().getNamespace(prefix);
             if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
-                name = getLocalName(name);
+                name = NamespaceUtil.getLocalName(name);
         }
 
         return name;
@@ -248,7 +235,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         }
         else // Es un nodo que no se ha insertado todavía
         {
-            if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Unexpected");
+            if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Internal Error");
 
             NodeToInsertImpl nodeToIn = (NodeToInsertImpl) node;
             nodeToIn.setAttribute(attr);
@@ -293,7 +280,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         }
         else // Es un nodo no insertado todavía
         {
-            if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Unexpected");
+            if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Internal Error");
 
             NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
 
@@ -337,7 +324,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     {
         // Si node es un NodeToInsertImpl debe estar ya insertado
         if (node instanceof NodeToInsertImpl && !((NodeToInsertImpl)node).isInserted())
-                throw new ItsNatDroidException("Unexpected"); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
+                throw new ItsNatDroidException("Internal Error"); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
 
         name = extractLocalName(namespaceURI,name); // NECESARIO
 
@@ -606,7 +593,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     public void removeChild2(String id,boolean isText)
     {
         // isText es siempre false
-        if (isText) throw new ItsNatDroidException("Unexpected");
+        if (isText) throw new ItsNatDroidException("Internal Error");
         Node child = getNode(new Object[]{id});
         removeChild(child);
     }
@@ -614,7 +601,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void removeChild3(Object[] parentIdObj,String childRelPath,boolean isText)
     {
-        if (isText) throw new ItsNatDroidException("Unexpected");
+        if (isText) throw new ItsNatDroidException("Internal Error");
         Node parentNode = getNode(parentIdObj);
         Node child = getNode2(parentNode, new Object[]{null, childRelPath});
         removeChild(child);

@@ -1,15 +1,27 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 1/12/14.
  */
 public abstract class ElementValues
 {
+    protected String elementName;
     protected ArrayList<ElementValues> childElemValuesList;
 
-    public ArrayList<ElementValues> getChildElementDrawableList()
+    public ElementValues(String elementName)
+    {
+        this.elementName = elementName;
+    }
+
+    public String getElementName()
+    {
+        return elementName;
+    }
+
+    public List<ElementValues> getChildElementDrawableList()
     {
         return childElemValuesList;
     }

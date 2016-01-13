@@ -124,7 +124,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
             // Caso <view class="className">
             className = classAttrValue;
         }
-        else throw new ItsNatDroidException("Unexpected");
+        else throw new ItsNatDroidException("Internal Error");
 
         Class<? extends View> nativeClass = null;
         try { nativeClass = resolveClass(className); }
@@ -179,7 +179,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
                     catch (ClassNotFoundException e) { continue; }
                 }
             }
-            throw new ItsNatDroidException("Unexpected"); // Nunca se llega aqui
+            throw new ItsNatDroidException("Internal Error"); // Nunca se llega aqui
         }
         else
         {

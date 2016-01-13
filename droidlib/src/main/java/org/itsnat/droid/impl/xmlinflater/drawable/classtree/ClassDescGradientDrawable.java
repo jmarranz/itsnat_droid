@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
@@ -110,21 +111,21 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
 
         Drawable.ConstantState gradientState = gradientStateField.get(drawable);
 
-        DOMAttr attrShape = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "shape");
+        DOMAttr attrShape = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "shape");
         int shape = attrShape != null ? AttrDesc.<Integer>parseSingleName(attrShape.getValue(), shapeValueMap) : RECTANGLE;
 
-        DOMAttr attrDither = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "dither");
+        DOMAttr attrDither = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "dither");
         boolean dither = attrDither != null ? xmlInflateRegistry.getBoolean(attrDither.getValue(),ctx) : false;
 
 
         if (shape == RING)
         {
-            DOMAttr attrInnerRadius = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "innerRadius");
+            DOMAttr attrInnerRadius = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "innerRadius");
             int innerRadius = attrInnerRadius != null ? xmlInflateRegistry.getDimensionIntRound(attrInnerRadius, inflaterDrawable) : -1; // Hay que iniciar en -1 para que no se use
             innerRadiusField.set(gradientState,innerRadius);
             if (innerRadius == -1)
             {
-                DOMAttr attrInnerRadiusRatio = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "innerRadiusRatio");
+                DOMAttr attrInnerRadiusRatio = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "innerRadiusRatio");
                 if (attrInnerRadiusRatio != null)
                 {
                     float innerRadiusRatio = xmlInflateRegistry.getFloat(attrInnerRadiusRatio.getValue(), ctx);
@@ -132,12 +133,12 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                 }
             }
 
-            DOMAttr attrThickness = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "thickness");
+            DOMAttr attrThickness = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "thickness");
             int thickness = attrThickness != null ? xmlInflateRegistry.getDimensionIntRound(attrThickness, inflaterDrawable) : -1;   // Hay que iniciar en -1 para que no se use
             thicknessField.set(gradientState,thickness);
             if (thickness == -1)
             {
-                DOMAttr attrThicknessRatio = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "thicknessRatio");
+                DOMAttr attrThicknessRatio = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "thicknessRatio");
                 if (attrThicknessRatio != null)
                 {
                     float thicknessRatio = xmlInflateRegistry.getFloat(attrThicknessRatio.getValue(), ctx);
@@ -145,7 +146,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                 }
             }
 
-            DOMAttr attrUseLevelForShape = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "useLevel");
+            DOMAttr attrUseLevelForShape = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "useLevel");
             boolean useLevelForShape = attrUseLevelForShape != null ? xmlInflateRegistry.getBoolean(attrUseLevelForShape.getValue(), ctx) : true;
             useLevelForShapeField.set(gradientState,useLevelForShape);
         }
@@ -327,7 +328,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                     else if (dataType == TypedValue.TYPE_FLOAT)
                         radiusType = RADIUS_TYPE_PIXELS;
                     else
-                        throw new ItsNatDroidException("Unexpected");
+                        throw new ItsNatDroidException("Internal Error");
 
                     gradientRadiusTypeField.set(gradientState,radiusType);
                 }
@@ -407,7 +408,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     {
         if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
-        return InflatedXML.XMLNS_ANDROID.equals(namespaceURI) &&
+        return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) &&
                 (name.equals("shape") || name.equals("dither") ||
                  name.equals("innerRadius") || name.equals("innerRadiusRatio") ||
                  name.equals("thickness") || name.equals("thicknessRatio") ||
