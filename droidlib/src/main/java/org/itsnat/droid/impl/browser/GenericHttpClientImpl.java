@@ -7,6 +7,7 @@ import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.httputil.RequestPropertyMap;
@@ -213,21 +214,17 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         HttpRequestResultOKImpl result;
         try
         {
-            result = executeInBackground(method, url, httpRequestData, params, overrideMime);
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
+            result = executeInBackground(this,method, url, httpRequestData, params, overrideMime);
         }
         catch (Exception ex)
         {
-            ItsNatDroidException exFinal = convertException(ex);
-            throw exFinal;
+            int errorMode = getClientErrorMode();
+            onFinishError(this,ex, httpRequestListener,errorListener,errorMode);
 
-            // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
+            return null; // No podemos seguir
         }
 
-        processResult(result, httpRequestListener);
+        onFinishOk(this, result, httpRequestListener, errorListener);
 
         return result;
     }
@@ -240,10 +237,53 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    protected static HttpRequestResultOKImpl executeInBackground(String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws Exception
+    protected static HttpRequestResultOKImpl executeInBackground(GenericHttpClientImpl parent,String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws Exception
     {
         // Multihilo en el caso async
         return HttpUtil.httpAction(method,url, httpRequestData, paramList, overrideMime);
     }
 
+    public static void onFinishOk(GenericHttpClientImpl parent,HttpRequestResultOKImpl result,OnHttpRequestListener listener,OnHttpRequestErrorListener errorListener)
+    {
+        try
+        {
+            parent.processResult(result,listener);
+        }
+        catch(Exception ex)
+        {
+            if (errorListener != null)
+            {
+                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
+                errorListener.onError(parent.getPageImpl(), ex, resultError);
+            }
+            else
+            {
+                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
+                else throw new ItsNatDroidException(ex);
+            }
+        }
+    }
+
+
+    public static void onFinishError(GenericHttpClientImpl parent,Exception ex,OnHttpRequestListener listener,OnHttpRequestErrorListener errorListener,int errorMode)
+    {
+        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ?  ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+        ItsNatDroidException exFinal = GenericHttpClientBaseImpl.convertException(ex);
+
+        if (errorListener != null)
+        {
+            errorListener.onError(parent.getPageImpl(),exFinal, result);
+        }
+        else
+        {
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                // Error del servidor, lo normal es que haya lanzado una excepción
+                ItsNatDocImpl itsNatDoc = parent.getItsNatDocImpl();
+                itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
+            }
+            else throw exFinal;
+        }
+    }
 }

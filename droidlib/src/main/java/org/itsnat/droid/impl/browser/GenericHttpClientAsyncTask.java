@@ -42,52 +42,19 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
     @Override
     protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
-        return parent.executeInBackground(method,url, httpRequestData, paramList,overrideMime);
+        return GenericHttpClientImpl.executeInBackground(parent,method,url, httpRequestData, paramList,overrideMime);
     }
 
     @Override
     protected void onFinishOk(HttpRequestResultOKImpl result)
     {
-        try
-        {
-            parent.processResult(result,listener);
-        }
-        catch(Exception ex)
-        {
-            if (errorListener != null)
-            {
-                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
-                errorListener.onError(parent.getPageImpl(), ex, resultError);
-            }
-            else
-            {
-                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
-                else throw new ItsNatDroidException(ex);
-            }
-        }
+        GenericHttpClientImpl.onFinishOk(parent, result, listener, errorListener);
     }
 
     @Override
     protected void onFinishError(Exception ex)
     {
-        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ?  ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
-
-        ItsNatDroidException exFinal = GenericHttpClientBaseImpl.convertException(ex);
-
-        if (errorListener != null)
-        {
-            errorListener.onError(parent.getPageImpl(),exFinal, result);
-        }
-        else
-        {
-            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
-            {
-                // Error del servidor, lo normal es que haya lanzado una excepción
-                ItsNatDocImpl itsNatDoc = parent.getItsNatDocImpl();
-                itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
-            }
-            else throw exFinal;
-        }
+        GenericHttpClientImpl.onFinishError(parent,ex, listener,errorListener,errorMode);
     }
 }
 

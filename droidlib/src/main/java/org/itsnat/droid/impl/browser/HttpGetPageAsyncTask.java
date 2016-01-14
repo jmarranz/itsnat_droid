@@ -38,49 +38,19 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        return pageRequest.executeInBackground(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        return PageRequestImpl.executeInBackground(pageRequest,url,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
     }
 
 
     @Override
     protected void onFinishOk(PageRequestResult result)
     {
-        try
-        {
-            pageRequest.processResponse(result);
-        }
-        catch(Exception ex)
-        {
-            OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
-            if (errorListener != null)
-            {
-                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result.getHttpRequestResultOKImpl();
-                errorListener.onError(pageRequest, ex, resultError); // Para poder recogerla desde fuera
-            }
-            else
-            {
-                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
-                else throw new ItsNatDroidException(ex);
-            }
-        }
+        PageRequestImpl.onFinishOk(pageRequest,result);
     }
 
     @Override
     protected void onFinishError(Exception ex)
     {
-        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
-
-        ItsNatDroidException exFinal = (ex instanceof ItsNatDroidException) ? (ItsNatDroidException)ex : new ItsNatDroidException(ex);
-
-        OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
-        if (errorListener != null)
-        {
-            errorListener.onError(pageRequest, exFinal, result);
-        }
-        else
-        {
-            // No se ha cargado la página en este contexto, no tenemos por ejemplo un errorMode
-            throw exFinal;
-        }
+        PageRequestImpl.onFinishError(pageRequest, ex);
     }
 }

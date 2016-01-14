@@ -48,56 +48,19 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        return parent.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        return DownloadResourcesHttpClient.executeInBackground(parent,attrRemoteList,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
     }
 
     @Override
     protected void onFinishOk(List<HttpRequestResultOKImpl> resultList)
     {
-        for (HttpRequestResultOKImpl result : resultList)
-        {
-            try
-            {
-                parent.processResult(result, httpRequestListener);
-            }
-            catch (Exception ex)
-            {
-                if (errorListener != null)
-                {
-                    HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
-                    errorListener.onError(parent.getPageImpl(), ex, resultError);
-                    return; // Paramos en el primer error
-                }
-                else
-                {
-                    if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
-                    else throw new ItsNatDroidException(ex);
-                }
-            }
-        }
+        DownloadResourcesHttpClient.onFinishOk(parent,resultList, httpRequestListener, errorListener);
     }
 
     @Override
     protected void onFinishError(Exception ex)
     {
-        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
-
-        ItsNatDroidException exFinal = GenericHttpClientBaseImpl.convertException(ex);
-
-        if (errorListener != null)
-        {
-            errorListener.onError(parent.getPageImpl(),exFinal, result);
-        }
-        else
-        {
-            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
-            {
-                // Error del servidor, lo normal es que haya lanzado una excepción
-                ItsNatDocImpl itsNatDoc = parent.getItsNatDocImpl();
-                itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
-            }
-            else throw exFinal;
-        }
+        DownloadResourcesHttpClient.onFinishError(parent, ex, errorListener, errorMode);
     }
 }
 

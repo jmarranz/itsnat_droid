@@ -305,30 +305,18 @@ public class PageRequestImpl implements PageRequest
         PageRequestResult pageRequestResult = null;
         try
         {
-            pageRequestResult = executeInBackground(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            pageRequestResult = executeInBackground(this,url,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
         }
         catch(Exception ex)
         {
             // Aunque la excepción pueda ser capturada por el usuario al llamar al método público síncrono, tenemos
             // que respetar su decisión de usar un listener
+            onFinishError(this,ex);
 
-            HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
-
-            ItsNatDroidException exFinal = (ex instanceof ItsNatDroidException) ? (ItsNatDroidException)ex : new ItsNatDroidException(ex);
-
-            OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
-            if (errorListener != null)
-            {
-                errorListener.onError(this, exFinal, result);
-            }
-            else
-            {
-                // No se ha cargado la página en este contexto, no tenemos por ejemplo un errorMode
-                throw exFinal;
-            }
+            return; // No se puede continuar
         }
 
-        processResponse(pageRequestResult);
+        onFinishOk(this, pageRequestResult);
     }
 
     private void executeAsync(String url)
@@ -337,13 +325,54 @@ public class PageRequestImpl implements PageRequest
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    protected PageRequestResult executeInBackground(String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+    public static PageRequestResult executeInBackground(PageRequestImpl pageRequest,String url,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
-        PageRequestResult pageReqResult = processHttpRequestResult(result,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+        PageRequestResult pageReqResult = processHttpRequestResult(result, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
         return pageReqResult;
     }
+
+    public static void onFinishOk(PageRequestImpl pageRequest,PageRequestResult result)
+    {
+        try
+        {
+            pageRequest.processResponse(result);
+        }
+        catch(Exception ex)
+        {
+            OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
+            if (errorListener != null)
+            {
+                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result.getHttpRequestResultOKImpl();
+                errorListener.onError(pageRequest, ex, resultError); // Para poder recogerla desde fuera
+            }
+            else
+            {
+                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
+                else throw new ItsNatDroidException(ex);
+            }
+        }
+    }
+
+    public static void onFinishError(PageRequestImpl pageRequest,Exception ex)
+    {
+        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+        ItsNatDroidException exFinal = (ex instanceof ItsNatDroidException) ? (ItsNatDroidException)ex : new ItsNatDroidException(ex);
+
+        OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
+        if (errorListener != null)
+        {
+            errorListener.onError(pageRequest, exFinal, result);
+        }
+        else
+        {
+            // No se ha cargado la página en este contexto, no tenemos por ejemplo un errorMode
+            throw exFinal;
+        }
+    }
+
 
     public static PageRequestResult processHttpRequestResult(HttpRequestResultOKImpl result,
                                         String pageURLBase,HttpRequestData httpRequestData,

@@ -49,57 +49,19 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     @Override
     protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
-        return eventSender.executeInBackground(servletPath, httpRequestData, paramList);
+        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList);
     }
 
     @Override
     protected void onFinishOk(HttpRequestResultOKImpl result)
     {
-        try
-        {
-            eventSender.processResult(evt, result, true);
-        }
-        catch(Exception ex)
-        {
-            PageImpl page = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl();
-            OnEventErrorListener errorListener = page.getOnEventErrorListener();
-            if (errorListener != null)
-            {
-                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
-                errorListener.onError(page, evt, ex, resultError);
-            }
-            else
-            {
-                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
-                else throw new ItsNatDroidException(ex);
-            }
-        }
+        EventSender.onFinishOk(eventSender, evt, result);
     }
 
     @Override
     protected void onFinishError(Exception ex)
     {
-        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
-
-        ItsNatDroidException exFinal = eventSender.convertExceptionAndFireEventMonitors(evt, ex);
-
-        PageImpl page = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl();
-        OnEventErrorListener errorListener = page.getOnEventErrorListener();
-        if (errorListener != null)
-        {
-            errorListener.onError(page, evt, exFinal, result);
-        }
-        else
-        {
-            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
-            {
-                // Error del servidor, lo normal es que haya lanzado una excepción
-                ItsNatDocItsNatImpl itsNatDoc = eventSender.getItsNatDocItsNatImpl();
-                itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
-            }
-            else throw exFinal;
-        }
-
+        EventSender.onFinishError(eventSender,ex,evt,errorMode);
     }
 }
 

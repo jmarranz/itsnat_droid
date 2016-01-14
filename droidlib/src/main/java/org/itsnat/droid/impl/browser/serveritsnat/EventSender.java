@@ -2,7 +2,11 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 
 import android.os.AsyncTask;
 
+import org.itsnat.droid.ClientErrorMode;
+import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
@@ -49,17 +53,17 @@ public class EventSender
         HttpRequestResultOKImpl result = null;
         try
         {
-            result = executeInBackground(servletPath,httpRequestData, paramList);
+            result = executeInBackground(this,servletPath,httpRequestData, paramList);
         }
         catch (Exception ex)
         {
-            ItsNatDroidException exFinal = convertExceptionAndFireEventMonitors(evt, ex);
-            throw exFinal;
+            int errorMode = getItsNatDocItsNatImpl().getClientErrorMode();
+            onFinishError(this,ex,evt,errorMode);
 
-            // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
+            return; // No podemos continuar
         }
 
-        processResult(evt,result,false);
+        onFinishOk(this, evt, result);
     }
 
     public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, long timeout)
@@ -68,11 +72,61 @@ public class EventSender
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public static HttpRequestResultOKImpl executeInBackground(String servletPath,HttpRequestData httpRequestData,List<NameValue> paramList)
+    public static HttpRequestResultOKImpl executeInBackground(EventSender eventSender,String servletPath,HttpRequestData httpRequestData,List<NameValue> paramList)
     {
         // Ejecutado en multihilo en el caso async
         return HttpUtil.httpPost(servletPath,httpRequestData, paramList,null);
     }
+
+    public static void onFinishOk(EventSender eventSender,EventGenericImpl evt,HttpRequestResultOKImpl result)
+    {
+        try
+        {
+            eventSender.processResult(evt, result, true);
+        }
+        catch(Exception ex)
+        {
+            PageImpl page = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl();
+            OnEventErrorListener errorListener = page.getOnEventErrorListener();
+            if (errorListener != null)
+            {
+                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result;
+                errorListener.onError(page, evt, ex, resultError);
+            }
+            else
+            {
+                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
+                else throw new ItsNatDroidException(ex);
+            }
+        }
+    }
+
+
+    public static void onFinishError(EventSender eventSender,Exception ex,EventGenericImpl evt,int errorMode)
+    {
+        HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+        ItsNatDroidException exFinal = eventSender.convertExceptionAndFireEventMonitors(evt, ex);
+
+        PageImpl page = eventSender.getEventManager().getItsNatDocItsNatImpl().getPageImpl();
+        OnEventErrorListener errorListener = page.getOnEventErrorListener();
+        if (errorListener != null)
+        {
+            errorListener.onError(page, evt, exFinal, result);
+        }
+        else
+        {
+            if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+            {
+                // Error del servidor, lo normal es que haya lanzado una excepción
+                ItsNatDocItsNatImpl itsNatDoc = eventSender.getItsNatDocItsNatImpl();
+                itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
+            }
+            else throw exFinal;
+        }
+
+    }
+
 
     public void processResult(EventGenericImpl evt,HttpRequestResultOKImpl result,boolean async)
     {
