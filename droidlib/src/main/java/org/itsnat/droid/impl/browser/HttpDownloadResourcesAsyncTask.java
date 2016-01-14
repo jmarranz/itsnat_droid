@@ -48,11 +48,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        HttpResourceDownloader resDownloader =
-                new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
-        List<HttpRequestResultOKImpl> resultList = new LinkedList<HttpRequestResultOKImpl>();
-        resDownloader.downloadResources(attrRemoteList,resultList);
-        return resultList;
+        return parent.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
     }
 
     @Override

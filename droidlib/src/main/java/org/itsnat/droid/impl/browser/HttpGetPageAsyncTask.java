@@ -38,10 +38,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
-
-        PageRequestResult pageReqResult = PageRequestImpl.processHttpRequestResult(result,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
-        return pageReqResult;
+        return pageRequest.executeInBackground(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
     }
 
 

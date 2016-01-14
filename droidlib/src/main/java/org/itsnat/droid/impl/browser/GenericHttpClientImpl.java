@@ -213,7 +213,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         HttpRequestResultOKImpl result;
         try
         {
-            result = HttpUtil.httpPost(url, httpRequestData, params,overrideMime);
+            result = executeInBackground(method, url, httpRequestData, params, overrideMime);
         }
         catch (RuntimeException ex)
         {
@@ -238,6 +238,12 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         String url = getFinalURL();
         GenericHttpClientAsyncTask task = new GenericHttpClientAsyncTask(this,method,url, paramList, httpRequestListener,errorListener,overrideMime);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+    }
+
+    protected static HttpRequestResultOKImpl executeInBackground(String method,String url,HttpRequestData httpRequestData,List<NameValue> paramList,String overrideMime) throws Exception
+    {
+        // Multihilo en el caso async
+        return HttpUtil.httpAction(method,url, httpRequestData, paramList, overrideMime);
     }
 
 }

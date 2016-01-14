@@ -9,6 +9,7 @@ import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ClientErrorMode;
+import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
@@ -297,31 +298,33 @@ public class PageRequestImpl implements PageRequest
 
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 
+        AssetManager assetManager = getContext().getResources().getAssets();
+
         String pageURLBase = getURLBase();
 
-        PageRequestResult pageRequestResult;
-        HttpRequestResultOKImpl httpReqResult = null;
+        PageRequestResult pageRequestResult = null;
         try
         {
-            httpReqResult = HttpUtil.httpGet(url,httpRequestData,null,null);
-
-            AssetManager assetManager = getContext().getResources().getAssets();
-            pageRequestResult = processHttpRequestResult(httpReqResult,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+            pageRequestResult = executeInBackground(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
         }
         catch(Exception ex)
         {
             // Aunque la excepción pueda ser capturada por el usuario al llamar al método público síncrono, tenemos
             // que respetar su decisión de usar un listener
+
+            HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+            ItsNatDroidException exFinal = (ex instanceof ItsNatDroidException) ? (ItsNatDroidException)ex : new ItsNatDroidException(ex);
+
             OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(this, ex, httpReqResult); // Para poder recogerla desde fuera
-                return;
+                errorListener.onError(this, exFinal, result);
             }
             else
             {
-                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
-                else throw new ItsNatDroidException(ex);
+                // No se ha cargado la página en este contexto, no tenemos por ejemplo un errorMode
+                throw exFinal;
             }
         }
 
@@ -332,6 +335,14 @@ public class PageRequestImpl implements PageRequest
     {
         HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+    }
+
+    protected PageRequestResult executeInBackground(String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+    {
+        // Ejecutado en multihilo en el caso async
+        HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
+        PageRequestResult pageReqResult = processHttpRequestResult(result,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+        return pageReqResult;
     }
 
     public static PageRequestResult processHttpRequestResult(HttpRequestResultOKImpl result,

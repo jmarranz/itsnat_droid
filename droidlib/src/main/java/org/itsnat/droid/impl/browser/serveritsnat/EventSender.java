@@ -49,7 +49,7 @@ public class EventSender
         HttpRequestResultOKImpl result = null;
         try
         {
-            result = HttpUtil.httpPost(servletPath,httpRequestData, paramList,null);
+            result = executeInBackground(servletPath,httpRequestData, paramList);
         }
         catch (Exception ex)
         {
@@ -66,6 +66,12 @@ public class EventSender
     {
         HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList,timeout);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+    }
+
+    public static HttpRequestResultOKImpl executeInBackground(String servletPath,HttpRequestData httpRequestData,List<NameValue> paramList)
+    {
+        // Ejecutado en multihilo en el caso async
+        return HttpUtil.httpPost(servletPath,httpRequestData, paramList,null);
     }
 
     public void processResult(EventGenericImpl evt,HttpRequestResultOKImpl result,boolean async)

@@ -42,7 +42,7 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
     @Override
     protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpAction(method,url, httpRequestData, paramList,overrideMime);
+        return parent.executeInBackground(method,url, httpRequestData, paramList,overrideMime);
     }
 
     @Override

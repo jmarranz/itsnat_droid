@@ -49,7 +49,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     @Override
     protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpPost(servletPath, httpRequestData, paramList,null);
+        return eventSender.executeInBackground(servletPath, httpRequestData, paramList);
     }
 
     @Override

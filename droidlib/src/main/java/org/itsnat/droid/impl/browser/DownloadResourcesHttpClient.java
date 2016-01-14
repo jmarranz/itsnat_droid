@@ -52,13 +52,11 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
         AssetManager assetManager = page.getContext().getResources().getAssets();
 
-        List<HttpRequestResultOKImpl> resultList = new LinkedList<HttpRequestResultOKImpl>();
+        List<HttpRequestResultOKImpl> resultList;
 
         try
         {
-            HttpResourceDownloader resDownloader =
-                    new HttpResourceDownloader(url,httpRequestData,xmlDOMRegistry,assetManager);
-            resDownloader.downloadResources(attrRemoteList,resultList);
+            resultList = executeInBackground(attrRemoteList,url,httpRequestData,xmlDOMRegistry,assetManager);
         }
         catch (RuntimeException ex)
         {
@@ -85,6 +83,16 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         int errorMode = itsNatDoc.getClientErrorMode();
         HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,url, httpRequestListener,errorListener,errorMode,assetManager);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+    }
+
+    public static List<HttpRequestResultOKImpl> executeInBackground(List<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+    {
+        // Llamado en multithread en caso de async
+        HttpResourceDownloader resDownloader =
+                new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        List<HttpRequestResultOKImpl> resultList = new LinkedList<HttpRequestResultOKImpl>();
+        resDownloader.downloadResources(attrRemoteList, resultList);
+        return resultList;
     }
 
 }
