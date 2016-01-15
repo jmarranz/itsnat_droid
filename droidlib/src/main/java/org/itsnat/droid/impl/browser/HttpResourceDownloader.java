@@ -6,6 +6,8 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,17 +29,14 @@ public class HttpResourceDownloader
         this.assetManager = assetManager;
     }
 
-    public void downloadResources(List<DOMAttrRemote> attrRemoteList) throws Exception
+    public List<HttpRequestResultOKImpl> downloadResources(List<DOMAttrRemote> attrRemoteList) throws Exception
     {
-        downloadResources(attrRemoteList,null);
-    }
-
-    public void downloadResources(List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
-    {
+        List<HttpRequestResultOKImpl> resultList = Collections.synchronizedList(new ArrayList<HttpRequestResultOKImpl>()); // Necesario synchronizedList(), pues se comparte entre hilos
         downloadResources(pageURLBase,attrRemoteList,resultList);
+        return resultList;
     }
 
-    private void downloadResources(String urlBase,List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
+    private void downloadResources(String pageURLBase,List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         int len = attrRemoteList.size();
         final Thread[] threadArray = new Thread[len];
@@ -48,7 +47,7 @@ public class HttpResourceDownloader
             final boolean[] stop = new boolean[1];
             for (DOMAttrRemote attr : attrRemoteList)
             {
-                Thread thread = downloadResource(urlBase,attr, stop, i,resultList, exList);
+                Thread thread = downloadResource(pageURLBase,attr, stop, i,resultList, exList);
                 threadArray[i] = thread;
                 i++;
             }
@@ -68,7 +67,7 @@ public class HttpResourceDownloader
         }
     }
 
-    private Thread downloadResource(final String urlBase,final DOMAttrRemote attr, final boolean[] stop, final int i,
+    private Thread downloadResource(final String pageURLBase,final DOMAttrRemote attr, final boolean[] stop, final int i,
                                     final List<HttpRequestResultOKImpl> resultList,final Exception[] exList) throws Exception
     {
         Thread thread = new Thread()
@@ -79,7 +78,7 @@ public class HttpResourceDownloader
                 try
                 {
                     String resourceMime = attr.getResourceMime();
-                    String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), urlBase);
+                    String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
                     HttpRequestResultOKImpl resultResource = HttpUtil.httpGet(url, httpRequestData, null, resourceMime);
 
                     processHttpRequestResultResource(url, attr, resultResource, resultList);

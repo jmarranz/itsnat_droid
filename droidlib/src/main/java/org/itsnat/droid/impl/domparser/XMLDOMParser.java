@@ -206,7 +206,7 @@ public abstract class XMLDOMParser
             byte[] res;
             try
             {
-                // AssetManager.open es multihilo
+                // AssetManager.open es multihilo, de todas formas va a ser MUY raro que usemos assets junto a remote
                 // http://www.netmite.com/android/mydroid/frameworks/base/libs/utils/AssetManager.cpp
                 ims = assetManager.open(location);
                 res = IOUtil.read(ims);

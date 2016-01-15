@@ -25,6 +25,11 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         super(itsNatDoc);
     }
 
+    protected String getPageURLBase()
+    {
+        return itsNatDoc.getPageURLBase();
+    }
+
     public void request(DOMAttrRemote attrRemote,boolean async)
     {
         List<DOMAttrRemote> attrRemoteList = new LinkedList<DOMAttrRemote>();
@@ -51,7 +56,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
 
         // No hace falta clonar porque es síncrona la llamada
-        String url = getFinalURL();
+        String pageURLBase = getPageURLBase();
 
         HttpRequestData httpRequestData = new HttpRequestData(page);
 
@@ -63,7 +68,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
         try
         {
-            resultList = executeInBackground(this,attrRemoteList,url,httpRequestData,xmlDOMRegistry,assetManager);
+            resultList = executeInBackground(this,attrRemoteList,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
         }
         catch (Exception ex)
         {
@@ -78,21 +83,18 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
     public void requestAsync(List<DOMAttrRemote> attrRemoteList)
     {
-        String url = getFinalURL();
+        String pageURLBase = getPageURLBase();
         AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
         int errorMode = itsNatDoc.getClientErrorMode();
-        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,url, httpRequestListener,errorListener,errorMode,assetManager);
+        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,pageURLBase, httpRequestListener,errorListener,errorMode,assetManager);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public static List<HttpRequestResultOKImpl> executeInBackground(DownloadResourcesHttpClient parent,List<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         // Llamado en multithread en caso de async
-        HttpResourceDownloader resDownloader =
-                new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
-        List<HttpRequestResultOKImpl> resultList = new LinkedList<HttpRequestResultOKImpl>();
-        resDownloader.downloadResources(attrRemoteList, resultList);
-        return resultList;
+        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        return resDownloader.downloadResources(attrRemoteList);
     }
 
     public static void onFinishOk(DownloadResourcesHttpClient parent,List<HttpRequestResultOKImpl> resultList,OnHttpRequestListener httpRequestListener,OnHttpRequestErrorListener errorListener)

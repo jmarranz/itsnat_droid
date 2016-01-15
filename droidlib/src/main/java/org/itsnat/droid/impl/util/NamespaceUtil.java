@@ -6,6 +6,7 @@ package org.itsnat.droid.impl.util;
 public class NamespaceUtil
 {
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
+    public static final String XMLNS_ANDROID_ALIAS = "NSAND"; // Versión corta para reducir código que se envía desde el servidor ItsNat
 
     public static String getPrefix(String name)
     {

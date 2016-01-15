@@ -329,7 +329,7 @@ public class PageRequestImpl implements PageRequest
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
-        PageRequestResult pageReqResult = processHttpRequestResult(result, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+        PageRequestResult pageReqResult = processHttpRequestResultMultiThread(result, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
         return pageReqResult;
     }
 
@@ -374,9 +374,9 @@ public class PageRequestImpl implements PageRequest
     }
 
 
-    public static PageRequestResult processHttpRequestResult(HttpRequestResultOKImpl result,
-                                        String pageURLBase,HttpRequestData httpRequestData,
-                                        XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+    private static PageRequestResult processHttpRequestResultMultiThread(HttpRequestResultOKImpl result,
+                                        String pageURLBase, HttpRequestData httpRequestData,
+                                        XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
     {
         // Método ejecutado en hilo downloader NO UI
 
@@ -413,7 +413,7 @@ public class PageRequestImpl implements PageRequest
         return pageReqResult;
     }
 
-    public void processResponse(PageRequestResult result)
+    private void processResponse(PageRequestResult result)
     {
         HttpRequestResultOKImpl httpReqResult = result.getHttpRequestResultOKImpl();
 

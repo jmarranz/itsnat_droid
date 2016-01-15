@@ -11,6 +11,7 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.httputil.RequestPropertyMap;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Map;
  */
 public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements GenericHttpClient
 {
+    protected String userUrl;
     protected RequestPropertyMap requestPropertyMap;
     protected HttpParams httpParams;
     protected int connectTimeout;
@@ -84,6 +86,21 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     {
         setURLNotFluid(url);
         return this;
+    }
+
+    private void setURLNotFluid(String url)
+    {
+        this.userUrl = url;
+    }
+
+
+    protected String getFinalURL()
+    {
+        // En el ejemplo ItsNatDroidServletNoItsNat se hace un ejemplo de llamada a GenericHttpClient con código custom en donde no se especifica un userUrl por lo que se usa el pageURLBase de contexto
+        // que en ese caso es el path al servlet ItsNatDroidServletNoItsNat, de esa manera nos evitamos formar un URL y las llamadas específicas las hacemos a través de los parámetros
+        // Podría ser también un path a un JSP (a fin de cuentas un JSP es un servlet).
+
+        return MiscUtil.isEmpty(userUrl) ? itsNatDoc.getPageURLBase() : userUrl; // Como se puede ver seguridad de "single server" ninguna
     }
 
     public void addParamNotFluid(String name,Object value)
@@ -205,7 +222,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     @Override
     public HttpRequestResult requestSync()
     {
-        PageImpl page = getPageImpl();
+        //PageImpl page = getPageImpl();
         String url = getFinalURL();
 
         HttpRequestData httpRequestData = new HttpRequestData(this);

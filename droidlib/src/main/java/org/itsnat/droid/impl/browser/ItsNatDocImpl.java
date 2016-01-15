@@ -352,9 +352,9 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     {
         boolean sync = getPageImpl().getPageRequestClonedImpl().isSynchronous();
 
-        GenericHttpClientImpl client = createGenericHttpClientImpl();
+        src = HttpUtil.composeAbsoluteURL(src, getPageURLBase());
 
-        src = HttpUtil.composeAbsoluteURL(src, client.getPageURLBase());
+        GenericHttpClientImpl client = createGenericHttpClientImpl();
 
         client.setURL(src)
                 .setOverrideMimeType(mime)

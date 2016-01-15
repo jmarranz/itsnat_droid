@@ -11,9 +11,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 public abstract class GenericHttpClientBaseImpl
 {
     protected ItsNatDocImpl itsNatDoc;
-
     protected OnHttpRequestErrorListener errorListener;
-    protected String userUrl;
     protected OnHttpRequestListener httpRequestListener;
     protected String method = "POST"; // Por defecto
 
@@ -49,23 +47,6 @@ public abstract class GenericHttpClientBaseImpl
     public void setMethodNotFluid(String method)
     {
         this.method = method;
-    }
-
-    public void setURLNotFluid(String url)
-    {
-        this.userUrl = url;
-    }
-
-
-
-    public String getPageURLBase()
-    {
-        return itsNatDoc.getPageURLBase();
-    }
-
-    protected String getFinalURL()
-    {
-        return MiscUtil.isEmpty(userUrl) ? itsNatDoc.getPageURLBase() : userUrl; // Como se puede ver seguridad de "single server" ninguna
     }
 
     public static ItsNatDroidException convertException(Exception ex)

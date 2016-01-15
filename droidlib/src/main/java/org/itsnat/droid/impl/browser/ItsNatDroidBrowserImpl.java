@@ -58,7 +58,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         try
         {
 
-            interp.set("NSAND", NamespaceUtil.XMLNS_ANDROID);
+            interp.set(NamespaceUtil.XMLNS_ANDROID_ALIAS, NamespaceUtil.XMLNS_ANDROID);
             // No definimos aquí set("itsNatDoc",null) o similar para poder definir métodos alert y toast
             // porque queda "itsNatDoc" como global y cualquier set() cambia valor global y por tanto ya no es local por Page
 
