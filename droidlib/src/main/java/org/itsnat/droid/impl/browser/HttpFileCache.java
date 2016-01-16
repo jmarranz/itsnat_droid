@@ -110,27 +110,23 @@ public class HttpFileCache
             this.lastAccessTimestamp = System.currentTimeMillis();
         }
 
-        public String getUrl() {
+        public String getUrl()
+        {
             return url;
         }
 
-        public long getLastModified() {
+        public long getLastModified()
+        {
             return lastModified;
         }
 
-        public void setLastModified(long lastModified) {
-            this.lastModified = lastModified;
-        }
-
-        public byte[] getContentByteArray() {
+        public byte[] getContentByteArray()
+        {
             return contentByteArray;
         }
 
-        public void setContentByteArray(byte[] contentByteArray) {
-            this.contentByteArray = contentByteArray;
-        }
-
-        private long getLastAccessTimestamp() {
+        private long getLastAccessTimestamp()
+        {
             return lastAccessTimestamp;
         }
 

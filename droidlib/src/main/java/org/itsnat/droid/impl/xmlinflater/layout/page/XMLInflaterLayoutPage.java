@@ -69,10 +69,8 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         ClassDescViewMgr classDescViewMgr = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
 
-        XMLInflaterLayoutPage xmlInflaterLayoutPage = page.getXMLInflaterLayoutPage();
-
         PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayoutPage, pendingViewPostCreateProcess, null);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null);
 
         int len = attrArray.length;
         for(int i = 0; i < len; i++)

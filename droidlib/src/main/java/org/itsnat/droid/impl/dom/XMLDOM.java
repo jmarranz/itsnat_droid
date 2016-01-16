@@ -10,7 +10,7 @@ import java.util.LinkedList;
  */
 public abstract class XMLDOM
 {
-    protected long timestamp;
+    protected TimestampExtended timestampExt;
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
     protected DOMElement rootElement;
@@ -18,19 +18,12 @@ public abstract class XMLDOM
 
     public XMLDOM()
     {
-        this.timestamp = System.currentTimeMillis();
+        this.timestampExt = new TimestampExtended();
     }
 
-    public long getTimestamp()
+    public TimestampExtended getTimestampExtended()
     {
-        return timestamp;
-    }
-
-    public long updateTimestamp()
-    {
-        long timestampOld = this.timestamp;
-        this.timestamp = System.currentTimeMillis();
-        return timestampOld;
+        return timestampExt;
     }
 
     public String getAndroidNSPrefix()
@@ -78,7 +71,7 @@ public abstract class XMLDOM
 
     public void partialClone(XMLDOM cloned)
     {
-        cloned.timestamp = this.timestamp; // Antes de clonar se ha actualizado
+        cloned.timestampExt = new TimestampExtended(this.timestampExt); // No es necesario clonar pero así aseguramos que no el original no cambia a través del clone accidentalmente y viceversa
         cloned.namespacesByPrefix = this.namespacesByPrefix;
         cloned.androidNSPrefix = this.androidNSPrefix;
         cloned.rootElement = this.rootElement;
