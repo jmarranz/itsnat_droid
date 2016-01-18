@@ -2,10 +2,6 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
-import org.itsnat.droid.HttpRequestResult;
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 

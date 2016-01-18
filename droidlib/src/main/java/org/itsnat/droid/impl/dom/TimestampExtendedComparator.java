@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.dom;
 
-import org.itsnat.droid.impl.dom.TimestampExtended;
-
 import java.util.Comparator;
 
 /**

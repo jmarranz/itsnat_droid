@@ -48,4 +48,5 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     {
         scriptList.add(code);
     }
+
 }

@@ -2,10 +2,8 @@ package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.impl.util.MiscUtil;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**

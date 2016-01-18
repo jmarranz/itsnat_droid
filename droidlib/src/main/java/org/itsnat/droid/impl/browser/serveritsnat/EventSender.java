@@ -9,20 +9,18 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
-import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.browser.HttpResourceDownloader;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
-import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -58,7 +56,7 @@ public class EventSender
             timeoutInt = Integer.MAX_VALUE;
         httpRequestData.setReadTimeout(timeoutInt);
 
-        HttpRequestResultOKImpl result = null;
+        HttpRequestResultOKBeanshellImpl result = null;
         try
         {
             result = executeInBackground(this, servletPath, httpRequestData, paramList);
@@ -80,31 +78,31 @@ public class EventSender
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public static HttpRequestResultOKImpl executeInBackground(EventSender eventSender, String servletPath, HttpRequestData httpRequestData, List<NameValue> paramList) throws Exception
+    public static HttpRequestResultOKBeanshellImpl executeInBackground(EventSender eventSender, String servletPath, HttpRequestData httpRequestData, List<NameValue> paramList) throws Exception
     {
         // Ejecutado en multihilo en el caso async
-        HttpRequestResultOKImpl result = HttpUtil.httpPost(servletPath, httpRequestData, paramList, null);
+        HttpRequestResultOKBeanshellImpl result = (HttpRequestResultOKBeanshellImpl)HttpUtil.httpPost(servletPath, httpRequestData, paramList, null);
 
-        if (MimeUtil.MIME_BEANSHELL.equals(result.getMimeType())) // No es necesario pero por si acaso
+        ItsNatDocItsNatImpl itsNatDocItsNat = eventSender.getItsNatDocItsNatImpl();
+
+        LinkedList<DOMAttrRemote> attrRemoteList = parseRemoteAttribs(result.getResponseText(),itsNatDocItsNat);
+
+        if (attrRemoteList != null)
         {
-            List<DOMAttrRemote> attrRemoteList = parseRemoteAttribs(result.getResponseText());
+            String pageURLBase = itsNatDocItsNat.getPageURLBase();
+            PageItsNatImpl pageItsNat = itsNatDocItsNat.getPageItsNatImpl();
+            XMLDOMRegistry xmlDOMRegistry = pageItsNat.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
+            AssetManager assetManager = pageItsNat.getContext().getResources().getAssets();
+            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            resDownloader.downloadResources(attrRemoteList);
 
-            if (attrRemoteList != null)
-            {
-                ItsNatDocItsNatImpl itsNatDocItsNat = eventSender.getItsNatDocItsNatImpl();
-                String pageURLBase = itsNatDocItsNat.getPageURLBase();
-                PageItsNatImpl pageItsNat = itsNatDocItsNat.getPageItsNatImpl();
-                XMLDOMRegistry xmlDOMRegistry = pageItsNat.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
-                AssetManager assetManager = pageItsNat.getContext().getResources().getAssets();
-                HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-                resDownloader.downloadResources(attrRemoteList);
-            }
+            result.setAttrRemoteListBSParsed(attrRemoteList);
         }
 
         return result;
     }
 
-    public static void onFinishOk(EventSender eventSender, EventGenericImpl evt, HttpRequestResultOKImpl result)
+    public static void onFinishOk(EventSender eventSender, EventGenericImpl evt, HttpRequestResultOKBeanshellImpl result)
     {
         try
         {
@@ -118,7 +116,8 @@ public class EventSender
             {
                 HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException) ex).getHttpRequestResult() : result;
                 errorListener.onError(page, evt, ex, resultError);
-            } else
+            }
+            else
             {
                 if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;
                 else throw new ItsNatDroidException(ex);
@@ -138,48 +137,158 @@ public class EventSender
         if (errorListener != null)
         {
             errorListener.onError(page, evt, exFinal, result);
-        } else
+        }
+        else
         {
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 // Error del servidor, lo normal es que haya lanzado una excepción
                 ItsNatDocItsNatImpl itsNatDoc = eventSender.getItsNatDocItsNatImpl();
                 itsNatDoc.showErrorMessage(true, result, exFinal, errorMode);
-            } else throw exFinal;
+            }
+            else throw exFinal;
         }
 
     }
 
-    private static List<DOMAttrRemote> parseRemoteAttribs(String code)
+    private static LinkedList<DOMAttrRemote> parseRemoteAttribs(String code,ItsNatDocItsNatImpl itsNatDocItsNat)
     {
-        ArrayList<DOMAttrRemote> attrRemoteList = null;
+        LinkedList<DOMAttrRemote> attrRemoteList = null;
 
         // Caso 1: setAttributeNS y setAttribute
+        //      Ej. de formato esperado: /*{*/NSAND,"textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"/*}*/
+        //                               /*{*/"style","@remote:dimen/droid/res/values/test_values_remote.xml:test_style"/*}*/
+
+        // Caso 2: setAttrBatch
+        // Ej. de formato esperado /*[n*/null/*n]*/  /*[k*/"style"/*k]*/...  /*[v*/"@remote:style/droid/res/values/test_values_remote.xml:test_style_remote"/*v]*/...
+        // En vez de null (namespace) puede ser NSAND o "some namespace" o null
+
+        boolean searchMoreCase1 = true; // Sirve para evitar búsquedas inútiles
+        boolean searchMoreCase2 = true; // Sirve para evitar búsquedas inútiles
+        while(true)
         {
-            String codeCase1 = code;
+            // Vemos que caso está primero
 
-            // Ej. de formato esperado: /*{*/NSAND,"textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"/*}*/
-            int lenDelimiter = "/*{*/".length(); // idem que el sufijo "/*}*/"
+            int posOpenCase1 = -1;
+            int posOpenCase2 = -1;
 
-            while (true)
+            if (searchMoreCase1) posOpenCase1 = code.indexOf("/*{*/");
+            if (searchMoreCase2) posOpenCase2 = code.indexOf("/*[n*/");
+
+            if ( (posOpenCase1 != -1 && posOpenCase2 != -1 && posOpenCase1 < posOpenCase2) || (posOpenCase1 != -1 && posOpenCase2 == -1) )
             {
-                int posOpen = codeCase1.indexOf("/*{*/");
-                if (posOpen != -1)
+                // Caso 1
+
+                if (attrRemoteList == null) attrRemoteList = new LinkedList<DOMAttrRemote>();
+                code = processCase1(code,posOpenCase1,attrRemoteList,itsNatDocItsNat);
+
+            }
+            else if ( (posOpenCase1 != -1 && posOpenCase2 != -1 && posOpenCase1 > posOpenCase2) || (posOpenCase1 == -1 && posOpenCase2 != -1) )
+            {
+                // Caso 2
+
+                if (attrRemoteList == null) attrRemoteList = new LinkedList<DOMAttrRemote>();
+                code = processCase2(code,posOpenCase2,attrRemoteList,itsNatDocItsNat);
+            }
+            else
+            {
+                // NO hay más
+                break;
+            }
+
+            if (searchMoreCase1 && posOpenCase1 == -1) searchMoreCase1 = false; // No hay más de case 1
+            if (searchMoreCase2 && posOpenCase2 == -1) searchMoreCase2 = false; // No hay más de case 2
+        }
+
+        return attrRemoteList;
+    }
+
+
+    private static String processCase1(String code,int posOpen,LinkedList<DOMAttrRemote> attrRemoteList,ItsNatDocItsNatImpl itsNatDocItsNat)
+    {
+        // Ej. de formato esperado: /*{*/NSAND,"textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"/*}*/
+        //                          /*{*/"style","@remote:dimen/droid/res/values/test_values_remote.xml:test_style"/*}*/
+
+        int lenDelimiter = "/*{*/".length(); // idem que el sufijo "/*}*/"
+
+        int posEnd = code.indexOf("/*}*/", posOpen + lenDelimiter);
+        if (posEnd != -1)
+        {
+            String attrCode = code.substring(posOpen + lenDelimiter, posEnd);
+
+            DOMAttrRemote domAttr = parseSingleRemoteAttr(attrCode,itsNatDocItsNat);
+
+            attrRemoteList.add(domAttr);
+
+            code = code.substring(posEnd + lenDelimiter);
+        }
+        else
+        {
+            throw new ItsNatDroidException("Unexpected format " + posOpen); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final, salimos, está
+        }
+
+        return code;
+    }
+
+    private static String processCase2(String code,int posOpenNS,LinkedList<DOMAttrRemote> attrRemoteList,ItsNatDocItsNatImpl itsNatDocItsNat)
+    {
+        // Ej. de formato esperado /*[n*/null/*n]*/  /*[k*/"style"/*k]*/...  /*[v*/"@remote:style/droid/res/values/test_values_remote.xml:test_style_remote"/*v]*/...
+        // En vez de null (namespace) puede ser NSAND o "some namespace" o null
+
+        int lenDelimiter = "/*[n*/".length(); // idem que el sufijo "/*n]*/" e idem con k y v
+
+
+        String namespaceURI;
+
+        {
+            int posEnd = code.indexOf("/*n]*/", posOpenNS + lenDelimiter);
+            if (posEnd != -1)
+            {
+                String namespaceCode = code.substring(posOpenNS + lenDelimiter, posEnd);
+                namespaceURI = parseNamespaceURI(namespaceCode);
+
+                code = code.substring(posEnd + lenDelimiter);
+            }
+            else
+            {
+                throw new ItsNatDroidException("Unexpected format " + code); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final
+            }
+        }
+
+        // Atributos que tienen en común el namespace anteriormente obtenido
+
+        int posFirstValue = code.indexOf("/*[v*/"); // No debemos buscar más allá de este punto porque estaremos encontrando los key de otra sentencia
+        if (posFirstValue == -1) throw new ItsNatDroidException("Unexpected format " + code);
+
+        ArrayList<String> nameList = null;
+        while (true)
+        {
+            // name
+            {
+                int posOpenKey = code.indexOf("/*[k*/");
+                if (posOpenKey != -1)
                 {
-                    int posEnd = codeCase1.indexOf("/*}*/", posOpen + lenDelimiter);
-                    if (posEnd != -1)
+                    if (posOpenKey < posFirstValue)
                     {
-                        String attrCode = codeCase1.substring(posOpen + lenDelimiter, posEnd);
+                        int posEnd = code.indexOf("/*k]*/", posOpenKey + lenDelimiter);
+                        if (posEnd != -1)
+                        {
+                            String nameCode = code.substring(posOpenKey + lenDelimiter, posEnd);
+                            String name = parseAttrName(nameCode);
 
-                        DOMAttrRemote domAttr = parseSingleRemoteAttr(attrCode);
-                        if (attrRemoteList == null) attrRemoteList = new ArrayList<DOMAttrRemote>();
-                        attrRemoteList.add(domAttr);
+                            if (nameList == null) nameList = new ArrayList<String>();
+                            nameList.add(name);
 
-                        codeCase1 = codeCase1.substring(posEnd + lenDelimiter);
+                            code = code.substring(posEnd + lenDelimiter);
+                        }
+                        else
+                        {
+                            throw new ItsNatDroidException("Unexpected format " + code); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final
+                        }
                     }
                     else
                     {
-                        break; // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final
+                        break; // No hay más
                     }
                 }
                 else
@@ -189,142 +298,62 @@ public class EventSender
             }
         }
 
-        // Caso 2 setAttrBatch
+        if (nameList == null) throw new ItsNatDroidException("Unexpected format " + code); // Si se encontró un metadato namespace es porque esperamos AL MENOS un atributo remoto
+
+        int countExpected = nameList.size();
+        ArrayList<String> valueList = new ArrayList<String>(countExpected);
+        for(int i = 0; i < countExpected; i++)
         {
-            String codeCase2 = code;
-
-            // Ej. de formato esperado /*[n*/null/*n]*/  /*[k*/"style"/*k]*/...  /*[v*/"@remote:style/droid/res/values/test_values_remote.xml:test_style_remote"/*v]*/...
-            // En vez de null (namespace) puede ser NSAND o "some namespace" o null
-
-            int lenDelimiter = "/*[n*/".length(); // idem que el sufijo "/*n]*/" e idem con k y v
-
-            while (true)
+            // value
             {
-                String namespaceURI;
-
+                int posOpenValue = code.indexOf("/*[v*/");
+                if (posOpenValue != -1)
                 {
-                    int posOpen = codeCase2.indexOf("/*[n*/");
-                    if (posOpen != -1)
+                    int posEnd = code.indexOf("/*v]*/", posOpenValue + lenDelimiter);
+                    if (posEnd != -1)
                     {
-                        int posEnd = codeCase2.indexOf("/*n]*/", posOpen + lenDelimiter);
-                        if (posEnd != -1)
-                        {
-                            String namespaceCode = codeCase2.substring(posOpen + lenDelimiter, posEnd);
-                            namespaceURI = parseNamespaceURI(namespaceCode);
+                        String valueCode = code.substring(posOpenValue + lenDelimiter, posEnd);
+                        String value = extractStringLiteralContent(valueCode);
 
-                            codeCase2 = codeCase2.substring(posEnd + lenDelimiter);
-                        }
-                        else
-                        {
-                            throw new ItsNatDroidException("Unexpected format " + codeCase2); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final
-                        }
+                        if (valueList == null) valueList = new ArrayList<String>();
+                        valueList.add(value);
+
+                        code = code.substring(posEnd + lenDelimiter);
                     }
                     else
                     {
-                        break; // No hay más namespaces por tanto no hay más atributos de este tipo
+                        throw new ItsNatDroidException("Unexpected format " + code); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final
                     }
                 }
-
-                // Atributos que tienen en común el namespace anteriormente obtenido
-
-                int posFirstValue = codeCase2.indexOf("/*[v*/"); // No debemos buscar más allá de este punto porque estaremos encontrando los key de otra sentencia
-                if (posFirstValue == -1) throw new ItsNatDroidException("Unexpected format " + codeCase2);
-
-                ArrayList<String> nameList = null;
-                while (true)
+                else
                 {
-                    // name
-                    {
-                        int posOpen = codeCase2.indexOf("/*[k*/");
-                        if (posOpen != -1)
-                        {
-                            if (posOpen < posFirstValue)
-                            {
-                                int posEnd = codeCase2.indexOf("/*k]*/", posOpen + lenDelimiter);
-                                if (posEnd != -1)
-                                {
-                                    String nameCode = codeCase2.substring(posOpen + lenDelimiter, posEnd);
-                                    String name = extractStringLiteralContent(nameCode);
-
-                                    if (nameList == null) nameList = new ArrayList<String>();
-                                    nameList.add(name);
-
-                                    codeCase2 = codeCase2.substring(posEnd + lenDelimiter);
-                                }
-                                else
-                                {
-                                    throw new ItsNatDroidException("Unexpected format " + codeCase2); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final
-                                }
-                            }
-                            else
-                            {
-                                break; // No hay más
-                            }
-                        }
-                        else
-                        {
-                            break; // No hay más
-                        }
-                    }
+                    throw new ItsNatDroidException("Unexpected format " + code); // Esperamos un número dado de values que conocemos de antemano
                 }
-
-                if (nameList == null) throw new ItsNatDroidException("Unexpected format " + codeCase2); // Si se encontró un metadato namespace es porque esperamos AL MENOS un atributo remoto
-
-                int countExpected = nameList.size();
-                ArrayList<String> valueList = new ArrayList<String>(countExpected);
-                for(int i = 0; i < countExpected; i++)
-                {
-                    // value
-                    {
-                        int posOpen = codeCase2.indexOf("/*[v*/");
-                        if (posOpen != -1)
-                        {
-                            int posEnd = codeCase2.indexOf("/*v]*/", posOpen + lenDelimiter);
-                            if (posEnd != -1)
-                            {
-                                String valueCode = codeCase2.substring(posOpen + lenDelimiter, posEnd);
-                                String value = extractStringLiteralContent(valueCode);
-
-                                if (valueList == null) valueList = new ArrayList<String>();
-                                valueList.add(value);
-
-                                codeCase2 = codeCase2.substring(posEnd + lenDelimiter);
-                            }
-                            else
-                            {
-                                throw new ItsNatDroidException("Unexpected format " + codeCase2); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final
-                            }
-                        }
-                        else
-                        {
-                            throw new ItsNatDroidException("Unexpected format " + codeCase2); // Esperamos un número dado de values que conocemos de antemano
-                        }
-                    }
-                }
-
-                if (nameList.size() != valueList.size()) throw new ItsNatDroidException("Unexpected format " + codeCase2);
-
-                int count = nameList.size();
-                for(int i = 0; i < count; i++)
-                {
-                    String name = nameList.get(i);
-                    String value = valueList.get(i);
-                    DOMAttrRemote domAttr = (DOMAttrRemote)DOMAttr.create(namespaceURI, name, value);
-                    if (attrRemoteList == null) attrRemoteList = new ArrayList<DOMAttrRemote>();
-                    attrRemoteList.add(domAttr);
-                }
-
             }
         }
 
+        if (nameList.size() != valueList.size()) throw new ItsNatDroidException("Unexpected format " + code);
 
-        return attrRemoteList;
+        int count = nameList.size();
+        for(int i = 0; i < count; i++)
+        {
+            String name = nameList.get(i);
+            String value = valueList.get(i);
+            DOMAttrRemote domAttr = createDOMAttrRemote(namespaceURI, name, value,itsNatDocItsNat);
+
+            attrRemoteList.add(domAttr);
+        }
+
+        return code;
     }
 
-    private static DOMAttrRemote parseSingleRemoteAttr(String code)
+
+
+    private static DOMAttrRemote parseSingleRemoteAttr(String code,ItsNatDocItsNatImpl itsNatDocItsNat)
     {
         // Ej. de formato esperado:
         //      NSAND,"textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"
+        //      "android:textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"
         //      "style","@remote:dimen/droid/res/values/test_values_remote.xml:test_style"
         // En lugar de NSAND puede ser un "some namespace" o null
 
@@ -335,24 +364,23 @@ public class EventSender
         String namespaceURI = null;
         if (attrParts.length == 3)
         {
-            namespaceURI = attrParts[part];
-            if (NamespaceUtil.XMLNS_ANDROID_ALIAS.equals(namespaceURI)) // la constante NSAND
-                namespaceURI = NamespaceUtil.XMLNS_ANDROID;
-            else if ("null".equals(namespaceURI))
-                namespaceURI = null;
-            else
-                namespaceURI = extractStringLiteralContent(namespaceURI);
+            namespaceURI = parseNamespaceURI(attrParts[part]);
             part++;
         }
 
         String name = attrParts[part];
-        name = extractStringLiteralContent(name);
+        name = parseAttrName(name);
         part++;
 
         String value = attrParts[part];
         value = extractStringLiteralContent(value);
 
-        return (DOMAttrRemote)DOMAttr.create(namespaceURI,name,value);
+        return createDOMAttrRemote(namespaceURI,name,value,itsNatDocItsNat);
+    }
+
+    private static DOMAttrRemote createDOMAttrRemote(String namespaceURI,String name,String value,ItsNatDocItsNatImpl itsNatDocItsNat)
+    {
+        return (DOMAttrRemote)itsNatDocItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value);
     }
 
     private static String parseNamespaceURI(String code)
@@ -364,7 +392,14 @@ public class EventSender
             namespaceURI = null;
         else
             namespaceURI = extractStringLiteralContent(namespaceURI);
+
         return namespaceURI;
+    }
+
+    private static String parseAttrName(String code)
+    {
+        String name = extractStringLiteralContent(code);
+        return name;
     }
 
     private static String extractStringLiteralContent(String code)
@@ -376,13 +411,13 @@ public class EventSender
     }
 
 
-    public void processResult(EventGenericImpl evt,HttpRequestResultOKImpl result,boolean async)
+    public void processResult(EventGenericImpl evt,HttpRequestResultOKBeanshellImpl result,boolean async)
     {
         ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
         itsNatDoc.fireEventMonitors(false,false,evt);
 
         String responseText = result.getResponseText();
-        itsNatDoc.eval(responseText,evt);
+        itsNatDoc.eval(responseText, evt, result.getAttrRemoteListBSParsed());
 
         if (async) evtManager.returnedEvent(evt);
     }

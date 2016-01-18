@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 /**
@@ -34,11 +35,18 @@ public abstract class DOMAttrDynamic extends DOMAttr
         int posPath = value.indexOf('/');
         this.resType = value.substring(posType + 1,posPath); // Ej. "drawable"
 
-        int valuesResourcePos = value.lastIndexOf(':'); // Esperamos el de por ej "...filename.xml:size" pero puede devolvernos el de "@assets:dimen..." lo que significa que no existe valuesResourceName
-        if (valuesResourcePos > posType) // Existe un segundo ":" para el valuesResourceName
+        if (XMLDOMValuesParser.isResourceTypeValues(resType))
         {
-            this.location = value.substring(posPath + 1,valuesResourcePos); // incluye la extension
-            this.valuesResourceName = value.substring(valuesResourcePos + 1);
+            int valuesResourcePos = value.lastIndexOf(':'); // Esperamos el de por ej "...filename.xml:size" pero puede devolvernos el de "@assets:dimen..." lo que significa que no existe valuesResourceName lo cual es erróneo
+            if (valuesResourcePos > posType) // Correcto, existe un segundo ":" para el valuesResourceName
+            {
+                this.location = value.substring(posPath + 1,valuesResourcePos); // incluye la extension
+                this.valuesResourceName = value.substring(valuesResourcePos + 1);
+            }
+            else
+            {
+                throw new ItsNatDroidException("Bad format of attribute value, expected \"values\" resource ended with \":resname\" : " + value);
+            }
         }
         else
         {

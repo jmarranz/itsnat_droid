@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -20,7 +21,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.LinkedList;
 
 /**
  * Created by jmarranz on 31/10/14.
@@ -289,7 +289,7 @@ public abstract class XMLDOMParser
         {
             xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion,loadingRemotePage,assetManager);
         }
-        else if ("style".equals(resourceType) || "color".equals(resourceType) || "dimen".equals(resourceType))
+        else if (XMLDOMValuesParser.isResourceTypeValues(resourceType))
         {
             xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup, assetManager);
         }

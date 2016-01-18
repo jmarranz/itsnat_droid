@@ -31,6 +31,11 @@ public class XMLDOMValuesParser extends XMLDOMParser
         return new XMLDOMValuesParser(xmlDOMRegistry,assetManager);
     }
 
+    public static boolean isResourceTypeValues(String resourceType)
+    {
+        return "style".equals(resourceType) || "color".equals(resourceType) || "dimen".equals(resourceType);
+    }
+
     @Override
     protected boolean isAndroidNSPrefixNeeded()
     {

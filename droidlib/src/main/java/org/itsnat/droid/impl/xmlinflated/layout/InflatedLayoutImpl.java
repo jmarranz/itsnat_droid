@@ -36,15 +36,16 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return getXMLDOMLayout().getAndroidNSPrefix();
     }
 
-    public MapLight<String,String> getNamespacesByPrefix()
+    public MapLight<String,String> getRootNamespacesByPrefix()
     {
-        return getXMLDOMLayout().getNamespacesByPrefix();
+        return getXMLDOMLayout().getRootNamespacesByPrefix();
     }
 
-    public String getNamespace(String prefix)
+    public String getRootNamespaceByPrefix(String prefix)
     {
-        return getNamespacesByPrefix().get(prefix);
+        return getXMLDOMLayout().getRootNamespaceByPrefix(prefix);
     }
+
 
     @Override
     public ItsNatDroid getItsNatDroid()

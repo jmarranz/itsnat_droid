@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.dom;
 
-import java.util.Comparator;
-
 /**
  * Created by jmarranz on 15/01/2016.
  */

@@ -30,6 +30,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.event.DroidKeyEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidMotionEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidOtherEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.DroidTextChangeEventImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventStatelessImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.AsyncTaskEventListener;
@@ -39,11 +40,13 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.util.NamespaceUtil;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
@@ -76,7 +79,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     protected boolean enableEvtMonitors = true;
     protected List<EventMonitor> evtMonitorList;
     protected EventManager evtManager = new EventManager(this);
-
+    protected LinkedList<DOMAttrRemote> attrRemoteListBSParsed;
 
     public ItsNatDocItsNatImpl(PageItsNatImpl page,int errorMode)
     {
@@ -98,6 +101,23 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         this.eventsEnabled = eventsEnabled;
     }
 
+    public void eval(String code,EventGenericImpl evt,LinkedList<DOMAttrRemote> attrRemoteListBSParsed)
+    {
+        this.attrRemoteListBSParsed = attrRemoteListBSParsed; // Puede ser null
+        try
+        {
+            super.eval(code, evt);
+        }
+        finally
+        {
+            if (attrRemoteListBSParsed != null)
+            {
+                // if (attrRemoteListBSParsed.size() > 0) throw new ItsNatDroidException("Internal Error");
+                this.attrRemoteListBSParsed = null;
+            }
+        }
+    }
+
     public String getItsNatServletPath()
     {
         return itsNatServletPath;
@@ -108,8 +128,6 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         return evtManager;
     }
 
-
-
     public Runnable getAttachTimerRefreshCallback()
     {
         return attachTimerRefreshCallback;
@@ -119,8 +137,6 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     {
         return attachType;
     }
-
-
 
     public boolean isEventsEnabled()
     {
@@ -187,39 +203,62 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         return paramList;
     }
 
-    private String extractLocalName(String namespaceURI,String name)
+    private String extractAttrNamespaceURI(String namespaceURI, String name)
     {
-        if (namespaceURI != null) return name;
+        if (namespaceURI != null) return namespaceURI; // De ItsNat server el script nunca contiene un android:localname (localname a secas) si el namespaceURI ha sido especificado explícitamente
 
         // El namespace puede estar en el name como prefijo por ejemplo "android:"
         String prefix = NamespaceUtil.getPrefix(name);
-        if (prefix != null)
-        {
-            namespaceURI = getPageImpl().getInflatedLayoutPageImpl().getNamespace(prefix);
-            if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
-                name = NamespaceUtil.getLocalName(name);
-        }
+        if (prefix == null)
+            return null;
+
+        InflatedLayoutPageImpl inflatedLayoutPage = getPageImpl().getInflatedLayoutPageImpl();
+        return inflatedLayoutPage.getRootNamespaceByPrefix(prefix); // Puede ser null, no encontrado
+    }
+
+    private String extractAttrLocalName(String namespaceURI, String name)
+    {
+        if (namespaceURI != null) return name; // De ItsNat server el script nunca contiene un android:localname (localname a secas) si el namespaceURI ha sido especificado explícitamente
+
+        // El namespace puede estar en el name como prefijo por ejemplo "android:"
+        String prefix = NamespaceUtil.getPrefix(name);
+        if (prefix == null)
+            return name;
+
+        InflatedLayoutPageImpl inflatedLayoutPage = getPageImpl().getInflatedLayoutPageImpl();
+        namespaceURI = inflatedLayoutPage.getRootNamespaceByPrefix(prefix);
+        if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará lo consideramos como un atributo desconocido y conservamos el prefijo
+            return NamespaceUtil.getLocalName(name);
 
         return name;
     }
 
+    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value)
+    {
+        String namespaceURIFinal = extractAttrNamespaceURI(namespaceURI, name);
+        String localName = extractAttrLocalName(namespaceURI, name);
+        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value);
+        return attr;
+    }
+
     private DOMAttr toDOMAttr(String namespaceURI,String name,String value)
     {
-        name = extractLocalName(namespaceURI,name); // NECESARIO
-        DOMAttr attr = DOMAttr.create(namespaceURI, name, value);
+        DOMAttr attr = toDOMAttrNotSyncResource(namespaceURI, name, value);
+        if (this.attrRemoteListBSParsed != null && attr instanceof DOMAttrRemote) // Si attrRemoteListBSParsed es null es que no hay atributos remotos extraidos del script para sincronizar
+        {
+            DOMAttrRemote attrRemote = (DOMAttrRemote)attr;
+            DOMAttrRemote attrWithRes = attrRemoteListBSParsed.removeFirst();
+            attrRemote.check(attrWithRes.getNamespaceURI(),attrWithRes.getName(),attrWithRes.getValue()); // Para estar tranquilos de que to_do va bien
+            attrRemote.setResource(attrWithRes.getResource());
+        }
         return attr;
     }
 
     private DOMAttr[] toDOMAttr(String namespaceURI,String[] attrNames,String[] attrValues)
     {
         DOMAttr[] attrArray = new DOMAttr[attrNames.length];
-
         for(int i = 0; i < attrNames.length; i++)
-        {
-            String name = extractLocalName(namespaceURI, attrNames[i]); // NECESARIO
-            attrArray[i] = DOMAttr.create(namespaceURI, name, attrValues[i]);
-        }
-
+            attrArray[i] = toDOMAttr(namespaceURI, attrNames[i], attrValues[i]);
         return attrArray;
     }
 
@@ -326,10 +365,11 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         if (node instanceof NodeToInsertImpl && !((NodeToInsertImpl)node).isInserted())
                 throw new ItsNatDroidException("Internal Error"); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
 
-        name = extractLocalName(namespaceURI,name); // NECESARIO
+        String namespaceURIFinal = extractAttrNamespaceURI(namespaceURI, name); // NECESARIO
+        String localName = extractAttrLocalName(namespaceURI, name);  // NECESARIO
 
         View view = node.getView();
-        page.getXMLInflaterLayoutPage().removeAttributeFromRemote(view, namespaceURI, name);
+        page.getXMLInflaterLayoutPage().removeAttributeFromRemote(view, namespaceURIFinal, localName);
     }
 
     @Override

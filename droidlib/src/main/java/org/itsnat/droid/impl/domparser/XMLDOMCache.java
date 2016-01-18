@@ -19,17 +19,9 @@ public class XMLDOMCache<T extends XMLDOM>
 
     protected Map<String,T> registryByMarkup = new HashMap<String, T>();
     protected TreeMap<TimestampExtended,T> registryByTimestamp = new TreeMap<TimestampExtended,T>(new TimestampExtendedComparator()); // Recuerda que es un SortedMap de menor a mayor por defecto.
-    protected final boolean allowRepeatedPut; // Los métodos get y put están sincronizados para que haya coherencia siempre en las dos colecciones pero desde fuera permitimos no sincronizar el uso conjunto de get/put por lo que es raro pero posible que dos put se ejecuten al mismo tiempo (uno tras otro por la sincronización) registrando el mismo valor sin provocar error, no pasa nada quedará el último
 
-    /*
-    public XMLDOMCache(boolean allowRepeatedPut)
-    {
-        this.allowRepeatedPut = allowRepeatedPut;
-    }
-    */
     public XMLDOMCache()
     {
-        this.allowRepeatedPut = false;
     }
 
     public synchronized T get(String markup)
@@ -69,11 +61,11 @@ public class XMLDOMCache<T extends XMLDOM>
         }
         T res;
         res = registryByMarkup.put(markup,xmlDOM);
-        if (!allowRepeatedPut && res != null) throw new ItsNatDroidException("Internal Error");
+        if (res != null) throw new ItsNatDroidException("Internal Error");
         TimestampExtended timestamp = xmlDOM.getTimestampExtended();
         generateUniqueTimestamp(timestamp);
         res = registryByTimestamp.put(timestamp, xmlDOM);
-        if (!allowRepeatedPut && res != null) throw new ItsNatDroidException("Internal Error");
+        if (res != null) throw new ItsNatDroidException("Internal Error");
     }
 
     private synchronized void generateUniqueTimestamp(TimestampExtended timestamp)

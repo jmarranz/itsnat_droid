@@ -1,13 +1,6 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
-import org.itsnat.droid.ClientErrorMode;
-import org.itsnat.droid.HttpRequestResult;
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
-import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
-import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
@@ -19,7 +12,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResultOKImpl>
+public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResultOKBeanshellImpl>
 {
     protected EventSender eventSender;
     protected EventGenericImpl evt;
@@ -47,13 +40,13 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     }
 
     @Override
-    protected HttpRequestResultOKImpl executeInBackground() throws Exception
+    protected HttpRequestResultOKBeanshellImpl executeInBackground() throws Exception
     {
         return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList);
     }
 
     @Override
-    protected void onFinishOk(HttpRequestResultOKImpl result)
+    protected void onFinishOk(HttpRequestResultOKBeanshellImpl result)
     {
         EventSender.onFinishOk(eventSender, evt, result);
     }

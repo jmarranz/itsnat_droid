@@ -5,12 +5,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.impl.cookie.DateParseException;
 import org.apache.http.impl.cookie.DateUtils;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,11 +31,8 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
         if (lastModifiedHeader != null)
         {
             long lastModified;
-            try {
-                lastModified = DateUtils.parseDate(lastModifiedHeader[0].getValue()).getTime();
-            } catch (DateParseException ex) {
-                throw new ItsNatDroidException(ex);
-            }
+            try { lastModified = DateUtils.parseDate(lastModifiedHeader[0].getValue()).getTime(); }
+            catch (DateParseException ex) { throw new ItsNatDroidException(ex); }
 
             HttpFileCache.FileCached fileCached = httpFileCache.get(url);
 
@@ -79,11 +73,7 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
 
                     this.responseByteArray = fileCached.getContentByteArray(); // Evitamos asi descargar el archivo via HTTP constantemente
 
-                    try {
-                        input.close();
-                    } catch (IOException ex) {
-                        throw new ItsNatDroidException(ex);
-                    }
+                    try { input.close(); } catch (IOException ex) { throw new ItsNatDroidException(ex); }
                 }
             }
         }

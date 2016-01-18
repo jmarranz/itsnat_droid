@@ -3,6 +3,8 @@ package org.itsnat.droid.impl.browser;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.itsnat.droid.HttpRequestResult;
+import org.itsnat.droid.impl.browser.serveritsnat.HttpRequestResultOKBeanshellImpl;
+import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.io.InputStream;
 import java.util.Date;
@@ -31,7 +33,12 @@ public abstract class HttpRequestResultImpl implements HttpRequestResult
     {
         int statusCode = httpResponse.getStatusLine().getStatusCode();
         if (statusCode == 200)
-            return new HttpRequestResultOKImpl(url,httpResponse,input,httpFileCache,mimeType,encoding);
+        {
+            if (MimeUtil.MIME_BEANSHELL.equals(mimeType))
+                return new HttpRequestResultOKBeanshellImpl(url, httpResponse, input, httpFileCache, mimeType, encoding);
+            else
+                return new HttpRequestResultOKImpl(url, httpResponse, input, httpFileCache, mimeType, encoding);
+        }
         else
             return new HttpRequestResultFailImpl(url,httpResponse,input,mimeType,encoding);
     }

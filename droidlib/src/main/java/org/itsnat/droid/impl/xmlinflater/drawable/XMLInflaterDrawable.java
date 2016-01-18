@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
@@ -26,7 +25,6 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableWrapped;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ElementDrawableChildContainer;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**

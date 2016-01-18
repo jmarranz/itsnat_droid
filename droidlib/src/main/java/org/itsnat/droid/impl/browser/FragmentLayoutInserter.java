@@ -46,7 +46,7 @@ public class FragmentLayoutInserter
 
         newMarkup.append("<" + parentView.getClass().getName());
 
-        MapLight<String, String> namespaceMap = inflatedLayoutPage.getNamespacesByPrefix();
+        MapLight<String, String> namespaceMap = inflatedLayoutPage.getRootNamespacesByPrefix();
         for (Map.Entry<String, String> entry : namespaceMap.getEntryList())
         {
             newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\">");
