@@ -165,21 +165,16 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
         XMLDOMLayoutPage xmldomLayoutPage = inflatedLayoutPage.getXMLDOMLayoutPage();
 
         if (xmldomLayoutPage instanceof XMLDOMLayoutPageItsNat)
-            inflatedLayoutPage.setLoadScript(((XMLDOMLayoutPageItsNat)xmldomLayoutPage).getLoadScript());
+            inflatedLayoutPage.setLoadInitScript(((XMLDOMLayoutPageItsNat) xmldomLayoutPage).getLoadInitScript());
 
-        fillScriptList(xmldomLayoutPage);
+        List<DOMScript> scriptListFromTree = xmldomLayoutPage.getDOMScriptList();
+        if (scriptListFromTree != null)
+        {
+            for (DOMScript script : scriptListFromTree)
+                inflatedLayoutPage.addScript(script.getCode());
+        }
 
         return super.inflateLayout(viewParent,index);
     }
 
-    private void fillScriptList(XMLDOMLayoutPage domLayout)
-    {
-        List<DOMScript> scriptListFromTree = domLayout.getDOMScriptList();
-        if (scriptListFromTree != null)
-        {
-            InflatedLayoutPageImpl inflatedLayoutPage = getInflatedLayoutPageImpl();
-            for (DOMScript script : scriptListFromTree)
-                inflatedLayoutPage.addScript(script.getCode());
-        }
-    }
 }

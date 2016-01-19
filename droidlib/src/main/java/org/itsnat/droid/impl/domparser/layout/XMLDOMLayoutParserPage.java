@@ -53,7 +53,7 @@ public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
     {
         // Si loadingPage es true es el caso de carga de página, pero si serverVersion es null dicha página
         // NO es servida por ItsNat, tenemos que cargar asíncronamente el archivo script pues este es el hilo UI :(
-        // Si loadScript es null estamos en un evento (inserción de un fragment)
+        // Si loadInitScript es null estamos en un evento (inserción de un fragment)
 
         DOMScriptRemote script = new DOMScriptRemote(src);
         xmlDOM.addDOMScript(script);

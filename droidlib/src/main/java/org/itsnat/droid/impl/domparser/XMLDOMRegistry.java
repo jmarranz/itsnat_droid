@@ -38,10 +38,10 @@ public class XMLDOMRegistry
         // es un caché.
 
         // Extraemos el markup sin el script de carga porque dos páginas generadas "iguales" SIEMPRE serán diferentes a nivel
-        // de markup en el loadScript porque el id cambia y algún token aleatorio, sin el loadScript podemos conseguir
+        // de markup en el loadInitScript porque el id cambia y algún token aleatorio, sin el loadInitScript podemos conseguir
         // muchos más aciertos de cacheo y acelerar un montón al tener el parseo ya hecho.
         // Si el template no es generado por ItsNat server o bien el scripting está desactivado (itsNatServerVersion puede
-        // ser no null pues es un header), loadScript será null y no pasa nada markupNoLoadScript[0] es el markup original
+        // ser no null pues es un header), loadInitScript será null y no pasa nada markupNoLoadScript[0] es el markup original
         String[] markupWithoutLoadScript = new String[1];
         String loadScript = null;
         if (itsNatServerVersion != null && layoutType == XMLDOMLayoutParser.LayoutType.PAGE)
@@ -56,7 +56,7 @@ public class XMLDOMRegistry
 
             cachedXMLDOMLayout = layoutParser.parse(markup);
             if (cachedXMLDOMLayout instanceof XMLDOMLayoutPageItsNat)
-                ((XMLDOMLayoutPageItsNat)cachedXMLDOMLayout).setLoadScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
+                ((XMLDOMLayoutPageItsNat)cachedXMLDOMLayout).setLoadInitScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
             domLayoutCache.put(markupWithoutLoadScript[0], cachedXMLDOMLayout);
         }
         else // cachedDOMLayout != null
@@ -64,9 +64,9 @@ public class XMLDOMRegistry
             // Recuerda que cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
         }
 
-        XMLDOMLayout clonedDOMLayout = cachedXMLDOMLayout.partialClone(); // Necesitamos un clone parcial porque el loadScript necesitamos alojarlo en un objeto nuevo pues no puede cachearse
+        XMLDOMLayout clonedDOMLayout = cachedXMLDOMLayout.partialClone(); // Necesitamos un clone parcial porque el loadInitScript necesitamos alojarlo en un objeto nuevo pues no puede cachearse
         if (clonedDOMLayout instanceof XMLDOMLayoutPageItsNat)
-            ((XMLDOMLayoutPageItsNat)clonedDOMLayout).setLoadScript(loadScript);
+            ((XMLDOMLayoutPageItsNat)clonedDOMLayout).setLoadInitScript(loadScript);
         return clonedDOMLayout;
     }
 

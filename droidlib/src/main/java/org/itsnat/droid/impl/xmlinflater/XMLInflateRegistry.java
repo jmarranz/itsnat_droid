@@ -16,6 +16,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
@@ -49,6 +50,7 @@ import org.itsnat.droid.impl.xmlinflater.values.XMLInflaterValues;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -733,6 +735,8 @@ public class XMLInflateRegistry
 
     public View getLayout(DOMAttr attr, XMLInflater xmlInflaterParent,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
+        // viewParent es por ahora NO nulo, no hay todavía un caso de uso con viewParent nulo pues esta llamada es para cargar un Layout a través de un <include> (por ahora)
+
         Context ctx = xmlInflaterParent.getContext();
 
         if (attr instanceof DOMAttrDynamic)
@@ -750,8 +754,7 @@ public class XMLInflateRegistry
 
                 if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
 
-                int countBefore = 0;
-                if (viewParent != null) countBefore = viewParent.getChildCount();
+                int countBefore = viewParent.getChildCount();
 
                 ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
                 AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
@@ -766,7 +769,6 @@ public class XMLInflateRegistry
                 {
                     XMLInflaterLayoutPage xmlInflaterLayoutPageParent = (XMLInflaterLayoutPage)xmlInflaterParent; // No esperamos que sea XMLInflaterDrawablePage
                     InflatedLayoutPageImpl inflatedLayoutPageParent = xmlInflaterLayoutPageParent.getInflatedLayoutPageImpl();
-                    ItsNatDocImpl itsNatDoc = page.getItsNatDocImpl();
 
                     InflatedLayoutPageImpl inflatedLayoutPage = ((XMLInflaterLayoutPage)xmlInflaterLayout).getInflatedLayoutPageImpl();
                     List<String> scriptList = inflatedLayoutPage.getScriptList();
@@ -776,39 +778,30 @@ public class XMLInflateRegistry
                         inflatedLayoutPageParent.getScriptList().addAll(scriptList);
                     }
 
-                    String loadScript = inflatedLayoutPage.getLoadScript();
-                    if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
-                    {
-                        if (viewParent != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server document for referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
-
-                        // Por ahora no tengo ningún caso de uso de esto, quizás no deba de darse nunca
-                        itsNatDoc.eval(loadScript);
-                    }
+                    String loadInitScript = inflatedLayoutPage.getLoadInitScript();
+                    if (loadInitScript != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server document for referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
                 }
 
 
-                if (viewParent != null)
+                if (rootView != viewParent) throw new ItsNatDroidException("Internal Error"); // rootView es igual a viewParent
+
+                int countAfter = viewParent.getChildCount();
+                int countInserted = countAfter - countBefore;
+                if (countInserted == 1 && includeAttribs != null)
                 {
-                    if (rootView != viewParent) throw new ItsNatDroidException("Internal Error"); // rootView es igual a viewParent
+                    View rootViewChild = viewParent.getChildAt(indexChild);
 
-                    int countAfter = viewParent.getChildCount();
-                    int countInserted = countAfter - countBefore;
-                    if (countInserted == 1 && includeAttribs != null)
-                    {
-                        View rootViewChild = viewParent.getChildAt(indexChild);
+                    xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent, includeAttribs);
+                }
 
-                        xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent, includeAttribs);
-                    }
+                InflatedLayoutImpl inflatedLayout = xmlInflaterLayout.getInflatedLayoutImpl();
 
-                    InflatedLayoutImpl inflatedLayout = xmlInflaterLayout.getInflatedLayoutImpl();
-
-                    ViewMapByXMLId viewMapByXMLId = inflatedLayout.getViewMapByXMLId();
-                    WeakMapWithValue<String,View> weakMapWithValue = viewMapByXMLId.getMapIdViewXMLStdPureField();
-                    if (weakMapWithValue != null)
-                    {
-                        InflatedLayoutImpl inflatedLayoutParent = (InflatedLayoutImpl)xmlInflaterParent.getInflatedXML();
-                        weakMapWithValue.copyTo(inflatedLayoutParent.getViewMapByXMLId().getMapIdViewXMLStd());
-                    }
+                ViewMapByXMLId viewMapByXMLId = inflatedLayout.getViewMapByXMLId();
+                WeakMapWithValue<String,View> weakMapWithValue = viewMapByXMLId.getMapIdViewXMLStdPureField();
+                if (weakMapWithValue != null)
+                {
+                    InflatedLayoutImpl inflatedLayoutParent = (InflatedLayoutImpl)xmlInflaterParent.getInflatedXML();
+                    weakMapWithValue.copyTo(inflatedLayoutParent.getViewMapByXMLId().getMapIdViewXMLStd());
                 }
 
                 return rootView;

@@ -16,12 +16,14 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.PageRequest;
+import org.itsnat.droid.impl.browser.serveritsnat.EventSender;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.httputil.RequestPropertyMap;
@@ -277,7 +279,7 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
-    public String getURLBase()
+    public String getPageURLBase()
     {
         return urlBase;
     }
@@ -301,12 +303,12 @@ public class PageRequestImpl implements PageRequest
 
         AssetManager assetManager = getContext().getResources().getAssets();
 
-        String pageURLBase = getURLBase();
+        String pageURLBase = getPageURLBase();
 
         PageRequestResult pageRequestResult = null;
         try
         {
-            pageRequestResult = executeInBackground(this,url,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            pageRequestResult = executeInBackground(url,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
         }
         catch(Exception ex)
         {
@@ -326,7 +328,7 @@ public class PageRequestImpl implements PageRequest
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public static PageRequestResult executeInBackground(PageRequestImpl pageRequest,String url,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+    public static PageRequestResult executeInBackground(String url,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
@@ -334,18 +336,18 @@ public class PageRequestImpl implements PageRequest
         return pageReqResult;
     }
 
-    public static void onFinishOk(PageRequestImpl pageRequest,PageRequestResult result)
+    public static void onFinishOk(PageRequestImpl pageRequest,PageRequestResult pageRequestResult)
     {
         try
         {
-            pageRequest.processResponse(result);
+            pageRequest.processResponse(pageRequestResult);
         }
         catch(Exception ex)
         {
             OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : result.getHttpRequestResultOKImpl();
+                HttpRequestResult resultError = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : pageRequestResult.getHttpRequestResultOKImpl();
                 errorListener.onError(pageRequest, ex, resultError); // Para poder recogerla desde fuera
             }
             else
@@ -375,16 +377,18 @@ public class PageRequestImpl implements PageRequest
     }
 
 
-    private static PageRequestResult processHttpRequestResultMultiThread(HttpRequestResultOKImpl result,
+    private static PageRequestResult processHttpRequestResultMultiThread(HttpRequestResultOKImpl httpRequestResult,
                                         String pageURLBase, HttpRequestData httpRequestData,
                                         XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
     {
         // Método ejecutado en hilo downloader NO UI
 
-        String markup = result.getResponseText();
-        String itsNatServerVersion = result.getItsNatServerVersion(); // Puede ser null (no servida por ItsNat
+        String markup = httpRequestResult.getResponseText();
+        String itsNatServerVersion = httpRequestResult.getItsNatServerVersion(); // Puede ser null (no servida por ItsNat
         XMLDOMLayoutPage domLayout = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, assetManager);
 
+
+        PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, domLayout);
 
         // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo UI downloader)
         ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
@@ -402,7 +406,6 @@ public class PageRequestImpl implements PageRequest
             }
         }
 
-
         LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
         if (attrRemoteList != null)
         {
@@ -410,20 +413,46 @@ public class PageRequestImpl implements PageRequest
             resDownloader.downloadResources(attrRemoteList);
         }
 
-        PageRequestResult pageReqResult = new PageRequestResult(result, domLayout);
+        if (domLayout instanceof XMLDOMLayoutPageItsNat)
+        {
+            String loadInitScript = ((XMLDOMLayoutPageItsNat)domLayout).getLoadInitScript();
+            if (loadInitScript != null) // Es nulo si el scripting está desactivado
+            {
+                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = domLayout.parseBSRemoteAttribs(loadInitScript);
+
+                if (attrRemoteListBSParsed != null)
+                {
+                    // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
+                    HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+                    resDownloader.downloadResources(attrRemoteList);
+
+                    pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed);
+                }
+            }
+        }
+
         return pageReqResult;
     }
 
-    private void processResponse(PageRequestResult result)
+    private static void downloadResources(LinkedList<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
     {
-        HttpRequestResultOKImpl httpReqResult = result.getHttpRequestResultOKImpl();
+        // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
+
+        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+        resDownloader.downloadResources(attrRemoteList);
+    }
+
+
+    private void processResponse(PageRequestResult pageRequestResult)
+    {
+        HttpRequestResultOKImpl httpReqResult = pageRequestResult.getHttpRequestResultOKImpl();
 
         if (!MimeUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
             throw new ItsNatDroidServerResponseException("Expected " + MimeUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
 
         String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
 
-        PageImpl page = itsNatServerVersion != null ? new PageItsNatImpl(this,result,itsNatServerVersion) : new PageNotItsNatImpl(this,result);
+        PageImpl page = itsNatServerVersion != null ? new PageItsNatImpl(this,pageRequestResult,itsNatServerVersion) : new PageNotItsNatImpl(this,pageRequestResult);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }

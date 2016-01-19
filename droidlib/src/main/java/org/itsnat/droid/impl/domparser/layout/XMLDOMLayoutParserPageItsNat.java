@@ -39,7 +39,7 @@ public class XMLDOMLayoutParserPageItsNat extends XMLDOMLayoutParserPage
             String code = parser.getText();
 
             XMLDOMLayoutPageItsNat xmldomLayoutPageItsNat = (XMLDOMLayoutPageItsNat)domLayout;
-            xmldomLayoutPageItsNat.setLoadScript(code);
+            xmldomLayoutPageItsNat.setLoadInitScript(code);
         }
         else
             super.addDOMScriptInline(parser, domLayout);

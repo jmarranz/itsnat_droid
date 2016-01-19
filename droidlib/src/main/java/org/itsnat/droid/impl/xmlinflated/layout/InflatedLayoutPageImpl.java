@@ -15,7 +15,7 @@ import java.util.List;
 public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 {
     protected PageImpl page;
-    protected String loadScript;
+    protected String loadInitScript;
     protected List<String> scriptList = new LinkedList<String>();
 
     public InflatedLayoutPageImpl(PageImpl page,ItsNatDroidImpl itsNatDroid,XMLDOMLayoutPage domLayout,Context ctx)
@@ -34,14 +34,14 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         return page;
     }
 
-    public String getLoadScript()
+    public String getLoadInitScript()
     {
-        return loadScript;
+        return loadInitScript;
     }
 
-    public void setLoadScript(String loadScript)
+    public void setLoadInitScript(String loadInitScript)
     {
-        this.loadScript = loadScript;
+        this.loadInitScript = loadInitScript;
     }
 
     public List<String> getScriptList()

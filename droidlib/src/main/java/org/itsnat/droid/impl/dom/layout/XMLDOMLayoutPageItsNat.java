@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.dom.XMLDOM;
  */
 public class XMLDOMLayoutPageItsNat extends XMLDOMLayoutPage
 {
-    protected String loadScript;
+    protected String loadInitScript;
 
     @Override
     protected XMLDOMLayout createXMLDOMLayout()
@@ -15,20 +15,20 @@ public class XMLDOMLayoutPageItsNat extends XMLDOMLayoutPage
         return new XMLDOMLayoutPageItsNat();
     }
 
-    public String getLoadScript()
+    public String getLoadInitScript()
     {
-        return loadScript;
+        return loadInitScript;
     }
 
-    public void setLoadScript(String loadScript)
+    public void setLoadInitScript(String loadInitScript)
     {
-        this.loadScript = loadScript;
+        this.loadInitScript = loadInitScript;
     }
 
     @Override
     public void partialClone(XMLDOM cloned)
     {
         super.partialClone(cloned);
-        ((XMLDOMLayoutPageItsNat)cloned).loadScript = null; // queda claro que NO se clona
+        ((XMLDOMLayoutPageItsNat)cloned).loadInitScript = null; // queda claro que NO se clona
     }
 }

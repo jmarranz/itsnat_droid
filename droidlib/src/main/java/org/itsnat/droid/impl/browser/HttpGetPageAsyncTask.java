@@ -26,7 +26,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.pageRequest = pageRequest;
         this.url = url;
-        this.pageURLBase = pageRequest.getURLBase();
+        this.pageURLBase = pageRequest.getPageURLBase();
         this.xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
         this.assetManager = pageRequest.getContext().getAssets();
         this.httpRequestData = new HttpRequestData(pageRequest);
@@ -34,7 +34,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        return PageRequestImpl.executeInBackground(pageRequest,url,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
     }
 
 

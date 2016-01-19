@@ -41,6 +41,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
@@ -101,9 +102,13 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         this.eventsEnabled = eventsEnabled;
     }
 
-    public void eval(String code,EventGenericImpl evt,LinkedList<DOMAttrRemote> attrRemoteListBSParsed)
+    public void evalEventResultScript(String code, EventGenericImpl evt, LinkedList<DOMAttrRemote> attrRemoteListBSParsed)
     {
-        this.attrRemoteListBSParsed = attrRemoteListBSParsed; // Puede ser null
+        if (attrRemoteListBSParsed != null) // Puede ser null
+        {
+            this.attrRemoteListBSParsed = attrRemoteListBSParsed;
+        }
+
         try
         {
             super.eval(code, evt);
@@ -112,7 +117,26 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         {
             if (attrRemoteListBSParsed != null)
             {
-                // if (attrRemoteListBSParsed.size() > 0) throw new ItsNatDroidException("Internal Error");
+                this.attrRemoteListBSParsed = null;
+            }
+        }
+    }
+
+    public void evalLoadInitScript(String code, LinkedList<DOMAttrRemote> attrRemoteListBSParsed)
+    {
+        if (attrRemoteListBSParsed != null) // Puede ser null
+        {
+            this.attrRemoteListBSParsed = attrRemoteListBSParsed;
+        }
+
+        try
+        {
+            super.eval(code);
+        }
+        finally
+        {
+            if (attrRemoteListBSParsed != null)
+            {
                 this.attrRemoteListBSParsed = null;
             }
         }
@@ -233,17 +257,12 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         return name;
     }
 
-    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value)
-    {
-        String namespaceURIFinal = extractAttrNamespaceURI(namespaceURI, name);
-        String localName = extractAttrLocalName(namespaceURI, name);
-        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value);
-        return attr;
-    }
 
     private DOMAttr toDOMAttr(String namespaceURI,String name,String value)
     {
-        DOMAttr attr = toDOMAttrNotSyncResource(namespaceURI, name, value);
+        XMLDOMLayoutPage xmldomLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
+        DOMAttr attr = xmldomLayoutPage.toDOMAttrNotSyncResource(namespaceURI, name, value);
+
         if (this.attrRemoteListBSParsed != null && attr instanceof DOMAttrRemote) // Si attrRemoteListBSParsed es null es que no hay atributos remotos extraidos del script para sincronizar
         {
             DOMAttrRemote attrRemote = (DOMAttrRemote)attr;
@@ -365,8 +384,10 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         if (node instanceof NodeToInsertImpl && !((NodeToInsertImpl)node).isInserted())
                 throw new ItsNatDroidException("Internal Error"); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
 
-        String namespaceURIFinal = extractAttrNamespaceURI(namespaceURI, name); // NECESARIO
-        String localName = extractAttrLocalName(namespaceURI, name);  // NECESARIO
+        XMLDOMLayoutPage xmldomLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
+
+        String namespaceURIFinal = xmldomLayoutPage.extractAttrNamespaceURI(namespaceURI, name); // NECESARIO
+        String localName = xmldomLayoutPage.extractAttrLocalName(namespaceURI, name);  // NECESARIO
 
         View view = node.getView();
         page.getXMLInflaterLayoutPage().removeAttributeFromRemote(view, namespaceURIFinal, localName);

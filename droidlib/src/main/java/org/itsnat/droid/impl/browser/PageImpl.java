@@ -35,8 +35,8 @@ import bsh.NameSpace;
  */
 public abstract class PageImpl implements Page
 {
-    protected final PageRequestResult pageReqResult;
     protected final PageRequestImpl pageRequestCloned; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
+    protected final HttpRequestResultOKImpl httpReqResult;
 
     protected final int bitmapDensityReference;
     protected int errorMode;
@@ -54,7 +54,7 @@ public abstract class PageImpl implements Page
     public PageImpl(PageRequestImpl pageRequestToClone,PageRequestResult pageReqResult)
     {
         this.pageRequestCloned = pageRequestToClone.clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
-        this.pageReqResult = pageReqResult;
+        this.httpReqResult = pageReqResult.getHttpRequestResultOKImpl();
 
         this.scriptErrorListener = pageRequestToClone.getOnScriptErrorListener();
 
@@ -113,19 +113,14 @@ public abstract class PageImpl implements Page
             }
         }
 
-        finishLoad();
+        finishLoad(pageReqResult);
     }
 
-    public abstract void finishLoad();
+    public abstract void finishLoad(PageRequestResult pageReqResult);
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {
         return pageRequestCloned.getItsNatDroidBrowserImpl();
-    }
-
-    public PageRequestResult getPageRequestResult()
-    {
-        return pageReqResult;
     }
 
     public PageRequestImpl getPageRequestClonedImpl()
@@ -176,7 +171,7 @@ public abstract class PageImpl implements Page
 
     public HttpRequestResultOKImpl getHttpRequestResultOKImpl()
     {
-        return pageReqResult.getHttpRequestResultOKImpl();
+        return httpReqResult;
     }
 
     public int getBitmapDensityReference()
@@ -195,9 +190,9 @@ public abstract class PageImpl implements Page
         return pageRequestCloned.getURL();
     }
 
-    public String getURLBase()
+    public String getPageURLBase() // Para la carga de recursos (scripts, imágenes etc)
     {
-        return pageRequestCloned.getURLBase();
+        return pageRequestCloned.getPageURLBase();
     }
 
     public abstract String getItsNatServerVersion();

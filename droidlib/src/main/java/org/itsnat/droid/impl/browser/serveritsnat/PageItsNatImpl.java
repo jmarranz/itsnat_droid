@@ -4,7 +4,10 @@ import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.PageRequestImpl;
 import org.itsnat.droid.impl.browser.PageRequestResult;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+
+import java.util.LinkedList;
 
 /**
  * Created by Jose on 11/12/2015.
@@ -51,16 +54,20 @@ public class PageItsNatImpl extends PageImpl
     }
 
     @Override
-    public void finishLoad()
+    public void finishLoad(PageRequestResult pageReqResult)
     {
         ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
         InflatedLayoutPageImpl inflatedLayoutPage = getXMLInflaterLayoutPage().getInflatedLayoutPageImpl();
 
-        String loadScript = inflatedLayoutPage.getLoadScript();
+        String loadInitScript = inflatedLayoutPage.getLoadInitScript();
 
-        if (loadScript != null) // El caso null es cuando se devuelve un layout sin script inicial (layout sin scripting)
-            itsNatDoc.eval(loadScript);
+        if (loadInitScript != null) // El caso null es cuando se devuelve un layout sin script inicial (layout sin scripting)
+        {
+            LinkedList<DOMAttrRemote> attrRemoteListBSParsed = pageReqResult.getAttrRemoteListBSParsed();
+            itsNatDoc.evalLoadInitScript(loadInitScript, attrRemoteListBSParsed);
+            // pageReqResult se pierde, se pierde también attrRemoteListBSParsed pero no pasa nada pues sólo se usa una vez
+        }
 
         if (getId() != null && itsNatDoc.isEventsEnabled()) // Es página generada por ItsNat con scripting y tiene los eventos enabled
             itsNatDoc.sendLoadEvent();

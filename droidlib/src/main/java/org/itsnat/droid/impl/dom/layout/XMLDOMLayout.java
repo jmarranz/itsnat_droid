@@ -39,7 +39,7 @@ public abstract class XMLDOMLayout extends XMLDOM
 
     public XMLDOMLayout partialClone()
     {
-        // Reutilizamos t_odo excepto el loadScript pues es la única parte que cambia
+        // Reutilizamos t_odo excepto el loadInitScript pues es la única parte que cambia
         XMLDOMLayout cloned = createXMLDOMLayout();
         partialClone(cloned);
         return cloned;

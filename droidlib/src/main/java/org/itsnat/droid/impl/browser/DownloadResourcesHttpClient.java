@@ -27,7 +27,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
     protected String getPageURLBase()
     {
-        return itsNatDoc.getPageURLBase();
+        return itsNatDoc.getPageImpl().getPageURLBase();
     }
 
     public void request(DOMAttrRemote attrRemote,boolean async)

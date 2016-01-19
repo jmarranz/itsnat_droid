@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.NamespaceUtil;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 
 import java.util.LinkedList;
 
@@ -77,4 +78,5 @@ public abstract class XMLDOM
         cloned.rootElement = this.rootElement;
         cloned.remoteAttribList = this.remoteAttribList;
     }
+
 }

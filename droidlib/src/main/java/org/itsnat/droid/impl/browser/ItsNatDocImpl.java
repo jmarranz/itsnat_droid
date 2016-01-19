@@ -97,10 +97,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         return page;
     }
 
-    public String getPageURLBase()
-    {
-        return page.getURLBase(); // Para la carga de recursos (scripts, imágenes etc)
-    }
 
     public DroidEventDispatcher getDroidEventDispatcher()
     {
@@ -171,12 +167,15 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     @Override
     public void appendFragment(View parentView, String markup)
     {
+        // Este método NO es llamado directamente por el código interno generado por ItsNat Server, es público para el usuario, internamente se usan setInnerXML* que a su vez llaman a éste
         insertFragment(parentView,markup,null);
     }
 
     @Override
     public void insertFragment(View parentView, String markup,View viewRef)
     {
+        // Ver notas en appendFragment
+
         // Si el fragmento a insertar es suficientemente grande el rendimiento de insertFragment puede ser varias veces superior
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
         // Por ejemplo 78ms con insertFragment (parseando markup) y 179ms con beanshell puro
@@ -336,6 +335,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     @Override
     public void downloadScript(String src)
     {
+        // Aunque sea llamado desde ItsNat Droid, es también llamado desde ItsNat Server por ello se define en la interface ItsNatDocPublic
         OnHttpRequestListener listener = new OnHttpRequestListener()
         {
             @Override
@@ -350,9 +350,10 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 
     private void downloadFile(String src,String mime,OnHttpRequestListener listener)
     {
-        boolean sync = getPageImpl().getPageRequestClonedImpl().isSynchronous();
+        PageImpl page = getPageImpl();
+        boolean sync = page.getPageRequestClonedImpl().isSynchronous();
 
-        src = HttpUtil.composeAbsoluteURL(src, getPageURLBase());
+        src = HttpUtil.composeAbsoluteURL(src, page.getPageURLBase());
 
         GenericHttpClientImpl client = createGenericHttpClientImpl();
 
