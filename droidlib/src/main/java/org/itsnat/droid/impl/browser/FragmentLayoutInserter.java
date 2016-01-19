@@ -8,8 +8,9 @@ import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
@@ -62,7 +63,7 @@ public class FragmentLayoutInserter
         XMLDOMRegistry xmlDOMRegistry = inflatedLayoutPage.getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
 
-        XMLDOMLayout xmlDOMLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(),false, assetManager);
+        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager);
 
         DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootDOMElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 

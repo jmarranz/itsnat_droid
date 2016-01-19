@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
@@ -233,7 +234,7 @@ public abstract class XMLDOMParser
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = MiscUtil.toString(input, "UTF-8");
-            XMLDOM xmlDOM = parseDOMAttrDynamicXML(assetAttr, markup, null, false, xmlDOMRegistry, assetManager);
+            XMLDOM xmlDOM = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMRegistry, assetManager);
             if (xmlDOM.getDOMAttrRemoteList() != null)
                 throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
             return xmlDOM;
@@ -260,9 +261,8 @@ public abstract class XMLDOMParser
             String markup = resultRes.getResponseText();
 
             String itsNatServerVersion = resultRes.getItsNatServerVersion(); // Puede ser null
-            boolean loadingRemotePage = true; // Sólo se utiliza si itsNatServerVersion es no nulo
 
-            XMLDOM xmlDOM = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, loadingRemotePage, xmlDOMRegistry, assetManager);
+            XMLDOM xmlDOM = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMRegistry, assetManager);
             return xmlDOM;
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -275,7 +275,7 @@ public abstract class XMLDOMParser
     }
 
 
-    private static XMLDOM parseDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, String itsNatServerVersion, boolean loadingRemotePage, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    private static XMLDOM parseDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         // Es llamado en multihilo en el caso de DOMAttrRemote
         String resourceType = attr.getResourceType();
@@ -287,7 +287,7 @@ public abstract class XMLDOMParser
         }
         else if ("layout".equals(resourceType))
         {
-            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion,loadingRemotePage,assetManager);
+            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion,layoutType,assetManager);
         }
         else if (XMLDOMValuesParser.isResourceTypeValues(resourceType))
         {

@@ -2,16 +2,11 @@ package org.itsnat.droid.impl.dom.layout;
 
 import org.itsnat.droid.impl.dom.XMLDOM;
 
-import java.util.ArrayList;
-
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class XMLDOMLayout extends XMLDOM
+public abstract class XMLDOMLayout extends XMLDOM
 {
-    protected String loadScript;
-    protected ArrayList<DOMScript> scriptList;
-
     public XMLDOMLayout()
     {
     }
@@ -22,26 +17,6 @@ public class XMLDOMLayout extends XMLDOM
         return (DOMView)getRootDOMElement();
     }
 */
-    public String getLoadScript()
-    {
-        return loadScript;
-    }
-
-    public void setLoadScript(String loadScript)
-    {
-        this.loadScript = loadScript;
-    }
-
-    public ArrayList<DOMScript> getDOMScriptList()
-    {
-        return scriptList;
-    }
-
-    public void addDOMScript(DOMScript script)
-    {
-        if (scriptList == null) this.scriptList = new ArrayList<DOMScript>();
-        scriptList.add(script);
-    }
 
     public static String extractLoadScriptMarkup(String markup,String[] markupNoLoadScript)
     {
@@ -62,13 +37,19 @@ public class XMLDOMLayout extends XMLDOM
         return loadScript;
     }
 
-    public XMLDOMLayout partialClone(String loadScript)
+    public XMLDOMLayout partialClone()
     {
         // Reutilizamos t_odo excepto el loadScript pues es la única parte que cambia
-        XMLDOMLayout cloned = new XMLDOMLayout();
+        XMLDOMLayout cloned = createXMLDOMLayout();
         partialClone(cloned);
-        cloned.loadScript = loadScript; // queda claro que no se clona
-        cloned.scriptList = this.scriptList;
         return cloned;
     }
+
+    @Override
+    public void partialClone(XMLDOM cloned)
+    {
+        super.partialClone(cloned);
+    }
+
+    protected abstract XMLDOMLayout createXMLDOMLayout();
 }

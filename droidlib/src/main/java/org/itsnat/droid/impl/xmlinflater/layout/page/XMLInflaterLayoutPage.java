@@ -13,7 +13,8 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
@@ -161,16 +162,17 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
     public View inflateLayout(ViewGroup viewParent,int index)
     {
         InflatedLayoutPageImpl inflatedLayoutPage = getInflatedLayoutPageImpl();
-        XMLDOMLayout domLayout = inflatedLayoutPage.getXMLDOMLayout();
+        XMLDOMLayoutPage xmldomLayoutPage = inflatedLayoutPage.getXMLDOMLayoutPage();
 
-        inflatedLayoutPage.setLoadScript(domLayout.getLoadScript());
+        if (xmldomLayoutPage instanceof XMLDOMLayoutPageItsNat)
+            inflatedLayoutPage.setLoadScript(((XMLDOMLayoutPageItsNat)xmldomLayoutPage).getLoadScript());
 
-        fillScriptList(domLayout);
+        fillScriptList(xmldomLayoutPage);
 
         return super.inflateLayout(viewParent,index);
     }
 
-    private void fillScriptList(XMLDOMLayout domLayout)
+    private void fillScriptList(XMLDOMLayoutPage domLayout)
     {
         List<DOMScript> scriptListFromTree = domLayout.getDOMScriptList();
         if (scriptListFromTree != null)

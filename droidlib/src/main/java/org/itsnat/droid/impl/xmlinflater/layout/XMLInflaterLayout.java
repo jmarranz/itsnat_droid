@@ -16,6 +16,7 @@ import org.itsnat.droid.impl.dom.layout.DOMElemLayout;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
@@ -43,8 +44,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
                                                   int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
                                                   Context ctx,PageImpl page)
     {
-        InflatedLayoutImpl inflatedLayout = page != null ?  new InflatedLayoutPageImpl(page,itsNatDroid, xmlDOMLayout,ctx) :
-                                                            new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
+        InflatedLayoutImpl inflatedLayout = (xmlDOMLayout instanceof XMLDOMLayoutPage) ?  new InflatedLayoutPageImpl(page,itsNatDroid,(XMLDOMLayoutPage) xmlDOMLayout,ctx) :
+                                                                                          new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
         xmlInflaterLayout.inflateLayout(viewParent, index);
         return xmlInflaterLayout;

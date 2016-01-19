@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,10 +18,15 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     protected String loadScript;
     protected List<String> scriptList = new LinkedList<String>();
 
-    public InflatedLayoutPageImpl(PageImpl page,ItsNatDroidImpl itsNatDroid,XMLDOMLayout domLayout,Context ctx)
+    public InflatedLayoutPageImpl(PageImpl page,ItsNatDroidImpl itsNatDroid,XMLDOMLayoutPage domLayout,Context ctx)
     {
         super(itsNatDroid, domLayout, ctx);
         this.page = page; // NO puede ser nulo
+    }
+
+    public XMLDOMLayoutPage getXMLDOMLayoutPage()
+    {
+        return (XMLDOMLayoutPage)xmlDOM;
     }
 
     public PageImpl getPageImpl()

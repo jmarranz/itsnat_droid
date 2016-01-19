@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.servernotitsnat;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.PageRequestImpl;
@@ -35,10 +34,8 @@ public class PageNotItsNatImpl extends PageImpl
     }
 
     @Override
-    public void finishLoad(String loadScript)
+    public void finishLoad()
     {
-        if (loadScript != null) throw new ItsNatDroidException("Internal Error");
-
         dispose(); // En el servidor
     }
 }

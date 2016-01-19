@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
@@ -30,7 +31,7 @@ public class XMLDOMRegistry
         return parent;
     }
 
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,boolean loadingRemotePage,AssetManager assetManager)
+    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,XMLDOMLayoutParser.LayoutType layoutType,AssetManager assetManager)
     {
         // Este método DEBE ser multihilo, el objeto domLayoutCache ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
@@ -43,7 +44,7 @@ public class XMLDOMRegistry
         // ser no null pues es un header), loadScript será null y no pasa nada markupNoLoadScript[0] es el markup original
         String[] markupWithoutLoadScript = new String[1];
         String loadScript = null;
-        if (itsNatServerVersion != null && loadingRemotePage)
+        if (itsNatServerVersion != null && layoutType == XMLDOMLayoutParser.LayoutType.PAGE)
             loadScript = XMLDOMLayout.extractLoadScriptMarkup(markup, markupWithoutLoadScript);
         else
             markupWithoutLoadScript[0] = markup;
@@ -51,10 +52,11 @@ public class XMLDOMRegistry
         XMLDOMLayout cachedXMLDOMLayout = domLayoutCache.get(markupWithoutLoadScript[0]);
         if (cachedXMLDOMLayout == null)
         {
-            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,loadingRemotePage,this,assetManager);
+            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,layoutType,this,assetManager);
 
             cachedXMLDOMLayout = layoutParser.parse(markup);
-            cachedXMLDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
+            if (cachedXMLDOMLayout instanceof XMLDOMLayoutPageItsNat)
+                ((XMLDOMLayoutPageItsNat)cachedXMLDOMLayout).setLoadScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
             domLayoutCache.put(markupWithoutLoadScript[0], cachedXMLDOMLayout);
         }
         else // cachedDOMLayout != null
@@ -62,7 +64,9 @@ public class XMLDOMRegistry
             // Recuerda que cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
         }
 
-        XMLDOMLayout clonedDOMLayout = cachedXMLDOMLayout.partialClone(loadScript); // Necesitamos un clone parcial porque el loadScript necesitamos alojarlo en un objeto nuevo pues no puede cachearse
+        XMLDOMLayout clonedDOMLayout = cachedXMLDOMLayout.partialClone(); // Necesitamos un clone parcial porque el loadScript necesitamos alojarlo en un objeto nuevo pues no puede cachearse
+        if (clonedDOMLayout instanceof XMLDOMLayoutPageItsNat)
+            ((XMLDOMLayoutPageItsNat)clonedDOMLayout).setLoadScript(loadScript);
         return clonedDOMLayout;
     }
 

@@ -103,7 +103,6 @@ public abstract class PageImpl implements Page
 
         InflatedLayoutPageImpl inflatedLayoutPage = xmlInflaterLayoutPage.getInflatedLayoutPageImpl();
 
-        String loadScript = inflatedLayoutPage.getLoadScript();
         List<String> scriptList = inflatedLayoutPage.getScriptList();
 
         if (!scriptList.isEmpty())
@@ -114,10 +113,10 @@ public abstract class PageImpl implements Page
             }
         }
 
-        finishLoad(loadScript);
+        finishLoad();
     }
 
-    public abstract void finishLoad(String loadScript);
+    public abstract void finishLoad();
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {

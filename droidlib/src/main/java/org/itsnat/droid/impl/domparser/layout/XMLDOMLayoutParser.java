@@ -4,12 +4,9 @@ import android.content.res.AssetManager;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMElemLayout;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
-import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
-import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -26,19 +23,30 @@ import java.io.StringReader;
  */
 public abstract class XMLDOMLayoutParser extends XMLDOMParser
 {
+    public enum LayoutType { PAGE, PAGE_FRAGMENT, STANDALONE };
+
     public XMLDOMLayoutParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         super(xmlDOMRegistry,assetManager);
     }
 
-    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,boolean loadingRemotePage,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,LayoutType layoutType,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         XMLDOMLayoutParser layoutParser;
-        if (itsNatServerVersion != null)
-            layoutParser = loadingRemotePage ?  new XMLDOMLayoutParserItsNatPage(xmlDOMRegistry, assetManager, itsNatServerVersion) :
-                                                new XMLDOMLayoutParserItsNatFragment(xmlDOMRegistry, assetManager);
-        else
+        if (layoutType == LayoutType.PAGE)
+        {
+            if (itsNatServerVersion != null)
+                layoutParser = new XMLDOMLayoutParserPageItsNat(xmlDOMRegistry, assetManager,itsNatServerVersion);
+            else
+                layoutParser = new XMLDOMLayoutParserPageNotItsNat(xmlDOMRegistry, assetManager);
+        }
+        else if (layoutType == LayoutType.PAGE_FRAGMENT) // Los fragmentos pueden usarse en páginas generadas por ItsNat y no generadas por ItsNat (itsNatServerVersion es indiferente)
+            layoutParser = new XMLDOMLayoutParserPageFragment(xmlDOMRegistry, assetManager);
+        else if (layoutType == LayoutType.STANDALONE)
             layoutParser = new XMLDOMLayoutParserStandalone(xmlDOMRegistry, assetManager);
+        else
+            layoutParser = null; // Internal Error
+
         return layoutParser;
     }
 
@@ -66,11 +74,14 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
 
     private XMLDOMLayout parse(XmlPullParser parser) throws IOException, XmlPullParserException
     {
-        XMLDOMLayout domLayout = new XMLDOMLayout();
+        XMLDOMLayout domLayout = createXMLDOMLayout();
         String rootElemName = getRootElementName(parser);
         parseRootElement(rootElemName,parser,domLayout);
         return domLayout;
     }
+
+    protected abstract XMLDOMLayout createXMLDOMLayout();
+
 
     @Override
     protected DOMElement createElement(String name,DOMElement parent)
@@ -86,53 +97,4 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         else
             return new DOMElemView(name,(DOMElemLayout)parent);
     }
-
-    @Override
-    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
-    {
-        if (name.equals("script"))
-        {
-            parseScriptElement(parser,xmlDOM);
-            return null; // Ignorar porque "desaparece"
-        }
-        else return super.processElement(name,parentElement,parser, xmlDOM);
-    }
-
-    protected void parseScriptElement(XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
-    {
-        XMLDOMLayout domLayout = (XMLDOMLayout) xmlDOM;
-
-        String src = findAttributeFromParser(null, "src", parser);
-        if (src != null)
-        {
-            addDOMScriptRemote(src, domLayout);
-        }
-        else
-        {
-            addDOMScriptInline(parser, domLayout);
-        }
-
-        while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
-    }
-
-    protected void addDOMScriptRemote(String src, XMLDOMLayout domLayout)
-    {
-        // Si loadingPage es true es el caso de carga de página, pero si serverVersion es null dicha página
-        // NO es servida por ItsNat, tenemos que cargar asíncronamente el archivo script pues este es el hilo UI :(
-        // Si loadScript es null estamos en un evento (inserción de un fragment)
-
-        DOMScriptRemote script = new DOMScriptRemote(src);
-        domLayout.addDOMScript(script);
-    }
-
-    protected void addDOMScriptInline(XmlPullParser parser, XMLDOMLayout domLayout) throws IOException, XmlPullParserException
-    {
-        while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
-
-        String code = parser.getText();
-
-        DOMScriptInline script = new DOMScriptInline(code);
-        domLayout.addDOMScript(script);
-    }
-
 }

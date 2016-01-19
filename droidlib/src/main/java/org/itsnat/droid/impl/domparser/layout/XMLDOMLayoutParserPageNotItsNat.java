@@ -3,22 +3,22 @@ package org.itsnat.droid.impl.domparser.layout;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutStandalone;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class XMLDOMLayoutParserStandalone extends XMLDOMLayoutParser
+public class XMLDOMLayoutParserPageNotItsNat extends XMLDOMLayoutParserPage
 {
-    public XMLDOMLayoutParserStandalone(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public XMLDOMLayoutParserPageNotItsNat(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        super(xmlDOMRegistry,assetManager);
+        super(xmlDOMRegistry, assetManager);
     }
 
     @Override
     protected XMLDOMLayout createXMLDOMLayout()
     {
-        return new XMLDOMLayoutStandalone();
+        return new XMLDOMLayoutPageNotItsNat();
     }
 }

@@ -4,6 +4,7 @@ import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.PageRequestImpl;
 import org.itsnat.droid.impl.browser.PageRequestResult;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 
 /**
  * Created by Jose on 11/12/2015.
@@ -50,9 +51,13 @@ public class PageItsNatImpl extends PageImpl
     }
 
     @Override
-    public void finishLoad(String loadScript)
+    public void finishLoad()
     {
         ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
+
+        InflatedLayoutPageImpl inflatedLayoutPage = getXMLInflaterLayoutPage().getInflatedLayoutPageImpl();
+
+        String loadScript = inflatedLayoutPage.getLoadScript();
 
         if (loadScript != null) // El caso null es cuando se devuelve un layout sin script inicial (layout sin scripting)
             itsNatDoc.eval(loadScript);
