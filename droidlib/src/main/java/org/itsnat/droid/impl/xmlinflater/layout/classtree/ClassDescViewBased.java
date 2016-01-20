@@ -34,6 +34,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrCompiled;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 import org.xmlpull.v1.XmlPullParser;
@@ -159,7 +160,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                         attrDesc.setAttribute(view, attr, attrCtx);
                     }
                 };
-                if (DOMAttrRemote.isPendingToDownload(attr)) // Ocurre por ejemplo cuando con un click cambiamos el drawable background de un View via setAttribute de "background" o cualquier otro atributo con recurso remoto declarado como valor
+                if (DOMAttrRemote.isPendingToDownload(attr)) // Yo creo que ya no hay ningún caso posible gracias al pre-parseado de recursos remotos en el Beanshell, antes ocurría por ejemplo cuando con un click cambiamos el drawable background de un View via setAttribute de "background" o cualquier otro atributo con recurso remoto declarado como valor
                     AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
                 else
                     task.run();
@@ -474,7 +475,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return getXMLInflateRegistry().getViewStyle(domAttr, xmlInflaterLayout);
     }
 
-    private View createViewObjectFromRemote(NodeToInsertImpl newChildToIn, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private View createViewObjectFromRemote(NodeToInsertImpl newChildToIn, XMLInflaterLayoutPageItsNat xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ViewStyleAttr style = findStyleAttributeFromRemote(newChildToIn,xmlInflaterLayout);
         int idStyle = processStyleAttribute(style, styleDynamicAttribs);
@@ -492,7 +493,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return createViewObject(idStyle, pendingPostInsertChildrenTasks, ctx);
     }
 
-    public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayoutPageItsNat xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         // viewParent es NO nulo, de otra manera el método se llamaría createRootView... pues el caso root lo tratamos siempre aparte
 

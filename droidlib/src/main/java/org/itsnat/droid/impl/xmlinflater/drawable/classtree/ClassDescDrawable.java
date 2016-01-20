@@ -102,7 +102,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
                     }
                 };
                 if (DOMAttrRemote.isPendingToDownload(attr)) // No se me ocurre ningún caso (un XML de un drawable una vez cargado no tiene scripts ni estado en el servidor y no lo cambiamos por interacción del usuario) pero por simetría con los layout lo dejamos
-                    AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflater());
+                    AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterDrawable());
                 else
                     task.run();
 

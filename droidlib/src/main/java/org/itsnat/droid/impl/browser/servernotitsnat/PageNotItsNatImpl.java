@@ -36,6 +36,6 @@ public class PageNotItsNatImpl extends PageImpl
     @Override
     public void finishLoad(PageRequestResult pageReqResult)
     {
-        dispose(); // En el servidor
+        dispose();
     }
 }

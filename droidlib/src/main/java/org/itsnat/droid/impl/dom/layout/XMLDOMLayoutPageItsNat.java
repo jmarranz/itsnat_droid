@@ -9,6 +9,10 @@ public class XMLDOMLayoutPageItsNat extends XMLDOMLayoutPage
 {
     protected String loadInitScript;
 
+    public XMLDOMLayoutPageItsNat()
+    {
+    }
+
     @Override
     protected XMLDOMLayout createXMLDOMLayout()
     {

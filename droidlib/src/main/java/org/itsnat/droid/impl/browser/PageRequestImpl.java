@@ -16,7 +16,6 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.PageRequest;
-import org.itsnat.droid.impl.browser.serveritsnat.EventSender;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;

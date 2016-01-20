@@ -12,10 +12,9 @@ import java.util.List;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedLayoutPageImpl extends InflatedLayoutImpl
+public abstract class InflatedLayoutPageImpl extends InflatedLayoutImpl
 {
     protected PageImpl page;
-    protected String loadInitScript;
     protected List<String> scriptList = new LinkedList<String>();
 
     public InflatedLayoutPageImpl(PageImpl page,ItsNatDroidImpl itsNatDroid,XMLDOMLayoutPage domLayout,Context ctx)
@@ -32,16 +31,6 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     public PageImpl getPageImpl()
     {
         return page;
-    }
-
-    public String getLoadInitScript()
-    {
-        return loadInitScript;
-    }
-
-    public void setLoadInitScript(String loadInitScript)
-    {
-        this.loadInitScript = loadInitScript;
     }
 
     public List<String> getScriptList()

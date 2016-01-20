@@ -5,6 +5,10 @@ package org.itsnat.droid.impl.dom.layout;
  */
 public class XMLDOMLayoutPageFragment extends XMLDOMLayoutPage
 {
+    public XMLDOMLayoutPageFragment()
+    {
+    }
+
     @Override
     protected XMLDOMLayout createXMLDOMLayout()
     {

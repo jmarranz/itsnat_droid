@@ -9,6 +9,7 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
@@ -17,13 +18,19 @@ import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutStandalone;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageNotItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageNotItsNat;
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
 
 import java.util.ArrayList;
@@ -44,8 +51,21 @@ public abstract class XMLInflaterLayout extends XMLInflater
                                                   int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
                                                   Context ctx,PageImpl page)
     {
-        InflatedLayoutImpl inflatedLayout = (xmlDOMLayout instanceof XMLDOMLayoutPage) ?  new InflatedLayoutPageImpl(page,itsNatDroid,(XMLDOMLayoutPage) xmlDOMLayout,ctx) :
-                                                                                          new InflatedLayoutStandaloneImpl(itsNatDroid, xmlDOMLayout, ctx);
+        InflatedLayoutImpl inflatedLayout;
+        if (xmlDOMLayout instanceof XMLDOMLayoutPage)
+        {
+            if (xmlDOMLayout instanceof XMLDOMLayoutPageItsNat)
+                inflatedLayout = new InflatedLayoutPageItsNatImpl((PageItsNatImpl)page,itsNatDroid,(XMLDOMLayoutPageItsNat) xmlDOMLayout,ctx);
+            else if (xmlDOMLayout instanceof XMLDOMLayoutPageNotItsNat)
+                inflatedLayout = new InflatedLayoutPageNotItsNatImpl(page,itsNatDroid,(XMLDOMLayoutPageNotItsNat) xmlDOMLayout,ctx);
+            else
+                return null; // Internal Error
+        }
+        else if (xmlDOMLayout instanceof XMLDOMLayoutStandalone)
+                inflatedLayout = new InflatedLayoutStandaloneImpl(itsNatDroid,(XMLDOMLayoutStandalone)xmlDOMLayout, ctx);
+        else
+            return null; // Internal Error
+
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
         xmlInflaterLayout.inflateLayout(viewParent, index);
         return xmlInflaterLayout;
@@ -53,18 +73,19 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     private static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        XMLInflaterLayout xmlInflaterLayout = null;
-
         if (inflatedLayout instanceof InflatedLayoutPageImpl)
         {
-            xmlInflaterLayout = new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
+            if (inflatedLayout instanceof InflatedLayoutPageItsNatImpl)
+                return new XMLInflaterLayoutPageItsNat((InflatedLayoutPageItsNatImpl)inflatedLayout,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
+            else if (inflatedLayout instanceof InflatedLayoutPageNotItsNatImpl)
+                return new XMLInflaterLayoutPageNotItsNat((InflatedLayoutPageNotItsNatImpl)inflatedLayout,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
         }
         else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
         {
-            xmlInflaterLayout = new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
+            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
         }
 
-        return xmlInflaterLayout;
+        return null; // Internal error
     }
 
     public InflatedLayoutImpl getInflatedLayoutImpl()

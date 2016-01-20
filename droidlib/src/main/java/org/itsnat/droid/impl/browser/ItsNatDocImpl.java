@@ -365,6 +365,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 
     public void downloadResources(DOMAttrRemote attr,final Runnable task)
     {
+        // YO CREO QUE YA NO SE USA
         OnHttpRequestListener listener = new OnHttpRequestListener()
         {
             @Override

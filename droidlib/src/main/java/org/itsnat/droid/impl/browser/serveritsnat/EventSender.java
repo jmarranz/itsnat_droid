@@ -17,10 +17,8 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
-import org.itsnat.droid.impl.util.NamespaceUtil;
 
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

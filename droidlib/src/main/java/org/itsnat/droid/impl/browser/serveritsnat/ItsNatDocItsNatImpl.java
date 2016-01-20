@@ -50,7 +50,7 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -289,7 +289,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
         if (view != null)
         {
-            page.getXMLInflaterLayoutPage().setAttributeSingleFromRemote(view, attr);
+            PageItsNatImpl page = getPageItsNatImpl();
+            page.getXMLInflaterLayoutPageItsNat().setAttributeSingleFromRemote(view, attr);
         }
         else // Es un nodo que no se ha insertado todavía
         {
@@ -332,9 +333,10 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
         if (view != null) // El node ya se ha insertado. Este caso no se da nunca todavía pero el nombre es suficientemente ambiguo para dejarlo ya programado por si somos capaces de usar setAttrBatch con un nodo ya insertado
         {
-            DOMAttr[] attrArray = toDOMAttr(namespaceURI,attrNames,attrValues);
+            PageItsNatImpl page = getPageItsNatImpl();
 
-            page.getXMLInflaterLayoutPage().setAttrBatchFromRemote(view, attrArray);
+            DOMAttr[] attrArray = toDOMAttr(namespaceURI,attrNames,attrValues);
+            page.getXMLInflaterLayoutPageItsNat().setAttrBatchFromRemote(view, attrArray);
         }
         else // Es un nodo no insertado todavía
         {
@@ -389,8 +391,9 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         String namespaceURIFinal = xmldomLayoutPage.extractAttrNamespaceURI(namespaceURI, name); // NECESARIO
         String localName = xmldomLayoutPage.extractAttrLocalName(namespaceURI, name);  // NECESARIO
 
+        PageItsNatImpl page = getPageItsNatImpl();
         View view = node.getView();
-        page.getXMLInflaterLayoutPage().removeAttributeFromRemote(view, namespaceURIFinal, localName);
+        page.getXMLInflaterLayoutPageItsNat().removeAttributeFromRemote(view, namespaceURIFinal, localName);
     }
 
     @Override
@@ -589,7 +592,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     {
         NodeToInsertImpl newChildToIn = (NodeToInsertImpl)newChild;
 
-        XMLInflaterLayoutPage xmlInflaterLayout = page.getXMLInflaterLayoutPage();
+        PageItsNatImpl page = getPageItsNatImpl();
+        XMLInflaterLayoutPageItsNat xmlInflaterLayout = page.getXMLInflaterLayoutPageItsNat();
         XMLInflateRegistry xmlInflateRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
         ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(newChildToIn);
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);

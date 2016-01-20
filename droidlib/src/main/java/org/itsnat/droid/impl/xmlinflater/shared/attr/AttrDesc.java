@@ -17,6 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 import java.util.ArrayList;
@@ -61,8 +62,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
 
     public static void processDownloadTask(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
     {
+        // YO CREO QUE YA NO SE USA
+
         // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
-        // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable remoto por ejemplo
         PageImpl page = ClassDesc.getPageImpl(xmlInflater); // NO puede ser nulo
 
         page.getItsNatDocImpl().downloadResources(attr, task);
@@ -154,7 +156,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getDrawable(attr,xmlInflater);
     }
 
-    public View getLayout(DOMAttr attr,XMLInflater xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
+    public View getLayout(DOMAttr attr,XMLInflaterLayout xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
         return getXMLInflateRegistry().getLayout(attr, xmlInflater,viewParent,indexChild,includeAttribs);
     }
