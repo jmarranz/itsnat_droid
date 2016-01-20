@@ -16,7 +16,6 @@ import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
-import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 import java.util.List;
@@ -24,7 +23,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInflaterPage
+public class XMLInflaterLayoutPage extends XMLInflaterLayout
 {
     public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {

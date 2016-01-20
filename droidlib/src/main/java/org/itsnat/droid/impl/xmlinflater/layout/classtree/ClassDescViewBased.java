@@ -247,7 +247,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
         if(listener!=null)
         {
-            PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+            PageImpl page = PageImpl.getPageImpl(xmlInflaterLayout); // Puede ser null
             return listener.setAttribute(page, view, namespaceURI, name, value);
         }
         return false;
@@ -259,7 +259,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
         if(listener!=null)
         {
-            PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+            PageImpl page = PageImpl.getPageImpl(xmlInflaterLayout); // Puede ser null
             return listener.removeAttribute(page, view, namespaceURI, name);
         }
         return false;

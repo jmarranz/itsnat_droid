@@ -10,8 +10,6 @@ import org.itsnat.droid.impl.xmlinflated.values.ElementValues;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChild;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
-import org.itsnat.droid.impl.xmlinflated.values.InflatedValuesPage;
-import org.itsnat.droid.impl.xmlinflated.values.InflatedValuesStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesChildNoChildElem;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesChildStyle;
@@ -21,7 +19,7 @@ import java.util.LinkedList;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public abstract class XMLInflaterValues extends XMLInflater
+public class XMLInflaterValues extends XMLInflater
 {
     protected XMLInflaterValues(InflatedValues inflatedXML,int bitmapDensityReference, AttrLayoutInflaterListener attrLayoutInflaterListener, AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
@@ -30,15 +28,7 @@ public abstract class XMLInflaterValues extends XMLInflater
 
     public static XMLInflaterValues createXMLInflaterValues(InflatedValues inflatedValues,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        if (inflatedValues instanceof InflatedValuesPage)
-        {
-            return new XMLInflaterValuesPage((InflatedValuesPage)inflatedValues,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
-        }
-        else if (inflatedValues instanceof InflatedValuesStandalone)
-        {
-            return new XMLInflaterValuesStandalone((InflatedValuesStandalone)inflatedValues,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
-        }
-        return null; // Internal Error
+        return new XMLInflaterValues(inflatedValues,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
     }
 
 

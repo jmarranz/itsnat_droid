@@ -5,6 +5,7 @@ import android.content.Context;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.xmlinflated.InflatedXMLPage;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public abstract class InflatedLayoutPageImpl extends InflatedLayoutImpl
+public abstract class InflatedLayoutPageImpl extends InflatedLayoutImpl implements InflatedXMLPage
 {
     protected PageImpl page;
     protected List<String> scriptList = new LinkedList<String>();
@@ -28,6 +29,7 @@ public abstract class InflatedLayoutPageImpl extends InflatedLayoutImpl
         return (XMLDOMLayoutPage)xmlDOM;
     }
 
+    @Override
     public PageImpl getPageImpl()
     {
         return page;

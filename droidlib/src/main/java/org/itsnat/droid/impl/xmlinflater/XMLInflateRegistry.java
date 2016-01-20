@@ -573,9 +573,7 @@ public class XMLInflateRegistry
         if (!MimeUtil.isMIMEResourceXML(resourceMime))
             throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
 
-        PageImpl page = null;
-        if (xmlInflaterParent instanceof XMLInflaterPage)
-            page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
+        PageImpl page = PageImpl.getPageImpl(xmlInflaterParent); // Puede ser null
 
         if (attrDyn instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
 
@@ -666,9 +664,7 @@ public class XMLInflateRegistry
             if (MimeUtil.isMIMEResourceXML(resourceMime))
             {
                 // Esperamos un drawable
-                PageImpl page = null;
-                if (xmlInflaterParent instanceof XMLInflaterPage)
-                    page = ((XMLInflaterPage)xmlInflaterParent).getPageImpl();
+                PageImpl page = PageImpl.getPageImpl(xmlInflaterParent);
 
                 if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
 
@@ -744,9 +740,7 @@ public class XMLInflateRegistry
             String resourceMime = attrDyn.getResourceMime();
             if (MimeUtil.isMIMEResourceXML(resourceMime))
             {
-                PageImpl pageParent = null;
-                if (xmlInflaterParent instanceof XMLInflaterLayoutPage)
-                    pageParent = ((XMLInflaterLayoutPage)xmlInflaterParent).getPageImpl();
+                PageImpl pageParent = PageImpl.getPageImpl(xmlInflaterParent);
 
                 if (attr instanceof DOMAttrRemote && pageParent == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
 

@@ -18,7 +18,10 @@ import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.UserDataImpl;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
+import org.itsnat.droid.impl.xmlinflated.InflatedXMLPage;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -117,6 +120,14 @@ public abstract class PageImpl implements Page
     }
 
     public abstract void finishLoad(PageRequestResult pageReqResult);
+
+    public static PageImpl getPageImpl(XMLInflater xmlInflater)
+    {
+        InflatedXML inflatedXML = xmlInflater.getInflatedXML();
+        if (inflatedXML instanceof InflatedXMLPage) // Contiene un PageImpl
+            return ((InflatedXMLPage)inflatedXML).getPageImpl();
+        return null;
+    }
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {

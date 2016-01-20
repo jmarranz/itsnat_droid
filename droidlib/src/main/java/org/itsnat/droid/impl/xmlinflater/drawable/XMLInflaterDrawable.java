@@ -13,8 +13,6 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
@@ -30,7 +28,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public abstract class XMLInflaterDrawable extends XMLInflater
+public class XMLInflaterDrawable extends XMLInflater
 {
     protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
@@ -39,15 +37,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
     public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        if (inflatedDrawable instanceof InflatedDrawablePage)
-        {
-            return new XMLInflaterDrawablePage((InflatedDrawablePage)inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
-        }
-        else if (inflatedDrawable instanceof InflatedDrawableStandalone)
-        {
-            return new XMLInflaterDrawableStandalone((InflatedDrawableStandalone)inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
-        }
-        return null; // Internal Error
+        return new XMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
     }
 
 

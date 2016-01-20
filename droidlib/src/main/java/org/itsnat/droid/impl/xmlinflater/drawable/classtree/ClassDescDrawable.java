@@ -17,7 +17,6 @@ import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawablePage;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
@@ -58,10 +57,6 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         return getClassOrDOMElemName();
     }
 
-    public static PageImpl getPageImpl(XMLInflaterDrawable xmlInflaterDrawable)
-    {
-        return (xmlInflaterDrawable instanceof XMLInflaterDrawablePage) ? ((XMLInflaterDrawablePage) xmlInflaterDrawable).getPageImpl() : null;
-    }
 
     public ClassDescDrawable getParentClassDescDrawable()
     {
@@ -137,7 +132,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
         if (listener != null)
         {
-            PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
+            PageImpl page = PageImpl.getPageImpl(xmlInflaterDrawable); // Puede ser nulo
             return listener.setAttribute(page, draw.getDrawable(), namespaceURI, name, value);
         }
         return false;

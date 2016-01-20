@@ -1,11 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.values.classtree;
 
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChild;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
-import org.itsnat.droid.impl.xmlinflater.values.XMLInflaterValues;
-import org.itsnat.droid.impl.xmlinflater.values.XMLInflaterValuesPage;
 
 /**
  * Created by Jose on 15/10/2015.
@@ -31,11 +28,6 @@ public abstract class ClassDescValues<T extends ElementValuesChild> extends Clas
     public Class<ElementValuesChild> getDeclaredClass()
     {
         return null; // No se necesita, no se implementa
-    }
-
-    public static PageImpl getPageImpl(XMLInflaterValues xmlInflaterValues)
-    {
-        return (xmlInflaterValues instanceof XMLInflaterValuesPage) ? ((XMLInflaterValuesPage) xmlInflaterValues).getPageImpl() : null;
     }
 
     @Override

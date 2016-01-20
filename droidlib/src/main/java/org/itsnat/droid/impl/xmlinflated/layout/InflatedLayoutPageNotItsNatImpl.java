@@ -4,7 +4,6 @@ import android.content.Context;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 
 /**
@@ -25,11 +24,6 @@ public class InflatedLayoutPageNotItsNatImpl extends InflatedLayoutPageImpl
     public InflatedLayoutPageNotItsNatImpl(PageImpl page, ItsNatDroidImpl itsNatDroid, XMLDOMLayoutPageNotItsNat domLayout, Context ctx)
     {
         super(page,itsNatDroid, domLayout, ctx);
-    }
-
-    public PageNotItsNatImpl getPageNotItsNatImpl()
-    {
-        return (PageNotItsNatImpl)page;
     }
 
     public XMLDOMLayoutPageNotItsNat getXMLDOMLayoutPageNotItsNat()

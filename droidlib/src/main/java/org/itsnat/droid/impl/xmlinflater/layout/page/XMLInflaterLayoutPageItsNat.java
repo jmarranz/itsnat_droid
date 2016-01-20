@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
@@ -55,7 +54,7 @@ public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
     {
         // Este método por ahora no se llama nunca, pero lo dejamos programado por si ItsNat Server amplía su uso (ver código y notas del llamador de este método)
 
-        PageImpl page = getPageImpl();
+        PageItsNatImpl page = getPageItsNatImpl();
         ClassDescViewMgr classDescViewMgr = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
 

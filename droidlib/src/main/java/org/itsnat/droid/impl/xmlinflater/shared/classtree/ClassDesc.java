@@ -1,15 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.shared.classtree;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
-import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.util.HashMap;
@@ -52,12 +49,6 @@ public abstract class ClassDesc<Tnative>
     public String getClassOrDOMElemName()
     {
         return classOrDOMElemName;
-    }
-
-    public static PageImpl getPageImpl(XMLInflater xmlInflater)
-    {
-        // PUEDE SER NULL
-        return (xmlInflater instanceof XMLInflaterPage) ? ((XMLInflaterPage) xmlInflater).getPageImpl() : null;
     }
 
     protected boolean isInit()

@@ -65,7 +65,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         // YO CREO QUE YA NO SE USA
 
         // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
-        PageImpl page = ClassDesc.getPageImpl(xmlInflater); // NO puede ser nulo
+        PageImpl page = PageImpl.getPageImpl(xmlInflater); // NO puede ser nulo
 
         page.getItsNatDocImpl().downloadResources(attr, task);
     }

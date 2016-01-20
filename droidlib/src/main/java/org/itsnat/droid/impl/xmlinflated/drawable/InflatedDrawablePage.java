@@ -5,11 +5,12 @@ import android.content.Context;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
+import org.itsnat.droid.impl.xmlinflated.InflatedXMLPage;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class InflatedDrawablePage extends InflatedDrawable
+public class InflatedDrawablePage extends InflatedDrawable implements InflatedXMLPage
 {
     protected PageImpl page;
 
@@ -20,6 +21,7 @@ public class InflatedDrawablePage extends InflatedDrawable
         this.page = page;
     }
 
+    @Override
     public PageImpl getPageImpl()
     {
         return page;
