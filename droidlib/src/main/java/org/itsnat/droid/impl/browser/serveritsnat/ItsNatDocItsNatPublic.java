@@ -57,6 +57,8 @@ public interface ItsNatDocItsNatPublic extends ItsNatDocPublic
 
     public void setInnerXML(Node parentNode,String markup);
     public void setInnerXML2(Object[] idObj,String markup);
+    public void setInnerXML(Node parentNode,String className,String markup);
+    public void setInnerXML2(Object[] idObj,String className,String markup);
 
     public void addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode);
     public void removeDroidEL(String listenerId);

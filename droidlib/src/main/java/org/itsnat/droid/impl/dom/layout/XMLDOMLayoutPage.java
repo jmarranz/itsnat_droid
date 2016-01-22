@@ -70,70 +70,92 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         return attr;
     }
 
-    public LinkedList<DOMAttrRemote> parseBSRemoteAttribs(String code)
+    public void parseBSRemoteAttribs(String code,LinkedList<DOMAttrRemote>[] attrRemoteList,LinkedList<String>[] classNameList,LinkedList<String>[] xmlMarkupList)
     {
-        LinkedList<DOMAttrRemote> attrRemoteList = null;
-
         // Caso 1: setAttributeNS y setAttribute
-        //      Ej. de formato esperado: /*{*/NSAND,"textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"/*}*/
-        //                               /*{*/"style","@remote:dimen/droid/res/values/test_values_remote.xml:test_style"/*}*/
+        //      Ej. de formato esperado: /*[s*/NSAND,"textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"/*s]*/
+        //                               /*[s*/"style","@remote:dimen/droid/res/values/test_values_remote.xml:test_style"/*s]*/
 
         // Caso 2: setAttrBatch
         // Ej. de formato esperado /*[n*/null/*n]*/  /*[k*/"style"/*k]*/...  /*[v*/"@remote:style/droid/res/values/test_values_remote.xml:test_style_remote"/*v]*/...
         // En vez de null (namespace) puede ser NSAND o "some namespace" o null
 
-        boolean searchMoreCase1 = true; // Sirve para evitar búsquedas inútiles
-        boolean searchMoreCase2 = true; // Sirve para evitar búsquedas inútiles
+        // Caso 3: setInnerXML
+        // Ej. de formato esperado /*[i*/"className","xml serialized"/*i]*/
+
+
         while(true)
         {
-            // Vemos que caso está primero
+            code = gotoNextCase(code);
 
-            int posOpenCase1 = -1;
-            int posOpenCase2 = -1;
+            if (code == null)
+                break; // No hay más
 
-            if (searchMoreCase1) posOpenCase1 = code.indexOf("/*{*/");
-            if (searchMoreCase2) posOpenCase2 = code.indexOf("/*[n*/");
-
-            if ( (posOpenCase1 != -1 && posOpenCase2 != -1 && posOpenCase1 < posOpenCase2) || (posOpenCase1 != -1 && posOpenCase2 == -1) )
+            if (code.startsWith("/*[s*/"))
             {
-                // Caso 1
-
-                if (attrRemoteList == null) attrRemoteList = new LinkedList<DOMAttrRemote>();
-                code = processCase1(code,posOpenCase1,attrRemoteList);
-
+                if (attrRemoteList[0] == null) attrRemoteList[0] = new LinkedList<DOMAttrRemote>();
+                code = processCase1(code,attrRemoteList[0]);
             }
-            else if ( (posOpenCase1 != -1 && posOpenCase2 != -1 && posOpenCase1 > posOpenCase2) || (posOpenCase1 == -1 && posOpenCase2 != -1) )
+            else if (code.startsWith("/*[n*/"))
             {
-                // Caso 2
-
-                if (attrRemoteList == null) attrRemoteList = new LinkedList<DOMAttrRemote>();
-                code = processCase2(code,posOpenCase2,attrRemoteList);
+                if (attrRemoteList[0] == null) attrRemoteList[0] = new LinkedList<DOMAttrRemote>();
+                code = processCase2(code, attrRemoteList[0]);
             }
-            else
+            else if (code.startsWith("/*[i*/"))
             {
-                // NO hay más
-                break;
-            }
+                if (classNameList[0] == null) classNameList[0] = new LinkedList<String>();
+                if (xmlMarkupList[0] == null) xmlMarkupList[0] = new LinkedList<String>();
 
-            if (searchMoreCase1 && posOpenCase1 == -1) searchMoreCase1 = false; // No hay más de case 1
-            if (searchMoreCase2 && posOpenCase2 == -1) searchMoreCase2 = false; // No hay más de case 2
+                code = processCase3(code,classNameList[0], xmlMarkupList[0]);
+            }
         }
+    }
 
-        return attrRemoteList;
+    private String gotoNextCase(String code)
+    {
+        int lenDelimiter = "/*[s*/".length(); // Mismo valor para todos los demás casos incluidos los sufijos
+
+        while(true)
+        {
+            int posPrefix = code.indexOf("/*[");
+            int len = code.length() - posPrefix;
+            if (len < lenDelimiter) // Falso positivo, no hay suficientes caracteres ni siquiera para analizar el prefijo
+                return null; // NO hay más
+
+            // Tenemos la garantía de que hay caracteres suficientes para analizar el prefijo
+
+            int pos = posPrefix + "/*[".length();
+            char letter = code.charAt(pos);
+            pos++;
+            char asterisk = code.charAt(pos);
+            pos++;
+            char close = code.charAt(pos);
+
+            if ((letter != 's' && letter != 'n' && letter != 'i') || asterisk != '*' || close != '/')
+            {
+                // No es un prefijo correcto
+                if (pos == code.length() - 1)
+                    return null; // Es el último caracter, no hay más
+                code = code.substring(pos + 1);
+                continue;
+            }
+
+            return code.substring(posPrefix);
+        }
     }
 
 
-    private String processCase1(String code,int posOpen,LinkedList<DOMAttrRemote> attrRemoteList)
+    private String processCase1(String code,LinkedList<DOMAttrRemote> attrRemoteList)
     {
-        // Ej. de formato esperado: /*{*/NSAND,"textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"/*}*/
-        //                          /*{*/"style","@remote:dimen/droid/res/values/test_values_remote.xml:test_style"/*}*/
+        // Ej. de formato esperado: /*[s*/NSAND,"textSize","@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize"/*s]*/
+        //                          /*[s*/"style","@remote:dimen/droid/res/values/test_values_remote.xml:test_style"/*s]*/
 
-        int lenDelimiter = "/*{*/".length(); // idem que el sufijo "/*}*/"
+        int lenDelimiter = "/*[s*/".length(); // idem que el sufijo "/*s]*/"
 
-        int posEnd = code.indexOf("/*}*/", posOpen + lenDelimiter);
+        int posEnd = code.indexOf("/*s]*/", lenDelimiter);
         if (posEnd != -1)
         {
-            String attrCode = code.substring(posOpen + lenDelimiter, posEnd);
+            String attrCode = code.substring(lenDelimiter, posEnd);
 
             DOMAttrRemote domAttr = parseSingleRemoteAttr(attrCode);
 
@@ -143,13 +165,13 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         }
         else
         {
-            throw new ItsNatDroidException("Unexpected format " + posOpen); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final, salimos, está
+            throw new ItsNatDroidException("Unexpected format " + code); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final, salimos, está
         }
 
         return code;
     }
 
-    private String processCase2(String code,int posOpenNS,LinkedList<DOMAttrRemote> attrRemoteList)
+    private String processCase2(String code,LinkedList<DOMAttrRemote> attrRemoteList)
     {
         // Ej. de formato esperado /*[n*/null/*n]*/  /*[k*/"style"/*k]*/...  /*[v*/"@remote:style/droid/res/values/test_values_remote.xml:test_style_remote"/*v]*/...
         // En vez de null (namespace) puede ser NSAND o "some namespace" o null
@@ -160,10 +182,10 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         String namespaceURI;
 
         {
-            int posEnd = code.indexOf("/*n]*/", posOpenNS + lenDelimiter);
+            int posEnd = code.indexOf("/*n]*/", lenDelimiter);
             if (posEnd != -1)
             {
-                String namespaceCode = code.substring(posOpenNS + lenDelimiter, posEnd);
+                String namespaceCode = code.substring(lenDelimiter, posEnd);
                 namespaceURI = parseNamespaceURI(namespaceCode);
 
                 code = code.substring(posEnd + lenDelimiter);
@@ -266,6 +288,38 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         return code;
     }
 
+    private String processCase3(String code,LinkedList<String> classNameList,LinkedList<String> xmlMarkupList)
+    {
+        // Caso 3: setInnerXML
+        // Ej. de formato esperado /*[i*/"className","xml serialized"/*i]*/
+
+        int lenDelimiter = "/*[i*/".length(); // idem que el sufijo "/*i]*/"
+
+        int posEnd = code.indexOf("/*i]*/", lenDelimiter);
+        if (posEnd != -1)
+        {
+            String classNameCommAndxmlMarkupStrLiteral = code.substring(lenDelimiter, posEnd);
+            String[] classNameCommAndxmlMarkupStrLiteralArr = classNameCommAndxmlMarkupStrLiteral.split(",");
+
+            String classNameStrLiteral = classNameCommAndxmlMarkupStrLiteralArr[0];
+            String className = extractStringLiteralContent(classNameStrLiteral);
+            classNameList.add(className);
+
+            String xmlMarkupStrLiteral = classNameCommAndxmlMarkupStrLiteralArr[1];
+            String xmlMarkup = extractStringLiteralContent(xmlMarkupStrLiteral);
+            xmlMarkup = convertCodeStringLiteralToNormalString(xmlMarkup);
+            xmlMarkupList.add(xmlMarkup);
+
+            code = code.substring(posEnd + lenDelimiter);
+        }
+        else
+        {
+            throw new ItsNatDroidException("Unexpected format " + code); // JODER que raro, no hay terminador, o es un bug o un intento de liarla por parte del programador final, salimos, está
+        }
+
+        return code;
+    }
+
     private DOMAttrRemote parseSingleRemoteAttr(String code)
     {
         // Ej. de formato esperado:
@@ -290,7 +344,7 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         part++;
 
         String value = attrParts[part];
-        value = extractStringLiteralContent(value);
+        value = extractStringLiteralContent(value); // Aunque es un valor entre comillas, esperamos un "@remote:path:name", no esperamos un texto normal literal que podría tener " o \n al serializar como string literal
 
         return createDOMAttrRemote(namespaceURI,name,value);
     }
@@ -326,5 +380,77 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         code = code.substring(1,code.length()-1);
         return code;
     }
+
+    private static String convertCodeStringLiteralToNormalString(String code)
+    {
+        // Hemos extraido la cadena del código fuente beanshell (formada con "" esto no es JavaScript), para poder poner una cadena literal necesitamos poner
+        // los LF como \n y las " como \", tenemos que deshacer eso o de otra manera NO tenemos el texto original de verdad.
+        // En el caso de los nombres de las variables, namespaces etc con extractStringLiteralContent es suficiente
+        // Ver código de ItsNat Server: JSAndBSRenderImpl::toTransportableStringLiteral(String text,boolean addQuotation,Browser browser)
+        // '\r' '\n' '"' '\'' '\\'  '\t' '\f' '\b'
+        // El caracter '"' está presente como \" en una string delimitada con "
+        // El caracter '\'' está presente como ' en una string delimitada con "
+
+
+        StringBuilder codeRes = new StringBuilder();
+
+        int start = 0;
+        while(true)
+        {
+            int pos = code.indexOf('\\', start);
+            if (pos != -1)
+            {
+                String frag = code.substring(start,pos);
+                codeRes.append(frag);
+
+                char c = code.charAt(pos); // '\\' si o si
+                pos++;
+                if (pos == code.length()) break; // No hay un siguiente caracter
+
+                char c2 = code.charAt(pos);
+                switch (c2)
+                {
+                    case 'r':
+                        codeRes.append('\r');
+                        break;
+                    case 'n':
+                        codeRes.append('\n');
+                        break;
+                    case '"':
+                        codeRes.append('\"');
+                        break;
+                    // No hacemos nada con '\'' pues no se necesita (el servidor cuando se pone entre "" no hace nada con este caracter
+                    case '\\':
+                        codeRes.append('\\');
+                        break;
+                    case 't':
+                        codeRes.append('\t');
+                        break;
+                    case 'f':
+                        codeRes.append('\f');
+                        break;
+                    case 'b':
+                        codeRes.append('\b');
+                        break;
+                    default:
+                        codeRes.append(c);
+                        codeRes.append(c2);
+                }
+
+                pos++;
+
+                start = pos;
+            }
+            else
+            {
+                String frag = code.substring(start);
+                codeRes.append(frag);
+                break;
+            }
+        }
+
+        return codeRes.toString();
+    }
+
 
 }

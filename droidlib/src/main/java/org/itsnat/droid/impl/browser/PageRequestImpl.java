@@ -390,42 +390,68 @@ public class PageRequestImpl implements PageRequest
         PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, domLayout);
 
         // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo UI downloader)
-        ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
-        if (scriptList != null)
         {
-            for (int i = 0; i < scriptList.size(); i++)
+            ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
+            if (scriptList != null)
             {
-                DOMScript script = scriptList.get(i);
-                if (script instanceof DOMScriptRemote)
+                for (int i = 0; i < scriptList.size(); i++)
                 {
-                    DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
-                    String code = downloadScript(scriptRemote.getSrc(),pageURLBase, httpRequestData);
-                    scriptRemote.setCode(code);
+                    DOMScript script = scriptList.get(i);
+                    if (script instanceof DOMScriptRemote)
+                    {
+                        DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
+                        String code = downloadScript(scriptRemote.getSrc(), pageURLBase, httpRequestData);
+                        scriptRemote.setCode(code);
+                    }
                 }
             }
         }
 
-        LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
-        if (attrRemoteList != null)
         {
-            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
-            resDownloader.downloadResources(attrRemoteList);
+            LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
+            if (attrRemoteList != null)
+            {
+                HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+                resDownloader.downloadResources(attrRemoteList);
+            }
         }
 
         if (domLayout instanceof XMLDOMLayoutPageItsNat)
         {
+            XMLDOMLayoutPageItsNat xmldomLayoutPageParent = (XMLDOMLayoutPageItsNat)domLayout;
             String loadInitScript = ((XMLDOMLayoutPageItsNat)domLayout).getLoadInitScript();
             if (loadInitScript != null) // Es nulo si el scripting está desactivado
             {
-                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = domLayout.parseBSRemoteAttribs(loadInitScript);
+                @SuppressWarnings("unchecked")
+                LinkedList<DOMAttrRemote>[] attrRemoteListBSParsed = new LinkedList[1];
+                @SuppressWarnings("unchecked")
+                LinkedList<String>[] classNameListBSParsed = new LinkedList[1];
+                @SuppressWarnings("unchecked")
+                LinkedList<String>[] xmlMarkupListBSParsed = new LinkedList[1];
 
-                if (attrRemoteListBSParsed != null)
+                domLayout.parseBSRemoteAttribs(loadInitScript,attrRemoteListBSParsed,classNameListBSParsed,xmlMarkupListBSParsed);
+
+                if (attrRemoteListBSParsed[0] != null)
                 {
                     // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
                     HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-                    resDownloader.downloadResources(attrRemoteList);
+                    resDownloader.downloadResources(attrRemoteListBSParsed[0]);
 
-                    pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed);
+                    pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed[0]);
+                }
+
+                if (classNameListBSParsed[0] != null)
+                {
+                    XMLDOMLayoutPage[] xmldomLayoutPageArr = FragmentLayoutInserter.wrapAndParseMarkup(classNameListBSParsed[0], xmlMarkupListBSParsed[0], itsNatServerVersion, xmldomLayoutPageParent, xmlDOMRegistry, assetManager);
+                    for(XMLDOMLayoutPage xmlDOM : xmldomLayoutPageArr)
+                    {
+                        LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
+                        if (attrRemoteList != null)
+                        {
+                            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+                            resDownloader.downloadResources(attrRemoteList);
+                        }
+                    }
                 }
             }
         }

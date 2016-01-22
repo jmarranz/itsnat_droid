@@ -19,21 +19,19 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ParsedResourceImage;
+import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
-import org.itsnat.droid.impl.xmlinflated.values.InflatedValuesPage;
-import org.itsnat.droid.impl.xmlinflated.values.InflatedValuesStandalone;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -551,7 +549,8 @@ public class XMLInflateRegistry
 
     private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
     {
-        XMLDOMValues xmlDOMValues = (XMLDOMValues) attrDyn.getResource();
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
+        XMLDOMValues xmlDOMValues = (XMLDOMValues)resource.getXMLDOM();
 
         // Una vez parseado XMLDOMValues y cargados los recursos remotos se cachea y NO se modifica (no hay un pre-clonado
         // El resultado de inflar es ElementValuesResources que básicamente contiene los valores de <item> <dim> etc ORIGINALES SIN RESOLVER RESPECTO AL Context, dichos valores sólo pueden
@@ -583,7 +582,7 @@ public class XMLInflateRegistry
         AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
         AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
 
-        InflatedValues inflatedValues = page != null ? new InflatedValuesPage(itsNatDroid, xmlDOMValues, ctx, page) : new InflatedValuesStandalone(itsNatDroid, xmlDOMValues, ctx);
+        InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx,page);
         XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
         ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
 
@@ -672,14 +671,16 @@ public class XMLInflateRegistry
                 AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
                 AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
 
-                XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
-                InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx,page) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
+                ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
+                XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
+                InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid,xmlDOMDrawable,ctx,page);
                 XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener, attrDrawableInflaterListener);
                 return xmlInflaterDrawable.inflateDrawable();
             }
             else if (MimeUtil.isMIMEResourceImage(resourceMime))
             {
-                byte[] byteArray = (byte[])attrDyn.getResource();
+                ParsedResourceImage resource = (ParsedResourceImage)attrDyn.getResource();
+                byte[] byteArray = resource.getImgBytes();
                 boolean expectedNinePatch = attrDyn.isNinePatch();
                 return DrawableUtil.createImageBasedDrawable(byteArray,bitmapDensityReference,expectedNinePatch,ctx.getResources());
             }
@@ -750,7 +751,8 @@ public class XMLInflateRegistry
                 AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
                 AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
 
-                XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) attrDyn.getResource();
+                ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
+                XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
                 XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,indexChild,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,pageParent);
                 View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();

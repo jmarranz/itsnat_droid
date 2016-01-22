@@ -42,7 +42,8 @@ public abstract class PendingViewPostCreateProcess
 
     public void addPendingLayoutParamsTask(Runnable task)
     {
-        if (destroy) throw new ItsNatDroidException("Is already destroyed");
+        if (destroy)
+            throw new ItsNatDroidException("Is already destroyed");
         if (pendingLayoutParamsTasks == null) this.pendingLayoutParamsTasks = new LinkedList<Runnable>();
         pendingLayoutParamsTasks.add(task);
     }

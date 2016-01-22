@@ -15,7 +15,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
     protected final boolean ninePatch;
     protected final String mime;
     protected final String location;
-    protected volatile Object resource;
+    protected volatile ParsedResource resource;
 
     public DOMAttrDynamic(String namespaceURI, String name, String value)
     {
@@ -112,13 +112,13 @@ public abstract class DOMAttrDynamic extends DOMAttr
         return mime;
     }
 
-    public Object getResource()
+    public ParsedResource getResource()
     {
         // Es sólo llamado en el hilo UI pero setResource se llama en multihilo
         return resource;
     }
 
-    public void setResource(Object resource)
+    public void setResource(ParsedResource resource)
     {
         // Es llamado en multihilo en el caso de recurso remoto (por eso es volatile)
         // No pasa nada porque se llame e inmediatamente después se cambie el valor, puede ocurrir que se esté procesando

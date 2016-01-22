@@ -732,14 +732,26 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void setInnerXML(Node parentNode,String markup)
     {
-        appendFragment(parentNode.getView(), markup);
+        setInnerXML(parentNode, null, markup);
     }
 
     @Override
     public void setInnerXML2(Object[] idObj,String markup)
     {
+        setInnerXML2(idObj, null, markup);
+    }
+
+    @Override
+    public void setInnerXML(Node parentNode,String className,String markup)
+    {
+        setInnerXMLInternal(parentNode.getView(), className, markup, null);
+    }
+
+    @Override
+    public void setInnerXML2(Object[] idObj,String className,String markup)
+    {
         Node parentNode = getNode(idObj);
-        setInnerXML(parentNode, markup);
+        setInnerXML(parentNode, className,markup);
     }
 
     @Override

@@ -3,6 +3,8 @@ package org.itsnat.droid.impl.browser;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ParsedResource;
+import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -101,10 +103,10 @@ public class HttpResourceDownloader
 
         if (resultList != null) resultList.add(resultRes);
 
-        Object resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes, xmlDOMRegistry, assetManager);
-        if (resource instanceof XMLDOM)
+        ParsedResource resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes, xmlDOMRegistry, assetManager);
+        if (resource instanceof ParsedResourceXMLDOM)
         {
-            XMLDOM xmlDOM = (XMLDOM)resource;
+            XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
             LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
             if (attrRemoteList != null)
                 downloadResources(urlBase, attrRemoteList, resultList);

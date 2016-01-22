@@ -8,6 +8,7 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.impl.browser.FragmentLayoutInserter;
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.HttpResourceDownloader;
 import org.itsnat.droid.impl.browser.HttpUtil;
@@ -15,6 +16,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
 
@@ -84,15 +86,36 @@ public class EventSender
 
         PageItsNatImpl pageItsNat = eventSender.getItsNatDocItsNatImpl().getPageItsNatImpl();
 
-        XMLDOMLayoutPage xmldomLayoutPage = pageItsNat.getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
+        XMLDOMLayoutPageItsNat xmldomLayoutPage = pageItsNat.getInflatedLayoutPageItsNatImpl().getXMLDOMLayoutPageItsNat();
 
-        LinkedList<DOMAttrRemote> attrRemoteListBSParsed = xmldomLayoutPage.parseBSRemoteAttribs(result.getResponseText());
 
-        if (attrRemoteListBSParsed != null)
+        @SuppressWarnings("unchecked")
+        LinkedList<DOMAttrRemote>[] attrRemoteListBSParsed = new LinkedList[1];
+        @SuppressWarnings("unchecked")
+        LinkedList<String>[] classNameListBSParsed = new LinkedList[1];
+        @SuppressWarnings("unchecked")
+        LinkedList<String>[] xmlMarkupListBSParsed = new LinkedList[1];
+
+        xmldomLayoutPage.parseBSRemoteAttribs(result.getResponseText(),attrRemoteListBSParsed,classNameListBSParsed,xmlMarkupListBSParsed);
+
+        if (attrRemoteListBSParsed[0] != null)
         {
-            downloadResources(attrRemoteListBSParsed, httpRequestData, pageItsNat);
+            downloadResources(attrRemoteListBSParsed[0], httpRequestData, pageItsNat);
 
-            result.setAttrRemoteListBSParsed(attrRemoteListBSParsed);
+            result.setAttrRemoteListBSParsed(attrRemoteListBSParsed[0]);
+        }
+
+        if (classNameListBSParsed[0] != null)
+        {
+            String itsNatServerVersion = pageItsNat.getItsNatServerVersion();
+            XMLDOMRegistry xmlDOMRegistry = pageItsNat.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
+            AssetManager assetManager = pageItsNat.getContext().getResources().getAssets();
+            XMLDOMLayoutPage[] xmldomLayoutPageArr = FragmentLayoutInserter.wrapAndParseMarkup(classNameListBSParsed[0], xmlMarkupListBSParsed[0], itsNatServerVersion, xmldomLayoutPage, xmlDOMRegistry, assetManager);
+            for(XMLDOMLayoutPage xmlDOM : xmldomLayoutPageArr)
+            {
+                LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
+                downloadResources(attrRemoteList, httpRequestData, pageItsNat);
+            }
         }
 
         return result;

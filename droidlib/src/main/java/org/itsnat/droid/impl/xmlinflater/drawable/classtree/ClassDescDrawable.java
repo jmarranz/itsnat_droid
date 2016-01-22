@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ParsedResourceImage;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -149,7 +150,8 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         {
             // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            byte[] byteArray = (byte[])attrDyn.getResource();
+            ParsedResourceImage resource = (ParsedResourceImage)attrDyn.getResource();
+            byte[] byteArray = resource.getImgBytes();
             Resources res = ctx.getResources();
             return DrawableUtil.createBitmap(byteArray, bitmapDensityReference, res);
         }

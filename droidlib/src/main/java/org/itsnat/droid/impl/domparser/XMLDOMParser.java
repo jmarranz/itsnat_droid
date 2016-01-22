@@ -10,6 +10,9 @@ import org.itsnat.droid.impl.dom.DOMAttrAsset;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.ParsedResource;
+import org.itsnat.droid.impl.dom.ParsedResourceImage;
+import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
@@ -234,21 +237,22 @@ public abstract class XMLDOMParser
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = MiscUtil.toString(input, "UTF-8");
-            XMLDOM xmlDOM = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMRegistry, assetManager);
+            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMRegistry, assetManager);
+            XMLDOM xmlDOM = resource.getXMLDOM();
             if (xmlDOM.getDOMAttrRemoteList() != null)
                 throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
             return xmlDOM;
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
         {
-            assetAttr.setResource(input);
+            assetAttr.setResource(new ParsedResourceImage(input));
             return input;
         }
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
 
 
-    public static Object parseDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultOKImpl resultRes, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    public static ParsedResource parseDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultOKImpl resultRes, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
     {
         // Método llamado en multihilo
 
@@ -262,20 +266,21 @@ public abstract class XMLDOMParser
 
             String itsNatServerVersion = resultRes.getItsNatServerVersion(); // Puede ser null
 
-            XMLDOM xmlDOM = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMRegistry, assetManager);
-            return xmlDOM;
+            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMRegistry, assetManager);
+            return resource;
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
         {
             byte[] img = resultRes.getResponseByteArray();
-            remoteAttr.setResource(img);
-            return img;
+            ParsedResourceImage resource = new ParsedResourceImage(img);
+            remoteAttr.setResource(resource);
+            return resource;
         }
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
 
 
-    private static XMLDOM parseDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    private static ParsedResourceXMLDOM parseDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         // Es llamado en multihilo en el caso de DOMAttrRemote
         String resourceType = attr.getResourceType();
@@ -295,9 +300,10 @@ public abstract class XMLDOMParser
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 
-        attr.setResource(xmlDOM);
+        ParsedResourceXMLDOM resource = new ParsedResourceXMLDOM(xmlDOM);
+        attr.setResource(resource);
 
-        return xmlDOM;
+        return resource;
     }
 
     protected abstract DOMElement createElement(String name,DOMElement parent);
