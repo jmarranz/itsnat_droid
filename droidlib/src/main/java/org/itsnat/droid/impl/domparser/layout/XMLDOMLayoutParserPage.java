@@ -24,7 +24,7 @@ public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
     }
 
     @Override
-    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         if (name.equals("script"))
         {

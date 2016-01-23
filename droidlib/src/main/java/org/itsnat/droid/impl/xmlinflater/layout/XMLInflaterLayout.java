@@ -184,7 +184,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
     }
 
 
-    protected void processChildViews(DOMElemView domElemViewParent, View viewParent,XMLDOM xmlDOMParent)
+    protected void processChildViews(DOMElemView domElemViewParent, View viewParent, XMLDOM xmlDOMParent)
     {
         LinkedList<DOMElement> childElemList = domElemViewParent.getChildDOMElementList();
         if (childElemList != null)
@@ -197,12 +197,12 @@ public abstract class XMLInflaterLayout extends XMLInflater
         }
     }
 
-    public View insertFragment(DOMElemView rootDOMElemViewFragment,XMLDOM xmlDOMParent)
+    public View insertFragment(DOMElemView rootDOMElemViewFragment, XMLDOM xmlDOMParent)
     {
         return inflateNextView(rootDOMElemViewFragment,null,xmlDOMParent);
     }
 
-    private View inflateNextView(DOMElemLayout domElem, ViewGroup viewParent,XMLDOM xmlDOMParent)
+    private View inflateNextView(DOMElemLayout domElem, ViewGroup viewParent, XMLDOM xmlDOMParent)
     {
         // Es llamado también para insertar fragmentos
 

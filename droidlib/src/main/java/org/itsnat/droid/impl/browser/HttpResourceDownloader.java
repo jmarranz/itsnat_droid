@@ -6,6 +6,9 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.dom.layout.DOMScript;
+import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
@@ -84,7 +87,7 @@ public class HttpResourceDownloader
                     String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
                     HttpRequestResultOKImpl resultResource = HttpUtil.httpGet(url, httpRequestData, null, resourceMime);
 
-                    processHttpRequestResultResource(url, attr, resultResource, resultList);
+                    processHttpRequestResultResource(attr, resultResource, resultList);
                 }
                 catch (Exception ex)
                 {
@@ -97,7 +100,7 @@ public class HttpResourceDownloader
         return thread;
     }
 
-    private void processHttpRequestResultResource(String urlBase, DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList) throws Exception
+    private void processHttpRequestResultResource(DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         // Método llamado en multihilo
 
@@ -107,9 +110,9 @@ public class HttpResourceDownloader
         if (resource instanceof ParsedResourceXMLDOM)
         {
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
-            LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
-            if (attrRemoteList != null)
-                downloadResources(urlBase, attrRemoteList, resultList);
+            String urlContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
+            String pageURLBaseContainer = HttpUtil.getBasePathOfURL(urlContainer);
+            PageRequestImpl.downloadXMLDOMRemoteResources(xmlDOM,pageURLBaseContainer,httpRequestData,xmlDOMRegistry,assetManager);
         }
     }
 

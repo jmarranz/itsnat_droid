@@ -160,7 +160,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                         attrDesc.setAttribute(view, attr, attrCtx);
                     }
                 };
-                if (DOMAttrRemote.isPendingToDownload(attr)) // Yo creo que ya no hay ningún caso posible gracias al pre-parseado de recursos remotos en el Beanshell, antes ocurría por ejemplo cuando con un click cambiamos el drawable background de un View via setAttribute de "background" o cualquier otro atributo con recurso remoto declarado como valor
+                if (DOMAttrRemote.isPendingToDownload(attr)) // Hay un caso es el cuando una página remota no generada por ItsNat tiene Views que por ejemplo referencian recursos remotos tal y como drawables
                     AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
                 else
                     task.run();

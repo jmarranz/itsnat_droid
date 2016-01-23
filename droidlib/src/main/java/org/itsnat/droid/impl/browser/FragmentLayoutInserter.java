@@ -21,8 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import bsh.Interpreter;
-
 /**
  * Created by jmarranz on 29/10/14.
  */
@@ -37,6 +35,8 @@ public class FragmentLayoutInserter
 
     public void setInnerXML(ViewGroup parentView, String parentClassName, String markup, View viewRef)
     {
+        // Este método es llamado por el setInnerXML generado por ItsNat Server pero también por los métodos de usuario appendFragment e insertFragment
+
         // Si viene del servidor especificado es el className original puesto en el template y se ha usado para el pre-parseo con metadatos de beanshell, evitamos así usar un class name absoluto que es que lo que devuelve parentView.getClass().getName() pues no lo encontraríamos en el caché
         parentClassName = parentClassName != null ? parentClassName : parentView.getClass().getName();
 
@@ -133,7 +133,6 @@ public class FragmentLayoutInserter
     {
         if (scriptList.isEmpty()) return;
 
-        Interpreter interp = itsNatDoc.getPageImpl().getInterpreter();
         for (DOMScript script : scriptList)
         {
             if (script instanceof DOMScriptInline)
@@ -143,8 +142,13 @@ public class FragmentLayoutInserter
             }
             else if (script instanceof DOMScriptRemote)
             {
-                String src = ((DOMScriptRemote)script).getSrc();
-                itsNatDoc.downloadScript(src); // Se carga asíncronamente sin un orden claro
+                DOMScriptRemote scriptRemote = (DOMScriptRemote)script;
+                if (scriptRemote.getCode() != null)
+                {
+                    // Es el caso de llamada por el usuario directamente a insertFragment(...) no es el caso de llamada setInnerXML de BS generado pues se carga en multihilo
+                    String src = scriptRemote.getSrc();
+                    itsNatDoc.downloadScript(src); // Se carga asíncronamente sin un orden claro
+                }
             }
         }
 

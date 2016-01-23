@@ -19,6 +19,7 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
@@ -53,7 +54,7 @@ public class PageRequestImpl implements PageRequest
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected boolean sync = false;
     protected String url;
-    protected String urlBase;
+    protected String pageURLBase;
 
 
     public PageRequestImpl(ItsNatDroidBrowserImpl browser)
@@ -82,7 +83,7 @@ public class PageRequestImpl implements PageRequest
         this.attrDrawableInflaterListener = origin.attrDrawableInflaterListener;
         this.sync = origin.sync;
         this.url = origin.url;
-        this.urlBase = origin.urlBase;
+        this.pageURLBase = origin.pageURLBase;
     }
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
@@ -274,13 +275,13 @@ public class PageRequestImpl implements PageRequest
     public PageRequest setURL(String url)
     {
         this.url = url;
-        this.urlBase = HttpUtil.getBasePathOfURL(url);
+        this.pageURLBase = HttpUtil.getBasePathOfURL(url);
         return this;
     }
 
     public String getPageURLBase()
     {
-        return urlBase;
+        return pageURLBase;
     }
 
     @Override
@@ -386,73 +387,22 @@ public class PageRequestImpl implements PageRequest
         String itsNatServerVersion = httpRequestResult.getItsNatServerVersion(); // Puede ser null (no servida por ItsNat
         XMLDOMLayoutPage domLayout = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, assetManager);
 
-
         PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, domLayout);
 
-        // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo UI downloader)
-        {
-            ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
-            if (scriptList != null)
-            {
-                for (int i = 0; i < scriptList.size(); i++)
-                {
-                    DOMScript script = scriptList.get(i);
-                    if (script instanceof DOMScriptRemote)
-                    {
-                        DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
-                        String code = downloadScript(scriptRemote.getSrc(), pageURLBase, httpRequestData);
-                        scriptRemote.setCode(code);
-                    }
-                }
-            }
-        }
+        downloadXMLDOMRemoteResources(domLayout, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
 
-        {
-            LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
-            if (attrRemoteList != null)
-            {
-                HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-                resDownloader.downloadResources(attrRemoteList);
-            }
-        }
 
         if (domLayout instanceof XMLDOMLayoutPageItsNat)
         {
             XMLDOMLayoutPageItsNat xmldomLayoutPageParent = (XMLDOMLayoutPageItsNat)domLayout;
-            String loadInitScript = ((XMLDOMLayoutPageItsNat)domLayout).getLoadInitScript();
+            String loadInitScript = xmldomLayoutPageParent.getLoadInitScript();
             if (loadInitScript != null) // Es nulo si el scripting está desactivado
             {
-                @SuppressWarnings("unchecked")
-                LinkedList<DOMAttrRemote>[] attrRemoteListBSParsed = new LinkedList[1];
-                @SuppressWarnings("unchecked")
-                LinkedList<String>[] classNameListBSParsed = new LinkedList[1];
-                @SuppressWarnings("unchecked")
-                LinkedList<String>[] xmlMarkupListBSParsed = new LinkedList[1];
+                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = parseBeanShellAndDownloadRemoteResources(loadInitScript,itsNatServerVersion,xmldomLayoutPageParent,pageURLBase,
+                        httpRequestData, xmlDOMRegistry, assetManager);
 
-                domLayout.parseBSRemoteAttribs(loadInitScript,attrRemoteListBSParsed,classNameListBSParsed,xmlMarkupListBSParsed);
-
-                if (attrRemoteListBSParsed[0] != null)
-                {
-                    // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
-                    HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-                    resDownloader.downloadResources(attrRemoteListBSParsed[0]);
-
-                    pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed[0]);
-                }
-
-                if (classNameListBSParsed[0] != null)
-                {
-                    XMLDOMLayoutPage[] xmldomLayoutPageArr = FragmentLayoutInserter.wrapAndParseMarkup(classNameListBSParsed[0], xmlMarkupListBSParsed[0], itsNatServerVersion, xmldomLayoutPageParent, xmlDOMRegistry, assetManager);
-                    for(XMLDOMLayoutPage xmlDOM : xmldomLayoutPageArr)
-                    {
-                        LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
-                        if (attrRemoteList != null)
-                        {
-                            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-                            resDownloader.downloadResources(attrRemoteList);
-                        }
-                    }
-                }
+                if (attrRemoteListBSParsed != null)
+                    pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed);
             }
         }
 
@@ -467,6 +417,70 @@ public class PageRequestImpl implements PageRequest
         resDownloader.downloadResources(attrRemoteList);
     }
 
+    private static String downloadScriptSync(String src, String pageURLBase, HttpRequestData httpRequestData)
+    {
+        src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
+        HttpRequestResultOKImpl result = HttpUtil.httpGet(src, httpRequestData, null,MimeUtil.MIME_BEANSHELL);
+        return result.getResponseText();
+    }
+
+    public static void downloadXMLDOMRemoteResources(XMLDOM xmlDOM, String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    {
+        {
+            LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
+            if (attrRemoteList != null)
+            {
+                downloadResources(attrRemoteList, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            }
+        }
+
+        if (xmlDOM instanceof XMLDOMLayoutPage)
+        {
+            // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo no UI downloader)
+            ArrayList<DOMScript> scriptList = ((XMLDOMLayoutPage)xmlDOM).getDOMScriptList();
+            if (scriptList != null)
+            {
+                for (int i = 0; i < scriptList.size(); i++)
+                {
+                    DOMScript script = scriptList.get(i);
+                    if (script instanceof DOMScriptRemote)
+                    {
+                        DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
+                        String code = downloadScriptSync(scriptRemote.getSrc(), pageURLBase, httpRequestData);
+                        scriptRemote.setCode(code);
+                    }
+                }
+            }
+        }
+    }
+
+
+    public static LinkedList<DOMAttrRemote> parseBeanShellAndDownloadRemoteResources(String code,String itsNatServerVersion,XMLDOMLayoutPageItsNat domLayout,String pageURLBase, HttpRequestData httpRequestData,
+                                                                XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    {
+        @SuppressWarnings("unchecked") LinkedList<DOMAttrRemote>[] attrRemoteListBSParsed = new LinkedList[1];
+        @SuppressWarnings("unchecked") LinkedList<String>[] classNameListBSParsed = new LinkedList[1];
+        @SuppressWarnings("unchecked") LinkedList<String>[] xmlMarkupListBSParsed = new LinkedList[1];
+
+        domLayout.parseBSRemoteAttribs(code, attrRemoteListBSParsed, classNameListBSParsed, xmlMarkupListBSParsed);
+
+        if (attrRemoteListBSParsed[0] != null)
+        {
+            // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
+            downloadResources(attrRemoteListBSParsed[0], pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+        }
+
+        if (classNameListBSParsed[0] != null)
+        {
+            XMLDOMLayoutPage[] xmldomLayoutPageArr = FragmentLayoutInserter.wrapAndParseMarkup(classNameListBSParsed[0], xmlMarkupListBSParsed[0], itsNatServerVersion, domLayout, xmlDOMRegistry, assetManager);
+            for (XMLDOMLayoutPage xmlDOM : xmldomLayoutPageArr)
+            {
+                downloadXMLDOMRemoteResources(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+            }
+        }
+
+        return attrRemoteListBSParsed[0]; // Puede ser null
+    }
 
     private void processResponse(PageRequestResult pageRequestResult)
     {
@@ -487,10 +501,4 @@ public class PageRequestImpl implements PageRequest
         return new PageRequestImpl(this);
     }
 
-    private static String downloadScript(String src,String pageURLBase,HttpRequestData httpRequestData)
-    {
-        src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
-        HttpRequestResultOKImpl result = HttpUtil.httpGet(src, httpRequestData, null,MimeUtil.MIME_BEANSHELL);
-        return result.getResponseText();
-    }
 }
