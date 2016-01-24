@@ -299,13 +299,16 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         if (posEnd != -1)
         {
             String classNameCommAndxmlMarkupStrLiteral = code.substring(lenDelimiter, posEnd);
-            String[] classNameCommAndxmlMarkupStrLiteralArr = classNameCommAndxmlMarkupStrLiteral.split(",");
-
-            String classNameStrLiteral = classNameCommAndxmlMarkupStrLiteralArr[0];
+            // No usamos split(",") porque el markup puede contener comas (puede haber de to_do excepto los caracteres escapados necesarios para meter en "")
+            // Lo seguro es que el className no tiene comas
+            int posComma = classNameCommAndxmlMarkupStrLiteral.indexOf(',');
+            if (posComma == -1)
+                throw new ItsNatDroidException("Unexpected format " + classNameCommAndxmlMarkupStrLiteral);
+            String classNameStrLiteral = classNameCommAndxmlMarkupStrLiteral.substring(0,posComma);
             String className = extractStringLiteralContent(classNameStrLiteral);
             classNameList.add(className);
 
-            String xmlMarkupStrLiteral = classNameCommAndxmlMarkupStrLiteralArr[1];
+            String xmlMarkupStrLiteral = classNameCommAndxmlMarkupStrLiteral.substring(posComma + 1);
             String xmlMarkup = extractStringLiteralContent(xmlMarkupStrLiteral);
             xmlMarkup = convertCodeStringLiteralToNormalString(xmlMarkup);
             xmlMarkupList.add(xmlMarkup);
@@ -328,7 +331,7 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         //      "style","@remote:dimen/droid/res/values/test_values_remote.xml:test_style"
         // En lugar de NSAND puede ser un "some namespace" o null
 
-        String[] attrParts = code.split(",");
+        String[] attrParts = code.split(","); // No hay riesgo de que el namespace o el name o el value tengan alguna coma
         if (attrParts.length < 2 || attrParts.length > 3) throw new ItsNatDroidException("Unexpected format: " + code);
 
         int part = 0;

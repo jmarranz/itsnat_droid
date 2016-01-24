@@ -160,7 +160,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                         attrDesc.setAttribute(view, attr, attrCtx);
                     }
                 };
-                if (DOMAttrRemote.isPendingToDownload(attr)) // Hay un caso es el cuando una página remota no generada por ItsNat tiene Views que por ejemplo referencian recursos remotos tal y como drawables
+                if (DOMAttrRemote.isPendingToDownload(attr)) // Hay al menos un caso es el cuando una página remota NO generada por ItsNat tiene Views que por ejemplo referencian recursos remotos tal y como drawables, al menos así damos más soporte a las páginas no ItsNat
                     AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
                 else
                     task.run();

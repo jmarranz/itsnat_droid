@@ -66,7 +66,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         String itsNatServlet = "ItsNatDroidServletExample";
 
         this.urlTestCore =           urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_core";
-        this.urlTestIncludeLayout =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_include_layout";
+        this.urlTestIncludeLayout =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_include_slowloadmode_layout";
         this.urlTestRemDrawables =   urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_drawables";
         this.urlTestRemCtrl =        urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_ctrl";
         this.urlTestStatelessCore =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_stateless_core_initial";

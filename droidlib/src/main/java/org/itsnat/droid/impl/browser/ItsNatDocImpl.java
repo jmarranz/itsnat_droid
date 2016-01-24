@@ -85,12 +85,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         return createGenericHttpClientImpl();
     }
 
-    public DownloadResourcesHttpClient createDownloadResourcesHttpClient()
-    {
-        DownloadResourcesHttpClient client = new DownloadResourcesHttpClient(this);
-        client.setOnHttpRequestErrorListenerNotFluid(getPageImpl().getOnHttpRequestErrorListener());
-        return client;
-    }
 
     public PageImpl getPageImpl()
     {
@@ -373,7 +367,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 
     public void downloadResources(DOMAttrRemote attr,final Runnable task)
     {
-        // YO CREO QUE YA NO SE USA
         OnHttpRequestListener listener = new OnHttpRequestListener()
         {
             @Override
@@ -383,9 +376,11 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
             }
         };
 
-        boolean sync = getPageImpl().getPageRequestClonedImpl().isSynchronous();
+        PageImpl page = getPageImpl();
+        boolean sync = page.getPageRequestClonedImpl().isSynchronous();
 
-        DownloadResourcesHttpClient client = createDownloadResourcesHttpClient();
+        DownloadResourcesHttpClient client = new DownloadResourcesHttpClient(this);
+        client.setOnHttpRequestErrorListenerNotFluid(page.getOnHttpRequestErrorListener());
         client.setOnHttpRequestListenerNotFluid(listener);
         client.request(attr, !sync);
     }

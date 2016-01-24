@@ -62,9 +62,6 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
 
     public static void processDownloadTask(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
     {
-        // YO CREO QUE YA NO SE USA
-
-        // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
         PageImpl page = PageImpl.getPageImpl(xmlInflater); // NO puede ser nulo
 
         page.getItsNatDocImpl().downloadResources(attr, task);
