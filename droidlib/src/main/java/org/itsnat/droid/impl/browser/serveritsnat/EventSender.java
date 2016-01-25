@@ -11,7 +11,7 @@ import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.PageRequestImpl;
+import org.itsnat.droid.impl.browser.XMLDOMDownloader;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
@@ -84,14 +84,15 @@ public class EventSender
 
         PageItsNatImpl pageItsNat = eventSender.getItsNatDocItsNatImpl().getPageItsNatImpl();
         String pageURLBase = pageItsNat.getPageURLBase();
-        XMLDOMLayoutPageItsNat xmldomLayoutPage = pageItsNat.getInflatedLayoutPageItsNatImpl().getXMLDOMLayoutPageItsNat();
+        XMLDOMLayoutPageItsNat xmlDOMLayoutPage = pageItsNat.getInflatedLayoutPageItsNatImpl().getXMLDOMLayoutPageItsNat();
         String itsNatServerVersion = pageItsNat.getItsNatServerVersion();
         XMLDOMRegistry xmlDOMRegistry = pageItsNat.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = pageItsNat.getContext().getResources().getAssets();
 
         String code = result.getResponseText();
 
-        LinkedList<DOMAttrRemote> attrRemoteListBSParsed = PageRequestImpl.parseBeanShellAndDownloadRemoteResources(code, itsNatServerVersion, xmldomLayoutPage, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+        XMLDOMLayoutPageItsNatDownloader downloader = (XMLDOMLayoutPageItsNatDownloader)XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage);
+        LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(code, itsNatServerVersion, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
 
         if (attrRemoteListBSParsed != null)
             result.setAttrRemoteListBSParsed(attrRemoteListBSParsed);

@@ -38,8 +38,8 @@ public class XMLDOMLayoutParserPageItsNat extends XMLDOMLayoutParserPage
             while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
             String code = parser.getText();
 
-            XMLDOMLayoutPageItsNat xmldomLayoutPageItsNat = (XMLDOMLayoutPageItsNat)domLayout;
-            xmldomLayoutPageItsNat.setLoadInitScript(code);
+            XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNat = (XMLDOMLayoutPageItsNat)domLayout;
+            xmlDOMLayoutPageItsNat.setLoadInitScript(code);
         }
         else
             super.addDOMScriptInline(parser, domLayout);

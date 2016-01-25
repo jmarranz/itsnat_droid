@@ -170,18 +170,16 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     {
         // Ver notas en appendFragment
 
-        setInnerXMLInternal(parentView, null, markup, viewRef);
+        setInnerXMLInsertPageFragment(parentView, null, markup, viewRef);
     }
 
-    protected void setInnerXMLInternal(View parentView, String className, String markup,View viewRef)
+    protected void setInnerXMLInsertPageFragment(View parentView, String className, String markup, View viewRef)
     {
-        // Ver notas en appendFragment
-
         // Si el fragmento a insertar es suficientemente grande el rendimiento de setInnerXML puede ser varias veces superior
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
         // Por ejemplo 78ms con setInnerXML (parseando markup) y 179ms con beanshell puro
 
-        fragmentLayoutInserter.setInnerXML((ViewGroup) parentView, className, markup, viewRef);
+        fragmentLayoutInserter.setInnerXMLInsertPageFragment((ViewGroup) parentView, className, markup, viewRef);
     }
 
 

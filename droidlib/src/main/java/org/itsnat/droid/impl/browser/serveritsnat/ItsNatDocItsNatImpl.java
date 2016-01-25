@@ -260,8 +260,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
     private DOMAttr toDOMAttr(String namespaceURI,String name,String value)
     {
-        XMLDOMLayoutPage xmldomLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
-        DOMAttr attr = xmldomLayoutPage.toDOMAttrNotSyncResource(namespaceURI, name, value);
+        XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
+        DOMAttr attr = xmlDOMLayoutPage.toDOMAttrNotSyncResource(namespaceURI, name, value);
 
         if (this.attrRemoteListBSParsed != null && attr instanceof DOMAttrRemote) // Si attrRemoteListBSParsed es null es que no hay atributos remotos extraidos del script para sincronizar
         {
@@ -386,10 +386,10 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         if (node instanceof NodeToInsertImpl && !((NodeToInsertImpl)node).isInserted())
                 throw new ItsNatDroidException("Internal Error"); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
 
-        XMLDOMLayoutPage xmldomLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
+        XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
 
-        String namespaceURIFinal = xmldomLayoutPage.extractAttrNamespaceURI(namespaceURI, name); // NECESARIO
-        String localName = xmldomLayoutPage.extractAttrLocalName(namespaceURI, name);  // NECESARIO
+        String namespaceURIFinal = xmlDOMLayoutPage.extractAttrNamespaceURI(namespaceURI, name); // NECESARIO
+        String localName = xmlDOMLayoutPage.extractAttrLocalName(namespaceURI, name);  // NECESARIO
 
         PageItsNatImpl page = getPageItsNatImpl();
         View view = node.getView();
@@ -744,7 +744,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void setInnerXML(Node parentNode,String className,String markup)
     {
-        setInnerXMLInternal(parentNode.getView(), className, markup, null);
+        setInnerXMLInsertPageFragment(parentNode.getView(), className, markup, null);
     }
 
     @Override

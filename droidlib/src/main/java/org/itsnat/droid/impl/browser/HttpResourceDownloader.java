@@ -6,15 +6,11 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.dom.layout.DOMScript;
-import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -112,7 +108,8 @@ public class HttpResourceDownloader
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
             String urlContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
             String pageURLBaseContainer = HttpUtil.getBasePathOfURL(urlContainer);
-            PageRequestImpl.downloadXMLDOMRemoteResources(xmlDOM,pageURLBaseContainer,httpRequestData,xmlDOMRegistry,assetManager);
+            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM);
+            downloader.downloadRemoteResources(pageURLBaseContainer, httpRequestData, xmlDOMRegistry, assetManager);
         }
     }
 

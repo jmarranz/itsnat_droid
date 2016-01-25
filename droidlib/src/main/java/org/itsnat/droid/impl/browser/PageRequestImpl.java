@@ -17,11 +17,9 @@ import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownloader;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.dom.layout.DOMScript;
-import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -29,7 +27,6 @@ import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MimeUtil;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -385,21 +382,23 @@ public class PageRequestImpl implements PageRequest
 
         String markup = httpRequestResult.getResponseText();
         String itsNatServerVersion = httpRequestResult.getItsNatServerVersion(); // Puede ser null (no servida por ItsNat
-        XMLDOMLayoutPage domLayout = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, assetManager);
+        XMLDOMLayoutPage xmlDOMLayoutPage = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, assetManager);
 
-        PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, domLayout);
+        PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, xmlDOMLayoutPage);
 
-        downloadXMLDOMRemoteResources(domLayout, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-
-
-        if (domLayout instanceof XMLDOMLayoutPageItsNat)
         {
-            XMLDOMLayoutPageItsNat xmldomLayoutPageParent = (XMLDOMLayoutPageItsNat)domLayout;
+            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage);
+            downloader.downloadRemoteResources(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+        }
+
+        if (xmlDOMLayoutPage instanceof XMLDOMLayoutPageItsNat)
+        {
+            XMLDOMLayoutPageItsNat xmldomLayoutPageParent = (XMLDOMLayoutPageItsNat)xmlDOMLayoutPage;
             String loadInitScript = xmldomLayoutPageParent.getLoadInitScript();
             if (loadInitScript != null) // Es nulo si el scripting está desactivado
             {
-                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = parseBeanShellAndDownloadRemoteResources(loadInitScript,itsNatServerVersion,xmldomLayoutPageParent,pageURLBase,
-                        httpRequestData, xmlDOMRegistry, assetManager);
+                XMLDOMLayoutPageItsNatDownloader downloader = (XMLDOMLayoutPageItsNatDownloader)XMLDOMDownloader.createXMLDOMDownloader(xmldomLayoutPageParent);
+                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript, itsNatServerVersion, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
 
                 if (attrRemoteListBSParsed != null)
                     pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed);
@@ -409,78 +408,7 @@ public class PageRequestImpl implements PageRequest
         return pageReqResult;
     }
 
-    private static void downloadResources(LinkedList<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
-    {
-        // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
 
-        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-        resDownloader.downloadResources(attrRemoteList);
-    }
-
-    private static String downloadScriptSync(String src, String pageURLBase, HttpRequestData httpRequestData)
-    {
-        src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
-        HttpRequestResultOKImpl result = HttpUtil.httpGet(src, httpRequestData, null,MimeUtil.MIME_BEANSHELL);
-        return result.getResponseText();
-    }
-
-    public static void downloadXMLDOMRemoteResources(XMLDOM xmlDOM, String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
-    {
-        {
-            LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
-            if (attrRemoteList != null)
-            {
-                downloadResources(attrRemoteList, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-            }
-        }
-
-        if (xmlDOM instanceof XMLDOMLayoutPage)
-        {
-            // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo no UI downloader)
-            ArrayList<DOMScript> scriptList = ((XMLDOMLayoutPage)xmlDOM).getDOMScriptList();
-            if (scriptList != null)
-            {
-                for (int i = 0; i < scriptList.size(); i++)
-                {
-                    DOMScript script = scriptList.get(i);
-                    if (script instanceof DOMScriptRemote)
-                    {
-                        DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
-                        String code = downloadScriptSync(scriptRemote.getSrc(), pageURLBase, httpRequestData);
-                        scriptRemote.setCode(code);
-                    }
-                }
-            }
-        }
-    }
-
-
-    public static LinkedList<DOMAttrRemote> parseBeanShellAndDownloadRemoteResources(String code,String itsNatServerVersion,XMLDOMLayoutPageItsNat domLayout,String pageURLBase, HttpRequestData httpRequestData,
-                                                                XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
-    {
-        @SuppressWarnings("unchecked") LinkedList<DOMAttrRemote>[] attrRemoteListBSParsed = new LinkedList[1];
-        @SuppressWarnings("unchecked") LinkedList<String>[] classNameListBSParsed = new LinkedList[1];
-        @SuppressWarnings("unchecked") LinkedList<String>[] xmlMarkupListBSParsed = new LinkedList[1];
-
-        domLayout.parseBSRemoteAttribs(code, attrRemoteListBSParsed, classNameListBSParsed, xmlMarkupListBSParsed);
-
-        if (attrRemoteListBSParsed[0] != null)
-        {
-            // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
-            downloadResources(attrRemoteListBSParsed[0], pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-        }
-
-        if (classNameListBSParsed[0] != null)
-        {
-            XMLDOMLayoutPage[] xmldomLayoutPageArr = FragmentLayoutInserter.wrapAndParseMarkup(classNameListBSParsed[0], xmlMarkupListBSParsed[0], itsNatServerVersion, domLayout, xmlDOMRegistry, assetManager);
-            for (XMLDOMLayoutPage xmlDOM : xmldomLayoutPageArr)
-            {
-                downloadXMLDOMRemoteResources(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
-            }
-        }
-
-        return attrRemoteListBSParsed[0]; // Puede ser null
-    }
 
     private void processResponse(PageRequestResult pageRequestResult)
     {
