@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.HttpRequestResult;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownloader;
@@ -38,7 +39,12 @@ public class FragmentLayoutInserter
 
     public void setInnerXML(ViewGroup parentView, String parentClassName, String markup, View viewRef)
     {
-        // parentClassName viene del servidor,  es el className original puesto en el template y se ha usado para el pre-parseo con metadatos de beanshell, evitamos así usar un class name absoluto que es que lo que devuelve parentView.getClass().getName() pues no lo encontraríamos en el caché
+        // parentClassName viene del servidor y puede ser nulo,  es el className original puesto en el template y se envía cuando ha sido usado para el pre-parseo con metadatos de beanshell en el caso de
+        // contener el template algún atributo remoto, evitamos así usar un class name absoluto en este caso que es que lo que devuelve parentView.getClass().getName() pues no lo encontraríamos en el caché
+        // Si no hay algún atributo remoto no se envía y es nulo porque no se necesita (es llamado el método setInnerXML sin className),
+
+        if (parentClassName == null) parentClassName = parentView.getClass().getName();
+
         setInnerXMLInsertPageFragment(parentView, parentClassName,markup,viewRef);
     }
 
@@ -95,7 +101,7 @@ public class FragmentLayoutInserter
             {
                 final DOMScriptRemote scriptRemote = (DOMScriptRemote)script;
 
-                // Es el caso de llamada por el usuario directamente a insertFragment(...) no es el caso de llamada setInnerXML de BS generado pues se carga en multihilo
+                // Es el caso de llamada por el usuario directamente a appendFragment/insertFragment(...) no es el caso de llamada setInnerXML de BS generado pues se carga en multihilo
                 OnHttpRequestListener listener = new OnHttpRequestListener()
                 {
                     @Override
@@ -103,11 +109,16 @@ public class FragmentLayoutInserter
                     {
                         String code = response.getResponseText();
                         itsNatDoc.eval(code);
-                        scriptRemote.setCode(code);
+                        scriptRemote.setCode(code); // Creo que no sirve para nada pero por si acaso
                     }
                 };
                 String src = scriptRemote.getSrc();
                 itsNatDoc.downloadScript(src,listener); // Se carga asíncronamente sin un orden claro
+            }
+            else
+            {
+                // Es un DOMScriptInline con code a null, es imposible
+                throw new ItsNatDroidException("Internal Error");
             }
         }
 
