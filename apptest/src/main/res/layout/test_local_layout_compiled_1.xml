@@ -244,7 +244,7 @@
             android:maxWidth="1000.3dp"
             android:scaleType="centerInside"
             android:src="@drawable/child_indicator_test"
-            android:tint="#55eeee55"/>
+            android:tint="#55eeee55" /> <!--  -->
 
         <TextView
             android:layout_width="match_parent"

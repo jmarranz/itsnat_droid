@@ -43,26 +43,16 @@ public class EventSender
         return evtManager.getItsNatDocItsNatImpl();
     }
 
-    public void requestSync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, long timeout)
+    public void requestSync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
-        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
-
-        HttpRequestData httpRequestData = new HttpRequestData(page);
-        int timeoutInt = (int) timeout;
-        if (timeoutInt < 0)
-            timeoutInt = Integer.MAX_VALUE;
-        httpRequestData.setReadTimeout(timeoutInt);
-
         HttpRequestResultOKBeanshellImpl result = null;
         try
         {
-            result = executeInBackground(this, servletPath, httpRequestData, paramList);
+            result = executeInBackground(this, servletPath, httpRequestData, paramList,xmlDOMRegistry,assetManager);
         }
         catch (Exception ex)
         {
-            int errorMode = getItsNatDocItsNatImpl().getClientErrorMode();
-            onFinishError(this, ex, evt, errorMode);
+            onFinishError(this, ex, evt);
 
             return; // No podemos continuar
         }
@@ -70,28 +60,28 @@ public class EventSender
         onFinishOk(this, evt, result);
     }
 
-    public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, long timeout)
+    public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
-        HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList, timeout);
+        HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public static HttpRequestResultOKBeanshellImpl executeInBackground(EventSender eventSender, String servletPath, HttpRequestData httpRequestData, List<NameValue> paramList) throws Exception
+    public static HttpRequestResultOKBeanshellImpl executeInBackground(EventSender eventSender, String servletPath, HttpRequestData httpRequestData, List<NameValue> paramList,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKBeanshellImpl result = (HttpRequestResultOKBeanshellImpl)HttpUtil.httpPost(servletPath, httpRequestData, paramList, null);
 
+        // No veo problemas de multithread en estas 4 líneas de código:
         PageItsNatImpl pageItsNat = eventSender.getItsNatDocItsNatImpl().getPageItsNatImpl();
         String pageURLBase = pageItsNat.getPageURLBase();
         XMLDOMLayoutPageItsNat xmlDOMLayoutPage = pageItsNat.getInflatedLayoutPageItsNatImpl().getXMLDOMLayoutPageItsNat();
         String itsNatServerVersion = pageItsNat.getItsNatServerVersion();
-        XMLDOMRegistry xmlDOMRegistry = pageItsNat.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
-        AssetManager assetManager = pageItsNat.getContext().getResources().getAssets();
+
 
         String code = result.getResponseText();
 
-        XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-        LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(code, itsNatServerVersion);
+        XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion, xmlDOMRegistry, assetManager);
+        LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(code);
 
         if (attrRemoteListBSParsed != null)
             result.setAttrRemoteListBSParsed(attrRemoteListBSParsed);
@@ -123,7 +113,7 @@ public class EventSender
     }
 
 
-    public static void onFinishError(EventSender eventSender, Exception ex, EventGenericImpl evt, int errorMode)
+    public static void onFinishError(EventSender eventSender, Exception ex, EventGenericImpl evt)
     {
         HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ? ((ItsNatDroidServerResponseException) ex).getHttpRequestResult() : null;
 
@@ -137,6 +127,7 @@ public class EventSender
         }
         else
         {
+            int errorMode = eventSender.getItsNatDocItsNatImpl().getClientErrorMode();
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 // Error del servidor, lo normal es que haya lanzado una excepción

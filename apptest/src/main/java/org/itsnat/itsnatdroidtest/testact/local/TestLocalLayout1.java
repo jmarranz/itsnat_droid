@@ -55,6 +55,7 @@ import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ImageView_tint;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
@@ -64,6 +65,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotZero;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 
@@ -637,17 +639,39 @@ public class TestLocalLayout1
             assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
 
             // android:tint (no tiene método get)
-            if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // LOLLIPOP = 21
+            if (AttrDescView_widget_ImageView_tint.USE_EVER_OLD_APPROACH)
             {
-                // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
-                assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
-                assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
+                if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // LOLLIPOP = 21
+                {
+                    // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
+                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
+                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
+                }
+                else
+                {
+                    // No podemos testear porque en >= LOLLIPOP se usa el método setImageTintList y nosotros estamos usando setColorFilter, lo que hacemos es una mezcla
+
+                    assertNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter")));
+                    assertNotNull((ColorStateList) TestUtil.callGetMethod(compLayout, "getImageTintList"));
+
+                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
+                    assertNull((ColorStateList) TestUtil.callGetMethod(parsedLayout, "getImageTintList"));
+                }
             }
             else
             {
-                // A partir de Lollipop via XML no se define el tint con setColorFilter() sino de otra forma
-                assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout,"getImageTintList"), (ColorStateList) TestUtil.callGetMethod(parsedLayout,"getImageTintList"));
+                if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // LOLLIPOP = 21
+                {
+                    // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
+                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
+                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
+                }
+                else
+                {
+                    // A partir de Lollipop via XML no se define el tint con setColorFilter() sino de otra forma
+                    assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout,"getImageTintList"), (ColorStateList) TestUtil.callGetMethod(parsedLayout,"getImageTintList"));
 
+                }
             }
         }
 

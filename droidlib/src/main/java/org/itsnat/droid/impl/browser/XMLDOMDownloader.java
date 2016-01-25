@@ -17,24 +17,26 @@ public class XMLDOMDownloader
     protected XMLDOM xmlDOM;
     protected String pageURLBase;
     protected HttpRequestData httpRequestData;
+    protected String itsNatServerVersion;
     protected XMLDOMRegistry xmlDOMRegistry;
     protected AssetManager assetManager;
 
-    public XMLDOMDownloader(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    public XMLDOMDownloader(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         this.xmlDOM = xmlDOM;
         this.pageURLBase = pageURLBase;
         this.httpRequestData = httpRequestData;
+        this.itsNatServerVersion = itsNatServerVersion;
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
     }
 
-    public static XMLDOMDownloader createXMLDOMDownloader(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    public static XMLDOMDownloader createXMLDOMDownloader(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         if (xmlDOM instanceof XMLDOMLayoutPage)
-            return XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader((XMLDOMLayoutPage)xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+            return XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader((XMLDOMLayoutPage)xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
         else
-            return new XMLDOMDownloaderOther(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+            return new XMLDOMDownloaderOther(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
     }
 
     public void downloadRemoteResources() throws Exception
@@ -50,7 +52,7 @@ public class XMLDOMDownloader
     {
         // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
 
-        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData,itsNatServerVersion,xmlDOMRegistry, assetManager);
         resDownloader.downloadResources(attrRemoteList);
     }
 

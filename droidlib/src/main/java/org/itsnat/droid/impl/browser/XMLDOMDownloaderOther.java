@@ -12,8 +12,8 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
  */
 public class XMLDOMDownloaderOther extends XMLDOMDownloader
 {
-    public XMLDOMDownloaderOther(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    public XMLDOMDownloaderOther(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
     }
 }

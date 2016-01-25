@@ -11,28 +11,33 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageFragment;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
+import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 25/01/2016.
  */
 public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
 {
-    public XMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    public XMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData,String itsNatServerVersion,
+                                      XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
     }
 
-    public static XMLDOMLayoutPageDownloader createXMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    public static XMLDOMLayoutPageDownloader createXMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
+                                                                              XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         if (xmlDOM instanceof XMLDOMLayoutPageItsNat)
-            return XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader((XMLDOMLayoutPageItsNat)xmlDOM,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+            return XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader((XMLDOMLayoutPageItsNat)xmlDOM,pageURLBase, httpRequestData, itsNatServerVersion,xmlDOMRegistry,assetManager);
         else if (xmlDOM instanceof XMLDOMLayoutPageNotItsNat)
-            return new XMLDOMLayoutPageNotItsNatDownloader((XMLDOMLayoutPageNotItsNat)xmlDOM,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+            return new XMLDOMLayoutPageNotItsNatDownloader((XMLDOMLayoutPageNotItsNat)xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
         else if (xmlDOM instanceof XMLDOMLayoutPageFragment)
-            return new XMLDOMLayoutPageFragmentDownloader((XMLDOMLayoutPageFragment)xmlDOM,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+            return new XMLDOMLayoutPageFragmentDownloader((XMLDOMLayoutPageFragment)xmlDOM,pageURLBase,httpRequestData, itsNatServerVersion,xmlDOMRegistry,assetManager);
         return null; // Internal Error
     }
 
@@ -65,11 +70,45 @@ public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
 
     }
 
-
     private String downloadScriptSync(String src)
     {
         src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
         HttpRequestResultOKImpl result = HttpUtil.httpGet(src, httpRequestData, null, MimeUtil.MIME_BEANSHELL);
         return result.getResponseText();
     }
+
+    public XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup)
+    {
+        markup = wrapMarkupFragment(parentClassName, markup);
+
+        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager);
+        return xmlDOMLayout;
+    }
+
+    private String wrapMarkupFragment(String parentClassName, String markup)
+    {
+        // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
+        // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
+        // LayoutParams se hagan bien.
+
+        XMLDOMLayoutPage xmlDOMLayoutPageParent = getXMLDOMLayoutPage();
+
+        StringBuilder newMarkup = new StringBuilder();
+
+        newMarkup.append("<" + parentClassName);
+        newMarkup.append(" xmlns:android=\"http://schemas.android.com/apk/res/android\"");
+        MapLight<String, String> namespaceMap = xmlDOMLayoutPageParent.getRootNamespacesByPrefix();
+        for (Map.Entry<String, String> entry : namespaceMap.getEntryList())
+        {
+            newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\"");
+        }
+        newMarkup.append(">");
+        newMarkup.append(markup);
+        newMarkup.append("</" + parentClassName + ">");
+
+        markup = newMarkup.toString();
+        return markup;
+    }
+
+
 }

@@ -20,13 +20,15 @@ public class HttpResourceDownloader
 {
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
+    protected final String itsNatServerVersion;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
 
-    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         this.pageURLBase = pageURLBase;
         this.httpRequestData = httpRequestData;
+        this.itsNatServerVersion = itsNatServerVersion;
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
     }
@@ -108,7 +110,7 @@ public class HttpResourceDownloader
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
             String urlContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
             String pageURLBaseContainer = HttpUtil.getBasePathOfURL(urlContainer);
-            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, xmlDOMRegistry, assetManager);
+            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion, xmlDOMRegistry, assetManager);
             downloader.downloadRemoteResources();
         }
     }

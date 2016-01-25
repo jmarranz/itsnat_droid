@@ -381,13 +381,13 @@ public class PageRequestImpl implements PageRequest
         // Método ejecutado en hilo downloader NO UI
 
         String markup = httpRequestResult.getResponseText();
-        String itsNatServerVersion = httpRequestResult.getItsNatServerVersion(); // Puede ser null (no servida por ItsNat
+        String itsNatServerVersion = httpRequestResult.getItsNatServerVersion(); // Puede ser null (page no servida por ItsNat)
         XMLDOMLayoutPage xmlDOMLayoutPage = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, assetManager);
 
         PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, xmlDOMLayoutPage);
 
         {
-            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion, xmlDOMRegistry, assetManager);
             downloader.downloadRemoteResources();
         }
 
@@ -397,8 +397,8 @@ public class PageRequestImpl implements PageRequest
             String loadInitScript = xmldomLayoutPageParent.getLoadInitScript();
             if (loadInitScript != null) // Es nulo si el scripting está desactivado
             {
-                XMLDOMLayoutPageItsNatDownloader downloader = (XMLDOMLayoutPageItsNatDownloader)XMLDOMDownloader.createXMLDOMDownloader(xmldomLayoutPageParent,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
-                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript, itsNatServerVersion);
+                XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmldomLayoutPageParent,pageURLBase, httpRequestData,itsNatServerVersion,xmlDOMRegistry, assetManager);
+                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript);
 
                 if (attrRemoteListBSParsed != null)
                     pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed);

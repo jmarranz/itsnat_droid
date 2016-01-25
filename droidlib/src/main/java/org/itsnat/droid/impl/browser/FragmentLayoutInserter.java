@@ -62,7 +62,9 @@ public class FragmentLayoutInserter
         XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = page.getContext().getResources().getAssets();
 
-        XMLDOMLayoutPage xmlDOMLayout = XMLDOMLayoutPageItsNatDownloader.wrapAndParseMarkupFragment(parentClassName, markup, xmlDOMLayoutPageParent, page.getItsNatServerVersion(), xmlDOMRegistry, assetManager);
+        // pageURLBase y httpRequestData son null en createXMLDOMLayoutPageDownloader porque no se necesitan para wrapAndParseMarkupFragment
+        XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOMLayoutPageParent, null,null,page.getItsNatServerVersion(),xmlDOMRegistry, assetManager);
+        XMLDOMLayoutPage xmlDOMLayout = downloader.wrapAndParseMarkupFragment(parentClassName, markup);
 
         DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootDOMElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 

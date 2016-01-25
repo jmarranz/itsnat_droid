@@ -19,6 +19,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected String method;
     protected String pageURLBase;
     protected HttpRequestData httpRequestData;
+    protected String itsNatServerVersion;
     protected OnHttpRequestListener httpRequestListener;
     protected OnHttpRequestErrorListener errorListener;
     protected int errorMode;
@@ -35,6 +36,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.pageURLBase = pageURLBase;
         this.httpRequestData = new HttpRequestData(page);
         this.httpRequestListener = httpRequestListener;
+        this.itsNatServerVersion = page.getItsNatServerVersion();
         this.errorListener = errorListener;
         this.errorMode = errorMode;
         this.xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
@@ -43,7 +45,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        return DownloadResourcesHttpClient.executeInBackground(parent,attrRemoteList,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
     }
 
     @Override

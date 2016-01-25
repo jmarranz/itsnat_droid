@@ -60,6 +60,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
         HttpRequestData httpRequestData = new HttpRequestData(page);
 
+        String itsNatServerVersion = page.getItsNatServerVersion();
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 
         AssetManager assetManager = page.getContext().getResources().getAssets();
@@ -68,7 +69,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
         try
         {
-            resultList = executeInBackground(this,attrRemoteList,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+            resultList = executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
         }
         catch (Exception ex)
         {
@@ -90,10 +91,10 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public static List<HttpRequestResultOKImpl> executeInBackground(DownloadResourcesHttpClient parent,List<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+    public static List<HttpRequestResultOKImpl> executeInBackground(List<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         // Llamado en multithread en caso de async
-        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
         return resDownloader.downloadResources(attrRemoteList);
     }
 

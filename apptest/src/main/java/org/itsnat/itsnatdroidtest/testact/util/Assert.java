@@ -65,6 +65,12 @@ public class Assert
             throw new ItsNatDroidException("Failed " + a);
     }
 
+    public static void assertNull(Object a)
+    {
+        if (a != null)
+            throw new ItsNatDroidException("Failed " + a);
+    }
+
     public static void assertFalse(boolean a)
     {
         if (a)

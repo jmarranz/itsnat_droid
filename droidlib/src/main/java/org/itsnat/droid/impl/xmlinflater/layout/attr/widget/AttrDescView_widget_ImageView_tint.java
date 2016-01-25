@@ -15,6 +15,8 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethod;
  */
 public class AttrDescView_widget_ImageView_tint extends AttrDescReflecMethod<ClassDescViewBased,View,AttrLayoutContext>
 {
+    public static boolean USE_EVER_OLD_APPROACH = true;
+
     protected String defaultValue;
 
     public AttrDescView_widget_ImageView_tint(ClassDescViewBased parent)
@@ -27,12 +29,29 @@ public class AttrDescView_widget_ImageView_tint extends AttrDescReflecMethod<Cla
     {
         // A partir de Lollipop (level 21) ya no se usa setColorFilter, se usa setImageTintList, en teoría el resultado
         // visual debería ser el mismo pero a nivel de estado interno no, lo cual nos entorpece el testing
-        return (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP) ? "setColorFilter" : "setImageTintList";
+        // por otra parte NO he conseguido que setImageTintList visualmente se manifieste de forma igual al modo compilado aunque el test NO da error.
+        // El caso es que setColorFilter SIGUE EXISTIENDO y no está deprecated por lo que NO usamos setImageTintList (es decir USE_EVER_OLD_APPROACH = true)
+
+        if (USE_EVER_OLD_APPROACH)
+        {
+            return "setColorFilter";
+        }
+        else
+        {
+            return (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP) ? "setColorFilter" : "setImageTintList";
+        }
     }
 
     protected static Class<?> getClassParam()
     {
-        return (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP) ? int.class : ColorStateList.class;
+        if (USE_EVER_OLD_APPROACH)
+        {
+            return int.class;
+        }
+        else
+        {
+            return (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP) ? int.class : ColorStateList.class;
+        }
     }
 
     protected static String getDefaultValue()
@@ -44,13 +63,21 @@ public class AttrDescView_widget_ImageView_tint extends AttrDescReflecMethod<Cla
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         final int convValue = getColor(attr,attrCtx.getXMLInflater());
-        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
+
+        if (USE_EVER_OLD_APPROACH)
         {
             callMethod(view, convValue);
         }
         else
         {
-            callMethod(view,new ColorStateList(new int[1][0],new int[]{convValue}));
+            if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
+            {
+                callMethod(view, convValue);
+            }
+            else
+            {
+                callMethod(view, new ColorStateList(new int[1][0], new int[]{convValue}));
+            }
         }
     }
 

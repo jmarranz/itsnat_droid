@@ -10,5 +10,7 @@
         android:width="20dp"
         android:height="20dp" />
 
-    <stroke android:width="2.3dp" /> <!-- para el equals entre GradientDrawable -->
+    <stroke
+        android:width="2.3dp"
+        android:color="#FF000000" /> <!-- para el equals entre GradientDrawable -->
 </shape>
