@@ -5,7 +5,7 @@ package org.itsnat.droid.impl.dom.layout;
  */
 public abstract class DOMScript
 {
-    protected String code;
+    protected volatile String code;
 
     public DOMScript()
     {

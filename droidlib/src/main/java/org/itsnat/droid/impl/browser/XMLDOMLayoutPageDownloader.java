@@ -2,22 +2,38 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
+import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownloader;
+import org.itsnat.droid.impl.browser.servernotitsnat.XMLDOMLayoutPageNotItsNatDownloader;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageFragment;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MimeUtil;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 25/01/2016.
  */
 public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
 {
-    public XMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM)
+    public XMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        super(xmlDOM);
+        super(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+    }
+
+    public static XMLDOMLayoutPageDownloader createXMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    {
+        if (xmlDOM instanceof XMLDOMLayoutPageItsNat)
+            return XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader((XMLDOMLayoutPageItsNat)xmlDOM,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+        else if (xmlDOM instanceof XMLDOMLayoutPageNotItsNat)
+            return new XMLDOMLayoutPageNotItsNatDownloader((XMLDOMLayoutPageNotItsNat)xmlDOM,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+        else if (xmlDOM instanceof XMLDOMLayoutPageFragment)
+            return new XMLDOMLayoutPageFragmentDownloader((XMLDOMLayoutPageFragment)xmlDOM,pageURLBase, httpRequestData,xmlDOMRegistry,assetManager);
+        return null; // Internal Error
     }
 
     public XMLDOMLayoutPage getXMLDOMLayoutPage()
@@ -26,13 +42,13 @@ public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
     }
 
     @Override
-    public void downloadRemoteResources(String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    public void downloadRemoteResources() throws Exception
     {
-        super.downloadRemoteResources(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+        super.downloadRemoteResources();
 
         // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo no UI downloader)
         XMLDOMLayoutPage xmlDOMPage = getXMLDOMLayoutPage();
-        ArrayList<DOMScript> scriptList = xmlDOMPage.getDOMScriptList();
+        List<DOMScript> scriptList = xmlDOMPage.getDOMScriptList();
         if (scriptList != null)
         {
             for (int i = 0; i < scriptList.size(); i++)
@@ -41,7 +57,7 @@ public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
                 if (script instanceof DOMScriptRemote)
                 {
                     DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
-                    String code = downloadScriptSync(scriptRemote.getSrc(), pageURLBase, httpRequestData);
+                    String code = downloadScriptSync(scriptRemote.getSrc());
                     scriptRemote.setCode(code);
                 }
             }
@@ -50,7 +66,7 @@ public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
     }
 
 
-    private static String downloadScriptSync(String src, String pageURLBase, HttpRequestData httpRequestData)
+    private String downloadScriptSync(String src)
     {
         src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
         HttpRequestResultOKImpl result = HttpUtil.httpGet(src, httpRequestData, null, MimeUtil.MIME_BEANSHELL);

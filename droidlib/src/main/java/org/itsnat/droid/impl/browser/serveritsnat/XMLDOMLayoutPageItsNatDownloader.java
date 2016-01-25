@@ -4,7 +4,6 @@ import android.content.res.AssetManager;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpRequestData;
-import org.itsnat.droid.impl.browser.XMLDOMDownloader;
 import org.itsnat.droid.impl.browser.XMLDOMLayoutPageDownloader;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
@@ -24,9 +23,14 @@ import java.util.Map;
  */
 public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
 {
-    public XMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM)
+    protected XMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        super(xmlDOM);
+        super(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+    }
+
+    public static XMLDOMLayoutPageItsNatDownloader createXMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    {
+        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
     }
 
     public XMLDOMLayoutPageItsNat getXMLDOMLayoutPageItsNat()
@@ -34,40 +38,37 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         return (XMLDOMLayoutPageItsNat)xmlDOM;
     }
 
-    public LinkedList<DOMAttrRemote> parseBeanShellAndDownloadRemoteResources(String code,String itsNatServerVersion,String pageURLBase,
-                                                                                     HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    public LinkedList<DOMAttrRemote> parseBeanShellAndDownloadRemoteResources(String code,String itsNatServerVersion) throws Exception
     {
         @SuppressWarnings("unchecked") LinkedList<DOMAttrRemote>[] attrRemoteListBSParsed = new LinkedList[1];
         @SuppressWarnings("unchecked") LinkedList<String>[] classNameListBSParsed = new LinkedList[1];
         @SuppressWarnings("unchecked") LinkedList<String>[] xmlMarkupListBSParsed = new LinkedList[1];
 
-        XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNat = getXMLDOMLayoutPageItsNat();
+        //XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNat = getXMLDOMLayoutPageItsNat();
 
         parseBSRemoteAttribs(code, attrRemoteListBSParsed, classNameListBSParsed, xmlMarkupListBSParsed);
 
         if (attrRemoteListBSParsed[0] != null)
         {
             // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
-            downloadResources(attrRemoteListBSParsed[0], pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            downloadResources(attrRemoteListBSParsed[0]);
         }
 
         if (classNameListBSParsed[0] != null)
         {
-            XMLDOMLayoutPage[] xmlDOMLayoutPageArr = wrapAndParseMarkupFragment(classNameListBSParsed[0], xmlMarkupListBSParsed[0], itsNatServerVersion, xmlDOMRegistry, assetManager);
+            XMLDOMLayoutPage[] xmlDOMLayoutPageArr = wrapAndParseMarkupFragment(classNameListBSParsed[0], xmlMarkupListBSParsed[0], itsNatServerVersion);
             for (XMLDOMLayoutPage xmlDOM : xmlDOMLayoutPageArr)
             {
-                XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOM);
-                downloader.downloadRemoteResources(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+                downloader.downloadRemoteResources();
             }
         }
 
         return attrRemoteListBSParsed[0]; // Puede ser null
     }
 
-    private XMLDOMLayoutPage[] wrapAndParseMarkupFragment(LinkedList<String> classNameListBSParsed, LinkedList<String> xmlMarkupListBSParsed, String itsNatServerVersion,
-                                                                 XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    private XMLDOMLayoutPage[] wrapAndParseMarkupFragment(LinkedList<String> classNameListBSParsed, LinkedList<String> xmlMarkupListBSParsed, String itsNatServerVersion)
     {
-
         XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNatParent = getXMLDOMLayoutPageItsNat();
 
         XMLDOMLayoutPage[] xmlDOMLayoutPageFragmentArr = new XMLDOMLayoutPage[classNameListBSParsed.size()];
@@ -81,14 +82,13 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         {
             String className = itClassName.next();
             String markup = itMarkup.next();
-            markup = wrapMarkupFragment(className, markup, xmlDOMLayoutPageItsNatParent);
-            XMLDOMLayoutPage xmlDOMFragment = parseMarkupFragment(markup, itsNatServerVersion, xmlDOMRegistry, assetManager);
+            XMLDOMLayoutPage xmlDOMFragment = wrapAndParseMarkupFragment(className,markup, xmlDOMLayoutPageItsNatParent, itsNatServerVersion, xmlDOMRegistry, assetManager);
             xmlDOMLayoutPageFragmentArr[i] = xmlDOMFragment;
         }
         return xmlDOMLayoutPageFragmentArr;
     }
 
-    public static String wrapMarkupFragment(String parentClassName, String markup, XMLDOMLayoutPage xmlDOMLayoutPageParent)
+    private static String wrapMarkupFragment(String parentClassName, String markup, XMLDOMLayoutPage xmlDOMLayoutPageParent)
     {
         // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
         // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
@@ -111,8 +111,10 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         return markup;
     }
 
-    public static XMLDOMLayoutPage parseMarkupFragment(String markup, String itsNatServerVersion, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    public static XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup, XMLDOMLayoutPage xmlDOMLayoutPageItsNatParent, String itsNatServerVersion, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
+        markup = wrapMarkupFragment(parentClassName, markup, xmlDOMLayoutPageItsNatParent);
+
         XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager);
         return xmlDOMLayout;
     }

@@ -387,8 +387,8 @@ public class PageRequestImpl implements PageRequest
         PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, xmlDOMLayoutPage);
 
         {
-            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage);
-            downloader.downloadRemoteResources(pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            downloader.downloadRemoteResources();
         }
 
         if (xmlDOMLayoutPage instanceof XMLDOMLayoutPageItsNat)
@@ -397,8 +397,8 @@ public class PageRequestImpl implements PageRequest
             String loadInitScript = xmldomLayoutPageParent.getLoadInitScript();
             if (loadInitScript != null) // Es nulo si el scripting está desactivado
             {
-                XMLDOMLayoutPageItsNatDownloader downloader = (XMLDOMLayoutPageItsNatDownloader)XMLDOMDownloader.createXMLDOMDownloader(xmldomLayoutPageParent);
-                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript, itsNatServerVersion, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+                XMLDOMLayoutPageItsNatDownloader downloader = (XMLDOMLayoutPageItsNatDownloader)XMLDOMDownloader.createXMLDOMDownloader(xmldomLayoutPageParent,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript, itsNatServerVersion);
 
                 if (attrRemoteListBSParsed != null)
                     pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed);

@@ -744,7 +744,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void setInnerXML(Node parentNode,String className,String markup)
     {
-        setInnerXMLInsertPageFragment(parentNode.getView(), className, markup, null);
+        fragmentLayoutInserter.setInnerXML((ViewGroup) parentNode.getView(), className, markup, null);
     }
 
     @Override

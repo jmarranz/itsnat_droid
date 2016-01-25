@@ -169,24 +169,13 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     public void insertFragment(View parentView, String markup,View viewRef)
     {
         // Ver notas en appendFragment
-
-        setInnerXMLInsertPageFragment(parentView, null, markup, viewRef);
+        fragmentLayoutInserter.insertPageFragment((ViewGroup) parentView, markup, viewRef);
     }
-
-    protected void setInnerXMLInsertPageFragment(View parentView, String className, String markup, View viewRef)
-    {
-        // Si el fragmento a insertar es suficientemente grande el rendimiento de setInnerXML puede ser varias veces superior
-        // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
-        // Por ejemplo 78ms con setInnerXML (parseando markup) y 179ms con beanshell puro
-
-        fragmentLayoutInserter.setInnerXMLInsertPageFragment((ViewGroup) parentView, className, markup, viewRef);
-    }
-
 
     @Override
     public void eval(String code)
     {
-        eval(code,null);
+        eval(code, null);
     }
 
     public void eval(String code,Object context)
@@ -335,7 +324,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     @Override
     public void downloadScript(String src)
     {
-        // Aunque sea llamado desde ItsNat Droid, es también llamado desde ItsNat Server por ello se define en la interface ItsNatDocPublic
+        // Es llamado desde ItsNat Server por ello se define en la interface ItsNatDocPublic
         OnHttpRequestListener listener = new OnHttpRequestListener()
         {
             @Override
@@ -345,6 +334,11 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
             }
         };
 
+        downloadScript(src,listener);
+    }
+
+    public void downloadScript(String src,OnHttpRequestListener listener)
+    {
         downloadFile(src, MimeUtil.MIME_BEANSHELL,listener);
     }
 

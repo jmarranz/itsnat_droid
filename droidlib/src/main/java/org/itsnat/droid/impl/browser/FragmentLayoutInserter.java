@@ -4,17 +4,18 @@ import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.itsnat.droid.HttpRequestResult;
+import org.itsnat.droid.OnHttpRequestListener;
+import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownloader;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
-import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,12 +30,25 @@ public class FragmentLayoutInserter
         this.itsNatDoc = itsNatDoc;
     }
 
-    public void setInnerXMLInsertPageFragment(ViewGroup parentView, String parentClassName, String markup, View viewRef)
+    public void insertPageFragment(ViewGroup parentView, String markup, View viewRef)
+    {
+        // Llamado desde un page No ItsNat
+        setInnerXMLInsertPageFragment(parentView, parentView.getClass().getName(),markup,viewRef);
+    }
+
+    public void setInnerXML(ViewGroup parentView, String parentClassName, String markup, View viewRef)
+    {
+        // parentClassName viene del servidor,  es el className original puesto en el template y se ha usado para el pre-parseo con metadatos de beanshell, evitamos así usar un class name absoluto que es que lo que devuelve parentView.getClass().getName() pues no lo encontraríamos en el caché
+        setInnerXMLInsertPageFragment(parentView, parentClassName,markup,viewRef);
+    }
+
+    private void setInnerXMLInsertPageFragment(ViewGroup parentView, String parentClassName, String markup, View viewRef)
     {
         // Este método es llamado por el setInnerXML generado por ItsNat Server pero también por los métodos de usuario appendFragment e insertFragment
 
-        // Si viene del servidor especificado es el className original puesto en el template y se ha usado para el pre-parseo con metadatos de beanshell, evitamos así usar un class name absoluto que es que lo que devuelve parentView.getClass().getName() pues no lo encontraríamos en el caché
-        parentClassName = parentClassName != null ? parentClassName : parentView.getClass().getName();
+        // Si el fragmento a insertar es suficientemente grande el rendimiento de setInnerXML puede ser varias veces superior
+        // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
+        // Por ejemplo 78ms con setInnerXML (parseando markup) y 179ms con beanshell puro
 
         PageImpl page = itsNatDoc.getPageImpl();
         InflatedLayoutPageImpl inflatedLayoutPage = page.getInflatedLayoutPageImpl();
@@ -42,16 +56,11 @@ public class FragmentLayoutInserter
         XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = page.getContext().getResources().getAssets();
 
-        markup = XMLDOMLayoutPageItsNatDownloader.wrapMarkupFragment(parentClassName, markup, xmlDOMLayoutPageParent);
-        XMLDOMLayoutPage xmlDOMLayout = XMLDOMLayoutPageItsNatDownloader.parseMarkupFragment(markup, page.getItsNatServerVersion(), xmlDOMRegistry, assetManager);
+        XMLDOMLayoutPage xmlDOMLayout = XMLDOMLayoutPageItsNatDownloader.wrapAndParseMarkupFragment(parentClassName, markup, xmlDOMLayoutPageParent, page.getItsNatServerVersion(), xmlDOMRegistry, assetManager);
 
         DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootDOMElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
-        LinkedList<DOMScript> scriptList = new LinkedList<DOMScript>();
-
         List<DOMScript> domScriptList = xmlDOMLayout.getDOMScriptList();
-        if (domScriptList != null)
-            scriptList.addAll(domScriptList);
 
         XMLInflaterLayoutPage xmlLayoutInflaterPage = page.getXMLInflaterLayoutPage();
         ViewGroup falseParentView = (ViewGroup) xmlLayoutInflaterPage.insertFragment(rootDOMElemView,xmlDOMLayout); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
@@ -68,29 +77,37 @@ public class FragmentLayoutInserter
             else parentView.addView(child);
         }
 
-        executeScriptList(scriptList);
+        executeScriptList(domScriptList);
     }
 
-    private void executeScriptList(LinkedList<DOMScript> scriptList)
+    private void executeScriptList(List<DOMScript> domScriptList)
     {
-        if (scriptList.isEmpty()) return;
+        if (domScriptList == null) return;
 
-        for (DOMScript script : scriptList)
+        for (DOMScript script : domScriptList)
         {
-            if (script instanceof DOMScriptInline)
+            String code = script.getCode();
+            if (code != null)
             {
-                String code = script.getCode();
                 itsNatDoc.eval(code);
             }
             else if (script instanceof DOMScriptRemote)
             {
-                DOMScriptRemote scriptRemote = (DOMScriptRemote)script;
-                if (scriptRemote.getCode() != null)
+                final DOMScriptRemote scriptRemote = (DOMScriptRemote)script;
+
+                // Es el caso de llamada por el usuario directamente a insertFragment(...) no es el caso de llamada setInnerXML de BS generado pues se carga en multihilo
+                OnHttpRequestListener listener = new OnHttpRequestListener()
                 {
-                    // Es el caso de llamada por el usuario directamente a insertFragment(...) no es el caso de llamada setInnerXML de BS generado pues se carga en multihilo
-                    String src = scriptRemote.getSrc();
-                    itsNatDoc.downloadScript(src); // Se carga asíncronamente sin un orden claro
-                }
+                    @Override
+                    public void onRequest(Page page,HttpRequestResult response)
+                    {
+                        String code = response.getResponseText();
+                        itsNatDoc.eval(code);
+                        scriptRemote.setCode(code);
+                    }
+                };
+                String src = scriptRemote.getSrc();
+                itsNatDoc.downloadScript(src,listener); // Se carga asíncronamente sin un orden claro
             }
         }
 

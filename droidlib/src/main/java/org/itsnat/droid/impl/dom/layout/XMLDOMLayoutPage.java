@@ -5,6 +5,7 @@ import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 19/01/2016.
@@ -13,7 +14,7 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
 {
     protected ArrayList<DOMScript> scriptList;
 
-    public ArrayList<DOMScript> getDOMScriptList()
+    public List<DOMScript> getDOMScriptList()
     {
         return scriptList;
     }

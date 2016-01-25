@@ -9,6 +9,7 @@ public class DOMScriptRemote extends DOMScript
 
     public DOMScriptRemote(String src)
     {
+        this.code = null;
         this.src = src;
     }
 

@@ -2,14 +2,9 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 
-import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownloader;
-import org.itsnat.droid.impl.browser.servernotitsnat.XMLDOMLayoutPageNotItsNatDownloader;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageFragment;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.LinkedList;
@@ -20,40 +15,38 @@ import java.util.LinkedList;
 public class XMLDOMDownloader
 {
     protected XMLDOM xmlDOM;
+    protected String pageURLBase;
+    protected HttpRequestData httpRequestData;
+    protected XMLDOMRegistry xmlDOMRegistry;
+    protected AssetManager assetManager;
 
-    public XMLDOMDownloader(XMLDOM xmlDOM)
+    public XMLDOMDownloader(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         this.xmlDOM = xmlDOM;
+        this.pageURLBase = pageURLBase;
+        this.httpRequestData = httpRequestData;
+        this.xmlDOMRegistry = xmlDOMRegistry;
+        this.assetManager = assetManager;
     }
 
-    public static XMLDOMDownloader createXMLDOMDownloader(XMLDOM xmlDOM)
+    public static XMLDOMDownloader createXMLDOMDownloader(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         if (xmlDOM instanceof XMLDOMLayoutPage)
-        {
-            if (xmlDOM instanceof XMLDOMLayoutPageItsNat)
-                return new XMLDOMLayoutPageItsNatDownloader((XMLDOMLayoutPageItsNat)xmlDOM);
-            else if (xmlDOM instanceof XMLDOMLayoutPageNotItsNat)
-                return new XMLDOMLayoutPageNotItsNatDownloader((XMLDOMLayoutPageNotItsNat)xmlDOM);
-            else if (xmlDOM instanceof XMLDOMLayoutPageFragment)
-                return new XMLDOMLayoutPageFragmentDownloader((XMLDOMLayoutPageFragment)xmlDOM);
-            return null; // Internal Error
-        }
+            return XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader((XMLDOMLayoutPage)xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
         else
-        {
-            return new XMLDOMDownloader(xmlDOM);
-        }
+            return new XMLDOMDownloaderOther(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
     }
 
-    public void downloadRemoteResources(String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    public void downloadRemoteResources() throws Exception
     {
         LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
         if (attrRemoteList != null)
         {
-            downloadResources(attrRemoteList, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            downloadResources(attrRemoteList);
         }
     }
 
-    protected static void downloadResources(LinkedList<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+    protected void downloadResources(LinkedList<DOMAttrRemote> attrRemoteList) throws Exception
     {
         // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
 

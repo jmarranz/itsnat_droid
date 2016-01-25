@@ -108,8 +108,8 @@ public class HttpResourceDownloader
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
             String urlContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
             String pageURLBaseContainer = HttpUtil.getBasePathOfURL(urlContainer);
-            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM);
-            downloader.downloadRemoteResources(pageURLBaseContainer, httpRequestData, xmlDOMRegistry, assetManager);
+            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, xmlDOMRegistry, assetManager);
+            downloader.downloadRemoteResources();
         }
     }
 

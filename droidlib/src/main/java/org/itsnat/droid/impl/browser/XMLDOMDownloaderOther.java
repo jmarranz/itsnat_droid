@@ -1,6 +1,9 @@
 package org.itsnat.droid.impl.browser;
 
+import android.content.res.AssetManager;
+
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 /**
  * Drawables, Values etc
@@ -9,8 +12,8 @@ import org.itsnat.droid.impl.dom.XMLDOM;
  */
 public class XMLDOMDownloaderOther extends XMLDOMDownloader
 {
-    public XMLDOMDownloaderOther(XMLDOM xmlDOM)
+    public XMLDOMDownloaderOther(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        super(xmlDOM);
+        super(xmlDOM,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
     }
 }
