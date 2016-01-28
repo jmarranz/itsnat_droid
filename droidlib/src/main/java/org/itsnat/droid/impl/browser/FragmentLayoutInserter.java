@@ -14,10 +14,13 @@ import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
+import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 29/10/14.
@@ -62,9 +65,7 @@ public class FragmentLayoutInserter
         XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = page.getContext().getResources().getAssets();
 
-        // pageURLBase y httpRequestData son null en createXMLDOMLayoutPageDownloader porque no se necesitan para wrapAndParseMarkupFragment
-        XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOMLayoutPageParent, null,null,page.getItsNatServerVersion(),xmlDOMRegistry, assetManager);
-        XMLDOMLayoutPage xmlDOMLayout = downloader.wrapAndParseMarkupFragment(parentClassName, markup);
+        XMLDOMLayoutPage xmlDOMLayout = wrapAndParseMarkupFragment(parentClassName, markup,xmlDOMLayoutPageParent,page.getItsNatServerVersion(),xmlDOMRegistry, assetManager);
 
         DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootDOMElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
@@ -87,6 +88,33 @@ public class FragmentLayoutInserter
 
         executeScriptList(domScriptList);
     }
+
+    public static XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup,XMLDOMLayoutPage xmlDOMLayoutPageParent,String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    {
+        // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
+        // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
+        // LayoutParams se hagan bien.
+
+        StringBuilder newMarkup = new StringBuilder();
+
+        newMarkup.append("<" + parentClassName);
+        newMarkup.append(" xmlns:android=\"http://schemas.android.com/apk/res/android\"");
+        MapLight<String, String> namespaceMap = xmlDOMLayoutPageParent.getRootNamespacesByPrefix();
+        for (Map.Entry<String, String> entry : namespaceMap.getEntryList())
+        {
+            newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\"");
+        }
+        newMarkup.append(">");
+        newMarkup.append(markup);
+        newMarkup.append("</" + parentClassName + ">");
+
+        markup = newMarkup.toString();
+
+
+        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager);
+        return xmlDOMLayout;
+    }
+
 
     private void executeScriptList(List<DOMScript> domScriptList)
     {

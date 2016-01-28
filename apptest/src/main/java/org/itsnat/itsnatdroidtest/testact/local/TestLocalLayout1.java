@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -669,8 +670,11 @@ public class TestLocalLayout1
                 else
                 {
                     // A partir de Lollipop via XML no se define el tint con setColorFilter() sino de otra forma
-                    assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout,"getImageTintList"), (ColorStateList) TestUtil.callGetMethod(parsedLayout,"getImageTintList"));
+                    assertEquals((PorterDuff.Mode)TestUtil.callGetMethod(compLayout, "getImageTintMode"),PorterDuff.Mode.SRC_ATOP);
+                    assertEquals((PorterDuff.Mode)TestUtil.callGetMethod(compLayout, "getImageTintMode"), (PorterDuff.Mode) TestUtil.callGetMethod(parsedLayout, "getImageTintMode"));
 
+                    assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout, "getImageTintList"),ColorStateList.valueOf(0x55eeee55));
+                    assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout, "getImageTintList"), (ColorStateList) TestUtil.callGetMethod(parsedLayout, "getImageTintList"));
                 }
             }
         }

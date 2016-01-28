@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.browser.FragmentLayoutInserter;
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.XMLDOMLayoutPageDownloader;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
@@ -75,6 +76,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
 
         if (classNameListBSParsed.size() != xmlMarkupListBSParsed.size()) throw new ItsNatDroidException("Internal Error");
         // Así se cachea pero sobre to_do se cargan los recursos remotos dentro del markup que trae el setInnerXML()
+        XMLDOMLayoutPageItsNat xmlDOMLayoutPageParent = getXMLDOMLayoutPageItsNat();
         Iterator<String> itClassName = classNameListBSParsed.iterator();
         Iterator<String> itMarkup = xmlMarkupListBSParsed.iterator();
         int i = 0;
@@ -82,12 +84,11 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         {
             String className = itClassName.next();
             String markup = itMarkup.next();
-            XMLDOMLayoutPage xmlDOMFragment = wrapAndParseMarkupFragment(className,markup);
+            XMLDOMLayoutPage xmlDOMFragment = FragmentLayoutInserter.wrapAndParseMarkupFragment(className, markup,xmlDOMLayoutPageParent,itsNatServerVersion,xmlDOMRegistry,assetManager);
             xmlDOMLayoutPageFragmentArr[i] = xmlDOMFragment;
         }
         return xmlDOMLayoutPageFragmentArr;
     }
-
 
     private void parseBSRemoteAttribs(String code,LinkedList<DOMAttrRemote>[] attrRemoteList,LinkedList<String>[] classNameList,LinkedList<String>[] xmlMarkupList)
     {

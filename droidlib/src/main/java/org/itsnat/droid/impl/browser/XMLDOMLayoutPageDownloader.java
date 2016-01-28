@@ -77,38 +77,4 @@ public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
         return result.getResponseText();
     }
 
-    public XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup)
-    {
-        markup = wrapMarkupFragment(parentClassName, markup);
-
-        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager);
-        return xmlDOMLayout;
-    }
-
-    private String wrapMarkupFragment(String parentClassName, String markup)
-    {
-        // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
-        // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
-        // LayoutParams se hagan bien.
-
-        XMLDOMLayoutPage xmlDOMLayoutPageParent = getXMLDOMLayoutPage();
-
-        StringBuilder newMarkup = new StringBuilder();
-
-        newMarkup.append("<" + parentClassName);
-        newMarkup.append(" xmlns:android=\"http://schemas.android.com/apk/res/android\"");
-        MapLight<String, String> namespaceMap = xmlDOMLayoutPageParent.getRootNamespacesByPrefix();
-        for (Map.Entry<String, String> entry : namespaceMap.getEntryList())
-        {
-            newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\"");
-        }
-        newMarkup.append(">");
-        newMarkup.append(markup);
-        newMarkup.append("</" + parentClassName + ">");
-
-        markup = newMarkup.toString();
-        return markup;
-    }
-
-
 }
