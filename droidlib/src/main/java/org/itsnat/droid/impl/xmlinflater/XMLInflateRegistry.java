@@ -30,6 +30,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildStyle;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -57,7 +58,7 @@ public class XMLInflateRegistry
 {
     private ItsNatDroidImpl parent;
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
-    private Map<String, Integer> newIdMap = new HashMap<String, Integer>();
+    private Map<String, Integer> newViewIdMap = new HashMap<String, Integer>();
     private ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
     private ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
     private ClassDescValuesMgr classDescValuesMgr = new ClassDescValuesMgr(this);
@@ -100,26 +101,26 @@ public class XMLInflateRegistry
         return result;
     }
 
-    public int findIdAddIfNecessary(String name)
+    private int findViewIdDynamicallyAddedAddIfNecessary(String name)
     {
-        int id = findId(name);
+        int id = findViewIdDynamicallyAdded(name);
         if (id == 0)
-            id = addNewId(name);
+            id = addNewViewId(name);
         return id;
     }
 
-    public int findId(String name)
+    public int findViewIdDynamicallyAdded(String name)
     {
-        Integer res = newIdMap.get(name);
+        Integer res = newViewIdMap.get(name);
         if (res == null)
             return 0; // No existe
         return res;
     }
 
-    private int addNewId(String name)
+    private int addNewViewId(String name)
     {
         int newId = generateViewId();
-        newIdMap.put(name, newId);
+        newViewIdMap.put(name, newId);
         return newId;
     }
 
@@ -137,8 +138,8 @@ public class XMLInflateRegistry
             {
                 int pos = value.indexOf('/');
                 String idName = value.substring(pos + 1);
-                if (value.startsWith("@+id/")) id = findIdAddIfNecessary(idName);
-                else id = findId(idName);
+                if (value.startsWith("@+id/")) id = findViewIdDynamicallyAddedAddIfNecessary(idName);
+                else id = findViewIdDynamicallyAdded(idName);
                 if (id <= 0)
                     throw new ItsNatDroidException("Not found resource with id \"" + value + "\" you could use @+id/ ");
             }
@@ -152,27 +153,51 @@ public class XMLInflateRegistry
         return getIdentifier(attrValue, ctx, true);
     }
 
-    public int getIdentifier(String value, Context ctx, boolean throwErr)
+    private int getIdentifier(String value, Context ctx, boolean throwErr)
     {
         if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
 
-        if (!isResource(value))
-            throw new ItsNatDroidException("Bad format in id declaration: " + value);
 
         int id;
         char first = value.charAt(0);
         if (first == '?')
         {
             id = getIdentifierTheme(value, ctx);
-        } else if (first == '@')
+            if (id > 0)
+                return id;
+        }
+        else if (first == '@')
         {
-            // En este caso es posible que se haya registrado dinámicamente el id via "@+id/..." Tiene prioridad el registro de Android que el de ItsNat, para qué generar un id si ya existe como recurso
+            // Tiene prioridad el registro de Android que el de ItsNat en el caso de "@+id", para qué generar un id si ya existe como recurso
             id = getIdentifierResource(value, ctx);
             if (id > 0)
                 return id;
-            id = getIdentifierDynamicallyAdded(value);
-        } else
-            throw new ItsNatDroidException("Internal Error"); // Por isResource(value) sabemos que es ? o @
+
+            if (value.startsWith("@id/") || value.startsWith("@+id/"))
+            {
+                // En este caso es posible que se haya registrado dinámicamente el id via "@+id/..."
+                id = getViewIdDynamicallyAdded(value);
+                if (id > 0)
+                    return id;
+            }
+        }
+        else if (value.startsWith("android:"))
+        {
+            // Es el caso de style parent definido por Android ej: <style name="..." parent="android:Theme.Holo.Light.DarkActionBar"> que es la manera reducida de poner:
+            // parent="@android:style/Theme.Holo.Light.DarkActionBar" que se procesaría en el caso anterior
+            // Sinceramente no se como obtenerlo via Resources.getIdentifier, lo que hacemos es convertirlo en el formato parent="@android:style/Theme.Holo.Light.DarkActionBar"
+
+            int pos = "android:".length();
+            value = "@android:style/" +  value.substring(pos);
+
+            id = getIdentifierResource(value,ctx);
+            if (id > 0)
+                return id;
+        }
+        else
+        {
+            throw new ItsNatDroidException("Bad format in identifier declaration: " + value);
+        }
 
         if (throwErr && id <= 0)
             throw new ItsNatDroidException("Not found resource with id value \"" + value + "\"");
@@ -183,8 +208,9 @@ public class XMLInflateRegistry
     {
         // http://stackoverflow.com/questions/12781501/android-setting-linearlayout-background-programmatically
         // Ej. android:textAppearance="?android:attr/textAppearanceMedium"
+        int id = getIdentifierResource(value, ctx);
         TypedValue outValue = new TypedValue();
-        ctx.getTheme().resolveAttribute(getIdentifierResource(value, ctx), outValue, true);
+        ctx.getTheme().resolveAttribute(id, outValue, true);
         return outValue.resourceId;
     }
 
@@ -192,7 +218,9 @@ public class XMLInflateRegistry
     {
         Resources res = ctx.getResources();
 
-        value = value.substring(1); // Quitamos el @ o #
+        char firstChar = value.charAt(0);
+        if (firstChar == '@' || firstChar == '?')
+            value = value.substring(1); // Quitamos el @ o ?
         if (value.startsWith("+id/"))
             value = value.substring(1); // Quitamos el +
         String packageName;
@@ -208,16 +236,17 @@ public class XMLInflateRegistry
         return res.getIdentifier(value, null, packageName);
     }
 
-    private int getIdentifierDynamicallyAdded(String value)
+    private int getViewIdDynamicallyAdded(String value)
     {
         if (value.indexOf(':') != -1) // Tiene package, ej "@+android:id/", no se encontrará un id registrado como "@+id/..." y los posibles casos con package NO los hemos contemplado
             return 0; // No encontrado
 
-        value = value.substring(1); // Quitamos el @ o #
+        // Fue añadido a través de "@+id/..."
+        value = value.substring(1); // Quitamos el @
         int pos = value.indexOf('/');
         String idName = value.substring(pos + 1);
 
-        return findId(idName);
+        return findViewIdDynamicallyAdded(idName);
     }
 
     public ViewStyleAttr getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
@@ -229,8 +258,10 @@ public class XMLInflateRegistry
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            List<DOMAttr> domAttrList = elementResources.getViewStyle(attrDyn.getValuesResourceName());
-            return new ViewStyleAttrDynamic(domAttrList);
+            ElementValuesChildStyle elemStyle = elementResources.getViewStyle(attrDyn.getValuesResourceName());
+            DOMAttr domAttrParent = elemStyle.getParentAttr();
+            List<DOMAttr> domAttrList = elemStyle.getChildDOMAttrList();
+            return new ViewStyleAttrDynamic(domAttrParent,domAttrList);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
@@ -301,7 +332,8 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getTextArray(resId);
-        } else return null;
+        }
+        else return null;
     }
 
     public boolean getBoolean(String attrValue, Context ctx)
@@ -310,7 +342,8 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getBoolean(resId);
-        } else return Boolean.parseBoolean(attrValue);
+        }
+        else return Boolean.parseBoolean(attrValue);
     }
 
     private static int getDimensionSuffixAsInt(String suffix)

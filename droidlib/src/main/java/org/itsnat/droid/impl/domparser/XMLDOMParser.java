@@ -189,11 +189,11 @@ public abstract class XMLDOMParser
 
     protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
-        DOMAttr attrib = createDOMAttr(element, namespaceURI, name, value, xmlDOMParent);
+        DOMAttr attrib = createDOMAttrAndPrepareToDownload(element, namespaceURI, name, value, xmlDOMParent);
         element.addDOMAttribute(attrib);
     }
 
-    public DOMAttr createDOMAttr(DOMElement element,String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
+    public DOMAttr createDOMAttrAndPrepareToDownload(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
         DOMAttr attrib = DOMAttr.create(namespaceURI, name, value);
 

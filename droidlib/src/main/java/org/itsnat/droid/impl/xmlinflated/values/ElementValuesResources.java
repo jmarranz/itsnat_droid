@@ -78,12 +78,13 @@ public class ElementValuesResources extends ElementValues
         return getElementValuesChildNoChildElemValue("dimen",name);
     }
 
-    public List<DOMAttr> getViewStyle(String name)
+    public ElementValuesChildStyle getViewStyle(String name)
     {
         String key = genKey("style",name);
         ElementValuesChildStyle child = (ElementValuesChildStyle)elemValuesElemMap.get(key);
         if (child == null)
             throw new ItsNatDroidException("Not found style item with name: " + name);
-        return child.getDOMAttrList();
+        return child;
     }
+
 }

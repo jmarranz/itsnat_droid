@@ -27,7 +27,9 @@ public class ClassDescValuesChildStyle extends ClassDescValues<ElementValuesChil
         if (attrName == null)
             throw new ItsNatDroidException("Missing attribute name in <style>");
         String name = attrName.getValue();
-        ElementValuesChildStyle elementValuesChildStyle = new ElementValuesChildStyle(name,parentChildValues);
+
+        DOMAttr attrParent = domElement.findDOMAttribute(null, "parent");  // Puede ser null (no definido)
+        ElementValuesChildStyle elementValuesChildStyle = new ElementValuesChildStyle(name,attrParent,parentChildValues);
 
         processChildStyleChildElements(domElement, elementValuesChildStyle);
 

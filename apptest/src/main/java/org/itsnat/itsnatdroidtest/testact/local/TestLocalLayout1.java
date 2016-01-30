@@ -298,8 +298,6 @@ public class TestLocalLayout1
                 {
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
-                    compTextViewUpper = compTextView;
-                    parsedTextViewUpper = parsedTextView;
 
                     // Test id añadido dinámicamente "@+id/..."
                     // En este caso el valor del id compilado (que existe) no es igual al añadido dinámicamente
@@ -314,6 +312,9 @@ public class TestLocalLayout1
                     // Test atributo style
                     // No tenemos una forma de testear "textAppearanceMedium" de forma directa, una forma es testear una de las propiedades que impone, ej el tamaño del texto
                     assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
                 }
 
                 childCountL2++;
@@ -322,18 +323,61 @@ public class TestLocalLayout1
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                    assertEquals(compTextView.getText(), "Hello world 3!");
+                    assertEquals(compTextView.getText(), "Text size default and red");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
                     ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-
                     assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
                     assertEquals(a_params.width, b_params.width);
                     assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
                     assertEquals(a_params.height, b_params.height);
 
-                    assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res));
+                    // assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res));
+                    assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize()); // Se utiliza un style parent de Android, no sabemos el valor exacto
+
+                    assertEquals(compTextView.getTextColors().getDefaultColor(), 0xffff0000);
+                    assertEquals(compTextView.getTextColors(), parsedTextView.getTextColors());
+
+                    // Test style
+                    assertEquals(compTextView.getPaddingLeft(), ValueUtil.dpToPixelIntRound(21.3f, res));
+                    assertEquals(compTextView.getPaddingLeft(), parsedTextView.getPaddingLeft());
+
+                    assertEquals(compTextView.getPaddingRight(), ValueUtil.dpToPixelIntRound(21.3f, res));
+                    assertEquals(compTextView.getPaddingRight(), parsedTextView.getPaddingRight());
+
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    int[] compTextRules = compTextParams.getRules();
+                    int[] parsedTextRules = parsedTextParams.getRules();
+                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
+                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
+                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
+                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
+                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getText(), "Text size 15.3dp and red");
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
+                    assertEquals(a_params.width, b_params.width);
+                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    assertEquals(a_params.height, b_params.height);
+
+                    assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res)); // A pesar de usar un estilo parent de Android con textSize, lo imponemos
                     assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
 
                     assertEquals(compTextView.getTextColors().getDefaultColor(), 0xffff0000);
@@ -356,6 +400,9 @@ public class TestLocalLayout1
                     assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
                     assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
                     assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
                 }
             }
         }
@@ -640,42 +687,20 @@ public class TestLocalLayout1
             assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
 
             // android:tint (no tiene método get)
-            if (AttrDescView_widget_ImageView_tint.USE_EVER_OLD_APPROACH)
+            if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // LOLLIPOP = 21
             {
-                if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // LOLLIPOP = 21
-                {
-                    // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
-                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
-                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
-                }
-                else
-                {
-                    // No podemos testear porque en >= LOLLIPOP se usa el método setImageTintList y nosotros estamos usando setColorFilter, lo que hacemos es una mezcla
-
-                    assertNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter")));
-                    assertNotNull((ColorStateList) TestUtil.callGetMethod(compLayout, "getImageTintList"));
-
-                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
-                    assertNull((ColorStateList) TestUtil.callGetMethod(parsedLayout, "getImageTintList"));
-                }
+                // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
+                assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
+                assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
             }
             else
             {
-                if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // LOLLIPOP = 21
-                {
-                    // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
-                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
-                    assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
-                }
-                else
-                {
-                    // A partir de Lollipop via XML no se define el tint con setColorFilter() sino de otra forma
-                    assertEquals((PorterDuff.Mode)TestUtil.callGetMethod(compLayout, "getImageTintMode"),PorterDuff.Mode.SRC_ATOP);
-                    assertEquals((PorterDuff.Mode)TestUtil.callGetMethod(compLayout, "getImageTintMode"), (PorterDuff.Mode) TestUtil.callGetMethod(parsedLayout, "getImageTintMode"));
+                // A partir de Lollipop via XML no se define el tint con setColorFilter() sino de otra forma
+                assertEquals((PorterDuff.Mode)TestUtil.callGetMethod(compLayout, "getImageTintMode"),PorterDuff.Mode.SRC_ATOP);
+                assertEquals((PorterDuff.Mode)TestUtil.callGetMethod(compLayout, "getImageTintMode"), (PorterDuff.Mode) TestUtil.callGetMethod(parsedLayout, "getImageTintMode"));
 
-                    assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout, "getImageTintList"),ColorStateList.valueOf(0x55eeee55));
-                    assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout, "getImageTintList"), (ColorStateList) TestUtil.callGetMethod(parsedLayout, "getImageTintList"));
-                }
+                assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout, "getImageTintList"),ColorStateList.valueOf(0x55eeee55));
+                assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout, "getImageTintList"), (ColorStateList) TestUtil.callGetMethod(parsedLayout, "getImageTintList"));
             }
         }
 

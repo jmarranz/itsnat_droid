@@ -9,14 +9,21 @@ import java.util.List;
  */
 public class ViewStyleAttrDynamic extends ViewStyleAttr
 {
+    protected DOMAttr domAttrParent;
     protected List<DOMAttr> domAttrList;
 
-    public ViewStyleAttrDynamic(List<DOMAttr> domAttrList)
+    public ViewStyleAttrDynamic(DOMAttr domAttrParent,List<DOMAttr> domAttrList)
     {
+        this.domAttrParent = domAttrParent;
         this.domAttrList = domAttrList;
     }
 
-    public List<DOMAttr> getDOMAttrList()
+    public DOMAttr getDOMAttrParentStyle()
+    {
+        return domAttrParent;
+    }
+
+    public List<DOMAttr> getDOMAttrItemList()
     {
         return domAttrList;
     }

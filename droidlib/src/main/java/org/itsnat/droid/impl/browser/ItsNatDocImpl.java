@@ -154,7 +154,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
             return id;
 
         XMLInflateRegistry layoutService = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
-        id = layoutService.findId(name);
+        id = layoutService.findViewIdDynamicallyAdded(name);
         return id;
     }
 

@@ -323,8 +323,9 @@ public class ClassDescViewBased extends ClassDesc<View>
         return view;
     }
 
-    private static int processStyleAttribute(ViewStyleAttr style,List<DOMAttr> styleDynamicAttribs)
+    private int processStyleAttribute(ViewStyleAttr style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
     {
+        // El retorno es el id del style compilado si existe o el del parent en caso de <style name="..." parent="...">
         if (style == null)
             return 0;
 
@@ -334,10 +335,15 @@ public class ClassDescViewBased extends ClassDesc<View>
         }
         else if (style instanceof ViewStyleAttrDynamic)
         {
-            List<DOMAttr> styleAttrs = ((ViewStyleAttrDynamic)style).getDOMAttrList();
-            if (styleAttrs != null) // Si es null es raro, es el caso de <style> vacío
-                styleDynamicAttribs.addAll(styleAttrs);
-            return 0;
+            ViewStyleAttrDynamic dynStyle = (ViewStyleAttrDynamic)style;
+            List<DOMAttr> styleItemAttrs = dynStyle.getDOMAttrItemList();
+            if (styleItemAttrs != null) // Si es null es raro, es el caso de <style> vacío
+                styleItemsDynamicAttribs.addAll(styleItemAttrs);
+
+            DOMAttr parentStyleDOMAttr = dynStyle.getDOMAttrParentStyle(); // Puede ser null
+            if (parentStyleDOMAttr == null)
+                return 0;
+            return getXMLInflateRegistry().getIdentifier(parentStyleDOMAttr.getValue(),ctx); // Error si no se encuentra, si se especifica ha de existir
         }
         else throw new ItsNatDroidException("Internal Error");
     }
@@ -353,12 +359,12 @@ public class ClassDescViewBased extends ClassDesc<View>
     private View createViewObject(DOMElemView domElemView, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ViewStyleAttr style = findStyleAttribute(domElemView, xmlInflaterLayout);
-        int idStyle = processStyleAttribute(style, styleDynamicAttribs);
+        int idStyleCompiledOrParent = processStyleAttribute(style,styleDynamicAttribs,xmlInflaterLayout.getContext());
 
-        View view = createViewObject(domElemView, idStyle, pendingPostInsertChildrenTasks, xmlInflaterLayout.getContext());
+        View view = createViewObject(domElemView, idStyleCompiledOrParent, pendingPostInsertChildrenTasks, xmlInflaterLayout.getContext());
 
-        if (idStyle != 0)
-            getLayoutParamsFromStyleId(idStyle,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext());
+        if (idStyleCompiledOrParent != 0)
+            getLayoutParamsFromStyleId(idStyleCompiledOrParent,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext());
         return view;
     }
 
@@ -478,12 +484,12 @@ public class ClassDescViewBased extends ClassDesc<View>
     private View createViewObjectFromRemote(NodeToInsertImpl newChildToIn, XMLInflaterLayoutPageItsNat xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ViewStyleAttr style = findStyleAttributeFromRemote(newChildToIn,xmlInflaterLayout);
-        int idStyle = processStyleAttribute(style, styleDynamicAttribs);
+        int idStyleCompiledOrParent = processStyleAttribute(style,styleDynamicAttribs,xmlInflaterLayout.getContext());
 
-        View view = createViewObjectFromRemote(newChildToIn, idStyle, pendingPostInsertChildrenTasks,xmlInflaterLayout.getContext());
+        View view = createViewObjectFromRemote(newChildToIn, idStyleCompiledOrParent, pendingPostInsertChildrenTasks,xmlInflaterLayout.getContext());
 
-        if (idStyle != 0)
-            getLayoutParamsFromStyleId(idStyle,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext());
+        if (idStyleCompiledOrParent != 0)
+            getLayoutParamsFromStyleId(idStyleCompiledOrParent,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext());
         return view;
     }
 

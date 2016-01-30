@@ -77,11 +77,12 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getIdentifier(attrValue, ctx);
     }
 
+    /*
     public int getIdentifier(String value, Context ctx,boolean throwErr)
     {
         return getXMLInflateRegistry().getIdentifier(value, ctx,throwErr);
     }
-
+*/
     public int getInteger(String attrValue, Context ctx)
     {
         return getXMLInflateRegistry().getInteger(attrValue, ctx);

@@ -11,54 +11,39 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethod;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_ImageView_tint extends AttrDescReflecMethod<ClassDescViewBased,View,AttrLayoutContext>
+public class AttrDescView_widget_ImageView_tint extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    public static boolean USE_EVER_OLD_APPROACH = false;
-
     protected String defaultValue;
+    protected MethodContainer methodSetTint;
     protected MethodContainer methodSetImageTintMode; // LOLLIPOP and sup
 
     public AttrDescView_widget_ImageView_tint(ClassDescViewBased parent)
     {
-        super(parent,"tint",getMethodName(),getClassParam());
+        super(parent,"tint");
         this.defaultValue = getDefaultValue();
 
-        if (Build.VERSION.SDK_INT >= MiscUtil.LOLLIPOP)
-            this.methodSetImageTintMode = new MethodContainer(parent.getDeclaredClass(),"setImageTintMode",new Class[]{PorterDuff.Mode.class});
-    }
-
-    protected static String getMethodName()
-    {
         // A partir de Lollipop (level 21) ya no se usa setColorFilter, se usa setImageTintList, en teoría el resultado
-        // visual debería ser el mismo pero a nivel de estado interno no, lo cual nos entorpece el testing
+        // visual debería ser el mismo pero a nivel de estado interno no.
         // Si diera problemas setImageTintList podemos poner USE_EVER_OLD_APPROACH = true pues el caso es que setColorFilter SIGUE EXISTIENDO y no está deprecated por lo que podemos NO usar setImageTintList
+        // pero como hemos conseguido que funcione igual pues usamos la versión moderna cuando proceda que es la que tiene futuro
 
-        if (USE_EVER_OLD_APPROACH)
+        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
         {
-            return "setColorFilter";
+            this.methodSetTint = new MethodContainer(parent.getDeclaredClass(),"setColorFilter",int.class);
         }
         else
         {
-            return (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP) ? "setColorFilter" : "setImageTintList";
+            this.methodSetTint = new MethodContainer(parent.getDeclaredClass(),"setImageTintList",ColorStateList.class);
+            this.methodSetImageTintMode = new MethodContainer(parent.getDeclaredClass(), "setImageTintMode", new Class[]{PorterDuff.Mode.class});
         }
     }
 
-    protected static Class<?> getClassParam()
-    {
-        if (USE_EVER_OLD_APPROACH)
-        {
-            return int.class;
-        }
-        else
-        {
-            return (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP) ? int.class : ColorStateList.class;
-        }
-    }
 
     protected static String getDefaultValue()
     {
@@ -70,21 +55,14 @@ public class AttrDescView_widget_ImageView_tint extends AttrDescReflecMethod<Cla
     {
         final int convValue = getColor(attr,attrCtx.getXMLInflater());
 
-        if (USE_EVER_OLD_APPROACH)
+        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
         {
-            callMethod(view, convValue);
+            methodSetTint.invoke(view,convValue);
         }
         else
         {
-            if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
-            {
-                callMethod(view, convValue);
-            }
-            else
-            {
-                methodSetImageTintMode.invoke(view, PorterDuff.Mode.SRC_ATOP); // Es el método por defecto
-                callMethod(view,ColorStateList.valueOf(convValue));
-            }
+            methodSetImageTintMode.invoke(view, PorterDuff.Mode.SRC_ATOP); // SRC_ATOP es el método por defecto, es necesario llamarlo
+            methodSetTint.invoke(view, ColorStateList.valueOf(convValue));
         }
     }
 

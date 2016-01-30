@@ -11,26 +11,33 @@ import java.util.List;
  */
 public class ElementValuesChildStyle extends ElementValuesChild
 {
-    protected ArrayList<DOMAttr> domAttrList;
+    protected DOMAttr parentAttr; // Puede ser null (no hay atributo parent="...")
+    protected ArrayList<DOMAttr> childDOMAttrList;
 
-    public ElementValuesChildStyle(String name,ElementValuesResources parentElement)
+    public ElementValuesChildStyle(String name,DOMAttr parentAttr,ElementValuesResources parentElement)
     {
         super("style",name,parentElement);
+        this.parentAttr = parentAttr;
     }
 
     public void addChildElementValues(ElementValues child)
     {
         super.addChildElementValues(child);
 
-        if (domAttrList == null) domAttrList = new ArrayList<DOMAttr>();
+        if (childDOMAttrList == null) this.childDOMAttrList = new ArrayList<DOMAttr>();
 
         ElementValuesChildStyleChild item = (ElementValuesChildStyleChild)child;
         DOMAttr domAttr = item.getDOMAttr();
-        domAttrList.add(domAttr);
+        childDOMAttrList.add(domAttr);
     }
 
-    public List<DOMAttr> getDOMAttrList()
+    public DOMAttr getParentAttr()
     {
-        return domAttrList;
+        return parentAttr;
+    }
+
+    public List<DOMAttr> getChildDOMAttrList()
+    {
+        return childDOMAttrList;
     }
 }
