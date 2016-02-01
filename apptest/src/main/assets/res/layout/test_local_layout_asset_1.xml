@@ -30,14 +30,14 @@
                  android:layout_marginTop="10dp"
             />
 
-        <include layout="@assets:layout/res/layout/test_include_2_dynamic.xml"
+        <include layout="@assets:layout/res/layout/test_include_2_asset.xml"
                  android:id="@+id/testIncludeId2"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="10dp"
             />
 
-        <include layout="@assets:layout/res/layout/test_include_3_dynamic.xml"/>
+        <include layout="@assets:layout/res/layout/test_include_3_asset.xml"/>
 
         <TextView
             android:text="Test misc attribs"
@@ -81,19 +81,19 @@
 
             <TextView
                 android:id="@+id/textViewTest3"
-                android:text="Text size default and red"
-                android:textColor="@assets:color/res/values/test_values_dynamic.xml:test_color_textColor"
+                android:text="Text size=15.3dp,color=red,padding"
+                android:textSize="@assets:dimen/res/values/test_values_asset.xml:test_dimen_textSize"
+                android:textColor="@assets:color/res/values/test_values_asset.xml:test_color_textColor"
                 android:background="#dddddd"
                 android:layout_below="@id/textViewTest2"
-                style="@assets:style/res/values/test_values_dynamic.xml:test_style_dynamic" />
+                style="@assets:style/res/values/test_values_asset.xml:test_style_textview_asset" />
 
             <TextView android:id="@+id/textViewTest4"
-                android:text="Text size 15.3dp and red"
-                android:textSize="@assets:dimen/res/values/test_values_dynamic.xml:test_dimen_textSize"
-                android:textColor="@assets:color/res/values/test_values_dynamic.xml:test_color_textColor"
+                android:text="Text size=smaller,color=red,padding"
+                android:textColor="@assets:color/res/values/test_values_asset.xml:test_color_textColor"
                 android:background="#dddddd"
                 android:layout_below="@id/textViewTest3"
-                style="@assets:style/res/values/test_values_dynamic.xml:test_style_dynamic" />
+                style="@assets:style/res/values/test_values_asset.xml:test_style_textview_asset" />
 
         </RelativeLayout>
 

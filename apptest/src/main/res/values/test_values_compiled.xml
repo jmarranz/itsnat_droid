@@ -2,7 +2,7 @@
     <dimen name="test_dimen_textSize">15.3dp</dimen>
     <color name="test_color_textColor">#ff0000</color>
 
-    <style name="test_style_compiled" parent="android:Widget.DeviceDefault.TextView">
+    <style name="test_style_textview_compiled" parent="android:Widget.DeviceDefault.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
 

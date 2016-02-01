@@ -3,7 +3,7 @@
     <item
         android:constantSize="false"
 
-        android:drawable="@assets:drawable/res/drawable/list_selector_background_focused_light_dynamic.9.png"
+        android:drawable="@assets:drawable/res/drawable/list_selector_background_focused_light_asset.9.png"
 
         android:state_pressed="false"
 
@@ -21,7 +21,7 @@
         android:visible="false"
         >
 
-            <bitmap android:src="@assets:drawable/res/drawable/droid_dynamic.png"
+            <bitmap android:src="@assets:drawable/res/drawable/droid_asset.png"
                 android:gravity="center" />
     </item>  <!--  -->
 

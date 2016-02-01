@@ -56,7 +56,6 @@ import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ImageView_tint;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
@@ -66,7 +65,6 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotZero;
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 
@@ -323,7 +321,7 @@ public class TestLocalLayout1
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                    assertEquals(compTextView.getText(), "Text size default and red");
+                    assertEquals(compTextView.getText(), "Text size=15.3dp,color=red,padding");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
@@ -333,8 +331,8 @@ public class TestLocalLayout1
                     assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
                     assertEquals(a_params.height, b_params.height);
 
-                    // assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res));
-                    assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize()); // Se utiliza un style parent de Android, no sabemos el valor exacto
+                    assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res)); // A pesar de usar un estilo parent de Android con textSize, lo imponemos
+                    assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
 
                     assertEquals(compTextView.getTextColors().getDefaultColor(), 0xffff0000);
                     assertEquals(compTextView.getTextColors(), parsedTextView.getTextColors());
@@ -367,7 +365,7 @@ public class TestLocalLayout1
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                    assertEquals(compTextView.getText(), "Text size 15.3dp and red");
+                    assertEquals(compTextView.getText(), "Text size=smaller,color=red,padding");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
@@ -377,7 +375,7 @@ public class TestLocalLayout1
                     assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
                     assertEquals(a_params.height, b_params.height);
 
-                    assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res)); // A pesar de usar un estilo parent de Android con textSize, lo imponemos
+                    // assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res)); // Se utiliza un style parent de Android, no sabemos el valor exacto
                     assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
 
                     assertEquals(compTextView.getTextColors().getDefaultColor(), 0xffff0000);

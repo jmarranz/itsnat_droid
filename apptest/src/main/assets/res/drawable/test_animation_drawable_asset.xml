@@ -4,10 +4,10 @@
     android:variablePadding="true"
     android:visible="false">
 
-    <item android:drawable="@assets:drawable/res/drawable/list_selector_background_focused_light_dynamic.9.png"
+    <item android:drawable="@assets:drawable/res/drawable/list_selector_background_focused_light_asset.9.png"
           android:duration="500" />
     <item android:duration="500" >
-        <bitmap android:src="@assets:drawable/res/drawable/droid_dynamic.png"
+        <bitmap android:src="@assets:drawable/res/drawable/droid_asset.png"
                 android:gravity="center" />
     </item>
 
