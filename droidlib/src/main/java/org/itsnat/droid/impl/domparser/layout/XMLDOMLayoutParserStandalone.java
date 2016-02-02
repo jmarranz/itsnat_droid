@@ -17,7 +17,7 @@ public class XMLDOMLayoutParserStandalone extends XMLDOMLayoutParser
     }
 
     @Override
-    protected XMLDOMLayout createXMLDOMLayout()
+    public XMLDOMLayout createXMLDOMLayout()
     {
         return new XMLDOMLayoutStandalone();
     }

@@ -3,9 +3,17 @@ package org.itsnat.droid.impl.domparser.values;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesItemStyle;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesNoChildElem;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesResources;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesStyle;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesWithChildElem;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -42,18 +50,18 @@ public class XMLDOMValuesParser extends XMLDOMParser
         return false;
     }
 
-    public XMLDOMValues parse(String markup)
+    public void parse(String markup,XMLDOMValues xmlDOMValues)
     {
         StringReader input = new StringReader(markup);
-        return parse(input);
+        parse(input,xmlDOMValues);
     }
 
-    private XMLDOMValues parse(Reader input)
+    private void parse(Reader input,XMLDOMValues xmlDOMValues)
     {
         try
         {
             XmlPullParser parser = newPullParser(input);
-            return parse(parser);
+            parse(parser,xmlDOMValues);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
@@ -64,30 +72,52 @@ public class XMLDOMValuesParser extends XMLDOMParser
         }
     }
 
-    private XMLDOMValues parse(XmlPullParser parser) throws IOException, XmlPullParserException
+    private void parse(XmlPullParser parser,XMLDOMValues xmlDOMValues) throws IOException, XmlPullParserException
     {
-        XMLDOMValues xmlDOMValues = new XMLDOMValues();
         String rootElemName = getRootElementName(parser);
         parseRootElement(rootElemName,parser, xmlDOMValues);
-        return xmlDOMValues;
     }
 
     @Override
     protected DOMElement createElement(String name,DOMElement parent)
     {
-        return new DOMElemValues(name,(DOMElemValues)parent);
+        if (hasChildElements(name))
+        {
+            if ("resources".equals(name))
+            {
+                if (parent != null) throw new ItsNatDroidException("<resources> element must be root");
+                return new DOMElemValuesResources();
+            }
+            else if ("style".equals(name))
+                return new DOMElemValuesStyle(name, (DOMElemValuesResources) parent);
+            else if ("string-array".equals(name) || "declare-styleable".equals(name))
+                throw new ItsNatDroidException("Not supported yet:" + name);
+
+            throw new ItsNatDroidException("Unrecognized element name:" + name);
+        }
+        else
+        {
+            if (parent instanceof DOMElemValuesStyle)
+                return new DOMElemValuesItemStyle((DOMElemValuesStyle)parent);
+            else
+                return new DOMElemValuesItemNormal(name, (DOMElemValuesResources) parent);
+        }
     }
 
     @Override
     protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
-        if (!hasChildElements(parentElement))
+        if (parentElement instanceof DOMElemValuesNoChildElem)
         {
+            DOMElemValuesNoChildElem parentElementNoChildElem = (DOMElemValuesNoChildElem)parentElement;
+
             // Esperamos un único nodo de texto hijo, no toleramos comentarios ni similares
             while (parser.next() != XmlPullParser.TEXT) ; // Ignoramos comentarios etc
 
             String text = parser.getText();
-            ((DOMElemValues) parentElement).setText(text);
+
+            DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
+            addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM);
 
             while (parser.next() != XmlPullParser.END_TAG) ; // Ignoramos comentarios etc
         }
@@ -97,10 +127,9 @@ public class XMLDOMValuesParser extends XMLDOMParser
         }
     }
 
-    public static boolean hasChildElements(DOMElement parentElement)
+    public static boolean hasChildElements(String elemName)
     {
         // http://developer.android.com/guide/topics/resources/available-resources.html
-        String name = parentElement.getName();
-        return "resources".equals(name) || "string-array".equals(name) || "style".equals(name) || "declare-styleable".equals(name);
+        return "resources".equals(elemName) || "string-array".equals(elemName) || "style".equals(elemName) || "declare-styleable".equals(elemName);
     }
 }

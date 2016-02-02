@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
+import org.itsnat.droid.impl.dom.DOMAttr;
+
 /**
  * Soportamos en la misma clase los dos formatos equivalentes a la hora de definir un valor cuyo tipo hay que especificar explícitamente:
  *
@@ -8,27 +10,20 @@ package org.itsnat.droid.impl.xmlinflated.values;
  *
  * Created by jmarranz on 27/11/14.
  */
-public class ElementValuesChildNoChildElem extends ElementValuesChild
+public abstract class ElementValuesChildNoChildElem extends ElementValuesChild
 {
-    protected String type; // dimen, color etc
-    protected String value;
+    protected DOMAttr valueAsDOMAttr;
 
-    public ElementValuesChildNoChildElem(String elementName,ElementValuesResources parentElement, String type, String name, String value)
+    public ElementValuesChildNoChildElem(String elementName,ElementValues parentElement, String name, DOMAttr valueAsDOMAttr)
     {
         super(elementName,name,parentElement);
 
-        this.type = type;
-        this.value = value;
+        this.valueAsDOMAttr = valueAsDOMAttr;
     }
 
-    public String getType()
+    public DOMAttr getValueAsDOMAttr()
     {
-        return type;
-    }
-
-    public String getValue()
-    {
-        return value;
+        return valueAsDOMAttr;
     }
 
 }

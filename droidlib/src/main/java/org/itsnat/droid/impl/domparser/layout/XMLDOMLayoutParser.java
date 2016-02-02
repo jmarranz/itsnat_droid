@@ -50,18 +50,18 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         return layoutParser;
     }
 
-    public XMLDOMLayout parse(String markup)
+    public void parse(String markup,XMLDOMLayout domLayout)
     {
         StringReader input = new StringReader(markup);
-        return parse(input);
+        parse(input,domLayout);
     }
 
-    private XMLDOMLayout parse(Reader input)
+    private void parse(Reader input,XMLDOMLayout domLayout)
     {
         try
         {
             XmlPullParser parser = newPullParser(input);
-            return parse(parser);
+            parse(parser,domLayout);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
@@ -72,15 +72,13 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         }
     }
 
-    private XMLDOMLayout parse(XmlPullParser parser) throws IOException, XmlPullParserException
+    private void parse(XmlPullParser parser,XMLDOMLayout domLayout) throws IOException, XmlPullParserException
     {
-        XMLDOMLayout domLayout = createXMLDOMLayout();
         String rootElemName = getRootElementName(parser);
         parseRootElement(rootElemName,parser,domLayout);
-        return domLayout;
     }
 
-    protected abstract XMLDOMLayout createXMLDOMLayout();
+    public abstract XMLDOMLayout createXMLDOMLayout();
 
 
     @Override

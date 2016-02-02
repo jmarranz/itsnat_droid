@@ -46,7 +46,7 @@ public class XMLDOMLayoutParserPageItsNat extends XMLDOMLayoutParserPage
     }
 
     @Override
-    protected XMLDOMLayout createXMLDOMLayout()
+    public XMLDOMLayout createXMLDOMLayout()
     {
         return new XMLDOMLayoutPageItsNat();
     }

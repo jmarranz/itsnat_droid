@@ -2,9 +2,12 @@ package org.itsnat.droid.impl.xmlinflated.values;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.Dimension;
+import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,17 +37,17 @@ public class ElementValuesResources extends ElementValues
 
         // Es posible repetir en dos items el name, incluso style puede tener el name de un <dimen>, lo importante es que NO coincida exactamente el mismo tipo y nombre
 
-        ElementValuesChild old = null;
-        if (child instanceof ElementValuesChildNoChildElem)
+        ElementValuesChild old;
+        if (child instanceof ElementValuesItemNormal)
         {
-            ElementValuesChildNoChildElem childNoChildElem = (ElementValuesChildNoChildElem)child;
-            String key = genKey(childNoChildElem.getType(), childNoChildElem.getName());
-            old = elemValuesElemMap.put(key,childNoChildElem);
-            if (old != null) throw new ItsNatDroidException("Already exists an element with type " + childNoChildElem.getType() + " and name " + childNoChildElem.getName());
+            ElementValuesItemNormal childItemNormal = (ElementValuesItemNormal)child;
+            String key = genKey(childItemNormal.getType(), childItemNormal.getName());
+            old = elemValuesElemMap.put(key,childItemNormal);
+            if (old != null) throw new ItsNatDroidException("Already exists an element with type " + childItemNormal.getType() + " and name " + childItemNormal.getName());
         }
-        else if (child instanceof ElementValuesChildStyle)
+        else if (child instanceof ElementValuesStyle)
         {
-            ElementValuesChildStyle childStyle = (ElementValuesChildStyle)child;
+            ElementValuesStyle childStyle = (ElementValuesStyle)child;
             String key = genKey("style",childStyle.getName());
             old = elemValuesElemMap.put(key,childStyle);
             if (old != null) throw new ItsNatDroidException("Already exists an element with type style and name " + childStyle.getName());
@@ -54,13 +57,13 @@ public class ElementValuesResources extends ElementValues
 
     }
 
-    public String getElementValuesChildNoChildElemValue(String type,String name)
+    public DOMAttr getElementValuesChildNoChildElemValue(String type,String name)
     {
         String key = genKey(type,name);
         ElementValuesChildNoChildElem child = (ElementValuesChildNoChildElem)elemValuesElemMap.get(key);
         if (child == null)
             throw new ItsNatDroidException("Not found item of type: " + type + " and name: " + name);
-        return child.getValue();
+        return child.getValueAsDOMAttr();
     }
 
     private static String genKey(String type,String name)
@@ -68,20 +71,32 @@ public class ElementValuesResources extends ElementValues
         return type + "#" + name;
     }
 
-    public String getColor(String name)
+    public int getColor(String name,XMLInflater xmlInflater)
     {
-        return getElementValuesChildNoChildElemValue("color",name);
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue("color",name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getColor(valueAsDOMAttr, xmlInflater);
     }
 
-    public String getDimension(String name)
+
+    public Dimension getDimensionObject(String name, XMLInflater xmlInflater)
     {
-        return getElementValuesChildNoChildElemValue("dimen",name);
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue("dimen",name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getDimensionObject(valueAsDOMAttr, xmlInflater);
     }
 
-    public ElementValuesChildStyle getViewStyle(String name)
+    public PercFloat getDimensionPercFloat(String name, XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue("dimen",name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getDimensionPercFloat(valueAsDOMAttr, xmlInflater);
+    }
+
+    public ElementValuesStyle getViewStyle(String name)
     {
         String key = genKey("style",name);
-        ElementValuesChildStyle child = (ElementValuesChildStyle)elemValuesElemMap.get(key);
+        ElementValuesStyle child = (ElementValuesStyle)elemValuesElemMap.get(key);
         if (child == null)
             throw new ItsNatDroidException("Not found style item with name: " + name);
         return child;

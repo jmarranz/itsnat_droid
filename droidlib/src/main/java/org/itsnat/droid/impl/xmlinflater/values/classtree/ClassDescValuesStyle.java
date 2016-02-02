@@ -3,9 +3,10 @@ package org.itsnat.droid.impl.xmlinflater.values.classtree;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.dom.values.DOMElemValues;
-import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildStyle;
-import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildStyleChild;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesItemStyle;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesStyle;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemStyle;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
 
@@ -14,14 +15,14 @@ import java.util.LinkedList;
 /**
  * Created by jmarranz on 07/01/2016.
  */
-public class ClassDescValuesChildStyle extends ClassDescValues<ElementValuesChildStyle>
+public class ClassDescValuesStyle extends ClassDescValues<ElementValuesStyle>
 {
-    public ClassDescValuesChildStyle(ClassDescValuesMgr classMgr)
+    public ClassDescValuesStyle(ClassDescValuesMgr classMgr)
     {
         super(classMgr, "style", null);
     }
 
-    public ElementValuesChildStyle createElementValuesChildStyle(DOMElemValues domElement, ElementValuesResources parentChildValues)
+    public ElementValuesStyle createElementValuesStyle(DOMElemValuesStyle domElement, ElementValuesResources parentChildValues)
     {
         DOMAttr attrName = domElement.findDOMAttribute(null, "name");
         if (attrName == null)
@@ -29,14 +30,14 @@ public class ClassDescValuesChildStyle extends ClassDescValues<ElementValuesChil
         String name = attrName.getValue();
 
         DOMAttr attrParent = domElement.findDOMAttribute(null, "parent");  // Puede ser null (no definido)
-        ElementValuesChildStyle elementValuesChildStyle = new ElementValuesChildStyle(name,attrParent,parentChildValues);
+        ElementValuesStyle elementValuesStyle = new ElementValuesStyle(name,attrParent,parentChildValues);
 
-        processChildStyleChildElements(domElement, elementValuesChildStyle);
+        processChildElementValuesItemStyle(domElement, elementValuesStyle);
 
-        return elementValuesChildStyle;
+        return elementValuesStyle;
     }
 
-    private void processChildStyleChildElements(DOMElemValues domElemParent, ElementValuesChildStyle parentChildValues)
+    private void processChildElementValuesItemStyle(DOMElemValuesStyle domElemParent, ElementValuesStyle parentChildValues)
     {
         LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return;
@@ -44,18 +45,18 @@ public class ClassDescValuesChildStyle extends ClassDescValues<ElementValuesChil
         parentChildValues.initChildElementValuesList(childDOMElemList.size());
         for (DOMElement childDOMElem : childDOMElemList)
         {
-            ElementValuesChildStyleChild childElemValues = inflateNextElement((DOMElemValues)childDOMElem,parentChildValues);
+            ElementValuesItemStyle childElemValues = inflateNextElement((DOMElemValuesItemStyle)childDOMElem,parentChildValues);
             parentChildValues.addChildElementValues(childElemValues);
         }
     }
 
-    private ElementValuesChildStyleChild inflateNextElement(DOMElemValues domElement,ElementValuesChildStyle parentChildValues)
+    private ElementValuesItemStyle inflateNextElement(DOMElemValuesItemStyle domElement,ElementValuesStyle parentChildValues)
     {
         DOMAttr attrName = domElement.findDOMAttribute(null, "name");
         if (attrName == null)
             throw new ItsNatDroidException("Missing attribute name in <item>");
         String name = attrName.getValue();
-        String value = domElement.getText();
-        return new ElementValuesChildStyleChild(parentChildValues,name,value);
+        DOMAttr valueAsDOMAttr = domElement.getValueAsDOMAttr();
+        return new ElementValuesItemStyle(parentChildValues,name,valueAsDOMAttr);
     }
 }

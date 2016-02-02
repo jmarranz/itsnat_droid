@@ -30,7 +30,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
-import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildStyle;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -258,10 +258,10 @@ public class XMLInflateRegistry
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            ElementValuesChildStyle elemStyle = elementResources.getViewStyle(attrDyn.getValuesResourceName());
+            ElementValuesStyle elemStyle = elementResources.getViewStyle(attrDyn.getValuesResourceName());
             DOMAttr domAttrParent = elemStyle.getParentAttr();
-            List<DOMAttr> domAttrList = elemStyle.getChildDOMAttrList();
-            return new ViewStyleAttrDynamic(domAttrParent,domAttrList);
+            List<DOMAttr> domAttrValueList = elemStyle.getChildDOMAttrValueList();
+            return new ViewStyleAttrDynamic(domAttrParent,domAttrValueList);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
@@ -401,23 +401,22 @@ public class XMLInflateRegistry
         return new Dimension(complexUnit, num);
     }
 
+
     public Dimension getDimensionObject(DOMAttr attr,XMLInflater xmlInflater)
     {
         Context ctx = xmlInflater.getContext();
-        String originalValue;
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            originalValue = elementResources.getDimension(attrDyn.getValuesResourceName());
+            return elementResources.getDimensionObject(attrDyn.getValuesResourceName(),xmlInflater);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
-            originalValue = attr.getValue();
+            String originalValue = attr.getValue();
+            return getDimensionObjectCompiled(originalValue, ctx);
         }
         else throw new ItsNatDroidException("Internal Error");
-
-        return getDimensionObjectCompiled(originalValue, ctx);
     }
 
     private Dimension getDimensionObjectCompiled(String attrValue, Context ctx)
@@ -478,20 +477,20 @@ public class XMLInflateRegistry
     public PercFloat getDimensionPercFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
         Context ctx = xmlInflater.getContext();
-        String originalValue;
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            originalValue = elementResources.getDimension(attrDyn.getValuesResourceName());
+            return elementResources.getDimensionPercFloat(attrDyn.getValuesResourceName(), xmlInflater);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
-            originalValue = attr.getValue();
+            String originalValue = attr.getValue();
+            return getDimensionPercFloatCompiled(originalValue, ctx);
         }
         else throw new ItsNatDroidException("Internal Error");
 
-        return getDimensionPercFloatCompiled(originalValue, ctx);
+
     }
 
     private PercFloat getDimensionPercFloatCompiled(String attrValue, Context ctx)
@@ -521,7 +520,8 @@ public class XMLInflateRegistry
             int resId = getIdentifier(attrValue, ctx);
             String value = res.getString(resId);
             return parseDimensionPercFloat(value, ctx);
-        } else
+        }
+        else
         {
             return parseDimensionPercFloat(attrValue, ctx);
         }
@@ -643,20 +643,20 @@ public class XMLInflateRegistry
     public int getColor(DOMAttr attr,XMLInflater xmlInflater)
     {
         Context ctx = xmlInflater.getContext();
-        String colorValue;
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            colorValue = elementResources.getColor(attrDyn.getValuesResourceName());
+            return elementResources.getColor(attrDyn.getValuesResourceName(),xmlInflater);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
-            colorValue = attr.getValue();
+            String colorValue = attr.getValue();
+            return getColorCompiled(colorValue, ctx);
         }
         else throw new ItsNatDroidException("Internal Error");
 
-        return getColorCompiled(colorValue, ctx);
+
     }
 
     public static String toStringColorTransparent(int value)

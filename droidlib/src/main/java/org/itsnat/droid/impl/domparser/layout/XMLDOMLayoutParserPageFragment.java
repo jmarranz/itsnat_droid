@@ -17,7 +17,7 @@ public class XMLDOMLayoutParserPageFragment extends XMLDOMLayoutParserPage
     }
 
     @Override
-    protected XMLDOMLayout createXMLDOMLayout()
+    public XMLDOMLayout createXMLDOMLayout()
     {
         return new XMLDOMLayoutPageFragment();
     }

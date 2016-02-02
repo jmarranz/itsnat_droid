@@ -3,16 +3,17 @@ package org.itsnat.droid.impl.xmlinflater.values.classtree;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
-import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChildNoChildElem;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
 
 /**
  * Created by jmarranz on 07/01/2016.
  */
-public class ClassDescValuesChildNoChildElem extends ClassDescValues<ElementValuesChildNoChildElem>
+public class ClassDescValuesItemNormal extends ClassDescValues<ElementValuesItemNormal>
 {
-    public ClassDescValuesChildNoChildElem(ClassDescValuesMgr classMgr,String elemName)
+    public ClassDescValuesItemNormal(ClassDescValuesMgr classMgr, String elemName)
     {
         super(classMgr, elemName, null);
     }
@@ -22,15 +23,16 @@ public class ClassDescValuesChildNoChildElem extends ClassDescValues<ElementValu
         return classOrDOMElemName;
     }
 
-    public ElementValuesChildNoChildElem createElementValuesChildNoChildren(DOMElemValues domElement, ElementValuesResources parentChildValues)
+    public ElementValuesItemNormal createElementValuesItemNormal(DOMElemValuesItemNormal domElement, ElementValuesResources parentChildValues)
     {
         // Se ha chequeado antes que está t_odo bien en domElement (existe type, name y value de una de las dos formas)
         DOMAttr attrName = domElement.findDOMAttribute(null, "name");
         if (attrName == null) throw new ItsNatDroidException("Internal Error");
 
         String name = attrName.getValue();
-        String value = domElement.getText();
-        return new ElementValuesChildNoChildElem(domElement.getName(),parentChildValues,getType(),name, value);
+        DOMAttr valueAsDOMAttr = domElement.getValueAsDOMAttr();
+
+        return new ElementValuesItemNormal(domElement.getName(),parentChildValues,getType(),name, valueAsDOMAttr);
     }
 
     public static String getResourceType(DOMElemValues domElement)

@@ -30,18 +30,18 @@ public class XMLDOMDrawableParser extends XMLDOMParser
         return new XMLDOMDrawableParser(xmlDOMRegistry,assetManager);
     }
 
-    public XMLDOMDrawable parse(String markup)
+    public void parse(String markup,XMLDOMDrawable xmlDOMDrawable)
     {
         StringReader input = new StringReader(markup);
-        return parse(input);
+        parse(input,xmlDOMDrawable);
     }
 
-    private XMLDOMDrawable parse(Reader input)
+    private void parse(Reader input,XMLDOMDrawable xmlDOMDrawable)
     {
         try
         {
             XmlPullParser parser = newPullParser(input);
-            return parse(parser);
+            parse(parser,xmlDOMDrawable);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
@@ -52,12 +52,10 @@ public class XMLDOMDrawableParser extends XMLDOMParser
         }
     }
 
-    private XMLDOMDrawable parse(XmlPullParser parser) throws IOException, XmlPullParserException
+    private void parse(XmlPullParser parser,XMLDOMDrawable xmlDOMDrawable) throws IOException, XmlPullParserException
     {
-        XMLDOMDrawable xmlDOMDrawable = new XMLDOMDrawable();
         String rootElemName = getRootElementName(parser);
         parseRootElement(rootElemName,parser, xmlDOMDrawable);
-        return xmlDOMDrawable;
     }
 
     @Override

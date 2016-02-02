@@ -21,7 +21,7 @@ public abstract class ElementValues
         return elementName;
     }
 
-    public List<ElementValues> getChildElementDrawableList()
+    public List<ElementValues> getChildElementValuesList()
     {
         return childElemValuesList;
     }

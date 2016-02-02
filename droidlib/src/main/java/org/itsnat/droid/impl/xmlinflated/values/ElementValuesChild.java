@@ -8,7 +8,7 @@ public abstract class ElementValuesChild extends ElementValues
     protected String name;
     protected ElementValues parentElement;
 
-    protected ElementValuesChild(String elementName,String name,ElementValues parentElement)
+    protected ElementValuesChild(String elementName, String name, ElementValues parentElement)
     {
         super(elementName);
         this.name = name;

@@ -53,11 +53,13 @@ public class XMLDOMRegistry
         if (cachedXMLDOMLayout == null)
         {
             XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,layoutType,this,assetManager);
+            cachedXMLDOMLayout = layoutParser.createXMLDOMLayout();
+            domLayoutCache.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
 
-            cachedXMLDOMLayout = layoutParser.parse(markup);
+            layoutParser.parse(markup,cachedXMLDOMLayout);
             if (cachedXMLDOMLayout instanceof XMLDOMLayoutPageItsNat)
                 ((XMLDOMLayoutPageItsNat)cachedXMLDOMLayout).setLoadInitScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
-            domLayoutCache.put(markupWithoutLoadScript[0], cachedXMLDOMLayout);
+
         }
         else // cachedDOMLayout != null
         {
@@ -76,9 +78,11 @@ public class XMLDOMRegistry
         XMLDOMDrawable cachedXMLDOMDrawable = domDrawableCache.get(markup);
         if (cachedXMLDOMDrawable != null) return cachedXMLDOMDrawable;
 
+        cachedXMLDOMDrawable = new XMLDOMDrawable();
+        domDrawableCache.put(markup, cachedXMLDOMDrawable); // Cacheamos cuanto antes pues puede haber recursividad
+
         XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(this, assetManager);
-        cachedXMLDOMDrawable = parser.parse(markup);
-        domDrawableCache.put(markup, cachedXMLDOMDrawable);
+        parser.parse(markup,cachedXMLDOMDrawable);
         return cachedXMLDOMDrawable;
     }
 
@@ -92,9 +96,11 @@ public class XMLDOMRegistry
             return cachedXMLDOMValues;
         }
 
+        cachedXMLDOMValues = new XMLDOMValues();
+        domValuesCache.put(markup, cachedXMLDOMValues); // Cacheamos cuanto antes pues puede haber recursividad
+
         XMLDOMValuesParser parser = XMLDOMValuesParser.createXMLDOMValuesParser(this, assetManager);
-        cachedXMLDOMValues = parser.parse(markup);
-        domValuesCache.put(markup, cachedXMLDOMValues);
+        parser.parse(markup,cachedXMLDOMValues);
         return cachedXMLDOMValues;
     }
 }

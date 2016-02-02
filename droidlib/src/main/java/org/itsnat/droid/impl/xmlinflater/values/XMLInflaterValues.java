@@ -5,14 +5,18 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesNoChildElem;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesStyle;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValues;
-import org.itsnat.droid.impl.xmlinflated.values.ElementValuesChild;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesChildNoChildElem;
-import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesChildStyle;
+import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesItemNormal;
+import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesStyle;
 
 import java.util.LinkedList;
 
@@ -73,36 +77,40 @@ public class XMLInflaterValues extends XMLInflater
         String elemName = domElement.getName();
         if ("style".equals(elemName))
         {
-           childElem = createElementValuesChildStyle(domElement, parentChildValues);
+           childElem = createElementValuesStyle((DOMElemValuesStyle) domElement, parentChildValues);
+        }
+        else if ("string-array".equals(elemName) || "declare-styleable".equals(elemName))
+        {
+            throw new ItsNatDroidException("Not supported yet: " + elemName);
         }
         else
         {
-            childElem = createElementValuesChildNoChildren(domElement, parentChildValues);
+            childElem = createElementValuesItemNormal((DOMElemValuesItemNormal) domElement, parentChildValues);
         }
 
         // No procesamos los child elements porque cada ElementValues sabe como gestionar sus hijos si es que los tiene
         return childElem;
     }
 
-    private ElementValues createElementValuesChildStyle(DOMElemValues domElement,ElementValuesResources parentChildValues)
+    private ElementValuesStyle createElementValuesStyle(DOMElemValuesStyle domElement, ElementValuesResources parentChildValues)
     {
         ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
-        ClassDescValuesChildStyle classDesc = (ClassDescValuesChildStyle)classDescValuesMgr.get("style");
+        ClassDescValuesStyle classDesc = (ClassDescValuesStyle)classDescValuesMgr.get("style");
 
-        ElementValuesChild childValuesChild = classDesc.createElementValuesChildStyle(domElement, parentChildValues);
+        ElementValuesStyle childValuesChild = classDesc.createElementValuesStyle(domElement, parentChildValues);
         return childValuesChild;
     }
 
-    private ElementValues createElementValuesChildNoChildren(DOMElemValues domElement,ElementValuesResources parentChildValues)
+    private ElementValuesItemNormal createElementValuesItemNormal(DOMElemValuesItemNormal domElement, ElementValuesResources parentChildValues)
     {
-        String resourceType = ClassDescValuesChildNoChildElem.getResourceType(domElement);
+        String resourceType = ClassDescValuesItemNormal.getResourceType(domElement);
 
         ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
-        ClassDescValuesChildNoChildElem classDesc = (ClassDescValuesChildNoChildElem)classDescValuesMgr.get(resourceType);
+        ClassDescValuesItemNormal classDesc = (ClassDescValuesItemNormal)classDescValuesMgr.get(resourceType);
         if (classDesc == null)
             throw new ItsNatDroidException("Not found processor for resource type: " + resourceType);
 
-        ElementValuesChild childValuesChild = classDesc.createElementValuesChildNoChildren(domElement, parentChildValues);
+        ElementValuesItemNormal childValuesChild = classDesc.createElementValuesItemNormal(domElement, parentChildValues);
         return childValuesChild;
     }
 

@@ -1,7 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,12 +12,12 @@ import java.util.List;
 public class ViewStyleAttrDynamic extends ViewStyleAttr
 {
     protected DOMAttr domAttrParent;
-    protected List<DOMAttr> domAttrList;
+    protected List<DOMAttr> domAttrValueList;
 
-    public ViewStyleAttrDynamic(DOMAttr domAttrParent,List<DOMAttr> domAttrList)
+    public ViewStyleAttrDynamic(DOMAttr domAttrParent,List<DOMAttr> domAttrValueList)
     {
         this.domAttrParent = domAttrParent;
-        this.domAttrList = domAttrList;
+        this.domAttrValueList = domAttrValueList;
     }
 
     public DOMAttr getDOMAttrParentStyle()
@@ -25,6 +27,7 @@ public class ViewStyleAttrDynamic extends ViewStyleAttr
 
     public List<DOMAttr> getDOMAttrItemList()
     {
-        return domAttrList;
+        return domAttrValueList;
     }
+
 }

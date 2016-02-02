@@ -186,17 +186,21 @@ public abstract class XMLDOMParser
         throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT VIEW");
     }
 
-
-    protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
+    protected void addDOMAttr(DOMElement element, DOMAttr attrib, XMLDOM xmlDOMParent)
     {
-        DOMAttr attrib = createDOMAttrAndPrepareToDownload(element, namespaceURI, name, value, xmlDOMParent);
+        prepareDOMAttrToDownload(attrib,xmlDOMParent);
         element.addDOMAttribute(attrib);
     }
 
-    public DOMAttr createDOMAttrAndPrepareToDownload(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
+    protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
         DOMAttr attrib = DOMAttr.create(namespaceURI, name, value);
+        addDOMAttr(element,attrib,xmlDOMParent);
+        return attrib;
+    }
 
+    private void prepareDOMAttrToDownload(DOMAttr attrib, XMLDOM xmlDOMParent)
+    {
         if (attrib instanceof DOMAttrRemote)
         {
             xmlDOMParent.addDOMAttrRemote((DOMAttrRemote) attrib);
@@ -205,7 +209,7 @@ public abstract class XMLDOMParser
         {
             DOMAttrAsset assetAttr = (DOMAttrAsset)attrib;
 
-            String location = assetAttr.getLocation();
+            String location = assetAttr.getLocation(); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
             InputStream ims = null;
             byte[] res;
             try
@@ -226,8 +230,6 @@ public abstract class XMLDOMParser
 
             parseDOMAttrAsset(assetAttr, res);
         }
-
-        return attrib;
     }
 
 
