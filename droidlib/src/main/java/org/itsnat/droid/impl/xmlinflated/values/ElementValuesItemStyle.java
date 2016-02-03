@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.NamespaceUtil;
 
 /**
  *

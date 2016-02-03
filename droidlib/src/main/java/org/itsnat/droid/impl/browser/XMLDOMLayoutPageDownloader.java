@@ -11,12 +11,9 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageFragment;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
-import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 25/01/2016.

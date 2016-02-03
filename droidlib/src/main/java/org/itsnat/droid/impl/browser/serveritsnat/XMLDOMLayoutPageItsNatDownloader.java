@@ -10,14 +10,11 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
-import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 25/01/2016.

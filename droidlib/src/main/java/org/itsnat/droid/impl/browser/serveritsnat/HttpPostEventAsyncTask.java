@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.browser.HttpRequestData;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;

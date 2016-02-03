@@ -306,20 +306,21 @@ public class ClassDescViewBased extends ClassDesc<View>
         return rootView;
     }
 
-    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView,XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMAttributeMap attributeMap,int index,XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
+        // viewParent es NO nulo, de otra manera el método se llamaría createRootView... pues el caso root lo tratamos siempre aparte
         ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(viewParent);
         List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
-        View view = createViewObject(domElemView.getDOMAttributeMap(), xmlInflaterLayout, layoutParams, styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
+        View view = createViewObject(attributeMap, xmlInflaterLayout, layoutParams, styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
         if (styleDynamicAttribs.isEmpty()) styleDynamicAttribs = null;
 
         view.setLayoutParams(layoutParams);
 
-        fillViewAttributesAndAddView(view, viewParent, -1, domElemView.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+        fillViewAttributesAndAddView(view, viewParent,index, attributeMap.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
         return view;
     }
@@ -477,27 +478,13 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayoutPageItsNat xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        // viewParent es NO nulo, de otra manera el método se llamaría createRootView... pues el caso root lo tratamos siempre aparte
-
-        ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(viewParent);
-        List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
-        List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
-
-        View view = createViewObject(newChildToIn.getDOMAttributeMap(), xmlInflaterLayout, layoutParams, styleLayoutParamsAttribs, styleDynamicAttribs, pendingPostInsertChildrenTasks);
-        newChildToIn.setView(view); // No es necesariamente root
-
-        if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
-        if (styleDynamicAttribs.isEmpty()) styleDynamicAttribs = null;
-
-        view.setLayoutParams(layoutParams);
-
-        fillViewAttributesAndAddView(newChildToIn.getView(), viewParent, index, newChildToIn.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
-
+        View view = createViewObjectAndFillAttributesAndAdd(viewParent,newChildToIn.getDOMAttributeMap(),index,xmlInflaterLayout,pendingPostInsertChildrenTasks);
+        newChildToIn.setView(view);
         return view;
     }
 
 
-    public static void getLayoutParamsFromStyleId(int styleId,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
+    private static void getLayoutParamsFromStyleId(int styleId,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
         // ctx es el ContextThemeWrapper creado para pasar el style al View en creación, él conoce los atributos del style que se meten en el theme pues se pasó en el constructor, el Context padre NO conoce los atributos asociados al style
 
@@ -543,7 +530,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     }
 
-    public static ViewGroup.LayoutParams generateDefaultLayoutParams(ViewGroup viewParent)
+    private static ViewGroup.LayoutParams generateDefaultLayoutParams(ViewGroup viewParent)
     {
         if (viewParent == null)
         {

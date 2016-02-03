@@ -1,9 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

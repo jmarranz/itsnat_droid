@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.view.View;
-import android.widget.ImageView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -12,7 +11,6 @@ import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethod;
 
 /**
  * Created by jmarranz on 30/04/14.

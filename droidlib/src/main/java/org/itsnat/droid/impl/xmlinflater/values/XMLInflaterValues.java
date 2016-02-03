@@ -6,7 +6,6 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
-import org.itsnat.droid.impl.dom.values.DOMElemValuesNoChildElem;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesStyle;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValues;
