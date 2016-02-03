@@ -48,10 +48,10 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
 
         //XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-        DOMAttr attrGravity = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "gravity");
+        DOMAttr attrGravity = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "gravity");
         int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
 
-        DOMAttr attrClipOrientation = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "clipOrientation");
+        DOMAttr attrClipOrientation = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "clipOrientation");
         int orientation = attrClipOrientation != null ? AttrDesc.<Integer>parseSingleName(attrClipOrientation.getValue(), nameValueMap) : ClipDrawable.HORIZONTAL; // Valor concreto no puede ser un recurso
 
         ClipDrawable drawable = new ClipDrawable(childDrawable,gravity,orientation);

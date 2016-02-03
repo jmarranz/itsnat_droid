@@ -16,7 +16,6 @@ public class InflatedValuesPage extends InflatedValues implements InflatedXMLPag
 
     public InflatedValuesPage(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx, PageImpl page)
     {
-        // Este constructor puede llegar a ejecutarse en un hilo NO UI, no hacer nada más (YA NO ES VERDAD, REVISAR)
         super(itsNatDroid, xmlDOMValues, ctx);
         this.page = page;
     }

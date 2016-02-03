@@ -71,7 +71,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
         String className = node.getName();
         if ("view".equals(className))
         {
-            DOMAttr classAttr = node.getAttribute(null,"class");
+            DOMAttr classAttr = node.getDOMAttribute(null, "class");
             if (classAttr == null) throw new ItsNatDroidException("Expecified <view> but missing class attribute");
             String classAttrValue = classAttr.getValue();
             return get(className,classAttrValue);
@@ -84,7 +84,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
         String className = domElemView.getName();
         if ("view".equals(className))
         {
-            DOMAttr classAttr = domElemView.findDOMAttribute(null, "class");
+            DOMAttr classAttr = domElemView.getDOMAttribute(null, "class");
             if (classAttr == null) throw new ItsNatDroidException("Expecified <view> but missing class attribute");
             String classAttrValue = classAttr.getValue();
             return get(className,classAttrValue);

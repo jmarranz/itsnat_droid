@@ -42,13 +42,13 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
 
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-        DOMAttr attrGravity = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleGravity");
+        DOMAttr attrGravity = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleGravity");
         int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
 
-        DOMAttr attrScaleHeight = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleHeight");
+        DOMAttr attrScaleHeight = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleHeight");
         float scaleHeight = attrScaleHeight != null ? xmlInflateRegistry.getPercent(attrScaleHeight.getValue(), ctx) : -1;
 
-        DOMAttr attrScaleWidth = rootElem.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleWidth");
+        DOMAttr attrScaleWidth = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleWidth");
         float scaleWidth = attrScaleWidth != null ? xmlInflateRegistry.getPercent(attrScaleWidth.getValue(),ctx) : -1;
 
         elementDrawableRoot.setDrawable(new ScaleDrawable(childDrawable,gravity,scaleWidth,scaleHeight));

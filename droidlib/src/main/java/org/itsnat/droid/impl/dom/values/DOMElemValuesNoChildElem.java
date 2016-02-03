@@ -22,7 +22,7 @@ public abstract class DOMElemValuesNoChildElem extends DOMElemValues
 
     public String getItemName()
     {
-        DOMAttr nameAttr = findDOMAttribute(null, "name");
+        DOMAttr nameAttr = getDOMAttribute(null, "name");
         if (nameAttr == null) throw new ItsNatDroidException("Missing name attribute in item");
         return nameAttr.getValue();
     }

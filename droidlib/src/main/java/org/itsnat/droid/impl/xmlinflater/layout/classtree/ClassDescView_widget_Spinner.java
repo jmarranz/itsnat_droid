@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttributeMap;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -44,33 +45,18 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
         return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
     }
 
-    private static String findSpinnerModeAttributeFromRemote(NodeToInsertImpl newChildToIn)
+    private static String findSpinnerModeAttribute(DOMAttributeMap attributeMap)
     {
-        DOMAttr domAttr = findAttributeFromRemote(NamespaceUtil.XMLNS_ANDROID, "spinnerMode", newChildToIn);
-        if (domAttr == null)
-            return null;
-        return domAttr.getValue();
-    }
-
-    @Override
-    public View createViewObjectFromRemote(NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,Context ctx)
-    {
-        String spinnerMode = findSpinnerModeAttributeFromRemote(newChildToIn);
-        return createSpinnerObject(idStyle, spinnerMode, ctx);
-    }
-
-    private static String findSpinnerModeAttribute(DOMElemView domElemView)
-    {
-        DOMAttr attr = domElemView.findDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "spinnerMode");
+        DOMAttr attr = findAttribute(NamespaceUtil.XMLNS_ANDROID, "spinnerMode", attributeMap);
         if (attr == null)
             return null;
         return attr.getValue();
     }
 
     @Override
-    public View createViewObject(DOMElemView domElemView, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks, Context ctx)
+    public View createViewObject(DOMAttributeMap attributeMap, int idStyle, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks, Context ctx)
     {
-        String spinnerMode = findSpinnerModeAttribute(domElemView);
+        String spinnerMode = findSpinnerModeAttribute(attributeMap);
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 

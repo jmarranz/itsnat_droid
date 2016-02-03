@@ -1,8 +1,5 @@
 package org.itsnat.droid.impl.dom;
 
-import org.itsnat.droid.impl.util.MiscUtil;
-
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -13,7 +10,7 @@ public abstract class DOMElement
 {
     protected String name;
     protected DOMElement parentElement; // Si es null es el root
-    protected LinkedHashMap<String,DOMAttr> attribMapList;
+    protected DOMAttributeMap attribs = new DOMAttributeMap();
     protected LinkedList<DOMElement> childList;
 
     public DOMElement(String name,DOMElement parentElement)
@@ -26,7 +23,7 @@ public abstract class DOMElement
     {
         this.name = toCopy.name;
         this.parentElement = toCopy.parentElement;
-        this.attribMapList = toCopy.attribMapList;
+        this.attribs = toCopy.attribs;
         this.childList = toCopy.childList;
     }
 
@@ -46,35 +43,38 @@ public abstract class DOMElement
         return parentElement;
     }
 
+    public void initDOMAttribMap(int count)
+    {
+        this.attribs.initDOMAttribMap(count);
+    }
+
+    public DOMAttributeMap getDOMAttributeMap()
+    {
+        return attribs;
+    }
+
     public Map<String,DOMAttr> getDOMAttributes()
     {
-        return attribMapList; // Puede ser null
+        return attribs.getDOMAttributes(); // Puede ser null
     }
 
-    public void initDOMAttribList(int count)
+    public DOMAttr getDOMAttribute(String namespaceURI, String name)
     {
-        this.attribMapList = new LinkedHashMap<String,DOMAttr>(count);
+        return attribs.getDOMAttribute(namespaceURI, name);
     }
 
-    public void addDOMAttribute(DOMAttr attr)
+    public void setDOMAttribute(DOMAttr attr)
     {
-        String key = toKey(attr.getNamespaceURI(),attr.getName());
-        attribMapList.put(key,attr);
+        attribs.setDOMAttribute(attr);
     }
 
-    public DOMAttr findDOMAttribute(String namespaceURI, String name)
+    /*
+    public void removeDOMAttribute(String namespaceURI, String name) // No se llama nunca pero lo dejamos por coherencia
     {
-        if (attribMapList == null)
-            return null;
-
-        String key = toKey(namespaceURI,name);
-        return attribMapList.get(key);
+        attribs.removeDOMAttribute(namespaceURI, name);
     }
+    */
 
-    private static String toKey(String namespaceURI, String name)
-    {
-        return MiscUtil.isEmpty(namespaceURI) ? name : (namespaceURI + ":" + name);
-    }
 
     public LinkedList<DOMElement> getChildDOMElementList()
     {

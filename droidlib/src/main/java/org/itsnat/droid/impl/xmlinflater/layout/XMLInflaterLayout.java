@@ -133,11 +133,11 @@ public abstract class XMLInflaterLayout extends XMLInflater
                     rootDOMView = rootDOMView.cloneButNotChildren();
                     for(DOMAttr attr : includeAttribs)
                     {
-                        DOMAttr existingAttr = rootDOMView.findDOMAttribute(attr.getNamespaceURI(),attr.getName());
+                        DOMAttr existingAttr = rootDOMView.getDOMAttribute(attr.getNamespaceURI(),attr.getName());
                         if (existingAttr != null)
                             existingAttr.setValue(attr.getValue());
                         else
-                            rootDOMView.addDOMAttribute(attr); // No existe, lo añadimos
+                            rootDOMView.setDOMAttribute(attr); // No existe, lo añadimos
                     }
                 }
                 */

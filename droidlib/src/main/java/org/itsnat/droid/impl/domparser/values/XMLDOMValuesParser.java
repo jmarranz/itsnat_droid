@@ -89,7 +89,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
                 return new DOMElemValuesResources();
             }
             else if ("style".equals(name))
-                return new DOMElemValuesStyle(name, (DOMElemValuesResources) parent);
+                return new DOMElemValuesStyle((DOMElemValuesResources) parent);
             else if ("string-array".equals(name) || "declare-styleable".equals(name))
                 throw new ItsNatDroidException("Not supported yet:" + name);
 

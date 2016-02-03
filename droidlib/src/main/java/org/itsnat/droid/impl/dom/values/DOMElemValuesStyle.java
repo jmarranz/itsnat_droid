@@ -5,8 +5,8 @@ package org.itsnat.droid.impl.dom.values;
  */
 public class DOMElemValuesStyle extends DOMElemValuesWithChildElem
 {
-    public DOMElemValuesStyle(String name, DOMElemValuesResources parentElement)
+    public DOMElemValuesStyle(DOMElemValuesResources parentElement)
     {
-        super(name, parentElement);
+        super("style", parentElement);
     }
 }

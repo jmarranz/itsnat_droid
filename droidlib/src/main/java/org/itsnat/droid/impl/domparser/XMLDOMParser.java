@@ -115,7 +115,7 @@ public abstract class XMLDOMParser
         int len = parser.getAttributeCount();
         if (len == 0) return;
 
-        element.initDOMAttribList(len);
+        element.initDOMAttribMap(len);
         for (int i = 0; i < len; i++)
         {
             String namespaceURI = parser.getAttributeNamespace(i);
@@ -189,7 +189,7 @@ public abstract class XMLDOMParser
     protected void addDOMAttr(DOMElement element, DOMAttr attrib, XMLDOM xmlDOMParent)
     {
         prepareDOMAttrToDownload(attrib,xmlDOMParent);
-        element.addDOMAttribute(attrib);
+        element.setDOMAttribute(attrib);
     }
 
     protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)

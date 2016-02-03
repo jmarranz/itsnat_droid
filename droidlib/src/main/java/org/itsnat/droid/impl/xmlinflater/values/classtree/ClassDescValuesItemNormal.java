@@ -26,7 +26,7 @@ public class ClassDescValuesItemNormal extends ClassDescValues<ElementValuesItem
     public ElementValuesItemNormal createElementValuesItemNormal(DOMElemValuesItemNormal domElement, ElementValuesResources parentChildValues)
     {
         // Se ha chequeado antes que está t_odo bien en domElement (existe type, name y value de una de las dos formas)
-        DOMAttr attrName = domElement.findDOMAttribute(null, "name");
+        DOMAttr attrName = domElement.getDOMAttribute(null, "name");
         if (attrName == null) throw new ItsNatDroidException("Internal Error");
 
         String name = attrName.getValue();
@@ -41,10 +41,10 @@ public class ClassDescValuesItemNormal extends ClassDescValues<ElementValuesItem
         String elemName = domElement.getName();
         if (elemName.equals("item"))
         {
-            DOMAttr attrType = domElement.findDOMAttribute(null, "type");
+            DOMAttr attrType = domElement.getDOMAttribute(null, "type");
             if (attrType == null)
             {
-                DOMAttr attrName = domElement.findDOMAttribute(null, "name");
+                DOMAttr attrName = domElement.getDOMAttribute(null, "name");
                 if (attrName == null)
                     throw new ItsNatDroidException("Missing attribute name in <item>");
 

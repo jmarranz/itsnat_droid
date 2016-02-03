@@ -3,9 +3,8 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.dom.DOMAttributeMap;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Map;
 public class NodeToInsertImpl extends NodeImpl
 {
     protected String viewName;
-    protected LinkedHashMap<String,DOMAttr> attribs;
+    protected DOMAttributeMap attribs = new DOMAttributeMap();
     protected boolean inserted = false;
 
     public NodeToInsertImpl(String viewName)
@@ -26,22 +25,6 @@ public class NodeToInsertImpl extends NodeImpl
     public void setView(View view)
     {
         this.view = view;
-    }
-
-    public boolean hasAttributes()
-    {
-        return (attribs != null && !attribs.isEmpty());
-    }
-
-    public Map<String,DOMAttr> getAttributes()
-    {
-        if (attribs == null) this.attribs = new LinkedHashMap<String,DOMAttr>();
-        return attribs;
-    }
-
-    private static String toKey(String namespaceURI, String name)
-    {
-        return MiscUtil.isEmpty(namespaceURI) ? name : (namespaceURI + ":" + name);
     }
 
     public String getName()
@@ -60,24 +43,30 @@ public class NodeToInsertImpl extends NodeImpl
         this.attribs = null;
     }
 
-    public DOMAttr getAttribute(String namespaceURI,String name)
+    public DOMAttributeMap getDOMAttributeMap()
     {
-        if (attribs == null) return null;
-        String key = toKey(namespaceURI, name);
-        return getAttributes().get(key);
+        return attribs; // Puede ser null
     }
 
-    public void setAttribute(DOMAttr attr)
+    public Map<String,DOMAttr> getDOMAttributes()
     {
-        String namespaceURI = attr.getNamespaceURI();
-        String name = attr.getName(); // El nombre devuelto no contiene el namespace
-        String key = toKey(namespaceURI, name);
-        getAttributes().put(key,attr);
+        return attribs.getDOMAttributes(); // Puede ser null
     }
 
-    public void removeAttribute(String namespaceURI,String name) // No se llama nunca pero lo dejamos por coherencia
+    public DOMAttr getDOMAttribute(String namespaceURI, String name)
     {
-        String key = toKey(namespaceURI, name);
-        getAttributes().remove(key);
+        return attribs.getDOMAttribute(namespaceURI, name);
     }
+
+    public void setDOMAttribute(DOMAttr attr)
+    {
+        attribs.setDOMAttribute(attr);
+    }
+
+    /*
+    public void removeDOMAttribute(String namespaceURI, String name) // No se llama nunca pero lo dejamos por coherencia
+    {
+        attribs.removeDOMAttribute(namespaceURI, name);
+    }
+    */
 }

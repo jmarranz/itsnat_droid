@@ -297,7 +297,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
             if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Internal Error");
 
             NodeToInsertImpl nodeToIn = (NodeToInsertImpl) node;
-            nodeToIn.setAttribute(attr);
+            nodeToIn.setDOMAttribute(attr);
         }
     }
 
@@ -350,7 +350,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
                 String name = attrNames[i];
                 String value = attrValues[i];
                 DOMAttr attr = toDOMAttr(namespaceURI, name, value);
-                nodeToIn.setAttribute(attr);
+                nodeToIn.setDOMAttribute(attr);
             }
         }
     }

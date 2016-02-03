@@ -24,12 +24,12 @@ public class ClassDescValuesStyle extends ClassDescValues<ElementValuesStyle>
 
     public ElementValuesStyle createElementValuesStyle(DOMElemValuesStyle domElement, ElementValuesResources parentChildValues)
     {
-        DOMAttr attrName = domElement.findDOMAttribute(null, "name");
+        DOMAttr attrName = domElement.getDOMAttribute(null, "name");
         if (attrName == null)
             throw new ItsNatDroidException("Missing attribute name in <style>");
         String name = attrName.getValue();
 
-        DOMAttr attrParent = domElement.findDOMAttribute(null, "parent");  // Puede ser null (no definido)
+        DOMAttr attrParent = domElement.getDOMAttribute(null, "parent");  // Puede ser null (no definido)
         ElementValuesStyle elementValuesStyle = new ElementValuesStyle(name,attrParent,parentChildValues);
 
         processChildElementValuesItemStyle(domElement, elementValuesStyle);
@@ -52,7 +52,7 @@ public class ClassDescValuesStyle extends ClassDescValues<ElementValuesStyle>
 
     private ElementValuesItemStyle inflateNextElement(DOMElemValuesItemStyle domElement,ElementValuesStyle parentChildValues)
     {
-        DOMAttr attrName = domElement.findDOMAttribute(null, "name");
+        DOMAttr attrName = domElement.getDOMAttribute(null, "name");
         if (attrName == null)
             throw new ItsNatDroidException("Missing attribute name in <item>");
         String name = attrName.getValue();
