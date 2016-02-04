@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownloader;
 import org.itsnat.droid.impl.browser.servernotitsnat.XMLDOMLayoutPageNotItsNatDownloader;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
@@ -14,6 +15,7 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 25/01/2016.
@@ -44,9 +46,9 @@ public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
     }
 
     @Override
-    public void downloadRemoteResources() throws Exception
+    public void downloadRemoteResources(Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
-        super.downloadRemoteResources();
+        super.downloadRemoteResources(urlResDownloadedMap);
 
         // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo no UI downloader)
         XMLDOMLayoutPage xmlDOMPage = getXMLDOMLayoutPage();
@@ -69,8 +71,8 @@ public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
 
     private String downloadScriptSync(String src)
     {
-        src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
-        HttpRequestResultOKImpl result = HttpUtil.httpGet(src, httpRequestData, null, MimeUtil.MIME_BEANSHELL);
+        String absURL = HttpUtil.composeAbsoluteURL(src,pageURLBase);
+        HttpRequestResultOKImpl result = HttpUtil.httpGet(absURL, httpRequestData, null, MimeUtil.MIME_BEANSHELL);
         return result.getResponseText();
     }
 

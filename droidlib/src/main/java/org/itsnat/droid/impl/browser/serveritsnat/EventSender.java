@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
@@ -20,6 +21,7 @@ import org.itsnat.droid.impl.util.NameValue;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 10/07/14.
@@ -43,12 +45,13 @@ public class EventSender
         return evtManager.getItsNatDocItsNatImpl();
     }
 
-    public void requestSync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public void requestSync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, HttpRequestData httpRequestData,
+                            XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap)
     {
         HttpRequestResultOKBeanshellImpl result = null;
         try
         {
-            result = executeInBackground(this, servletPath, httpRequestData, paramList,xmlDOMRegistry,assetManager);
+            result = executeInBackground(this, servletPath, httpRequestData, paramList,xmlDOMRegistry,assetManager,urlResDownloadedMap);
         }
         catch (Exception ex)
         {
@@ -60,13 +63,15 @@ public class EventSender
         onFinishOk(this, evt, result);
     }
 
-    public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, HttpRequestData httpRequestData,
+                             XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap)
     {
-        HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager);
+        HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager,urlResDownloadedMap);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public static HttpRequestResultOKBeanshellImpl executeInBackground(EventSender eventSender, String servletPath, HttpRequestData httpRequestData, List<NameValue> paramList,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+    public static HttpRequestResultOKBeanshellImpl executeInBackground(EventSender eventSender, String servletPath, HttpRequestData httpRequestData, List<NameValue> paramList,
+                                                                       XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKBeanshellImpl result = (HttpRequestResultOKBeanshellImpl)HttpUtil.httpPost(servletPath, httpRequestData, paramList, null);
@@ -77,11 +82,10 @@ public class EventSender
         XMLDOMLayoutPageItsNat xmlDOMLayoutPage = pageItsNat.getInflatedLayoutPageItsNatImpl().getXMLDOMLayoutPageItsNat();
         String itsNatServerVersion = pageItsNat.getItsNatServerVersion();
 
-
         String code = result.getResponseText();
 
         XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion, xmlDOMRegistry, assetManager);
-        LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(code);
+        LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(code,urlResDownloadedMap);
 
         if (attrRemoteListBSParsed != null)
             result.setAttrRemoteListBSParsed(attrRemoteListBSParsed);

@@ -3,7 +3,10 @@ package org.itsnat.droid.impl.browser;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+
+import java.util.Map;
 
 /**
  * Created by jmarranz on 4/06/14.
@@ -17,8 +20,9 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final HttpRequestData httpRequestData;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
+    protected final Map<String,ParsedResource> urlResDownloadedMap;
 
-    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url)
+    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url,Map<String,ParsedResource> urlResDownloadedMap)
     {
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
@@ -30,11 +34,12 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
         this.assetManager = pageRequest.getContext().getAssets();
         this.httpRequestData = new HttpRequestData(pageRequest);
+        this.urlResDownloadedMap = urlResDownloadedMap;
     }
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager);
+        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager,urlResDownloadedMap);
     }
 
 

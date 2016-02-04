@@ -16,4 +16,10 @@ public class ParsedResourceImage extends ParsedResource
     {
         return imgBytes;
     }
+
+    @Override
+    public ParsedResource copy()
+    {
+        return new ParsedResourceImage(imgBytes);
+    }
 }

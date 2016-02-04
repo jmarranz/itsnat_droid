@@ -5,9 +5,11 @@ import android.content.res.AssetManager;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 4/06/14.
@@ -25,8 +27,10 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected int errorMode;
     protected XMLDOMRegistry xmlDOMRegistry;
     protected AssetManager assetManager;
+    protected Map<String,ParsedResource> urlResDownloadedMap;
 
-    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener httpRequestListener, OnHttpRequestErrorListener errorListener,int errorMode, AssetManager assetManager)
+    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener httpRequestListener,
+                                          OnHttpRequestErrorListener errorListener,int errorMode, AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -41,11 +45,12 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.errorMode = errorMode;
         this.xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         this.assetManager = assetManager;
+        this.urlResDownloadedMap = urlResDownloadedMap;
     }
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
+        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager,urlResDownloadedMap);
     }
 
     @Override

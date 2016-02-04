@@ -7,6 +7,7 @@ import org.itsnat.droid.impl.browser.FragmentLayoutInserter;
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.XMLDOMLayoutPageDownloader;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -15,6 +16,7 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 25/01/2016.
@@ -38,7 +40,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         return (XMLDOMLayoutPageItsNat)xmlDOM;
     }
 
-    public LinkedList<DOMAttrRemote> parseBeanShellAndDownloadRemoteResources(String code) throws Exception
+    public LinkedList<DOMAttrRemote> parseBeanShellAndDownloadRemoteResources(String code,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         @SuppressWarnings("unchecked") LinkedList<DOMAttrRemote>[] attrRemoteListBSParsed = new LinkedList[1];
         @SuppressWarnings("unchecked") LinkedList<String>[] classNameListBSParsed = new LinkedList[1];
@@ -51,7 +53,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         if (attrRemoteListBSParsed[0] != null)
         {
             // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
-            downloadResources(attrRemoteListBSParsed[0]);
+            downloadResources(attrRemoteListBSParsed[0],urlResDownloadedMap);
         }
 
         if (classNameListBSParsed[0] != null)
@@ -60,7 +62,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
             for (XMLDOMLayoutPage xmlDOM : xmlDOMLayoutPageArr)
             {
                 XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,xmlDOMRegistry, assetManager);
-                downloader.downloadRemoteResources();
+                downloader.downloadRemoteResources(urlResDownloadedMap);
             }
         }
 

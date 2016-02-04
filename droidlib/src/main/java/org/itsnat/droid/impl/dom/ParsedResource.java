@@ -5,5 +5,5 @@ package org.itsnat.droid.impl.dom;
  */
 public abstract class ParsedResource
 {
-
+    public abstract ParsedResource copy();
 }

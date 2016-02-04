@@ -20,6 +20,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownloader;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -27,6 +28,7 @@ import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MimeUtil;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -302,10 +304,12 @@ public class PageRequestImpl implements PageRequest
 
         String pageURLBase = getPageURLBase();
 
+        Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
+
         PageRequestResult pageRequestResult = null;
         try
         {
-            pageRequestResult = executeInBackground(url,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+            pageRequestResult = executeInBackground(url,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager,urlResDownloadedMap);
         }
         catch(Exception ex)
         {
@@ -321,15 +325,17 @@ public class PageRequestImpl implements PageRequest
 
     private void executeAsync(String url)
     {
-        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url);
+        Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
+        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,urlResDownloadedMap);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public static PageRequestResult executeInBackground(String url,String pageURLBase,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+    public static PageRequestResult executeInBackground(String url,String pageURLBase,HttpRequestData httpRequestData,
+                                                        XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
-        PageRequestResult pageReqResult = processHttpRequestResultMultiThread(result, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager);
+        PageRequestResult pageReqResult = processHttpRequestResultMultiThread(result, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager,urlResDownloadedMap);
         return pageReqResult;
     }
 
@@ -376,7 +382,7 @@ public class PageRequestImpl implements PageRequest
 
     private static PageRequestResult processHttpRequestResultMultiThread(HttpRequestResultOKImpl httpRequestResult,
                                         String pageURLBase, HttpRequestData httpRequestData,
-                                        XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
+                                        XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         // Método ejecutado en hilo downloader NO UI
 
@@ -388,7 +394,7 @@ public class PageRequestImpl implements PageRequest
 
         {
             XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion, xmlDOMRegistry, assetManager);
-            downloader.downloadRemoteResources();
+            downloader.downloadRemoteResources(urlResDownloadedMap);
         }
 
         if (xmlDOMLayoutPage instanceof XMLDOMLayoutPageItsNat)
@@ -398,7 +404,7 @@ public class PageRequestImpl implements PageRequest
             if (loadInitScript != null) // Es nulo si el scripting está desactivado
             {
                 XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmldomLayoutPageParent,pageURLBase, httpRequestData,itsNatServerVersion,xmlDOMRegistry, assetManager);
-                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript);
+                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript,urlResDownloadedMap);
 
                 if (attrRemoteListBSParsed != null)
                     pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed);

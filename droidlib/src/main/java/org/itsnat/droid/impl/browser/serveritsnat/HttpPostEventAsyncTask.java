@@ -5,28 +5,31 @@ import android.content.res.AssetManager;
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 4/06/14.
  */
 public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResultOKBeanshellImpl>
 {
-    protected EventSender eventSender;
-    protected EventGenericImpl evt;
-    protected String servletPath;
-    protected HttpRequestData httpRequestData;
-    protected List<NameValue> paramList;
-    protected XMLDOMRegistry xmlDOMRegistry;
-    protected AssetManager assetManager;
-
+    protected final EventSender eventSender;
+    protected final EventGenericImpl evt;
+    protected final String servletPath;
+    protected final HttpRequestData httpRequestData;
+    protected final List<NameValue> paramList;
+    protected final XMLDOMRegistry xmlDOMRegistry;
+    protected final AssetManager assetManager;
+    protected final Map<String,ParsedResource> urlResDownloadedMap;
 
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
-            List<NameValue> paramList,HttpRequestData httpRequestData,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+                        List<NameValue> paramList,HttpRequestData httpRequestData,
+                        XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap)
     {
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
@@ -36,12 +39,13 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
+        this.urlResDownloadedMap = urlResDownloadedMap;
     }
 
     @Override
     protected HttpRequestResultOKBeanshellImpl executeInBackground() throws Exception
     {
-        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,xmlDOMRegistry,assetManager);
+        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,xmlDOMRegistry,assetManager, urlResDownloadedMap);
     }
 
     @Override

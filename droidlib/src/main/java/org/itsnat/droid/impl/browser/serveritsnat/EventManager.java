@@ -8,11 +8,14 @@ import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.EventGenericListener;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 8/07/14.
@@ -107,18 +110,19 @@ public class EventManager
         XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = page.getContext().getResources().getAssets();
 
+        Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
 
         EventSender sender = new EventSender(this);
         if (commMode == CommMode.XHR_SYNC)
         {
-            sender.requestSync(evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager);
+            sender.requestSync(evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager,urlResDownloadedMap);
         }
         else if (commMode == CommMode.XHR_ASYNC || commMode == CommMode.XHR_ASYNC_HOLD)
         {
             if (commMode == CommMode.XHR_ASYNC_HOLD)
                 this.holdEvt = evt;
 
-            sender.requestAsync(evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager);
+            sender.requestAsync(evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager,urlResDownloadedMap);
         }
         else  // if ((commMode == 4) /*CommMode.SCRIPT*/ || (commMode == 5) /*CommMode.SCRIPT_HOLD*/)
             throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");

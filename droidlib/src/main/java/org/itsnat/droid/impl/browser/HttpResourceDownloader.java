@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 12/11/14.
@@ -33,14 +34,14 @@ public class HttpResourceDownloader
         this.assetManager = assetManager;
     }
 
-    public List<HttpRequestResultOKImpl> downloadResources(List<DOMAttrRemote> attrRemoteList) throws Exception
+    public List<HttpRequestResultOKImpl> downloadResources(List<DOMAttrRemote> attrRemoteList,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         List<HttpRequestResultOKImpl> resultList = Collections.synchronizedList(new ArrayList<HttpRequestResultOKImpl>()); // Necesario synchronizedList(), pues se comparte entre hilos
-        downloadResources(pageURLBase,attrRemoteList,resultList);
+        downloadResources(pageURLBase,attrRemoteList,resultList,urlResDownloadedMap);
         return resultList;
     }
 
-    private void downloadResources(String pageURLBase,List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
+    private void downloadResources(String pageURLBase,List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         int len = attrRemoteList.size();
         final Thread[] threadArray = new Thread[len];
@@ -51,7 +52,7 @@ public class HttpResourceDownloader
             final boolean[] stop = new boolean[1];
             for (DOMAttrRemote attr : attrRemoteList)
             {
-                Thread thread = downloadResource(pageURLBase,attr, stop, i,resultList, exList);
+                Thread thread = downloadResource(pageURLBase,attr, stop, i,resultList, exList,urlResDownloadedMap);
                 threadArray[i] = thread;
                 i++;
             }
@@ -72,7 +73,7 @@ public class HttpResourceDownloader
     }
 
     private Thread downloadResource(final String pageURLBase,final DOMAttrRemote attr, final boolean[] stop, final int i,
-                                    final List<HttpRequestResultOKImpl> resultList,final Exception[] exList) throws Exception
+                                    final List<HttpRequestResultOKImpl> resultList,final Exception[] exList,final Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         Thread thread = new Thread()
         {
@@ -82,10 +83,20 @@ public class HttpResourceDownloader
                 try
                 {
                     String resourceMime = attr.getResourceMime();
-                    String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
-                    HttpRequestResultOKImpl resultResource = HttpUtil.httpGet(url, httpRequestData, null, resourceMime);
-
-                    processHttpRequestResultResource(attr, resultResource, resultList);
+                    String absURL = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
+                    ParsedResource parsedResource;
+                    synchronized(urlResDownloadedMap)
+                    {
+                        // El objetivo de esto es evitar cargar el mismo recurso (ej archivo XML) muchas veces durante el mismo proceso de carga en hilos no UI, más aun cuando en un archivo "values" ha referencias recursivas
+                        parsedResource = urlResDownloadedMap.get(absURL);
+                    }
+                    if (parsedResource != null)
+                    {
+                        attr.setResource(parsedResource.copy());
+                        return;
+                    }
+                    HttpRequestResultOKImpl resultResource = HttpUtil.httpGet(absURL, httpRequestData, null, resourceMime);
+                    processHttpRequestResultResource(absURL,attr, resultResource, resultList,urlResDownloadedMap);
                 }
                 catch (Exception ex)
                 {
@@ -98,20 +109,24 @@ public class HttpResourceDownloader
         return thread;
     }
 
-    private void processHttpRequestResultResource(DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList) throws Exception
+    private void processHttpRequestResultResource(String absURL,DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         // Método llamado en multihilo
 
-        if (resultList != null) resultList.add(resultRes);
+        resultList.add(resultRes);
 
         ParsedResource resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes, xmlDOMRegistry, assetManager);
+        synchronized(urlResDownloadedMap)
+        {
+            urlResDownloadedMap.put(absURL,resource);
+        }
         if (resource instanceof ParsedResourceXMLDOM)
         {
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
-            String urlContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
-            String pageURLBaseContainer = HttpUtil.getBasePathOfURL(urlContainer);
+            String absURLContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
+            String pageURLBaseContainer = HttpUtil.getBasePathOfURL(absURLContainer);
             XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion, xmlDOMRegistry, assetManager);
-            downloader.downloadRemoteResources();
+            downloader.downloadRemoteResources(urlResDownloadedMap);
         }
     }
 

@@ -3,11 +3,13 @@ package org.itsnat.droid.impl.browser;
 import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 24/01/2016.
@@ -39,21 +41,21 @@ public class XMLDOMDownloader
             return new XMLDOMDownloaderOther(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
     }
 
-    public void downloadRemoteResources() throws Exception
+    public void downloadRemoteResources(Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
         if (attrRemoteList != null)
         {
-            downloadResources(attrRemoteList);
+            downloadResources(attrRemoteList,urlResDownloadedMap);
         }
     }
 
-    protected void downloadResources(LinkedList<DOMAttrRemote> attrRemoteList) throws Exception
+    protected void downloadResources(LinkedList<DOMAttrRemote> attrRemoteList,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
     {
         // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
 
         HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData,itsNatServerVersion,xmlDOMRegistry, assetManager);
-        resDownloader.downloadResources(attrRemoteList);
+        resDownloader.downloadResources(attrRemoteList,urlResDownloadedMap);
     }
 
 }

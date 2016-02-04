@@ -347,11 +347,11 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         PageImpl page = getPageImpl();
         boolean sync = page.getPageRequestClonedImpl().isSynchronous();
 
-        src = HttpUtil.composeAbsoluteURL(src, page.getPageURLBase());
+        String absURL = HttpUtil.composeAbsoluteURL(src, page.getPageURLBase());
 
         GenericHttpClientImpl client = createGenericHttpClientImpl();
 
-        client.setURL(src)
+        client.setURL(absURL)
                 .setOverrideMimeType(mime)
                 .setOnHttpRequestListener(listener)
                 .request(!sync);

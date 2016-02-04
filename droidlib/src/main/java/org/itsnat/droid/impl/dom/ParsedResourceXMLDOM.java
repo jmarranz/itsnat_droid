@@ -16,4 +16,10 @@ public class ParsedResourceXMLDOM extends ParsedResource
     {
         return xmlDOM;
     }
+
+    @Override
+    public ParsedResource copy()
+    {
+        return new ParsedResourceXMLDOM(xmlDOM);
+    }
 }
