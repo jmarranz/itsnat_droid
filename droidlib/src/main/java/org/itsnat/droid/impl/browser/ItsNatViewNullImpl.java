@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.FocusEventListe
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TextChangeEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TouchEventListenerViewAdapter;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 /**
  * Created by jmarranz on 11/08/14.
@@ -32,58 +33,58 @@ public class ItsNatViewNullImpl extends ItsNatViewImpl
     @Override
     public void setXMLId(String id)
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public ClickEventListenerViewAdapter getClickEventListenerViewAdapter()
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public TouchEventListenerViewAdapter getTouchEventListenerViewAdapter()
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public KeyEventListenerViewAdapter getKeyEventListenerViewAdapter()
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public FocusEventListenerViewAdapter getFocusEventListenerViewAdapter()
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public TextChangeEventListenerViewAdapter getTextChangeEventListenerViewAdapter()
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public void setTextChangeEventListenerViewAdapter(TextChangeEventListenerViewAdapter textChangeEvtListenerViewAdapter)
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
 
     public void setOnClickListener(View.OnClickListener l)
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public void setOnTouchListener(View.OnTouchListener l)
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public void setOnKeyListener(View.OnKeyListener l)
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
     public void setOnFocusChangeListener(View.OnFocusChangeListener l)
     {
-        throw new ItsNatDroidException("INTERNAL ERROR");
+        throw MiscUtil.internalError();
     }
 
 }

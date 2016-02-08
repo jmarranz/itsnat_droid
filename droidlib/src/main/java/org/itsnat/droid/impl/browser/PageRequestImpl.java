@@ -309,7 +309,7 @@ public class PageRequestImpl implements PageRequest
         PageRequestResult pageRequestResult = null;
         try
         {
-            pageRequestResult = executeInBackground(url,pageURLBase, httpRequestData, xmlDOMRegistry, assetManager,urlResDownloadedMap);
+            pageRequestResult = executeInBackground(url,pageURLBase, httpRequestData,urlResDownloadedMap, xmlDOMRegistry, assetManager);
         }
         catch(Exception ex)
         {
@@ -331,11 +331,11 @@ public class PageRequestImpl implements PageRequest
     }
 
     public static PageRequestResult executeInBackground(String url,String pageURLBase,HttpRequestData httpRequestData,
-                                                        XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+                                    Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
-        PageRequestResult pageReqResult = processHttpRequestResultMultiThread(result, pageURLBase, httpRequestData, xmlDOMRegistry, assetManager,urlResDownloadedMap);
+        PageRequestResult pageReqResult = processHttpRequestResultMultiThread(result, pageURLBase, httpRequestData,urlResDownloadedMap,xmlDOMRegistry, assetManager);
         return pageReqResult;
     }
 
@@ -382,7 +382,7 @@ public class PageRequestImpl implements PageRequest
 
     private static PageRequestResult processHttpRequestResultMultiThread(HttpRequestResultOKImpl httpRequestResult,
                                         String pageURLBase, HttpRequestData httpRequestData,
-                                        XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+                                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager) throws Exception
     {
         // Método ejecutado en hilo downloader NO UI
 
@@ -393,8 +393,8 @@ public class PageRequestImpl implements PageRequest
         PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, xmlDOMLayoutPage);
 
         {
-            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion, xmlDOMRegistry, assetManager);
-            downloader.downloadRemoteResources(urlResDownloadedMap);
+            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager);
+            downloader.downloadRemoteResources();
         }
 
         if (xmlDOMLayoutPage instanceof XMLDOMLayoutPageItsNat)
@@ -403,8 +403,8 @@ public class PageRequestImpl implements PageRequest
             String loadInitScript = xmldomLayoutPageParent.getLoadInitScript();
             if (loadInitScript != null) // Es nulo si el scripting está desactivado
             {
-                XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmldomLayoutPageParent,pageURLBase, httpRequestData,itsNatServerVersion,xmlDOMRegistry, assetManager);
-                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript,urlResDownloadedMap);
+                XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmldomLayoutPageParent,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager);
+                LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript);
 
                 if (attrRemoteListBSParsed != null)
                     pageReqResult.setAttrRemoteListBSParsed(attrRemoteListBSParsed);

@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
 import java.util.ArrayList;
@@ -24,15 +25,15 @@ import java.util.Map;
 public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
 {
     protected XMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
-                                               XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
     }
 
     public static XMLDOMLayoutPageItsNatDownloader createXMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData,
-                                                                                          String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                                                      String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
+        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
     }
 
     public XMLDOMLayoutPageItsNat getXMLDOMLayoutPageItsNat()
@@ -40,7 +41,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         return (XMLDOMLayoutPageItsNat)xmlDOM;
     }
 
-    public LinkedList<DOMAttrRemote> parseBeanShellAndDownloadRemoteResources(String code,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+    public LinkedList<DOMAttrRemote> parseBeanShellAndDownloadRemoteResources(String code) throws Exception
     {
         @SuppressWarnings("unchecked") LinkedList<DOMAttrRemote>[] attrRemoteListBSParsed = new LinkedList[1];
         @SuppressWarnings("unchecked") LinkedList<String>[] classNameListBSParsed = new LinkedList[1];
@@ -53,7 +54,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         if (attrRemoteListBSParsed[0] != null)
         {
             // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
-            downloadResources(attrRemoteListBSParsed[0],urlResDownloadedMap);
+            downloadResources(attrRemoteListBSParsed[0]);
         }
 
         if (classNameListBSParsed[0] != null)
@@ -61,8 +62,8 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
             XMLDOMLayoutPage[] xmlDOMLayoutPageArr = wrapAndParseMarkupFragment(classNameListBSParsed[0], xmlMarkupListBSParsed[0]);
             for (XMLDOMLayoutPage xmlDOM : xmlDOMLayoutPageArr)
             {
-                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,xmlDOMRegistry, assetManager);
-                downloader.downloadRemoteResources(urlResDownloadedMap);
+                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager);
+                downloader.downloadRemoteResources();
             }
         }
 
@@ -73,7 +74,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
     {
         XMLDOMLayoutPage[] xmlDOMLayoutPageFragmentArr = new XMLDOMLayoutPage[classNameListBSParsed.size()];
 
-        if (classNameListBSParsed.size() != xmlMarkupListBSParsed.size()) throw new ItsNatDroidException("Internal Error");
+        if (classNameListBSParsed.size() != xmlMarkupListBSParsed.size()) throw MiscUtil.internalError();
         // Así se cachea pero sobre to_do se cargan los recursos remotos dentro del markup que trae el setInnerXML()
         XMLDOMLayoutPageItsNat xmlDOMLayoutPageParent = getXMLDOMLayoutPageItsNat();
         Iterator<String> itClassName = classNameListBSParsed.iterator();

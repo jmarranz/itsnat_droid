@@ -78,7 +78,7 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDesc<C
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        String date = getString(attr.getValue(),attrCtx.getContext());
+        String date = getString(attr,attrCtx.getXMLInflaterLayout());
 
         Object calendarObject = getCalendarObject((CalendarView)view);
 

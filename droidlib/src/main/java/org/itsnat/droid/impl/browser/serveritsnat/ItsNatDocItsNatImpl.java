@@ -45,6 +45,7 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
@@ -294,7 +295,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         }
         else // Es un nodo que no se ha insertado todavía
         {
-            if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Internal Error");
+            if (!(node instanceof NodeToInsertImpl)) throw MiscUtil.internalError();
 
             NodeToInsertImpl nodeToIn = (NodeToInsertImpl) node;
             nodeToIn.setDOMAttribute(attr);
@@ -340,7 +341,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         }
         else // Es un nodo no insertado todavía
         {
-            if (!(node instanceof NodeToInsertImpl)) throw new ItsNatDroidException("Internal Error");
+            if (!(node instanceof NodeToInsertImpl)) throw MiscUtil.internalError();
 
             NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
 
@@ -384,7 +385,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     {
         // Si node es un NodeToInsertImpl debe estar ya insertado
         if (node instanceof NodeToInsertImpl && !((NodeToInsertImpl)node).isInserted())
-                throw new ItsNatDroidException("Internal Error"); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
+                throw MiscUtil.internalError(); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
 
         XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
 
@@ -658,7 +659,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     public void removeChild2(String id,boolean isText)
     {
         // isText es siempre false
-        if (isText) throw new ItsNatDroidException("Internal Error");
+        if (isText) throw MiscUtil.internalError();
         Node child = getNode(new Object[]{id});
         removeChild(child);
     }
@@ -666,7 +667,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void removeChild3(Object[] parentIdObj,String childRelPath,boolean isText)
     {
-        if (isText) throw new ItsNatDroidException("Internal Error");
+        if (isText) throw MiscUtil.internalError();
         Node parentNode = getNode(parentIdObj);
         Node child = getNode2(parentNode, new Object[]{null, childRelPath});
         removeChild(child);
@@ -801,7 +802,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     {
         View currentTarget = getView(idObj);
         if (currentTarget == null /*&& (!type.equals("unload") && !type.equals("load")) */) // En el caso "unload" y "load" se permite que sea nulo el target
-            throw new ItsNatDroidException("INTERNAL ERROR");
+            throw MiscUtil.internalError();
         ItsNatViewImpl viewData = getItsNatViewImpl(currentTarget);
         DroidEventListener listenerWrapper = new DroidEventListener(this,currentTarget,type,customFunction,listenerId,useCapture,commMode,timeout,eventGroupCode);
         getDroidEventListeners().put(listenerId, listenerWrapper);

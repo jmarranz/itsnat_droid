@@ -347,7 +347,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                 return 0;
             return getXMLInflateRegistry().getIdentifier(parentStyleDOMAttr.getValue(),ctx); // Error si no se encuentra, si se especifica ha de existir
         }
-        else throw new ItsNatDroidException("Internal Error");
+        else throw MiscUtil.internalError();
     }
 
     protected static DOMAttr findAttribute(String namespaceURI, String attrName, DOMAttributeMap attribMap)
@@ -494,7 +494,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         // http://stackoverflow.com/questions/13719103/how-to-retrieve-style-attributes-programatically-from-styles-xml
 
-        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
+        if (styleId == 0) throw MiscUtil.internalError();
 
 
         // El orden es importante, cada clase con instanceof debe estar ANTES que el instanceof de su clase base

@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout._IncludeFakeViewGroup_;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
@@ -40,7 +41,7 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
                 int indexOfInclude = viewParent.indexOfChild(viewIncludeFake);
 
                 viewParent.removeViewAt(indexOfInclude); // Eliminamos el falso View auxiliar que substituye al <include> y que está recien insertado
-                if (viewIncludeFake.getParent() != null) throw new ItsNatDroidException("Internal Error");
+                if (viewIncludeFake.getParent() != null) throw MiscUtil.internalError();
 
                 XMLInflaterLayout xmlInflater = attrCtx.getXMLInflaterLayout();
 

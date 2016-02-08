@@ -31,7 +31,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
 
     public static void getFrameLayoutLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
-        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
+        if (styleId == 0) throw MiscUtil.internalError();
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_ViewGroup_animateLayoutChanges;
@@ -36,7 +37,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
 
     public static void getViewGroupLayoutParamsFromStyleId(int styleId, List<DOMAttr> styleLayoutParamsAttribs, ContextThemeWrapper ctx)
     {
-        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
+        if (styleId == 0) throw MiscUtil.internalError();
 
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
@@ -66,7 +67,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
 
     public static void getViewGroupMarginLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
-        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
+        if (styleId == 0) throw MiscUtil.internalError();
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, marginLayoutParamsAttrs);
         for(int i = 0; i < marginLayoutParamsAttrs.length; i++)

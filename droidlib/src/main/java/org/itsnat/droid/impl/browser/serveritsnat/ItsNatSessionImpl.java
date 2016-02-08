@@ -1,11 +1,11 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
 import org.itsnat.droid.ItsNatDroidBrowser;
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -66,7 +66,7 @@ public class ItsNatSessionImpl implements ItsNatSession
     public void registerPage(PageImpl page)
     {
         PageImpl prev = pageMap.put(page.getId(), page);
-        if (prev != null && prev != page) throw new ItsNatDroidException("Internal Error");
+        if (prev != null && prev != page) throw MiscUtil.internalError();
         pageList.add(page);
         removeExcess();
     }

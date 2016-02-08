@@ -23,20 +23,20 @@ import java.util.Map;
 public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
 {
     public XMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData,String itsNatServerVersion,
-                                      XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
     }
 
     public static XMLDOMLayoutPageDownloader createXMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
-                                                                              XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                                                          Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
     {
         if (xmlDOM instanceof XMLDOMLayoutPageItsNat)
-            return XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader((XMLDOMLayoutPageItsNat)xmlDOM,pageURLBase, httpRequestData, itsNatServerVersion,xmlDOMRegistry,assetManager);
+            return XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader((XMLDOMLayoutPageItsNat)xmlDOM,pageURLBase, httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
         else if (xmlDOM instanceof XMLDOMLayoutPageNotItsNat)
-            return new XMLDOMLayoutPageNotItsNatDownloader((XMLDOMLayoutPageNotItsNat)xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
+            return new XMLDOMLayoutPageNotItsNatDownloader((XMLDOMLayoutPageNotItsNat)xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
         else if (xmlDOM instanceof XMLDOMLayoutPageFragment)
-            return new XMLDOMLayoutPageFragmentDownloader((XMLDOMLayoutPageFragment)xmlDOM,pageURLBase,httpRequestData, itsNatServerVersion,xmlDOMRegistry,assetManager);
+            return new XMLDOMLayoutPageFragmentDownloader((XMLDOMLayoutPageFragment)xmlDOM,pageURLBase,httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
         return null; // Internal Error
     }
 
@@ -46,9 +46,9 @@ public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
     }
 
     @Override
-    public void downloadRemoteResources(Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+    public void downloadRemoteResources() throws Exception
     {
-        super.downloadRemoteResources(urlResDownloadedMap);
+        super.downloadRemoteResources();
 
         // Tenemos que descargar los <script src="..."> remótamente de forma síncrona (podemos pues estamos en un hilo no UI downloader)
         XMLDOMLayoutPage xmlDOMPage = getXMLDOMLayoutPage();

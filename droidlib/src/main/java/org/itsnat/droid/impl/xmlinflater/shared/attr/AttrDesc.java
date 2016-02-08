@@ -93,14 +93,14 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getFloat(attrValue, ctx);
     }
 
-    public String getString(String attrValue, Context ctx)
+    public String getString(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getString(attrValue, ctx);
+        return getXMLInflateRegistry().getString(attr, xmlInflater);
     }
 
-    public CharSequence getText(String attrValue, Context ctx)
+    public CharSequence getText(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getText(attrValue, ctx);
+        return getXMLInflateRegistry().getText(attr, xmlInflater);
     }
 
     public CharSequence[] getTextArray(String attrValue, Context ctx)
@@ -108,9 +108,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getTextArray(attrValue, ctx);
     }
 
-    public boolean getBoolean(String attrValue, Context ctx)
+    public boolean getBoolean(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getBoolean(attrValue, ctx);
+        return getXMLInflateRegistry().getBoolean(attr,xmlInflater);
     }
 
     public int getDimensionIntFloor(DOMAttr attr,XMLInflater xmlInflater)

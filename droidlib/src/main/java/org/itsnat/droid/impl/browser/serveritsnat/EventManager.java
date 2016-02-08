@@ -115,14 +115,14 @@ public class EventManager
         EventSender sender = new EventSender(this);
         if (commMode == CommMode.XHR_SYNC)
         {
-            sender.requestSync(evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager,urlResDownloadedMap);
+            sender.requestSync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager);
         }
         else if (commMode == CommMode.XHR_ASYNC || commMode == CommMode.XHR_ASYNC_HOLD)
         {
             if (commMode == CommMode.XHR_ASYNC_HOLD)
                 this.holdEvt = evt;
 
-            sender.requestAsync(evt, servletPath, paramList, httpRequestData,xmlDOMRegistry,assetManager,urlResDownloadedMap);
+            sender.requestAsync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager);
         }
         else  // if ((commMode == 4) /*CommMode.SCRIPT*/ || (commMode == 5) /*CommMode.SCRIPT_HOLD*/)
             throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");

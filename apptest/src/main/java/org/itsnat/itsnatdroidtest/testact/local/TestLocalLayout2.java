@@ -779,7 +779,7 @@ public class TestLocalLayout2
             assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"), ValueUtil.dpToPixelIntRound(250.3f, res));
             assertEquals((Integer) TestUtil.getField(compLayout, "mMaxWidth"), (Integer) TestUtil.getField(parsedLayout, "mMaxWidth"));
 
-            assertEquals((CharSequence) TestUtil.getField(compLayout, "mQueryHint"), "The hint (SearchView)");
+            assertEquals((CharSequence) TestUtil.getField(compLayout, "mQueryHint"), "The hint");
             assertEquals((CharSequence) TestUtil.getField(compLayout, "mQueryHint"), (CharSequence) TestUtil.getField(parsedLayout, "mQueryHint"));
         }
 

@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResourceImage;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -171,7 +172,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
 
             throw new ItsNatDroidException("Cannot process " + attrValue);
         }
-        else throw new ItsNatDroidException("Internal Error");
+        else throw MiscUtil.internalError();
     }
 
 }

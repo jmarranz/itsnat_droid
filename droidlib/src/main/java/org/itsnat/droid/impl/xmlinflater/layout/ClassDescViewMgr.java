@@ -6,6 +6,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -124,7 +125,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
             // Caso <view class="className">
             className = classAttrValue;
         }
-        else throw new ItsNatDroidException("Internal Error");
+        else throw MiscUtil.internalError();
 
         Class<? extends View> nativeClass = null;
         try { nativeClass = resolveClass(className); }
@@ -179,7 +180,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
                     catch (ClassNotFoundException e) { continue; }
                 }
             }
-            throw new ItsNatDroidException("Internal Error"); // Nunca se llega aqui
+            throw MiscUtil.internalError(); // Nunca se llega aqui
         }
         else
         {

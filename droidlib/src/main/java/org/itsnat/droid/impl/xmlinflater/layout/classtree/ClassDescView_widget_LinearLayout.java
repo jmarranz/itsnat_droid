@@ -5,6 +5,7 @@ import android.view.ContextThemeWrapper;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.OrientationUtil;
@@ -35,7 +36,7 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
 
     public static void getLinearLayoutLayoutParamsFromStyleId(int styleId, List<DOMAttr> styleLayoutParamsAttribs, ContextThemeWrapper ctx)
     {
-        if (styleId == 0) throw new ItsNatDroidException("Internal Error");
+        if (styleId == 0) throw MiscUtil.internalError();
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)

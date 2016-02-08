@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import android.util.TypedValue;
 
-import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 /**
  * Created by Jose on 04/11/2015.
@@ -46,7 +46,7 @@ public class PercFloat
         {
             valueTmp = valueTmp / 100;
         }
-        else if (dataType != TypedValue.TYPE_FLOAT) throw new ItsNatDroidException("Internal Error");
+        else if (dataType != TypedValue.TYPE_FLOAT) throw MiscUtil.internalError();
         return valueTmp;
     }
 }

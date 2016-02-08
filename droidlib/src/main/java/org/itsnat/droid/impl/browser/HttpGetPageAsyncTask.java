@@ -31,15 +31,15 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.pageRequest = pageRequest;
         this.url = url;
         this.pageURLBase = pageRequest.getPageURLBase();
+        this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
         this.assetManager = pageRequest.getContext().getAssets();
         this.httpRequestData = new HttpRequestData(pageRequest);
-        this.urlResDownloadedMap = urlResDownloadedMap;
     }
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,xmlDOMRegistry,assetManager,urlResDownloadedMap);
+        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager);
     }
 
 

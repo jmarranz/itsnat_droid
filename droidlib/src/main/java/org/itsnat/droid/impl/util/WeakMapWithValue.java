@@ -95,7 +95,7 @@ public class WeakMapWithValue<Key,Value>
 
         boolean res = mapByKey.isEmpty();
         if (res != mapByValue.isEmpty())
-            throw new ItsNatDroidException("INTERNAL ERROR");
+            throw MiscUtil.internalError();
         return res;
     }
 

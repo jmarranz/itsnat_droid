@@ -194,7 +194,7 @@ public class HttpUtil
         // If the response does not enclose an entity, there is no need
         // to worry about connection release
 
-        if (entity == null) throw new ItsNatDroidException("Internal Error"); // null es muy raro incluso en caso de error
+        if (entity == null) throw MiscUtil.internalError(); // null es muy raro incluso en caso de error
 
         String[] mimeTypeRes = new String[1];
         String[] encodingRes = new String[1];

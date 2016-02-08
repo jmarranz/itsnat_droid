@@ -25,6 +25,7 @@ import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MimeUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
@@ -162,7 +163,7 @@ public class XMLInflateRegistry
         char first = value.charAt(0);
         if (first == '?')
         {
-            id = getIdentifierTheme(value, ctx);
+            id = getIdentifierAttrTheme(value, ctx);
             if (id > 0)
                 return id;
         }
@@ -204,7 +205,7 @@ public class XMLInflateRegistry
         return id;
     }
 
-    private static int getIdentifierTheme(String value, Context ctx)
+    private static int getIdentifierAttrTheme(String value, Context ctx)
     {
         // http://stackoverflow.com/questions/12781501/android-setting-linearlayout-background-programmatically
         // Ej. android:textAppearance="?android:attr/textAppearanceMedium"
@@ -251,7 +252,7 @@ public class XMLInflateRegistry
 
     public ViewStyleAttr getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
     {
-        if (attr.getNamespaceURI() != null || !"style".equals(attr.getName())) throw new ItsNatDroidException("Internal Error");
+        if (attr.getNamespaceURI() != null || !"style".equals(attr.getName())) throw MiscUtil.internalError();
 
         Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
@@ -271,7 +272,7 @@ public class XMLInflateRegistry
                 return null;
             return new ViewStyleAttrCompiled(styleId);
         }
-        else throw new ItsNatDroidException("Internal Error");
+        else throw MiscUtil.internalError();
     }
 
     public static boolean isResource(String attrValue)
@@ -308,7 +309,24 @@ public class XMLInflateRegistry
         } else return parseFloat(attrValue);
     }
 
-    public String getString(String attrValue, Context ctx)
+    public String getString(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        Context ctx = xmlInflater.getContext();
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getString(attrDyn.getValuesResourceName(), xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            String colorValue = attr.getValue();
+            return getStringCompiled(colorValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private String getStringCompiled(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -317,7 +335,24 @@ public class XMLInflateRegistry
         } else return attrValue;
     }
 
-    public CharSequence getText(String attrValue, Context ctx)
+    public CharSequence getText(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        Context ctx = xmlInflater.getContext();
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getText(attrDyn.getValuesResourceName(), xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            String colorValue = attr.getValue();
+            return getTextCompiled(colorValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    public CharSequence getTextCompiled(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -336,7 +371,24 @@ public class XMLInflateRegistry
         else return null;
     }
 
-    public boolean getBoolean(String attrValue, Context ctx)
+    public boolean getBoolean(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        Context ctx = xmlInflater.getContext();
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getBoolean(attrDyn.getValuesResourceName(), xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            String colorValue = attr.getValue();
+            return getBooleanCompiled(colorValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private boolean getBooleanCompiled(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -353,7 +405,7 @@ public class XMLInflateRegistry
         else if (suffix.equals("sp")) return TypedValue.COMPLEX_UNIT_SP;
         else if (suffix.equals("in")) return TypedValue.COMPLEX_UNIT_IN;
         else if (suffix.equals("mm")) return TypedValue.COMPLEX_UNIT_MM;
-        else throw new ItsNatDroidException("Internal error");
+        else throw MiscUtil.internalError();
     }
 
     private static String getDimensionSuffix(String value)
@@ -390,18 +442,6 @@ public class XMLInflateRegistry
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
     }
 
-    private static Dimension getDimensionObjectCompiled(String attrValue)
-    {
-        // Suponemos que NO es un recurso externo
-        // El retorno es en px
-        String valueTrim = attrValue.trim();
-        String suffix = getDimensionSuffix(valueTrim);
-        int complexUnit = getDimensionSuffixAsInt(suffix);
-        float num = extractFloat(valueTrim, suffix);
-        return new Dimension(complexUnit, num);
-    }
-
-
     public Dimension getDimensionObject(DOMAttr attr,XMLInflater xmlInflater)
     {
         Context ctx = xmlInflater.getContext();
@@ -416,7 +456,7 @@ public class XMLInflateRegistry
             String originalValue = attr.getValue();
             return getDimensionObjectCompiled(originalValue, ctx);
         }
-        else throw new ItsNatDroidException("Internal Error");
+        else throw MiscUtil.internalError();
     }
 
     private Dimension getDimensionObjectCompiled(String attrValue, Context ctx)
@@ -434,6 +474,17 @@ public class XMLInflateRegistry
         }
     }
 
+
+    private static Dimension getDimensionObjectCompiled(String attrValue)
+    {
+        // Suponemos que NO es un recurso externo
+        // El retorno es en px
+        String valueTrim = attrValue.trim();
+        String suffix = getDimensionSuffix(valueTrim);
+        int complexUnit = getDimensionSuffixAsInt(suffix);
+        float num = extractFloat(valueTrim, suffix);
+        return new Dimension(complexUnit, num);
+    }
 
     public int getDimensionIntFloor(DOMAttr attr,XMLInflater xmlInflater)
     {
@@ -469,7 +520,7 @@ public class XMLInflateRegistry
     public float getDimensionFloatRound(DOMAttr attr,XMLInflater xmlInflater)
     {
         // El retorno es en px
-        float num = getDimensionFloat(attr,xmlInflater);
+        float num = getDimensionFloat(attr, xmlInflater);
         num = Math.round(num);
         return num;
     }
@@ -488,9 +539,7 @@ public class XMLInflateRegistry
             String originalValue = attr.getValue();
             return getDimensionPercFloatCompiled(originalValue, ctx);
         }
-        else throw new ItsNatDroidException("Internal Error");
-
-
+        else throw MiscUtil.internalError();
     }
 
     private PercFloat getDimensionPercFloatCompiled(String attrValue, Context ctx)
@@ -580,6 +629,72 @@ public class XMLInflateRegistry
         return dimension;
     }
 
+
+    public int getColor(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        Context ctx = xmlInflater.getContext();
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getColor(attrDyn.getValuesResourceName(), xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            String colorValue = attr.getValue();
+            return getColorCompiled(colorValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private int getColorCompiled(String attrValue, Context ctx)
+    {
+        if (isResource(attrValue))
+        {
+            int resId = getIdentifier(attrValue, ctx);
+            return ctx.getResources().getColor(resId);
+        }
+        else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
+        {
+            return Color.parseColor(attrValue);
+        }
+
+        throw new ItsNatDroidException("Cannot process " + attrValue);
+    }
+
+
+    public static String toStringColorTransparent(int value)
+    {
+        if (value != Color.TRANSPARENT) throw MiscUtil.internalError();
+        return "#00000000";
+    }
+
+    public float getPercent(String attrValue, Context ctx)
+    {
+        if (isResource(attrValue))
+        {
+            int resId = getIdentifier(attrValue, ctx);
+            String str = ctx.getResources().getString(resId);
+            return getPercent(str);
+        }
+        else
+        {
+            return getPercent(attrValue);
+        }
+    }
+
+    private static float getPercent(String s)
+    {
+        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/ScaleDrawable.java#ScaleDrawable.getPercent
+        if (s != null) {
+            if (s.endsWith("%")) {
+                String f = s.substring(0, s.length() - 1);
+                return Float.parseFloat(f) / 100.0f;
+            }
+        }
+        return -1;
+    }
+
     private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
     {
         ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
@@ -607,7 +722,7 @@ public class XMLInflateRegistry
 
         PageImpl page = PageImpl.getPageImpl(xmlInflaterParent); // Puede ser null
 
-        if (attrDyn instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
+        if (attrDyn instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
         int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
@@ -624,63 +739,6 @@ public class XMLInflateRegistry
         return elementResources;
     }
 
-    private int getColorCompiled(String attrValue, Context ctx)
-    {
-        if (isResource(attrValue))
-        {
-            int resId = getIdentifier(attrValue,ctx);
-            return ctx.getResources().getColor(resId);
-        }
-        else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
-        {
-            return Color.parseColor(attrValue);
-        }
-
-        throw new ItsNatDroidException("Cannot process " + attrValue);
-    }
-
-
-    public int getColor(DOMAttr attr,XMLInflater xmlInflater)
-    {
-        Context ctx = xmlInflater.getContext();
-        if (attr instanceof DOMAttrDynamic)
-        {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getColor(attrDyn.getValuesResourceName(),xmlInflater);
-        }
-        else if (attr instanceof DOMAttrCompiledResource)
-        {
-            String colorValue = attr.getValue();
-            return getColorCompiled(colorValue, ctx);
-        }
-        else throw new ItsNatDroidException("Internal Error");
-
-
-    }
-
-    public static String toStringColorTransparent(int value)
-    {
-        if (value != Color.TRANSPARENT) throw new ItsNatDroidException("Internal Error");
-        return "#00000000";
-    }
-
-    private Drawable getDrawableCompiled(String attrValue, Context ctx)
-    {
-        if (isResource(attrValue))
-        {
-            int resId = getIdentifier(attrValue, ctx);
-            if (resId <= 0) return null;
-            return ctx.getResources().getDrawable(resId);
-        }
-        else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
-        {
-            int color = Color.parseColor(attrValue);
-            return new ColorDrawable(color);
-        }
-
-        throw new ItsNatDroidException("Cannot process " + attrValue);
-    }
 
     public Drawable getDrawable(DOMAttr attr,XMLInflater xmlInflaterParent)
     {
@@ -698,7 +756,7 @@ public class XMLInflateRegistry
                 // Esperamos un drawable
                 PageImpl page = PageImpl.getPageImpl(xmlInflaterParent);
 
-                if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
+                if (attr instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
                 ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
                 AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
@@ -706,8 +764,8 @@ public class XMLInflateRegistry
 
                 ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
                 XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
-                InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid,xmlDOMDrawable,ctx,page);
-                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener, attrDrawableInflaterListener);
+                InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
+                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
                 return xmlInflaterDrawable.inflateDrawable();
             }
             else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -724,36 +782,21 @@ public class XMLInflateRegistry
             String attrValue = attr.getValue();
             return getDrawableCompiled(attrValue, ctx);
         }
-        else throw new ItsNatDroidException("Internal Error");
+        else throw MiscUtil.internalError();
     }
 
-    private View getLayoutCompiled(String attrValue, XMLInflater xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    private Drawable getDrawableCompiled(String attrValue, Context ctx)
     {
-        // viewParent es por ahora NO nulo
-
         if (isResource(attrValue))
         {
-            Context ctx = xmlInflater.getContext();
-
             int resId = getIdentifier(attrValue, ctx);
             if (resId <= 0) return null;
-            int countBefore = viewParent.getChildCount();
-
-            View rootView = LayoutInflater.from(ctx).inflate(resId, viewParent);
-
-            if (rootView != viewParent) throw new ItsNatDroidException("Internal Error"); // rootView es igual a viewParent
-
-            int countAfter = viewParent.getChildCount();
-            int countInserted = countAfter - countBefore;
-            if (countInserted == 1 && includeAttribs != null)
-            {
-                View rootViewChild = viewParent.getChildAt(indexChild);
-                XMLInflaterLayout xmlInflaterLayout = (XMLInflaterLayout)xmlInflater;
-
-                xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent,includeAttribs);
-            }
-
-            return rootView;
+            return ctx.getResources().getDrawable(resId);
+        }
+        else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
+        {
+            int color = Color.parseColor(attrValue);
+            return new ColorDrawable(color);
         }
 
         throw new ItsNatDroidException("Cannot process " + attrValue);
@@ -776,7 +819,7 @@ public class XMLInflateRegistry
             {
                 PageImpl pageParent = PageImpl.getPageImpl(xmlInflaterParent);
 
-                if (attr instanceof DOMAttrRemote && pageParent == null) throw new ItsNatDroidException("Internal Error"); // Si es remote hay page por medio
+                if (attr instanceof DOMAttrRemote && pageParent == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
                 int countBefore = viewParent.getChildCount();
 
@@ -787,7 +830,7 @@ public class XMLInflateRegistry
                 ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
                 XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
-                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,viewParent,indexChild,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,pageParent);
+                XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, pageParent);
                 View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
 
                 if (pageParent != null) // existe página padre
@@ -811,7 +854,7 @@ public class XMLInflateRegistry
                 }
 
 
-                if (rootView != viewParent) throw new ItsNatDroidException("Internal Error"); // rootView es igual a viewParent
+                if (rootView != viewParent) throw MiscUtil.internalError(); // rootView es igual a viewParent
 
                 int countAfter = viewParent.getChildCount();
                 int countInserted = countAfter - countBefore;
@@ -839,36 +882,43 @@ public class XMLInflateRegistry
         else if (attr instanceof DOMAttrCompiledResource)
         {
             String attrValue = attr.getValue();
-            return getLayoutCompiled(attrValue,xmlInflaterParent, viewParent, indexChild, includeAttribs);
+            return getLayoutCompiled(attrValue, xmlInflaterParent, viewParent, indexChild, includeAttribs);
         }
-        else throw new ItsNatDroidException("Internal Error");
+        else throw MiscUtil.internalError();
     }
 
-
-    public float getPercent(String attrValue, Context ctx)
+    private View getLayoutCompiled(String attrValue, XMLInflater xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
+        // viewParent es por ahora NO nulo
+
         if (isResource(attrValue))
         {
+            Context ctx = xmlInflater.getContext();
+
             int resId = getIdentifier(attrValue, ctx);
-            String str = ctx.getResources().getString(resId);
-            return getPercent(str);
+            if (resId <= 0) return null;
+            int countBefore = viewParent.getChildCount();
+
+            View rootView = LayoutInflater.from(ctx).inflate(resId, viewParent);
+
+            if (rootView != viewParent) throw MiscUtil.internalError(); // rootView es igual a viewParent
+
+            int countAfter = viewParent.getChildCount();
+            int countInserted = countAfter - countBefore;
+            if (countInserted == 1 && includeAttribs != null)
+            {
+                View rootViewChild = viewParent.getChildAt(indexChild);
+                XMLInflaterLayout xmlInflaterLayout = (XMLInflaterLayout)xmlInflater;
+
+                xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent,includeAttribs);
+            }
+
+            return rootView;
         }
-        else
-        {
-            return getPercent(attrValue);
-        }
+
+        throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    private static float getPercent(String s)
-    {
-        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/ScaleDrawable.java#ScaleDrawable.getPercent
-        if (s != null) {
-            if (s.endsWith("%")) {
-                String f = s.substring(0, s.length() - 1);
-                return Float.parseFloat(f) / 100.0f;
-            }
-        }
-        return -1;
-    }
+
 }
 

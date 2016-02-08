@@ -14,12 +14,18 @@ import org.itsnat.droid.impl.dom.values.DOMElemValuesStyle;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
 
 /**
  * Created by jmarranz on 31/10/14.
@@ -38,7 +44,8 @@ public class XMLDOMValuesParser extends XMLDOMParser
 
     public static boolean isResourceTypeValues(String resourceType)
     {
-        return "style".equals(resourceType) || "color".equals(resourceType) || "dimen".equals(resourceType);
+        return "style".equals(resourceType) ||
+                TYPE_BOOL.equals(resourceType) || TYPE_COLOR.equals(resourceType) || TYPE_DIMEN.equals(resourceType)|| TYPE_STRING.equals(resourceType);
     }
 
     @Override
@@ -108,7 +115,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
         {
             DOMElemValuesNoChildElem parentElementNoChildElem = (DOMElemValuesNoChildElem)parentElement;
 
-            // Esperamos un único nodo de texto hijo, no toleramos comentarios ni similares
+            // Lo normal es que esperemos un único nodo de texto hijo, no toleramos comentarios ni similares
             while (parser.next() != XmlPullParser.TEXT) ; // Ignoramos comentarios etc
 
             String text = parser.getText();
@@ -123,6 +130,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
             super.processChildElements(parentElement, parser, xmlDOM);
         }
     }
+
 
     public static boolean hasChildElements(String elemName)
     {

@@ -29,7 +29,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
 
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
                         List<NameValue> paramList,HttpRequestData httpRequestData,
-                        XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap)
+                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
@@ -37,15 +37,15 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.servletPath = servletPath;
         this.httpRequestData = httpRequestData;
         this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
+        this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
-        this.urlResDownloadedMap = urlResDownloadedMap;
     }
 
     @Override
     protected HttpRequestResultOKBeanshellImpl executeInBackground() throws Exception
     {
-        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,xmlDOMRegistry,assetManager, urlResDownloadedMap);
+        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMRegistry,assetManager);
     }
 
     @Override

@@ -114,7 +114,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         int shape = attrShape != null ? AttrDesc.<Integer>parseSingleName(attrShape.getValue(), shapeValueMap) : RECTANGLE;
 
         DOMAttr attrDither = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "dither");
-        boolean dither = attrDither != null ? xmlInflateRegistry.getBoolean(attrDither.getValue(),ctx) : false;
+        boolean dither = attrDither != null ? xmlInflateRegistry.getBoolean(attrDither,inflaterDrawable) : false;
 
 
         if (shape == RING)
@@ -146,7 +146,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
             }
 
             DOMAttr attrUseLevelForShape = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "useLevel");
-            boolean useLevelForShape = attrUseLevelForShape != null ? xmlInflateRegistry.getBoolean(attrUseLevelForShape.getValue(), ctx) : true;
+            boolean useLevelForShape = attrUseLevelForShape != null ? xmlInflateRegistry.getBoolean(attrUseLevelForShape, inflaterDrawable) : true;
             useLevelForShapeField.set(gradientState,useLevelForShape);
         }
 
@@ -327,7 +327,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                     else if (dataType == TypedValue.TYPE_FLOAT)
                         radiusType = RADIUS_TYPE_PIXELS;
                     else
-                        throw new ItsNatDroidException("Internal Error");
+                        throw MiscUtil.internalError();
 
                     gradientRadiusTypeField.set(gradientState,radiusType);
                 }

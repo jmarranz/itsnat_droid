@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.dom;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MiscUtil;
 
 /**
@@ -31,8 +30,8 @@ public class DOMAttrRemote extends DOMAttrDynamic
     public void check(String namespaceURI,String name,String value)
     {
         // Este chequeo nos sirve para quedarnos más tranquilos y cuesta muy poco
-        if (!MiscUtil.equalsNullAllowed(this.namespaceURI,namespaceURI)) throw new ItsNatDroidException("Internal Error");
-        if (!MiscUtil.equalsNullAllowed(this.name,name)) throw new ItsNatDroidException("Internal Error");
-        if (!MiscUtil.equalsNullAllowed(this.value,value)) throw new ItsNatDroidException("Internal Error");
+        if (!MiscUtil.equalsNullAllowed(this.namespaceURI,namespaceURI)) throw MiscUtil.internalError();
+        if (!MiscUtil.equalsNullAllowed(this.name,name)) throw MiscUtil.internalError();
+        if (!MiscUtil.equalsNullAllowed(this.value,value)) throw MiscUtil.internalError();
     }
 }

@@ -82,15 +82,15 @@
             <TextView
                 android:id="@+id/textViewTest3"
                 android:text="Text size=15.3dp,color=red,padding"
-                android:textSize="@assets:dimen/res/values/test_values_asset.xml:test_dimen_textSize"
-                android:textColor="@assets:color/res/values/test_values_asset.xml:test_color_textColor"
+                android:textSize="@assets:dimen/res/values/test_values_asset.xml:test_dimen_textview_textSize"
+                android:textColor="@assets:color/res/values/test_values_asset.xml:test_color_textview_textColor"
                 android:background="#dddddd"
                 android:layout_below="@id/textViewTest2"
                 style="@assets:style/res/values/test_values_asset.xml:test_style_textview_asset" />
 
             <TextView android:id="@+id/textViewTest4"
                 android:text="Text size=smaller,color=red,padding"
-                android:textColor="@assets:color/res/values/test_values_asset.xml:test_color_textColor"
+                android:textColor="@assets:color/res/values/test_values_asset.xml:test_color_textview_textColor"
                 android:background="#dddddd"
                 android:layout_below="@id/textViewTest3"
                 style="@assets:style/res/values/test_values_asset.xml:test_style_textview_asset" />
@@ -530,11 +530,13 @@
             android:layout_marginBottom="10dp"
             android:hint="Only accepts signed decimal numbers"
             android:imeActionId="0x00000002"
-            android:imeActionLabel="Go Next"
+            android:imeActionLabel="@assets:string/res/values/test_values_asset.xml:test_string_textview_imeActionLabel"
             android:imeOptions="actionNext"
             android:inputType="numberDecimal|numberSigned"
             android:textIsSelectable="false"
             /> <!-- textIsSelectable parece que es ignorado -->
+             <!-- imeActionLabel solo se ve cuando el teclado en landscape ocupa toda la pantalla -->
+
 
         <TextView
             android:layout_width="match_parent"

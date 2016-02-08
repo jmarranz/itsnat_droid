@@ -16,21 +16,21 @@ import java.util.Map;
  */
 public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<HttpRequestResultOKImpl>>
 {
-    protected List<DOMAttrRemote> attrRemoteList;
-    protected DownloadResourcesHttpClient parent;
-    protected String method;
-    protected String pageURLBase;
-    protected HttpRequestData httpRequestData;
-    protected String itsNatServerVersion;
-    protected OnHttpRequestListener httpRequestListener;
-    protected OnHttpRequestErrorListener errorListener;
-    protected int errorMode;
-    protected XMLDOMRegistry xmlDOMRegistry;
-    protected AssetManager assetManager;
-    protected Map<String,ParsedResource> urlResDownloadedMap;
+    protected final List<DOMAttrRemote> attrRemoteList;
+    protected final DownloadResourcesHttpClient parent;
+    protected final String method;
+    protected final String pageURLBase;
+    protected final HttpRequestData httpRequestData;
+    protected final String itsNatServerVersion;
+    protected final OnHttpRequestListener httpRequestListener;
+    protected final OnHttpRequestErrorListener errorListener;
+    protected final int errorMode;
+    protected final XMLDOMRegistry xmlDOMRegistry;
+    protected final AssetManager assetManager;
+    protected final Map<String,ParsedResource> urlResDownloadedMap;
 
     public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener httpRequestListener,
-                                          OnHttpRequestErrorListener errorListener,int errorMode, AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap)
+                                          OnHttpRequestErrorListener errorListener,int errorMode,Map<String,ParsedResource> urlResDownloadedMap, AssetManager assetManager)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -43,14 +43,14 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.itsNatServerVersion = page.getItsNatServerVersion();
         this.errorListener = errorListener;
         this.errorMode = errorMode;
+        this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         this.assetManager = assetManager;
-        this.urlResDownloadedMap = urlResDownloadedMap;
     }
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager,urlResDownloadedMap);
+        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
     }
 
     @Override

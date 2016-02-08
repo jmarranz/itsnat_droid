@@ -74,7 +74,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
         try
         {
-            resultList = executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager,urlResDownloadedMap);
+            resultList = executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
         }
         catch (Exception ex)
         {
@@ -94,16 +94,16 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         int errorMode = itsNatDoc.getClientErrorMode();
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
 
-        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,pageURLBase, httpRequestListener,errorListener,errorMode,assetManager,urlResDownloadedMap);
+        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,pageURLBase, httpRequestListener,errorListener,errorMode,urlResDownloadedMap,assetManager);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public static List<HttpRequestResultOKImpl> executeInBackground(List<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,
-                                                                    XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+                                            Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
     {
         // Llamado en multithread en caso de async
-        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,itsNatServerVersion,xmlDOMRegistry,assetManager);
-        return resDownloader.downloadResources(attrRemoteList,urlResDownloadedMap);
+        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        return resDownloader.downloadResources(attrRemoteList);
     }
 
     public static void onFinishOk(DownloadResourcesHttpClient parent,List<HttpRequestResultOKImpl> resultList,OnHttpRequestListener httpRequestListener,OnHttpRequestErrorListener errorListener)

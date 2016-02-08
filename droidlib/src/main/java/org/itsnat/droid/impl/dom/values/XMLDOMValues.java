@@ -7,6 +7,11 @@ import org.itsnat.droid.impl.dom.XMLDOM;
  */
 public class XMLDOMValues extends XMLDOM
 {
+    public final static String TYPE_BOOL = "bool";
+    public final static String TYPE_COLOR = "color";
+    public final static String TYPE_DIMEN = "dimen";
+    public final static String TYPE_STRING = "string";
+
     public XMLDOMValues()
     {
     }

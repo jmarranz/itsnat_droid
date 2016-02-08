@@ -72,4 +72,9 @@ public class MiscUtil
         try { Thread.sleep(lapse); }
         catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
     }
+
+    public static ItsNatDroidException internalError()
+    {
+        return new ItsNatDroidException("INTERNAL ERROR");
+    }
 }

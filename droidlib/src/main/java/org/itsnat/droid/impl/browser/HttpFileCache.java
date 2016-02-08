@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
-import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,7 +37,7 @@ public class HttpFileCache
         if (currentLastAccess != prevLastAccess) // por si acaso ocurre dos accesos del mismo archivo en el mismo milisegundo
         {
             FileCached file2 = mapByLastAccess.remove(genLastAccessKey(prevLastAccess,file));
-            if (file2 != file) throw new ItsNatDroidException("Internal Error"); // file2 en teoria DEBE ser igual que file, pero por si acaso...
+            if (file2 != file) throw MiscUtil.internalError(); // file2 en teoria DEBE ser igual que file, pero por si acaso...
             mapByLastAccess.put(genLastAccessKey(currentLastAccess,file), file);
         }
 
@@ -50,9 +50,9 @@ public class HttpFileCache
         if (oldFile != null)
             removeInternal(oldFile); // asi aseguramos que dos put a la vez con el mismo FileCached solo inserten un FileCached no dos
 
-        if (mapByUrl.put(file.getUrl(),file) != null) throw new ItsNatDroidException("Internal Error");
+        if (mapByUrl.put(file.getUrl(),file) != null) throw MiscUtil.internalError();
         long lastAccess = file.getLastAccessTimestamp();
-        if (mapByLastAccess.put(genLastAccessKey(lastAccess,file), file) != null) throw new ItsNatDroidException("Internal Error");
+        if (mapByLastAccess.put(genLastAccessKey(lastAccess,file), file) != null) throw MiscUtil.internalError();
 
         currentCacheSize += file.getContentByteArray().length;
 
@@ -69,9 +69,9 @@ public class HttpFileCache
 
     private void removeInternal(FileCached file)
     {
-        if (mapByUrl.remove(file.getUrl()) != file) throw new ItsNatDroidException("Internal Error");
+        if (mapByUrl.remove(file.getUrl()) != file) throw MiscUtil.internalError();
         long lastAccess = file.getLastAccessTimestamp();
-        if (mapByLastAccess.remove(genLastAccessKey(lastAccess,file)) != file) throw new ItsNatDroidException("Internal Error");
+        if (mapByLastAccess.remove(genLastAccessKey(lastAccess,file)) != file) throw MiscUtil.internalError();
 
         currentCacheSize -= file.getContentByteArray().length;
     }

@@ -22,26 +22,29 @@ public class HttpResourceDownloader
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
     protected final String itsNatServerVersion;
+    protected final Map<String,ParsedResource> urlResDownloadedMap;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
 
-    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,
+                                  XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
     {
         this.pageURLBase = pageURLBase;
         this.httpRequestData = httpRequestData;
         this.itsNatServerVersion = itsNatServerVersion;
+        this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
     }
 
-    public List<HttpRequestResultOKImpl> downloadResources(List<DOMAttrRemote> attrRemoteList,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+    public List<HttpRequestResultOKImpl> downloadResources(List<DOMAttrRemote> attrRemoteList) throws Exception
     {
         List<HttpRequestResultOKImpl> resultList = Collections.synchronizedList(new ArrayList<HttpRequestResultOKImpl>()); // Necesario synchronizedList(), pues se comparte entre hilos
-        downloadResources(pageURLBase,attrRemoteList,resultList,urlResDownloadedMap);
+        downloadResources(attrRemoteList,resultList);
         return resultList;
     }
 
-    private void downloadResources(String pageURLBase,List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+    private void downloadResources(List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         int len = attrRemoteList.size();
         final Thread[] threadArray = new Thread[len];
@@ -52,7 +55,7 @@ public class HttpResourceDownloader
             final boolean[] stop = new boolean[1];
             for (DOMAttrRemote attr : attrRemoteList)
             {
-                Thread thread = downloadResource(pageURLBase,attr, stop, i,resultList, exList,urlResDownloadedMap);
+                Thread thread = downloadResource(attr, stop, i,resultList, exList);
                 threadArray[i] = thread;
                 i++;
             }
@@ -72,8 +75,8 @@ public class HttpResourceDownloader
         }
     }
 
-    private Thread downloadResource(final String pageURLBase,final DOMAttrRemote attr, final boolean[] stop, final int i,
-                                    final List<HttpRequestResultOKImpl> resultList,final Exception[] exList,final Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+    private Thread downloadResource(final DOMAttrRemote attr, final boolean[] stop, final int i,
+                                    final List<HttpRequestResultOKImpl> resultList,final Exception[] exList) throws Exception
     {
         Thread thread = new Thread()
         {
@@ -96,7 +99,7 @@ public class HttpResourceDownloader
                         return;
                     }
                     HttpRequestResultOKImpl resultResource = HttpUtil.httpGet(absURL, httpRequestData, null, resourceMime);
-                    processHttpRequestResultResource(absURL,attr, resultResource, resultList,urlResDownloadedMap);
+                    processHttpRequestResultResource(absURL,attr, resultResource, resultList);
                 }
                 catch (Exception ex)
                 {
@@ -109,7 +112,7 @@ public class HttpResourceDownloader
         return thread;
     }
 
-    private void processHttpRequestResultResource(String absURL,DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList,Map<String,ParsedResource> urlResDownloadedMap) throws Exception
+    private void processHttpRequestResultResource(String absURL,DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         // Método llamado en multihilo
 
@@ -118,15 +121,16 @@ public class HttpResourceDownloader
         ParsedResource resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes, xmlDOMRegistry, assetManager);
         synchronized(urlResDownloadedMap)
         {
-            urlResDownloadedMap.put(absURL,resource);
+            urlResDownloadedMap.put(absURL,resource); // No pasa nada si dos hilos con el mismo absURL-resource hacen put seguidos
         }
+
         if (resource instanceof ParsedResourceXMLDOM)
         {
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
             String absURLContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
             String pageURLBaseContainer = HttpUtil.getBasePathOfURL(absURLContainer);
-            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion, xmlDOMRegistry, assetManager);
-            downloader.downloadRemoteResources(urlResDownloadedMap);
+            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion,urlResDownloadedMap, xmlDOMRegistry, assetManager);
+            downloader.downloadRemoteResources();
         }
     }
 

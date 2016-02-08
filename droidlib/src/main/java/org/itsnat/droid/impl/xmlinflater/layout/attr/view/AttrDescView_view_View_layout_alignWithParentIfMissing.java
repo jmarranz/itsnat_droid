@@ -22,7 +22,7 @@ public class AttrDescView_view_View_layout_alignWithParentIfMissing extends Attr
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final boolean convValue = getBoolean(attr.getValue(),attrCtx.getContext());
+        final boolean convValue = getBoolean(attr, attrCtx.getXMLInflater());
 
         Runnable task = new Runnable(){
             @Override

@@ -9,6 +9,10 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 
 import java.util.HashMap;
 import java.util.Map;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
 
 /**
  * Es la clase asociada al tag root "resources"
@@ -71,26 +75,46 @@ public class ElementValuesResources extends ElementValues
         return type + "#" + name;
     }
 
+    public boolean getBoolean(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_BOOL,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getBoolean(valueAsDOMAttr, xmlInflater);
+    }
+
     public int getColor(String name,XMLInflater xmlInflater)
     {
-        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue("color",name);
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_COLOR,name);
         XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
         return xmlInflateRegistry.getColor(valueAsDOMAttr, xmlInflater);
     }
 
-
     public Dimension getDimensionObject(String name, XMLInflater xmlInflater)
     {
-        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue("dimen",name);
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
         XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
         return xmlInflateRegistry.getDimensionObject(valueAsDOMAttr, xmlInflater);
     }
 
     public PercFloat getDimensionPercFloat(String name, XMLInflater xmlInflater)
     {
-        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue("dimen",name);
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
         XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
         return xmlInflateRegistry.getDimensionPercFloat(valueAsDOMAttr, xmlInflater);
+    }
+
+    public String getString(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getString(valueAsDOMAttr, xmlInflater);
+    }
+
+    public CharSequence getText(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name); // NO HAY tipo "text" tal y como <text name="somename">some <b>text</b></text>
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getText(valueAsDOMAttr, xmlInflater);
     }
 
     public ElementValuesStyle getViewStyle(String name)

@@ -15,6 +15,7 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -147,7 +148,7 @@ public class FragmentLayoutInserter
             else
             {
                 // Es un DOMScriptInline con code a null, es imposible
-                throw new ItsNatDroidException("Internal Error");
+                throw MiscUtil.internalError();
             }
         }
 

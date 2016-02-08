@@ -1,9 +1,9 @@
 package org.itsnat.droid.impl.domparser;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.TimestampExtended;
 import org.itsnat.droid.impl.dom.TimestampExtendedComparator;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,11 +61,11 @@ public class XMLDOMCache<T extends XMLDOM>
         }
         T res;
         res = registryByMarkup.put(markup,xmlDOM);
-        if (res != null) throw new ItsNatDroidException("Internal Error");
+        if (res != null) throw MiscUtil.internalError();
         TimestampExtended timestamp = xmlDOM.getTimestampExtended();
         generateUniqueTimestamp(timestamp);
         res = registryByTimestamp.put(timestamp, xmlDOM);
-        if (res != null) throw new ItsNatDroidException("Internal Error");
+        if (res != null) throw MiscUtil.internalError();
     }
 
     private synchronized void generateUniqueTimestamp(TimestampExtended timestamp)

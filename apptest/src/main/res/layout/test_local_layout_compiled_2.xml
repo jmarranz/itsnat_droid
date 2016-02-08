@@ -412,7 +412,7 @@
             android:imeOptions="actionGo|actionSearch"
             android:inputType="number|date"
             android:maxWidth="250.3dp"
-            android:queryHint="The hint (SearchView)"
+            android:queryHint="@string/test_string_searchview_queryhint"
             >
         </SearchView>
 
@@ -600,7 +600,7 @@
                       android:layout_height="wrap_content"
                       android:text="Test RelativeLayout.LayoutParams"
                       android:background="#aaaaaa"
-                      android:layout_alignParentBottom="true"
+                      android:layout_alignParentBottom="@bool/test_bool_view_layout_alignParentBottom"
                       android:layout_alignWithParentIfMissing="true" />
 
             <TextView
