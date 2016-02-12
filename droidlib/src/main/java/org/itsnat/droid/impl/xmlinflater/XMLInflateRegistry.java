@@ -405,30 +405,31 @@ int lenSPANNEDVALUE = spannedValue.length();
                     return true;
             }
         }
+
         // Vemos si al menos hay un entityref ej &lt;
         // https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
-        // Ya está hecho y lo dejamos pero he descubierto que el parser XML de Android no admite el formato &#xhex; o &num;
-        if (false)
+        posStart = markup.indexOf('&');
+        if (posStart != -1)
         {
-            posStart = markup.indexOf('&');
-            if (posStart != -1)
+            int posEnd = markup.indexOf(';');
+            if (posEnd != -1 && posEnd - posStart > 2)
             {
-                int posEnd = markup.indexOf(';');
-                if (posEnd != -1 && posEnd - posStart > 2)
+                String entity = markup.substring(posStart + 1, posEnd);
+                boolean isWord = true;
+                for (int i = 0; i < entity.length(); i++)
                 {
-                    String entity = markup.substring(posStart + 1, posEnd);
-                    boolean isWord = true;
-                    for (int i = 0; i < entity.length(); i++)
+                    char c = entity.charAt(i);
+                    if (!Character.isLetter(c))
                     {
-                        char c = entity.charAt(i);
-                        if (!Character.isLetter(c))
-                        {
-                            isWord = false;
-                            break;
-                        }
+                        isWord = false;
+                        break;
                     }
-                    if (isWord) return true;
+                }
+                if (isWord) return true;
 
+                // Ya está hecho y lo dejamos aunque desactivado pero he descubierto que el parser XML de Android no admite el formato &#xnumhex; o &numdec; sólo entities con nombre conocidas (&lt; etc)
+                if (false)
+                {
                     if (entity.length() >= 2)
                     {
                         if (entity.charAt(0) == '#')
@@ -451,23 +452,24 @@ int lenSPANNEDVALUE = spannedValue.length();
                             else
                             {
                                 String number = entity.substring(1, entity.length());
-                                boolean isNumber = true;
+                                boolean isDecNumber = true;
                                 for (int i = 0; i < number.length(); i++)
                                 {
                                     char c = entity.charAt(i);
                                     if (!Character.isDigit(c))
                                     {
-                                        isNumber = false;
+                                        isDecNumber = false;
                                         break;
                                     }
                                 }
-                                if (isNumber) return true;
+                                if (isDecNumber) return true;
                             }
                         }
                     }
                 }
             }
         }
+
 
         return false;
     }

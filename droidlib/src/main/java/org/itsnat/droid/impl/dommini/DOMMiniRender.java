@@ -28,9 +28,9 @@ public class DOMMiniRender
         {
             return toStringDMTextNode((DMTextNode) node);
         }
-        else if (node instanceof DMTextNode)
+        else if (node instanceof DMEntityRefNode)
         {
-            return toStringDMTextNode((DMTextNode) node);
+            return toStringDMEntityRefNode((DMEntityRefNode) node);
         }
 
         throw MiscUtil.internalError();
@@ -70,5 +70,10 @@ public class DOMMiniRender
     private static String toStringDMTextNode(DMTextNode text)
     {
         return text.getText();
+    }
+
+    private static String toStringDMEntityRefNode(DMEntityRefNode node)
+    {
+        return "&" + node.getEntityName() + ";";
     }
 }

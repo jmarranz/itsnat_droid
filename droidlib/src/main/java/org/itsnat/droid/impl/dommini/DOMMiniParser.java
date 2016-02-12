@@ -51,7 +51,7 @@ public class DOMMiniParser
         throw new ItsNatDroidException("Unexpected token " + tokenType);
     }
 
-    private static DMTextNode processEntity(XmlPullParser parser) throws IOException, XmlPullParserException
+    private static DMEntityRefNode processEntity(XmlPullParser parser) throws IOException, XmlPullParserException
     {
         int tokenType = parser.getEventType();
         if (tokenType != XmlPullParser.ENTITY_REF) throw MiscUtil.internalError();
@@ -59,8 +59,8 @@ public class DOMMiniParser
         // En teoría parser.getTextCharacters(new int[2]) debería devolvernos el entity sin resolver pero NO es así
         // Afortunadamente he descubierto que getName() devuelve el entity sin & ni ; es decir por ejemplo "lt"
 
-        String entity = "&" + parser.getName() + ";";
-        return new DMTextNode(entity);
+        String entityName = parser.getName();
+        return new DMEntityRefNode(entityName);
     }
 
     private static DMTextNode processTextNode(XmlPullParser parser) throws IOException, XmlPullParserException

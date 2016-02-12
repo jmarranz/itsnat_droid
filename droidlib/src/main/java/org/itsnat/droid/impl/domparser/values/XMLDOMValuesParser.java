@@ -98,7 +98,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
             }
             else if ("style".equals(name))
                 return new DOMElemValuesStyle((DOMElemValuesResources) parent);
-            else if ("string-array".equals(name) || "declare-styleable".equals(name))
+            else if ("declare-styleable".equals(name) || "string-array".equals(name) || "integer-array".equals(name))
                 throw new ItsNatDroidException("Not supported yet:" + name);
 
             throw new ItsNatDroidException("Unrecognized element name:" + name);
@@ -146,6 +146,6 @@ public class XMLDOMValuesParser extends XMLDOMParser
     public static boolean hasChildElements(String elemName)
     {
         // http://developer.android.com/guide/topics/resources/available-resources.html
-        return "resources".equals(elemName) || "string-array".equals(elemName) || "style".equals(elemName) || "declare-styleable".equals(elemName);
+        return "resources".equals(elemName) || "style".equals(elemName) || "declare-styleable".equals(elemName) || "string-array".equals(elemName) || "integer-array".equals(elemName);
     }
 }
