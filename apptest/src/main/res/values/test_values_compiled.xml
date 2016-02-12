@@ -4,7 +4,7 @@
     <color  name="test_color_textview_textColor_ref">#ff0000</color>
     <bool   name="test_bool_view_layout_alignParentBottom">true</bool>
     <string name="test_string_textview_imeActionLabel">Go Next</string>
-    <string name="test_string_searchview_queryhint">The hint</string> <!-- http://stackoverflow.com/questions/3235131/set-textview-text-from-html-formatted-string-resource-in-xml -->
+    <string name="test_string_searchview_queryhint">The &lt;<b>hint</b>&gt;</string> <!-- http://stackoverflow.com/questions/3235131/set-textview-text-from-html-formatted-string-resource-in-xml -->
 
     <style name="test_style_textview_compiled" parent="android:Widget.DeviceDefault.TextView">
         <item name="android:layout_width">match_parent</item>
@@ -16,5 +16,4 @@
 
     <dimen name="test_dimen_paddingRight">21.3dp</dimen>
 
-<!-- layout_alignParentBottom-->
 </resources>

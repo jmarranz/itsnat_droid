@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +15,16 @@ import android.widget.Toast;
 
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
+import org.itsnat.droid.impl.dommini.DMNode;
+import org.itsnat.droid.impl.dommini.DOMMiniParser;
+import org.itsnat.droid.impl.dommini.DOMMiniRender;
 import org.itsnat.itsnatdroidtest.R;
+import org.itsnat.itsnatdroidtest.testact.util.Assert;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 
 public class TestActivity extends Activity implements ActionBar.TabListener
@@ -112,6 +122,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         }
 
 
+        testMisc();
         //org.itsnat.droid_compiled.impl.util.MapLightAndRealPerformTest.test();
     }
 
@@ -207,4 +218,32 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     {
         Toast.makeText(this,"Executed onClick handler",Toast.LENGTH_SHORT).show();
     }
+
+    private void testMisc()
+    {
+        String markup = "<root>Hello <b>I'm a robot</b></root>";
+        StringReader input = new StringReader(markup);
+        XmlPullParser parser = Xml.newPullParser();
+        try
+        {
+            parser.setInput(input);
+            parser.nextToken(); // XmlPullParser.START_TAG
+
+            DMNode[] nodeArray = DOMMiniParser.parse(parser);
+
+            if (parser.getEventType() != XmlPullParser.END_TAG) throw new RuntimeException("FAILED TEST");
+
+            String res = DOMMiniRender.toString(nodeArray);
+            Assert.assertEquals("Hello <b>I'm a robot</b>",res);
+        }
+        catch (XmlPullParserException e)
+        {
+            throw new RuntimeException(e);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -5,6 +5,11 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.SpannedString;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -320,8 +325,8 @@ public class XMLInflateRegistry
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
-            String colorValue = attr.getValue();
-            return getStringCompiled(colorValue, ctx);
+            String value = attr.getValue();
+            return getStringCompiled(value, ctx);
         }
         else throw MiscUtil.internalError();
     }
@@ -346,8 +351,8 @@ public class XMLInflateRegistry
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
-            String colorValue = attr.getValue();
-            return getTextCompiled(colorValue, ctx);
+            String value = attr.getValue();
+            return getTextCompiled(value, ctx);
         }
         else throw MiscUtil.internalError();
     }
@@ -358,7 +363,113 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getText(resId);
-        } else return attrValue;
+        }
+        else
+        {
+            // Vemos si contiene HTML, nos ahorraremos el procesado como HTML sin serlo y además conseguiremos que funcionen los tests a nivel de misma clase devuelta, pues Android
+            // parece que hace lo mismo, es decir cuando no es HTML devuelve un String en vez de un SpannedString.
+Spanned PRUEBA = Html.fromHtml(attrValue);
+int lenPRUEBA = PRUEBA.length();
+            if (isHTML(attrValue))
+            {
+                Spanned spannedValue = Html.fromHtml(attrValue);
+int lenSPANNEDVALUE = spannedValue.length();
+                return new SpannedString(spannedValue); // Para que el tipo devuelto sea el mismo que en el caso compilado y pasemos los tests
+            }
+            return attrValue;
+        }
+    }
+
+    private static boolean isHTML(String markup)
+    {
+        // Vemos si hay un </tag> (pues lo normal será usar <b>text</b> y similares)
+        int posStart = markup.indexOf("</");
+        if (posStart != -1)
+        {
+            int posEnd = markup.indexOf('>');
+            if (posEnd != -1 && posStart < posEnd)
+            {
+                String tag = markup.substring(posStart + 2, posEnd);
+                tag = tag.trim();
+                boolean isWord = true;
+                for(int i = 0; i < tag.length(); i++)
+                {
+                    char c = tag.charAt(i);
+                    if (!Character.isLetter(c))
+                    {
+                        isWord = false;
+                        break;
+                    }
+                }
+                if (isWord)
+                    return true;
+            }
+        }
+        // Vemos si al menos hay un entityref ej &lt;
+        // https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
+        // Ya está hecho y lo dejamos pero he descubierto que el parser XML de Android no admite el formato &#xhex; o &num;
+        if (false)
+        {
+            posStart = markup.indexOf('&');
+            if (posStart != -1)
+            {
+                int posEnd = markup.indexOf(';');
+                if (posEnd != -1 && posEnd - posStart > 2)
+                {
+                    String entity = markup.substring(posStart + 1, posEnd);
+                    boolean isWord = true;
+                    for (int i = 0; i < entity.length(); i++)
+                    {
+                        char c = entity.charAt(i);
+                        if (!Character.isLetter(c))
+                        {
+                            isWord = false;
+                            break;
+                        }
+                    }
+                    if (isWord) return true;
+
+                    if (entity.length() >= 2)
+                    {
+                        if (entity.charAt(0) == '#')
+                        {
+                            if (entity.charAt(1) == 'x')
+                            {
+                                String numberHex = entity.substring(2, entity.length());
+                                boolean isHexNumber = true;
+                                for (int i = 0; i < numberHex.length(); i++)
+                                {
+                                    char c = entity.charAt(i);
+                                    if (!Character.isLetterOrDigit(c))
+                                    {
+                                        isHexNumber = false;
+                                        break;
+                                    }
+                                }
+                                if (isHexNumber) return true;
+                            }
+                            else
+                            {
+                                String number = entity.substring(1, entity.length());
+                                boolean isNumber = true;
+                                for (int i = 0; i < number.length(); i++)
+                                {
+                                    char c = entity.charAt(i);
+                                    if (!Character.isDigit(c))
+                                    {
+                                        isNumber = false;
+                                        break;
+                                    }
+                                }
+                                if (isNumber) return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     public CharSequence[] getTextArray(String attrValue, Context ctx)
@@ -382,8 +493,8 @@ public class XMLInflateRegistry
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
-            String colorValue = attr.getValue();
-            return getBooleanCompiled(colorValue, ctx);
+            String value = attr.getValue();
+            return getBooleanCompiled(value, ctx);
         }
         else throw MiscUtil.internalError();
     }
@@ -641,8 +752,8 @@ public class XMLInflateRegistry
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
-            String colorValue = attr.getValue();
-            return getColorCompiled(colorValue, ctx);
+            String value = attr.getValue();
+            return getColorCompiled(value, ctx);
         }
         else throw MiscUtil.internalError();
     }

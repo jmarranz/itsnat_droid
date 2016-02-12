@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.domparser.values;
 
 import android.content.res.AssetManager;
+import android.text.Html;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -12,6 +13,9 @@ import org.itsnat.droid.impl.dom.values.DOMElemValuesNoChildElem;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesResources;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesStyle;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
+import org.itsnat.droid.impl.dommini.DMNode;
+import org.itsnat.droid.impl.dommini.DOMMiniParser;
+import org.itsnat.droid.impl.dommini.DOMMiniRender;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -115,15 +119,22 @@ public class XMLDOMValuesParser extends XMLDOMParser
         {
             DOMElemValuesNoChildElem parentElementNoChildElem = (DOMElemValuesNoChildElem)parentElement;
 
-            // Lo normal es que esperemos un único nodo de texto hijo, no toleramos comentarios ni similares
-            while (parser.next() != XmlPullParser.TEXT) ; // Ignoramos comentarios etc
+            // Lo normal es que esperemos un único nodo de texto hijo, pero también podemos esperar un texto con HTML, que será tolerado y procesado por Resources.getText()
+
+            DMNode[] nodeList = DOMMiniParser.parse(parser);
+            String text = DOMMiniRender.toString(nodeList);
+
+            /*
+            while (parser.next() != XmlPullParser.TEXT) ;
 
             String text = parser.getText();
+
+            while (parser.next() != XmlPullParser.END_TAG) ;
+            */
 
             DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
             addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM);
 
-            while (parser.next() != XmlPullParser.END_TAG) ; // Ignoramos comentarios etc
         }
         else
         {
