@@ -1,12 +1,13 @@
 package org.itsnat.droid.impl.domparser.values;
 
 import android.content.res.AssetManager;
-import android.text.Html;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesArrayBase;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesItemArrayBase;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesItemStyle;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesNoChildElem;
@@ -18,7 +19,6 @@ import org.itsnat.droid.impl.dommini.DOMMiniParser;
 import org.itsnat.droid.impl.dommini.DOMMiniRender;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.util.MiscUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -26,10 +26,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER_ARRAY;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ARRAY;
 
 /**
  * Created by jmarranz on 31/10/14.
@@ -49,7 +52,8 @@ public class XMLDOMValuesParser extends XMLDOMParser
     public static boolean isResourceTypeValues(String resourceType)
     {
         return "style".equals(resourceType) ||
-                TYPE_BOOL.equals(resourceType) || TYPE_COLOR.equals(resourceType) || TYPE_DIMEN.equals(resourceType)|| TYPE_STRING.equals(resourceType);
+                TYPE_BOOL.equals(resourceType) || TYPE_COLOR.equals(resourceType) || TYPE_DIMEN.equals(resourceType)|| TYPE_STRING.equals(resourceType) ||
+                TYPE_STRING_ARRAY.equals(resourceType) || TYPE_INTEGER_ARRAY.equals(resourceType) || TYPE_ARRAY.equals(resourceType);
     }
 
     @Override
@@ -87,28 +91,34 @@ public class XMLDOMValuesParser extends XMLDOMParser
     }
 
     @Override
-    protected DOMElement createElement(String name,DOMElement parent)
+    protected DOMElement createElement(String tagName,DOMElement parent)
     {
-        if (hasChildElements(name))
+        if (hasChildElements(tagName))
         {
-            if ("resources".equals(name))
+            if ("resources".equals(tagName))
             {
                 if (parent != null) throw new ItsNatDroidException("<resources> element must be root");
                 return new DOMElemValuesResources();
             }
-            else if ("style".equals(name))
-                return new DOMElemValuesStyle((DOMElemValuesResources) parent);
-            else if ("declare-styleable".equals(name) || "string-array".equals(name) || "integer-array".equals(name))
-                throw new ItsNatDroidException("Not supported yet:" + name);
+            else
+            {
+                if ("style".equals(tagName)) return new DOMElemValuesStyle((DOMElemValuesResources) parent);
+                else if (TYPE_STRING_ARRAY.equals(tagName) || TYPE_INTEGER_ARRAY.equals(tagName) || TYPE_ARRAY.equals(tagName))
+                    return new DOMElemValuesArrayBase(tagName, (DOMElemValuesResources) parent);
+                else if ("declare-styleable".equals(tagName))
+                    throw new ItsNatDroidException("Not supported yet:" + tagName);
+            }
 
-            throw new ItsNatDroidException("Unrecognized element name:" + name);
+            throw new ItsNatDroidException("Unrecognized element name:" + tagName);
         }
         else
         {
             if (parent instanceof DOMElemValuesStyle)
                 return new DOMElemValuesItemStyle((DOMElemValuesStyle)parent);
+            else if (parent instanceof DOMElemValuesArrayBase)
+                return new DOMElemValuesItemArrayBase((DOMElemValuesArrayBase)parent);
             else
-                return new DOMElemValuesItemNormal(name, (DOMElemValuesResources) parent);
+                return new DOMElemValuesItemNormal(tagName, (DOMElemValuesResources) parent);
         }
     }
 
@@ -146,6 +156,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
     public static boolean hasChildElements(String elemName)
     {
         // http://developer.android.com/guide/topics/resources/available-resources.html
-        return "resources".equals(elemName) || "style".equals(elemName) || "declare-styleable".equals(elemName) || "string-array".equals(elemName) || "integer-array".equals(elemName);
+        return "resources".equals(elemName) || "style".equals(elemName) ||
+                TYPE_STRING_ARRAY.equals(elemName) || TYPE_INTEGER_ARRAY.equals(elemName) || TYPE_ARRAY.equals(elemName) || "declare-styleable".equals(elemName);
     }
 }

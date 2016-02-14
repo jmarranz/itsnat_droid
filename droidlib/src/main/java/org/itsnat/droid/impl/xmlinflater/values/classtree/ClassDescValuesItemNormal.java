@@ -14,9 +14,9 @@ import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
  */
 public class ClassDescValuesItemNormal extends ClassDescValues<ElementValuesItemNormal>
 {
-    public ClassDescValuesItemNormal(ClassDescValuesMgr classMgr, String elemName)
+    public ClassDescValuesItemNormal(ClassDescValuesMgr classMgr, String tagName)
     {
-        super(classMgr, elemName, null);
+        super(classMgr, tagName, null);
     }
 
     public String getType()
@@ -33,14 +33,14 @@ public class ClassDescValuesItemNormal extends ClassDescValues<ElementValuesItem
         String name = attrName.getValue();
         DOMAttr valueAsDOMAttr = domElement.getValueAsDOMAttr();
 
-        return new ElementValuesItemNormal(domElement.getName(),parentChildValues,getType(),name, valueAsDOMAttr);
+        return new ElementValuesItemNormal(domElement.getTagName(),parentChildValues,getType(),name, valueAsDOMAttr);
     }
 
     public static String getResourceType(DOMElemValues domElement)
     {
         // Sólo vale para los elementos directamente por debajo de <resources> no para los hijos de <style> cuyos <item> no tienen atributo "type"
-        String elemName = domElement.getName();
-        if (elemName.equals("item"))
+        String tagName = domElement.getTagName();
+        if (tagName.equals("item"))
         {
             DOMAttr attrType = domElement.getDOMAttribute(null, "type");
             if (attrType == null)
@@ -55,7 +55,7 @@ public class ClassDescValuesItemNormal extends ClassDescValues<ElementValuesItem
         }
         else
         {
-            return elemName; // Ej <dimen> <color> etc
+            return tagName; // Ej <dimen> <color> etc
         }
     }
 }

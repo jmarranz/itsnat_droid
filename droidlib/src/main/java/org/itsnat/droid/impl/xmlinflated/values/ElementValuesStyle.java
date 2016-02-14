@@ -9,10 +9,9 @@ import java.util.List;
  *
  * Created by jmarranz on 27/11/14.
  */
-public class ElementValuesStyle extends ElementValuesChild
+public class ElementValuesStyle extends ElementValuesChildWithChildElem
 {
     protected DOMAttr parentAttr; // Puede ser null (no hay atributo parent="...")
-    protected ArrayList<DOMAttr> childDOMAttrValueList;
 
     public ElementValuesStyle(String name, DOMAttr parentAttr, ElementValuesResources parentElement)
     {
@@ -20,24 +19,8 @@ public class ElementValuesStyle extends ElementValuesChild
         this.parentAttr = parentAttr;
     }
 
-    public void addChildElementValues(ElementValues child)
-    {
-        super.addChildElementValues(child);
-
-        if (childDOMAttrValueList == null) this.childDOMAttrValueList = new ArrayList<DOMAttr>();
-
-        ElementValuesItemStyle item = (ElementValuesItemStyle)child;
-        DOMAttr domAttrValue = item.getValueAsDOMAttr();
-        childDOMAttrValueList.add(domAttrValue);
-    }
-
     public DOMAttr getParentAttr()
     {
         return parentAttr;
-    }
-
-    public List<DOMAttr> getChildDOMAttrValueList()
-    {
-        return childDOMAttrValueList;
     }
 }

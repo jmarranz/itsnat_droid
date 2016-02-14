@@ -5,9 +5,9 @@ package org.itsnat.droid.impl.dom.layout;
  */
 public class DOMElemMerge extends DOMElemLayout
 {
-    public DOMElemMerge(String name, DOMElemView parentElement)
+    public DOMElemMerge(String tagName, DOMElemView parentElement)
     {
-        super(name,parentElement);
+        super(tagName,parentElement);
     }
 
 }

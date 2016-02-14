@@ -14,9 +14,9 @@ public abstract class ElementValuesChildNoChildElem extends ElementValuesChild
 {
     protected DOMAttr valueAsDOMAttr;
 
-    public ElementValuesChildNoChildElem(String elementName,ElementValues parentElement, String name, DOMAttr valueAsDOMAttr)
+    public ElementValuesChildNoChildElem(String tagName,ElementValues parentElement, String name, DOMAttr valueAsDOMAttr)
     {
-        super(elementName,name,parentElement);
+        super(tagName,name,parentElement);
 
         this.valueAsDOMAttr = valueAsDOMAttr;
     }

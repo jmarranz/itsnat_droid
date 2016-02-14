@@ -118,29 +118,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
         {
             if (viewParent == null) throw new ItsNatDroidException("Only can be used <merge> on included layouts");
             newRootDOMElemView = new DOMElemView((DOMElemMerge)rootDOMView); // Reemplazamos el <merge> por el ViewGroup como elemento, conservando los hijos y atributos del <merge> original (el namespace de Android por ejemplo)
-            newRootDOMElemView.setName(viewParent.getClass().getName());
+            newRootDOMElemView.setTagName(viewParent.getClass().getName());
         }
         else
         {
             if (viewParent != null)
             {
                 newRootDOMElemView = new DOMElemView(viewParent.getClass().getName(), null); // Reemplazamos el <View> root por el ViewGroup padre y lo añadimos como hijo, para que se definan bien los Layout Params
-                /*
-                if (includeAttribs != null)
-                {
-                    // Reemplazamos los atributos originales del rootDOMView por los definidos en el <include> de acuerdo como funciona el <include> (sólo se puede aplicar a un single View root en el layout, no hace nada si hay un merge aunque sólo tenga un hijo)
-                    // Para ello lo clonamos para no modificarlo por si está cacheado no tocamos el original
-                    rootDOMView = rootDOMView.cloneButNotChildren();
-                    for(DOMAttr attr : includeAttribs)
-                    {
-                        DOMAttr existingAttr = rootDOMView.getDOMAttribute(attr.getNamespaceURI(),attr.getName());
-                        if (existingAttr != null)
-                            existingAttr.setValue(attr.getValue());
-                        else
-                            rootDOMView.setDOMAttribute(attr); // No existe, lo añadimos
-                    }
-                }
-                */
                 newRootDOMElemView.addChildDOMElement(rootDOMView);
             }
             else

@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 /**
  * Created by jmarranz on 02/02/2016.
  */
-public class DOMElemValuesItemStyle extends DOMElemValuesNoChildElem
+public class DOMElemValuesItemStyle extends DOMElemValuesItemNamed
 {
     public DOMElemValuesItemStyle(DOMElemValuesStyle parentElement)
     {
@@ -16,7 +16,7 @@ public class DOMElemValuesItemStyle extends DOMElemValuesNoChildElem
     @Override
     public DOMAttr setTextNode(String text)
     {
-        String itemName = getItemName();
+        String itemName = getNameAttr();
 
         String prefix = NamespaceUtil.getPrefix(itemName);
         String namespaceURI = prefix != null && prefix.equals("android") ? NamespaceUtil.XMLNS_ANDROID : null;

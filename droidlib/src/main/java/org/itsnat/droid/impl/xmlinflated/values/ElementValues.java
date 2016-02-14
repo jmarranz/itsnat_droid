@@ -8,17 +8,17 @@ import java.util.List;
  */
 public abstract class ElementValues
 {
-    protected String elementName;
+    protected String tagName;
     protected ArrayList<ElementValues> childElemValuesList;
 
-    public ElementValues(String elementName)
+    public ElementValues(String tagName)
     {
-        this.elementName = elementName;
+        this.tagName = tagName;
     }
 
-    public String getElementName()
+    public String getTagName()
     {
-        return elementName;
+        return tagName;
     }
 
     public List<ElementValues> getChildElementValuesList()

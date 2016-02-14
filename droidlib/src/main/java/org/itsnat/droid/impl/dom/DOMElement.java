@@ -8,34 +8,34 @@ import java.util.Map;
  */
 public abstract class DOMElement
 {
-    protected String name;
+    protected String tagName;
     protected DOMElement parentElement; // Si es null es el root
     protected DOMAttributeMap attribs = new DOMAttributeMap();
     protected LinkedList<DOMElement> childList;
 
-    public DOMElement(String name,DOMElement parentElement)
+    public DOMElement(String tagName,DOMElement parentElement)
     {
-        this.name = name;
+        this.tagName = tagName;
         this.parentElement = parentElement;
     }
 
     public DOMElement(DOMElement toCopy)
     {
-        this.name = toCopy.name;
+        this.tagName = toCopy.tagName;
         this.parentElement = toCopy.parentElement;
         this.attribs = toCopy.attribs;
         this.childList = toCopy.childList;
     }
 
 
-    public String getName()
+    public String getTagName()
     {
-        return name;
+        return tagName;
     }
 
-    public void setName(String name)
+    public void setTagName(String tagName)
     {
-        this.name = name;
+        this.tagName = tagName;
     }
 
     public DOMElement getParentDOMElement()

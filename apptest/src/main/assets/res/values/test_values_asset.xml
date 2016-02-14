@@ -17,4 +17,13 @@
 
     <dimen name="test_dimen_paddingRight">21.3dp</dimen>
 
+    <string-array name="text_string_array_listview_entries">
+        <item><b>Barcelona</b></item>
+        <item><i>Madrid</i></item>
+        <item>Bilbao</item>
+        <item>Sevilla</item>
+        <item>Valencia</item>
+        <item>Cádiz</item>
+    </string-array>
+
 </resources>

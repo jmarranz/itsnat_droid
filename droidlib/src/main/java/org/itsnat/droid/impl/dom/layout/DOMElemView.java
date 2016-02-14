@@ -5,9 +5,9 @@ package org.itsnat.droid.impl.dom.layout;
  */
 public class DOMElemView extends DOMElemLayout
 {
-    public DOMElemView(String name, DOMElemLayout parentElement)
+    public DOMElemView(String tagName, DOMElemLayout parentElement)
     {
-        super(name,parentElement);
+        super(tagName,parentElement);
     }
 
     public DOMElemView(DOMElemLayout toCopy)
@@ -15,17 +15,4 @@ public class DOMElemView extends DOMElemLayout
         super(toCopy);
     }
 
-    /*
-    public DOMView getParentDOMView()
-    {
-        return (DOMView) getParentDOMElement();
-    }
-    */
-
-    /*
-    public void addChildView(DOMView domView)
-    {
-        super.addChildDOMElement(domView);
-    }
-    */
 }

@@ -5,17 +5,17 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 /**
  * Created by jmarranz on 02/02/2016.
  */
-public class DOMElemValuesItemNormal extends DOMElemValuesNoChildElem
+public class DOMElemValuesItemNormal extends DOMElemValuesItemNamed
 {
-    public DOMElemValuesItemNormal(String name, DOMElemValuesResources parentElement)
+    public DOMElemValuesItemNormal(String tagName, DOMElemValuesResources parentElement)
     {
-        super(name, parentElement);
+        super(tagName, parentElement);
     }
 
     @Override
     public DOMAttr setTextNode(String text)
     {
-        String itemName = getItemName();
+        String itemName = getNameAttr();
 
         this.valueAsDOMAttr = DOMAttr.create(null, itemName, text);
 

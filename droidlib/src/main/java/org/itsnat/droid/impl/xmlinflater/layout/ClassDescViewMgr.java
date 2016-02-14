@@ -82,7 +82,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 
     public ClassDescViewBased get(DOMElemView domElemView)
     {
-        String className = domElemView.getName();
+        String className = domElemView.getTagName();
         if ("view".equals(className))
         {
             DOMAttr classAttr = domElemView.getDOMAttribute(null, "class");

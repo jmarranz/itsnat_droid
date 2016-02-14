@@ -9,9 +9,9 @@ import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
  */
 public abstract class ClassDescValues<T extends ElementValuesChild> extends ClassDesc<ElementValuesChild>
 {
-    public ClassDescValues(ClassDescValuesMgr classMgr, String elemName, ClassDescValues<? super ElementValuesChild> parentClass)
+    public ClassDescValues(ClassDescValuesMgr classMgr, String tagName, ClassDescValues<? super ElementValuesChild> parentClass)
     {
-        super(classMgr, elemName, parentClass);
+        super(classMgr, tagName, parentClass);
     }
 
     public ClassDescValuesMgr getClassDescValuesMgr()

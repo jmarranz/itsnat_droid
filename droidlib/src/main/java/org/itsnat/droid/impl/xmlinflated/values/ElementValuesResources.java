@@ -8,11 +8,13 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
 
 /**
  * Es la clase asociada al tag root "resources"
@@ -56,9 +58,14 @@ public class ElementValuesResources extends ElementValues
             old = elemValuesElemMap.put(key,childStyle);
             if (old != null) throw new ItsNatDroidException("Already exists an element with type style and name " + childStyle.getName());
         }
-        else throw new ItsNatDroidException("Not supported in values folder the element : " + child.getElementName());
-
-
+        else if (child instanceof ElementValuesArrayBase) // <string-array>,<integer-array>,<array>
+        {
+            ElementValuesArrayBase childArrayBase = (ElementValuesArrayBase)child;
+            String key = genKey(childArrayBase.getTagName(), childArrayBase.getName());
+            old = elemValuesElemMap.put(key,childArrayBase);
+            if (old != null) throw new ItsNatDroidException("Already exists an element " + childArrayBase.getTagName() + " with name " + childArrayBase.getName());
+        }
+        else throw new ItsNatDroidException("Not supported in values folder the element : " + child.getTagName());
     }
 
     public DOMAttr getElementValuesChildNoChildElemValue(String type,String name)
@@ -69,6 +76,16 @@ public class ElementValuesResources extends ElementValues
             throw new ItsNatDroidException("Not found item of type: " + type + " and name: " + name);
         return child.getValueAsDOMAttr();
     }
+
+    public List<DOMAttr> getElementValuesChildWithChildElemValue(String type,String name)
+    {
+        String key = genKey(type,name);
+        ElementValuesChildWithChildElem child = (ElementValuesChildWithChildElem)elemValuesElemMap.get(key);
+        if (child == null)
+            throw new ItsNatDroidException("Not found item of type: " + type + " and name: " + name);
+        return child.getChildDOMAttrValueList();
+    }
+
 
     private static String genKey(String type,String name)
     {
@@ -115,6 +132,20 @@ public class ElementValuesResources extends ElementValues
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name); // NO HAY tipo "text" tal y como <text name="somename">some <b>text</b></text>
         XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
         return xmlInflateRegistry.getText(valueAsDOMAttr, xmlInflater);
+    }
+
+    public CharSequence[] getTextArray(String name,XMLInflater xmlInflater)
+    {
+        List<DOMAttr> valueAsDOMAttrList = getElementValuesChildWithChildElemValue(TYPE_STRING_ARRAY, name); // NO HAY tipo "text-array" nos basamos en "string-array" los items pueden ser HTML y resolverse con getText
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        CharSequence[] res = new CharSequence[valueAsDOMAttrList.size()];
+        int i = 0;
+        for(DOMAttr valueAsDOMAttr : valueAsDOMAttrList)
+        {
+            res[i] = xmlInflateRegistry.getText(valueAsDOMAttr, xmlInflater);
+            i++;
+        }
+        return res;
     }
 
     public ElementValuesStyle getViewStyle(String name)

@@ -14,9 +14,9 @@ public class ElementValuesItemNormal extends ElementValuesChildNoChildElem
 {
     protected String type; // dimen, color etc
 
-    public ElementValuesItemNormal(String elementName, ElementValuesResources parentElement, String type, String name, DOMAttr valueAsDOMAttr)
+    public ElementValuesItemNormal(String tagName, ElementValuesResources parentElement, String type, String name, DOMAttr valueAsDOMAttr)
     {
-        super(elementName,parentElement,name,valueAsDOMAttr);
+        super(tagName,parentElement,name,valueAsDOMAttr);
 
         this.type = type;
     }

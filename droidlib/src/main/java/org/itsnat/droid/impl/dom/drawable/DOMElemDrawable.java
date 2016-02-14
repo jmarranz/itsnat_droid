@@ -7,8 +7,8 @@ import org.itsnat.droid.impl.dom.DOMElement;
  */
 public class DOMElemDrawable extends DOMElement
 {
-    public DOMElemDrawable(String name, DOMElemDrawable parentElement)
+    public DOMElemDrawable(String tagName, DOMElemDrawable parentElement)
     {
-        super(name, parentElement);
+        super(tagName, parentElement);
     }
 }

@@ -62,7 +62,7 @@ public class XMLInflaterDrawable extends XMLInflater
     {
         InflatedDrawable inflatedDrawable = getInflatedDrawable();
 
-        String name = rootDOMElem.getName();
+        String name = rootDOMElem.getTagName();
         ClassDescDrawableMgr classDescDrawableMgr = inflatedDrawable.getXMLInflateRegistry().getClassDescDrawableMgr();
         ClassDescElementDrawableRoot<? extends Drawable> classDesc = (ClassDescElementDrawableRoot<? extends Drawable>)classDescDrawableMgr.get(name);
         if (classDesc == null)
@@ -118,7 +118,7 @@ public class XMLInflaterDrawable extends XMLInflater
             getFullName((DOMElemDrawable)domElement.getParentDOMElement(),name);
             name.append(':');
         }
-        name.append(domElement.getName());
+        name.append(domElement.getTagName());
     }
 
     private String getFullName(DOMElemDrawable domElement)
@@ -131,7 +131,7 @@ public class XMLInflaterDrawable extends XMLInflater
     private ElementDrawableChild createElementDrawableChildAndFillAttributes(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawable parentChildDrawable)
     {
         String parentName = getFullName(domElementParent);
-        String name = parentName + ":" + domElement.getName();
+        String name = parentName + ":" + domElement.getTagName();
         ClassDescDrawableMgr classDescDrawableMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
         ClassDescElementDrawableChild classDesc = (ClassDescElementDrawableChild)classDescDrawableMgr.get(name);
         if (classDesc == null)

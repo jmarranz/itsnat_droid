@@ -5,15 +5,18 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
+import org.itsnat.droid.impl.dom.values.DOMElemValuesArrayBase;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesStyle;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValues;
+import org.itsnat.droid.impl.xmlinflated.values.ElementValuesArrayBase;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesArrayBase;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesStyle;
 
@@ -73,14 +76,18 @@ public class XMLInflaterValues extends XMLInflater
     protected ElementValues inflateNextElement(DOMElemValues domElement,DOMElemValues domElementParent,ElementValuesResources parentChildValues)
     {
         ElementValues childElem;
-        String elemName = domElement.getName();
-        if ("style".equals(elemName))
+        String tagName = domElement.getTagName();
+        if ("style".equals(tagName))
         {
            childElem = createElementValuesStyle((DOMElemValuesStyle) domElement, parentChildValues);
         }
-        else if ("string-array".equals(elemName) || "declare-styleable".equals(elemName))
+        else if ("string-array".equals(tagName) || "integer-array".equals(tagName) || "array".equals(tagName))
         {
-            throw new ItsNatDroidException("Not supported yet: " + elemName);
+            childElem = createElementValuesArrayBase((DOMElemValuesArrayBase) domElement, parentChildValues);
+        }
+        else if ("declare-styleable".equals(tagName) )
+        {
+            throw new ItsNatDroidException("Not supported yet: " + tagName);
         }
         else
         {
@@ -97,6 +104,15 @@ public class XMLInflaterValues extends XMLInflater
         ClassDescValuesStyle classDesc = (ClassDescValuesStyle)classDescValuesMgr.get("style");
 
         ElementValuesStyle childValuesChild = classDesc.createElementValuesStyle(domElement, parentChildValues);
+        return childValuesChild;
+    }
+
+    private ElementValuesArrayBase createElementValuesArrayBase(DOMElemValuesArrayBase domElement, ElementValuesResources parentChildValues)
+    {
+        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
+        ClassDescValuesArrayBase classDesc = (ClassDescValuesArrayBase)classDescValuesMgr.get(domElement.getTagName());
+
+        ElementValuesArrayBase childValuesChild = classDesc.createElementValuesArrayBase(domElement, parentChildValues);
         return childValuesChild;
     }
 

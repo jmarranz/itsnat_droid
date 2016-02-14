@@ -7,9 +7,9 @@ import org.itsnat.droid.impl.dom.DOMElement;
  */
 public abstract class DOMElemValues extends DOMElement
 {
-    public DOMElemValues(String name, DOMElemValues parentElement)
+    public DOMElemValues(String tagName, DOMElemValues parentElement)
     {
-        super(name, parentElement);
+        super(tagName, parentElement);
     }
 
 }

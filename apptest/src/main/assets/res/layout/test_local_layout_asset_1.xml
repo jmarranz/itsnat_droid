@@ -671,7 +671,7 @@
             android:textSize="15dp"
             android:background="#00ff00"/>
 
-        <!-- Test AbsListView (y AdapterView) -->
+        <!-- Test AbsListView (y AdapterView) via ListView -->
         <ListView
             android:layout_width="match_parent"
             android:layout_height="75dp"
@@ -723,7 +723,7 @@
             android:background="#dddddd"
             android:divider="@drawable/divider_horizontal_test"
             android:dividerHeight="2.3dp"
-            android:entries="@array/sports_array"
+            android:entries="@assets:array/res/values/test_values_asset.xml:text_string_array_listview_entries"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
 

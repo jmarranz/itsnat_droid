@@ -6,11 +6,10 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 /**
  * Created by jmarranz on 02/02/2016.
  */
-public class DOMElemValuesStyle extends DOMElemValuesWithChildElem
+public class DOMElemValuesArrayBase extends DOMElemValuesWithChildElem
 {
-    public DOMElemValuesStyle(DOMElemValuesResources parentElement)
+    public DOMElemValuesArrayBase(String tagName,DOMElemValuesResources parentElement)
     {
-        super("style", parentElement);
+        super(tagName, parentElement);
     }
-
 }

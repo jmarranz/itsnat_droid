@@ -259,7 +259,6 @@ public class XMLInflateRegistry
     {
         if (attr.getNamespaceURI() != null || !"style".equals(attr.getName())) throw MiscUtil.internalError();
 
-        Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
@@ -271,6 +270,7 @@ public class XMLInflateRegistry
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
+            Context ctx = xmlInflater.getContext();
             String attrValue = attr.getValue();
             int styleId = getIdentifier(attrValue, ctx);
             if (styleId == 0)
@@ -316,7 +316,6 @@ public class XMLInflateRegistry
 
     public String getString(DOMAttr attr,XMLInflater xmlInflater)
     {
-        Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
@@ -325,6 +324,7 @@ public class XMLInflateRegistry
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
+            Context ctx = xmlInflater.getContext();
             String value = attr.getValue();
             return getStringCompiled(value, ctx);
         }
@@ -342,7 +342,6 @@ public class XMLInflateRegistry
 
     public CharSequence getText(DOMAttr attr,XMLInflater xmlInflater)
     {
-        Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
@@ -351,6 +350,7 @@ public class XMLInflateRegistry
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
+            Context ctx = xmlInflater.getContext();
             String value = attr.getValue();
             return getTextCompiled(value, ctx);
         }
@@ -368,12 +368,9 @@ public class XMLInflateRegistry
         {
             // Vemos si contiene HTML, nos ahorraremos el procesado como HTML sin serlo y además conseguiremos que funcionen los tests a nivel de misma clase devuelta, pues Android
             // parece que hace lo mismo, es decir cuando no es HTML devuelve un String en vez de un SpannedString.
-Spanned PRUEBA = Html.fromHtml(attrValue);
-int lenPRUEBA = PRUEBA.length();
             if (isHTML(attrValue))
             {
                 Spanned spannedValue = Html.fromHtml(attrValue);
-int lenSPANNEDVALUE = spannedValue.length();
                 return new SpannedString(spannedValue); // Para que el tipo devuelto sea el mismo que en el caso compilado y pasemos los tests
             }
             return attrValue;
@@ -386,7 +383,7 @@ int lenSPANNEDVALUE = spannedValue.length();
         int posStart = markup.indexOf("</");
         if (posStart != -1)
         {
-            int posEnd = markup.indexOf('>');
+            int posEnd = markup.indexOf('>',posStart);
             if (posEnd != -1 && posStart < posEnd)
             {
                 String tag = markup.substring(posStart + 2, posEnd);
@@ -411,7 +408,7 @@ int lenSPANNEDVALUE = spannedValue.length();
         posStart = markup.indexOf('&');
         if (posStart != -1)
         {
-            int posEnd = markup.indexOf(';');
+            int posEnd = markup.indexOf(';',posStart);
             if (posEnd != -1 && posEnd - posStart > 2)
             {
                 String entity = markup.substring(posStart + 1, posEnd);
@@ -474,19 +471,35 @@ int lenSPANNEDVALUE = spannedValue.length();
         return false;
     }
 
-    public CharSequence[] getTextArray(String attrValue, Context ctx)
+    public CharSequence[] getTextArray(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getTextArray(attrDyn.getValuesResourceName(), xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            Context ctx = xmlInflater.getContext();
+            String value = attr.getValue();
+            return getTextArrayCompiled(value, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private CharSequence[] getTextArrayCompiled(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getTextArray(resId);
         }
-        else return null;
+        else throw MiscUtil.internalError();
     }
 
     public boolean getBoolean(DOMAttr attr,XMLInflater xmlInflater)
     {
-        Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
@@ -495,6 +508,7 @@ int lenSPANNEDVALUE = spannedValue.length();
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
+            Context ctx = xmlInflater.getContext();
             String value = attr.getValue();
             return getBooleanCompiled(value, ctx);
         }
@@ -511,61 +525,19 @@ int lenSPANNEDVALUE = spannedValue.length();
         else return Boolean.parseBoolean(attrValue);
     }
 
-    private static int getDimensionSuffixAsInt(String suffix)
-    {
-        if (suffix.equals("dp") || suffix.equals("dip")) return TypedValue.COMPLEX_UNIT_DIP;
-        else if (suffix.equals("px")) return TypedValue.COMPLEX_UNIT_PX;
-        else if (suffix.equals("sp")) return TypedValue.COMPLEX_UNIT_SP;
-        else if (suffix.equals("in")) return TypedValue.COMPLEX_UNIT_IN;
-        else if (suffix.equals("mm")) return TypedValue.COMPLEX_UNIT_MM;
-        else throw MiscUtil.internalError();
-    }
 
-    private static String getDimensionSuffix(String value)
-    {
-        String valueTrim = value.trim();
-
-        if (valueTrim.endsWith("dp")) return "dp";
-        if (valueTrim.endsWith("dip")) // Concesión al pasado
-            return "dip";
-        else if (valueTrim.endsWith("px")) return "px";
-        else if (valueTrim.endsWith("sp")) return "sp";
-        else if (valueTrim.endsWith("in")) return "in";
-        else if (valueTrim.endsWith("mm")) return "mm";
-        else throw new ItsNatDroidException("ERROR unrecognized dimension: " + valueTrim);
-    }
-
-    private static float parseFloat(String value)
-    {
-        return Float.parseFloat(value);
-    }
-
-    private static float extractFloat(String value, String suffix)
-    {
-        int pos = value.lastIndexOf(suffix);
-        value = value.substring(0, pos);
-        return parseFloat(value);
-    }
-
-    private static float toPixelFloat(int unit, float value, Resources res)
-    {
-        // Nexus 4 tiene un scale 2 de dp a px (xhdpi),  con un valor de 0.3 devuelve 0.6 bien para probar si usar round/floor
-        // Nexus 5 tiene un scale 3 de dp a px (xxhdpi), con un valor de 0.3 devuelve 0.9 bien para probar si usar round/floor
-        // La VM ItsNatDroid es una Nexus 4
-        return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
-    }
 
     public Dimension getDimensionObject(DOMAttr attr,XMLInflater xmlInflater)
     {
-        Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getDimensionObject(attrDyn.getValuesResourceName(),xmlInflater);
+            return elementResources.getDimensionObject(attrDyn.getValuesResourceName(), xmlInflater);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
+            Context ctx = xmlInflater.getContext();
             String originalValue = attr.getValue();
             return getDimensionObjectCompiled(originalValue, ctx);
         }
@@ -640,7 +612,6 @@ int lenSPANNEDVALUE = spannedValue.length();
 
     public PercFloat getDimensionPercFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
-        Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
@@ -649,6 +620,7 @@ int lenSPANNEDVALUE = spannedValue.length();
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
+            Context ctx = xmlInflater.getContext();
             String originalValue = attr.getValue();
             return getDimensionPercFloatCompiled(originalValue, ctx);
         }
@@ -742,10 +714,52 @@ int lenSPANNEDVALUE = spannedValue.length();
         return dimension;
     }
 
+    private static int getDimensionSuffixAsInt(String suffix)
+    {
+        if (suffix.equals("dp") || suffix.equals("dip")) return TypedValue.COMPLEX_UNIT_DIP;
+        else if (suffix.equals("px")) return TypedValue.COMPLEX_UNIT_PX;
+        else if (suffix.equals("sp")) return TypedValue.COMPLEX_UNIT_SP;
+        else if (suffix.equals("in")) return TypedValue.COMPLEX_UNIT_IN;
+        else if (suffix.equals("mm")) return TypedValue.COMPLEX_UNIT_MM;
+        else throw MiscUtil.internalError();
+    }
+
+    private static String getDimensionSuffix(String value)
+    {
+        String valueTrim = value.trim();
+
+        if (valueTrim.endsWith("dp")) return "dp";
+        if (valueTrim.endsWith("dip")) // Concesión al pasado
+            return "dip";
+        else if (valueTrim.endsWith("px")) return "px";
+        else if (valueTrim.endsWith("sp")) return "sp";
+        else if (valueTrim.endsWith("in")) return "in";
+        else if (valueTrim.endsWith("mm")) return "mm";
+        else throw new ItsNatDroidException("ERROR unrecognized dimension: " + valueTrim);
+    }
+
+    private static float parseFloat(String value)
+    {
+        return Float.parseFloat(value);
+    }
+
+    private static float extractFloat(String value, String suffix)
+    {
+        int pos = value.lastIndexOf(suffix);
+        value = value.substring(0, pos);
+        return parseFloat(value);
+    }
+
+    private static float toPixelFloat(int unit, float value, Resources res)
+    {
+        // Nexus 4 tiene un scale 2 de dp a px (xhdpi),  con un valor de 0.3 devuelve 0.6 bien para probar si usar round/floor
+        // Nexus 5 tiene un scale 3 de dp a px (xxhdpi), con un valor de 0.3 devuelve 0.9 bien para probar si usar round/floor
+        // La VM ItsNatDroid es una Nexus 4
+        return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
+    }
 
     public int getColor(DOMAttr attr,XMLInflater xmlInflater)
     {
-        Context ctx = xmlInflater.getContext();
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
@@ -754,6 +768,7 @@ int lenSPANNEDVALUE = spannedValue.length();
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
+            Context ctx = xmlInflater.getContext();
             String value = attr.getValue();
             return getColorCompiled(value, ctx);
         }
@@ -807,51 +822,6 @@ int lenSPANNEDVALUE = spannedValue.length();
         }
         return -1;
     }
-
-    private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
-    {
-        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
-        XMLDOMValues xmlDOMValues = (XMLDOMValues)resource.getXMLDOM();
-
-        // Una vez parseado XMLDOMValues y cargados los recursos remotos se cachea y NO se modifica (no hay un pre-clonado
-        // El resultado de inflar es ElementValuesResources que básicamente contiene los valores de <item> <dim> etc ORIGINALES SIN RESOLVER RESPECTO AL Context, dichos valores sólo pueden
-        // cambiar si cambia el XMLDOMValues original (lo cual es posible) pero entonces será un XMLDOMValues
-        // A donde quiero llegar es que PODEMOS CACHEAR ElementValuesResources sin miedo respecto a XMLDOMValues, no es el caso de cachear InflatedValues (el objeto padre) el cual contiene el Context
-        // Afortunadamente aunque InflatedValues es el objeto padre de ElementValuesResources, este último NO tiene referencia alguna a InflatedValues padre por lo que éste se pierde y no retiene el Context
-        // Es importante cachear ElementValuesResources de otra manera inflar por cada obtención de un valor es costosísimo
-
-        ElementValuesResources elementValuesResources = cacheXMLDOMValuesXMLInflaterValuesMap.get(xmlDOMValues);
-        if (elementValuesResources != null)
-        {
-//System.out.println("CACHED elementValuesResources");
-            return elementValuesResources;
-        }
-
-        Context ctx = xmlInflaterParent.getContext();
-
-        String resourceMime = attrDyn.getResourceMime();
-        if (!MimeUtil.isMIMEResourceXML(resourceMime))
-            throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
-
-        PageImpl page = PageImpl.getPageImpl(xmlInflaterParent); // Puede ser null
-
-        if (attrDyn instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
-
-        int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
-
-        ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
-        AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
-        AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
-
-        InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx,page);
-        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
-        ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
-
-        cacheXMLDOMValuesXMLInflaterValuesMap.put(xmlDOMValues,elementResources);
-
-        return elementResources;
-    }
-
 
     public Drawable getDrawable(DOMAttr attr,XMLInflater xmlInflaterParent)
     {
@@ -1032,6 +1002,48 @@ int lenSPANNEDVALUE = spannedValue.length();
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
+    private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
+    {
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
+        XMLDOMValues xmlDOMValues = (XMLDOMValues)resource.getXMLDOM();
 
+        // Una vez parseado XMLDOMValues y cargados los recursos remotos se cachea y NO se modifica (no hay un pre-clonado
+        // El resultado de inflar es ElementValuesResources que básicamente contiene los valores de <item> <dim> etc ORIGINALES SIN RESOLVER RESPECTO AL Context, dichos valores sólo pueden
+        // cambiar si cambia el XMLDOMValues original (lo cual es posible) pero entonces será un XMLDOMValues
+        // A donde quiero llegar es que PODEMOS CACHEAR ElementValuesResources sin miedo respecto a XMLDOMValues, no es el caso de cachear InflatedValues (el objeto padre) el cual contiene el Context
+        // Afortunadamente aunque InflatedValues es el objeto padre de ElementValuesResources, este último NO tiene referencia alguna a InflatedValues padre por lo que éste se pierde y no retiene el Context
+        // Es importante cachear ElementValuesResources de otra manera inflar por cada obtención de un valor es costosísimo
+
+        ElementValuesResources elementValuesResources = cacheXMLDOMValuesXMLInflaterValuesMap.get(xmlDOMValues);
+        if (elementValuesResources != null)
+        {
+//System.out.println("CACHED elementValuesResources");
+            return elementValuesResources;
+        }
+
+        Context ctx = xmlInflaterParent.getContext();
+
+        String resourceMime = attrDyn.getResourceMime();
+        if (!MimeUtil.isMIMEResourceXML(resourceMime))
+            throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
+
+        PageImpl page = PageImpl.getPageImpl(xmlInflaterParent); // Puede ser null
+
+        if (attrDyn instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+
+        int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
+
+        ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
+        AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
+        AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
+
+        InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx,page);
+        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
+        ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
+
+        cacheXMLDOMValuesXMLInflaterValuesMap.put(xmlDOMValues,elementResources);
+
+        return elementResources;
+    }
 }
 

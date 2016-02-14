@@ -11,6 +11,9 @@ public class XMLDOMValues extends XMLDOM
     public final static String TYPE_COLOR = "color";
     public final static String TYPE_DIMEN = "dimen";
     public final static String TYPE_STRING = "string";
+    public final static String TYPE_STRING_ARRAY = "string-array";
+    public final static String TYPE_INTEGER_ARRAY = "integer-array";
+    public final static String TYPE_ARRAY = "array";
 
     public XMLDOMValues()
     {

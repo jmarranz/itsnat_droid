@@ -7,9 +7,9 @@ import org.itsnat.droid.impl.dom.DOMElement;
  */
 public abstract class DOMElemLayout extends DOMElement
 {
-    public DOMElemLayout(String name, DOMElemLayout parentElement)
+    public DOMElemLayout(String tagName, DOMElemLayout parentElement)
     {
-        super(name,parentElement);
+        super(tagName,parentElement);
     }
 
     public DOMElemLayout(DOMElemLayout toCopy)

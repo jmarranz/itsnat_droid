@@ -103,9 +103,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getText(attr, xmlInflater);
     }
 
-    public CharSequence[] getTextArray(String attrValue, Context ctx)
+    public CharSequence[] getTextArray(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getTextArray(attrValue, ctx);
+        return getXMLInflateRegistry().getTextArray(attr, xmlInflater);
     }
 
     public boolean getBoolean(DOMAttr attr,XMLInflater xmlInflater)
