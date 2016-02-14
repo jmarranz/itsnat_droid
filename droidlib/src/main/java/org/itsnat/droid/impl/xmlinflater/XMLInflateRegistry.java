@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.util.TypedValue;
@@ -380,25 +378,32 @@ public class XMLInflateRegistry
     private static boolean isHTML(String markup)
     {
         // Vemos si hay un </tag> (pues lo normal será usar <b>text</b> y similares)
+        // Es conveniente ver el código de Html.fromHtml(String)
         int posStart = markup.indexOf("</");
         if (posStart != -1)
         {
             int posEnd = markup.indexOf('>',posStart);
-            if (posEnd != -1 && posStart < posEnd)
+            if (posEnd != -1)
             {
                 String tag = markup.substring(posStart + 2, posEnd);
                 tag = tag.trim();
-                boolean isWord = true;
-                for(int i = 0; i < tag.length(); i++)
-                {
-                    char c = tag.charAt(i);
-                    if (!Character.isLetter(c))
-                    {
-                        isWord = false;
-                        break;
-                    }
-                }
-                if (isWord)
+                boolean isTag = MiscUtil.isTag(tag);
+                if (isTag)
+                    return true;
+            }
+        }
+
+        // Consideramos el <br/> cerrado (no consideramos <br> pues no se admite en XML compilado)
+        posStart = markup.indexOf("<");
+        if (posStart != -1)
+        {
+            int posEnd = markup.indexOf("/>",posStart);
+            if (posEnd != -1)
+            {
+                String tag = markup.substring(posStart + 1, posEnd);
+                tag = tag.trim();
+                boolean isTag = MiscUtil.isTag(tag);
+                if (isTag)
                     return true;
             }
         }

@@ -73,6 +73,29 @@ public class MiscUtil
         catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
     }
 
+    public static boolean isTag(String tag)
+    {
+        // Debe estar tag trimed antes de llamar, no se consideran los espacios
+        boolean isTag = true;
+        for (int i = 0; i < tag.length(); i++)
+        {
+            char c = tag.charAt(i);
+            if (i == 0 && Character.toLowerCase(c) == 'h' && tag.length() == 2)
+            {
+                char c2 = tag.charAt(1);
+                if (c2 >= '1' && c2 <= '6')
+                    return true;
+            }
+
+            if (!Character.isLetter(c))
+            {
+                isTag = false;
+                break;
+            }
+        }
+        return isTag;
+    }
+
     public static ItsNatDroidException internalError()
     {
         return new ItsNatDroidException("INTERNAL ERROR");

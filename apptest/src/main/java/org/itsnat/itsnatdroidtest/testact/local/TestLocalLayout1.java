@@ -17,6 +17,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.method.TransformationMethod;
 import android.view.Gravity;
@@ -41,6 +42,7 @@ import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -1736,9 +1738,39 @@ public class TestLocalLayout1
 
             // Test android:divider
             // Test visual: líneas rojas separadoras de items
-            assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
+            assertEquals((GradientDrawable) compLayout.getDivider(), (GradientDrawable) parsedLayout.getDivider());
 
-            assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelIntRound(2.3f, res));
+            // Test android:entries
+            ListAdapter compAdapter = compLayout.getAdapter();
+            ListAdapter parsedAdapter = parsedLayout.getAdapter();
+            assertEquals(compAdapter.getCount(),6);
+            assertEquals(compAdapter.getCount(),parsedAdapter.getCount());
+            for (int i = 0; i < compAdapter.getCount(); i++)
+            {
+                Object compItem = compAdapter.getItem(i);
+                Object parsedItem = parsedAdapter.getItem(i);
+                if (i >= 0 && i <= 1)
+                {
+                    assertEquals(compItem.getClass(), SpannedString.class);
+                    assertEquals(compItem.getClass(), parsedItem.getClass());
+                    String compUnstyledText = ((SpannedString)compItem).toString();
+                    String parsedUnstyledText = ((SpannedString)parsedItem).toString();
+                    if (i == 0)      { assertEquals(compUnstyledText,"Barcelona"); }
+                    else if (i == 1) { assertEquals(compUnstyledText,"Madrid"); }
+                    //else if (i == 2) { assertEquals(compUnstyledText,"Bilbao"); }
+                    assertEquals(compUnstyledText,parsedUnstyledText);
+                }
+                else
+                {
+                    assertEquals(compItem.getClass(), String.class);
+                    assertEquals(compItem.getClass(), parsedItem.getClass());
+                    String compUnstyledText = compItem.toString();
+                    String parsedUnstyledText = parsedItem.toString();
+                    assertEquals(compUnstyledText,parsedUnstyledText);
+                }
+            }
+
+            assertEquals(compLayout.getDividerHeight(), ValueUtil.dpToPixelIntRound(2.3f, res));
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
             // Test android:footerDividersEnabled (areFooterDividersEnabled es Level 19)
             assertFalse((Boolean) TestUtil.getField(compLayout, "mFooterDividersEnabled"));

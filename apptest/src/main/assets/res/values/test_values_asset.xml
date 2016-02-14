@@ -19,7 +19,7 @@
 
     <string-array name="text_string_array_listview_entries">
         <item><b>Barcelona</b></item>
-        <item><i>Madrid</i></item>
+        <item><a href="http://madrid.org">Madrid</a></item>
         <item>Bilbao</item>
         <item>Sevilla</item>
         <item>Valencia</item>
