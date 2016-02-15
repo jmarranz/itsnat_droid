@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.HttpRequestResult;
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;

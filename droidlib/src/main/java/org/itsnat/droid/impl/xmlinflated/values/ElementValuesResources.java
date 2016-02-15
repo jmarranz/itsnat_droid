@@ -1,18 +1,29 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
+
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.Dimension;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
+
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_FLOAT;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
 
@@ -118,6 +129,34 @@ public class ElementValuesResources extends ElementValues
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
         XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
         return xmlInflateRegistry.getDimensionPercFloat(valueAsDOMAttr, xmlInflater);
+    }
+
+    public Drawable getDrawable(String name, XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DRAWABLE,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getDrawable(valueAsDOMAttr, xmlInflater);
+    }
+
+    public View getLayout(String name, XMLInflaterLayout xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_LAYOUT,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getLayout(valueAsDOMAttr, xmlInflater, viewParent, indexChild, includeAttribs);
+    }
+
+    public float getFloat(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_FLOAT,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getFloat(valueAsDOMAttr, xmlInflater);
+    }
+
+    public int getInteger(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_INTEGER,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getInteger(valueAsDOMAttr, xmlInflater);
     }
 
     public String getString(String name,XMLInflater xmlInflater)

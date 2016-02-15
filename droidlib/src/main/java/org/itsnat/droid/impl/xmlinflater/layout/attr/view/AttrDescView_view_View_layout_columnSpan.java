@@ -26,7 +26,7 @@ public class AttrDescView_view_View_layout_columnSpan extends AttrDesc<ClassDesc
     {
         // Default: 1
 
-        final int columnSpan = getInteger(attr.getValue(),attrCtx.getContext());
+        final int columnSpan = getInteger(attr,attrCtx.getXMLInflaterLayout());
 
         final PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
         Runnable task = new Runnable(){

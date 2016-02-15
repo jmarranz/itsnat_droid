@@ -4,6 +4,9 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
 import org.itsnat.droid.impl.util.MimeUtil;
 
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
+
 /**
  * Created by jmarranz on 3/11/14.
  */
@@ -43,9 +46,17 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 this.location = value.substring(posPath + 1,valuesResourcePos); // incluye la extension
                 this.valuesResourceName = value.substring(valuesResourcePos + 1);
             }
-            else
+            else // No hay selector :selector
             {
-                throw new ItsNatDroidException("Bad format of attribute value, expected \"values\" resource ended with \":resname\" : " + value);
+                if (TYPE_DRAWABLE.equals(resType) || TYPE_LAYOUT.equals(resType))
+                {
+                    // En el caso "drawable" podemos tener un acceso a un <drawable> en archivo XML en /res/values o bien directamente acceder al XML en /res/drawable
+                    // este es el caso de acceso DIRECTO al XML del drawable
+                    // Idem con <item name="..." type="layout">
+                    this.location = value.substring(posPath + 1);
+                    this.valuesResourceName = null;
+                }
+                else throw new ItsNatDroidException("Bad format of attribute value, expected \"values\" resource ended with \":resname\" : " + value);
             }
         }
         else

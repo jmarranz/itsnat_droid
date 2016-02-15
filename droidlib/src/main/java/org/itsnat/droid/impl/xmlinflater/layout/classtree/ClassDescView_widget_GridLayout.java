@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 import android.content.res.TypedArray;
 import android.view.ContextThemeWrapper;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;

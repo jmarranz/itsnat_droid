@@ -83,14 +83,14 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getIdentifier(value, ctx,throwErr);
     }
 */
-    public int getInteger(String attrValue, Context ctx)
+    public int getInteger(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getInteger(attrValue, ctx);
+        return getXMLInflateRegistry().getInteger(attr,xmlInflater);
     }
 
-    public float getFloat(String attrValue, Context ctx)
+    public float getFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getFloat(attrValue, ctx);
+        return getXMLInflateRegistry().getFloat(attr,xmlInflater);
     }
 
     public String getString(DOMAttr attr,XMLInflater xmlInflater)

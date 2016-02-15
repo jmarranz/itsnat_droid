@@ -22,7 +22,7 @@ public class AttrDescView_view_View_layout_span extends AttrDesc<ClassDescViewBa
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int convValue = getInteger(attr.getValue(),attrCtx.getContext());
+        final int convValue = getInteger(attr,attrCtx.getXMLInflaterLayout());
 
         Runnable task = new Runnable(){
             @Override

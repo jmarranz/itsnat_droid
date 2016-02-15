@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.dom.values;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.MiscUtil;
 
 /**
  * Created by jmarranz on 02/02/2016.

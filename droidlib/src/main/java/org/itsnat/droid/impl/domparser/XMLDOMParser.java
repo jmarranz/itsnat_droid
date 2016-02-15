@@ -288,15 +288,19 @@ public abstract class XMLDOMParser
         String resourceType = attr.getResourceType();
 
         XMLDOM xmlDOM;
-        if ("drawable".equals(resourceType))
+        if (attr.getValuesResourceName() == null) // No es <drawable> o un <item name="..." type="layout"> en un res/values/archivo.xml
         {
-            xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager);
+            if ("drawable".equals(resourceType))
+            {
+                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager);
+            }
+            else if ("layout".equals(resourceType))
+            {
+                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, layoutType, assetManager);
+            }
+            else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType + " or missing ending :selector");
         }
-        else if ("layout".equals(resourceType))
-        {
-            xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion,layoutType,assetManager);
-        }
-        else if (XMLDOMValuesParser.isResourceTypeValues(resourceType))
+        else if (XMLDOMValuesParser.isResourceTypeValues(resourceType)) // Incluye el caso de <drawable> y <item name="..." type="layout">
         {
             xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup, assetManager);
         }

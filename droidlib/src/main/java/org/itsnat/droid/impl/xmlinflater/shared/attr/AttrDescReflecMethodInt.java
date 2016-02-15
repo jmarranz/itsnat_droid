@@ -32,7 +32,7 @@ public class AttrDescReflecMethodInt<TclassDesc extends ClassDesc,TattrTarget,Ta
     @Override
     public void setAttribute(TattrTarget target,DOMAttr attr, TattrContext attrCtx)
     {
-        int convValue = getInteger(attr.getValue(),attrCtx.getContext());
+        int convValue = getInteger(attr,attrCtx.getXMLInflater());
         callMethod(target, convValue);
     }
 

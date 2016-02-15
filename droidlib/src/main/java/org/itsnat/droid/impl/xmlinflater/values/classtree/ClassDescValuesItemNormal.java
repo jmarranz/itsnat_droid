@@ -4,6 +4,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
+import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
@@ -51,7 +52,17 @@ public class ClassDescValuesItemNormal extends ClassDescValues<ElementValuesItem
 
                 throw new ItsNatDroidException("Missing attribute type in <item> with name: " + attrName.getValue());
             }
-            return attrType.getValue();
+
+            String type = attrType.getValue();
+            if (XMLDOMValues.TYPE_DIMEN.equals(type))
+            {
+                // Vemos si hay format="..." por ejemplo format="float" (ej <item name=".." type="dimen" format="float">...</item>)
+                DOMAttr attrFormat = domElement.getDOMAttribute(null, "format");
+                if (attrFormat != null)
+                    type = attrFormat.getValue();
+            }
+
+            return type;
         }
         else
         {

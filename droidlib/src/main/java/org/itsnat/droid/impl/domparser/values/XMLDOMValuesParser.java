@@ -26,13 +26,17 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ARRAY;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_FLOAT;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER_ARRAY;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER_ARRAY;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ARRAY;
 
 /**
  * Created by jmarranz on 31/10/14.
@@ -52,8 +56,14 @@ public class XMLDOMValuesParser extends XMLDOMParser
     public static boolean isResourceTypeValues(String resourceType)
     {
         return "style".equals(resourceType) ||
-                TYPE_BOOL.equals(resourceType) || TYPE_COLOR.equals(resourceType) || TYPE_DIMEN.equals(resourceType)|| TYPE_STRING.equals(resourceType) ||
-                TYPE_STRING_ARRAY.equals(resourceType) || TYPE_INTEGER_ARRAY.equals(resourceType) || TYPE_ARRAY.equals(resourceType);
+                TYPE_BOOL.equals(resourceType) || TYPE_COLOR.equals(resourceType) ||
+                TYPE_DIMEN.equals(resourceType) ||
+                TYPE_DRAWABLE.equals(resourceType) ||
+                TYPE_FLOAT.equals(resourceType) ||
+                TYPE_LAYOUT.equals(resourceType) ||
+                TYPE_INTEGER.equals(resourceType) || TYPE_INTEGER_ARRAY.equals(resourceType) ||
+                TYPE_STRING.equals(resourceType) || TYPE_STRING_ARRAY.equals(resourceType) ||
+                TYPE_ARRAY.equals(resourceType);
     }
 
     @Override

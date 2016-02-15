@@ -22,7 +22,7 @@ public class AttrDescView_widget_TextView_maxLength extends AttrDesc<ClassDescVi
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convertedValue = getInteger(attr.getValue(),attrCtx.getContext());
+        int convertedValue = getInteger(attr,attrCtx.getXMLInflaterLayout());
 
         TextView textView = (TextView)view;
         if (convertedValue >= 0)

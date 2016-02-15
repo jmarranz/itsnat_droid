@@ -37,7 +37,7 @@
                  android:layout_marginTop="10dp"
             />
 
-        <include layout="@assets:layout/res/layout/test_include_3_asset.xml"/>
+        <include layout="@assets:layout/res/values/test_values_asset.xml:test_layout_include_3"/>
 
         <TextView
             android:text="Test misc attribs"
@@ -81,7 +81,7 @@
 
             <TextView
                 android:id="@+id/textViewTest3"
-                android:text="Text size=15.3dp,color=red,padding"
+                android:text="@assets:dimen/res/values/test_values_asset.xml:test_string_textview_text"
                 android:textSize="@assets:dimen/res/values/test_values_asset.xml:test_dimen_textview_textSize"
                 android:textColor="@assets:color/res/values/test_values_asset.xml:test_color_textview_textColor"
                 android:background="#dddddd"
@@ -344,9 +344,9 @@
             android:bufferType="editable"
             android:cursorVisible="true"
             android:drawableBottom="@drawable/drawable_bottom_top_test"
-            android:drawableLeft="@drawable/drawable_left_right_test"
+            android:drawableLeft="@assets:drawable/res/values/test_values_asset.xml:test_drawable_textview_drawableleft"
             android:drawablePadding="10.3dp"
-            android:drawableRight="@drawable/drawable_left_right_test"
+            android:drawableRight="@drawable/drawable_right_test"
             android:drawableTop="@drawable/drawable_bottom_top_test"
             android:ellipsize="marquee"
             android:ems="50"
@@ -359,7 +359,7 @@
             android:includeFontPadding="false"
             android:inputType="text|number"
             android:lineSpacingExtra="5.3dp"
-            android:lineSpacingMultiplier="1.2"
+            android:lineSpacingMultiplier="@assets:drawable/res/values/test_values_asset.xml:test_float_textview_lineSpacingMultiplier"
             android:lines="1"
             android:linksClickable="false"
             android:marqueeRepeatLimit="marquee_forever"
@@ -554,7 +554,7 @@
             android:hint="Write Tennis to test dropdown autocomp"
             android:completionHint="Sports suggested"
             android:completionHintView="@layout/auto_complete_text_view_hint_view"
-            android:completionThreshold="3"
+            android:completionThreshold="@assets:integer/res/values/test_values_asset.xml:test_integer_autocompletetextview_completionThreshold"
             android:dropDownAnchor="@+id/anchorOfAutoCompleteTextViewDropDownId"
             android:dropDownHeight="150.3dp"
             android:dropDownHorizontalOffset="10.3dp"

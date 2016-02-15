@@ -114,12 +114,12 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
 
 
         DOMAttr fromDegreesAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "fromDegrees");
-        float fromDegrees = fromDegreesAttr != null ? xmlInflateRegistry.getFloat(fromDegreesAttr.getValue(),ctx) : 0.0f;
+        float fromDegrees = fromDegreesAttr != null ? xmlInflateRegistry.getFloat(fromDegreesAttr,inflaterDrawable) : 0.0f;
         mFromDegreesField.set(rotateState,fromDegrees);
         mCurrentDegreesField.set(rotateState,fromDegrees);
 
         DOMAttr toDegreesAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "toDegrees");
-        float toDegrees = toDegreesAttr != null ? xmlInflateRegistry.getFloat(toDegreesAttr.getValue(),ctx) : 360.0f;
+        float toDegrees = toDegreesAttr != null ? xmlInflateRegistry.getFloat(toDegreesAttr,inflaterDrawable) : 360.0f;
         mToDegreesField.set(rotateState,toDegrees);
 
         childDrawable.setCallback((Drawable.Callback)drawable); // childDrawable no puede ser nulo

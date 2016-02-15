@@ -127,7 +127,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                 DOMAttr attrInnerRadiusRatio = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "innerRadiusRatio");
                 if (attrInnerRadiusRatio != null)
                 {
-                    float innerRadiusRatio = xmlInflateRegistry.getFloat(attrInnerRadiusRatio.getValue(), ctx);
+                    float innerRadiusRatio = xmlInflateRegistry.getFloat(attrInnerRadiusRatio, inflaterDrawable);
                     innerRadiusRatioField.set(gradientState,innerRadiusRatio);
                 }
             }
@@ -140,7 +140,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
                 DOMAttr attrThicknessRatio = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "thicknessRatio");
                 if (attrThicknessRatio != null)
                 {
-                    float thicknessRatio = xmlInflateRegistry.getFloat(attrThicknessRatio.getValue(), ctx);
+                    float thicknessRatio = xmlInflateRegistry.getFloat(attrThicknessRatio,inflaterDrawable);
                     thicknessRatioField.set(gradientState,thicknessRatio);
                 }
             }

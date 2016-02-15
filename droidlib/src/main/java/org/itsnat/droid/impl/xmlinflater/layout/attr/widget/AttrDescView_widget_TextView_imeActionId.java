@@ -21,7 +21,7 @@ public class AttrDescView_widget_TextView_imeActionId extends AttrDesc<ClassDesc
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convertedValue = getInteger(attr.getValue(),attrCtx.getContext());
+        int convertedValue = getInteger(attr,attrCtx.getXMLInflaterLayout());
 
         TextView textView = (TextView)view;
         textView.setImeActionLabel(textView.getImeActionLabel(),convertedValue);

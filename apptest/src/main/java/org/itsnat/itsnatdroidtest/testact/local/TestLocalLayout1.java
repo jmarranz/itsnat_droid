@@ -323,7 +323,7 @@ public class TestLocalLayout1
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                    assertEquals(compTextView.getText(), "Text size=15.3dp,color=red,padding");
+                    assertEquals(compTextView.getText(), "Text size=15.3dp, color=red,padding");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
@@ -1387,12 +1387,17 @@ public class TestLocalLayout1
             final AutoCompleteTextView parsedLayout = (AutoCompleteTextView) parsed.getChildAt(childCount);
 
             // android:completionHint
-            assertEquals((CharSequence)TestUtil.getField(compLayout,"mHintText"),"Sports suggested");
+            assertEquals((CharSequence) TestUtil.getField(compLayout, "mHintText"), "Sports suggested");
             assertEquals((CharSequence) TestUtil.getField(parsedLayout, "mHintText"), (CharSequence) TestUtil.getField(parsedLayout, "mHintText"));
 
             // android:completionHintView
             assertPositive((Integer) TestUtil.getField(compLayout, "mHintResource"));
             assertEquals((Integer) TestUtil.getField(parsedLayout, "mHintResource"), (Integer) TestUtil.getField(parsedLayout, "mHintResource"));
+
+            // android:completionThreshold
+            assertEquals((Integer) TestUtil.getField(compLayout, "mThreshold"), 3);
+            assertEquals((Integer) TestUtil.getField(parsedLayout, "mThreshold"), (Integer) TestUtil.getField(parsedLayout, "mThreshold"));
+
 
             assertEquals(compLayout.getDropDownAnchor(), res.getIdentifier("id/anchorOfAutoCompleteTextViewDropDownId", null, ctx.getPackageName()));
             assertEquals(compLayout.getDropDownAnchor(),parsedLayout.getDropDownAnchor());

@@ -26,7 +26,7 @@ public class AttrDescView_view_View_layout_row extends AttrDesc<ClassDescViewBas
     {
         // Default: Integer.MIN_VALUE
 
-        final int row = getInteger(attr.getValue(),attrCtx.getContext());
+        final int row = getInteger(attr,attrCtx.getXMLInflaterLayout());
 
         final PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
         Runnable task = new Runnable(){

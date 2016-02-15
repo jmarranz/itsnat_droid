@@ -27,7 +27,7 @@ public class AttrDescView_view_View_layout_column extends AttrDesc<ClassDescView
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int column = getInteger(attr.getValue(),attrCtx.getContext());
+        final int column = getInteger(attr,attrCtx.getXMLInflaterLayout());
 
         final PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
         Runnable task = new Runnable(){

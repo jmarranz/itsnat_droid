@@ -39,9 +39,13 @@ public class DOMMiniParser
         {
             return processElement(parser);
         }
-        else if (tokenType == XmlPullParser.TEXT || tokenType == XmlPullParser.CDSECT)
+        else if (tokenType == XmlPullParser.TEXT)
         {
             return processTextNode(parser);
+        }
+        else if (tokenType == XmlPullParser.CDSECT)
+        {
+            return processCDSECT(parser);
         }
         else if (tokenType == XmlPullParser.ENTITY_REF)
         {
@@ -68,6 +72,13 @@ public class DOMMiniParser
         int tokenType = parser.getEventType();
         if (tokenType != XmlPullParser.TEXT && tokenType != XmlPullParser.CDSECT) throw MiscUtil.internalError();
         return new DMTextNode(parser.getText());
+    }
+
+    private static DMCDSECTNode processCDSECT(XmlPullParser parser) throws IOException, XmlPullParserException
+    {
+        int tokenType = parser.getEventType();
+        if (tokenType != XmlPullParser.CDSECT) throw MiscUtil.internalError();
+        return new DMCDSECTNode(parser.getText());
     }
 
     private static DMElem processElement(XmlPullParser parser) throws IOException, XmlPullParserException

@@ -68,7 +68,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
         }
         else if (name.equals("shadowDx"))
         {
-            float convValue = getFloat(value,ctx);
+            float convValue = getFloat(attr,attrCtx.getXMLInflater());
 
             radius = fieldShadowRadius.get(textView);
             dx = convValue;
@@ -77,7 +77,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
         }
         else if (name.equals("shadowDy"))
         {
-            float convValue = getFloat(value, ctx);
+            float convValue = getFloat(attr,attrCtx.getXMLInflater());
 
             radius = fieldShadowRadius.get(textView);
             dx = fieldShadowDx.get(textView);
@@ -86,7 +86,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
         }
         else if (name.equals("shadowRadius"))
         {
-            float convValue = getFloat(value, ctx);
+            float convValue = getFloat(attr,attrCtx.getXMLInflater());
 
             radius = convValue;
             dx = fieldShadowDx.get(textView);

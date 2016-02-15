@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.dommini;
 
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.xmlpull.v1.XmlPullParser;
 
 import java.util.List;
 
@@ -22,11 +21,15 @@ public class DOMMiniRender
     {
         if (node instanceof DMElem)
         {
-            return toStringDMElem((DMElem)node);
+            return toStringDMElem((DMElem) node);
         }
         else if (node instanceof DMTextNode)
         {
             return toStringDMTextNode((DMTextNode) node);
+        }
+        else if (node instanceof DMCDSECTNode)
+        {
+            return toStringDMCDSECTNode((DMCDSECTNode) node);
         }
         else if (node instanceof DMEntityRefNode)
         {
@@ -70,6 +73,16 @@ public class DOMMiniRender
     private static String toStringDMTextNode(DMTextNode text)
     {
         return text.getText();
+    }
+
+    private static String toStringDMCDSECTNode(DMCDSECTNode node)
+    {
+        // Esto es lo que parece que hace Android con el XML compilado
+        String text = node.getText();
+        text = text.replaceAll("\n","");
+        text = text.replaceAll("\\s+", " ");
+        // return /*"<![CDATA[" + */ text.getText() /* + "]]>" */ ;
+        return text;
     }
 
     private static String toStringDMEntityRefNode(DMEntityRefNode node)

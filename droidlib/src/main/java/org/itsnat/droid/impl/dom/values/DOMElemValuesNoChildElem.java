@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.dom.values;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 
 /**
