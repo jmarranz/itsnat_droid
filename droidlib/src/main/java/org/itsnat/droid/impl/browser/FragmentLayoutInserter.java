@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,6 +20,7 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -62,9 +64,10 @@ public class FragmentLayoutInserter
         InflatedLayoutPageImpl inflatedLayoutPage = page.getInflatedLayoutPageImpl();
         XMLDOMLayoutPage xmlDOMLayoutPageParent = inflatedLayoutPage.getXMLDOMLayoutPage();
         XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
-        AssetManager assetManager = page.getContext().getResources().getAssets();
-
-        XMLDOMLayoutPage xmlDOMLayout = wrapAndParseMarkupFragment(parentClassName, markup,xmlDOMLayoutPageParent,page.getItsNatServerVersion(),xmlDOMRegistry, assetManager);
+        Resources res = page.getContext().getResources();
+        AssetManager assetManager = res.getAssets();
+        Locale locale = res.getConfiguration().locale;
+        XMLDOMLayoutPage xmlDOMLayout = wrapAndParseMarkupFragment(parentClassName, markup,xmlDOMLayoutPageParent,page.getItsNatServerVersion(),xmlDOMRegistry, assetManager,locale);
 
         DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootDOMElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
@@ -88,7 +91,8 @@ public class FragmentLayoutInserter
         executeScriptList(domScriptList);
     }
 
-    public static XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup,XMLDOMLayoutPage xmlDOMLayoutPageParent,String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public static XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup,XMLDOMLayoutPage xmlDOMLayoutPageParent,String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry,
+                                                              AssetManager assetManager,Locale locale)
     {
         // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
         // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
@@ -110,7 +114,7 @@ public class FragmentLayoutInserter
         markup = newMarkup.toString();
 
 
-        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager);
+        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager,locale);
         return xmlDOMLayout;
     }
 

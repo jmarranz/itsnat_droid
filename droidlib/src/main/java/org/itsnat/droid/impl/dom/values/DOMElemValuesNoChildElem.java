@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.dom.values;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 
+import java.util.Locale;
+
 /**
  * Created by jmarranz on 02/02/2016.
  */
@@ -19,5 +21,5 @@ public abstract class DOMElemValuesNoChildElem extends DOMElemValues
         return valueAsDOMAttr;
     }
 
-    public abstract DOMAttr setTextNode(String text);
+    public abstract DOMAttr setTextNode(String text, Locale locale);
 }

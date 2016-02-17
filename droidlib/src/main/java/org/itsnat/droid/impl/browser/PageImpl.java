@@ -16,7 +16,6 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.InflatedXMLPage;

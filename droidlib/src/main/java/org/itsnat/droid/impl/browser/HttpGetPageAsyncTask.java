@@ -1,11 +1,13 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -20,26 +22,28 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final HttpRequestData httpRequestData;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
+    protected final Locale locale;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url,Map<String,ParsedResource> urlResDownloadedMap)
     {
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
-
+        Resources res = pageRequest.getContext().getResources();
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.pageRequest = pageRequest;
         this.url = url;
         this.pageURLBase = pageRequest.getPageURLBase();
         this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
-        this.assetManager = pageRequest.getContext().getAssets();
+        this.assetManager = res.getAssets();
+        this.locale = res.getConfiguration().locale;
         this.httpRequestData = new HttpRequestData(pageRequest);
     }
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
     }
 
 

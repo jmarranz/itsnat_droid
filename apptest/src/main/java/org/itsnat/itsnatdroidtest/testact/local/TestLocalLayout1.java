@@ -63,6 +63,8 @@ import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 
+import java.util.Locale;
+
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
@@ -305,7 +307,11 @@ public class TestLocalLayout1
                     assertEquals(((TextView) parsedLayout.findViewById(parsedTextView.getId())), parsedTextView);
                     assertEquals(compTextView.getId(), parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
 
-                    assertEquals(compTextView.getText(), "Hello world 2!");
+                    Locale locale = ctx.getResources().getConfiguration().locale;
+                    if (locale.getLanguage().equals("es"))
+                        assertEquals(compTextView.getText(), "Hola mundo 2!");
+                    else
+                        assertEquals(compTextView.getText(), "Hello world 2!");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
                     assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
 

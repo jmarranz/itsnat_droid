@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -39,6 +40,8 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
+        Locale locale = ctx.getResources().getConfiguration().locale;
+
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
@@ -61,7 +64,7 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
 
             String name = layoutParamsNames[i];
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,locale);
             styleLayoutParamsAttribs.add(attr);
         }
 

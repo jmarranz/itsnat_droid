@@ -6,14 +6,16 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutStandalone;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
+import java.util.Locale;
+
 /**
  * Created by jmarranz on 27/10/14.
  */
 public class XMLDOMLayoutParserStandalone extends XMLDOMLayoutParser
 {
-    public XMLDOMLayoutParserStandalone(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public XMLDOMLayoutParserStandalone(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
     {
-        super(xmlDOMRegistry,assetManager);
+        super(xmlDOMRegistry,assetManager,locale);
     }
 
     @Override

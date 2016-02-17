@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -25,11 +26,13 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     protected final List<NameValue> paramList;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
+    protected final Locale locale;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
                         List<NameValue> paramList,HttpRequestData httpRequestData,
-                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
+                        AssetManager assetManager,Locale locale)
     {
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
@@ -40,12 +43,13 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
+        this.locale = locale;
     }
 
     @Override
     protected HttpRequestResultOKBeanshellImpl executeInBackground() throws Exception
     {
-        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
     }
 
     @Override

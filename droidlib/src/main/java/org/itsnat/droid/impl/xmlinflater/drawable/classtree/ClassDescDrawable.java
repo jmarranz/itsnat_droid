@@ -164,7 +164,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
                 // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/NinePatchDrawable.java#240
                 int resId = xmlInflateRegistry.getIdentifier(attrValue,ctx);
                 if (resId <= 0) return null;
-                final TypedValue value = new TypedValue();
+                TypedValue value = new TypedValue();
                 Resources res = ctx.getResources();
                 InputStream is = res.openRawResource(resId, value);
                 return DrawableUtil.createBitmap(is,value,res);

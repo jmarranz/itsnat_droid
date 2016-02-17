@@ -1,8 +1,12 @@
 package org.itsnat.droid.impl.dom;
 
+import android.os.Build;
+
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
+import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MimeUtil;
+
+import java.util.Locale;
 
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
@@ -20,7 +24,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
     protected final String location;
     protected volatile ParsedResource resource;
 
-    public DOMAttrDynamic(String namespaceURI, String name, String value)
+    public DOMAttrDynamic(String namespaceURI, String name, String value,Locale locale)
     {
         super(namespaceURI, name, value);
 
@@ -38,22 +42,25 @@ public abstract class DOMAttrDynamic extends DOMAttr
         int posPath = value.indexOf('/');
         this.resType = value.substring(posType + 1,posPath); // Ej. "drawable"
 
-        if (XMLDOMValuesParser.isResourceTypeValues(resType))
+        String locationTmp;
+        if (XMLDOMValues.isResourceTypeValues(resType))
         {
             int valuesResourcePos = value.lastIndexOf(':'); // Esperamos el de por ej "...filename.xml:size" pero puede devolvernos el de "@assets:dimen..." lo que significa que no existe valuesResourceName lo cual es erróneo
             if (valuesResourcePos > posType) // Correcto, existe un segundo ":" para el valuesResourceName
             {
-                this.location = value.substring(posPath + 1,valuesResourcePos); // incluye la extension
+                locationTmp = value.substring(posPath + 1,valuesResourcePos); // incluye la extension
+
                 this.valuesResourceName = value.substring(valuesResourcePos + 1);
             }
-            else // No hay selector :selector
+            else // No hay selector ":selector"
             {
                 if (TYPE_DRAWABLE.equals(resType) || TYPE_LAYOUT.equals(resType))
                 {
                     // En el caso "drawable" podemos tener un acceso a un <drawable> en archivo XML en /res/values o bien directamente acceder al XML en /res/drawable
                     // este es el caso de acceso DIRECTO al XML del drawable
                     // Idem con <item name="..." type="layout">
-                    this.location = value.substring(posPath + 1);
+                    locationTmp = value.substring(posPath + 1);
+
                     this.valuesResourceName = null;
                 }
                 else throw new ItsNatDroidException("Bad format of attribute value, expected \"values\" resource ended with \":resname\" : " + value);
@@ -61,14 +68,19 @@ public abstract class DOMAttrDynamic extends DOMAttr
         }
         else
         {
-            this.location = value.substring(posPath + 1);
+            locationTmp = value.substring(posPath + 1);
+
             this.valuesResourceName = null;
         }
 
-        int posExt = location.lastIndexOf('.');
+        locationTmp = processLocationSuffixes(locationTmp,locale);
+
+        this.location = locationTmp;
+
+        int posExt = this.location.lastIndexOf('.');
         if (posExt != -1)
         {
-            this.extension = location.substring(posExt + 1).toLowerCase(); // xml, png...
+            this.extension = this.location.substring(posExt + 1).toLowerCase(); // xml, png...
         }
         else
         {
@@ -76,6 +88,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             // Suponemos que se genera el XML por ej del drawable
             this.extension = null;
         }
+
 
         if (extension != null)
         {
@@ -138,4 +151,80 @@ public abstract class DOMAttrDynamic extends DOMAttr
         // en el servidor
         this.resource = resource;
     }
+
+
+    private String processLocationSuffixes(String location,Locale locale)
+    {
+        // http://developer.android.com/guide/topics/resources/providing-resources.html (el orden de la tabla es el orden de los sufijos en el caso de múltiples sufijos)
+        // http://developer.android.com/guide/topics/resources/localization.html
+
+        String suffix = "}";
+
+        {
+            // Soportamos la existencia de sufijo de lenguaje-región
+            // Ej {-lg:es}
+            String prefix = "{-lg:";
+            int posStart = location.indexOf(prefix);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd != -1)
+                {
+                    String lang = location.substring(posStart + prefix.length(), posEnd);
+                    String currentLang = locale.getLanguage();
+                    try
+                    {
+                        if (currentLang.equals(lang))
+                        {
+                            location = location.substring(0, posStart) + "-" + lang + location.substring(posEnd + 1);
+                        }
+                        else
+                        {
+                            // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                            location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ItsNatDroidException("Bad language suffix: " + lang);
+                    }
+                }
+            }
+        }
+
+         {
+            // Soportamos la existencia de sufijo de versión de la plataforma
+            // Ej {-v:21}
+            String prefix = "{-v:";
+            int posStart = location.indexOf(prefix);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd != -1)
+                {
+                    String versionStr = location.substring(posStart + prefix.length(), posEnd);
+                    try
+                    {
+                        int version = Integer.parseInt(versionStr);
+                        if (Build.VERSION.SDK_INT >= version)
+                        {
+                            location = location.substring(0, posStart) + "-v" + version + location.substring(posEnd + 1);
+                        }
+                        else
+                        {
+                            // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                            location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ItsNatDroidException("Bad platform version suffix: " + versionStr);
+                    }
+                }
+            }
+        }
+
+        return location;
+    }
+
 }

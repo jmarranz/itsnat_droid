@@ -79,13 +79,21 @@ public class ElementValuesResources extends ElementValues
         else throw new ItsNatDroidException("Not supported in values folder the element : " + child.getTagName());
     }
 
-    public DOMAttr getElementValuesChildNoChildElemValue(String type,String name)
+    public DOMAttr findElementValuesChildNoChildElemValue(String type,String name)
     {
         String key = genKey(type,name);
         ElementValuesChildNoChildElem child = (ElementValuesChildNoChildElem)elemValuesElemMap.get(key);
         if (child == null)
-            throw new ItsNatDroidException("Not found item of type: " + type + " and name: " + name);
+            return null;
         return child.getValueAsDOMAttr();
+    }
+
+    public DOMAttr getElementValuesChildNoChildElemValue(String type,String name)
+    {
+        DOMAttr attr = findElementValuesChildNoChildElemValue(type,name);
+        if (attr == null)
+            throw new ItsNatDroidException("Not found item of type: " + type + " and name: " + name);
+        return attr;
     }
 
     public List<DOMAttr> getElementValuesChildWithChildElemValue(String type,String name)
@@ -185,6 +193,16 @@ public class ElementValuesResources extends ElementValues
             i++;
         }
         return res;
+    }
+
+    public float getPercent(String name,XMLInflater xmlInflater)
+    {
+        // Puede usarse un <string...>10.5%</string> o un <item ... type="dimen">10.5%</item>
+        DOMAttr valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_STRING, name);
+        if (valueAsDOMAttr == null) valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_DIMEN, name);
+        if (valueAsDOMAttr == null) throw new ItsNatDroidException("Expected a <string> or <item type=\"dimen\"> for resource name: " + name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getPercent(valueAsDOMAttr, xmlInflater);
     }
 
     public ElementValuesStyle getViewStyle(String name)

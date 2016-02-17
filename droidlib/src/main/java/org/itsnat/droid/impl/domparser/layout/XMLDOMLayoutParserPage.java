@@ -12,15 +12,16 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Created by jmarranz on 27/10/14.
  */
 public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
 {
-    public XMLDOMLayoutParserPage(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    protected XMLDOMLayoutParserPage(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Locale locale)
     {
-        super(xmlDOMRegistry, assetManager);
+        super(xmlDOMRegistry, assetManager,locale);
     }
 
     @Override

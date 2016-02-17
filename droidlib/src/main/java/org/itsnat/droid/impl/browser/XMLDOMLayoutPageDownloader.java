@@ -15,6 +15,7 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -23,20 +24,22 @@ import java.util.Map;
 public abstract class XMLDOMLayoutPageDownloader extends XMLDOMDownloader
 {
     public XMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData,String itsNatServerVersion,
-                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
+                        AssetManager assetManager,Locale locale)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
     }
 
     public static XMLDOMLayoutPageDownloader createXMLDOMLayoutPageDownloader(XMLDOMLayoutPage xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
-                                                          Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                                                          Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
+                                                          AssetManager assetManager,Locale locale)
     {
         if (xmlDOM instanceof XMLDOMLayoutPageItsNat)
-            return XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader((XMLDOMLayoutPageItsNat)xmlDOM,pageURLBase, httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+            return XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader((XMLDOMLayoutPageItsNat)xmlDOM,pageURLBase, httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
         else if (xmlDOM instanceof XMLDOMLayoutPageNotItsNat)
-            return new XMLDOMLayoutPageNotItsNatDownloader((XMLDOMLayoutPageNotItsNat)xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+            return new XMLDOMLayoutPageNotItsNatDownloader((XMLDOMLayoutPageNotItsNat)xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
         else if (xmlDOM instanceof XMLDOMLayoutPageFragment)
-            return new XMLDOMLayoutPageFragmentDownloader((XMLDOMLayoutPageFragment)xmlDOM,pageURLBase,httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+            return new XMLDOMLayoutPageFragmentDownloader((XMLDOMLayoutPageFragment)xmlDOM,pageURLBase,httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
         return null; // Internal Error
     }
 

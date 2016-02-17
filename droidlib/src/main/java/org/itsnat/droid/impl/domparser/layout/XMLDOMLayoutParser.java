@@ -16,6 +16,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Locale;
 
 
 /**
@@ -25,25 +26,25 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
 {
     public enum LayoutType { PAGE, PAGE_FRAGMENT, STANDALONE };
 
-    public XMLDOMLayoutParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    protected XMLDOMLayoutParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
     {
-        super(xmlDOMRegistry,assetManager);
+        super(xmlDOMRegistry,assetManager,locale);
     }
 
-    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,LayoutType layoutType,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,LayoutType layoutType,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
     {
         XMLDOMLayoutParser layoutParser;
         if (layoutType == LayoutType.PAGE)
         {
             if (itsNatServerVersion != null)
-                layoutParser = new XMLDOMLayoutParserPageItsNat(xmlDOMRegistry, assetManager,itsNatServerVersion);
+                layoutParser = new XMLDOMLayoutParserPageItsNat(xmlDOMRegistry, assetManager,locale,itsNatServerVersion);
             else
-                layoutParser = new XMLDOMLayoutParserPageNotItsNat(xmlDOMRegistry, assetManager);
+                layoutParser = new XMLDOMLayoutParserPageNotItsNat(xmlDOMRegistry, assetManager,locale);
         }
         else if (layoutType == LayoutType.PAGE_FRAGMENT) // Los fragmentos pueden usarse en páginas generadas por ItsNat y no generadas por ItsNat (itsNatServerVersion es indiferente)
-            layoutParser = new XMLDOMLayoutParserPageFragment(xmlDOMRegistry, assetManager);
+            layoutParser = new XMLDOMLayoutParserPageFragment(xmlDOMRegistry, assetManager,locale);
         else if (layoutType == LayoutType.STANDALONE)
-            layoutParser = new XMLDOMLayoutParserStandalone(xmlDOMRegistry, assetManager);
+            layoutParser = new XMLDOMLayoutParserStandalone(xmlDOMRegistry, assetManager,locale);
         else
             layoutParser = null; // Internal Error
 

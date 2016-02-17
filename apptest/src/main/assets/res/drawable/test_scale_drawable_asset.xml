@@ -3,6 +3,6 @@
         android:drawable="@assets:drawable/res/drawable/list_selector_background_focused_light_asset.9.png"
         android:scaleGravity="center_vertical|center_horizontal"
         android:scaleHeight="60.3%"
-        android:scaleWidth="60.3%"
+        android:scaleWidth="@assets:dimen/res/values/test_values_asset.xml:test_drawable_scaledrawable_scaleWidth"
     />
 

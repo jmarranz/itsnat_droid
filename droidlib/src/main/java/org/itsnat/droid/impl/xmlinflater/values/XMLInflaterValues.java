@@ -118,7 +118,7 @@ public class XMLInflaterValues extends XMLInflater
 
     private ElementValuesItemNormal createElementValuesItemNormal(DOMElemValuesItemNormal domElement, ElementValuesResources parentChildValues)
     {
-        String resourceType = ClassDescValuesItemNormal.getResourceType(domElement);
+        String resourceType = ClassDescValuesItemNormal.getResourceTypeItemNormal(domElement);
 
         ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
         ClassDescValuesItemNormal classDesc = (ClassDescValuesItemNormal)classDescValuesMgr.get(resourceType);

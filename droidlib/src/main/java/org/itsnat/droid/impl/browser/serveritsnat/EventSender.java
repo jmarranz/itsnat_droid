@@ -21,6 +21,7 @@ import org.itsnat.droid.impl.util.NameValue;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -46,12 +47,12 @@ public class EventSender
     }
 
     public void requestSync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, HttpRequestData httpRequestData,
-                            Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+                            Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
     {
         HttpRequestResultOKBeanshellImpl result = null;
         try
         {
-            result = executeInBackground(this, servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+            result = executeInBackground(this, servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
         }
         catch (Exception ex)
         {
@@ -64,14 +65,15 @@ public class EventSender
     }
 
     public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValue> paramList, HttpRequestData httpRequestData,
-                                Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+                                Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
     {
-        HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        HttpPostEventAsyncTask task = new HttpPostEventAsyncTask(this, evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public static HttpRequestResultOKBeanshellImpl executeInBackground(EventSender eventSender, String servletPath, HttpRequestData httpRequestData, List<NameValue> paramList,
-                                                    Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager) throws Exception
+                                                    Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
+                                                    AssetManager assetManager,Locale locale) throws Exception
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKBeanshellImpl result = (HttpRequestResultOKBeanshellImpl)HttpUtil.httpPost(servletPath, httpRequestData, paramList, null);
@@ -84,7 +86,7 @@ public class EventSender
 
         String code = result.getResponseText();
 
-        XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager);
+        XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,locale);
         LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(code);
 
         if (attrRemoteListBSParsed != null)

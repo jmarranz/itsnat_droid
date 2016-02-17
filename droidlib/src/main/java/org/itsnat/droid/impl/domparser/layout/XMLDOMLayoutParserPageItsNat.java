@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Created by jmarranz on 14/11/14.
@@ -18,9 +19,9 @@ public class XMLDOMLayoutParserPageItsNat extends XMLDOMLayoutParserPage
 {
     protected final String itsNatServerVersion; // NO null
 
-    public XMLDOMLayoutParserPageItsNat(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager, String itsNatServerVersion)
+    public XMLDOMLayoutParserPageItsNat(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Locale locale, String itsNatServerVersion)
     {
-        super(xmlDOMRegistry,assetManager);
+        super(xmlDOMRegistry,assetManager,locale);
         this.itsNatServerVersion = itsNatServerVersion;
     }
 

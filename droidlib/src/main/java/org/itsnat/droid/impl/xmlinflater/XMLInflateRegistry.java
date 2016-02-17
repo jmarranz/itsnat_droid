@@ -390,7 +390,7 @@ public class XMLInflateRegistry
         else throw MiscUtil.internalError();
     }
 
-    public CharSequence getTextCompiled(String attrValue, Context ctx)
+    private CharSequence getTextCompiled(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -837,8 +837,27 @@ public class XMLInflateRegistry
         return "#00000000";
     }
 
-    public float getPercent(String attrValue, Context ctx)
+    public float getPercent(DOMAttr attr,XMLInflater xmlInflater)
     {
+        // Leer notas en getPercentCompiled()
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getPercent(attrDyn.getValuesResourceName(), xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            Context ctx = xmlInflater.getContext();
+            String value = attr.getValue();
+            return getPercentCompiled(value, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private float getPercentCompiled(String attrValue, Context ctx)
+    {
+        // Sólo se usa en ScaleDrawable, de hecho el método getPercent que usa Android es local en dicha clase, no se reutiliza para otros casos, el valor compilado se obtiene de Resources.getString()
         if (isResource(attrValue))
         {
             int resId = getIdentifier(attrValue, ctx);
@@ -853,7 +872,7 @@ public class XMLInflateRegistry
 
     private static float getPercent(String s)
     {
-        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/ScaleDrawable.java#ScaleDrawable.getPercent
+        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/ScaleDrawable.java#ScaleDrawable.getPercent%28android.content.res.TypedArray%2Cint%29
         if (s != null) {
             if (s.endsWith("%")) {
                 String f = s.substring(0, s.length() - 1);

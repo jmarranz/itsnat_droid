@@ -11,7 +11,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 
 /**
  * Created by jmarranz on 12/11/14.

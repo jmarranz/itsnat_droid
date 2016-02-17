@@ -14,6 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawabl
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -32,6 +33,8 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
+        Locale locale = ctx.getResources().getConfiguration().locale;
+
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
         {
@@ -44,7 +47,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
             // Esperamos sólo name = "layout_gravity"
             String valueStr = GravityUtil.getNameFromValue(value); // Ej 0x30 | 0x50 => "top|bottom"
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,valueStr);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,valueStr,locale);
             styleLayoutParamsAttribs.add(attr);
         }
 

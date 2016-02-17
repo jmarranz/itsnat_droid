@@ -6,6 +6,7 @@ import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -15,8 +16,9 @@ import java.util.Map;
  */
 public class XMLDOMDownloaderOther extends XMLDOMDownloader
 {
-    public XMLDOMDownloaderOther(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap, XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    public XMLDOMDownloaderOther(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap, XMLDOMRegistry xmlDOMRegistry,
+                                 AssetManager assetManager,Locale locale)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
     }
 }

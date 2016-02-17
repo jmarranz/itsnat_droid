@@ -6,6 +6,7 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jmarranz on 19/01/2016.
@@ -60,15 +61,12 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         return name;
     }
 
-    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value)
+    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value,Locale locale)
     {
         String namespaceURIFinal = extractAttrNamespaceURI(namespaceURI, name);
         String localName = extractAttrLocalName(namespaceURI, name);
-        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value);
+        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value,locale);
         return attr;
     }
-
-
-
 
 }

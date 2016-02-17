@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 
 import org.itsnat.droid.CommMode;
 import org.itsnat.droid.ItsNatDroidException;
@@ -15,6 +16,7 @@ import org.itsnat.droid.impl.util.NameValue;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -108,21 +110,22 @@ public class EventManager
         httpRequestData.setReadTimeout(timeoutInt);
 
         XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
-        AssetManager assetManager = page.getContext().getResources().getAssets();
-
+        Resources res = page.getContext().getResources();
+        AssetManager assetManager = res.getAssets();
+        Locale locale = res.getConfiguration().locale;
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
 
         EventSender sender = new EventSender(this);
         if (commMode == CommMode.XHR_SYNC)
         {
-            sender.requestSync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+            sender.requestSync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
         }
         else if (commMode == CommMode.XHR_ASYNC || commMode == CommMode.XHR_ASYNC_HOLD)
         {
             if (commMode == CommMode.XHR_ASYNC_HOLD)
                 this.holdEvt = evt;
 
-            sender.requestAsync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+            sender.requestAsync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
         }
         else  // if ((commMode == 4) /*CommMode.SCRIPT*/ || (commMode == 5) /*CommMode.SCRIPT_HOLD*/)
             throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");

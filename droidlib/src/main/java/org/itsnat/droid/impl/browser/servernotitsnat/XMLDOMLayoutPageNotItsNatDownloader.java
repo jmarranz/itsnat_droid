@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -16,8 +17,9 @@ import java.util.Map;
 public class XMLDOMLayoutPageNotItsNatDownloader extends XMLDOMLayoutPageDownloader
 {
     public XMLDOMLayoutPageNotItsNatDownloader(XMLDOMLayoutPageNotItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
-                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
+                                               AssetManager assetManager,Locale locale)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
     }
 }

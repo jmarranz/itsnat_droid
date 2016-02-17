@@ -25,17 +25,10 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Locale;
 
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ARRAY;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_FLOAT;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER_ARRAY;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
 
 /**
@@ -43,27 +36,14 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
  */
 public class XMLDOMValuesParser extends XMLDOMParser
 {
-    public XMLDOMValuesParser(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+    protected XMLDOMValuesParser(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Locale locale)
     {
-        super(xmlDOMRegistry,assetManager);
+        super(xmlDOMRegistry,assetManager,locale);
     }
 
-    public static XMLDOMValuesParser createXMLDOMValuesParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public static XMLDOMValuesParser createXMLDOMValuesParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
     {
-        return new XMLDOMValuesParser(xmlDOMRegistry,assetManager);
-    }
-
-    public static boolean isResourceTypeValues(String resourceType)
-    {
-        return "style".equals(resourceType) ||
-                TYPE_BOOL.equals(resourceType) || TYPE_COLOR.equals(resourceType) ||
-                TYPE_DIMEN.equals(resourceType) ||
-                TYPE_DRAWABLE.equals(resourceType) ||
-                TYPE_FLOAT.equals(resourceType) ||
-                TYPE_LAYOUT.equals(resourceType) ||
-                TYPE_INTEGER.equals(resourceType) || TYPE_INTEGER_ARRAY.equals(resourceType) ||
-                TYPE_STRING.equals(resourceType) || TYPE_STRING_ARRAY.equals(resourceType) ||
-                TYPE_ARRAY.equals(resourceType);
+        return new XMLDOMValuesParser(xmlDOMRegistry,assetManager,locale);
     }
 
     @Override
@@ -152,7 +132,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
             while (parser.next() != XmlPullParser.END_TAG) ;
             */
 
-            DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
+            DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text,locale); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
             addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM);
 
         }
@@ -166,7 +146,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
     public static boolean hasChildElements(String elemName)
     {
         // http://developer.android.com/guide/topics/resources/available-resources.html
-        return "resources".equals(elemName) || "style".equals(elemName) ||
-                TYPE_STRING_ARRAY.equals(elemName) || TYPE_INTEGER_ARRAY.equals(elemName) || TYPE_ARRAY.equals(elemName) || "declare-styleable".equals(elemName);
+        return "resources".equals(elemName) || "style".equals(elemName) || "declare-styleable".equals(elemName) ||
+                TYPE_STRING_ARRAY.equals(elemName) || TYPE_INTEGER_ARRAY.equals(elemName) || TYPE_ARRAY.equals(elemName);
     }
 }

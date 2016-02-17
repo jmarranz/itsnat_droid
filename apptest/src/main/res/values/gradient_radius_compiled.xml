@@ -5,6 +5,4 @@
         En versions post LOLLIPOP 5000.3% NO tiene sentido y es preferible usar algo como 50.3%p, ya se distingue la "p"
     -->
     <item name="gradient_radius" type="dimen">5000.3%</item> <!-- Añadir format="float" para un valor concreto no dimensión (serán pixels) ej "100.3" -->
-    <item name="centerX" type="dimen">30%</item> <!-- el centro es 50%, max 100%, alternativa: "0.4" o una dimensión -->
-    <item name="centerY" type="dimen">0.4</item> <!-- el centro es 0.5, max 1.0, alternativa: "40%" o una dimensión -->
 </resources>

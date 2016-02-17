@@ -14,7 +14,6 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
-import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;

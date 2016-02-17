@@ -17,6 +17,7 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -25,15 +26,16 @@ import java.util.Map;
 public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
 {
     protected XMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
-                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Locale locale)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
     }
 
     public static XMLDOMLayoutPageItsNatDownloader createXMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData,
-                                                      String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager)
+                                                      String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
+                                                      AssetManager assetManager,Locale locale)
     {
-        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
     }
 
     public XMLDOMLayoutPageItsNat getXMLDOMLayoutPageItsNat()
@@ -62,7 +64,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
             XMLDOMLayoutPage[] xmlDOMLayoutPageArr = wrapAndParseMarkupFragment(classNameListBSParsed[0], xmlMarkupListBSParsed[0]);
             for (XMLDOMLayoutPage xmlDOM : xmlDOMLayoutPageArr)
             {
-                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager);
+                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,locale);
                 downloader.downloadRemoteResources();
             }
         }
@@ -84,7 +86,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         {
             String className = itClassName.next();
             String markup = itMarkup.next();
-            XMLDOMLayoutPage xmlDOMFragment = FragmentLayoutInserter.wrapAndParseMarkupFragment(className, markup,xmlDOMLayoutPageParent,itsNatServerVersion,xmlDOMRegistry,assetManager);
+            XMLDOMLayoutPage xmlDOMFragment = FragmentLayoutInserter.wrapAndParseMarkupFragment(className, markup,xmlDOMLayoutPageParent,itsNatServerVersion,xmlDOMRegistry,assetManager,locale);
             xmlDOMLayoutPageFragmentArr[i] = xmlDOMFragment;
         }
         return xmlDOMLayoutPageFragmentArr;
@@ -376,7 +378,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
     {
         XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNat = getXMLDOMLayoutPageItsNat();
 
-        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value);
+        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value,locale);
     }
 
     private static String parseNamespaceURI(String code)

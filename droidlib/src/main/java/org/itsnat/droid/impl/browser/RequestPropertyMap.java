@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.httputil;
+package org.itsnat.droid.impl.browser;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MapListReal;

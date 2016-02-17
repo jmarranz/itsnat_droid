@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -27,10 +28,12 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected final int errorMode;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
+    protected final Locale locale;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
     public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener httpRequestListener,
-                                          OnHttpRequestErrorListener errorListener,int errorMode,Map<String,ParsedResource> urlResDownloadedMap, AssetManager assetManager)
+                                          OnHttpRequestErrorListener errorListener,int errorMode,Map<String,ParsedResource> urlResDownloadedMap,
+                                          AssetManager assetManager,Locale locale)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -46,11 +49,12 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         this.assetManager = assetManager;
+        this.locale = locale;
     }
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager);
+        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
     }
 
     @Override

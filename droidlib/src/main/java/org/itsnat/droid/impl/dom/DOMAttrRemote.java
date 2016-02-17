@@ -2,14 +2,16 @@ package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.impl.util.MiscUtil;
 
+import java.util.Locale;
+
 /**
  * Created by jmarranz on 3/11/14.
  */
 public class DOMAttrRemote extends DOMAttrDynamic
 {
-    public DOMAttrRemote(String namespaceURI, String name, String value)
+    public DOMAttrRemote(String namespaceURI, String name, String value,Locale locale)
     {
-        super(namespaceURI, name, value);
+        super(namespaceURI, name, value,locale);
     }
 
     public boolean isDownloaded()

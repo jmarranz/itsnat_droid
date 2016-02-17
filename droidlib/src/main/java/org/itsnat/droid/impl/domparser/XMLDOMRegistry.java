@@ -11,6 +11,8 @@ import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
 
+import java.util.Locale;
+
 /**
  * Created by Jose on 01/12/2015.
  */
@@ -31,7 +33,7 @@ public class XMLDOMRegistry
         return parent;
     }
 
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,XMLDOMLayoutParser.LayoutType layoutType,AssetManager assetManager)
+    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,XMLDOMLayoutParser.LayoutType layoutType,AssetManager assetManager,Locale locale)
     {
         // Este método DEBE ser multihilo, el objeto domLayoutCache ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
@@ -52,7 +54,7 @@ public class XMLDOMRegistry
         XMLDOMLayout cachedXMLDOMLayout = domLayoutCache.get(markupWithoutLoadScript[0]);
         if (cachedXMLDOMLayout == null)
         {
-            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,layoutType,this,assetManager);
+            XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,layoutType,this,assetManager,locale);
             cachedXMLDOMLayout = layoutParser.createXMLDOMLayout();
             domLayoutCache.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
 
@@ -72,7 +74,7 @@ public class XMLDOMRegistry
         return clonedDOMLayout;
     }
 
-    public XMLDOMDrawable getXMLDOMDrawableCache(String markup,AssetManager assetManager)
+    public XMLDOMDrawable getXMLDOMDrawableCache(String markup,AssetManager assetManager,Locale locale)
     {
         // Ver notas de getXMLDOMLayoutCache()
         XMLDOMDrawable cachedXMLDOMDrawable = domDrawableCache.get(markup);
@@ -81,12 +83,12 @@ public class XMLDOMRegistry
         cachedXMLDOMDrawable = new XMLDOMDrawable();
         domDrawableCache.put(markup, cachedXMLDOMDrawable); // Cacheamos cuanto antes pues puede haber recursividad
 
-        XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(this, assetManager);
+        XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(this, assetManager,locale);
         parser.parse(markup,cachedXMLDOMDrawable);
         return cachedXMLDOMDrawable;
     }
 
-    public XMLDOMValues getXMLDOMValuesCache(String markup,AssetManager assetManager)
+    public XMLDOMValues getXMLDOMValuesCache(String markup,AssetManager assetManager,Locale locale)
     {
         // Ver notas de getXMLDOMLayoutCache()
         XMLDOMValues cachedXMLDOMValues = domValuesCache.get(markup);
@@ -99,7 +101,7 @@ public class XMLDOMRegistry
         cachedXMLDOMValues = new XMLDOMValues();
         domValuesCache.put(markup, cachedXMLDOMValues); // Cacheamos cuanto antes pues puede haber recursividad
 
-        XMLDOMValuesParser parser = XMLDOMValuesParser.createXMLDOMValuesParser(this, assetManager);
+        XMLDOMValuesParser parser = XMLDOMValuesParser.createXMLDOMValuesParser(this, assetManager,locale);
         parser.parse(markup,cachedXMLDOMValues);
         return cachedXMLDOMValues;
     }

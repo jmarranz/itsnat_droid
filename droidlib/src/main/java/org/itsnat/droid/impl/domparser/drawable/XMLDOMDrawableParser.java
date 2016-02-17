@@ -14,20 +14,21 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Locale;
 
 /**
  * Created by jmarranz on 31/10/14.
  */
 public class XMLDOMDrawableParser extends XMLDOMParser
 {
-    public XMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    protected XMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
     {
-        super(xmlDOMRegistry,assetManager);
+        super(xmlDOMRegistry,assetManager,locale);
     }
 
-    public static XMLDOMDrawableParser createXMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager)
+    public static XMLDOMDrawableParser createXMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
     {
-        return new XMLDOMDrawableParser(xmlDOMRegistry,assetManager);
+        return new XMLDOMDrawableParser(xmlDOMRegistry,assetManager,locale);
     }
 
     public void parse(String markup,XMLDOMDrawable xmlDOMDrawable)

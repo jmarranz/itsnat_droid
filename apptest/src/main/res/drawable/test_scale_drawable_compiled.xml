@@ -3,6 +3,6 @@
         android:drawable="@drawable/list_selector_background_focused_light_compiled"
         android:scaleGravity="center_vertical|center_horizontal"
         android:scaleHeight="60.3%"
-        android:scaleWidth="60.3%"
+        android:scaleWidth="@dimen/test_drawable_scaledrawable_scaleWidth"
     /> <!--  -->
 

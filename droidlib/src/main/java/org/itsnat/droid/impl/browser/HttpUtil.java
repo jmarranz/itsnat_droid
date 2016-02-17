@@ -30,7 +30,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.httputil.RequestPropertyMap;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
 
@@ -347,35 +346,45 @@ public class HttpUtil
         }
     }
 
-    public static String composeAbsoluteURL(String src,String pageURL)
+    public static String composeAbsoluteURL(String src,String pageURLStr)
     {
-        URI uri = null;
+        String absURL;
+
+        URI uri;
         try { uri = new URI(src); } catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
 
         String scheme = uri.getScheme();
         if (scheme == null)
         {
-            if (src.startsWith("/"))
+            if (src.equals("")) // Ejemplo: <item name="android:paddingRight">@remote:dimen/:test_dimen_paddingRight</item> referenciado en un archivo XML values
+            {
+                absURL = pageURLStr;
+            }
+            else if (src.startsWith("/"))
             {
                 // Path absoluto, tenemos que formar: scheme://authority + src
-                URL url;
-                try { url = new URL(pageURL); }
+                URL pageURL;
+                try { pageURL = new URL(pageURLStr); }
                 catch (MalformedURLException ex) { throw new ItsNatDroidException(ex); }
-                src = url.getProtocol() + "://" + url.getAuthority() + src;
+                absURL = pageURL.getProtocol() + "://" + pageURL.getAuthority() + src;
             }
             else
             {
-                int pos = pageURL.lastIndexOf('/');
-                if (pos < pageURL.length() - 1) // El / no está en el final
-                    pageURL = pageURL.substring(0, pos + 1); // Quitamos así el servlet, el JSP etc que generó la página
-                // Ahora pageURL termina en '/'
-                src = pageURL.substring(0, pos + 1) + src;
+                int pos = pageURLStr.lastIndexOf('/');
+                if (pos < pageURLStr.length() - 1) // El / no está en el final
+                    pageURLStr = pageURLStr.substring(0, pos + 1); // Quitamos así el servlet, el JSP etc que generó la página
+                // Ahora pageURLStr termina en '/'
+                absURL = pageURLStr.substring(0, pos + 1) + src;
             }
         }
-        else if (!scheme.equals("http") && !scheme.equals("https"))
-            throw new ItsNatDroidException("Scheme not supported: " + scheme);
+        else
+        {
+            // Path absoluto, nada que componer
+            if (!scheme.equals("http") && !scheme.equals("https")) throw new ItsNatDroidException("Scheme not supported: " + scheme);
+            absURL = src;
+        }
 
-        return src;
+        return absURL;
     }
 
     public static String getBasePathOfURL(String urlStr)

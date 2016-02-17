@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.ItsNatDroidException;
 
+import java.util.Locale;
+
 /**
  * Created by jmarranz on 27/10/14.
  */
@@ -19,12 +21,12 @@ public abstract class DOMAttr
         this.value = value;
     }
 
-    public static DOMAttr create(String namespaceURI, String name, String value)
+    public static DOMAttr create(String namespaceURI, String name, String value,Locale locale)
     {
         if (DOMAttrRemote.isRemote(value))
-            return new DOMAttrRemote(namespaceURI,name,value);
+            return new DOMAttrRemote(namespaceURI,name,value,locale);
         else if (DOMAttrAsset.isAsset( value))
-            return new DOMAttrAsset(namespaceURI,name,value);
+            return new DOMAttrAsset(namespaceURI,name,value,locale);
         else
             return new DOMAttrCompiledResource(namespaceURI,name,value);
     }

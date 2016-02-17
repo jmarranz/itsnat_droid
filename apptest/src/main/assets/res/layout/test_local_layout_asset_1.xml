@@ -73,7 +73,7 @@
             <TextView android:id="@+id/textViewTest2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_world2"
+                android:text="@assets:string/res/values{-lg:es}/string_localized_asset.xml:hello_world2"
                 android:background="#dddddd"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 style="@style/test_style_layout_below" />

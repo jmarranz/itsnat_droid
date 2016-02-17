@@ -21,6 +21,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -164,9 +165,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getColor(attr,xmlInflater);
     }
 
-    public float getPercent(String attrValue, Context ctx)
+    public float getPercent(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getPercent(attrValue, ctx);
+        return getXMLInflateRegistry().getPercent(attr,xmlInflater);
     }
 
     public static <T> T parseSingleName(String value, MapSmart<String, T> nameValueMap)
@@ -201,7 +202,8 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     {
         // Este método es llamado desde removeAttributeFromRemote, cuyo valor será o @null o un recurso de Android, no esperamos
         // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrCompiledResource
-        DOMAttrCompiledResource attr = (DOMAttrCompiledResource) DOMAttr.create(NamespaceUtil.XMLNS_ANDROID, getName(), value);
+        Locale locale = attrCtx.getContext().getResources().getConfiguration().locale;
+        DOMAttrCompiledResource attr = (DOMAttrCompiledResource) DOMAttr.create(NamespaceUtil.XMLNS_ANDROID, getName(), value,locale);
 
         setAttribute(target, attr,attrCtx);
     }
