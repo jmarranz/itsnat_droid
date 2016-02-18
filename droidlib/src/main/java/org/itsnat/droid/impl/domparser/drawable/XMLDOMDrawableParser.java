@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.domparser.drawable;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -21,14 +22,14 @@ import java.util.Locale;
  */
 public class XMLDOMDrawableParser extends XMLDOMParser
 {
-    protected XMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
+    protected XMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
-        super(xmlDOMRegistry,assetManager,locale);
+        super(xmlDOMRegistry,assetManager,configuration);
     }
 
-    public static XMLDOMDrawableParser createXMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
+    public static XMLDOMDrawableParser createXMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
-        return new XMLDOMDrawableParser(xmlDOMRegistry,assetManager,locale);
+        return new XMLDOMDrawableParser(xmlDOMRegistry,assetManager,configuration);
     }
 
     public void parse(String markup,XMLDOMDrawable xmlDOMDrawable)

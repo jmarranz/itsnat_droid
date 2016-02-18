@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 
 import org.itsnat.droid.CommMode;
@@ -112,20 +113,20 @@ public class EventManager
         XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         Resources res = page.getContext().getResources();
         AssetManager assetManager = res.getAssets();
-        Locale locale = res.getConfiguration().locale;
+        Configuration configuration = res.getConfiguration();
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
 
         EventSender sender = new EventSender(this);
         if (commMode == CommMode.XHR_SYNC)
         {
-            sender.requestSync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+            sender.requestSync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
         }
         else if (commMode == CommMode.XHR_ASYNC || commMode == CommMode.XHR_ASYNC_HOLD)
         {
             if (commMode == CommMode.XHR_ASYNC_HOLD)
                 this.holdEvt = evt;
 
-            sender.requestAsync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+            sender.requestAsync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
         }
         else  // if ((commMode == 4) /*CommMode.SCRIPT*/ || (commMode == 5) /*CommMode.SCRIPT_HOLD*/)
             throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");

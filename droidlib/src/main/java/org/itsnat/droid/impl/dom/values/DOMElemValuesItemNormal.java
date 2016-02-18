@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.dom.values;
 
+import android.content.res.Configuration;
+
 import org.itsnat.droid.impl.dom.DOMAttr;
 
 import java.util.Locale;
@@ -15,11 +17,11 @@ public class DOMElemValuesItemNormal extends DOMElemValuesItemNamed
     }
 
     @Override
-    public DOMAttr setTextNode(String text, Locale locale)
+    public DOMAttr setTextNode(String text,Configuration configuration)
     {
         String itemName = getNameAttr();
 
-        this.valueAsDOMAttr = DOMAttr.create(null, itemName, text,locale);
+        this.valueAsDOMAttr = DOMAttr.create(null, itemName, text, configuration);
 
         return valueAsDOMAttr;
     }

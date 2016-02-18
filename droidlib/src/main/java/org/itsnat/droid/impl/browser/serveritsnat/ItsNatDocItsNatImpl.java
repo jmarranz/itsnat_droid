@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
+import android.content.res.Configuration;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -260,10 +261,10 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     }
 
 
-    private DOMAttr toDOMAttr(String namespaceURI,String name,String value,Locale locale)
+    private DOMAttr toDOMAttr(String namespaceURI,String name,String value,Configuration configuration)
     {
         XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
-        DOMAttr attr = xmlDOMLayoutPage.toDOMAttrNotSyncResource(namespaceURI, name, value,locale);
+        DOMAttr attr = xmlDOMLayoutPage.toDOMAttrNotSyncResource(namespaceURI, name, value,configuration);
 
         if (this.attrRemoteListBSParsed != null && attr instanceof DOMAttrRemote) // Si attrRemoteListBSParsed es null es que no hay atributos remotos extraidos del script para sincronizar
         {
@@ -280,9 +281,9 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         DOMAttr[] attrArray = new DOMAttr[attrNames.length];
         if (attrNames.length > 0)
         {
-            Locale locale = getContext().getResources().getConfiguration().locale;
+            Configuration configuration = getContext().getResources().getConfiguration();
             for (int i = 0; i < attrNames.length; i++)
-                attrArray[i] = toDOMAttr(namespaceURI, attrNames[i], attrValues[i], locale);
+                attrArray[i] = toDOMAttr(namespaceURI, attrNames[i], attrValues[i],configuration);
         }
         return attrArray;
     }
@@ -291,8 +292,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     {
         View view = node.getView();
 
-        Locale locale = getContext().getResources().getConfiguration().locale;
-        DOMAttr attr = toDOMAttr(namespaceURI, name, value, locale);
+        Configuration configuration = getContext().getResources().getConfiguration();
+        DOMAttr attr = toDOMAttr(namespaceURI, name, value,configuration);
 
         if (view != null)
         {
@@ -354,12 +355,12 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
             int len = attrNames.length;
             if (len > 0)
             {
-                Locale locale = getContext().getResources().getConfiguration().locale;
+                Configuration configuration = getContext().getResources().getConfiguration();
                 for (int i = 0; i < len; i++)
                 {
                     String name = attrNames[i];
                     String value = attrValues[i];
-                    DOMAttr attr = toDOMAttr(namespaceURI, name, value, locale);
+                    DOMAttr attr = toDOMAttr(namespaceURI, name, value,configuration);
                     nodeToIn.setDOMAttribute(attr);
                 }
             }

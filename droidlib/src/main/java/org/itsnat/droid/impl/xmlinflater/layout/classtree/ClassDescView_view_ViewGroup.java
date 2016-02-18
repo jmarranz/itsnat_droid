@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.view.ContextThemeWrapper;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
-        Locale locale = ctx.getResources().getConfiguration().locale;
+        Configuration configuration = ctx.getResources().getConfiguration();
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         // Esperamos 2 resultados aunque no existan, si se utilizara a.getValue(index,outValue) el type del TypedValue outValue sería TypedValue.TYPE_NULL
@@ -57,7 +58,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
                 value = "wrap_content";
             // Si no es uno de los casos anteriores esperamos el valor original ej "20dp"
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,locale);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,configuration);
             styleLayoutParamsAttribs.add(attr);
         }
 
@@ -70,7 +71,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
-        Locale locale = ctx.getResources().getConfiguration().locale;
+        Configuration configuration = ctx.getResources().getConfiguration();
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, marginLayoutParamsAttrs);
         for(int i = 0; i < marginLayoutParamsAttrs.length; i++)
@@ -82,7 +83,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
             String value = a.getString(i);
 
             String name = marginlayoutParamsNames[i];
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,locale);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,configuration);
             styleLayoutParamsAttribs.add(attr);
         }
 

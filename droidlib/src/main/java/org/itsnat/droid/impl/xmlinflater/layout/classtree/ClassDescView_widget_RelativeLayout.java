@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
@@ -40,7 +41,7 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
-        Locale locale = ctx.getResources().getConfiguration().locale;
+        Configuration configuration = ctx.getResources().getConfiguration();
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
@@ -64,7 +65,7 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
 
             String name = layoutParamsNames[i];
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,locale);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,configuration);
             styleLayoutParamsAttribs.add(attr);
         }
 

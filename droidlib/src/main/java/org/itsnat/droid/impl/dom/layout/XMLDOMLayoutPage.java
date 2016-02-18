@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.dom.layout;
 
+import android.content.res.Configuration;
+
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.util.NamespaceUtil;
@@ -61,11 +63,11 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         return name;
     }
 
-    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value,Locale locale)
+    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value,Configuration configuration)
     {
         String namespaceURIFinal = extractAttrNamespaceURI(namespaceURI, name);
         String localName = extractAttrLocalName(namespaceURI, name);
-        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value,locale);
+        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value,configuration);
         return attr;
     }
 

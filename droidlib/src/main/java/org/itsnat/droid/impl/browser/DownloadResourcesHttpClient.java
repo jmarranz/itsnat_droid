@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 
@@ -45,39 +46,36 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
     public void request(List<DOMAttrRemote> attrRemoteList,boolean async)
     {
-        if (async)
-        {
-            requestAsync(attrRemoteList);
-        }
-        else
-        {
-            requestSync(attrRemoteList);
-        }
-    }
-
-    private void requestSync(List<DOMAttrRemote> attrRemoteList)
-    {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+        Resources res = page.getContext().getResources();
 
-        // No hace falta clonar porque es síncrona la llamada
         String pageURLBase = getPageURLBase();
-
         HttpRequestData httpRequestData = new HttpRequestData(page);
 
         String itsNatServerVersion = page.getItsNatServerVersion();
-        XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
-
-        AssetManager assetManager = page.getContext().getResources().getAssets();
-        Locale locale = getItsNatDocImpl().getContext().getResources().getConfiguration().locale;
-
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
+        XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
+        AssetManager assetManager = res.getAssets();
+        Configuration configuration = res.getConfiguration();
 
+        if (async)
+        {
+            requestAsync(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        }
+        else
+        {
+            requestSync(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        }
+    }
+
+    private void requestSync(List<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData,String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    {
         List<HttpRequestResultOKImpl> resultList;
 
         try
         {
-            resultList = executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+            resultList = executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
         }
         catch (Exception ex)
         {
@@ -90,25 +88,20 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         onFinishOk(this,resultList,httpRequestListener,errorListener);
     }
 
-    private void requestAsync(List<DOMAttrRemote> attrRemoteList)
+    private void requestAsync(List<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData,String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
-        String pageURLBase = getPageURLBase();
-        Resources res = itsNatDoc.getPageImpl().getContext().getResources();
-        AssetManager assetManager = res.getAssets();
-        Locale locale = res.getConfiguration().locale;
         int errorMode = itsNatDoc.getClientErrorMode();
-        Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
 
-        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,pageURLBase, httpRequestListener,errorListener,errorMode,urlResDownloadedMap,assetManager,locale);
+        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,pageURLBase,httpRequestData, httpRequestListener,errorListener,errorMode,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public static List<HttpRequestResultOKImpl> executeInBackground(List<DOMAttrRemote> attrRemoteList,String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,
                                             Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                                            AssetManager assetManager,Locale locale) throws Exception
+                                            AssetManager assetManager,Configuration configuration) throws Exception
     {
         // Llamado en multithread en caso de async
-        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
         return resDownloader.downloadResources(attrRemoteList);
     }
 

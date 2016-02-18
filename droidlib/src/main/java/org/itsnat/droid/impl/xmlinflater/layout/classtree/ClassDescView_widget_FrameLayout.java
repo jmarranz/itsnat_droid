@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.view.ContextThemeWrapper;
@@ -33,7 +34,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
-        Locale locale = ctx.getResources().getConfiguration().locale;
+        Configuration configuration = ctx.getResources().getConfiguration();
 
         TypedArray a = ctx.obtainStyledAttributes(styleId, layoutParamsAttrs);
         for(int i = 0; i < layoutParamsAttrs.length; i++)
@@ -47,7 +48,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
             // Esperamos sólo name = "layout_gravity"
             String valueStr = GravityUtil.getNameFromValue(value); // Ej 0x30 | 0x50 => "top|bottom"
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,valueStr,locale);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,valueStr,configuration);
             styleLayoutParamsAttribs.add(attr);
         }
 

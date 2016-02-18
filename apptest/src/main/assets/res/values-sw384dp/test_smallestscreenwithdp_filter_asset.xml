@@ -1,0 +1,5 @@
+<resources>
+
+    <string name="test_smallestscreenwithdp_filter">Test filter smallestScreenWidthDp >= 384dp (ex. Nexus 4 = 384dp)</string>
+
+</resources>

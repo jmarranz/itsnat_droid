@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.dom;
 
+import android.content.res.Configuration;
 import android.os.Build;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -24,7 +25,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
     protected final String location;
     protected volatile ParsedResource resource;
 
-    public DOMAttrDynamic(String namespaceURI, String name, String value,Locale locale)
+    public DOMAttrDynamic(String namespaceURI, String name, String value,Configuration configuration)
     {
         super(namespaceURI, name, value);
 
@@ -73,7 +74,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             this.valuesResourceName = null;
         }
 
-        locationTmp = processLocationSuffixes(locationTmp,locale);
+        locationTmp = processLocationSuffixes(locationTmp,configuration);
 
         this.location = locationTmp;
 
@@ -153,74 +154,165 @@ public abstract class DOMAttrDynamic extends DOMAttr
     }
 
 
-    private String processLocationSuffixes(String location,Locale locale)
+    private String processLocationSuffixes(String location,Configuration configuration)
     {
-        // http://developer.android.com/guide/topics/resources/providing-resources.html (el orden de la tabla es el orden de los sufijos en el caso de múltiples sufijos)
+        // http://developer.android.com/guide/topics/resources/providing-resources.html (el orden de la tabla 2 es el orden de los sufijos en el caso de múltiples sufijos)
         // http://developer.android.com/guide/topics/resources/localization.html
 
         String suffix = "}";
 
+        int posToSearchMore = 0;
+
         {
-            // Soportamos la existencia de sufijo de lenguaje-región
-            // Ej {-lg:es}
-            String prefix = "{-lg:";
-            int posStart = location.indexOf(prefix);
+            // No soportamos MCC y MNC filtros, aportan muy poco valor
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo de lenguaje
+            // Ej {lg-es}
+            String prefix = "{lg-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
             if (posStart != -1)
             {
                 int posEnd = location.indexOf(suffix, posStart);
-                if (posEnd != -1)
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String lang = location.substring(posStart + prefix.length(), posEnd);
+                String currentLang = configuration.locale.getLanguage();
+                try
                 {
-                    String lang = location.substring(posStart + prefix.length(), posEnd);
-                    String currentLang = locale.getLanguage();
-                    try
+                    if (currentLang.equals(lang))
                     {
-                        if (currentLang.equals(lang))
-                        {
-                            location = location.substring(0, posStart) + "-" + lang + location.substring(posEnd + 1);
-                        }
-                        else
-                        {
-                            // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
-                            location = location.substring(0, posStart) + location.substring(posEnd + 1);
-                        }
+                        location = location.substring(0, posStart) + "-" + lang + location.substring(posEnd + 1);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        throw new ItsNatDroidException("Bad language suffix: " + lang);
+                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
                     }
                 }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad language suffix: " + lang);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
             }
         }
 
-         {
-            // Soportamos la existencia de sufijo de versión de la plataforma
-            // Ej {-v:21}
-            String prefix = "{-v:";
-            int posStart = location.indexOf(prefix);
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo de región
+            // Ej {rg-ES}
+            String prefix = "{rg-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
             if (posStart != -1)
             {
                 int posEnd = location.indexOf(suffix, posStart);
-                if (posEnd != -1)
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String region = location.substring(posStart + prefix.length(), posEnd);
+                String currentRegion = configuration.locale.getCountry();
+                try
                 {
-                    String versionStr = location.substring(posStart + prefix.length(), posEnd);
-                    try
+                    if (currentRegion.equals(region))
                     {
-                        int version = Integer.parseInt(versionStr);
-                        if (Build.VERSION.SDK_INT >= version)
-                        {
-                            location = location.substring(0, posStart) + "-v" + version + location.substring(posEnd + 1);
-                        }
-                        else
-                        {
-                            // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
-                            location = location.substring(0, posStart) + location.substring(posEnd + 1);
-                        }
+                        location = location.substring(0, posStart) + "-r" + region + location.substring(posEnd + 1);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        throw new ItsNatDroidException("Bad platform version suffix: " + versionStr);
+                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
                     }
                 }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad language suffix: " + region);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+
+        {
+            // Layout Direction es level 17 no lo soportamos todavía
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo smallestWidth
+            // Ej {sw-720dp}
+            String prefix = "{sw-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String smallestScreenWidthDpStr  = location.substring(posStart + prefix.length(), posEnd - 2); // EL -2 es para quitar el "dp" y que smallestScreenWidthDpStr sea un entero
+                try
+                {
+                    int smallestScreenWidthDp = Integer.parseInt(smallestScreenWidthDpStr);
+                    if (configuration.smallestScreenWidthDp >= smallestScreenWidthDp)
+                    {
+                        location = location.substring(0, posStart) + "-sw" + smallestScreenWidthDp + "dp" + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad platform version suffix: " + smallestScreenWidthDpStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo de versión de la plataforma
+            // Ej {v-21}
+            String prefix = "{v-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String versionStr = location.substring(posStart + prefix.length(), posEnd);
+                try
+                {
+                    int version = Integer.parseInt(versionStr);
+                    if (Build.VERSION.SDK_INT >= version)
+                    {
+                        location = location.substring(0, posStart) + "-v" + version + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad platform version suffix: " + versionStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
             }
         }
 

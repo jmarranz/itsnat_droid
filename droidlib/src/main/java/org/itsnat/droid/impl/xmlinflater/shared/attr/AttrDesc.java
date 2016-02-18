@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -202,8 +203,8 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     {
         // Este método es llamado desde removeAttributeFromRemote, cuyo valor será o @null o un recurso de Android, no esperamos
         // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrCompiledResource
-        Locale locale = attrCtx.getContext().getResources().getConfiguration().locale;
-        DOMAttrCompiledResource attr = (DOMAttrCompiledResource) DOMAttr.create(NamespaceUtil.XMLNS_ANDROID, getName(), value,locale);
+        Configuration configuration = attrCtx.getContext().getResources().getConfiguration();
+        DOMAttrCompiledResource attr = (DOMAttrCompiledResource) DOMAttr.create(NamespaceUtil.XMLNS_ANDROID, getName(), value, configuration);
 
         setAttribute(target, attr,attrCtx);
     }

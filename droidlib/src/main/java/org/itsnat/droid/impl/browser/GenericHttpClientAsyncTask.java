@@ -22,13 +22,13 @@ public class GenericHttpClientAsyncTask extends ProcessingAsyncTask<HttpRequestR
     protected String overrideMime;
     protected int errorMode;
 
-    public GenericHttpClientAsyncTask(GenericHttpClientImpl parent, String method, String url, List<NameValue> paramList, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, String overrideMime)
+    public GenericHttpClientAsyncTask(GenericHttpClientImpl parent, String method, String url,HttpRequestData httpRequestData, List<NameValue> paramList, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, String overrideMime)
     {
         this.parent = parent;
         this.method = method;
         this.url = url;
-        this.httpRequestData = new HttpRequestData(parent);
-        this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValue son de sólo lectura por lo que no hay problema de compartirlos en hilos
+        this.httpRequestData = httpRequestData;
+        this.paramList = paramList;
         this.listener = listener;
         this.errorListener = errorListener;
         this.overrideMime = overrideMime;

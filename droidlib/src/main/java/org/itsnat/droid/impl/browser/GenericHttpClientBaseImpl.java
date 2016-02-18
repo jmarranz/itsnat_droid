@@ -12,7 +12,7 @@ public abstract class GenericHttpClientBaseImpl
     protected ItsNatDocImpl itsNatDoc;
     protected OnHttpRequestErrorListener errorListener;
     protected OnHttpRequestListener httpRequestListener;
-    protected String method = "POST"; // Por defecto
+
 
     public GenericHttpClientBaseImpl(ItsNatDocImpl itsNatDoc)
     {
@@ -41,11 +41,6 @@ public abstract class GenericHttpClientBaseImpl
     public void setOnHttpRequestErrorListenerNotFluid(OnHttpRequestErrorListener httpErrorListener)
     {
         this.errorListener = httpErrorListener;
-    }
-
-    public void setMethodNotFluid(String method)
-    {
-        this.method = method;
     }
 
     public static ItsNatDroidException convertException(Exception ex)

@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.FragmentLayoutInserter;
@@ -26,16 +27,16 @@ import java.util.Map;
 public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
 {
     protected XMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
-                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Locale locale)
+                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Configuration configuration)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
     }
 
     public static XMLDOMLayoutPageItsNatDownloader createXMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData,
                                                       String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                                                      AssetManager assetManager,Locale locale)
+                                                      AssetManager assetManager,Configuration configuration)
     {
-        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
     }
 
     public XMLDOMLayoutPageItsNat getXMLDOMLayoutPageItsNat()
@@ -64,7 +65,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
             XMLDOMLayoutPage[] xmlDOMLayoutPageArr = wrapAndParseMarkupFragment(classNameListBSParsed[0], xmlMarkupListBSParsed[0]);
             for (XMLDOMLayoutPage xmlDOM : xmlDOMLayoutPageArr)
             {
-                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,locale);
+                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,configuration);
                 downloader.downloadRemoteResources();
             }
         }
@@ -86,7 +87,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         {
             String className = itClassName.next();
             String markup = itMarkup.next();
-            XMLDOMLayoutPage xmlDOMFragment = FragmentLayoutInserter.wrapAndParseMarkupFragment(className, markup,xmlDOMLayoutPageParent,itsNatServerVersion,xmlDOMRegistry,assetManager,locale);
+            XMLDOMLayoutPage xmlDOMFragment = FragmentLayoutInserter.wrapAndParseMarkupFragment(className, markup,xmlDOMLayoutPageParent,itsNatServerVersion,xmlDOMRegistry,assetManager,configuration);
             xmlDOMLayoutPageFragmentArr[i] = xmlDOMFragment;
         }
         return xmlDOMLayoutPageFragmentArr;
@@ -378,7 +379,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
     {
         XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNat = getXMLDOMLayoutPageItsNat();
 
-        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value,locale);
+        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value, configuration);
     }
 
     private static String parseNamespaceURI(String code)

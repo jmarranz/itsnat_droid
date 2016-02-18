@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
@@ -26,13 +27,13 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     protected final List<NameValue> paramList;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
-    protected final Locale locale;
+    protected final Configuration configuration;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
                         List<NameValue> paramList,HttpRequestData httpRequestData,
                         Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                        AssetManager assetManager,Locale locale)
+                        AssetManager assetManager,Configuration configuration)
     {
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
@@ -43,13 +44,13 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
-        this.locale = locale;
+        this.configuration = configuration;
     }
 
     @Override
     protected HttpRequestResultOKBeanshellImpl executeInBackground() throws Exception
     {
-        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
     }
 
     @Override

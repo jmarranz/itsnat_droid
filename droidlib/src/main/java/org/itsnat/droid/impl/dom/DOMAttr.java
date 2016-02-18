@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.dom;
 
+import android.content.res.Configuration;
+
 import org.itsnat.droid.ItsNatDroidException;
 
 import java.util.Locale;
@@ -21,12 +23,12 @@ public abstract class DOMAttr
         this.value = value;
     }
 
-    public static DOMAttr create(String namespaceURI, String name, String value,Locale locale)
+    public static DOMAttr create(String namespaceURI, String name, String value,Configuration configuration)
     {
         if (DOMAttrRemote.isRemote(value))
-            return new DOMAttrRemote(namespaceURI,name,value,locale);
+            return new DOMAttrRemote(namespaceURI,name,value,configuration);
         else if (DOMAttrAsset.isAsset( value))
-            return new DOMAttrAsset(namespaceURI,name,value,locale);
+            return new DOMAttrAsset(namespaceURI,name,value,configuration);
         else
             return new DOMAttrCompiledResource(namespaceURI,name,value);
     }

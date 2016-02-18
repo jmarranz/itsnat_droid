@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.DisplayMetrics;
@@ -289,30 +290,28 @@ public class PageRequestImpl implements PageRequest
     {
         // El PageRequestImpl debe poder ser reutilizado si quiere el usuario
         if (url == null) throw new ItsNatDroidException("Missing URL");
-        if (sync) executeSync(url);
-        else executeAsync(url);
-    }
-
-    private void executeSync(String url)
-    {
-        // No hace falta clonar porque es síncrono el método
-
-        HttpRequestData httpRequestData = new HttpRequestData(this);
-
-        XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 
         Resources res = getContext().getResources();
-        AssetManager assetManager = res.getAssets();
-        Locale locale = res.getConfiguration().locale;
 
         String pageURLBase = getPageURLBase();
-
+        HttpRequestData httpRequestData = new HttpRequestData(this);
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
+        XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
+        AssetManager assetManager = res.getAssets();
+        Configuration configuration = res.getConfiguration();
 
+        if (sync)
+            executeSync(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        else
+            executeAsync(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+    }
+
+    private void executeSync(String url,String pageURLBase,HttpRequestData httpRequestData,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    {
         PageRequestResult pageRequestResult = null;
         try
         {
-            pageRequestResult = executeInBackground(url,pageURLBase, httpRequestData,urlResDownloadedMap, xmlDOMRegistry, assetManager,locale);
+            pageRequestResult = executeInBackground(url,pageURLBase, httpRequestData,urlResDownloadedMap, xmlDOMRegistry, assetManager,configuration);
         }
         catch(Exception ex)
         {
@@ -326,20 +325,19 @@ public class PageRequestImpl implements PageRequest
         onFinishOk(this, pageRequestResult);
     }
 
-    private void executeAsync(String url)
+    private void executeAsync(String url,String pageURLBase,HttpRequestData httpRequestData,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
-        Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
-        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,urlResDownloadedMap);
+        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public static PageRequestResult executeInBackground(String url,String pageURLBase,HttpRequestData httpRequestData,
                                     Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                                    AssetManager assetManager,Locale locale) throws Exception
+                                    AssetManager assetManager,Configuration configuration) throws Exception
     {
         // Ejecutado en multihilo en el caso async
         HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
-        PageRequestResult pageReqResult = processHttpRequestResultMultiThread(result, pageURLBase, httpRequestData,urlResDownloadedMap,xmlDOMRegistry, assetManager,locale);
+        PageRequestResult pageReqResult = processHttpRequestResultMultiThread(result, pageURLBase, httpRequestData,urlResDownloadedMap,xmlDOMRegistry, assetManager,configuration);
         return pageReqResult;
     }
 
@@ -387,18 +385,18 @@ public class PageRequestImpl implements PageRequest
     private static PageRequestResult processHttpRequestResultMultiThread(HttpRequestResultOKImpl httpRequestResult,
                                         String pageURLBase, HttpRequestData httpRequestData,
                                         Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                                        AssetManager assetManager,Locale locale) throws Exception
+                                        AssetManager assetManager,Configuration configuration) throws Exception
     {
         // Método ejecutado en hilo downloader NO UI
 
         String markup = httpRequestResult.getResponseText();
         String itsNatServerVersion = httpRequestResult.getItsNatServerVersion(); // Puede ser null (page no servida por ItsNat)
-        XMLDOMLayoutPage xmlDOMLayoutPage = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, assetManager,locale);
+        XMLDOMLayoutPage xmlDOMLayoutPage = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, assetManager, configuration);
 
         PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, xmlDOMLayoutPage);
 
         {
-            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,locale);
+            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,configuration);
             downloader.downloadRemoteResources();
         }
 
@@ -408,7 +406,7 @@ public class PageRequestImpl implements PageRequest
             String loadInitScript = xmldomLayoutPageParent.getLoadInitScript();
             if (loadInitScript != null) // Es nulo si el scripting está desactivado
             {
-                XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmldomLayoutPageParent,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,locale);
+                XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmldomLayoutPageParent,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,configuration);
                 LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(loadInitScript);
 
                 if (attrRemoteListBSParsed != null)

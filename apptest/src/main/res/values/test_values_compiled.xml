@@ -34,6 +34,4 @@
         <item>Cádiz</item>
     </string-array>
 
-    <item name="prueba" type="layout">@layout/test_include</item>
-
 </resources>

@@ -26,7 +26,6 @@ public interface GenericHttpClient
     public GenericHttpClient setReadTimeout(int timeoutMillis);
     public int getReadTimeout();
     public GenericHttpClient setOverrideMimeType(String mime);
-    public HttpRequestResult request(boolean async);
     public HttpRequestResult requestSync();
     public void requestAsync();
 }

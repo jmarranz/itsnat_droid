@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
@@ -26,10 +27,10 @@ public class HttpResourceDownloader
     protected final Map<String,ParsedResource> urlResDownloadedMap;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
-    protected final Locale locale;
+    protected final Configuration configuration;
 
     public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,
-                                  XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
+                                  XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
         this.pageURLBase = pageURLBase;
         this.httpRequestData = httpRequestData;
@@ -37,7 +38,7 @@ public class HttpResourceDownloader
         this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
-        this.locale = locale;
+        this.configuration = configuration;
     }
 
     public List<HttpRequestResultOKImpl> downloadResources(List<DOMAttrRemote> attrRemoteList) throws Exception
@@ -121,7 +122,7 @@ public class HttpResourceDownloader
 
         resultList.add(resultRes);
 
-        ParsedResource resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes, xmlDOMRegistry, assetManager,locale);
+        ParsedResource resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes, xmlDOMRegistry, assetManager,configuration);
         synchronized(urlResDownloadedMap)
         {
             urlResDownloadedMap.put(absURL,resource); // No pasa nada si dos hilos con el mismo absURL-resource hacen put seguidos
@@ -132,7 +133,7 @@ public class HttpResourceDownloader
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
             String absURLContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
             String pageURLBaseContainer = HttpUtil.getBasePathOfURL(absURLContainer);
-            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion,urlResDownloadedMap, xmlDOMRegistry, assetManager,locale);
+            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion,urlResDownloadedMap, xmlDOMRegistry, assetManager,configuration);
             downloader.downloadRemoteResources();
         }
     }

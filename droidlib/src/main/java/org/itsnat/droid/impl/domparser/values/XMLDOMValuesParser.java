@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.domparser.values;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -36,14 +37,14 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
  */
 public class XMLDOMValuesParser extends XMLDOMParser
 {
-    protected XMLDOMValuesParser(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Locale locale)
+    protected XMLDOMValuesParser(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Configuration configuration)
     {
-        super(xmlDOMRegistry,assetManager,locale);
+        super(xmlDOMRegistry,assetManager,configuration);
     }
 
-    public static XMLDOMValuesParser createXMLDOMValuesParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
+    public static XMLDOMValuesParser createXMLDOMValuesParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
-        return new XMLDOMValuesParser(xmlDOMRegistry,assetManager,locale);
+        return new XMLDOMValuesParser(xmlDOMRegistry,assetManager,configuration);
     }
 
     @Override
@@ -132,7 +133,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
             while (parser.next() != XmlPullParser.END_TAG) ;
             */
 
-            DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text,locale); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
+            DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text,configuration); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
             addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM);
 
         }

@@ -352,9 +352,9 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         GenericHttpClientImpl client = createGenericHttpClientImpl();
 
         client.setURL(absURL)
-                .setOverrideMimeType(mime)
-                .setOnHttpRequestListener(listener)
-                .request(!sync);
+               .setOverrideMimeType(mime)
+               .setOnHttpRequestListener(listener);
+        client.request(!sync);
     }
 
     public void downloadResources(DOMAttrRemote attr,final Runnable task)

@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
@@ -24,10 +25,10 @@ public class XMLDOMDownloader
     protected final Map<String,ParsedResource> urlResDownloadedMap;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
-    protected final Locale locale;
+    protected final Configuration configuration;
 
     public XMLDOMDownloader(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,
-                            XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Locale locale)
+                            XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Configuration configuration)
     {
         this.xmlDOM = xmlDOM;
         this.pageURLBase = pageURLBase;
@@ -36,17 +37,17 @@ public class XMLDOMDownloader
         this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
-        this.locale = locale;
+        this.configuration = configuration;
     }
 
     public static XMLDOMDownloader createXMLDOMDownloader(XMLDOM xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
                                 Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                                AssetManager assetManager,Locale locale)
+                                AssetManager assetManager,Configuration configuration)
     {
         if (xmlDOM instanceof XMLDOMLayoutPage)
-            return XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader((XMLDOMLayoutPage)xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+            return XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader((XMLDOMLayoutPage)xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
         else
-            return new XMLDOMDownloaderOther(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+            return new XMLDOMDownloaderOther(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
     }
 
     public void downloadRemoteResources() throws Exception
@@ -62,7 +63,7 @@ public class XMLDOMDownloader
     {
         // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
 
-        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,locale);
+        HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,configuration);
         resDownloader.downloadResources(attrRemoteList);
     }
 

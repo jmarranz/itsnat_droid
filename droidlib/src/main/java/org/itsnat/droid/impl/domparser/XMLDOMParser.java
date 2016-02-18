@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.domparser;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -34,13 +35,13 @@ public abstract class XMLDOMParser
 {
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
-    protected final Locale locale;
+    protected final Configuration configuration;
 
-    public XMLDOMParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Locale locale)
+    public XMLDOMParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
-        this.locale = locale;
+        this.configuration = configuration;
     }
 
     public static XmlPullParser newPullParser(Reader input)
@@ -197,7 +198,7 @@ public abstract class XMLDOMParser
 
     protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
-        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value,locale);
+        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value,configuration);
         addDOMAttr(element,attrib,xmlDOMParent);
         return attrib;
     }
@@ -242,7 +243,7 @@ public abstract class XMLDOMParser
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = MiscUtil.toString(input, "UTF-8");
-            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMRegistry, assetManager,locale);
+            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMRegistry, assetManager,configuration);
             XMLDOM xmlDOM = resource.getXMLDOM();
             if (xmlDOM.getDOMAttrRemoteList() != null)
                 throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
@@ -258,7 +259,7 @@ public abstract class XMLDOMParser
 
 
     public static ParsedResource parseDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultOKImpl resultRes, XMLDOMRegistry xmlDOMRegistry,
-                                                    AssetManager assetManager,Locale locale) throws Exception
+                                                    AssetManager assetManager,Configuration configuration) throws Exception
     {
         // Método llamado en multihilo
 
@@ -272,7 +273,7 @@ public abstract class XMLDOMParser
 
             String itsNatServerVersion = resultRes.getItsNatServerVersion(); // Puede ser null
 
-            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMRegistry, assetManager,locale);
+            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMRegistry, assetManager,configuration);
             return resource;
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -286,7 +287,7 @@ public abstract class XMLDOMParser
 
 
     private static ParsedResourceXMLDOM parseDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMRegistry xmlDOMRegistry,
-                                                               AssetManager assetManager,Locale locale)
+                                                               AssetManager assetManager,Configuration configuration)
     {
         // Es llamado en multihilo en el caso de DOMAttrRemote
         String resourceType = attr.getResourceType();
@@ -296,17 +297,21 @@ public abstract class XMLDOMParser
         {
             if ("drawable".equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager,locale);
+                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager,configuration);
             }
             else if ("layout".equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, layoutType, assetManager,locale);
+                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, layoutType, assetManager,configuration);
             }
             else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType + " or missing ending :selector");
         }
         else if (XMLDOMValues.isResourceTypeValues(resourceType)) // Incluye el caso de <drawable> y <item name="..." type="layout">
         {
-            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup, assetManager,locale);
+            // En el caso "drawable" podemos tener un acceso a un <drawable> en archivo XML en /res/values o bien directamente acceder al XML en /res/drawable
+            // Este es el caso de acceso a un item <drawable> de un XML values
+            // Idem con <item name="..." type="layout">
+
+            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup, assetManager,configuration);
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 

@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
@@ -22,28 +23,25 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final HttpRequestData httpRequestData;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
-    protected final Locale locale;
+    protected final Configuration configuration;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
-    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url,Map<String,ParsedResource> urlResDownloadedMap)
+    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url,String pageURLBase,HttpRequestData httpRequestData,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
-        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
-        ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
-        Resources res = pageRequest.getContext().getResources();
-        // Hay que tener en cuenta que estos objetos se acceden en multihilo
+         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.pageRequest = pageRequest;
         this.url = url;
-        this.pageURLBase = pageRequest.getPageURLBase();
+        this.pageURLBase = pageURLBase;
         this.urlResDownloadedMap = urlResDownloadedMap;
-        this.xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
-        this.assetManager = res.getAssets();
-        this.locale = res.getConfiguration().locale;
-        this.httpRequestData = new HttpRequestData(pageRequest);
+        this.xmlDOMRegistry = xmlDOMRegistry;
+        this.assetManager = assetManager;
+        this.configuration = configuration;
+        this.httpRequestData = httpRequestData;
     }
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
     }
 
 

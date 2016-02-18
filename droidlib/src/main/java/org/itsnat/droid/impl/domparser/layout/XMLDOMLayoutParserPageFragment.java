@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.domparser.layout;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageFragment;
@@ -13,9 +14,9 @@ import java.util.Locale;
  */
 public class XMLDOMLayoutParserPageFragment extends XMLDOMLayoutParserPage
 {
-    public XMLDOMLayoutParserPageFragment(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Locale locale)
+    public XMLDOMLayoutParserPageFragment(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Configuration configuration)
     {
-        super(xmlDOMRegistry,assetManager,locale);
+        super(xmlDOMRegistry,assetManager,configuration);
     }
 
     @Override

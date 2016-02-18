@@ -93,6 +93,13 @@
                       android:layout_below="@id/textViewTest3"
                       style="@style/test_style_textview_compiled" />
 
+            <TextView android:id="@+id/textViewTest5"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/test_smallestscreenwithdp_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest4" />
+
         </RelativeLayout>
 
         <TextView

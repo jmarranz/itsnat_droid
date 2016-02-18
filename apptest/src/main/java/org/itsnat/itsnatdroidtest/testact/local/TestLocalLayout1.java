@@ -308,7 +308,9 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getId(), parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
 
                     Locale locale = ctx.getResources().getConfiguration().locale;
-                    if (locale.getLanguage().equals("es"))
+                    String lang = locale.getLanguage();
+                    String region = locale.getCountry();
+                    if (lang.equals("es") && region.equals("ES"))
                         assertEquals(compTextView.getText(), "Hola mundo 2!");
                     else
                         assertEquals(compTextView.getText(), "Hello world 2!");
@@ -396,6 +398,40 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getPaddingRight(), ValueUtil.dpToPixelIntRound(21.3f, res));
                     assertEquals(compTextView.getPaddingRight(), parsedTextView.getPaddingRight());
 
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    int[] compTextRules = compTextParams.getRules();
+                    int[] parsedTextRules = parsedTextParams.getRules();
+                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
+                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
+                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
+                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
+                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    int smallestScreenWidthDp = ctx.getResources().getConfiguration().smallestScreenWidthDp;
+                    if (smallestScreenWidthDp < 384)
+                        assertEquals(compTextView.getText(), "Test filter smallestScreenWidthDp > 384dp (ex. Nexus 5 = 360dp)");
+                    else
+                        assertEquals(compTextView.getText(), "Test filter smallestScreenWidthDp >= 384dp (ex. Nexus 4 = 384dp)");
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    assertEquals(a_params.width, b_params.width);
+                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    assertEquals(a_params.height, b_params.height);
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();

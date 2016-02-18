@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.dom.values;
 
+import android.content.res.Configuration;
+
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
@@ -16,7 +18,7 @@ public class DOMElemValuesItemStyle extends DOMElemValuesItemNamed
     }
 
     @Override
-    public DOMAttr setTextNode(String text, Locale locale)
+    public DOMAttr setTextNode(String text,Configuration configuration)
     {
         String itemName = getNameAttr();
 
@@ -25,7 +27,7 @@ public class DOMElemValuesItemStyle extends DOMElemValuesItemNamed
         if (namespaceURI != null)
             itemName = NamespaceUtil.getLocalName(itemName);
 
-        this.valueAsDOMAttr = DOMAttr.create(namespaceURI, itemName, text,locale);
+        this.valueAsDOMAttr = DOMAttr.create(namespaceURI, itemName, text, configuration);
 
         return valueAsDOMAttr;
     }

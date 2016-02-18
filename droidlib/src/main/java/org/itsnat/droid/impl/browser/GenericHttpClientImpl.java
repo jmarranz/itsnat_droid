@@ -23,6 +23,7 @@ import java.util.Map;
 public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements GenericHttpClient
 {
     protected String userUrl;
+    protected String method = "POST"; // Por defecto
     protected RequestPropertyMap requestPropertyMap;
     protected HttpParams httpParams;
     protected int connectTimeout;
@@ -78,6 +79,11 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     {
         setMethodNotFluid(method);
         return this;
+    }
+
+    public void setMethodNotFluid(String method)
+    {
+        this.method = method;
     }
 
     @Override
@@ -208,29 +214,25 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         return this;
     }
 
-    public HttpRequestResult request(boolean async) // No es público
+    public void request(boolean async) // Interno
     {
         if (async)
-        {
             requestAsync();
-            return null;
-        }
-        else return requestSync();
+        else
+            requestSync();
     }
 
     @Override
     public HttpRequestResult requestSync()
     {
-        //PageImpl page = getPageImpl();
         String url = getFinalURL();
-
         HttpRequestData httpRequestData = new HttpRequestData(this);
-        List<NameValue> params = this.paramList;
+        List<NameValue> paramList = this.paramList; // No hace falta clonar pues es síncrono
 
         HttpRequestResultOKImpl result;
         try
         {
-            result = executeInBackground(this,method, url, httpRequestData, params, overrideMime);
+            result = executeInBackground(this,method, url, httpRequestData, paramList, overrideMime);
         }
         catch (Exception ex)
         {
@@ -245,11 +247,14 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         return result;
     }
 
+
     @Override
     public void requestAsync()
     {
         String url = getFinalURL();
-        GenericHttpClientAsyncTask task = new GenericHttpClientAsyncTask(this,method,url, paramList, httpRequestListener,errorListener,overrideMime);
+        HttpRequestData httpRequestData = new HttpRequestData(this);
+        List<NameValue> paramList = new ArrayList<NameValue>(this.paramList); // hace una copia, los NameValue son de sólo lectura por lo que no hay problema de compartirlos en hilos
+        GenericHttpClientAsyncTask task = new GenericHttpClientAsyncTask(this,method,url,httpRequestData, paramList, httpRequestListener,errorListener,overrideMime);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

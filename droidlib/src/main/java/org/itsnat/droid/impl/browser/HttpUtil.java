@@ -351,7 +351,9 @@ public class HttpUtil
         String absURL;
 
         URI uri;
-        try { uri = new URI(src); } catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
+        try { uri = new URI(src); }
+        catch (URISyntaxException ex)
+        { throw new ItsNatDroidException(ex); }
 
         String scheme = uri.getScheme();
         if (scheme == null)

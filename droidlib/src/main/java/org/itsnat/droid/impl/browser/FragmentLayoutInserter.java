@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,8 +67,9 @@ public class FragmentLayoutInserter
         XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
         Resources res = page.getContext().getResources();
         AssetManager assetManager = res.getAssets();
-        Locale locale = res.getConfiguration().locale;
-        XMLDOMLayoutPage xmlDOMLayout = wrapAndParseMarkupFragment(parentClassName, markup,xmlDOMLayoutPageParent,page.getItsNatServerVersion(),xmlDOMRegistry, assetManager,locale);
+        Configuration configuration = res.getConfiguration();
+
+        XMLDOMLayoutPage xmlDOMLayout = wrapAndParseMarkupFragment(parentClassName, markup,xmlDOMLayoutPageParent,page.getItsNatServerVersion(),xmlDOMRegistry, assetManager, configuration);
 
         DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootDOMElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
@@ -92,7 +94,7 @@ public class FragmentLayoutInserter
     }
 
     public static XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup,XMLDOMLayoutPage xmlDOMLayoutPageParent,String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry,
-                                                              AssetManager assetManager,Locale locale)
+                                                              AssetManager assetManager,Configuration configuration)
     {
         // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
         // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
@@ -114,7 +116,7 @@ public class FragmentLayoutInserter
         markup = newMarkup.toString();
 
 
-        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager,locale);
+        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager,configuration);
         return xmlDOMLayout;
     }
 

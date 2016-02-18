@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.stdalone;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
@@ -123,8 +124,8 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
 
         Resources res = getContext().getResources();
         AssetManager assetManager = res.getAssets();
-        Locale locale = res.getConfiguration().locale;
-        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup,null, XMLDOMLayoutParser.LayoutType.STANDALONE, assetManager,locale);
+        Configuration configuration = res.getConfiguration();
+        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup,null, XMLDOMLayoutParser.LayoutType.STANDALONE, assetManager,configuration);
 
         int indexChild = parentView != null ? parentView.getChildCount() - 1 : -1;
 

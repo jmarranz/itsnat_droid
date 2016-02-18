@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
@@ -19,7 +20,6 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
 {
     protected final List<DOMAttrRemote> attrRemoteList;
     protected final DownloadResourcesHttpClient parent;
-    protected final String method;
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
     protected final String itsNatServerVersion;
@@ -28,33 +28,31 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected final int errorMode;
     protected final XMLDOMRegistry xmlDOMRegistry;
     protected final AssetManager assetManager;
-    protected final Locale locale;
+    protected final Configuration configuration;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
-    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, OnHttpRequestListener httpRequestListener,
-                                          OnHttpRequestErrorListener errorListener,int errorMode,Map<String,ParsedResource> urlResDownloadedMap,
-                                          AssetManager assetManager,Locale locale)
+    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent,String pageURLBase,HttpRequestData httpRequestData,
+                                          OnHttpRequestListener httpRequestListener,OnHttpRequestErrorListener errorListener,int errorMode,
+                                          String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,
+                                          XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
     {
-        PageImpl page = parent.getPageImpl();
-
         this.attrRemoteList = attrRemoteList;
         this.parent = parent;
-        this.method = method;
         this.pageURLBase = pageURLBase;
-        this.httpRequestData = new HttpRequestData(page);
+        this.httpRequestData = httpRequestData;
         this.httpRequestListener = httpRequestListener;
-        this.itsNatServerVersion = page.getItsNatServerVersion();
+        this.itsNatServerVersion = itsNatServerVersion;
         this.errorListener = errorListener;
         this.errorMode = errorMode;
         this.urlResDownloadedMap = urlResDownloadedMap;
-        this.xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
+        this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
-        this.locale = locale;
+        this.configuration = configuration;
     }
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,locale);
+        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
     }
 
     @Override
