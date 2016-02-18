@@ -64,7 +64,8 @@ public class DOMMiniParser
         // Afortunadamente he descubierto que getName() devuelve el entity sin & ni ; es decir por ejemplo "lt"
 
         String entityName = parser.getName();
-        return new DMEntityRefNode(entityName);
+        String resolvedEntity = parser.getText();
+        return new DMEntityRefNode(entityName,resolvedEntity);
     }
 
     private static DMTextNode processTextNode(XmlPullParser parser) throws IOException, XmlPullParserException

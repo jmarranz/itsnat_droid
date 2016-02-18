@@ -443,63 +443,67 @@ public class XMLInflateRegistry
             }
         }
 
-        // Vemos si al menos hay un entityref ej &lt;
-        // https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
-        posStart = markup.indexOf('&');
-        if (posStart != -1)
+        boolean ENABLE_ENTITY_REF = true;
+        if (ENABLE_ENTITY_REF)
         {
-            int posEnd = markup.indexOf(';',posStart);
-            if (posEnd != -1 && posEnd - posStart > 2)
+            // Vemos si al menos hay un entityref ej &lt;
+            // https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
+            posStart = markup.indexOf('&');
+            if (posStart != -1)
             {
-                String entity = markup.substring(posStart + 1, posEnd);
-                boolean isWord = true;
-                for (int i = 0; i < entity.length(); i++)
+                int posEnd = markup.indexOf(';', posStart);
+                if (posEnd != -1 && posEnd - posStart > 2)
                 {
-                    char c = entity.charAt(i);
-                    if (!Character.isLetter(c))
+                    String entity = markup.substring(posStart + 1, posEnd);
+                    boolean isWord = true;
+                    for (int i = 0; i < entity.length(); i++)
                     {
-                        isWord = false;
-                        break;
-                    }
-                }
-                if (isWord) return true;
-
-                // Ya está hecho y lo dejamos aunque desactivado pero he descubierto que el parser XML de Android no admite el formato &#xnumhex; o &numdec; sólo entities con nombre conocidas (&lt; etc)
-                if (false)
-                {
-                    if (entity.length() >= 2)
-                    {
-                        if (entity.charAt(0) == '#')
+                        char c = entity.charAt(i);
+                        if (!Character.isLetter(c))
                         {
-                            if (entity.charAt(1) == 'x')
+                            isWord = false;
+                            break;
+                        }
+                    }
+                    if (isWord) return true;
+
+                    // Ya está hecho y lo dejamos aunque desactivado pero he descubierto que el parser XML de Android no admite el formato &#xnumhex; o &numdec; sólo entities con nombre conocidas (&lt; etc)
+                    if (false)
+                    {
+                        if (entity.length() >= 2)
+                        {
+                            if (entity.charAt(0) == '#')
                             {
-                                String numberHex = entity.substring(2, entity.length());
-                                boolean isHexNumber = true;
-                                for (int i = 0; i < numberHex.length(); i++)
+                                if (entity.charAt(1) == 'x')
                                 {
-                                    char c = entity.charAt(i);
-                                    if (!Character.isLetterOrDigit(c))
+                                    String numberHex = entity.substring(2, entity.length());
+                                    boolean isHexNumber = true;
+                                    for (int i = 0; i < numberHex.length(); i++)
                                     {
-                                        isHexNumber = false;
-                                        break;
+                                        char c = entity.charAt(i);
+                                        if (!Character.isLetterOrDigit(c))
+                                        {
+                                            isHexNumber = false;
+                                            break;
+                                        }
                                     }
+                                    if (isHexNumber) return true;
                                 }
-                                if (isHexNumber) return true;
-                            }
-                            else
-                            {
-                                String number = entity.substring(1, entity.length());
-                                boolean isDecNumber = true;
-                                for (int i = 0; i < number.length(); i++)
+                                else
                                 {
-                                    char c = entity.charAt(i);
-                                    if (!Character.isDigit(c))
+                                    String number = entity.substring(1, entity.length());
+                                    boolean isDecNumber = true;
+                                    for (int i = 0; i < number.length(); i++)
                                     {
-                                        isDecNumber = false;
-                                        break;
+                                        char c = entity.charAt(i);
+                                        if (!Character.isDigit(c))
+                                        {
+                                            isDecNumber = false;
+                                            break;
+                                        }
                                     }
+                                    if (isDecNumber) return true;
                                 }
-                                if (isDecNumber) return true;
                             }
                         }
                     }

@@ -87,6 +87,19 @@ public class DOMMiniRender
 
     private static String toStringDMEntityRefNode(DMEntityRefNode node)
     {
+        // Android no acepta entities con &# o &#x a nivel de compilador aunque la clase android.text.Html lo soporte
+
         return "&" + node.getEntityName() + ";";
+        // return node.getResolvedEntity();
+
+        /*
+        String entityName = node.getEntityName();
+        if      ("lt".equals(entityName)) return "<";
+        else if ("gt".equals(entityName)) return ">";
+        else if ("amp".equals(entityName)) return "&";
+        else if (" ".equals(entityName)) return " ";
+
+        return node.getResolvedEntity(); // MAL
+        */
     }
 }

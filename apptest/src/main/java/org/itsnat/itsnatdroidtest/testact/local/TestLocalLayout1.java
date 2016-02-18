@@ -421,7 +421,7 @@ public class TestLocalLayout1
 
                     int smallestScreenWidthDp = ctx.getResources().getConfiguration().smallestScreenWidthDp;
                     if (smallestScreenWidthDp < 384)
-                        assertEquals(compTextView.getText(), "Test filter smallestScreenWidthDp > 384dp (ex. Nexus 5 = 360dp)");
+                        assertEquals(compTextView.getText(), "Test filter smallestScreenWidthDp < 384dp (ex. Nexus 5 = 360dp)");
                     else
                         assertEquals(compTextView.getText(), "Test filter smallestScreenWidthDp >= 384dp (ex. Nexus 4 = 384dp)");
                     assertEquals(compTextView.getText(), parsedTextView.getText());

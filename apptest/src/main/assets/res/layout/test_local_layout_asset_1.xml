@@ -73,7 +73,7 @@
             <TextView android:id="@+id/textViewTest2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@assets:string/res/values{lg-es}{rg-ES}/string_localized_asset.xml:hello_world2"
+                android:text="@assets:string/res/values{lg-es}{rg-rES}/string_localized_asset.xml:hello_world2"
                 android:background="#dddddd"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 style="@style/test_style_layout_below" />
@@ -98,7 +98,7 @@
             <TextView android:id="@+id/textViewTest5"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@assets:string/res/values{sw-384dp}/test_smallestscreenwithdp_filter_asset.xml:test_smallestscreenwithdp_filter"
+                  android:text="@assets:string/res/values{sw-sw384dp}/test_smallestscreenwithdp_filter_asset.xml:test_smallestscreenwithdp_filter"
                   android:background="#dddddd"
                   android:layout_below="@id/textViewTest4" />
 

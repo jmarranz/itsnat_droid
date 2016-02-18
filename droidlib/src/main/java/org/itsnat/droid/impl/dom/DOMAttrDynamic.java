@@ -208,7 +208,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
 
         {
             // Soportamos la existencia de sufijo de región
-            // Ej {rg-ES}
+            // Ej {rg-rES}
             String prefix = "{rg-";
             int posStart = location.indexOf(prefix,posToSearchMore);
             if (posStart != -1)
@@ -216,7 +216,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String region = location.substring(posStart + prefix.length(), posEnd);
+                String region = location.substring(posStart + prefix.length() + 1 /* el +1 es la r de rES */, posEnd);
                 String currentRegion = configuration.locale.getCountry();
                 try
                 {
@@ -249,7 +249,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
 
         {
             // Soportamos la existencia de sufijo smallestWidth
-            // Ej {sw-720dp}
+            // Ej {sw-sw720dp}
             String prefix = "{sw-";
             int posStart = location.indexOf(prefix,posToSearchMore);
             if (posStart != -1)
@@ -257,7 +257,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String smallestScreenWidthDpStr  = location.substring(posStart + prefix.length(), posEnd - 2); // EL -2 es para quitar el "dp" y que smallestScreenWidthDpStr sea un entero
+                String smallestScreenWidthDpStr  = location.substring(posStart + prefix.length() + 2, posEnd - 2); // El +2 es para quitar el "sw" y el -2 es para quitar el "dp" y que smallestScreenWidthDpStr sea un entero
                 try
                 {
                     int smallestScreenWidthDp = Integer.parseInt(smallestScreenWidthDpStr);
@@ -285,7 +285,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
 
         {
             // Soportamos la existencia de sufijo de versión de la plataforma
-            // Ej {v-21}
+            // Ej {v-v21}
             String prefix = "{v-";
             int posStart = location.indexOf(prefix,posToSearchMore);
             if (posStart != -1)
@@ -293,7 +293,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String versionStr = location.substring(posStart + prefix.length(), posEnd);
+                String versionStr = location.substring(posStart + prefix.length() + 1 /* el +1 es para quitar el v */, posEnd);
                 try
                 {
                     int version = Integer.parseInt(versionStr);

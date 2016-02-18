@@ -23,6 +23,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.text.InputFilter;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -126,8 +127,10 @@ public class Assert
 
     public static void assertEquals(CharSequence a,CharSequence b)
     {
-        // El CharSequence puede ser por ejemplo Spannable
-        assertEqualsInternal(a.getClass(),b.getClass());
+        // El CharSequence puede ser por ejemplo Spannable, Android tiende en ciertos casos de HTML a devolver String pero no se cual es la casuística exacta y yo tiendo a devolver SpannableString
+        // lo importante es que el texto renderizado sea el mismo
+        if (a instanceof Spannable)
+            assertEqualsInternal(a.getClass(),b.getClass());
         assertEqualsInternal(a.toString(), b.toString());
     }
 
