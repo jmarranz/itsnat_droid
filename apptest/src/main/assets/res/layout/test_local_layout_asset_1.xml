@@ -98,9 +98,23 @@
             <TextView android:id="@+id/textViewTest5"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@assets:string/res/values{sw-sw384dp}/test_smallestscreenwithdp_filter_asset.xml:test_smallestscreenwithdp_filter"
+                  android:text="@assets:string/res/values{sw-sw384dp}/test_smallestwithdp_filter_asset.xml:test_smallestwithdp_filter"
                   android:background="#dddddd"
                   android:layout_below="@id/textViewTest4" />
+
+            <TextView android:id="@+id/textViewTest6"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@assets:string/res/values{w-w384dp}/test_screenwidthdp_filter_asset.xml:test_screenwidthdp_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest5" />
+
+            <TextView android:id="@+id/textViewTest7"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@assets:string/res/values{h-h696dp}/test_screenheightdp_filter_asset.xml:test_screenheightdp_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest6" />
 
         </RelativeLayout>
 

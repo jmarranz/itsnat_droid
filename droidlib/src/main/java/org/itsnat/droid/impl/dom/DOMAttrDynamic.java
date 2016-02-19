@@ -284,6 +284,78 @@ public abstract class DOMAttrDynamic extends DOMAttr
             return location;
 
         {
+            // Soportamos la existencia de sufijo screenWidthDp (available width)
+            // Ej {w-w720dp}
+            String prefix = "{w-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String screenWidthDpStr  = location.substring(posStart + prefix.length() + 1, posEnd - 2); // El +1 es para quitar el "w" y el -2 es para quitar el "dp" y que screenWidthDp sea un entero
+                try
+                {
+                    int screenWidthDp = Integer.parseInt(screenWidthDpStr);
+                    if (configuration.screenWidthDp >= screenWidthDp)
+                    {
+                        location = location.substring(0, posStart) + "-w" + screenWidthDp + "dp" + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad platform version suffix: " + screenWidthDpStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo screenWidthDp (available width)
+            // Ej {h-h720dp}
+            String prefix = "{h-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String screenHeightDpStr  = location.substring(posStart + prefix.length() + 1, posEnd - 2); // El +1 es para quitar el "h" y el -2 es para quitar el "dp" y que screenWidthDp sea un entero
+                try
+                {
+                    int screenHeightDp = Integer.parseInt(screenHeightDpStr);
+                    if (configuration.screenHeightDp >= screenHeightDp)
+                    {
+                        location = location.substring(0, posStart) + "-h" + screenHeightDp + "dp" + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad platform version suffix: " + screenHeightDpStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
             // Soportamos la existencia de sufijo de versión de la plataforma
             // Ej {v-v21}
             String prefix = "{v-";

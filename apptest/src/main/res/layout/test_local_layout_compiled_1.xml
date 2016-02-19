@@ -96,9 +96,23 @@
             <TextView android:id="@+id/textViewTest5"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@string/test_smallestscreenwithdp_filter"
+                      android:text="@string/test_smallestwithdp_filter"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest4" />
+
+            <TextView android:id="@+id/textViewTest6"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/test_screenwidthdp_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest5" />
+
+            <TextView android:id="@+id/textViewTest7"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/test_screenheightdp_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest6" />
 
         </RelativeLayout>
 

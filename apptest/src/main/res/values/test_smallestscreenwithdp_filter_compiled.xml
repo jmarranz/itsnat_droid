@@ -1,5 +1,0 @@
-<resources>
-
-    <string name="test_smallestscreenwithdp_filter">Test filter smallestScreenWidthDp &lt; 384dp (ex. Nexus 5 = 360dp)</string>
-
-</resources>

@@ -1,0 +1,5 @@
+<resources>
+
+    <string name="test_screenheightdp_filter">Test filter screenHeightDp >= 696dp (ex. Nexus 5X portrait = 696dp)</string>
+
+</resources>
