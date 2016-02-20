@@ -14,11 +14,11 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -333,7 +333,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
 
             String xmlMarkupStrLiteral = classNameCommAndxmlMarkupStrLiteral.substring(posComma + 1);
             String xmlMarkup = extractStringLiteralContent(xmlMarkupStrLiteral);
-            xmlMarkup = convertCodeStringLiteralToNormalString(xmlMarkup);
+            xmlMarkup = StringUtil.convertEscapedStringLiteralToNormalString(xmlMarkup);
             xmlMarkupList.add(xmlMarkup);
 
             code = code.substring(posEnd + lenDelimiter);
@@ -407,76 +407,5 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         if (!code.endsWith("\"")) throw new ItsNatDroidException("Unexpected format: " + code);
         code = code.substring(1,code.length()-1);
         return code;
-    }
-
-    private static String convertCodeStringLiteralToNormalString(String code)
-    {
-        // Hemos extraido la cadena del código fuente beanshell (formada con "" esto no es JavaScript), para poder poner una cadena literal necesitamos poner
-        // los LF como \n y las " como \", tenemos que deshacer eso o de otra manera NO tenemos el texto original de verdad.
-        // En el caso de los nombres de las variables, namespaces etc con extractStringLiteralContent es suficiente
-        // Ver código de ItsNat Server: JSAndBSRenderImpl::toTransportableStringLiteral(String text,boolean addQuotation,Browser browser)
-        // '\r' '\n' '"' '\'' '\\'  '\t' '\f' '\b'
-        // El caracter '"' está presente como \" en una string delimitada con "
-        // El caracter '\'' está presente como ' en una string delimitada con "
-
-
-        StringBuilder codeRes = new StringBuilder();
-
-        int start = 0;
-        while(true)
-        {
-            int pos = code.indexOf('\\', start);
-            if (pos != -1)
-            {
-                String frag = code.substring(start,pos);
-                codeRes.append(frag);
-
-                char c = code.charAt(pos); // '\\' si o si
-                pos++;
-                if (pos == code.length()) break; // No hay un siguiente caracter
-
-                char c2 = code.charAt(pos);
-                switch (c2)
-                {
-                    case 'r':
-                        codeRes.append('\r');
-                        break;
-                    case 'n':
-                        codeRes.append('\n');
-                        break;
-                    case '"':
-                        codeRes.append('\"');
-                        break;
-                    // No hacemos nada con '\'' pues no se necesita (el servidor cuando se pone entre "" no hace nada con este caracter
-                    case '\\':
-                        codeRes.append('\\');
-                        break;
-                    case 't':
-                        codeRes.append('\t');
-                        break;
-                    case 'f':
-                        codeRes.append('\f');
-                        break;
-                    case 'b':
-                        codeRes.append('\b');
-                        break;
-                    default:
-                        codeRes.append(c);
-                        codeRes.append(c2);
-                }
-
-                pos++;
-
-                start = pos;
-            }
-            else
-            {
-                String frag = code.substring(start);
-                codeRes.append(frag);
-                break;
-            }
-        }
-
-        return codeRes.toString();
     }
 }

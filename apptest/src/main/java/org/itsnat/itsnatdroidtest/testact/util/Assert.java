@@ -155,7 +155,8 @@ public class Assert
     public final static void assertEqualsInternal(Object a,Object b)
     {
         if (a == b) return;
-        if (a != null && !a.equals(b) || b != null && !b.equals(a)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+        if (a != null && !a.equals(b) || b != null && !b.equals(a))
+            throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
     public final static void assertEquals(Boolean a,Boolean b)

@@ -32,6 +32,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
+import org.itsnat.droid.impl.util.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -200,7 +201,7 @@ public class HttpUtil
 
         getMimeTypeEncoding(httpResponse, mimeTypeRes, encodingRes);
 
-        if (!MiscUtil.isEmpty(overrideMime)) mimeTypeRes[0] = overrideMime;
+        if (!StringUtil.isEmpty(overrideMime)) mimeTypeRes[0] = overrideMime;
 
         InputStream input = null;
         try { input = entity.getContent(); } // Interesa incluso cuando hay error (statusCode != 200) porque obtenemos el texto del error

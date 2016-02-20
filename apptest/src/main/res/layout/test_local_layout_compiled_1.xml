@@ -96,23 +96,37 @@
             <TextView android:id="@+id/textViewTest5"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@string/test_smallestwithdp_filter"
+                      android:text="Device Data to Test Filters:\n
+Nexus 4  smallestScreenWidthDp 384dp\n
+\t\t\t\t portrait screenWidthDp/screenHeightDp 384dp/567dp\n
+Nexus 5  smallestScreenWidthDp 360dp\n
+\t\t\t\t portrait screenWidthDp/screenHeightDp 360dp/567dp\n
+Nexus 5X smallestScreenWidthDp 432dp\n
+\t\t\t\t portrait screenWidthDp/screenHeightDp 432dp/696dp"
+                      android:textSize="10dp"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest4" />
 
             <TextView android:id="@+id/textViewTest6"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@string/test_screenwidthdp_filter"
+                      android:text="@string/test_smallestwithdp_filter"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest5" />
 
             <TextView android:id="@+id/textViewTest7"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@string/test_screenheightdp_filter"
+                      android:text="@string/test_screenwidthdp_filter"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest6" />
+
+            <TextView android:id="@+id/textViewTest8"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/test_screenheightdp_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest7" />
 
         </RelativeLayout>
 

@@ -20,13 +20,13 @@ import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.Locale;
 
 /**
  * Created by jmarranz on 31/10/14.
@@ -242,7 +242,7 @@ public abstract class XMLDOMParser
         String resourceMime = assetAttr.getResourceMime();
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
-            String markup = MiscUtil.toString(input, "UTF-8");
+            String markup = StringUtil.toString(input, "UTF-8");
             ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMRegistry, assetManager,configuration);
             XMLDOM xmlDOM = resource.getXMLDOM();
             if (xmlDOM.getDOMAttrRemoteList() != null)

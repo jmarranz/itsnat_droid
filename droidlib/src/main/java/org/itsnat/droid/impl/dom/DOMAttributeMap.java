@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.dom;
 
-import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -59,6 +59,6 @@ public class DOMAttributeMap
 
     private static String toKey(String namespaceURI, String name)
     {
-        return MiscUtil.isEmpty(namespaceURI) ? name : (namespaceURI + ":" + name);
+        return StringUtil.isEmpty(namespaceURI) ? name : (namespaceURI + ":" + name);
     }
 }

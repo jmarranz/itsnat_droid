@@ -428,12 +428,11 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getId(), R.id.textViewTest5);
                     assertEquals(compTextView.getId(), parsedTextView.getId());
 
-                    int smallestScreenWidthDp = ctx.getResources().getConfiguration().smallestScreenWidthDp;
-                    if (smallestScreenWidthDp < 384)
-                        assertEquals(compTextView.getText(), "Test filter smallestWidthDp < 384dp (ex. Nexus 5 = 360dp)");
-                    else
-                        assertEquals(compTextView.getText(), "Test filter smallestWidthDp >= 384dp (ex. Nexus 4 = 384dp)");
-                    assertEquals(compTextView.getText(), parsedTextView.getText());
+                    assertTrue(compTextView.getText().toString().startsWith("Device Data to Test Filters:\n"));
+                    assertTrue(parsedTextView.getText().toString().startsWith("Device Data to Test Filters:\n"));
+                    // Indirectamente testeamos la conversión manual que hacemos de \n, \t (hay más casos de caracteres especiales pero no los testeamos):
+                    assertEquals(compTextView.getText(),parsedTextView.getText());
+
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
                     ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
@@ -465,11 +464,11 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getId(), R.id.textViewTest6);
                     assertEquals(compTextView.getId(), parsedTextView.getId());
 
-                    int screenHeightDp = ctx.getResources().getConfiguration().screenHeightDp;
-                    if (screenHeightDp < 384)
-                        assertEquals(compTextView.getText(), "Test filter screenWidthDp < 384dp (ex. Nexus 5 portrait = 360dp)");
+                    int smallestScreenWidthDp = ctx.getResources().getConfiguration().smallestScreenWidthDp;
+                    if (smallestScreenWidthDp < 384)
+                        assertEquals(compTextView.getText(), "Test filter smallestWidthDp < 384dp");
                     else
-                        assertEquals(compTextView.getText(), "Test filter screenWidthDp >= 384dp (ex. Nexus 4 portrait = 384dp)");
+                        assertEquals(compTextView.getText(), "Test filter smallestWidthDp >= 384dp");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
@@ -503,10 +502,47 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getId(), parsedTextView.getId());
 
                     int screenHeightDp = ctx.getResources().getConfiguration().screenHeightDp;
-                    if (screenHeightDp < 696)
-                        assertEquals(compTextView.getText(), "Test filter screenHeightDp < 696dp (ex. Nexus 4 portrait = 567dp)");
+                    if (screenHeightDp < 384)
+                        assertEquals(compTextView.getText(), "Test filter screenWidthDp < 384dp");
                     else
-                        assertEquals(compTextView.getText(), "Test filter screenHeightDp >= 696dp (ex. Nexus 5X portrait = 696dp)");
+                        assertEquals(compTextView.getText(), "Test filter screenWidthDp >= 384dp");
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    assertEquals(a_params.width, b_params.width);
+                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    assertEquals(a_params.height, b_params.height);
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    int[] compTextRules = compTextParams.getRules();
+                    int[] parsedTextRules = parsedTextParams.getRules();
+                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
+                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
+                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
+                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
+                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getId(), R.id.textViewTest8);
+                    assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                    int screenHeightDp = ctx.getResources().getConfiguration().screenHeightDp;
+                    if (screenHeightDp < 696)
+                        assertEquals(compTextView.getText(), "Test filter screenHeightDp < 696dp");
+                    else
+                        assertEquals(compTextView.getText(), "Test filter screenHeightDp >= 696dp");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();

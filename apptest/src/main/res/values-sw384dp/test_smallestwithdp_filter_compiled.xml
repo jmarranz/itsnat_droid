@@ -1,5 +1,5 @@
 <resources>
 
-    <string name="test_smallestwithdp_filter">Test filter smallestWidthDp >= 384dp (ex. Nexus 4 = 384dp)</string>
+    <string name="test_smallestwithdp_filter">Test filter smallestWidthDp >= 384dp</string>
 
 </resources>

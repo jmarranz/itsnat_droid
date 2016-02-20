@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.browser;
 
 import org.apache.http.HttpResponse;
 import org.itsnat.droid.impl.util.IOUtil;
-import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 
 import java.io.InputStream;
 
@@ -17,6 +17,6 @@ public class HttpRequestResultFailImpl extends HttpRequestResultImpl
 
         // Normalmente sera el texto del error que envia el servidor, por ejemplo el stacktrace
         this.responseByteArray = IOUtil.read(input);
-        this.responseText = MiscUtil.toString(responseByteArray, getEncoding());
+        this.responseText = StringUtil.toString(responseByteArray, getEncoding());
     }
 }

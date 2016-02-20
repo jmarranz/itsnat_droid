@@ -2,8 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.shared.classtree;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
@@ -97,7 +97,7 @@ public abstract class ClassDesc<Tnative>
     {
         if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))
             return getAttrDescAN(name);
-        else if (MiscUtil.isEmpty(namespaceURI))
+        else if (StringUtil.isEmpty(namespaceURI))
             return getAttrDescNoNS(name);
         else
             return null; // Namespace no gestionado aquí

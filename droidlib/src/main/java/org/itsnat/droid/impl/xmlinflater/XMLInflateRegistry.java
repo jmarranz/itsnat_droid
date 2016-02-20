@@ -29,6 +29,7 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
@@ -370,7 +371,8 @@ public class XMLInflateRegistry
         {
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getString(resId);
-        } else return attrValue;
+        }
+        return StringUtil.convertEscapedStringLiteralToNormalString(attrValue);
     }
 
     public CharSequence getText(DOMAttr attr,XMLInflater xmlInflater)
@@ -406,7 +408,7 @@ public class XMLInflateRegistry
                 Spanned spannedValue = Html.fromHtml(attrValue);
                 return new SpannedString(spannedValue); // Para que el tipo devuelto sea el mismo que en el caso compilado y pasemos los tests
             }
-            return attrValue;
+            return StringUtil.convertEscapedStringLiteralToNormalString(attrValue);
         }
     }
 
@@ -422,7 +424,7 @@ public class XMLInflateRegistry
             {
                 String tag = markup.substring(posStart + 2, posEnd);
                 tag = tag.trim();
-                boolean isTag = MiscUtil.isTag(tag);
+                boolean isTag = StringUtil.isTag(tag);
                 if (isTag)
                     return true;
             }
@@ -437,7 +439,7 @@ public class XMLInflateRegistry
             {
                 String tag = markup.substring(posStart + 1, posEnd);
                 tag = tag.trim();
-                boolean isTag = MiscUtil.isTag(tag);
+                boolean isTag = StringUtil.isTag(tag);
                 if (isTag)
                     return true;
             }

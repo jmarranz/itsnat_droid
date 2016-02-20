@@ -24,6 +24,7 @@ import org.itsnat.droid.impl.dom.DOMAttributeMap;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -110,12 +111,12 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     private static boolean isStyleAttribute(String namespaceURI, String name)
     {
-        return MiscUtil.isEmpty(namespaceURI) && name.equals("style");
+        return StringUtil.isEmpty(namespaceURI) && name.equals("style");
     }
 
     private static boolean isClassAttribute(String namespaceURI, String name)
     {
-        return MiscUtil.isEmpty(namespaceURI) && name.equals("class"); // En teoría es sólo en el caso de <view class="..."> pero me da pereza chequear el "view", el que use el atributo class en otro contexto es que es tonto
+        return StringUtil.isEmpty(namespaceURI) && name.equals("class"); // En teoría es sólo en el caso de <view class="..."> pero me da pereza chequear el "view", el que use el atributo class en otro contexto es que es tonto
     }
 
     protected boolean isAttributeIgnored(String namespaceURI, String name)

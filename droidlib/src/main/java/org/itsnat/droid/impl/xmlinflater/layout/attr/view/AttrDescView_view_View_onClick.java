@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -27,7 +27,7 @@ public class AttrDescView_view_View_onClick extends AttrDesc<ClassDescViewBased,
     {
         final String handlerName = attr.getValue();
 
-        if (!MiscUtil.isEmpty(handlerName))
+        if (!StringUtil.isEmpty(handlerName))
         {
             View.OnClickListener listener = new View.OnClickListener()
             {

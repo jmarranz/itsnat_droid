@@ -10,8 +10,8 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
-import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
+import org.itsnat.droid.impl.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +105,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         // que en ese caso es el path al servlet ItsNatDroidServletNoItsNat, de esa manera nos evitamos formar un URL y las llamadas específicas las hacemos a través de los parámetros
         // Podría ser también un path a un JSP (a fin de cuentas un JSP es un servlet).
 
-        return MiscUtil.isEmpty(userUrl) ? itsNatDoc.getPageImpl().getPageURLBase() : userUrl; // Como se puede ver seguridad de "single server" ninguna
+        return StringUtil.isEmpty(userUrl) ? itsNatDoc.getPageImpl().getPageURLBase() : userUrl; // Como se puede ver seguridad de "single server" ninguna
     }
 
     public void addParamNotFluid(String name,Object value)

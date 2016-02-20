@@ -7,7 +7,7 @@ import org.apache.http.impl.cookie.DateUtils;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,7 +95,7 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
                 /* MimeUtil.MIME_JSON.equals(mimeType) || */
                 mimeType.startsWith("text/"))
         {
-            this.responseText = MiscUtil.toString(responseByteArray, getEncoding());
+            this.responseText = StringUtil.toString(responseByteArray, getEncoding());
 
             /*
             if (MimeUtil.MIME_JSON.equals(mimeType))

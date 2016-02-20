@@ -1,5 +1,5 @@
 <resources>
 
-    <string name="test_screenheightdp_filter">Test filter screenHeightDp &lt; 696dp (ex. Nexus 4 portrait = 567dp)</string>
+    <string name="test_screenheightdp_filter">Test filter screenHeightDp &lt; 696dp</string>
 
 </resources>

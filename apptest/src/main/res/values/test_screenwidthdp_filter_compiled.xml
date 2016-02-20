@@ -1,5 +1,5 @@
 <resources>
 
-    <string name="test_screenwidthdp_filter">Test filter screenWidthDp &lt; 384dp (ex. Nexus 5 portrait = 360dp)</string>
+    <string name="test_screenwidthdp_filter">Test filter screenWidthDp &lt; 384dp</string>
 
 </resources>
