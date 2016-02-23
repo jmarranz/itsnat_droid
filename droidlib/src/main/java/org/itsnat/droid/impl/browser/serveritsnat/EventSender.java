@@ -22,7 +22,6 @@ import org.itsnat.droid.impl.util.NameValue;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**

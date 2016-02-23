@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -66,6 +67,8 @@ import org.itsnat.itsnatdroidtest.testact.util.ValueUtil;
 import java.util.Locale;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsRelativeLayoutLayoutParamsBellow;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsViewGroupLayoutParams;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotZero;
@@ -131,11 +134,7 @@ public class TestLocalLayout1
 
             ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
             ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-
-            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-            assertEquals(a_params.height, b_params.height);
-            assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
-            assertEquals(a_params.width, b_params.width);
+            assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
 
 
@@ -154,11 +153,7 @@ public class TestLocalLayout1
 
             ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
             ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-
-            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-            assertEquals(a_params.height, b_params.height);
-            assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
-            assertEquals(a_params.width, b_params.width);
+            assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
 
 
@@ -173,11 +168,7 @@ public class TestLocalLayout1
 
             ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
             ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-
-            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-            assertEquals(a_params.height, b_params.height);
-            assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
-            assertEquals(a_params.width, b_params.width);
+            assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
 
         {
@@ -190,11 +181,7 @@ public class TestLocalLayout1
 
             ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
             ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-
-            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-            assertEquals(a_params.height, b_params.height);
-            assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
-            assertEquals(a_params.width, b_params.width);
+            assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
 
 
@@ -339,10 +326,7 @@ public class TestLocalLayout1
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
                     ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-                    assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
-                    assertEquals(a_params.width, b_params.width);
-                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.height, b_params.height);
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                     assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res)); // A pesar de usar un estilo parent de Android con textSize, lo imponemos
                     assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
@@ -360,13 +344,7 @@ public class TestLocalLayout1
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    int[] compTextRules = compTextParams.getRules();
-                    int[] parsedTextRules = parsedTextParams.getRules();
-                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
-                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
-                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
-                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
-                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
 
                     compTextViewUpper = compTextView;
                     parsedTextViewUpper = parsedTextView;
@@ -386,10 +364,7 @@ public class TestLocalLayout1
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
                     ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-                    assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
-                    assertEquals(a_params.width, b_params.width);
-                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.height, b_params.height);
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                     // assertEquals(compTextView.getTextSize(), ValueUtil.dpToPixelIntRound(15.3f, res)); // Se utiliza un style parent de Android, no sabemos el valor exacto
                     assertEquals(compTextView.getTextSize(), parsedTextView.getTextSize());
@@ -407,13 +382,7 @@ public class TestLocalLayout1
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    int[] compTextRules = compTextParams.getRules();
-                    int[] parsedTextRules = parsedTextParams.getRules();
-                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
-                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
-                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
-                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
-                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
 
                     compTextViewUpper = compTextView;
                     parsedTextViewUpper = parsedTextView;
@@ -436,20 +405,11 @@ public class TestLocalLayout1
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
                     ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-                    assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.width, b_params.width);
-                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.height, b_params.height);
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    int[] compTextRules = compTextParams.getRules();
-                    int[] parsedTextRules = parsedTextParams.getRules();
-                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
-                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
-                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
-                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
-                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
 
                     compTextViewUpper = compTextView;
                     parsedTextViewUpper = parsedTextView;
@@ -473,20 +433,11 @@ public class TestLocalLayout1
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
                     ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-                    assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.width, b_params.width);
-                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.height, b_params.height);
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    int[] compTextRules = compTextParams.getRules();
-                    int[] parsedTextRules = parsedTextParams.getRules();
-                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
-                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
-                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
-                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
-                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
 
                     compTextViewUpper = compTextView;
                     parsedTextViewUpper = parsedTextView;
@@ -501,8 +452,8 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getId(), R.id.textViewTest7);
                     assertEquals(compTextView.getId(), parsedTextView.getId());
 
-                    int screenHeightDp = ctx.getResources().getConfiguration().screenHeightDp;
-                    if (screenHeightDp < 384)
+                    int screenWidthDp = ctx.getResources().getConfiguration().screenWidthDp;
+                    if (screenWidthDp < 384)
                         assertEquals(compTextView.getText(), "Test filter screenWidthDp < 384dp");
                     else
                         assertEquals(compTextView.getText(), "Test filter screenWidthDp >= 384dp");
@@ -510,20 +461,11 @@ public class TestLocalLayout1
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
                     ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-                    assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.width, b_params.width);
-                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.height, b_params.height);
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    int[] compTextRules = compTextParams.getRules();
-                    int[] parsedTextRules = parsedTextParams.getRules();
-                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
-                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
-                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
-                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
-                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
 
                     compTextViewUpper = compTextView;
                     parsedTextViewUpper = parsedTextView;
@@ -547,25 +489,161 @@ public class TestLocalLayout1
 
                     ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
                     ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
-                    assertEquals(a_params.width, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.width, b_params.width);
-                    assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    assertEquals(a_params.height, b_params.height);
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                     RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
                     RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    int[] compTextRules = compTextParams.getRules();
-                    int[] parsedTextRules = parsedTextParams.getRules();
-                    assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
-                    assertNotZero(compTextRules[RelativeLayout.BELOW]);
-                    assertEquals(compTextRules[RelativeLayout.BELOW], compTextViewUpper.getId());
-                    assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
-                    assertEquals(parsedTextRules[RelativeLayout.BELOW], parsedTextViewUpper.getId());
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
 
                     compTextViewUpper = compTextView;
                     parsedTextViewUpper = parsedTextView;
                 }
 
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getId(), R.id.textViewTest9);
+                    assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                    int screenLayout = ctx.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+                    if (screenLayout < Configuration.SCREENLAYOUT_SIZE_XLARGE)
+                        assertEquals(compTextView.getText(), "Test filter screen size < xlarge");
+                    else
+                        assertEquals(compTextView.getText(), "Test filter screen size >= xlarge");
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getId(), R.id.textViewTest10);
+                    assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                    int screenLayout = ctx.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_LONG_MASK;
+                    if (screenLayout == Configuration.SCREENLAYOUT_LONG_NO)
+                        assertEquals(compTextView.getText(), "Test filter screen aspect: notlong");
+                    else if (screenLayout == Configuration.SCREENLAYOUT_LONG_YES)
+                        assertEquals(compTextView.getText(), "Test filter screen aspect: long");
+                    else throw new RuntimeException("Unexpected screenLayout " + screenLayout);
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getId(), R.id.textViewTest11);
+                    assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                    int orientation = ctx.getResources().getConfiguration().orientation;
+                    if (orientation == Configuration.ORIENTATION_PORTRAIT)
+                        assertEquals(compTextView.getText(), "Test filter screen orientation: portrait");
+                    else if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+                        assertEquals(compTextView.getText(), "Test filter screen orientation: landscape");
+                    else throw new RuntimeException("Unexpected orientation " + orientation);
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getId(), R.id.textViewTest12);
+                    assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                    int uiModeType = ctx.getResources().getConfiguration().uiMode & Configuration.UI_MODE_TYPE_MASK;
+                    if (uiModeType != Configuration.UI_MODE_TYPE_TELEVISION)
+                        assertEquals(compTextView.getText(), "Test filter ui mode type: (other != television)");
+                    else // if (uiModeType == Configuration.UI_MODE_TYPE_TELEVISION)
+                        assertEquals(compTextView.getText(), "Test filter ui mode type: television");
+
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getId(), R.id.textViewTest13);
+                    assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                    // El modo night mode podríamos testearlo con un método http://developer.android.com/reference/android/app/UiModeManager.html pero es muy obvio que no vale la pena, testeamos sólo el notnight
+                    int uiModeNight = ctx.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                    if (uiModeNight == Configuration.UI_MODE_NIGHT_NO)
+                        assertEquals(compTextView.getText(), "Test filter ui mode night: notnight");
+                    else if (uiModeNight == Configuration.UI_MODE_NIGHT_YES)
+                        assertEquals(compTextView.getText(), "Test filter ui mode night: night");
+                    else throw new RuntimeException("Unexpected ui mode night " + uiModeNight);
+
+                    assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
             }
         }
 

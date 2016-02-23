@@ -12,8 +12,6 @@ import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
 
-import java.util.Locale;
-
 /**
  * Created by Jose on 01/12/2015.
  */

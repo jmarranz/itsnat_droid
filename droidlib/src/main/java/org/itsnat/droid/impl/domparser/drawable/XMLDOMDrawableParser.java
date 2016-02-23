@@ -15,7 +15,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Locale;
 
 /**
  * Created by jmarranz on 31/10/14.

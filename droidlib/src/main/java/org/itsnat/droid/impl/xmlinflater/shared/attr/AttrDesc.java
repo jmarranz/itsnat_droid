@@ -22,7 +22,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by jmarranz on 4/11/14.

@@ -26,7 +26,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Locale;
 
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ARRAY;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER_ARRAY;

@@ -10,7 +10,6 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Map;
 
 /**

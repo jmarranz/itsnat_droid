@@ -4,7 +4,6 @@ import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.util.NameValue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

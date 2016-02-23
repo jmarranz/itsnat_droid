@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.dom;
 
 import android.content.res.Configuration;
 
-import java.util.Locale;
-
 /**
  * Created by jmarranz on 3/11/14.
  */

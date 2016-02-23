@@ -21,7 +21,6 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**

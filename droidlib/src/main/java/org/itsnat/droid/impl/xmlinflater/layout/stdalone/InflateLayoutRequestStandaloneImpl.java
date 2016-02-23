@@ -20,7 +20,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.Locale;
 
 /**
  * Created by jmarranz on 5/06/14.

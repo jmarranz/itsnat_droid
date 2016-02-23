@@ -4,8 +4,6 @@ import android.content.res.Configuration;
 
 import org.itsnat.droid.ItsNatDroidException;
 
-import java.util.Locale;
-
 /**
  * Created by jmarranz on 27/10/14.
  */

@@ -4,8 +4,6 @@ import android.content.res.Configuration;
 
 import org.itsnat.droid.impl.util.MiscUtil;
 
-import java.util.Locale;
-
 /**
  * Created by jmarranz on 3/11/14.
  */

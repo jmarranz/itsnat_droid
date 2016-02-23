@@ -101,10 +101,17 @@
                       android:text="Device Data to Test Filters:\n
 Nexus 4  smallestScreenWidthDp 384dp\n
 \t\t\t\t portrait screenWidthDp/screenHeightDp 384dp/567dp\n
+\t\t\t\t normal notlong\n
 Nexus 5  smallestScreenWidthDp 360dp\n
 \t\t\t\t portrait screenWidthDp/screenHeightDp 360dp/567dp\n
+\t\t\t\t normal notlong\n
 Nexus 5X smallestScreenWidthDp 432dp\n
-\t\t\t\t portrait screenWidthDp/screenHeightDp 432dp/696dp"
+\t\t\t\t portrait screenWidthDp/screenHeightDp 432dp/696dp\n
+\t\t\t\t normal notlong\n
+Table 10.1 WXGA\n
+\t\t\t\t xlarge notlong\n
+3.4 WQVGA normal long\n
+Android TV uimt: television"
                       android:textSize="10dp"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest4" />
@@ -129,6 +136,41 @@ Nexus 5X smallestScreenWidthDp 432dp\n
                       android:text="@assets:string/res/values{h-h696dp}/test_screenheightdp_filter_asset.xml:test_screenheightdp_filter"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest7" />
+
+            <TextView android:id="@+id/textViewTest9"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@assets:string/res/values{ss-xlarge}/test_screensize_filter_asset.xml:test_screensize_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest8" />
+
+            <TextView android:id="@+id/textViewTest10"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@assets:string/res/values{sa-long}/test_screenaspect_filter_asset.xml:test_screenaspect_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest9" />
+
+            <TextView android:id="@+id/textViewTest11"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@assets:string/res/values{so-land}/test_screenorientation_filter_asset.xml:test_screenorientation_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest10" />
+
+            <TextView android:id="@+id/textViewTest12"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@assets:string/res/values{uimt-television}/test_uimodetype_filter_asset.xml:test_uimodetype_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest11" />
+
+            <TextView android:id="@+id/textViewTest13"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@assets:string/res/values{uimn-notnight}/test_uimodenight_filter_asset.xml:test_uimodenight_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest12" />
 
         </RelativeLayout>
 

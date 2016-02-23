@@ -7,8 +7,6 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MimeUtil;
 
-import java.util.Locale;
-
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
 
@@ -190,7 +188,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
                     }
                     else
                     {
-                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        // Quitamos el sufijo pues no se usa
                         location = location.substring(0, posStart) + location.substring(posEnd + 1);
                     }
                 }
@@ -226,13 +224,13 @@ public abstract class DOMAttrDynamic extends DOMAttr
                     }
                     else
                     {
-                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        // Quitamos el sufijo pues no se usa
                         location = location.substring(0, posStart) + location.substring(posEnd + 1);
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new ItsNatDroidException("Bad language suffix: " + region);
+                    throw new ItsNatDroidException("Bad region suffix: " + region);
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -267,13 +265,13 @@ public abstract class DOMAttrDynamic extends DOMAttr
                     }
                     else
                     {
-                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        // Quitamos el sufijo pues no se usa
                         location = location.substring(0, posStart) + location.substring(posEnd + 1);
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new ItsNatDroidException("Bad platform version suffix: " + smallestScreenWidthDpStr);
+                    throw new ItsNatDroidException("Bad smallest width suffix: " + smallestScreenWidthDpStr);
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -303,13 +301,13 @@ public abstract class DOMAttrDynamic extends DOMAttr
                     }
                     else
                     {
-                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        // Quitamos el sufijo pues no se usa
                         location = location.substring(0, posStart) + location.substring(posEnd + 1);
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new ItsNatDroidException("Bad platform version suffix: " + screenWidthDpStr);
+                    throw new ItsNatDroidException("Bad screen width dp suffix: " + screenWidthDpStr);
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -339,13 +337,228 @@ public abstract class DOMAttrDynamic extends DOMAttr
                     }
                     else
                     {
-                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        // Quitamos el sufijo pues no se usa
                         location = location.substring(0, posStart) + location.substring(posEnd + 1);
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new ItsNatDroidException("Bad platform version suffix: " + screenHeightDpStr);
+                    throw new ItsNatDroidException("Bad screen height dp suffix: " + screenHeightDpStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo screen size (screenLayout)  http://developer.android.com/guide/practices/screens_support.html
+            // Ej {ss-xlarge}
+            String prefix = "{ss-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String screenLayoutStr  = location.substring(posStart + prefix.length(), posEnd);
+                int screenLayout;
+                if      ("small".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_SMALL;
+                else if ("normal".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_NORMAL;
+                else if ("large".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
+                else if ("xlarge".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_XLARGE;
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + screenLayoutStr);
+
+                try
+                {
+                    int deviceScreenLayout = configuration.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+                    if (deviceScreenLayout >= screenLayout)
+                    {
+                        location = location.substring(0, posStart) + "-" + screenLayoutStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad screen size suffix: " + screenLayoutStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo screen aspect (screenLayout)   http://developer.android.com/guide/practices/screens_support.html
+            // Ej {sa-long}
+            String prefix = "{sa-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String screenLayoutStr  = location.substring(posStart + prefix.length(), posEnd);
+                int screenLayout;
+                if      ("notlong".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_LONG_NO;
+                else if ("long".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_LONG_YES;
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + screenLayoutStr);
+
+                try
+                {
+                    int deviceScreenLayout = configuration.screenLayout & Configuration.SCREENLAYOUT_LONG_MASK;
+                    if (deviceScreenLayout >= screenLayout)
+                    {
+                        location = location.substring(0, posStart) + "-" + screenLayoutStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad screen aspect suffix: " + screenLayoutStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+        {
+            // Round screen es level 23 no lo soportamos todavía
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo screen orientation (orientation)
+            // Ej {so-port}
+            String prefix = "{so-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String orientationStr  = location.substring(posStart + prefix.length(), posEnd);
+                int orientation;
+                if      ("port".equals(orientationStr)) orientation = Configuration.ORIENTATION_PORTRAIT;
+                else if ("land".equals(orientationStr)) orientation = Configuration.ORIENTATION_LANDSCAPE;
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + orientationStr); // Existe un ORIENTATION_SQUARE declarado en level 15 pero la doc oficial dice que está deprecado en level 16 http://developer.android.com/reference/android/content/res/Configuration.html#ORIENTATION_SQUARE
+
+                try
+                {
+                    int deviceOrientation = configuration.orientation;
+                    if (deviceOrientation == orientation)
+                    {
+                        location = location.substring(0, posStart) + "-" + orientationStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad screen orientation suffix: " + orientationStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo UI Mode Type (uiMode)
+            // Ej {uimt-port}
+            String prefix = "{uimt-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String uimtStr  = location.substring(posStart + prefix.length(), posEnd);
+                int uimt;
+                if      ("normal".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_NORMAL; // Los móviles, tabletas etc son NORMAL
+                else if ("desk".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_DESK;
+                else if ("car".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_CAR;
+                else if ("television".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_TELEVISION;
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + uimtStr); // En versiones superiores hay más (appliance, watch)
+
+                try
+                {
+                    int deviceUiModeType = configuration.uiMode & Configuration.UI_MODE_TYPE_MASK;
+                    if (deviceUiModeType == uimt)
+                    {
+                        location = location.substring(0, posStart) + "-" + uimtStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad ui mode type suffix: " + uimtStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo UI Mode Night (uiMode)
+            // Ej {uimn-notnight}
+            String prefix = "{uimn-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String uimnStr  = location.substring(posStart + prefix.length(), posEnd);
+                int uimn;
+                if      ("notnight".equals(uimnStr)) uimn = Configuration.UI_MODE_NIGHT_NO;
+                else if ("night".equals(uimnStr)) uimn = Configuration.UI_MODE_NIGHT_YES;
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + uimnStr);
+
+                try
+                {
+                    int deviceUiModeNight = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                    if (deviceUiModeNight == uimn)
+                    {
+                        location = location.substring(0, posStart) + "-" + uimnStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad ui mode night suffix: " + uimnStr);
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -375,7 +588,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
                     }
                     else
                     {
-                        // Quitamos el sufijo pues no se usa (versiones inferiores al version especificado)
+                        // Quitamos el sufijo pues no se usa
                         location = location.substring(0, posStart) + location.substring(posEnd + 1);
                     }
                 }

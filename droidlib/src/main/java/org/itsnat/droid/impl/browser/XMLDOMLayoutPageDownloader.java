@@ -16,7 +16,6 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**

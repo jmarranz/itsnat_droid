@@ -12,7 +12,6 @@ import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**

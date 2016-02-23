@@ -2,13 +2,10 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 
-import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
-import java.util.Locale;
 import java.util.Map;
 
 /**

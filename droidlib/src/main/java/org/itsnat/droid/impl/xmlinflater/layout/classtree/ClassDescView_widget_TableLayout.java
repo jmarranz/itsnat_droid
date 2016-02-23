@@ -13,7 +13,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TableLayout_stretchColumns;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by jmarranz on 30/04/14.

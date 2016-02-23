@@ -25,9 +25,12 @@ import android.os.Build;
 import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.RelativeLayout;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -215,6 +218,27 @@ public class Assert
 
         for(int i = 0; i < a.length; i++)
             assertEquals(a[i],b[i]);
+    }
+
+    public final static void assertEqualsViewGroupLayoutParams(ViewGroup.LayoutParams a_params,ViewGroup.LayoutParams b_params,int width,int height)
+    {
+        assertEquals(a_params.width, width);
+        assertEquals(a_params.width, b_params.width);
+        assertEquals(a_params.height, height);
+        assertEquals(a_params.height, b_params.height);
+    }
+
+    public final static void assertEqualsRelativeLayoutLayoutParamsBellow(RelativeLayout.LayoutParams a,RelativeLayout.LayoutParams b,int aUpperId,int bUpperId)
+    {
+        int[] compTextRules = a.getRules();
+        int[] parsedTextRules = b.getRules();
+        assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
+
+        assertEquals(compTextRules.length, parsedTextRules.length); // Por si acaso pero son todas las posibles rules
+        assertNotZero(compTextRules[RelativeLayout.BELOW]);
+        assertEquals(compTextRules[RelativeLayout.BELOW], aUpperId);
+        assertNotZero(parsedTextRules[RelativeLayout.BELOW]);
+        assertEquals(parsedTextRules[RelativeLayout.BELOW], bUpperId);
     }
 
 

@@ -16,7 +16,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by jmarranz on 30/04/14.

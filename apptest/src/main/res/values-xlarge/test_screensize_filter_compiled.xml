@@ -1,0 +1,5 @@
+<resources>
+
+    <string name="test_screensize_filter">Test filter screen size >= xlarge</string>
+
+</resources>

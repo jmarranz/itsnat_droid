@@ -13,7 +13,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  * Created by jmarranz on 27/10/14.

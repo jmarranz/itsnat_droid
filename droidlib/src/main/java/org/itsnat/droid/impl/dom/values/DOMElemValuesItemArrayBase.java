@@ -4,8 +4,6 @@ import android.content.res.Configuration;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 
-import java.util.Locale;
-
 /**
  * Created by jmarranz on 02/02/2016.
  */

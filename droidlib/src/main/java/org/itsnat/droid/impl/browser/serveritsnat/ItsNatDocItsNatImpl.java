@@ -57,7 +57,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**

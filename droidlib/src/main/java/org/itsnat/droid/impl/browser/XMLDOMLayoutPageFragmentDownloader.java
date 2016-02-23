@@ -7,7 +7,6 @@ import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageFragment;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
-import java.util.Locale;
 import java.util.Map;
 
 /**

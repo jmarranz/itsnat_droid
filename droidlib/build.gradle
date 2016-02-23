@@ -1,8 +1,7 @@
 apply plugin: 'com.android.library'
-
 android {
     compileSdkVersion 15
-    buildToolsVersion '23.0.1'
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         // applicationId "org.itsnat.droid"
@@ -31,4 +30,7 @@ android {
         //compile files('libs/bsh-core-2.0b4.jar')
     }
 
+}
+
+dependencies {
 }

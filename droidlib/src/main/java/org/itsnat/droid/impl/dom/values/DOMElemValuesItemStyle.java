@@ -5,8 +5,6 @@ import android.content.res.Configuration;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
-import java.util.Locale;
-
 /**
  * Created by jmarranz on 02/02/2016.
  */

@@ -8,7 +8,6 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by jmarranz on 19/01/2016.

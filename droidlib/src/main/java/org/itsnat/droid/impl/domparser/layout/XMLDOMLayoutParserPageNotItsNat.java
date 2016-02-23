@@ -7,8 +7,6 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
-import java.util.Locale;
-
 /**
  * Created by jmarranz on 27/10/14.
  */
