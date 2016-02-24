@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 
 /**
@@ -10,9 +11,10 @@ public class AttrLayoutContext extends AttrContext
     protected PendingViewPostCreateProcess pendingViewPostCreateProcess;
     protected PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks;
 
-    public AttrLayoutContext(XMLInflaterLayout xmlInflaterLayout, PendingViewPostCreateProcess pendingViewPostCreateProcess, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public AttrLayoutContext(XMLInflaterLayout xmlInflaterLayout, PendingViewPostCreateProcess pendingViewPostCreateProcess, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,
+            XMLDOMParserContext xmlDOMParserContext)
     {
-        super(xmlInflaterLayout);
+        super(xmlInflaterLayout,xmlDOMParserContext);
         this.pendingViewPostCreateProcess = pendingViewPostCreateProcess;
         this.pendingPostInsertChildrenTasks = pendingPostInsertChildrenTasks;
     }

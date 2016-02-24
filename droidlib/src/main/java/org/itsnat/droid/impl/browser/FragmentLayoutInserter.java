@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +14,7 @@ import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.MapLight;
@@ -35,13 +37,13 @@ public class FragmentLayoutInserter
         this.itsNatDoc = itsNatDoc;
     }
 
-    public void insertPageFragment(ViewGroup parentView, String markup, View viewRef)
+    public void insertPageFragment(ViewGroup parentView, String markup, View viewRef,XMLDOMParserContext xmlDOMParserContext)
     {
         // Llamado desde un page No ItsNat
-        setInnerXMLInsertPageFragment(parentView, parentView.getClass().getName(),markup,viewRef);
+        setInnerXMLInsertPageFragment(parentView, parentView.getClass().getName(),markup,viewRef,xmlDOMParserContext);
     }
 
-    public void setInnerXML(ViewGroup parentView, String parentClassName, String markup, View viewRef)
+    public void setInnerXML(ViewGroup parentView, String parentClassName, String markup, View viewRef,XMLDOMParserContext xmlDOMParserContext)
     {
         // parentClassName viene del servidor y puede ser nulo,  es el className original puesto en el template y se envía cuando ha sido usado para el pre-parseo con metadatos de beanshell en el caso de
         // contener el template algún atributo remoto, evitamos así usar un class name absoluto en este caso que es que lo que devuelve parentView.getClass().getName() pues no lo encontraríamos en el caché
@@ -49,10 +51,10 @@ public class FragmentLayoutInserter
 
         if (parentClassName == null) parentClassName = parentView.getClass().getName();
 
-        setInnerXMLInsertPageFragment(parentView, parentClassName,markup,viewRef);
+        setInnerXMLInsertPageFragment(parentView, parentClassName,markup,viewRef, xmlDOMParserContext);
     }
 
-    private void setInnerXMLInsertPageFragment(ViewGroup parentView, String parentClassName, String markup, View viewRef)
+    private void setInnerXMLInsertPageFragment(ViewGroup parentView, String parentClassName, String markup, View viewRef,XMLDOMParserContext xmlDOMParserContext)
     {
         // Este método es llamado por el setInnerXML generado por ItsNat Server pero también por los métodos de usuario appendFragment e insertFragment
 
@@ -63,12 +65,9 @@ public class FragmentLayoutInserter
         PageImpl page = itsNatDoc.getPageImpl();
         InflatedLayoutPageImpl inflatedLayoutPage = page.getInflatedLayoutPageImpl();
         XMLDOMLayoutPage xmlDOMLayoutPageParent = inflatedLayoutPage.getXMLDOMLayoutPage();
-        XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
-        Resources res = page.getContext().getResources();
-        AssetManager assetManager = res.getAssets();
-        Configuration configuration = res.getConfiguration();
 
-        XMLDOMLayoutPage xmlDOMLayout = wrapAndParseMarkupFragment(parentClassName, markup,xmlDOMLayoutPageParent,page.getItsNatServerVersion(),xmlDOMRegistry, assetManager, configuration);
+
+        XMLDOMLayoutPage xmlDOMLayout = wrapAndParseMarkupFragment(parentClassName, markup,xmlDOMLayoutPageParent,page.getItsNatServerVersion(),xmlDOMParserContext);
 
         DOMElemView rootDOMElemView = (DOMElemView)xmlDOMLayout.getRootDOMElement(); // Gracias al parentView añadido siempre esperamos un DOMView, nunca un DOMMerge
 
@@ -92,8 +91,7 @@ public class FragmentLayoutInserter
         executeScriptList(domScriptList);
     }
 
-    public static XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup,XMLDOMLayoutPage xmlDOMLayoutPageParent,String itsNatServerVersion,XMLDOMRegistry xmlDOMRegistry,
-                                                              AssetManager assetManager,Configuration configuration)
+    public static XMLDOMLayoutPage wrapAndParseMarkupFragment(String parentClassName, String markup,XMLDOMLayoutPage xmlDOMLayoutPageParent,String itsNatServerVersion,XMLDOMParserContext xmlDOMParserContext)
     {
         // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
         // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
@@ -114,8 +112,8 @@ public class FragmentLayoutInserter
 
         markup = newMarkup.toString();
 
-
-        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, assetManager,configuration);
+        XMLDOMRegistry xmlDOMRegistry = xmlDOMParserContext.getXMLDOMRegistry();
+        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, xmlDOMParserContext);
         return xmlDOMLayout;
     }
 

@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 /**
@@ -12,9 +13,9 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
  */
 public class XMLDOMLayoutParserPageNotItsNat extends XMLDOMLayoutParserPage
 {
-    public XMLDOMLayoutParserPageNotItsNat(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Configuration configuration)
+    public XMLDOMLayoutParserPageNotItsNat(XMLDOMParserContext xmlDOMParserContext)
     {
-        super(xmlDOMRegistry, assetManager,configuration);
+        super(xmlDOMParserContext);
     }
 
     @Override

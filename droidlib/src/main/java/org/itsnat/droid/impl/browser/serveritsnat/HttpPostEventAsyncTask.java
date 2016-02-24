@@ -7,6 +7,7 @@ import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.dom.ParsedResource;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
 
@@ -24,15 +25,12 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     protected final String servletPath;
     protected final HttpRequestData httpRequestData;
     protected final List<NameValue> paramList;
-    protected final XMLDOMRegistry xmlDOMRegistry;
-    protected final AssetManager assetManager;
-    protected final Configuration configuration;
+    protected final XMLDOMParserContext xmlDOMParserContext;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
                         List<NameValue> paramList,HttpRequestData httpRequestData,
-                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                        AssetManager assetManager,Configuration configuration)
+                        Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
@@ -41,15 +39,13 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.httpRequestData = httpRequestData;
         this.paramList = new ArrayList<NameValue>(paramList); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
         this.urlResDownloadedMap = urlResDownloadedMap;
-        this.xmlDOMRegistry = xmlDOMRegistry;
-        this.assetManager = assetManager;
-        this.configuration = configuration;
+        this.xmlDOMParserContext = xmlDOMParserContext;
     }
 
     @Override
     protected HttpRequestResultOKBeanshellImpl executeInBackground() throws Exception
     {
-        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        return EventSender.executeInBackground(eventSender,servletPath, httpRequestData, paramList,urlResDownloadedMap,xmlDOMParserContext);
     }
 
     @Override

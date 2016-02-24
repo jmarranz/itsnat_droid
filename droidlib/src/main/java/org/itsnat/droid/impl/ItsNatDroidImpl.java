@@ -58,14 +58,14 @@ public class ItsNatDroidImpl implements ItsNatDroid
     public String getVersionName()
     {
         Resources res = app.getApplicationContext().getResources();
-        return res.getString(R.string.libVersionName);
+        return res.getString(R.string.itsNatDroidLibVersionName);
     }
 
     @Override
     public int getVersionCode()
     {
         Resources res = app.getApplicationContext().getResources();
-        return res.getInteger(R.integer.libVersionCode);
+        return res.getInteger(R.integer.itsNatDroidLibVersionCode);
     }
 
     public XMLInflateRegistry getXMLInflateRegistry()

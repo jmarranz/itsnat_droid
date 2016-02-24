@@ -7,6 +7,7 @@ import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.XMLDOMLayoutPageDownloader;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.Map;
@@ -17,9 +18,8 @@ import java.util.Map;
 public class XMLDOMLayoutPageNotItsNatDownloader extends XMLDOMLayoutPageDownloader
 {
     public XMLDOMLayoutPageNotItsNatDownloader(XMLDOMLayoutPageNotItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
-                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                                               AssetManager assetManager,Configuration configuration)
+                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
     }
 }

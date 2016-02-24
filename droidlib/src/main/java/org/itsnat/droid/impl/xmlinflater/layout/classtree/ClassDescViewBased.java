@@ -22,6 +22,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMAttributeMap;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.StringUtil;
@@ -288,13 +289,13 @@ public class ClassDescViewBased extends ClassDesc<View>
         pendingViewPostCreateProcess.executePendingPostAddViewTasks(); // Aunque sea el root lo llamamos pues de otra manera podemos dejar alguna acción sin ejecutar
     }
 
-    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView, XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView, XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,XMLDOMParserContext xmlDOMParserContext)
     {
         ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(null);
         List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
-        View rootView = createViewObject(rootDOMElemView.getDOMAttributeMap(), xmlInflaterLayout,layoutParams,styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
+        View rootView = createViewObject(rootDOMElemView.getDOMAttributeMap(), xmlInflaterLayout,layoutParams,styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks,xmlDOMParserContext);
         xmlInflaterLayout.getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
@@ -302,26 +303,26 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         rootView.setLayoutParams(layoutParams);
 
-        fillViewAttributesAndAddView(rootView, null, -1, rootDOMElemView.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+        fillViewAttributesAndAddView(rootView, null, -1, rootDOMElemView.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks, xmlDOMParserContext);
 
         return rootView;
     }
 
-    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMAttributeMap attributeMap,int index,XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMAttributeMap attributeMap,int index,XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,XMLDOMParserContext xmlDOMParserContext)
     {
         // viewParent es NO nulo, de otra manera el método se llamaría createRootView... pues el caso root lo tratamos siempre aparte
         ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(viewParent);
         List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
-        View view = createViewObject(attributeMap, xmlInflaterLayout, layoutParams, styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
+        View view = createViewObject(attributeMap, xmlInflaterLayout, layoutParams, styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks,xmlDOMParserContext);
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
         if (styleDynamicAttribs.isEmpty()) styleDynamicAttribs = null;
 
         view.setLayoutParams(layoutParams);
 
-        fillViewAttributesAndAddView(view, viewParent,index, attributeMap.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+        fillViewAttributesAndAddView(view, viewParent,index, attributeMap.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks, xmlDOMParserContext);
 
         return view;
     }
@@ -364,7 +365,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return getXMLInflateRegistry().getViewStyle(domAttr, xmlInflaterLayout);
     }
 
-    private View createViewObject(DOMAttributeMap attributeMap, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private View createViewObject(DOMAttributeMap attributeMap, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,XMLDOMParserContext xmlDOMParserContext)
     {
         ViewStyleAttr style = findStyleAttribute(attributeMap, xmlInflaterLayout);
         int idStyleCompiledOrParent = processStyleAttribute(style,styleDynamicAttribs,xmlInflaterLayout.getContext());
@@ -372,7 +373,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         View view = createViewObject(attributeMap, idStyleCompiledOrParent, pendingPostInsertChildrenTasks, xmlInflaterLayout.getContext());
 
         if (idStyleCompiledOrParent != 0)
-            getLayoutParamsFromStyleId(idStyleCompiledOrParent,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext());
+            getLayoutParamsFromStyleId(idStyleCompiledOrParent,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext(), xmlDOMParserContext);
         return view;
     }
 
@@ -422,10 +423,10 @@ public class ClassDescViewBased extends ClassDesc<View>
         return view;
     }
 
-    private void fillViewAttributesAndAddView(View view,ViewGroup viewParent,int index,Map<String,DOMAttr> attribMap,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private void fillViewAttributesAndAddView(View view,ViewGroup viewParent,int index,Map<String,DOMAttr> attribMap,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,XMLDOMParserContext xmlDOMParserContext)
     {
         PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(view, viewParent);
-        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks,xmlDOMParserContext);
 
         fillViewAttributes(view, attribMap,styleLayoutParamsAttribs,styleDynamicAttribs, attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         addViewObject(viewParent, view, index, pendingViewPostCreateProcess);
@@ -461,10 +462,10 @@ public class ClassDescViewBased extends ClassDesc<View>
     }
 
 
-    public void fillIncludeAttributesFromGetLayout(View rootViewChild,ViewGroup viewParent,XMLInflaterLayout xmlInflaterLayout,ArrayList<DOMAttr> includeAttribs)
+    public void fillIncludeAttributesFromGetLayout(View rootViewChild,ViewGroup viewParent,XMLInflaterLayout xmlInflaterLayout,ArrayList<DOMAttr> includeAttribs,XMLDOMParserContext xmlDOMParserContext)
     {
         PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(rootViewChild, viewParent);
-        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, null);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, null, xmlDOMParserContext);
 
         for (int i = 0; i < includeAttribs.size(); i++)
         {
@@ -477,15 +478,15 @@ public class ClassDescViewBased extends ClassDesc<View>
     }
 
 
-    public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayoutPageItsNat xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createViewObjectAndFillAttributesAndAddFromRemote(ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index,XMLInflaterLayoutPageItsNat xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks,XMLDOMParserContext xmlDOMParserContext)
     {
-        View view = createViewObjectAndFillAttributesAndAdd(viewParent,newChildToIn.getDOMAttributeMap(),index,xmlInflaterLayout,pendingPostInsertChildrenTasks);
+        View view = createViewObjectAndFillAttributesAndAdd(viewParent,newChildToIn.getDOMAttributeMap(),index,xmlInflaterLayout,pendingPostInsertChildrenTasks,xmlDOMParserContext);
         newChildToIn.setView(view);
         return view;
     }
 
 
-    private static void getLayoutParamsFromStyleId(int styleId,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
+    private static void getLayoutParamsFromStyleId(int styleId,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx,XMLDOMParserContext xmlDOMParserContext)
     {
         // ctx es el ContextThemeWrapper creado para pasar el style al View en creación, él conoce los atributos del style que se meten en el theme pues se pasó en el constructor, el Context padre NO conoce los atributos asociados al style
 
@@ -502,31 +503,31 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         if (layoutParams instanceof TableRow.LayoutParams) // Clase base: LinearLayout.LayoutParams
         {
-            ClassDescView_widget_TableLayout.getTableRowLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+            ClassDescView_widget_TableLayout.getTableRowLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx, xmlDOMParserContext);
         }
         else if (layoutParams instanceof FrameLayout.LayoutParams) // Clase base: ViewGroup.MarginLayoutParams
         {
-            ClassDescView_widget_FrameLayout.getFrameLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+            ClassDescView_widget_FrameLayout.getFrameLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx, xmlDOMParserContext);
         }
         else if (layoutParams instanceof GridLayout.LayoutParams) // Clase base: ViewGroup.MarginLayoutParams
         {
-            ClassDescView_widget_GridLayout.getGridLayoutLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx);
+            ClassDescView_widget_GridLayout.getGridLayoutLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx, xmlDOMParserContext);
         }
         else if (layoutParams instanceof LinearLayout.LayoutParams) // Clase base: ViewGroup.MarginLayoutParams
         {
-            ClassDescView_widget_LinearLayout.getLinearLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+            ClassDescView_widget_LinearLayout.getLinearLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx, xmlDOMParserContext);
         }
         else if (layoutParams instanceof RelativeLayout.LayoutParams) // Clase base: ViewGroup.MarginLayoutParams
         {
-            ClassDescView_widget_RelativeLayout.getRelativeLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+            ClassDescView_widget_RelativeLayout.getRelativeLayoutLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx, xmlDOMParserContext);
         }
         else if (layoutParams instanceof ViewGroup.MarginLayoutParams) // Clase base: ViewGroup.LayoutParams
         {
-            ClassDescView_view_ViewGroup.getViewGroupMarginLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx);
+            ClassDescView_view_ViewGroup.getViewGroupMarginLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx,xmlDOMParserContext);
         }
         else // ViewGroup.LayoutParams
         {
-            ClassDescView_view_ViewGroup.getViewGroupLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx);
+            ClassDescView_view_ViewGroup.getViewGroupLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs, ctx, xmlDOMParserContext);
         }
 
     }

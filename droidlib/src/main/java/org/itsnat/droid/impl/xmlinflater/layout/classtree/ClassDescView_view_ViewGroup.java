@@ -6,6 +6,7 @@ import android.view.ContextThemeWrapper;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -35,7 +36,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
         super(classMgr,"android.view.ViewGroup",parentClass);
     }
 
-    public static void getViewGroupLayoutParamsFromStyleId(int styleId, List<DOMAttr> styleLayoutParamsAttribs, ContextThemeWrapper ctx)
+    public static void getViewGroupLayoutParamsFromStyleId(int styleId, List<DOMAttr> styleLayoutParamsAttribs, ContextThemeWrapper ctx,XMLDOMParserContext xmlDOMParserContext)
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
@@ -57,7 +58,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
                 value = "wrap_content";
             // Si no es uno de los casos anteriores esperamos el valor original ej "20dp"
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,configuration);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,xmlDOMParserContext);
             styleLayoutParamsAttribs.add(attr);
         }
 
@@ -66,7 +67,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
         // No hay clase base
     }
 
-    public static void getViewGroupMarginLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
+    public static void getViewGroupMarginLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx,XMLDOMParserContext xmlDOMParserContext)
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
@@ -82,14 +83,14 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
             String value = a.getString(i);
 
             String name = marginlayoutParamsNames[i];
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,configuration);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value,xmlDOMParserContext);
             styleLayoutParamsAttribs.add(attr);
         }
 
         a.recycle();
 
         // Llamamos a la clase base
-        getViewGroupLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs,ctx);
+        getViewGroupLayoutParamsFromStyleId(styleId,styleLayoutParamsAttribs,ctx,xmlDOMParserContext);
     }
 
 

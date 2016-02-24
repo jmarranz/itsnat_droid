@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -19,9 +20,9 @@ public class XMLDOMLayoutParserPageItsNat extends XMLDOMLayoutParserPage
 {
     protected final String itsNatServerVersion; // NO null
 
-    public XMLDOMLayoutParserPageItsNat(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Configuration configuration, String itsNatServerVersion)
+    public XMLDOMLayoutParserPageItsNat(XMLDOMParserContext xmlDOMParserContext, String itsNatServerVersion)
     {
-        super(xmlDOMRegistry,assetManager,configuration);
+        super(xmlDOMParserContext);
         this.itsNatServerVersion = itsNatServerVersion;
     }
 

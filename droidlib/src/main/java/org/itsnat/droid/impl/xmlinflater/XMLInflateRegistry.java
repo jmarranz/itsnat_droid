@@ -27,6 +27,7 @@ import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.StringUtil;
@@ -919,7 +920,10 @@ public class XMLInflateRegistry
                     ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attrDyn.getResource();
                     XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
                     InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
-                    XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
+
+                    XMLDOMParserContext xmlDOMParserContext = xmlInflaterParent.getXMLDOMParserContext();
+
+                    XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener,xmlDOMParserContext);
                     return xmlInflaterDrawable.inflateDrawable();
                 }
                 else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -1117,8 +1121,11 @@ public class XMLInflateRegistry
         AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
         AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
 
-        InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx,page);
-        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
+        InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx, page);
+
+        XMLDOMParserContext xmlDOMParserContext = xmlInflaterParent.getXMLDOMParserContext();
+
+        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener,xmlDOMParserContext);
         ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
 
         cacheXMLDOMValuesXMLInflaterValuesMap.put(xmlDOMValues,elementResources);

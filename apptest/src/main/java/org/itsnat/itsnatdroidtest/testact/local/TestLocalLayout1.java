@@ -644,6 +644,55 @@ public class TestLocalLayout1
                     compTextViewUpper = compTextView;
                     parsedTextViewUpper = parsedTextView;
                 }
+
+                childCountL2++;
+
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                    assertEquals(compTextView.getId(), R.id.textViewTest14);
+                    assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                    // Testear en el caso compilado es más complicado de lo esperado pues si tenemos un /values sin prefijo y un /values-xxhdpi, coge el /values-xxhdpi aunque sea un xhdpi (menor)
+                    // por ello necesitamos al menos dos /values-algo para que no seleccione siempre el /values-algo único, se elige el más cercano
+                    // Nuestro sistema es mucho más simple, sólo un selector
+                    int densityDpi = ctx.getResources().getDisplayMetrics().densityDpi;
+                    if (densityDpi < 320) // < xhdpi
+                    {
+                        assertEquals(compTextView.getText(), "Test filter screen pixel density < xhdpi");
+                    }
+                    else if (densityDpi >= 320 && densityDpi < (480 - 320)/2 + 320) // >= xhdpi && < xxhdpi
+                    {
+                        assertEquals(compTextView.getText(), "Test filter screen pixel density >= xhdpi & < xxhdpi");
+                    }
+                    else // xxhdpi
+                    {
+                        assertEquals(compTextView.getText(), "Test filter screen pixel density >= xxhdpi");
+                    }
+
+                    if (densityDpi < 480) // < xhdpi
+                    {
+                        assertEquals(parsedTextView.getText(), "Test filter screen pixel density < xxhdpi");
+                    }
+                    else // >= 480 (xxhdpi)
+                    {
+                        assertEquals(parsedTextView.getText(), "Test filter screen pixel density >= xxhdpi");
+                    }
+
+                    // assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                    ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                    ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                    assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
+
+                    compTextViewUpper = compTextView;
+                    parsedTextViewUpper = parsedTextView;
+                }
             }
         }
 

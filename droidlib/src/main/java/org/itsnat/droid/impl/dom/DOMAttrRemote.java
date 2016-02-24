@@ -1,7 +1,9 @@
 package org.itsnat.droid.impl.dom;
 
 import android.content.res.Configuration;
+import android.util.DisplayMetrics;
 
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MiscUtil;
 
 /**
@@ -9,9 +11,9 @@ import org.itsnat.droid.impl.util.MiscUtil;
  */
 public class DOMAttrRemote extends DOMAttrDynamic
 {
-    public DOMAttrRemote(String namespaceURI, String name, String value,Configuration configuration)
+    public DOMAttrRemote(String namespaceURI, String name, String value,XMLDOMParserContext xmlDOMParserContext)
     {
-        super(namespaceURI, name, value, configuration);
+        super(namespaceURI, name, value, xmlDOMParserContext);
     }
 
     public boolean isDownloaded()

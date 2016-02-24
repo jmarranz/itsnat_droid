@@ -1,8 +1,10 @@
 package org.itsnat.droid.impl.dom;
 
 import android.content.res.Configuration;
+import android.util.DisplayMetrics;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
 /**
  * Created by jmarranz on 27/10/14.
@@ -21,12 +23,12 @@ public abstract class DOMAttr
         this.value = value;
     }
 
-    public static DOMAttr create(String namespaceURI, String name, String value,Configuration configuration)
+    public static DOMAttr create(String namespaceURI, String name, String value,XMLDOMParserContext xmlDOMParserContext)
     {
         if (DOMAttrRemote.isRemote(value))
-            return new DOMAttrRemote(namespaceURI,name,value,configuration);
+            return new DOMAttrRemote(namespaceURI,name,value,xmlDOMParserContext);
         else if (DOMAttrAsset.isAsset( value))
-            return new DOMAttrAsset(namespaceURI,name,value,configuration);
+            return new DOMAttrAsset(namespaceURI,name,value,xmlDOMParserContext);
         else
             return new DOMAttrCompiledResource(namespaceURI,name,value);
     }

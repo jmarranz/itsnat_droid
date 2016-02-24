@@ -2,9 +2,11 @@ package org.itsnat.droid.impl.dom;
 
 import android.content.res.Configuration;
 import android.os.Build;
+import android.util.DisplayMetrics;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
@@ -23,7 +25,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
     protected final String location;
     protected volatile ParsedResource resource;
 
-    public DOMAttrDynamic(String namespaceURI, String name, String value,Configuration configuration)
+    public DOMAttrDynamic(String namespaceURI, String name, String value,XMLDOMParserContext xmlDOMParserContext)
     {
         super(namespaceURI, name, value);
 
@@ -72,7 +74,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             this.valuesResourceName = null;
         }
 
-        locationTmp = processLocationSuffixes(locationTmp,configuration);
+        locationTmp = processLocationSuffixes(locationTmp,xmlDOMParserContext.getConfiguration(),xmlDOMParserContext.getDisplayMetrics());
 
         this.location = locationTmp;
 
@@ -152,7 +154,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
     }
 
 
-    private String processLocationSuffixes(String location,Configuration configuration)
+    private String processLocationSuffixes(String location,Configuration configuration,DisplayMetrics displayMetrics)
     {
         // http://developer.android.com/guide/topics/resources/providing-resources.html (el orden de la tabla 2 es el orden de los sufijos en el caso de múltiples sufijos)
         // http://developer.android.com/guide/topics/resources/localization.html
@@ -564,6 +566,54 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
             }
         }
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo Screen pixel density (dpi)
+            // Ej {spd-xhdpi}
+            String prefix = "{spd-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String densityDpiStr  = location.substring(posStart + prefix.length(), posEnd);
+                int densityDpi;
+                if      ("ldpi".equals(densityDpiStr)) densityDpi = 120; // low-density
+                else if ("mdpi".equals(densityDpiStr)) densityDpi = 160; // medium-density
+                else if ("hdpi".equals(densityDpiStr)) densityDpi = 240; // high-density
+                else if ("xhdpi".equals(densityDpiStr)) densityDpi = 320; // extra-high-density
+                else if ("xxhdpi".equals(densityDpiStr)) densityDpi = 480; // extra-extra-high-density
+                else if ("xxxhdpi".equals(densityDpiStr)) densityDpi = 640; // extra-extra-extra-high-density
+                else if ("nodpi".equals(densityDpiStr)) densityDpi = 1; // all densities. Por poner algo (no se que poner)
+                else if ("tvdpi".equals(densityDpiStr)) densityDpi = 213; // screens somewhere between mdpi and hdpi
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + densityDpiStr);
+
+                try
+                {
+                    int deviceDensityDpi = displayMetrics.densityDpi;
+                    if (deviceDensityDpi >= densityDpi)
+                    {
+                        location = location.substring(0, posStart) + "-" + densityDpiStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad screen pixel density suffix: " + densityDpiStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
 
         if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;

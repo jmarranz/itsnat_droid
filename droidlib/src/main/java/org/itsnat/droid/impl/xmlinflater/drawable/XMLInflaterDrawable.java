@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
@@ -30,14 +31,14 @@ import java.util.Map;
  */
 public class XMLInflaterDrawable extends XMLInflater
 {
-    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
+    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,XMLDOMParserContext xmlDOMParserContext)
     {
-        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
+        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,xmlDOMParserContext);
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,XMLDOMParserContext xmlDOMParserContext)
     {
-        return new XMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
+        return new XMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,xmlDOMParserContext);
     }
 
 
@@ -87,7 +88,7 @@ public class XMLInflaterDrawable extends XMLInflater
         Map<String,DOMAttr> attribMap = domElement.getDOMAttributes();
         if (attribMap != null)
         {
-            AttrDrawableContext attrCtx = new AttrDrawableContext(this);
+            AttrDrawableContext attrCtx = new AttrDrawableContext(this,xmlDOMParserContext);
             for (Map.Entry<String,DOMAttr> entry : attribMap.entrySet())
             {
                 DOMAttr attr = entry.getValue();

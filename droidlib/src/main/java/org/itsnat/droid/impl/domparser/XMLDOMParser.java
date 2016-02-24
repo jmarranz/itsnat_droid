@@ -33,15 +33,11 @@ import java.io.Reader;
  */
 public abstract class XMLDOMParser
 {
-    protected final XMLDOMRegistry xmlDOMRegistry;
-    protected final AssetManager assetManager;
-    protected final Configuration configuration;
+    protected final XMLDOMParserContext xmlDOMParserContext;
 
-    public XMLDOMParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    public XMLDOMParser(XMLDOMParserContext xmlDOMParserContext)
     {
-        this.xmlDOMRegistry = xmlDOMRegistry;
-        this.assetManager = assetManager;
-        this.configuration = configuration;
+        this.xmlDOMParserContext = xmlDOMParserContext;
     }
 
     public static XmlPullParser newPullParser(Reader input)
@@ -198,7 +194,7 @@ public abstract class XMLDOMParser
 
     protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
-        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value,configuration);
+        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value,xmlDOMParserContext);
         addDOMAttr(element,attrib,xmlDOMParent);
         return attrib;
     }
@@ -220,6 +216,7 @@ public abstract class XMLDOMParser
             {
                 // AssetManager.open es multihilo, de todas formas va a ser MUY raro que usemos assets junto a remote
                 // http://www.netmite.com/android/mydroid/frameworks/base/libs/utils/AssetManager.cpp
+                AssetManager assetManager = xmlDOMParserContext.getAssetManager();
                 ims = assetManager.open(location);
                 res = IOUtil.read(ims);
             }
@@ -243,7 +240,7 @@ public abstract class XMLDOMParser
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = StringUtil.toString(input, "UTF-8");
-            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMRegistry, assetManager,configuration);
+            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE,xmlDOMParserContext);
             XMLDOM xmlDOM = resource.getXMLDOM();
             if (xmlDOM.getDOMAttrRemoteList() != null)
                 throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
@@ -258,8 +255,7 @@ public abstract class XMLDOMParser
     }
 
 
-    public static ParsedResource parseDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultOKImpl resultRes, XMLDOMRegistry xmlDOMRegistry,
-                                                    AssetManager assetManager,Configuration configuration) throws Exception
+    public static ParsedResource parseDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultOKImpl resultRes,XMLDOMParserContext xmlDOMParserContext) throws Exception
     {
         // Método llamado en multihilo
 
@@ -273,7 +269,7 @@ public abstract class XMLDOMParser
 
             String itsNatServerVersion = resultRes.getItsNatServerVersion(); // Puede ser null
 
-            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMRegistry, assetManager,configuration);
+            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE,xmlDOMParserContext);
             return resource;
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -286,9 +282,10 @@ public abstract class XMLDOMParser
     }
 
 
-    private static ParsedResourceXMLDOM parseDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMRegistry xmlDOMRegistry,
-                                                               AssetManager assetManager,Configuration configuration)
+    private static ParsedResourceXMLDOM parseDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType,XMLDOMParserContext xmlDOMParserContext)
     {
+        XMLDOMRegistry xmlDOMRegistry = xmlDOMParserContext.getXMLDOMRegistry();
+
         // Es llamado en multihilo en el caso de DOMAttrRemote
         String resourceType = attr.getResourceType();
 
@@ -297,11 +294,11 @@ public abstract class XMLDOMParser
         {
             if ("drawable".equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, assetManager,configuration);
+                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, xmlDOMParserContext);
             }
             else if ("layout".equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, layoutType, assetManager,configuration);
+                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, layoutType,xmlDOMParserContext);
             }
             else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType + " or missing ending :selector");
         }
@@ -311,7 +308,7 @@ public abstract class XMLDOMParser
             // Este es el caso de acceso a un item <drawable> de un XML values
             // Idem con <item name="..." type="layout">
 
-            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup, assetManager,configuration);
+            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup,xmlDOMParserContext);
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 

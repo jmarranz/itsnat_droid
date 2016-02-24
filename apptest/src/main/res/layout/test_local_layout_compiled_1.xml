@@ -99,13 +99,13 @@
                       android:text="Device Data to Test Filters:\n
 Nexus 4  smallestScreenWidthDp 384dp\n
 \t\t\t\t portrait screenWidthDp/screenHeightDp 384dp/567dp\n
-\t\t\t\t normal notlong\n
+\t\t\t\t normal notlong xhdpi\n
 Nexus 5  smallestScreenWidthDp 360dp\n
 \t\t\t\t portrait screenWidthDp/screenHeightDp 360dp/567dp\n
-\t\t\t\t normal notlong\n
+\t\t\t\t normal notlong ~xxhdpi\n
 Nexus 5X smallestScreenWidthDp 432dp\n
 \t\t\t\t portrait screenWidthDp/screenHeightDp 432dp/696dp\n
-\t\t\t\t normal notlong\n
+\t\t\t\t normal notlong ~xxhdpi\n
 Table 10.1 WXGA\n
 \t\t\t\t xlarge notlong\n
 3.4 WQVGA normal long\n
@@ -169,6 +169,13 @@ Android TV uimt: television"
                       android:text="@string/test_uimodenight_filter"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest12" />
+
+            <TextView android:id="@+id/textViewTest14"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/test_screenpixeldensity_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest13" />
 
         </RelativeLayout>
 

@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.page;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageNotItsNatImpl;
 
 /**
@@ -9,9 +10,9 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageNotItsNatImpl;
  */
 public class XMLInflaterLayoutPageNotItsNat extends XMLInflaterLayoutPage
 {
-    public XMLInflaterLayoutPageNotItsNat(InflatedLayoutPageNotItsNatImpl inflatedXML, int bitmapDensityReference, AttrLayoutInflaterListener inflateLayoutListener, AttrDrawableInflaterListener attrDrawableInflaterListener)
+    public XMLInflaterLayoutPageNotItsNat(InflatedLayoutPageNotItsNatImpl inflatedXML, int bitmapDensityReference, AttrLayoutInflaterListener inflateLayoutListener, AttrDrawableInflaterListener attrDrawableInflaterListener,XMLDOMParserContext xmlDOMParserContext)
     {
-        super(inflatedXML, bitmapDensityReference, inflateLayoutListener, attrDrawableInflaterListener);
+        super(inflatedXML, bitmapDensityReference, inflateLayoutListener, attrDrawableInflaterListener,xmlDOMParserContext);
     }
 
     public InflatedLayoutPageNotItsNatImpl getInflatedLayoutPageNotItsNatImpl()

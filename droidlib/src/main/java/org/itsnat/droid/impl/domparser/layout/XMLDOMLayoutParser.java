@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -26,25 +27,25 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
 {
     public enum LayoutType { PAGE, PAGE_FRAGMENT, STANDALONE };
 
-    protected XMLDOMLayoutParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    protected XMLDOMLayoutParser(XMLDOMParserContext xmlDOMParserContext)
     {
-        super(xmlDOMRegistry,assetManager,configuration);
+        super(xmlDOMParserContext);
     }
 
-    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,LayoutType layoutType,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    public static XMLDOMLayoutParser createXMLDOMLayoutParser(String itsNatServerVersion,LayoutType layoutType,XMLDOMParserContext xmlDOMParserContext)
     {
         XMLDOMLayoutParser layoutParser;
         if (layoutType == LayoutType.PAGE)
         {
             if (itsNatServerVersion != null)
-                layoutParser = new XMLDOMLayoutParserPageItsNat(xmlDOMRegistry, assetManager,configuration,itsNatServerVersion);
+                layoutParser = new XMLDOMLayoutParserPageItsNat(xmlDOMParserContext,itsNatServerVersion);
             else
-                layoutParser = new XMLDOMLayoutParserPageNotItsNat(xmlDOMRegistry, assetManager,configuration);
+                layoutParser = new XMLDOMLayoutParserPageNotItsNat(xmlDOMParserContext);
         }
         else if (layoutType == LayoutType.PAGE_FRAGMENT) // Los fragmentos pueden usarse en páginas generadas por ItsNat y no generadas por ItsNat (itsNatServerVersion es indiferente)
-            layoutParser = new XMLDOMLayoutParserPageFragment(xmlDOMRegistry, assetManager,configuration);
+            layoutParser = new XMLDOMLayoutParserPageFragment(xmlDOMParserContext);
         else if (layoutType == LayoutType.STANDALONE)
-            layoutParser = new XMLDOMLayoutParserStandalone(xmlDOMRegistry, assetManager,configuration);
+            layoutParser = new XMLDOMLayoutParserStandalone(xmlDOMParserContext);
         else
             layoutParser = null; // Internal Error
 

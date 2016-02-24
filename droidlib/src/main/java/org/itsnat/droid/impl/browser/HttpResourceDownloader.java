@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.ArrayList;
@@ -24,20 +25,15 @@ public class HttpResourceDownloader
     protected final HttpRequestData httpRequestData;
     protected final String itsNatServerVersion;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
-    protected final XMLDOMRegistry xmlDOMRegistry;
-    protected final AssetManager assetManager;
-    protected final Configuration configuration;
+    protected final XMLDOMParserContext xmlDOMParserContext;
 
-    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,
-                                  XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
         this.pageURLBase = pageURLBase;
         this.httpRequestData = httpRequestData;
         this.itsNatServerVersion = itsNatServerVersion;
         this.urlResDownloadedMap = urlResDownloadedMap;
-        this.xmlDOMRegistry = xmlDOMRegistry;
-        this.assetManager = assetManager;
-        this.configuration = configuration;
+        this.xmlDOMParserContext = xmlDOMParserContext;
     }
 
     public List<HttpRequestResultOKImpl> downloadResources(List<DOMAttrRemote> attrRemoteList) throws Exception
@@ -121,7 +117,7 @@ public class HttpResourceDownloader
 
         resultList.add(resultRes);
 
-        ParsedResource resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes, xmlDOMRegistry, assetManager,configuration);
+        ParsedResource resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes,xmlDOMParserContext);
         synchronized(urlResDownloadedMap)
         {
             urlResDownloadedMap.put(absURL,resource); // No pasa nada si dos hilos con el mismo absURL-resource hacen put seguidos
@@ -132,7 +128,7 @@ public class HttpResourceDownloader
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
             String absURLContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
             String pageURLBaseContainer = HttpUtil.getBasePathOfURL(absURLContainer);
-            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion,urlResDownloadedMap, xmlDOMRegistry, assetManager,configuration);
+            XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
             downloader.downloadRemoteResources();
         }
     }

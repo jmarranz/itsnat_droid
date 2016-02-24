@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
@@ -27,16 +28,15 @@ import java.util.Map;
 public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
 {
     protected XMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData, String itsNatServerVersion,
-                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Configuration configuration)
+                                               Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
-        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        super(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
     }
 
     public static XMLDOMLayoutPageItsNatDownloader createXMLDOMLayoutPageItsNatDownloader(XMLDOMLayoutPageItsNat xmlDOM,String pageURLBase, HttpRequestData httpRequestData,
-                                                      String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,
-                                                      AssetManager assetManager,Configuration configuration)
+                                                      String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
-        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        return new XMLDOMLayoutPageItsNatDownloader(xmlDOM,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
     }
 
     public XMLDOMLayoutPageItsNat getXMLDOMLayoutPageItsNat()
@@ -65,7 +65,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
             XMLDOMLayoutPage[] xmlDOMLayoutPageArr = wrapAndParseMarkupFragment(classNameListBSParsed[0], xmlMarkupListBSParsed[0]);
             for (XMLDOMLayoutPage xmlDOM : xmlDOMLayoutPageArr)
             {
-                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry, assetManager,configuration);
+                XMLDOMLayoutPageDownloader downloader = XMLDOMLayoutPageDownloader.createXMLDOMLayoutPageDownloader(xmlDOM,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
                 downloader.downloadRemoteResources();
             }
         }
@@ -87,7 +87,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         {
             String className = itClassName.next();
             String markup = itMarkup.next();
-            XMLDOMLayoutPage xmlDOMFragment = FragmentLayoutInserter.wrapAndParseMarkupFragment(className, markup,xmlDOMLayoutPageParent,itsNatServerVersion,xmlDOMRegistry,assetManager,configuration);
+            XMLDOMLayoutPage xmlDOMFragment = FragmentLayoutInserter.wrapAndParseMarkupFragment(className, markup,xmlDOMLayoutPageParent,itsNatServerVersion,xmlDOMParserContext);
             xmlDOMLayoutPageFragmentArr[i] = xmlDOMFragment;
         }
         return xmlDOMLayoutPageFragmentArr;
@@ -379,7 +379,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
     {
         XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNat = getXMLDOMLayoutPageItsNat();
 
-        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value, configuration);
+        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value, xmlDOMParserContext);
     }
 
     private static String parseNamespaceURI(String code)

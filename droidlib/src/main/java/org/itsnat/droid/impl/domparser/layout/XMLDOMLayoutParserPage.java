@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -19,9 +20,9 @@ import java.io.IOException;
  */
 public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
 {
-    protected XMLDOMLayoutParserPage(XMLDOMRegistry xmlDOMRegistry, AssetManager assetManager,Configuration configuration)
+    protected XMLDOMLayoutParserPage(XMLDOMParserContext xmlDOMParserContext)
     {
-        super(xmlDOMRegistry, assetManager,configuration);
+        super(xmlDOMParserContext);
     }
 
     @Override

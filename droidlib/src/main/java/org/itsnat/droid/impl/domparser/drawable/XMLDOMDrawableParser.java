@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -21,14 +22,14 @@ import java.io.StringReader;
  */
 public class XMLDOMDrawableParser extends XMLDOMParser
 {
-    protected XMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    protected XMLDOMDrawableParser(XMLDOMParserContext xmlDOMParserContext)
     {
-        super(xmlDOMRegistry,assetManager,configuration);
+        super(xmlDOMParserContext);
     }
 
-    public static XMLDOMDrawableParser createXMLDOMDrawableParser(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    public static XMLDOMDrawableParser createXMLDOMDrawableParser(XMLDOMParserContext xmlDOMParserContext)
     {
-        return new XMLDOMDrawableParser(xmlDOMRegistry,assetManager,configuration);
+        return new XMLDOMDrawableParser(xmlDOMParserContext);
     }
 
     public void parse(String markup,XMLDOMDrawable xmlDOMDrawable)

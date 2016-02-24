@@ -6,7 +6,7 @@
 -->
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="ItsNatDefaultAppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <!-- <item name="title_test_style">@style/title_test</item> -->
     </style>

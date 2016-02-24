@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 import org.itsnat.droid.CommMode;
 import org.itsnat.droid.ItsNatDroidException;
@@ -11,6 +12,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.EventGenericListener;
 import org.itsnat.droid.impl.dom.ParsedResource;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
 
@@ -109,23 +111,21 @@ public class EventManager
             timeoutInt = Integer.MAX_VALUE;
         httpRequestData.setReadTimeout(timeoutInt);
 
-        XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
-        Resources res = page.getContext().getResources();
-        AssetManager assetManager = res.getAssets();
-        Configuration configuration = res.getConfiguration();
+        XMLDOMParserContext xmlDOMParserContext = itsNatDoc.getXMLDOMParserContext();
+
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
 
         EventSender sender = new EventSender(this);
         if (commMode == CommMode.XHR_SYNC)
         {
-            sender.requestSync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+            sender.requestSync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMParserContext);
         }
         else if (commMode == CommMode.XHR_ASYNC || commMode == CommMode.XHR_ASYNC_HOLD)
         {
             if (commMode == CommMode.XHR_ASYNC_HOLD)
                 this.holdEvt = evt;
 
-            sender.requestAsync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+            sender.requestAsync(evt, servletPath, paramList, httpRequestData,urlResDownloadedMap,xmlDOMParserContext);
         }
         else  // if ((commMode == 4) /*CommMode.SCRIPT*/ || (commMode == 5) /*CommMode.SCRIPT_HOLD*/)
             throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");

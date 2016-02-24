@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.content.res.Configuration;
 
 import org.itsnat.droid.impl.dom.ParsedResource;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.Map;
@@ -18,27 +19,23 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final String url;
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
-    protected final XMLDOMRegistry xmlDOMRegistry;
-    protected final AssetManager assetManager;
-    protected final Configuration configuration;
+    protected final XMLDOMParserContext xmlDOMParserContext;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
-    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url,String pageURLBase,HttpRequestData httpRequestData,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url,String pageURLBase,HttpRequestData httpRequestData,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
          // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.pageRequest = pageRequest;
         this.url = url;
         this.pageURLBase = pageURLBase;
         this.urlResDownloadedMap = urlResDownloadedMap;
-        this.xmlDOMRegistry = xmlDOMRegistry;
-        this.assetManager = assetManager;
-        this.configuration = configuration;
+        this.xmlDOMParserContext = xmlDOMParserContext;
         this.httpRequestData = httpRequestData;
     }
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        return PageRequestImpl.executeInBackground(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMParserContext);
     }
 
 

@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.view.ContextThemeWrapper;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -32,7 +33,7 @@ public class ClassDescView_widget_GridLayout extends ClassDescViewBased
         super(classMgr,"android.widget.GridLayout",parentClass);
     }
 
-    public static void getGridLayoutLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
+    public static void getGridLayoutLayoutParamsFromStyleId(int styleId,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx,XMLDOMParserContext xmlDOMParserContext)
     {
         if (styleId == 0) throw MiscUtil.internalError();
 
@@ -58,14 +59,14 @@ public class ClassDescView_widget_GridLayout extends ClassDescViewBased
                 value = a.getString(i);
             }
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value, configuration);
+            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value, xmlDOMParserContext);
             styleLayoutParamsAttribs.add(attr);
         }
 
         a.recycle();
 
         // Llamamos a la clase base
-        ClassDescView_view_ViewGroup.getViewGroupMarginLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx);
+        ClassDescView_view_ViewGroup.getViewGroupMarginLayoutParamsFromStyleId(styleId, styleLayoutParamsAttribs, ctx, xmlDOMParserContext);
     }
 
     @SuppressWarnings("unchecked")

@@ -7,6 +7,7 @@ import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.List;
@@ -25,15 +26,12 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected final OnHttpRequestListener httpRequestListener;
     protected final OnHttpRequestErrorListener errorListener;
     protected final int errorMode;
-    protected final XMLDOMRegistry xmlDOMRegistry;
-    protected final AssetManager assetManager;
-    protected final Configuration configuration;
+    protected final XMLDOMParserContext xmlDOMParserContext;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
     public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent,String pageURLBase,HttpRequestData httpRequestData,
                                           OnHttpRequestListener httpRequestListener,OnHttpRequestErrorListener errorListener,int errorMode,
-                                          String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,
-                                          XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration)
+                                          String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
         this.attrRemoteList = attrRemoteList;
         this.parent = parent;
@@ -44,14 +42,12 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.errorListener = errorListener;
         this.errorMode = errorMode;
         this.urlResDownloadedMap = urlResDownloadedMap;
-        this.xmlDOMRegistry = xmlDOMRegistry;
-        this.assetManager = assetManager;
-        this.configuration = configuration;
+        this.xmlDOMParserContext = xmlDOMParserContext;
     }
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMRegistry,assetManager,configuration);
+        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
     }
 
     @Override

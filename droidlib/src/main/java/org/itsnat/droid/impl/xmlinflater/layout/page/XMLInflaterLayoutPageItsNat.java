@@ -7,6 +7,7 @@ import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -19,9 +20,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
  */
 public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
 {
-    public XMLInflaterLayoutPageItsNat(InflatedLayoutPageItsNatImpl inflatedXML, int bitmapDensityReference, AttrLayoutInflaterListener inflateLayoutListener, AttrDrawableInflaterListener attrDrawableInflaterListener)
+    public XMLInflaterLayoutPageItsNat(InflatedLayoutPageItsNatImpl inflatedXML, int bitmapDensityReference, AttrLayoutInflaterListener inflateLayoutListener, AttrDrawableInflaterListener attrDrawableInflaterListener,XMLDOMParserContext xmlDOMParserContext)
     {
-        super(inflatedXML, bitmapDensityReference, inflateLayoutListener, attrDrawableInflaterListener);
+        super(inflatedXML, bitmapDensityReference, inflateLayoutListener, attrDrawableInflaterListener,xmlDOMParserContext);
     }
 
     public InflatedLayoutPageItsNatImpl getInflatedLayoutPageItsNatImpl()
@@ -41,7 +42,7 @@ public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
 
         // Es single y por tanto  si define alguna tarea pendiente tenemos que ejecutarla como si ya no hubiera más atributos pendientes
         PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-        AttrLayoutContext attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null, xmlDOMParserContext);
 
         viewClassDesc.setAttributeOrInlineEventHandler(view, attr, attrCtx);
 
@@ -59,7 +60,7 @@ public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
 
         PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
-        AttrLayoutContext attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(this, pendingViewPostCreateProcess, null, xmlDOMParserContext);
 
         int len = attrArray.length;
         for(int i = 0; i < len; i++)
@@ -77,7 +78,7 @@ public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
         ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
 
-        AttrLayoutContext attrCtx = new AttrLayoutContext(this,null,null);
+        AttrLayoutContext attrCtx = new AttrLayoutContext(this,null,null,xmlDOMParserContext);
         return viewClassDesc.removeAttributeOrInlineEventHandler(view, namespaceURI, name, attrCtx);
     }
 }

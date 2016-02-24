@@ -1,6 +1,9 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +21,7 @@ import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewNullImpl;
@@ -43,6 +47,8 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
@@ -84,14 +90,21 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     protected EventManager evtManager = new EventManager(this);
     protected LinkedList<DOMAttrRemote> attrRemoteListBSParsed;
 
+
     public ItsNatDocItsNatImpl(PageItsNatImpl page,int errorMode)
     {
         super(page,errorMode); // errorMode el valor inicial, será cambiado por el método init() (si hay scripting)
+
     }
 
     public PageItsNatImpl getPageItsNatImpl()
     {
         return (PageItsNatImpl)page;
+    }
+
+    public XMLDOMParserContext getXMLDOMParserContext()
+    {
+        return xmlDOMParserContext;
     }
 
     @Override
@@ -260,10 +273,10 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     }
 
 
-    private DOMAttr toDOMAttr(String namespaceURI,String name,String value,Configuration configuration)
+    private DOMAttr toDOMAttr(String namespaceURI,String name,String value)
     {
         XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
-        DOMAttr attr = xmlDOMLayoutPage.toDOMAttrNotSyncResource(namespaceURI, name, value,configuration);
+        DOMAttr attr = xmlDOMLayoutPage.toDOMAttrNotSyncResource(namespaceURI, name, value,xmlDOMParserContext);
 
         if (this.attrRemoteListBSParsed != null && attr instanceof DOMAttrRemote) // Si attrRemoteListBSParsed es null es que no hay atributos remotos extraidos del script para sincronizar
         {
@@ -280,9 +293,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         DOMAttr[] attrArray = new DOMAttr[attrNames.length];
         if (attrNames.length > 0)
         {
-            Configuration configuration = getContext().getResources().getConfiguration();
             for (int i = 0; i < attrNames.length; i++)
-                attrArray[i] = toDOMAttr(namespaceURI, attrNames[i], attrValues[i],configuration);
+                attrArray[i] = toDOMAttr(namespaceURI, attrNames[i], attrValues[i]);
         }
         return attrArray;
     }
@@ -292,7 +304,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         View view = node.getView();
 
         Configuration configuration = getContext().getResources().getConfiguration();
-        DOMAttr attr = toDOMAttr(namespaceURI, name, value,configuration);
+        DOMAttr attr = toDOMAttr(namespaceURI, name, value);
 
         if (view != null)
         {
@@ -354,12 +366,11 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
             int len = attrNames.length;
             if (len > 0)
             {
-                Configuration configuration = getContext().getResources().getConfiguration();
                 for (int i = 0; i < len; i++)
                 {
                     String name = attrNames[i];
                     String value = attrValues[i];
-                    DOMAttr attr = toDOMAttr(namespaceURI, name, value,configuration);
+                    DOMAttr attr = toDOMAttr(namespaceURI, name, value);
                     nodeToIn.setDOMAttribute(attr);
                 }
             }
@@ -605,11 +616,12 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
         PageItsNatImpl page = getPageItsNatImpl();
         XMLInflaterLayoutPageItsNat xmlInflaterLayout = page.getXMLInflaterLayoutPageItsNat();
-        XMLInflateRegistry xmlInflateRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
+        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+        XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
         ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(newChildToIn);
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
-        View view = classDesc.createViewObjectAndFillAttributesAndAddFromRemote((ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout, null);
+        View view = classDesc.createViewObjectAndFillAttributesAndAddFromRemote((ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout, null, xmlDOMParserContext);
 
         newChildToIn.setInserted();
     }
@@ -755,7 +767,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void setInnerXML(Node parentNode,String className,String markup)
     {
-        fragmentLayoutInserter.setInnerXML((ViewGroup) parentNode.getView(), className, markup, null);
+        fragmentLayoutInserter.setInnerXML((ViewGroup) parentNode.getView(), className, markup, null, xmlDOMParserContext);
     }
 
     @Override

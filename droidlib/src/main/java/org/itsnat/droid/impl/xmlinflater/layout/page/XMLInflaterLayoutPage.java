@@ -14,6 +14,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -25,9 +26,9 @@ import java.util.List;
  */
 public class XMLInflaterLayoutPage extends XMLInflaterLayout
 {
-    public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
+    public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,XMLDOMParserContext xmlDOMParserContext)
     {
-        super(inflatedXML,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
+        super(inflatedXML,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener,xmlDOMParserContext);
     }
 
     public PageImpl getPageImpl()
