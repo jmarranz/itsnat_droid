@@ -1,9 +1,6 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
-import android.content.res.AssetManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +45,6 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;

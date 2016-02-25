@@ -1398,9 +1398,13 @@ public class TestLocalLayout1
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
-                    // getHeight() no se corresponde exactamente con setHeight(int) pero el resultado es coherente
-                    assertEquals(compLayout.getHeight(), ValueUtil.dpToPixelIntFloor(30.3f, res));
-                    assertEquals(compLayout.getHeight(), parsedLayout.getHeight());
+                    // getHeight() no se corresponde exactamente con setHeight(int) pero el resultado es coherente (NO CON PRECISION)
+                    //assertEquals(compLayout.getHeight(), ValueUtil.dpToPixelIntRound(30.3f, res));
+                    //assertEquals(compLayout.getHeight(), parsedLayout.getHeight());
+
+                    // Via mMinWidth y mMaximum testeamos indirectamente el android:height, la discordancia es por el setHeight() que no usa internamente Android
+                    assertEquals((Integer)TestUtil.getField(compLayout,View.class,"mMinHeight"), ValueUtil.dpToPixelIntRound(30.3f, res));
+                    assertEquals((Integer)TestUtil.getField(compLayout,View.class,"mMinHeight"), (Integer)TestUtil.getField(parsedLayout,"mMaximum"));
 
                     // Estos tests no funcionan porque mi impresión es que layout_height="30dp" define la altura por su cuenta pero
                     // no como PIXELS sino como LINES en el layout compilado
@@ -1418,8 +1422,12 @@ public class TestLocalLayout1
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // Ver notas de android:height, android:maxHeight
-                    assertEquals(compLayout.getWidth(), ValueUtil.dpToPixelIntRound(200.3f, res));
-                    assertEquals(compLayout.getWidth(), parsedLayout.getWidth());
+                    //assertEquals(compLayout.getWidth(), ValueUtil.dpToPixelIntRound(200.3f, res));
+                    //assertEquals(compLayout.getWidth(), parsedLayout.getWidth());
+
+                    // Via mMinWidth testeamos indirectamente el android:width
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidth"), ValueUtil.dpToPixelIntRound(200.3f, res));
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidth"), (Integer)TestUtil.getField(parsedLayout, "mMinWidth"));
 
                     assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"), ValueUtil.dpToPixelIntRound(200.3f, res));
                     assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"), (Integer)TestUtil.getField(parsedLayout, "mMaxWidth"));

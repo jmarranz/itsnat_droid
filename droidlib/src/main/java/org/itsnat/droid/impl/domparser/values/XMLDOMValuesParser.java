@@ -1,8 +1,5 @@
 package org.itsnat.droid.impl.domparser.values;
 
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -20,7 +17,6 @@ import org.itsnat.droid.impl.dommini.DOMMiniParser;
 import org.itsnat.droid.impl.dommini.DOMMiniRender;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

@@ -31,7 +31,8 @@ public class ValueUtil
     public static float toPixelFloatRound(int unit,float value, Resources res)
     {
         float valuePx = toPixelFloat(unit, value, res);
-        valuePx = Math.round(valuePx);
+        //valuePx = Math.round(valuePx);
+        valuePx = (int)(valuePx + 0.5f);
         return valuePx;
     }
 
@@ -54,7 +55,8 @@ public class ValueUtil
     {
         // Para ver si el redondeo es correcto conviene elegir valores tal que tras aplicar la escala dpToPixelFloatFloor quede X.Y donde Y >= 5, ej 1.3 dp escala 2x => 2.6 px (1.9 si es 3x)
         float valuePx = dpToPixelFloat(value, res);
-        int valuePxInt = Math.round(valuePx);
+        //int valuePxInt = Math.round(valuePx);
+        int valuePxInt = (int)(valuePx + 0.5f);
 /*
         if (valuePxInt != (int)valuePx)
             res.getClass();

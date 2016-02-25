@@ -1,10 +1,5 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
-
 import org.itsnat.droid.CommMode;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpRequestData;
@@ -13,7 +8,6 @@ import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.EventGenericListener;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.HashMap;

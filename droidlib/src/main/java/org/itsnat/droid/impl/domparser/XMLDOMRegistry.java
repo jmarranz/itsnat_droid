@@ -1,9 +1,5 @@
 package org.itsnat.droid.impl.domparser;
 
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.util.DisplayMetrics;
-
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;

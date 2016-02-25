@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 
 import org.itsnat.droid.ClientErrorMode;
@@ -17,7 +15,6 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.net.SocketTimeoutException;

@@ -1,9 +1,5 @@
 package org.itsnat.droid.impl.browser;
 
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 

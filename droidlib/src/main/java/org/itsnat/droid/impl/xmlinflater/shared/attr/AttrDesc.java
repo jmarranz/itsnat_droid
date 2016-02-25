@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;

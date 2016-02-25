@@ -1,8 +1,5 @@
 package org.itsnat.droid.impl.dom.values;
 
-import android.content.res.Configuration;
-import android.util.DisplayMetrics;
-
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.NamespaceUtil;

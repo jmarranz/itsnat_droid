@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.dom.layout;
 
-import android.content.res.Configuration;
-
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;

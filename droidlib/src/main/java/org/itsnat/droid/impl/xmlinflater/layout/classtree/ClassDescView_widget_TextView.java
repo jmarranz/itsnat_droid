@@ -65,7 +65,7 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         // android:fontFamily creo que es Level 16
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "freezesText", false));
         addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.nameValueMap, "top|start"));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "height", -1f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "height", -1f));
         addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "hint", ""));
         addAttrDescAN(new AttrDescView_widget_TextView_imeActionId(this));
         addAttrDescAN(new AttrDescView_widget_TextView_imeActionLabel(this));
@@ -80,12 +80,12 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "linksClickable", true));
         addAttrDescAN(new AttrDescView_widget_TextView_marqueeRepeatLimit(this));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "maxEms", -1));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "maxHeight", -1f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "maxHeight", -1f));
         addAttrDescAN(new AttrDescView_widget_TextView_maxLength(this));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "maxLines", -1));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "maxWidth", -1f));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "minEms", -1));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "minHeight", -1f));
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "minHeight", -1f));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "minLines", -1));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "minWidth", -1f));
         // android:numeric está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)

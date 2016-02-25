@@ -1,14 +1,10 @@
 package org.itsnat.droid.impl.browser;
 
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
 import java.util.List;
 import java.util.Map;

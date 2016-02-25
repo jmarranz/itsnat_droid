@@ -1,8 +1,5 @@
 package org.itsnat.droid.impl.browser;
 
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-
 import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownloader;
 import org.itsnat.droid.impl.browser.servernotitsnat.XMLDOMLayoutPageNotItsNatDownloader;
 import org.itsnat.droid.impl.dom.ParsedResource;
@@ -13,7 +10,6 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageFragment;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MimeUtil;
 
 import java.util.List;
