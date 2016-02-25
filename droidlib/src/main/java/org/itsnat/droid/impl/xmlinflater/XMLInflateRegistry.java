@@ -627,7 +627,9 @@ public class XMLInflateRegistry
     public int getDimensionIntRound(DOMAttr attr,XMLInflater xmlInflater)
     {
         // TypedValue.complexToDimensionPixelSize
-        return Math.round(getDimensionFloat(attr, xmlInflater));
+        float num = getDimensionFloat(attr, xmlInflater);
+        int numInt = (int)(num + 0.5f);
+        return numInt;
     }
 
     public float getDimensionFloat(DOMAttr attr,XMLInflater xmlInflater)
@@ -645,16 +647,18 @@ public class XMLInflateRegistry
     {
         // El retorno es en px
         float num = getDimensionFloat(attr, xmlInflater);
-        num = (float) Math.floor(num);
-        return num;
+        // num = (float) Math.floor(num);
+        int numInt = (int)num;
+        return numInt;
     }
 
     public float getDimensionFloatRound(DOMAttr attr,XMLInflater xmlInflater)
     {
         // El retorno es en px
         float num = getDimensionFloat(attr, xmlInflater);
-        num = Math.round(num);
-        return num;
+        //num = Math.round(num);
+        int numInt = (int)(num + 0.5f);
+        return numInt;
     }
 
     public PercFloat getDimensionPercFloat(DOMAttr attr,XMLInflater xmlInflater)

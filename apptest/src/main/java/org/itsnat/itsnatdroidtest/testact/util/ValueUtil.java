@@ -24,16 +24,17 @@ public class ValueUtil
     public static float toPixelFloatFloor(int unit,float value, Resources res)
     {
         float valuePx = toPixelFloat(unit, value, res);
-        valuePx = (float)Math.floor(valuePx);
-        return valuePx;
+        //valuePx = (float)Math.floor(valuePx);
+        int valuePxInt = (int)valuePx;
+        return valuePxInt;
     }
 
     public static float toPixelFloatRound(int unit,float value, Resources res)
     {
         float valuePx = toPixelFloat(unit, value, res);
         //valuePx = Math.round(valuePx);
-        valuePx = (int)(valuePx + 0.5f);
-        return valuePx;
+        int valuePxInt = (int)(valuePx + 0.5f);
+        return valuePxInt;
     }
 
     public static float dpToPixelFloat(float value, Resources res)

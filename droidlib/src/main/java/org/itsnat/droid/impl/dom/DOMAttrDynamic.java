@@ -619,6 +619,48 @@ public abstract class DOMAttrDynamic extends DOMAttr
             return location;
 
         {
+            // Soportamos la existencia de sufijo Touchscreen type (touchscreen)
+            // Ej {tst-finger}
+            String prefix = "{tst-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String touchscreenStr  = location.substring(posStart + prefix.length(), posEnd);
+                int touchscreen;
+                if      ("notouch".equals(touchscreenStr)) touchscreen = Configuration.TOUCHSCREEN_NOTOUCH;
+                else if ("finger".equals(touchscreenStr)) touchscreen = Configuration.TOUCHSCREEN_FINGER;
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + touchscreenStr);  // No está documentado el literal de "stylus"
+
+                try
+                {
+                    int deviceTouchscreen = configuration.touchscreen;
+                    if (deviceTouchscreen == touchscreen)
+                    {
+                        location = location.substring(0, posStart) + "-" + touchscreenStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad touchscreen type suffix: " + touchscreenStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+
+        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
             // Soportamos la existencia de sufijo de versión de la plataforma
             // Ej {v-v21}
             String prefix = "{v-";
