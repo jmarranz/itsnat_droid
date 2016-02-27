@@ -733,6 +733,33 @@ public class TestLocalLayout1
                             parsedTextViewUpper = parsedTextView;
                         }
 
+                        childCountL2++;
+
+                        {
+                            final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                            final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                            assertEquals(compTextView.getId(), R.id.textViewTest16);
+                            assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                            int keyboard = ctx.getResources().getConfiguration().keyboard;
+                            if (keyboard == Configuration.KEYBOARD_QWERTY) assertEquals(compTextView.getText(), "Test filter primary text input: qwerty");
+                            else if (keyboard == Configuration.KEYBOARD_NOKEYS) assertEquals(compTextView.getText(), "Test filter primary text input: nokeys");
+                            else throw new RuntimeException("Unexpected filter primary text input " + keyboard);
+                            assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                            ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                            ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                            assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                            RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                            RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                            assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
+
+                            compTextViewUpper = compTextView;
+                            parsedTextViewUpper = parsedTextView;
+                        }
+
                     }
                 }
             }

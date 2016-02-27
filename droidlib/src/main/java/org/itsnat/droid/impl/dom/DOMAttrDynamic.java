@@ -167,7 +167,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             // No soportamos MCC y MNC filtros, aportan muy poco valor
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -203,7 +203,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -244,7 +244,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             // Layout Direction es level 17 no lo soportamos todavía
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -280,7 +280,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -316,7 +316,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -352,7 +352,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -397,7 +397,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
 
 
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -442,7 +442,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             // Round screen es level 23 no lo soportamos todavía
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -483,7 +483,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -526,7 +526,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -567,7 +567,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -615,7 +615,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
         }
 
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {
@@ -656,8 +656,53 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
+        {
+            // No soportamos el sufijo sufijo Keyboard availability, no lo entiendo bien (como implementarlo) y no aporta gran cosa hoy día
+        }
 
-        if (!location.contains("{")) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo Primary text input method (keyboard)
+            // Ej {ptim-qwerty}
+            String prefix = "{ptim-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String keyboardStr  = location.substring(posStart + prefix.length(), posEnd);
+                int keyboard;
+                if      ("nokeys".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_NOKEYS;
+                else if ("qwerty".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_QWERTY;
+                else if ("12key".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_12KEY;
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + keyboardStr);
+
+                try
+                {
+                    int deviceKeyboard = configuration.keyboard;
+                    if (deviceKeyboard == keyboard)
+                    {
+                        location = location.substring(0, posStart) + "-" + keyboardStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad Primary text input method suffix: " + keyboardStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
         {

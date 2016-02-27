@@ -120,13 +120,12 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
 
     private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup,ViewGroup parentView)
     {
-        XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
-
         Resources res = getContext().getResources();
         AssetManager assetManager = res.getAssets();
         Configuration configuration = res.getConfiguration();
         DisplayMetrics displayMetrics = res.getDisplayMetrics();
 
+        XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
         XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,assetManager,configuration,displayMetrics);
 
         XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup,null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);

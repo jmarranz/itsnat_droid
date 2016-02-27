@@ -198,6 +198,12 @@ Android TV uimt: television"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest14" />
 
+            <TextView android:id="@+id/textViewTest16"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/test_primarytextinput_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest15" />
 
         </RelativeLayout>
 
