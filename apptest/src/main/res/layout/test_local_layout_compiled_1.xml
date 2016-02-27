@@ -114,13 +114,13 @@
                       android:text="Device Data to Test Filters:\n
 Nexus 4  smallestScreenWidthDp 384dp\n
 \t\t\t\t portrait screenWidthDp/screenHeightDp 384dp/567dp\n
-\t\t\t\t normal notlong xhdpi\n
+\t\t\t\t normal notlong xhdpi nokeys\n
 Nexus 5  smallestScreenWidthDp 360dp\n
 \t\t\t\t portrait screenWidthDp/screenHeightDp 360dp/567dp\n
-\t\t\t\t normal notlong ~xxhdpi\n
+\t\t\t\t normal notlong ~xxhdpi nokeys\n
 Nexus 5X smallestScreenWidthDp 432dp\n
 \t\t\t\t portrait screenWidthDp/screenHeightDp 432dp/696dp\n
-\t\t\t\t normal notlong ~xxhdpi\n
+\t\t\t\t normal long ~xxhdpi qwerty\n
 Table 10.1 WXGA\n
 \t\t\t\t xlarge notlong\n
 3.4 WQVGA normal long\n

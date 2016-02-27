@@ -1,5 +1,5 @@
 <resources>
 
-    <string name="test_primarytextinput_filter">Test filter primary text input: qwerty</string>
+    <string name="test_primarytextinput_filter">Test filter primary text input: nokeys</string>
 
 </resources>

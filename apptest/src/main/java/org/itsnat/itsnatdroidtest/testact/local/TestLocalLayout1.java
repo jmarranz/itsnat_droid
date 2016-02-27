@@ -295,6 +295,7 @@ public class TestLocalLayout1
                     assertEquals(((TextView) parsedLayout.findViewById(parsedTextView.getId())), parsedTextView);
                     assertEquals(compTextView.getId(), parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
 
+                    // Testeamos también el filter de language-Region
                     Locale locale = ctx.getResources().getConfiguration().locale;
                     String lang = locale.getLanguage();
                     String region = locale.getCountry();
