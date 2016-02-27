@@ -1,0 +1,5 @@
+<resources>
+
+    <string name="test_filter_screenpixeldensity">Test filter screen pixel density >= xhdpi &amp; &lt; xxhdpi</string>
+
+</resources>

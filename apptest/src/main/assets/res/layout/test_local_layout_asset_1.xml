@@ -132,84 +132,84 @@ Android TV uimt: television"
             <TextView android:id="@+id/textViewTest6"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@assets:string/res/values{sw-sw384dp}/test_smallestwithdp_filter_asset.xml:test_smallestwithdp_filter"
+                  android:text="@assets:string/res/values{sw-sw384dp}/test_filter_smallestwithdp_asset.xml:test_filter_smallestwithdp"
                   android:background="#dddddd"
                   android:layout_below="@id/textViewTest5" />
 
             <TextView android:id="@+id/textViewTest7"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{w-w384dp}/test_screenwidthdp_filter_asset.xml:test_screenwidthdp_filter"
+                      android:text="@assets:string/res/values{w-w384dp}/test_filter_screenwidthdp_asset.xml:test_filter_screenwidthdp"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest6" />
 
             <TextView android:id="@+id/textViewTest8"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{h-h696dp}/test_screenheightdp_filter_asset.xml:test_screenheightdp_filter"
+                      android:text="@assets:string/res/values{h-h696dp}/test_filter_screenheightdp_asset.xml:test_filter_screenheightdp"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest7" />
 
             <TextView android:id="@+id/textViewTest9"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{ss-xlarge}/test_screensize_filter_asset.xml:test_screensize_filter"
+                      android:text="@assets:string/res/values{ss-xlarge}/test_filter_screensize_asset.xml:test_filter_screensize"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest8" />
 
             <TextView android:id="@+id/textViewTest10"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{sa-long}/test_screenaspect_filter_asset.xml:test_screenaspect_filter"
+                      android:text="@assets:string/res/values{sa-long}/test_filter_screenaspect_asset.xml:test_filter_screenaspect"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest9" />
 
             <TextView android:id="@+id/textViewTest11"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{so-land}/test_screenorientation_filter_asset.xml:test_screenorientation_filter"
+                      android:text="@assets:string/res/values{so-land}/test_filter_screenorientation_asset.xml:test_filter_screenorientation"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest10" />
 
             <TextView android:id="@+id/textViewTest12"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{uimt-television}/test_uimodetype_filter_asset.xml:test_uimodetype_filter"
+                      android:text="@assets:string/res/values{uimt-television}/test_filter_uimodetype_asset.xml:test_filter_uimodetype"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest11" />
 
             <TextView android:id="@+id/textViewTest13"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{uimn-notnight}/test_uimodenight_filter_asset.xml:test_uimodenight_filter"
+                      android:text="@assets:string/res/values{uimn-notnight}/test_filter_uimodenight_asset.xml:test_filter_uimodenight"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest12" />
 
             <TextView android:id="@+id/textViewTest14"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{spd-xxhdpi}/test_screenpixeldensity_filter_asset.xml:test_screenpixeldensity_filter"
+                      android:text="@assets:string/res/values{spd-xxhdpi}/test_filter_screenpixeldensity_asset.xml:test_filter_screenpixeldensity"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest13" />
 
             <TextView android:id="@+id/textViewTest15"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{tst-finger}/test_touchscreentype_filter_asset.xml:test_touchscreentype_filter"
+                      android:text="@assets:string/res/values{tst-finger}/test_filter_touchscreentype_asset.xml:test_filter_touchscreentype"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest14" />
 
             <TextView android:id="@+id/textViewTest16"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{ptim-qwerty}/test_primarytextinput_filter_asset.xml:test_primarytextinput_filter"
+                      android:text="@assets:string/res/values{ptim-qwerty}/test_filter_primarytextinput_asset.xml:test_filter_primarytextinput"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest15" />
 
             <TextView android:id="@+id/textViewTest17"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@assets:string/res/values{pntn-nonav}/test_primnontouchnav_filter_asset.xml:test_primnontouchnav_filter"
+                      android:text="@assets:string/res/values{pntn-nonav}/test_filter_primnontouchnav_asset.xml:test_filter_primnontouchnav"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest16" />
 

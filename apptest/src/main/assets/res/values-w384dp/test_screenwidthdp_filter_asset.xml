@@ -1,5 +1,0 @@
-<resources>
-
-    <string name="test_screenwidthdp_filter">Test filter screenWidthDp >= 384dp</string>
-
-</resources>

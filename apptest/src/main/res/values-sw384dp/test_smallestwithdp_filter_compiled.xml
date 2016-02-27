@@ -1,5 +1,0 @@
-<resources>
-
-    <string name="test_smallestwithdp_filter">Test filter smallestWidthDp >= 384dp</string>
-
-</resources>
