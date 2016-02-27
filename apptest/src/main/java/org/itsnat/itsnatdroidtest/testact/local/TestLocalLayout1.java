@@ -760,6 +760,32 @@ public class TestLocalLayout1
                             parsedTextViewUpper = parsedTextView;
                         }
 
+                        childCountL2++;
+
+                        {
+                            final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
+                            final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
+
+                            assertEquals(compTextView.getId(), R.id.textViewTest17);
+                            assertEquals(compTextView.getId(), parsedTextView.getId());
+
+                            int navigation = ctx.getResources().getConfiguration().navigation;
+                            if (navigation != Configuration.NAVIGATION_NONAV) assertEquals(compTextView.getText(), "Test filter prim nontouch nav: (other)");
+                            else /* if (navigation == Configuration.NAVIGATION_NONAV) */ assertEquals(compTextView.getText(), "Test filter prim nontouch nav: nonav");
+                            assertEquals(compTextView.getText(), parsedTextView.getText());
+
+                            ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();
+                            ViewGroup.LayoutParams b_params = parsedTextView.getLayoutParams();
+                            assertEqualsViewGroupLayoutParams(a_params, b_params, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                            RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams) compTextView.getLayoutParams();
+                            RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams) parsedTextView.getLayoutParams();
+                            assertEqualsRelativeLayoutLayoutParamsBellow(compTextParams, parsedTextParams, compTextViewUpper.getId(), parsedTextViewUpper.getId());
+
+                            compTextViewUpper = compTextView;
+                            parsedTextViewUpper = parsedTextView;
+                        }
+
                     }
                 }
             }

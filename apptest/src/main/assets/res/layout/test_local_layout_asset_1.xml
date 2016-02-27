@@ -206,6 +206,13 @@ Android TV uimt: television"
                       android:background="#dddddd"
                       android:layout_below="@id/textViewTest15" />
 
+            <TextView android:id="@+id/textViewTest17"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@assets:string/res/values{pntn-nonav}/test_primnontouchnav_filter_asset.xml:test_primnontouchnav_filter"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest16" />
+
         </RelativeLayout>
 
         <TextView

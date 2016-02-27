@@ -702,6 +702,56 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
         }
 
+        {
+            // No soportamos Navigation key availability (navigationHidden) porque parece que es algo obsoleto en pantallas táctiles, pero lo más importante
+            // es que no está implementado al menos en los emuladores desde Level 15, como si estuviera deprecated aunque no lo pone en ningún sitio o no aplica en disp táctiles,
+            // pues cuando añades -navexposed o -navhidden al folder de turno en ambos casos los recursos allí son ignorados.
+            // http://developer.android.com/reference/android/content/res/Configuration.html#navigationHidden
+        }
+
+        if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
+            return location;
+
+        {
+            // Soportamos la existencia de sufijo Primary non-touch navigation method (navigation)
+            // Ej {pntn-nonav}
+            String prefix = "{pntn-";
+            int posStart = location.indexOf(prefix,posToSearchMore);
+            if (posStart != -1)
+            {
+                int posEnd = location.indexOf(suffix, posStart);
+                if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
+
+                String navigationStr  = location.substring(posStart + prefix.length(), posEnd);
+                int navigation;
+                if      ("nonav".equals(navigationStr)) navigation = Configuration.NAVIGATION_NONAV;
+                else if ("dpad".equals(navigationStr)) navigation = Configuration.NAVIGATION_DPAD;
+                else if ("trackball".equals(navigationStr)) navigation = Configuration.NAVIGATION_TRACKBALL;
+                else if ("wheel".equals(navigationStr)) navigation = Configuration.NAVIGATION_WHEEL;
+                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + navigationStr);
+
+                try
+                {
+                    int deviceNavigation = configuration.navigation;
+                    if (deviceNavigation == navigation)
+                    {
+                        location = location.substring(0, posStart) + "-" + navigationStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidException("Bad primary non-touch navigation suffix: " + navigationStr);
+                }
+
+                posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
+            }
+        }
+
         if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
             return location;
 
