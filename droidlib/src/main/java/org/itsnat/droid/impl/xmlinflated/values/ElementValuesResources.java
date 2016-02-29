@@ -22,6 +22,7 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_FLOAT;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ID;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
@@ -109,6 +110,20 @@ public class ElementValuesResources extends ElementValues
     private static String genKey(String type,String name)
     {
         return type + "#" + name;
+    }
+
+    public int getIdentifierAddIfNecessary(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ID,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getIdentifierAddIfNecessary(valueAsDOMAttr, xmlInflater);
+    }
+
+    public int getIdentifier(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ID,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getIdentifier(valueAsDOMAttr, xmlInflater);
     }
 
     public boolean getBoolean(String name,XMLInflater xmlInflater)

@@ -23,7 +23,7 @@ public class AttrDescView_widget_ViewAnimator_inoutAnimation extends AttrDesc<Cl
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         Context ctx = attrCtx.getContext();
-        int id = getIdentifier(attr.getValue(),ctx);
+        int id = getIdentifier(attr,attrCtx.getXMLInflaterLayout());
 
         if ("inAnimation".equals(name))
             ((ViewAnimator)view).setInAnimation(ctx,id);

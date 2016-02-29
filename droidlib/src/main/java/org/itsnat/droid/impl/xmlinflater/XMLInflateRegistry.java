@@ -130,7 +130,24 @@ public class XMLInflateRegistry
         return newId;
     }
 
-    public int getIdentifierAddIfNecessary(String value, Context ctx)
+    public int getIdentifierAddIfNecessary(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getIdentifierAddIfNecessary(attrDyn.getValuesResourceName(), xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            Context ctx = xmlInflater.getContext();
+            String value = attr.getValue();
+            return getIdentifierAddIfNecessaryCompiled(value, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private int getIdentifierAddIfNecessaryCompiled(String value, Context ctx)
     {
         // Procesamos aquí los casos de "@+id/...", la razón es que cualquier atributo que referencie un id (más allá
         // de android:id) puede registrar un nuevo atributo lo cual es útil si el android:id como tal está después,
@@ -139,7 +156,7 @@ public class XMLInflateRegistry
         int id = 0;
         if (value.startsWith("@+id/") || value.startsWith("@id/")) // Si fuera el caso de "@+mypackage:id/name" ese caso no lo soportamos, no lo he visto nunca aunque en teoría está sintácticamente permitido
         {
-            id = getIdentifier(value, ctx, false); // Tiene prioridad el recurso de Android, pues para qué generar un id nuevo si ya existe o bien ya fue registrado dinámicamente
+            id = getIdentifierCompiled(value, ctx, false); // Tiene prioridad el recurso de Android, pues para qué generar un id nuevo si ya existe o bien ya fue registrado dinámicamente
             if (id <= 0)
             {
                 int pos = value.indexOf('/');
@@ -150,16 +167,33 @@ public class XMLInflateRegistry
                     throw new ItsNatDroidException("Not found resource with id \"" + value + "\" you could use @+id/ ");
             }
         }
-        else id = getIdentifier(value, ctx);
+        else id = getIdentifierCompiled(value, ctx);
         return id;
     }
 
-    public int getIdentifier(String attrValue, Context ctx)
+    public int getIdentifier(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getIdentifier(attrValue, ctx, true);
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getIdentifier(attrDyn.getValuesResourceName(), xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            Context ctx = xmlInflater.getContext();
+            String value = attr.getValue();
+            return getIdentifierCompiled(value, ctx);
+        }
+        else throw MiscUtil.internalError();
     }
 
-    private int getIdentifier(String value, Context ctx, boolean throwErr)
+    public int getIdentifierCompiled(String attrValue, Context ctx)
+    {
+        return getIdentifierCompiled(attrValue, ctx, true);
+    }
+
+    private int getIdentifierCompiled(String value, Context ctx, boolean throwErr)
     {
         if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
 
@@ -168,7 +202,7 @@ public class XMLInflateRegistry
         char first = value.charAt(0);
         if (first == '?')
         {
-            id = getIdentifierAttrTheme(value, ctx);
+            id = getIdentifierCompiledAttrTheme(value, ctx);
             if (id > 0)
                 return id;
         }
@@ -210,7 +244,7 @@ public class XMLInflateRegistry
         return id;
     }
 
-    private static int getIdentifierAttrTheme(String value, Context ctx)
+    private static int getIdentifierCompiledAttrTheme(String value, Context ctx)
     {
         // http://stackoverflow.com/questions/12781501/android-setting-linearlayout-background-programmatically
         // Ej. android:textAppearance="?android:attr/textAppearanceMedium"
@@ -272,7 +306,7 @@ public class XMLInflateRegistry
         {
             Context ctx = xmlInflater.getContext();
             String attrValue = attr.getValue();
-            int styleId = getIdentifier(attrValue, ctx);
+            int styleId = getIdentifierCompiled(attrValue, ctx);
             if (styleId == 0)
                 return null;
             return new ViewStyleAttrCompiled(styleId);
@@ -307,7 +341,7 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             return ctx.getResources().getInteger(resId);
         }
         else
@@ -343,7 +377,7 @@ public class XMLInflateRegistry
         // Ojo, para valores sin sufijo de dimensión (por ej layout_weight o alpha)
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             return ctx.getResources().getDimension(resId); // No hay getFloat
         }
         else return parseFloat(attrValue);
@@ -370,7 +404,7 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             return ctx.getResources().getString(resId);
         }
         return StringUtil.convertEscapedStringLiteralToNormalString(attrValue);
@@ -397,7 +431,7 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             return ctx.getResources().getText(resId);
         }
         else
@@ -539,7 +573,7 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             return ctx.getResources().getTextArray(resId);
         }
         else throw MiscUtil.internalError();
@@ -566,12 +600,11 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             return ctx.getResources().getBoolean(resId);
         }
         else return Boolean.parseBoolean(attrValue);
     }
-
 
 
     public Dimension getDimensionObject(DOMAttr attr,XMLInflater xmlInflater)
@@ -596,7 +629,7 @@ public class XMLInflateRegistry
         // El retorno es en px
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             float num = ctx.getResources().getDimension(resId);
             return new Dimension(TypedValue.COMPLEX_UNIT_PX, num);
         }
@@ -702,7 +735,7 @@ public class XMLInflateRegistry
         Resources res = ctx.getResources();
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             String value = res.getString(resId);
             return parseDimensionPercFloat(value, ctx);
         }
@@ -830,7 +863,7 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             return ctx.getResources().getColor(resId);
         }
         else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
@@ -871,7 +904,7 @@ public class XMLInflateRegistry
         // Sólo se usa en ScaleDrawable, de hecho el método getPercent que usa Android es local en dicha clase, no se reutiliza para otros casos, el valor compilado se obtiene de Resources.getString()
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             String str = ctx.getResources().getString(resId);
             return getPercent(str);
         }
@@ -952,7 +985,7 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             if (resId <= 0) return null;
             return ctx.getResources().getDrawable(resId);
         }
@@ -1066,7 +1099,7 @@ public class XMLInflateRegistry
         {
             Context ctx = xmlInflater.getContext();
 
-            int resId = getIdentifier(attrValue, ctx);
+            int resId = getIdentifierCompiled(attrValue, ctx);
             if (resId <= 0) return null;
             int countBefore = viewParent.getChildCount();
 

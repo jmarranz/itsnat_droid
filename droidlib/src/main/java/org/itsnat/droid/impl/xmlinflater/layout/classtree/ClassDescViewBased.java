@@ -347,7 +347,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             DOMAttr parentStyleDOMAttr = dynStyle.getDOMAttrParentStyle(); // Puede ser null
             if (parentStyleDOMAttr == null)
                 return 0;
-            return getXMLInflateRegistry().getIdentifier(parentStyleDOMAttr.getValue(),ctx); // Error si no se encuentra, si se especifica ha de existir
+            return getXMLInflateRegistry().getIdentifierCompiled(parentStyleDOMAttr.getValue(),ctx); // Error si no se encuentra, si se especifica ha de existir
         }
         else throw MiscUtil.internalError();
     }

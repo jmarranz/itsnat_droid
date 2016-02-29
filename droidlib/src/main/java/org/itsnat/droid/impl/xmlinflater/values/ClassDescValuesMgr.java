@@ -13,6 +13,7 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_FLOAT;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ID;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER_ARRAY;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
@@ -61,6 +62,9 @@ public class ClassDescValuesMgr extends ClassDescMgr<ClassDescValues>
 
         ClassDescValuesItemNormal layout = new ClassDescValuesItemNormal(this,TYPE_LAYOUT);
         addClassDesc(layout);
+
+        ClassDescValuesItemNormal id = new ClassDescValuesItemNormal(this,TYPE_ID);
+        addClassDesc(id);
 
         ClassDescValuesItemNormal integer = new ClassDescValuesItemNormal(this,TYPE_INTEGER);
         addClassDesc(integer);

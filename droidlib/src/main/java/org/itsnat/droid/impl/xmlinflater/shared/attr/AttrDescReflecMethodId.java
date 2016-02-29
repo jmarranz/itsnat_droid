@@ -33,7 +33,7 @@ public class AttrDescReflecMethodId<TclassDesc extends ClassDesc,TattrTarget,Tat
     @Override
     public void setAttribute(TattrTarget target,DOMAttr attr, TattrContext attrCtx)
     {
-        int id = getIdentifierAddIfNecessary(attr.getValue(),attrCtx.getContext());
+        int id = getIdentifierAddIfNecessary(attr,attrCtx.getXMLInflater());
 
         callMethod(target, id);
     }

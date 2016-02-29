@@ -57,6 +57,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -203,8 +204,15 @@ public class HttpUtil
 
         if (!StringUtil.isEmpty(overrideMime)) mimeTypeRes[0] = overrideMime;
 
-        InputStream input = null;
-        try { input = entity.getContent(); } // Interesa incluso cuando hay error (statusCode != 200) porque obtenemos el texto del error
+        InputStream input;
+        try
+        {
+            input = entity.getContent(); // Interesa incluso cuando hay error (statusCode != 200) porque obtenemos el texto del error
+            Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
+            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {  // http://stackoverflow.com/questions/1573391/android-http-communication-should-use-accept-encoding-gzip
+                input = new GZIPInputStream(input);
+            }
+        }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
 
         HttpRequestResultImpl result = HttpRequestResultImpl.createHttpRequestResult(url,httpResponse,input, httpFileCache, mimeTypeRes[0], encodingRes[0]);

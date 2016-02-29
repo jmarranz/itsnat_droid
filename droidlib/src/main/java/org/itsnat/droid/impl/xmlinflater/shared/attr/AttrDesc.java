@@ -67,14 +67,14 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         page.getItsNatDocImpl().downloadResources(attr, task);
     }
 
-    public int getIdentifierAddIfNecessary(String value, Context ctx)
+    public int getIdentifierAddIfNecessary(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getIdentifierAddIfNecessary(value, ctx);
+        return getXMLInflateRegistry().getIdentifierAddIfNecessary(attr, xmlInflater);
     }
 
-    public int getIdentifier(String attrValue, Context ctx)
+    public int getIdentifier(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getIdentifier(attrValue, ctx);
+        return getXMLInflateRegistry().getIdentifier(attr,xmlInflater);
     }
 
     /*

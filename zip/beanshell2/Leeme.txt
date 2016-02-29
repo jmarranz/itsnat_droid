@@ -2,13 +2,18 @@
 beanshell2 fork of BeanShell
 --------------------------------
 
-https://code.google.com/p/beanshell2/  Es posible que ya no exista, Google cierra totalmente Google Code
+https://code.google.com/p/beanshell2/  
+https://code.google.com/archive/p/beanshell2/  Es posible que ya no exista, Google cierra totalmente Google Code
 
-Se ha llevado el código fuente a: 
+
+Se ha llevado el código fuente (fork) oficialmente (se enlaza en la pag de code.google) a: 
 
 https://github.com/pejobo/beanshell2 
 
-pero ahí no hay apenas documentación.
+pero ahí no hay apenas documentación, aunque los ejemplos de scripts del código fuente son muy ilustrativos.
+
+Lo positivo de v2.1 (> 2.0) es que se pueden crear clases Java normales en código script, en 2.0 apenas métodos estáticos (sin necesidad de poner static).
+
 
 Última versión:
 
@@ -16,3 +21,8 @@ Feb. 20, 2014
 
 Update v2.1.8
 fixes #97, #98, and #99 - all variants of a regression introduced with #88
+
+
+
+
+

@@ -420,7 +420,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest5);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest1);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             assertTrue(compTextView.getText().toString().startsWith("Device Data to Test Filters:\n"));
@@ -447,7 +447,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest6);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest2);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int smallestScreenWidthDp = ctx.getResources().getConfiguration().smallestScreenWidthDp;
@@ -473,7 +473,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest7);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest3);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int screenWidthDp = ctx.getResources().getConfiguration().screenWidthDp;
@@ -499,7 +499,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest8);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest4);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int screenHeightDp = ctx.getResources().getConfiguration().screenHeightDp;
@@ -525,7 +525,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest9);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest5);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int screenLayout = ctx.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
@@ -551,7 +551,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest10);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest6);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int screenLayout = ctx.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_LONG_MASK;
@@ -579,7 +579,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest11);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest7);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int orientation = ctx.getResources().getConfiguration().orientation;
@@ -607,7 +607,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest12);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest8);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int uiModeType = ctx.getResources().getConfiguration().uiMode & Configuration.UI_MODE_TYPE_MASK;
@@ -635,7 +635,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest13);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest9);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             // El modo night mode podríamos testearlo con un método http://developer.android.com/reference/android/app/UiModeManager.html pero es muy obvio que no vale la pena, testeamos sólo el notnight
@@ -664,7 +664,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest14);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest10);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             // Testear en el caso compilado es más complicado de lo esperado pues si tenemos un /values sin prefijo y un /values-xxhdpi, coge el /values-xxhdpi aunque sea un xhdpi (menor)
@@ -713,7 +713,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest15);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest11);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int touchscreen = ctx.getResources().getConfiguration().touchscreen;
@@ -740,7 +740,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest16);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest12);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int keyboard = ctx.getResources().getConfiguration().keyboard;
@@ -767,7 +767,7 @@ public class TestLocalLayout1
                             final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                             final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                            assertEquals(compTextView.getId(), R.id.textViewTest17);
+                            assertEquals(compTextView.getId(), R.id.textViewFilterTest13);
                             assertEquals(compTextView.getId(), parsedTextView.getId());
 
                             int navigation = ctx.getResources().getConfiguration().navigation;

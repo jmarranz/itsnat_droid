@@ -108,7 +108,7 @@
                         android:layout_height="match_parent">
 
 
-            <TextView android:id="@+id/textViewTest5"
+            <TextView android:id="@+id/textViewFilterTest1"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="Device Data to Test Filters:\n
@@ -128,89 +128,89 @@ Android TV uimt: television"
                       android:textSize="10dp"
                       android:background="#dddddd" />
 
-            <TextView android:id="@+id/textViewTest6"
+            <TextView android:id="@+id/textViewFilterTest2"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_smallestwithdp"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest5" />
+                      android:layout_below="@id/textViewFilterTest1" />
 
-            <TextView android:id="@+id/textViewTest7"
+            <TextView android:id="@+id/textViewFilterTest3"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_screenwidthdp"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest6" />
+                      android:layout_below="@id/textViewFilterTest2" />
 
-            <TextView android:id="@+id/textViewTest8"
+            <TextView android:id="@+id/textViewFilterTest4"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_screenheightdp"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest7" />
+                      android:layout_below="@id/textViewFilterTest3" />
 
-            <TextView android:id="@+id/textViewTest9"
+            <TextView android:id="@+id/textViewFilterTest5"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_screensize"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest8" />
+                      android:layout_below="@id/textViewFilterTest4" />
 
-            <TextView android:id="@+id/textViewTest10"
+            <TextView android:id="@+id/textViewFilterTest6"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_screenaspect"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest9" />
+                      android:layout_below="@id/textViewFilterTest5" />
 
-            <TextView android:id="@+id/textViewTest11"
+            <TextView android:id="@+id/textViewFilterTest7"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_screenorientation"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest10" />
+                      android:layout_below="@id/textViewFilterTest6" />
 
-            <TextView android:id="@+id/textViewTest12"
+            <TextView android:id="@+id/textViewFilterTest8"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_uimodetype"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest11" />
+                      android:layout_below="@id/textViewFilterTest7" />
 
-            <TextView android:id="@+id/textViewTest13"
+            <TextView android:id="@+id/textViewFilterTest9"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_uimodenight"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest12" />
+                      android:layout_below="@id/textViewFilterTest8" />
 
-            <TextView android:id="@+id/textViewTest14"
+            <TextView android:id="@+id/textViewFilterTest10"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_screenpixeldensity"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest13" />
+                      android:layout_below="@id/textViewFilterTest9" />
 
-            <TextView android:id="@+id/textViewTest15"
+            <TextView android:id="@+id/textViewFilterTest11"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_touchscreentype"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest14" />
+                      android:layout_below="@id/textViewFilterTest10" />
 
-            <TextView android:id="@+id/textViewTest16"
+            <TextView android:id="@+id/textViewFilterTest12"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_primarytextinput"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest15" />
+                      android:layout_below="@id/textViewFilterTest11" />
 
-            <TextView android:id="@+id/textViewTest17"
+            <TextView android:id="@+id/textViewFilterTest13"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/test_filter_primnontouchnav"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest16" />
+                      android:layout_below="@id/textViewFilterTest12" />
 
         </RelativeLayout>
 

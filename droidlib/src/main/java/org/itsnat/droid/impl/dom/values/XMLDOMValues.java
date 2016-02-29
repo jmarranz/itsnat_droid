@@ -15,6 +15,7 @@ public class XMLDOMValues extends XMLDOM
     public final static String TYPE_DIMEN = "dimen";
     public final static String TYPE_DRAWABLE = "drawable";
     public final static String TYPE_FLOAT = "float";
+    public final static String TYPE_ID = "id";
     public final static String TYPE_INTEGER = "integer";
     public final static String TYPE_INTEGER_ARRAY = "integer-array";
     public final static String TYPE_LAYOUT = "layout";
@@ -33,6 +34,7 @@ public class XMLDOMValues extends XMLDOM
         resourceTypeValues.add(TYPE_DIMEN);
         resourceTypeValues.add(TYPE_DRAWABLE);
         resourceTypeValues.add(TYPE_FLOAT);
+        resourceTypeValues.add(TYPE_ID);
         resourceTypeValues.add(TYPE_INTEGER);
         resourceTypeValues.add(TYPE_INTEGER_ARRAY);
         resourceTypeValues.add(TYPE_LAYOUT);

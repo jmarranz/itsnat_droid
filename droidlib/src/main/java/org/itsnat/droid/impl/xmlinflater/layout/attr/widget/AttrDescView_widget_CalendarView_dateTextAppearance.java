@@ -45,7 +45,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int dateTextAppearanceResId = getIdentifier(attr.getValue(),attrCtx.getContext());
+        int dateTextAppearanceResId = getIdentifier(attr,attrCtx.getXMLInflaterLayout());
 
         if (dateTextAppearanceResId <= 0) dateTextAppearanceResId = fieldTextAppearance_Small.get(null); // Valor por defecto
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by jmarranz on 12/11/14.
@@ -42,38 +43,56 @@ public class HttpResourceDownloader
     private void downloadResources(List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         int len = attrRemoteList.size();
+        DOMAttrRemote[] attrRemoteArray = attrRemoteList.toArray(new DOMAttrRemote[len]);
         final Thread[] threadArray = new Thread[len];
         final Exception[] exList = new Exception[len];
 
+        int cores;
+        try { cores = Runtime.getRuntime().availableProcessors(); } // Un Nexus 4 devuelve 4 processors = cores
+        catch(Exception ex) { cores = 8; }
+        if (cores < 1) cores = 8; // Pase lo que pase ponemos un valor coherente
+
+        int threadsPerCore = 5;  // Para evitar demasiados hilos concurrentes a la vez, sobre t_odo por el tema de la memoria
+        int maxThreads = cores * threadsPerCore;
+
+        int threadConcurrentGroups = len / maxThreads + 1; // El +1 es para redondear hacia arriba, el if (j2 >= len) j2 = len; ya ajustará el valor exacto
+
+        int j1;
+        int j2;
+        for(int i = 0; i < threadConcurrentGroups; i++)
         {
-            int i = 0;
+            j1 = i * maxThreads;
+            j2 = j1 + maxThreads;
+
+            if (j1 >= len) break; // Sobra pero para que quede claro
+            if (j2 >= len) j2 = len;
+
             final boolean[] stop = new boolean[1];
-            for (DOMAttrRemote attr : attrRemoteList)
+            for (int k = j1; k < j2; k++)
             {
-                Thread thread = downloadResource(attr, stop, i,resultList, exList);
-                threadArray[i] = thread;
-                i++;
+                DOMAttrRemote attr = attrRemoteArray[k];
+                Runnable task = createTaskToDownloadResource(attr, stop, k, resultList, exList);
+                Thread thread = new Thread(task);
+                thread.start();  // Alternativa: ThreadPoolExecutor, aunque realmente el que asigna cores a threads es Linux a bajo nivel
+                threadArray[k] = thread;
+            }
+
+            for (int k = j1; k < j2; k++)
+            {
+                threadArray[k].join();
+            }
+
+            for (int k = j1; k < j2; k++)
+            {
+                if (exList[k] != null) throw exList[k]; // La primera que encontremos (es raro que haya más de una)
             }
         }
 
-        {
-            for (int i = 0; i < threadArray.length; i++)
-            {
-                threadArray[i].join();
-            }
-
-            for (int i = 0; i < exList.length; i++)
-            {
-                if (exList[i] != null)
-                    throw exList[i]; // La primera que encontremos (es raro que haya más de una)
-            }
-        }
     }
 
-    private Thread downloadResource(final DOMAttrRemote attr, final boolean[] stop, final int i,
-                                    final List<HttpRequestResultOKImpl> resultList,final Exception[] exList) throws Exception
+    private Runnable createTaskToDownloadResource(final DOMAttrRemote attr, final boolean[] stop, final int i, final List<HttpRequestResultOKImpl> resultList, final Exception[] exList) throws Exception
     {
-        Thread thread = new Thread()
+        Runnable task = new Runnable()
         {
             public void run()
             {
@@ -103,8 +122,8 @@ public class HttpResourceDownloader
                 }
             }
         };
-        thread.start();
-        return thread;
+
+        return task;
     }
 
     private void processHttpRequestResultResource(String absURL,DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList) throws Exception
