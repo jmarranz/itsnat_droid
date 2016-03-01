@@ -85,7 +85,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     private static RequestPropertyMap getDefaultRequestPropertyMap()
     {
         RequestPropertyMap requestPropertyMap = new RequestPropertyMap();
-        // Por ahora nada
+        requestPropertyMap.setProperty("Accept-Encoding", "gzip"); // Si el programador no lo quiere siempre puede hacer removeProperty desde la API pública
         return requestPropertyMap;
     }
 

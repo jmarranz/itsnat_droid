@@ -41,7 +41,10 @@ public abstract class DOMAttrDynamic extends DOMAttr
 
         int posType = value.indexOf(':');
         int posPath = value.indexOf('/');
-        this.resType = value.substring(posType + 1,posPath); // Ej. "drawable"
+        String resTypeTmp = value.substring(posType + 1,posPath); // Ej. "drawable"
+        //if (resTypeTmp.equals("+id"))
+        //    resTypeTmp = resTypeTmp.substring(1); // Quitamos el +
+        this.resType = resTypeTmp;
 
         String locationTmp;
         if (XMLDOMValues.isResourceTypeValues(resType))

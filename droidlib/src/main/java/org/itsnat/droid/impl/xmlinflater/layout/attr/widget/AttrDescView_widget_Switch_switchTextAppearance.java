@@ -21,7 +21,7 @@ public class AttrDescView_widget_Switch_switchTextAppearance extends AttrDesc<Cl
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int resId = getIdentifier(attr,attrCtx.getXMLInflaterLayout());
+        int resId = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
 
         ((Switch)view).setSwitchTextAppearance(attrCtx.getContext(), resId);
     }

@@ -78,7 +78,7 @@
                       android:textAppearance="?android:attr/textAppearanceMedium"
                       style="@style/test_style_layout_below" />
 
-            <TextView android:id="@+id/textViewTest3"
+            <TextView android:id="@+id/test_id_textviewtest3"
                       android:text="@string/test_string_textview_text"
                       android:textSize="@dimen/test_dimen_textview_textSize"
                       android:textColor="@color/test_color_textview_textColor"
@@ -90,7 +90,7 @@
                       android:text="Text size=smaller,color=red,padding"
                       android:textColor="@color/test_color_textview_textColor"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest3"
+                      android:layout_below="@id/test_id_textviewtest3"
                       style="@style/test_style_textview_compiled" />
 
         </RelativeLayout>

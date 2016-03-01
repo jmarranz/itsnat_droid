@@ -66,6 +66,9 @@ public class ClassDescValuesMgr extends ClassDescMgr<ClassDescValues>
         ClassDescValuesItemNormal id = new ClassDescValuesItemNormal(this,TYPE_ID);
         addClassDesc(id);
 
+        //ClassDescValuesItemNormal idPlus = new ClassDescValuesItemNormal(this,TYPE_ID_PLUS);
+        //addClassDesc(idPlus);
+
         ClassDescValuesItemNormal integer = new ClassDescValuesItemNormal(this,TYPE_INTEGER);
         addClassDesc(integer);
 

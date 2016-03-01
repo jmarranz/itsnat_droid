@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,22 +66,11 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         page.getItsNatDocImpl().downloadResources(attr, task);
     }
 
-    public int getIdentifierAddIfNecessary(DOMAttr attr,XMLInflater xmlInflater)
+    public int getIdentifier(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getIdentifierAddIfNecessary(attr, xmlInflater);
+        return getXMLInflateRegistry().getIdentifier(attr, xmlInflater);
     }
 
-    public int getIdentifier(DOMAttr attr,XMLInflater xmlInflater)
-    {
-        return getXMLInflateRegistry().getIdentifier(attr,xmlInflater);
-    }
-
-    /*
-    public int getIdentifier(String value, Context ctx,boolean throwErr)
-    {
-        return getXMLInflateRegistry().getIdentifier(value, ctx,throwErr);
-    }
-*/
     public int getInteger(DOMAttr attr,XMLInflater xmlInflater)
     {
         return getXMLInflateRegistry().getInteger(attr,xmlInflater);

@@ -23,7 +23,6 @@ import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;

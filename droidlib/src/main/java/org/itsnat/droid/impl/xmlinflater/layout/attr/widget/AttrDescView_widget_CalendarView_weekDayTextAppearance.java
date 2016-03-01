@@ -30,7 +30,7 @@ public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends Attr
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int id = getIdentifier(attr,attrCtx.getXMLInflaterLayout());
+        int id = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
 
         method.invoke(view, id);
     }

@@ -1,5 +1,8 @@
 <resources>
-    <!-- Variantes: <item name="..." format="type">...</item> -->
+    <!-- Variantes: <item name="..." type="...">...</item> o <item name="..." type="..." format="...">...</item> -->
+
+    <item name="test_id_textviewtest3" type="id">textViewTest3</item>
+
     <string name="test_string_textview_text"><![CDATA[Text size=15.3dp,
     color=red,padding]]></string>
     <dimen  name="test_dimen_textview_textSize">15.3dp</dimen>

@@ -130,30 +130,56 @@ public class XMLInflateRegistry
         return newId;
     }
 
-    public int getIdentifierAddIfNecessary(DOMAttr attr,XMLInflater xmlInflater)
+    public int getIdentifier(DOMAttr attr, XMLInflater xmlInflater)
     {
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            String type = attrDyn.getResourceType();
             ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getIdentifierAddIfNecessary(attrDyn.getValuesResourceName(), xmlInflater);
+            return elementResources.getIdentifier(attrDyn.getValuesResourceName(), type, xmlInflater);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
             Context ctx = xmlInflater.getContext();
             String value = attr.getValue();
-            return getIdentifierAddIfNecessaryCompiled(value, ctx);
+            return getIdentifierAddIfNecessaryCompiled(value,null, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private int getIdentifierAddIfNecessaryCompiled(String value, Context ctx)
+    public int getIdentifier(DOMAttr attr, String type, XMLInflater xmlInflater)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            // Es raro que pase por aquí, sería cuando un <item type="id"> en un XML values tiene como valor un path remoto/dinámico
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            type = attrDyn.getResourceType();
+            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
+            return elementResources.getIdentifier(attrDyn.getValuesResourceName(), type, xmlInflater);
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            Context ctx = xmlInflater.getContext();
+            String value = attr.getValue();
+            return getIdentifierAddIfNecessaryCompiled(value,type, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private int getIdentifierAddIfNecessaryCompiled(String value,String type, Context ctx)
     {
         // Procesamos aquí los casos de "@+id/...", la razón es que cualquier atributo que referencie un id (más allá
         // de android:id) puede registrar un nuevo atributo lo cual es útil si el android:id como tal está después,
         // después en android:id ya no hace falta que sea "@+id/...".
         // http://stackoverflow.com/questions/11029635/android-radiogroup-checkedbutton-property
-        int id = 0;
+        if (("+id".equals(type) || "id".equals(type)) && (!value.startsWith("@+id/") && !value.startsWith("@id/")))
+        {
+            if ("+id".equals(type)) value = "@+id/" + value;
+            else value = "@id/" + value;
+        }
+
+        int id;
         if (value.startsWith("@+id/") || value.startsWith("@id/")) // Si fuera el caso de "@+mypackage:id/name" ese caso no lo soportamos, no lo he visto nunca aunque en teoría está sintácticamente permitido
         {
             id = getIdentifierCompiled(value, ctx, false); // Tiene prioridad el recurso de Android, pues para qué generar un id nuevo si ya existe o bien ya fue registrado dinámicamente
@@ -169,23 +195,6 @@ public class XMLInflateRegistry
         }
         else id = getIdentifierCompiled(value, ctx);
         return id;
-    }
-
-    public int getIdentifier(DOMAttr attr,XMLInflater xmlInflater)
-    {
-        if (attr instanceof DOMAttrDynamic)
-        {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getIdentifier(attrDyn.getValuesResourceName(), xmlInflater);
-        }
-        else if (attr instanceof DOMAttrCompiledResource)
-        {
-            Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getIdentifierCompiled(value, ctx);
-        }
-        else throw MiscUtil.internalError();
     }
 
     public int getIdentifierCompiled(String attrValue, Context ctx)

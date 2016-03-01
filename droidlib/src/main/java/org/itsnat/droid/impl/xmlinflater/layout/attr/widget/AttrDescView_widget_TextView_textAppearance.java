@@ -21,7 +21,7 @@ public class AttrDescView_widget_TextView_textAppearance extends AttrDesc<ClassD
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int resId = getIdentifier(attr,attrCtx.getXMLInflaterLayout());
+        int resId = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
 
         ((TextView)view).setTextAppearance(attrCtx.getContext(),resId);
     }

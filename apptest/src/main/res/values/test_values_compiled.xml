@@ -1,5 +1,8 @@
 <resources>
     <!-- Variantes: <item name="..." type="...">...</item> o <item name="..." type="..." format="...">...</item> -->
+
+    <item name="test_id_textviewtest3" type="id">textViewTest3</item>
+
     <string name="test_string_textview_text"><![CDATA[Text size=15.3dp,
     color=red,padding]]></string>
     <dimen  name="test_dimen_textview_textSize">15.3dp</dimen>
@@ -13,7 +16,6 @@
     <item name="test_layout_include_3" type="layout">@layout/test_include_3_compiled</item>
     <item name="test_float_textview_lineSpacingMultiplier" type="dimen" format="float">1.2</item> <!-- http://stackoverflow.com/questions/3282390/add-floating-point-value-to-android-resources-values -->
     <item name="test_drawable_scaledrawable_scaleWidth" type="dimen" >60.3%</item> <!-- Alternative in this case:  <string name="test_drawable_scaledrawable_scaleWidth">60.3%</string> -->
-
 
     <style name="test_style_textview_compiled" parent="android:Widget.DeviceDefault.TextView">
         <item name="android:layout_width">match_parent</item>

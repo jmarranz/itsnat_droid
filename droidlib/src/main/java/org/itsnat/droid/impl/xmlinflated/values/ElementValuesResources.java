@@ -112,18 +112,11 @@ public class ElementValuesResources extends ElementValues
         return type + "#" + name;
     }
 
-    public int getIdentifierAddIfNecessary(String name,XMLInflater xmlInflater)
+    public int getIdentifier(String name, String type, XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ID,name);
         XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
-        return xmlInflateRegistry.getIdentifierAddIfNecessary(valueAsDOMAttr, xmlInflater);
-    }
-
-    public int getIdentifier(String name,XMLInflater xmlInflater)
-    {
-        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ID,name);
-        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
-        return xmlInflateRegistry.getIdentifier(valueAsDOMAttr, xmlInflater);
+        return xmlInflateRegistry.getIdentifier(valueAsDOMAttr, type, xmlInflater);
     }
 
     public boolean getBoolean(String name,XMLInflater xmlInflater)

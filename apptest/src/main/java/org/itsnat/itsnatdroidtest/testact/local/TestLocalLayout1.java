@@ -58,7 +58,10 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidRoot;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
@@ -319,8 +322,10 @@ public class TestLocalLayout1
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                    assertEquals(compTextView.getId(), R.id.textViewTest3);
-                    assertEquals(compTextView.getId(), parsedTextView.getId());
+                    assertEquals(compTextView.getId(), R.id.test_id_textviewtest3);
+                    //assertEquals(compTextView.getId(), parsedTextView.getId());
+                    ItsNatDroidImpl itsNatDroid = (ItsNatDroidImpl)ItsNatDroidRoot.get();
+                    assertEquals(parsedTextView.getId(),itsNatDroid.getXMLInflateRegistry().findViewIdDynamicallyAdded("textViewTest3"));
 
                     assertEquals(compTextView.getText(), "Text size=15.3dp, color=red,padding");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
