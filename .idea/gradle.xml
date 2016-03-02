@@ -11,7 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/apptest" />
-            <option value="$PROJECT_DIR$/droidlib" />
+            <option value="$PROJECT_DIR$/itsnatdroid" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,15 +1,11 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 15
-    buildToolsVersion '23.0.2'
-
+    buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId "org.itsnat.itsnatdroidtest"
         minSdkVersion 15
         targetSdkVersion 15
-        //minSdkVersion 22
-        //targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -23,12 +19,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
     }
+    productFlavors {
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':itsnatdroid')
+    // compile 'com.android.support:appcompat-v7:23.2.0'
+
     // You must install or update the Support Repository through the SDK manager to use this dependency.
-    compile 'com.android.support:support-v13:23.0.1'
-    // No actualizar a 23.1
+    // compile 'com.android.support:support-v4:23.0.1'
+    // compile 'org.beanshell:bsh:2.0b5'
+    compile 'org.apache-extras.beanshell:bsh:2.0b6'  // https://github.com/beanshell/beanshell
+    //compile files('libs/bsh-core-2.0b4.jar')
 }

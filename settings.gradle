@@ -1,1 +1,1 @@
-include ':app', ':droidlib', ':apptest'
+include ':app', ':apptest', ':itsnatdroid'
