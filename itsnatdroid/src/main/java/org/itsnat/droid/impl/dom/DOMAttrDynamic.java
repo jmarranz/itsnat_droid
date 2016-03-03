@@ -162,6 +162,10 @@ public abstract class DOMAttrDynamic extends DOMAttr
         // http://developer.android.com/guide/topics/resources/providing-resources.html (el orden de la tabla 2 es el orden de los sufijos en el caso de múltiples sufijos)
         // http://developer.android.com/guide/topics/resources/localization.html
 
+        // Los filtros de ItsNat Droid tienen dos modos de declaración y por tanto de funcionamiento:
+        // 1) Caso con valor explícito: ej {lg-es}. Se detecta que hay valor especificado (el "es") y se reemplaza por el valor si se da la regla: "-es"  o por nada ""
+        // 2) Caso sin valor explícito: ej {lg-}. Se detecta que NO hay valor especificado y se reemplaza por el valor actual del dispositivo: "-es"
+
         String suffix = "}";
 
         int posToSearchMore = 0;
@@ -183,16 +187,22 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String lang = location.substring(posStart + prefix.length(), posEnd);
                 String currentLang = configuration.locale.getLanguage();
-                if (currentLang.equals(lang))
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + lang + location.substring(posEnd + 1);
+                    location = location.substring(0, posStart) + "-" + currentLang + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String lang = location.substring(posStart + prefix.length(), posEnd);
+                    if (currentLang.equals(lang))
+                    {
+                        location = location.substring(0, posStart) + "-" + lang + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -212,16 +222,23 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String region = location.substring(posStart + prefix.length() + 1 /* el +1 es la r de rES */, posEnd);
                 String currentRegion = configuration.locale.getCountry();
-                if (currentRegion.equals(region))
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-r" + region + location.substring(posEnd + 1);
+                    location = location.substring(0, posStart) + "-r" + currentRegion + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String region = location.substring(posStart + prefix.length() + 1 /* el +1 es la r de rES */, posEnd);
+                    if (currentRegion.equals(region))
+                    {
+                        location = location.substring(0, posStart) + "-r" + region + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -246,25 +263,27 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String smallestScreenWidthDpStr  = location.substring(posStart + prefix.length() + 2, posEnd - 2); // El +2 es para quitar el "sw" y el -2 es para quitar el "dp" y que smallestScreenWidthDpStr sea un entero
-                int smallestScreenWidthDp;
-                try
+                int deviceSmallestScreenWidthDp = configuration.smallestScreenWidthDp;
+                if (posEnd == posStart + prefix.length())
                 {
-                    smallestScreenWidthDp = Integer.parseInt(smallestScreenWidthDpStr);
-                }
-                catch (Exception ex)
-                {
-                    throw new ItsNatDroidException("Bad smallest width suffix: " + smallestScreenWidthDpStr);
-                }
-
-                if (configuration.smallestScreenWidthDp >= smallestScreenWidthDp)
-                {
-                    location = location.substring(0, posStart) + "-sw" + smallestScreenWidthDp + "dp" + location.substring(posEnd + 1);
+                    location = location.substring(0, posStart) + "-sw" + deviceSmallestScreenWidthDp + "dp" + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String smallestScreenWidthDpStr = location.substring(posStart + prefix.length() + 2, posEnd - 2); // El +2 es para quitar el "sw" y el -2 es para quitar el "dp" y que smallestScreenWidthDpStr sea un entero
+                    int smallestScreenWidthDp;
+                    try { smallestScreenWidthDp = Integer.parseInt(smallestScreenWidthDpStr); }
+                    catch (Exception ex) { throw new ItsNatDroidException("Bad smallest width suffix: " + smallestScreenWidthDpStr); }
+
+                    if (deviceSmallestScreenWidthDp >= smallestScreenWidthDp)
+                    {
+                        location = location.substring(0, posStart) + "-sw" + smallestScreenWidthDp + "dp" + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -283,26 +302,26 @@ public abstract class DOMAttrDynamic extends DOMAttr
             {
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
-
-                String screenWidthDpStr  = location.substring(posStart + prefix.length() + 1, posEnd - 2); // El +1 es para quitar el "w" y el -2 es para quitar el "dp" y que screenWidthDp sea un entero
-                int screenWidthDp;
-                try
+                int deviceScreenWidthDp = configuration.screenWidthDp;
+                if (posEnd == posStart + prefix.length())
                 {
-                    screenWidthDp = Integer.parseInt(screenWidthDpStr);
-                }
-                catch (Exception ex)
-                {
-                    throw new ItsNatDroidException("Bad screen width dp suffix: " + screenWidthDpStr);
-                }
-
-                if (configuration.screenWidthDp >= screenWidthDp)
-                {
-                    location = location.substring(0, posStart) + "-w" + screenWidthDp + "dp" + location.substring(posEnd + 1);
+                    location = location.substring(0, posStart) + "-w" + deviceScreenWidthDp + "dp" + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String screenWidthDpStr = location.substring(posStart + prefix.length() + 1, posEnd - 2); // El +1 es para quitar el "w" y el -2 es para quitar el "dp" y que screenWidthDp sea un entero
+                    int screenWidthDp;
+                    try { screenWidthDp = Integer.parseInt(screenWidthDpStr); }
+                    catch (Exception ex) { throw new ItsNatDroidException("Bad screen width dp suffix: " + screenWidthDpStr); }
+
+                    if (deviceScreenWidthDp >= screenWidthDp)
+                    {
+                        location = location.substring(0, posStart) + "-w" + screenWidthDp + "dp" + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -322,27 +341,27 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String screenHeightDpStr  = location.substring(posStart + prefix.length() + 1, posEnd - 2); // El +1 es para quitar el "h" y el -2 es para quitar el "dp" y que screenWidthDp sea un entero
-                int screenHeightDp;
-                try
+                int deviceScreenHeightDp = configuration.screenHeightDp;
+                if (posEnd == posStart + prefix.length())
                 {
-                    screenHeightDp = Integer.parseInt(screenHeightDpStr);
-                }
-                catch (Exception ex)
-                {
-                    throw new ItsNatDroidException("Bad screen height dp suffix: " + screenHeightDpStr);
-                }
-
-                if (configuration.screenHeightDp >= screenHeightDp)
-                {
-                    location = location.substring(0, posStart) + "-h" + screenHeightDp + "dp" + location.substring(posEnd + 1);
+                    location = location.substring(0, posStart) + "-h" + deviceScreenHeightDp + "dp" + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
-                }
+                    String screenHeightDpStr = location.substring(posStart + prefix.length() + 1, posEnd - 2); // El +1 es para quitar el "h" y el -2 es para quitar el "dp" y que screenWidthDp sea un entero
+                    int screenHeightDp;
+                    try { screenHeightDp = Integer.parseInt(screenHeightDpStr); }
+                    catch (Exception ex) { throw new ItsNatDroidException("Bad screen height dp suffix: " + screenHeightDpStr); }
 
+                    if (deviceScreenHeightDp >= screenHeightDp)
+                    {
+                        location = location.substring(0, posStart) + "-h" + screenHeightDp + "dp" + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
+                }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
             }
@@ -361,29 +380,44 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String screenLayoutStr  = location.substring(posStart + prefix.length(), posEnd);
-                int screenLayout;
-                if      ("small".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_SMALL;
-                else if ("normal".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_NORMAL;
-                else if ("large".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
-                else if ("xlarge".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_XLARGE;
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + screenLayoutStr);
-
                 int deviceScreenLayout = configuration.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-                if (deviceScreenLayout >= screenLayout)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + screenLayoutStr + location.substring(posEnd + 1);
+                    String deviceScreenLayoutStr;
+                    switch(deviceScreenLayout)
+                    {
+                        case Configuration.SCREENLAYOUT_SIZE_SMALL: deviceScreenLayoutStr = "small"; break;
+                        case Configuration.SCREENLAYOUT_SIZE_NORMAL: deviceScreenLayoutStr = "normal"; break;
+                        case Configuration.SCREENLAYOUT_SIZE_LARGE: deviceScreenLayoutStr = "large"; break;
+                        case Configuration.SCREENLAYOUT_SIZE_XLARGE: deviceScreenLayoutStr = "xlarge"; break;
+                        default: throw new ItsNatDroidException("Unexpected or unsupported screen size value: " + deviceScreenLayout);
+                    }
+
+                    location = location.substring(0, posStart) + "-" + deviceScreenLayoutStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String screenLayoutStr = location.substring(posStart + prefix.length(), posEnd);
+                    int screenLayout;
+                    if ("small".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_SMALL;
+                    else if ("normal".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_NORMAL;
+                    else if ("large".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
+                    else if ("xlarge".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_SIZE_XLARGE;
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + screenLayoutStr);
+
+                    if (deviceScreenLayout >= screenLayout)
+                    {
+                        location = location.substring(0, posStart) + "-" + screenLayoutStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
             }
         }
-
 
 
         if (location.indexOf("{",posToSearchMore) == -1) // Todos los filtros empiezan de la misma manera, evitamos así buscar a lo tonto
@@ -399,21 +433,36 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String screenLayoutStr  = location.substring(posStart + prefix.length(), posEnd);
-                int screenLayout;
-                if      ("notlong".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_LONG_NO;
-                else if ("long".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_LONG_YES;
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + screenLayoutStr);
-
                 int deviceScreenLayout = configuration.screenLayout & Configuration.SCREENLAYOUT_LONG_MASK;
-                if (deviceScreenLayout >= screenLayout)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + screenLayoutStr + location.substring(posEnd + 1);
+                    String deviceScreenLayoutStr;
+                    switch(deviceScreenLayout)
+                    {
+                        case Configuration.SCREENLAYOUT_LONG_NO: deviceScreenLayoutStr = "notlong"; break;
+                        case Configuration.SCREENLAYOUT_LONG_YES: deviceScreenLayoutStr = "long"; break;
+                        default: throw new ItsNatDroidException("Unexpected or unsupported screen aspect value: " + deviceScreenLayout);
+                    }
+
+                    location = location.substring(0, posStart) + "-" + deviceScreenLayoutStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String screenLayoutStr = location.substring(posStart + prefix.length(), posEnd);
+                    int screenLayout;
+                    if ("notlong".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_LONG_NO;
+                    else if ("long".equals(screenLayoutStr)) screenLayout = Configuration.SCREENLAYOUT_LONG_YES;
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + screenLayoutStr);
+
+                    if (deviceScreenLayout >= screenLayout)
+                    {
+                        location = location.substring(0, posStart) + "-" + screenLayoutStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        // Quitamos el sufijo pues no se usa
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -437,21 +486,35 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String orientationStr  = location.substring(posStart + prefix.length(), posEnd);
-                int orientation;
-                if      ("port".equals(orientationStr)) orientation = Configuration.ORIENTATION_PORTRAIT;
-                else if ("land".equals(orientationStr)) orientation = Configuration.ORIENTATION_LANDSCAPE;
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + orientationStr); // Existe un ORIENTATION_SQUARE declarado en level 15 pero la doc oficial dice que está deprecado en level 16 http://developer.android.com/reference/android/content/res/Configuration.html#ORIENTATION_SQUARE
-
                 int deviceOrientation = configuration.orientation;
-                if (deviceOrientation == orientation)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + orientationStr + location.substring(posEnd + 1);
+                    String deviceOrientationStr;
+                    switch(deviceOrientation)
+                    {
+                        case Configuration.ORIENTATION_PORTRAIT: deviceOrientationStr = "port"; break;
+                        case Configuration.ORIENTATION_LANDSCAPE: deviceOrientationStr = "land"; break;
+                        default: throw new ItsNatDroidException("Unexpected or unsupported screen orientation value: " + deviceOrientation);
+                    }
+
+                    location = location.substring(0, posStart) + "-" + deviceOrientationStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String orientationStr = location.substring(posStart + prefix.length(), posEnd);
+                    int orientation;
+                    if ("port".equals(orientationStr)) orientation = Configuration.ORIENTATION_PORTRAIT;
+                    else if ("land".equals(orientationStr)) orientation = Configuration.ORIENTATION_LANDSCAPE;
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + orientationStr); // Existe un ORIENTATION_SQUARE declarado en level 15 pero la doc oficial dice que está deprecado en level 16 http://developer.android.com/reference/android/content/res/Configuration.html#ORIENTATION_SQUARE
+
+                    if (deviceOrientation == orientation)
+                    {
+                        location = location.substring(0, posStart) + "-" + orientationStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -471,23 +534,39 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String uimtStr  = location.substring(posStart + prefix.length(), posEnd);
-                int uimt;
-                if      ("normal".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_NORMAL; // Los móviles, tabletas etc son NORMAL
-                else if ("desk".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_DESK;
-                else if ("car".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_CAR;
-                else if ("television".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_TELEVISION;
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + uimtStr); // En versiones superiores hay más (appliance, watch)
-
                 int deviceUiModeType = configuration.uiMode & Configuration.UI_MODE_TYPE_MASK;
-                if (deviceUiModeType == uimt)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + uimtStr + location.substring(posEnd + 1);
+                    String deviceUiModeTypeStr;
+                    switch(deviceUiModeType)
+                    {
+                        case Configuration.UI_MODE_TYPE_NORMAL: deviceUiModeTypeStr = "normal"; break;
+                        case Configuration.UI_MODE_TYPE_DESK: deviceUiModeTypeStr = "desk"; break;
+                        case Configuration.UI_MODE_TYPE_CAR: deviceUiModeTypeStr = "car"; break;
+                        case Configuration.UI_MODE_TYPE_TELEVISION: deviceUiModeTypeStr = "television"; break;
+                        default: throw new ItsNatDroidException("Unexpected or unsupported UI Mode Type value: " + deviceUiModeType);
+                    }
+
+                    location = location.substring(0, posStart) + "-" + deviceUiModeTypeStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String uimtStr = location.substring(posStart + prefix.length(), posEnd);
+                    int uimt;
+                    if ("normal".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_NORMAL; // Los móviles, tabletas etc son NORMAL
+                    else if ("desk".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_DESK;
+                    else if ("car".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_CAR;
+                    else if ("television".equals(uimtStr)) uimt = Configuration.UI_MODE_TYPE_TELEVISION;
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + uimtStr); // En versiones superiores hay más (appliance, watch)
+
+                    if (deviceUiModeType == uimt)
+                    {
+                        location = location.substring(0, posStart) + "-" + uimtStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -507,21 +586,35 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String uimnStr  = location.substring(posStart + prefix.length(), posEnd);
-                int uimn;
-                if      ("notnight".equals(uimnStr)) uimn = Configuration.UI_MODE_NIGHT_NO;
-                else if ("night".equals(uimnStr)) uimn = Configuration.UI_MODE_NIGHT_YES;
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + uimnStr);
-
                 int deviceUiModeNight = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
-                if (deviceUiModeNight == uimn)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + uimnStr + location.substring(posEnd + 1);
+                    String deviceUimnStr;
+                    switch(deviceUiModeNight)
+                    {
+                        case Configuration.UI_MODE_NIGHT_NO: deviceUimnStr = "notnight"; break;
+                        case Configuration.UI_MODE_NIGHT_YES: deviceUimnStr = "night"; break;
+                        default: throw new ItsNatDroidException("Unexpected or unsupported UI Mode Night value: " + deviceUiModeNight);
+                    }
+
+                    location = location.substring(0, posStart) + "-" + deviceUimnStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String uimnStr = location.substring(posStart + prefix.length(), posEnd);
+                    int uimn;
+                    if ("notnight".equals(uimnStr)) uimn = Configuration.UI_MODE_NIGHT_NO;
+                    else if ("night".equals(uimnStr)) uimn = Configuration.UI_MODE_NIGHT_YES;
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + uimnStr);
+
+                    if (deviceUiModeNight == uimn)
+                    {
+                        location = location.substring(0, posStart) + "-" + uimnStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -540,28 +633,54 @@ public abstract class DOMAttrDynamic extends DOMAttr
             {
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
-
-                String densityDpiStr  = location.substring(posStart + prefix.length(), posEnd);
-                int densityDpi;
-                if      ("ldpi".equals(densityDpiStr)) densityDpi = 120; // low-density
-                else if ("mdpi".equals(densityDpiStr)) densityDpi = 160; // medium-density
-                else if ("hdpi".equals(densityDpiStr)) densityDpi = 240; // high-density
-                else if ("xhdpi".equals(densityDpiStr)) densityDpi = 320; // extra-high-density
-                else if ("xxhdpi".equals(densityDpiStr)) densityDpi = 480; // extra-extra-high-density
-                else if ("xxxhdpi".equals(densityDpiStr)) densityDpi = 640; // extra-extra-extra-high-density
-                else if ("nodpi".equals(densityDpiStr)) densityDpi = 1; // all densities. Por poner algo (no se que poner)
-                else if ("tvdpi".equals(densityDpiStr)) densityDpi = 213; // screens somewhere between mdpi and hdpi
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + densityDpiStr);
-
                 int deviceDensityDpi = displayMetrics.densityDpi;
-                if (deviceDensityDpi >= densityDpi)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + densityDpiStr + location.substring(posEnd + 1);
+                    String deviceDensityDpiStr;
+
+                    if (deviceDensityDpi == 1)
+                        deviceDensityDpiStr = "nodpi";
+                    else if (deviceDensityDpi == 213)
+                        deviceDensityDpiStr = "tvdpi"; // No tengo claro si hacer rango con este caso, en teoría sólo se aplica si es una televisión
+                    else if (deviceDensityDpi < 120)
+                        deviceDensityDpiStr = "ldpi";
+                    else if (deviceDensityDpi >= 120 && deviceDensityDpi < 120 + (160 - 120)/2)
+                        deviceDensityDpiStr = "ldpi";
+                    else if (deviceDensityDpi >= 160 && deviceDensityDpi < 160 + (240 - 160)/2)
+                        deviceDensityDpiStr = "mdpi";
+                    else if (deviceDensityDpi >= 240 && deviceDensityDpi < 240 + (320 - 240)/2)
+                        deviceDensityDpiStr = "hdpi";
+                    else if (deviceDensityDpi >= 320 && deviceDensityDpi < 320 + (480 - 320)/2)
+                        deviceDensityDpiStr = "xhdpi";
+                    else if (deviceDensityDpi >= 480 && deviceDensityDpi < 480 + (640 - 480)/2)
+                        deviceDensityDpiStr = "xxhdpi";
+                    else // deviceDensityDpi >= 480 + (640 - 480)/2
+                        deviceDensityDpiStr = "xxxhdpi";
+
+                    location = location.substring(0, posStart) + "-" + deviceDensityDpiStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String densityDpiStr = location.substring(posStart + prefix.length(), posEnd);
+                    int densityDpi;
+                    if ("ldpi".equals(densityDpiStr)) densityDpi = 120; // low-density
+                    else if ("mdpi".equals(densityDpiStr)) densityDpi = 160; // medium-density
+                    else if ("hdpi".equals(densityDpiStr)) densityDpi = 240; // high-density
+                    else if ("xhdpi".equals(densityDpiStr)) densityDpi = 320; // extra-high-density
+                    else if ("xxhdpi".equals(densityDpiStr)) densityDpi = 480; // extra-extra-high-density
+                    else if ("xxxhdpi".equals(densityDpiStr)) densityDpi = 640; // extra-extra-extra-high-density
+                    else if ("nodpi".equals(densityDpiStr)) densityDpi = 1; // all densities. Por poner algo (no se que poner)
+                    else if ("tvdpi".equals(densityDpiStr)) densityDpi = 213; // screens somewhere between mdpi and hdpi
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + densityDpiStr);
+
+                    if (deviceDensityDpi >= densityDpi)
+                    {
+                        location = location.substring(0, posStart) + "-" + densityDpiStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -582,21 +701,35 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String touchscreenStr  = location.substring(posStart + prefix.length(), posEnd);
-                int touchscreen;
-                if      ("notouch".equals(touchscreenStr)) touchscreen = Configuration.TOUCHSCREEN_NOTOUCH;
-                else if ("finger".equals(touchscreenStr)) touchscreen = Configuration.TOUCHSCREEN_FINGER;
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + touchscreenStr);  // No está documentado el literal de "stylus"
-
                 int deviceTouchscreen = configuration.touchscreen;
-                if (deviceTouchscreen == touchscreen)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + touchscreenStr + location.substring(posEnd + 1);
+                    String deviceTouchscreenStr;
+                    switch(deviceTouchscreen)
+                    {
+                        case Configuration.TOUCHSCREEN_NOTOUCH: deviceTouchscreenStr = "notouch"; break;
+                        case Configuration.TOUCHSCREEN_FINGER: deviceTouchscreenStr = "finger"; break;
+                        default: throw new ItsNatDroidException("Unexpected or unsupported Touchscreen type value: " + deviceTouchscreen);
+                    }
+
+                    location = location.substring(0, posStart) + "-" + deviceTouchscreenStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String touchscreenStr = location.substring(posStart + prefix.length(), posEnd);
+                    int touchscreen;
+                    if ("notouch".equals(touchscreenStr)) touchscreen = Configuration.TOUCHSCREEN_NOTOUCH;
+                    else if ("finger".equals(touchscreenStr)) touchscreen = Configuration.TOUCHSCREEN_FINGER;
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + touchscreenStr);  // No está documentado el literal de "stylus"
+
+                    if (deviceTouchscreen == touchscreen)
+                    {
+                        location = location.substring(0, posStart) + "-" + touchscreenStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -620,22 +753,37 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String keyboardStr  = location.substring(posStart + prefix.length(), posEnd);
-                int keyboard;
-                if      ("nokeys".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_NOKEYS;
-                else if ("qwerty".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_QWERTY;
-                else if ("12key".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_12KEY;
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + keyboardStr);
-
                 int deviceKeyboard = configuration.keyboard;
-                if (deviceKeyboard == keyboard)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + keyboardStr + location.substring(posEnd + 1);
+                    String deviceKeyboardStr;
+                    switch(deviceKeyboard)
+                    {
+                        case Configuration.KEYBOARD_NOKEYS: deviceKeyboardStr = "nokeys"; break;
+                        case Configuration.KEYBOARD_QWERTY: deviceKeyboardStr = "qwerty"; break;
+                        case Configuration.KEYBOARD_12KEY: deviceKeyboardStr = "12key"; break;
+                        default: throw new ItsNatDroidException("Unexpected or unsupported Primary text input method value: " + deviceKeyboard);
+                    }
+
+                    location = location.substring(0, posStart) + "-" + deviceKeyboardStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
+                    String keyboardStr = location.substring(posStart + prefix.length(), posEnd);
+                    int keyboard;
+                    if ("nokeys".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_NOKEYS;
+                    else if ("qwerty".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_QWERTY;
+                    else if ("12key".equals(keyboardStr)) keyboard = Configuration.KEYBOARD_12KEY;
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + keyboardStr);
+
+                    if (deviceKeyboard == keyboard)
+                    {
+                        location = location.substring(0, posStart) + "-" + keyboardStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
                 }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
@@ -662,25 +810,40 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String navigationStr  = location.substring(posStart + prefix.length(), posEnd);
-                int navigation;
-                if      ("nonav".equals(navigationStr)) navigation = Configuration.NAVIGATION_NONAV;
-                else if ("dpad".equals(navigationStr)) navigation = Configuration.NAVIGATION_DPAD;
-                else if ("trackball".equals(navigationStr)) navigation = Configuration.NAVIGATION_TRACKBALL;
-                else if ("wheel".equals(navigationStr)) navigation = Configuration.NAVIGATION_WHEEL;
-                else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + navigationStr);
-
                 int deviceNavigation = configuration.navigation;
-                if (deviceNavigation == navigation)
+                if (posEnd == posStart + prefix.length())
                 {
-                    location = location.substring(0, posStart) + "-" + navigationStr + location.substring(posEnd + 1);
+                    String deviceNavigationStr;
+                    switch(deviceNavigation)
+                    {
+                        case Configuration.NAVIGATION_NONAV: deviceNavigationStr = "nonav"; break;
+                        case Configuration.NAVIGATION_DPAD: deviceNavigationStr = "dpad"; break;
+                        case Configuration.NAVIGATION_TRACKBALL: deviceNavigationStr = "trackball"; break;
+                        case Configuration.NAVIGATION_WHEEL: deviceNavigationStr = "wheel"; break;
+                        default: throw new ItsNatDroidException("Unexpected or unsupported Primary non-touch navigation method value: " + deviceNavigation);
+                    }
+
+                    location = location.substring(0, posStart) + "-" + deviceNavigationStr + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
-                }
+                    String navigationStr  = location.substring(posStart + prefix.length(), posEnd);
+                    int navigation;
+                    if      ("nonav".equals(navigationStr)) navigation = Configuration.NAVIGATION_NONAV;
+                    else if ("dpad".equals(navigationStr)) navigation = Configuration.NAVIGATION_DPAD;
+                    else if ("trackball".equals(navigationStr)) navigation = Configuration.NAVIGATION_TRACKBALL;
+                    else if ("wheel".equals(navigationStr)) navigation = Configuration.NAVIGATION_WHEEL;
+                    else throw new ItsNatDroidException("Unexpected or unsupported prefix: " + navigationStr);
 
+                    if (deviceNavigation == navigation)
+                    {
+                        location = location.substring(0, posStart) + "-" + navigationStr + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
+                }
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
             }
         }
@@ -698,27 +861,27 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 int posEnd = location.indexOf(suffix, posStart);
                 if (posEnd == -1) throw new ItsNatDroidException("Unfinished prefix: " + prefix);
 
-                String versionStr = location.substring(posStart + prefix.length() + 1 /* el +1 es para quitar el v */, posEnd);
-                int version;
-                try
+                int deviceSDKVersion = Build.VERSION.SDK_INT;
+                if (posEnd == posStart + prefix.length())
                 {
-                    version = Integer.parseInt(versionStr);
-                }
-                catch (Exception ex)
-                {
-                    throw new ItsNatDroidException("Bad platform version suffix: " + versionStr);
-                }
-
-                if (Build.VERSION.SDK_INT >= version)
-                {
-                    location = location.substring(0, posStart) + "-v" + version + location.substring(posEnd + 1);
+                    location = location.substring(0, posStart) + "-v" + deviceSDKVersion + location.substring(posEnd + 1);
                 }
                 else
                 {
-                    // Quitamos el sufijo pues no se usa
-                    location = location.substring(0, posStart) + location.substring(posEnd + 1);
-                }
+                    String versionStr = location.substring(posStart + prefix.length() + 1 /* el +1 es para quitar el v */, posEnd);
+                    int version;
+                    try { version = Integer.parseInt(versionStr); }
+                    catch (Exception ex) { throw new ItsNatDroidException("Bad platform version suffix: " + versionStr); }
 
+                    if (deviceSDKVersion >= version)
+                    {
+                        location = location.substring(0, posStart) + "-v" + version + location.substring(posEnd + 1);
+                    }
+                    else
+                    {
+                        location = location.substring(0, posStart) + location.substring(posEnd + 1); // Quitamos el sufijo pues no se usa
+                    }
+                }
 
                 posToSearchMore = posStart; // recuerda que se ha cambiado la cadena
             }

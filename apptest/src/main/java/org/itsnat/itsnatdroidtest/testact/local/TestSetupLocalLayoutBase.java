@@ -105,6 +105,7 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
         InputStream input;
         try
         {
+
             input = am.open(layoutAssetPath);
         }
         catch (IOException e)
@@ -123,6 +124,7 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
                 .setAttrDrawableInflaterListener(this)
                 .setContext(act)
                 .inflate(input,null);
+
 
         View dynamicRootView = layout.getRootView();
         changeLayout(fragment, dynamicRootView);

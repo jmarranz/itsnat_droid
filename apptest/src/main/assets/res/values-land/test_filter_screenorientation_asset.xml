@@ -1,5 +1,7 @@
 <resources>
 
-    <string name="test_filter_screenorientation">Test filter screen orientation: landscape</string>
+    <string name="test_filter_screenorientation">Test filter screen orientation: land</string>
+
+    <string name="test_filter_screenorientation_2">Test filter screen orientation 2: land</string>
 
 </resources>

@@ -1,5 +1,7 @@
 <resources>
 
-    <string name="test_filter_screenorientation">Test filter screen orientation: portrait</string>
+    <string name="test_filter_screenorientation">Test filter screen orientation: port</string>
+
+    <string name="test_filter_screenorientation_2">UNEXPECTED</string>
 
 </resources>
