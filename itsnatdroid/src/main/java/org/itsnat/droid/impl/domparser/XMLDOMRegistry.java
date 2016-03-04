@@ -29,6 +29,13 @@ public class XMLDOMRegistry
         return parent;
     }
 
+    public void cleanCaches()
+    {
+        domLayoutCache.clear();
+        domDrawableCache.clear();
+        domValuesCache.clear();
+    }
+
     public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,XMLDOMLayoutParser.LayoutType layoutType,XMLDOMParserContext xmlDOMParserContext)
     {
         // Este método DEBE ser multihilo, el objeto domLayoutCache ya lo es.

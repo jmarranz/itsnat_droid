@@ -129,7 +129,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
             while (parser.next() != XmlPullParser.END_TAG) ;
             */
 
-            DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text,xmlDOMParserContext); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
+            DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
             addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM);
         }
         else

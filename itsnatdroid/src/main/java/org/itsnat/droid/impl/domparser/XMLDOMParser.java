@@ -193,7 +193,7 @@ public abstract class XMLDOMParser
 
     protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
-        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value,xmlDOMParserContext);
+        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value);
         addDOMAttr(element,attrib,xmlDOMParent);
         return attrib;
     }
@@ -208,7 +208,7 @@ public abstract class XMLDOMParser
         {
             DOMAttrAsset assetAttr = (DOMAttrAsset)attrib;
 
-            String location = assetAttr.getLocation(); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
+            String location = assetAttr.getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
             InputStream ims = null;
             byte[] res;
             try

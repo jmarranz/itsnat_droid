@@ -24,6 +24,12 @@ public class XMLDOMCache<T extends XMLDOM>
     {
     }
 
+    public synchronized void clear()
+    {
+        registryByMarkup.clear();
+        registryByTimestamp.clear();
+    }
+
     public synchronized T get(String markup)
     {
         T xmlDOM = registryByMarkup.get(markup);

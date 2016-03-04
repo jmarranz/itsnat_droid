@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.dom.layout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
 import java.util.ArrayList;
@@ -61,11 +60,11 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         return name;
     }
 
-    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value,XMLDOMParserContext xmlDOMParserContext)
+    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value)
     {
         String namespaceURIFinal = extractAttrNamespaceURI(namespaceURI, name);
         String localName = extractAttrLocalName(namespaceURI, name);
-        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value, xmlDOMParserContext);
+        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value);
         return attr;
     }
 

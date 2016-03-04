@@ -27,7 +27,6 @@ import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
-import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.StringUtil;
@@ -967,9 +966,7 @@ public class XMLInflateRegistry
                     XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
                     InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
 
-                    XMLDOMParserContext xmlDOMParserContext = xmlInflaterParent.getXMLDOMParserContext();
-
-                    XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener,xmlDOMParserContext);
+                    XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
                     return xmlInflaterDrawable.inflateDrawable();
                 }
                 else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -1169,9 +1166,7 @@ public class XMLInflateRegistry
 
         InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx, page);
 
-        XMLDOMParserContext xmlDOMParserContext = xmlInflaterParent.getXMLDOMParserContext();
-
-        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener,xmlDOMParserContext);
+        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
         ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
 
         cacheXMLDOMValuesXMLInflaterValuesMap.put(xmlDOMValues,elementResources);

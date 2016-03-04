@@ -77,4 +77,11 @@ public class ItsNatDroidImpl implements ItsNatDroid
     {
         return xmlDOMRegistry;
     }
+
+    public void cleanCaches()
+    {
+        // Este método conviene ser llamado en onConfigurationChanged(Configuration newConfig) en la actividad de la app que usa la librería
+        // De esta manera se recrean los DOMAttrDynamic en los cuales se aplican los filtros de nuevo de acuerdo con los cambios de configuración
+        getXMLDOMRegistry().cleanCaches();
+    }
 }

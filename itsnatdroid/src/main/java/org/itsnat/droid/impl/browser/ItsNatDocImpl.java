@@ -1,11 +1,8 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -25,7 +22,6 @@ import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocNotItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.UINotification;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
@@ -41,7 +37,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 {
     protected final PageImpl page;
     protected int errorMode;
-    protected final XMLDOMParserContext xmlDOMParserContext;
     protected final FragmentLayoutInserter fragmentLayoutInserter = new FragmentLayoutInserter(this);
     protected final ItsNatViewNullImpl nullView = new ItsNatViewNullImpl(this); // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
     protected final DroidEventDispatcher eventDispatcher = DroidEventDispatcher.createDroidEventDispatcher(this);
@@ -51,13 +46,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     {
         this.page = page;
         this.errorMode = errorMode;
-
-        Resources res = getContext().getResources();
-        XMLDOMRegistry xmlDOMRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry();
-        AssetManager assetManager = res.getAssets();
-        Configuration configuration = res.getConfiguration();
-        DisplayMetrics displayMetrics = res.getDisplayMetrics();
-        this.xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,assetManager,configuration,displayMetrics);
     }
 
     public static ItsNatDocImpl createItsNatDoc(PageImpl page,int errorMode)
@@ -67,6 +55,11 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         else if (page instanceof PageNotItsNatImpl)
             return new ItsNatDocNotItsNatImpl((PageNotItsNatImpl)page,errorMode);
         return null; // Impossible
+    }
+
+    public XMLDOMParserContext getXMLDOMParserContext()
+    {
+        return getPageImpl().getXMLDOMParserContext();
     }
 
     @Override
@@ -182,7 +175,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     public void insertFragment(View parentView, String markup,View viewRef)
     {
         // Ver notas en appendFragment
-        fragmentLayoutInserter.insertPageFragment((ViewGroup) parentView, markup, viewRef,xmlDOMParserContext);
+        fragmentLayoutInserter.insertPageFragment((ViewGroup) parentView, markup, viewRef, getXMLDOMParserContext());
     }
 
     @Override

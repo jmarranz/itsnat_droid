@@ -16,6 +16,7 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.InflatedXMLPage;
@@ -39,6 +40,7 @@ public abstract class PageImpl implements Page
 {
     protected final PageRequestImpl pageRequestCloned; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected final HttpRequestResultOKImpl httpReqResult;
+    protected final XMLDOMParserContext xmlDOMParserContext;
 
     protected final int bitmapDensityReference;
     protected int errorMode;
@@ -57,6 +59,7 @@ public abstract class PageImpl implements Page
     {
         this.pageRequestCloned = pageRequestToClone.clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         this.httpReqResult = pageReqResult.getHttpRequestResultOKImpl();
+        this.xmlDOMParserContext = pageReqResult.getXMLDOMParserContext();
 
         this.scriptErrorListener = pageRequestToClone.getOnScriptErrorListener();
 
@@ -126,6 +129,11 @@ public abstract class PageImpl implements Page
         if (inflatedXML instanceof InflatedXMLPage) // Contiene un PageImpl
             return ((InflatedXMLPage)inflatedXML).getPageImpl();
         return null;
+    }
+
+    public XMLDOMParserContext getXMLDOMParserContext()
+    {
+        return xmlDOMParserContext;
     }
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()

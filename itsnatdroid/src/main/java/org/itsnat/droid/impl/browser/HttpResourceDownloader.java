@@ -99,7 +99,7 @@ public class HttpResourceDownloader
                 try
                 {
                     String resourceMime = attr.getResourceMime();
-                    String absURL = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
+                    String absURL = HttpUtil.composeAbsoluteURL(attr.getLocation(xmlDOMParserContext), pageURLBase);
                     ParsedResource parsedResource;
                     synchronized(urlResDownloadedMap)
                     {
@@ -140,7 +140,7 @@ public class HttpResourceDownloader
         if (resource instanceof ParsedResourceXMLDOM)
         {
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
-            String absURLContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(), pageURLBase);
+            String absURLContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(xmlDOMParserContext), pageURLBase);
             String pageURLBaseContainer = HttpUtil.getBasePathOfURL(absURLContainer);
             XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
             downloader.downloadRemoteResources();

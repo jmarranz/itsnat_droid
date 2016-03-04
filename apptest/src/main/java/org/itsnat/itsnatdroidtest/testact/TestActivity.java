@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.impl.dommini.DMNode;
@@ -255,6 +256,9 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
+        ItsNatDroid itsNatDroid = ItsNatDroidRoot.get();
+        itsNatDroid.cleanCaches();
 
         // this.configuration = newConfig;
 

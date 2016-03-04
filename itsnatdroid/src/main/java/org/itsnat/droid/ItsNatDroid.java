@@ -9,4 +9,5 @@ public interface ItsNatDroid
     public InflateLayoutRequest createInflateLayoutRequest();
     public String getVersionName();
     public int getVersionCode();
+    public void cleanCaches();
 }

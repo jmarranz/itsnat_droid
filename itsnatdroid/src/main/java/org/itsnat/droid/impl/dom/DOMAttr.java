@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
 /**
  * Created by jmarranz on 27/10/14.
@@ -20,12 +19,12 @@ public abstract class DOMAttr
         this.value = value;
     }
 
-    public static DOMAttr create(String namespaceURI, String name, String value,XMLDOMParserContext xmlDOMParserContext)
+    public static DOMAttr create(String namespaceURI, String name, String value)
     {
         if (DOMAttrRemote.isRemote(value))
-            return new DOMAttrRemote(namespaceURI,name,value,xmlDOMParserContext);
+            return new DOMAttrRemote(namespaceURI,name,value);
         else if (DOMAttrAsset.isAsset( value))
-            return new DOMAttrAsset(namespaceURI,name,value,xmlDOMParserContext);
+            return new DOMAttrAsset(namespaceURI,name,value);
         else
             return new DOMAttrCompiledResource(namespaceURI,name,value);
     }

@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.dom.values;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
 /**
@@ -15,7 +14,7 @@ public class DOMElemValuesItemStyle extends DOMElemValuesItemNamed
     }
 
     @Override
-    public DOMAttr setTextNode(String text,XMLDOMParserContext xmlDOMParserContext)
+    public DOMAttr setTextNode(String text)
     {
         String itemName = getNameAttr();
 
@@ -24,7 +23,7 @@ public class DOMElemValuesItemStyle extends DOMElemValuesItemNamed
         if (namespaceURI != null)
             itemName = NamespaceUtil.getLocalName(itemName);
 
-        this.valueAsDOMAttr = DOMAttr.create(namespaceURI, itemName, text, xmlDOMParserContext);
+        this.valueAsDOMAttr = DOMAttr.create(namespaceURI, itemName, text);
 
         return valueAsDOMAttr;
     }

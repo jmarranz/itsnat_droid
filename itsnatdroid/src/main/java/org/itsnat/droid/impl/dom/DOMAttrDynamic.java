@@ -17,6 +17,7 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
  */
 public abstract class DOMAttrDynamic extends DOMAttr
 {
+    // protected XMLDOMParserContext xmlDOMParserContext;
     protected final String resType;
     protected final String extension; // xml, png...
     protected final String valuesResourceName; // No nulo sólo en el caso de "values" tras el :
@@ -25,9 +26,11 @@ public abstract class DOMAttrDynamic extends DOMAttr
     protected final String location;
     protected volatile ParsedResource resource;
 
-    public DOMAttrDynamic(String namespaceURI, String name, String value,XMLDOMParserContext xmlDOMParserContext)
+    public DOMAttrDynamic(String namespaceURI, String name, String value)
     {
         super(namespaceURI, name, value);
+
+        // this.xmlDOMParserContext = xmlDOMParserContext;
 
         // Ej. @assets:drawable/res/drawable/file.png   Path: res/drawable/file.png
 
@@ -42,8 +45,6 @@ public abstract class DOMAttrDynamic extends DOMAttr
         int posType = value.indexOf(':');
         int posPath = value.indexOf('/');
         String resTypeTmp = value.substring(posType + 1,posPath); // Ej. "drawable"
-        //if (resTypeTmp.equals("+id"))
-        //    resTypeTmp = resTypeTmp.substring(1); // Quitamos el +
         this.resType = resTypeTmp;
 
         String locationTmp;
@@ -77,7 +78,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
             this.valuesResourceName = null;
         }
 
-        locationTmp = processLocationSuffixes(locationTmp,xmlDOMParserContext.getConfiguration(),xmlDOMParserContext.getDisplayMetrics());
+        // locationTmp = processLocationSuffixes(locationTmp,xmlDOMParserContext.getConfiguration(),xmlDOMParserContext.getDisplayMetrics());
 
         this.location = locationTmp;
 
@@ -130,9 +131,10 @@ public abstract class DOMAttrDynamic extends DOMAttr
         return ninePatch;
     }
 
-    public String getLocation()
+    public String getLocation(XMLDOMParserContext xmlDOMParserContext)
     {
-        return location;
+        String locationTmp = processLocationSuffixes(this.location,xmlDOMParserContext.getConfiguration(),xmlDOMParserContext.getDisplayMetrics());
+        return locationTmp;
     }
 
     public String getResourceMime()

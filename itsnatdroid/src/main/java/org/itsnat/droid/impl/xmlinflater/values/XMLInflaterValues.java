@@ -9,7 +9,6 @@ import org.itsnat.droid.impl.dom.values.DOMElemValuesArrayBase;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesStyle;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
-import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValues;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesArrayBase;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemNormal;
@@ -28,14 +27,14 @@ import java.util.LinkedList;
  */
 public class XMLInflaterValues extends XMLInflater
 {
-    protected XMLInflaterValues(InflatedValues inflatedXML,int bitmapDensityReference, AttrLayoutInflaterListener attrLayoutInflaterListener, AttrDrawableInflaterListener attrDrawableInflaterListener,XMLDOMParserContext xmlDOMParserContext)
+    protected XMLInflaterValues(InflatedValues inflatedXML,int bitmapDensityReference, AttrLayoutInflaterListener attrLayoutInflaterListener, AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        super(inflatedXML, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener,xmlDOMParserContext);
+        super(inflatedXML, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
     }
 
-    public static XMLInflaterValues createXMLInflaterValues(InflatedValues inflatedValues,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,XMLDOMParserContext xmlDOMParserContext)
+    public static XMLInflaterValues createXMLInflaterValues(InflatedValues inflatedValues,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        return new XMLInflaterValues(inflatedValues,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,xmlDOMParserContext);
+        return new XMLInflaterValues(inflatedValues,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
     }
 
 

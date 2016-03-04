@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.dom.values;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
 /**
  * Created by jmarranz on 02/02/2016.
@@ -14,11 +13,11 @@ public class DOMElemValuesItemNormal extends DOMElemValuesItemNamed
     }
 
     @Override
-    public DOMAttr setTextNode(String text,XMLDOMParserContext xmlDOMParserContext)
+    public DOMAttr setTextNode(String text)
     {
         String itemName = getNameAttr();
 
-        this.valueAsDOMAttr = DOMAttr.create(null, itemName, text, xmlDOMParserContext);
+        this.valueAsDOMAttr = DOMAttr.create(null, itemName, text);
 
         return valueAsDOMAttr;
     }

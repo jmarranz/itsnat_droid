@@ -375,7 +375,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
     {
         XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNat = getXMLDOMLayoutPageItsNat();
 
-        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value, xmlDOMParserContext);
+        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value);
     }
 
     private static String parseNamespaceURI(String code)

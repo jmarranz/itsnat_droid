@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.dom.values;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
 /**
  * Created by jmarranz on 02/02/2016.
@@ -20,5 +19,5 @@ public abstract class DOMElemValuesNoChildElem extends DOMElemValues
         return valueAsDOMAttr;
     }
 
-    public abstract DOMAttr setTextNode(String text,XMLDOMParserContext xmlDOMParserContext);
+    public abstract DOMAttr setTextNode(String text);
 }

@@ -1981,9 +1981,15 @@ public class TestLocalLayout1
 
                 parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                     @Override
-                    public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
-                        assertEquals(compTextView.getWidth(), parsedTextView.getWidth());
-                        assertEquals(compTextView.getHeight(), parsedTextView.getHeight());
+                    public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                                               int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+                        if (oldLeft == 0 && oldTop == 0 && oldRight == 0 && oldBottom == 0)
+                        {
+                            assertEquals(compTextView.getWidth(), parsedTextView.getWidth());
+                            assertEquals(compTextView.getHeight(), parsedTextView.getHeight());
+                        }
+                        else TestUtil.alertDialog(parsedTextView.getContext(),"Test ignored when rotating the device watching the dynamic view"); // El compilado está en la otra orientación
                     }
                 });
             }
