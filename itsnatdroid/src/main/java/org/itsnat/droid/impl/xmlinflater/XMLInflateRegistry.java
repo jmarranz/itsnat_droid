@@ -168,6 +168,7 @@ public class XMLInflateRegistry
 
     private int getIdentifierAddIfNecessaryCompiled(String value,String type, Context ctx)
     {
+        // type puede ser null
         // Procesamos aquí los casos de "@+id/...", la razón es que cualquier atributo que referencie un id (más allá
         // de android:id) puede registrar un nuevo atributo lo cual es útil si el android:id como tal está después,
         // después en android:id ya no hace falta que sea "@+id/...".
@@ -204,7 +205,6 @@ public class XMLInflateRegistry
     private int getIdentifierCompiled(String value, Context ctx, boolean throwErr)
     {
         if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
-
 
         int id;
         char first = value.charAt(0);
@@ -299,7 +299,7 @@ public class XMLInflateRegistry
 
     public ViewStyleAttr getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
     {
-        if (attr.getNamespaceURI() != null || !"style".equals(attr.getName())) throw MiscUtil.internalError();
+        // Ya no solo es para el atributo "style": if (attr.getNamespaceURI() != null || !"style".equals(attr.getName())) throw MiscUtil.internalError();
 
         if (attr instanceof DOMAttrDynamic)
         {
@@ -318,6 +318,39 @@ public class XMLInflateRegistry
             if (styleId == 0)
                 return null;
             return new ViewStyleAttrCompiled(styleId);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    /*
+    public int getViewStyle(DOMAttr attr,XMLInflater xmlInflater,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
+    {
+        ViewStyleAttr styleAttr = getViewStyle(attr,xmlInflater);
+        return getViewStyle(styleAttr,styleItemsDynamicAttribs,ctx);
+    }
+*/
+
+    public int getViewStyle(ViewStyleAttr style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
+    {
+        // El retorno es el id del style compilado si existe o el del parent en caso de <style name="..." parent="...">
+        if (style == null)
+            return 0;
+
+        if (style instanceof ViewStyleAttrCompiled)
+        {
+            return ((ViewStyleAttrCompiled)style).getIdentifier();
+        }
+        else if (style instanceof ViewStyleAttrDynamic)
+        {
+            ViewStyleAttrDynamic dynStyle = (ViewStyleAttrDynamic)style;
+            List<DOMAttr> styleItemAttrs = dynStyle.getDOMAttrItemList();
+            if (styleItemAttrs != null) // Si es null es raro, es el caso de <style> vacío
+                styleItemsDynamicAttribs.addAll(styleItemAttrs);
+
+            DOMAttr parentStyleDOMAttr = dynStyle.getDOMAttrParentStyle(); // Puede ser null
+            if (parentStyleDOMAttr == null)
+                return 0;
+            return getIdentifierCompiled(parentStyleDOMAttr.getValue(),ctx); // Error si no se encuentra, si se especifica ha de existir
         }
         else throw MiscUtil.internalError();
     }
@@ -933,6 +966,7 @@ public class XMLInflateRegistry
         }
         return -1;
     }
+
 
     public Drawable getDrawable(DOMAttr attr,XMLInflater xmlInflaterParent)
     {

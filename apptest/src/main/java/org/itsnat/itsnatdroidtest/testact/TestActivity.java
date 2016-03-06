@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -258,22 +257,11 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         super.onConfigurationChanged(newConfig);
 
         ItsNatDroid itsNatDroid = ItsNatDroidRoot.get();
-        itsNatDroid.cleanCaches();
+        itsNatDroid.onConfigurationChanged(this, newConfig);
 
         // this.configuration = newConfig;
 
         // Configuration configuration = getResources().getConfiguration();
         //int orientation = this.getResources().getConfiguration().orientation;
-
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            Log.d("Entered as Portrait ", "PPPPPPPPPPPPPPPPP");
-            //setContentView(R.layout.settings);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
-        {
-            Log.d("Entered as LandScape ","LLLLLLLLLLLLLLLLLLLL");
-            //setContentView(R.layout.settings);
-        }
-
     }
 }

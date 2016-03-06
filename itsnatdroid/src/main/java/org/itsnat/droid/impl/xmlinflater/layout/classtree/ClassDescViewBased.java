@@ -33,8 +33,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrCompiled;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -326,30 +324,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         return view;
     }
 
-    private int processStyleAttribute(ViewStyleAttr style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
-    {
-        // El retorno es el id del style compilado si existe o el del parent en caso de <style name="..." parent="...">
-        if (style == null)
-            return 0;
-
-        if (style instanceof ViewStyleAttrCompiled)
-        {
-            return ((ViewStyleAttrCompiled)style).getIdentifier();
-        }
-        else if (style instanceof ViewStyleAttrDynamic)
-        {
-            ViewStyleAttrDynamic dynStyle = (ViewStyleAttrDynamic)style;
-            List<DOMAttr> styleItemAttrs = dynStyle.getDOMAttrItemList();
-            if (styleItemAttrs != null) // Si es null es raro, es el caso de <style> vacío
-                styleItemsDynamicAttribs.addAll(styleItemAttrs);
-
-            DOMAttr parentStyleDOMAttr = dynStyle.getDOMAttrParentStyle(); // Puede ser null
-            if (parentStyleDOMAttr == null)
-                return 0;
-            return getXMLInflateRegistry().getIdentifierCompiled(parentStyleDOMAttr.getValue(),ctx); // Error si no se encuentra, si se especifica ha de existir
-        }
-        else throw MiscUtil.internalError();
-    }
 
     protected static DOMAttr findAttribute(String namespaceURI, String attrName, DOMAttributeMap attribMap)
     {
@@ -367,7 +341,7 @@ public class ClassDescViewBased extends ClassDesc<View>
     private View createViewObject(DOMAttributeMap attributeMap, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ViewStyleAttr style = findStyleAttribute(attributeMap, xmlInflaterLayout);
-        int idStyleCompiledOrParent = processStyleAttribute(style,styleDynamicAttribs,xmlInflaterLayout.getContext());
+        int idStyleCompiledOrParent = getXMLInflateRegistry().getViewStyle(style,styleDynamicAttribs,xmlInflaterLayout.getContext());
 
         View view = createViewObject(attributeMap, idStyleCompiledOrParent, pendingPostInsertChildrenTasks, xmlInflaterLayout.getContext());
 

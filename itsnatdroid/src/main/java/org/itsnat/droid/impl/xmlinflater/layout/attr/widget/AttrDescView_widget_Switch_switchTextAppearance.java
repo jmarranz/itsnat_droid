@@ -1,12 +1,18 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Switch;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -21,9 +27,22 @@ public class AttrDescView_widget_Switch_switchTextAppearance extends AttrDesc<Cl
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int resId = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
+        Context ctx = attrCtx.getContext();
+        ViewStyleAttr style = getViewStyle(attr, attrCtx.getXMLInflaterLayout());
+        List<DOMAttr> styleItemsDynamicAttribs = (style instanceof ViewStyleAttrDynamic) ? new ArrayList<DOMAttr>() : null;
+        int switchTextAppearanceResId = getViewStyle(style,styleItemsDynamicAttribs,ctx);
 
-        ((Switch)view).setSwitchTextAppearance(attrCtx.getContext(), resId);
+        if (switchTextAppearanceResId > 0)
+            ((Switch)view).setSwitchTextAppearance(attrCtx.getContext(), switchTextAppearanceResId);
+
+        if (styleItemsDynamicAttribs != null)
+        {
+            ClassDescViewBased classDesc = getClassDesc();
+            for(DOMAttr styleAttr : styleItemsDynamicAttribs)
+            {
+                classDesc.setAttributeOrInlineEventHandler(view,styleAttr,attrCtx);
+            }
+        }
     }
 
     @Override

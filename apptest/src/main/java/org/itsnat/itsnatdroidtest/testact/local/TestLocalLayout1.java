@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -1606,18 +1607,42 @@ public class TestLocalLayout1
             assertEquals((Boolean)TestUtil.getField(compLayout,"mSingleLine"),(Boolean)TestUtil.getField(parsedLayout,"mSingleLine"));
         }
 
-        // Test TextView 3 (textAppearance y hint)
+        // Test TextView 3-1 (textAppearance y hint)
         {
             childCount++;
 
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
-            assertEquals(compLayout.getHint(),"Hint Text (TextView Tests 3)");
+            assertEquals(compLayout.getHint(),"Hint Text (TextView Tests 3-1)");
             assertEquals(compLayout.getHint(),parsedLayout.getHint());
+
+            // Test del textAppearance style incluyendo el parent="...", el size explícito substituye el definido en el parent
 
             assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelFloatRound(21.3f, res));
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
+        }
+
+        // Test TextView 3-2 (textAppearance)
+        {
+            childCount++;
+
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(),"TextView Tests 3-2 (text color=red,size=small)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            // Test del <style> incluyendo el parent="..."
+            int[] attrs = {android.R.attr.textSize};
+            TypedArray ta = ctx.obtainStyledAttributes(ctx.getResources().getIdentifier("@android:style/TextAppearance.DeviceDefault.Small", null, null), attrs);
+            float textSize = ta.getDimension(0, 0);
+            ta.recycle();
+            assertEquals(compLayout.getTextSize(), textSize);
+            assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
+
+            assertEquals(compLayout.getCurrentTextColor(),0xFFFF0000);
+            assertEquals(compLayout.getCurrentTextColor(),parsedLayout.getCurrentTextColor());
         }
 
         // CompoundButton Tests (a través de CheckBox)

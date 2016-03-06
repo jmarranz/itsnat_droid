@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.view.View;
@@ -9,8 +10,13 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -45,8 +51,25 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int dateTextAppearanceResId = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
+        Context ctx = attrCtx.getContext();
+        ViewStyleAttr style = getViewStyle(attr, attrCtx.getXMLInflaterLayout());
+        List<DOMAttr> styleItemsDynamicAttribs = (style instanceof ViewStyleAttrDynamic) ? new ArrayList<DOMAttr>() : null;
+        int dateTextAppearanceResId = getViewStyle(style,styleItemsDynamicAttribs,ctx);
 
+        setDateTextAppearanceResId(view,dateTextAppearanceResId,attrCtx);
+
+        if (styleItemsDynamicAttribs != null)
+        {
+            ClassDescViewBased classDesc = getClassDesc();
+            for(DOMAttr styleAttr : styleItemsDynamicAttribs)
+            {
+                classDesc.setAttributeOrInlineEventHandler(view,styleAttr,attrCtx);
+            }
+        }
+    }
+
+    private void setDateTextAppearanceResId(View view,int dateTextAppearanceResId,AttrLayoutContext attrCtx)
+    {
         if (dateTextAppearanceResId <= 0) dateTextAppearanceResId = fieldTextAppearance_Small.get(null); // Valor por defecto
 
         if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)

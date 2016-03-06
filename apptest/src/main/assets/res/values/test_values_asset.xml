@@ -25,6 +25,10 @@
         <item name="android:paddingRight">@assets:dimen/res/values/test_values_asset.xml:test_dimen_paddingRight</item>
     </style> <!--  @android:style/Widget.Holo.TextView  -->
 
+    <style name="test_textappearance_asset" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">#FFFF0000</item>
+    </style>
+
     <dimen name="test_dimen_paddingRight">21.3dp</dimen>
 
     <string-array name="text_string_array_listview_entries">

@@ -138,7 +138,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         if (posType != -1)
         {
             type = null; // Se obtiene del name
-            name = name.substring(posType + 1);
+            name = name.substring(posType + 1); // Extraemos el name tras el /
         }
         else
         {

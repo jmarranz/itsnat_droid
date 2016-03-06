@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -69,6 +72,16 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     public int getIdentifier(DOMAttr attr, XMLInflater xmlInflater)
     {
         return getXMLInflateRegistry().getIdentifier(attr, xmlInflater);
+    }
+
+    public ViewStyleAttr getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
+    {
+        return getXMLInflateRegistry().getViewStyle(attr, xmlInflater);
+    }
+
+    public int getViewStyle(ViewStyleAttr style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
+    {
+        return getXMLInflateRegistry().getViewStyle(style,styleItemsDynamicAttribs,ctx);
     }
 
     public int getInteger(DOMAttr attr,XMLInflater xmlInflater)

@@ -552,8 +552,16 @@ Android TV uimt: television"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:background="#ffdddd"
-            android:hint="Hint Text (TextView Tests 3)"
+            android:hint="Hint Text (TextView Tests 3-1)"
             android:textAppearance="@style/text_appearance_test"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="#ffdddd"
+            android:text="TextView Tests 3-2 (text color=red,size=small)"
+            android:textAppearance="@style/test_textappearance_compiled"
             />
 
         <TextView

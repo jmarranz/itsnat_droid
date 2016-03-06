@@ -1,6 +1,8 @@
 package org.itsnat.droid.impl;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 
 import org.itsnat.droid.InflateLayoutRequest;
@@ -78,10 +80,10 @@ public class ItsNatDroidImpl implements ItsNatDroid
         return xmlDOMRegistry;
     }
 
-    public void cleanCaches()
+    public void onConfigurationChanged(Activity activity, Configuration newConfig)
     {
         // Este método conviene ser llamado en onConfigurationChanged(Configuration newConfig) en la actividad de la app que usa la librería
-        // De esta manera se recrean los DOMAttrDynamic en los cuales se aplican los filtros de nuevo de acuerdo con los cambios de configuración
+        // Llamando a cleanCaches de esta manera se recrean los DOMAttrDynamic en los cuales se aplican los filtros de nuevo de acuerdo con los cambios de configuración
         getXMLDOMRegistry().cleanCaches();
     }
 }
