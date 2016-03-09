@@ -5,8 +5,8 @@ import android.widget.ListPopupWindow;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_AutoCompleteTextView_completionHint;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_AutoCompleteTextView_completionHintView;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldMethodDrawable;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetId;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionWithNameInt;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
@@ -28,7 +28,7 @@ public class ClassDescView_widget_AutoCompleteTextView extends ClassDescViewBase
         super.init();
 
         addAttrDescAN(new AttrDescView_widget_AutoCompleteTextView_completionHint(this));
-        addAttrDescAN(new AttrDescReflecFieldSetId(this, "completionHintView", "mHintResource", null)); // Android tiene un recurso por defecto
+        addAttrDescAN(new AttrDescView_widget_AutoCompleteTextView_completionHintView(this));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "completionThreshold", "setThreshold", 2));
         addAttrDescAN(new AttrDescReflecMethodId(this, "dropDownAnchor", -1));
         addAttrDescAN(new AttrDescReflecMethodDimensionWithNameInt(this, "dropDownHeight", (float) ViewGroup.LayoutParams.WRAP_CONTENT));

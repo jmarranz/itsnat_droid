@@ -162,8 +162,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
             if (XMLInflateRegistry.isResource(attrValue))
             {
                 // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/NinePatchDrawable.java#240
-                int resId = xmlInflateRegistry.getIdentifierCompiled(attrValue,ctx);
-                if (resId <= 0) return null;
+                int resId = xmlInflateRegistry.getIdentifierCompiled(attrValue,ctx); // Si no se encuentra da error, no devuelve 0
                 TypedValue value = new TypedValue();
                 Resources res = ctx.getResources();
                 InputStream is = res.openRawResource(resId, value);

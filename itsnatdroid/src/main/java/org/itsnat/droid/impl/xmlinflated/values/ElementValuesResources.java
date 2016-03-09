@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
 import android.graphics.drawable.Drawable;
-import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -10,6 +9,7 @@ import org.itsnat.droid.impl.xmlinflater.Dimension;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 import java.util.ArrayList;
@@ -154,7 +154,7 @@ public class ElementValuesResources extends ElementValues
         return xmlInflateRegistry.getDrawable(valueAsDOMAttr, xmlInflater);
     }
 
-    public View getLayout(String name, XMLInflaterLayout xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
+    public LayoutValue getLayout(String name, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_LAYOUT,name);
         XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();

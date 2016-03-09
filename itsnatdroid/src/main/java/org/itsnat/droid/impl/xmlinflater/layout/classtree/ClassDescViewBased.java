@@ -32,7 +32,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcessDefault;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribs;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -330,7 +330,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return attribMap.getDOMAttribute(namespaceURI, attrName);
     }
 
-    private ViewStyleAttr findStyleAttribute(DOMAttributeMap attribMap, XMLInflaterLayout xmlInflaterLayout)
+    private ViewStyleAttribs findStyleAttribute(DOMAttributeMap attribMap, XMLInflaterLayout xmlInflaterLayout)
     {
         DOMAttr domAttr = findAttribute(null, "style", attribMap);
         if (domAttr == null)
@@ -340,7 +340,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     private View createViewObject(DOMAttributeMap attributeMap, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        ViewStyleAttr style = findStyleAttribute(attributeMap, xmlInflaterLayout);
+        ViewStyleAttribs style = findStyleAttribute(attributeMap, xmlInflaterLayout);
         int idStyleCompiledOrParent = getXMLInflateRegistry().getViewStyle(style,styleDynamicAttribs,xmlInflaterLayout.getContext());
 
         View view = createViewObject(attributeMap, idStyleCompiledOrParent, pendingPostInsertChildrenTasks, xmlInflaterLayout.getContext());

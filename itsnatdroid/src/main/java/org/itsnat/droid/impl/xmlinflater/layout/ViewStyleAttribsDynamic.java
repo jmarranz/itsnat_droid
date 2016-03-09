@@ -7,12 +7,12 @@ import java.util.List;
 /**
  * Created by jmarranz on 12/01/2016.
  */
-public class ViewStyleAttrDynamic extends ViewStyleAttr
+public class ViewStyleAttribsDynamic extends ViewStyleAttribs
 {
     protected DOMAttr domAttrParent;
     protected List<DOMAttr> domAttrValueList;
 
-    public ViewStyleAttrDynamic(DOMAttr domAttrParent,List<DOMAttr> domAttrValueList)
+    public ViewStyleAttribsDynamic(DOMAttr domAttrParent, List<DOMAttr> domAttrValueList)
     {
         this.domAttrParent = domAttrParent;
         this.domAttrValueList = domAttrValueList;

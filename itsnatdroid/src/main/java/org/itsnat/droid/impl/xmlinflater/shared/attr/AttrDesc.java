@@ -17,7 +17,8 @@ import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
+import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribs;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
@@ -74,24 +75,24 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getIdentifier(attr, xmlInflater);
     }
 
-    public ViewStyleAttr getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
+    public ViewStyleAttribs getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
     {
         return getXMLInflateRegistry().getViewStyle(attr, xmlInflater);
     }
 
-    public int getViewStyle(ViewStyleAttr style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
+    public int getViewStyle(ViewStyleAttribs style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
     {
         return getXMLInflateRegistry().getViewStyle(style,styleItemsDynamicAttribs,ctx);
     }
 
     public int getInteger(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getInteger(attr,xmlInflater);
+        return getXMLInflateRegistry().getInteger(attr, xmlInflater);
     }
 
     public float getFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getFloat(attr,xmlInflater);
+        return getXMLInflateRegistry().getFloat(attr, xmlInflater);
     }
 
     public String getString(DOMAttr attr,XMLInflater xmlInflater)
@@ -111,7 +112,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
 
     public boolean getBoolean(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getBoolean(attr,xmlInflater);
+        return getXMLInflateRegistry().getBoolean(attr, xmlInflater);
     }
 
     public int getDimensionIntFloor(DOMAttr attr,XMLInflater xmlInflater)
@@ -152,12 +153,17 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
 
     public Drawable getDrawable(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDrawable(attr,xmlInflater);
+        return getXMLInflateRegistry().getDrawable(attr, xmlInflater);
     }
 
-    public View getLayout(DOMAttr attr,XMLInflaterLayout xmlInflater,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
+    public LayoutValue getLayout(DOMAttr attr,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
     {
-        return getXMLInflateRegistry().getLayout(attr, xmlInflater,viewParent,indexChild,includeAttribs);
+        return getXMLInflateRegistry().getLayout(attr, xmlInflaterParent, viewParent, indexChild);
+    }
+
+    public View getViewLayout(DOMAttr attr, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    {
+        return getXMLInflateRegistry().getViewLayout(attr, xmlInflater, viewParent, indexChild, includeAttribs);
     }
 
     public int getColor(DOMAttr attr, XMLInflater xmlInflater)

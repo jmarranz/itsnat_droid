@@ -10,8 +10,8 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribs;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribsDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -52,8 +52,8 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         Context ctx = attrCtx.getContext();
-        ViewStyleAttr style = getViewStyle(attr, attrCtx.getXMLInflaterLayout());
-        List<DOMAttr> styleItemsDynamicAttribs = (style instanceof ViewStyleAttrDynamic) ? new ArrayList<DOMAttr>() : null;
+        ViewStyleAttribs style = getViewStyle(attr, attrCtx.getXMLInflaterLayout());
+        List<DOMAttr> styleItemsDynamicAttribs = (style instanceof ViewStyleAttribsDynamic) ? new ArrayList<DOMAttr>() : null;
         int dateTextAppearanceResId = getViewStyle(style,styleItemsDynamicAttribs,ctx);
 
         setDateTextAppearanceResId(view,dateTextAppearanceResId,attrCtx);

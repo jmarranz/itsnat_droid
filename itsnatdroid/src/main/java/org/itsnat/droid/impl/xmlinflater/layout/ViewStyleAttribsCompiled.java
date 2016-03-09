@@ -3,11 +3,11 @@ package org.itsnat.droid.impl.xmlinflater.layout;
 /**
  * Created by jmarranz on 12/01/2016.
  */
-public class ViewStyleAttrCompiled extends ViewStyleAttr
+public class ViewStyleAttribsCompiled extends ViewStyleAttribs
 {
     protected int identifier;
 
-    public ViewStyleAttrCompiled(int identifier)
+    public ViewStyleAttribsCompiled(int identifier)
     {
         this.identifier = identifier;
     }

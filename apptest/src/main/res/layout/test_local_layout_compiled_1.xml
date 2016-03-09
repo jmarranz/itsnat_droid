@@ -709,6 +709,30 @@ Android TV uimt: television"
             android:text="Anchor of AutoCompleteTextView Suggest Drop Down"
             />
 
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewTestId2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Write Tennis to test dropdown autocomp"
+            android:completionHint="Sports suggested"
+            android:completionHintView="@layout/auto_complete_text_view_hint_view_compiled"
+            android:completionThreshold="@integer/test_integer_autocompletetextview_completionThreshold"
+            android:dropDownAnchor="@+id/anchorOfAutoCompleteTextViewDropDownId2"
+            android:dropDownHeight="150.3dp"
+            android:dropDownHorizontalOffset="10.3dp"
+            android:dropDownSelector="@drawable/list_selector_background_light"
+            android:dropDownVerticalOffset="5.3dp"
+            android:dropDownWidth="300.3dp"
+            />
+
+        <TextView
+            android:id="@+id/anchorOfAutoCompleteTextViewDropDownId2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Anchor of AutoCompleteTextView Suggest Drop Down 2"
+            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="25dp"

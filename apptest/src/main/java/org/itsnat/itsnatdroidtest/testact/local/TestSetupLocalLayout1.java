@@ -148,8 +148,15 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
 
     private static void defineAutoCompleteTextViewDropdown(TestActivity act, View rootView)
     {
-        AutoCompleteTextView textView = (AutoCompleteTextView) rootView.findViewById(R.id.autoCompleteTextViewTestId);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+        AutoCompleteTextView textView;
+        ArrayAdapter<CharSequence> adapter;
+
+        textView = (AutoCompleteTextView) rootView.findViewById(R.id.autoCompleteTextViewTestId);
+        adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+        textView.setAdapter(adapter);
+
+        textView = (AutoCompleteTextView) rootView.findViewById(R.id.autoCompleteTextViewTestId2);
+        adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
         textView.setAdapter(adapter);
     }
 }

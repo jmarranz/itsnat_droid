@@ -1074,7 +1074,7 @@ public class TestLocalLayout1
 
             // android:hand_hour
             assertNotNull((Drawable) TestUtil.getField(compLayout, "mHourHand"));
-            assertEquals((Drawable)TestUtil.getField(compLayout,"mHourHand"),(Drawable)TestUtil.getField(parsedLayout,"mHourHand"));
+            assertEquals((Drawable)TestUtil.getField(compLayout, "mHourHand"),(Drawable)TestUtil.getField(parsedLayout, "mHourHand"));
 
             // android:hand_minute
             assertNotNull((Drawable) TestUtil.getField(compLayout, "mMinuteHand"));
@@ -1641,7 +1641,7 @@ public class TestLocalLayout1
             assertEquals(compLayout.getTextSize(), textSize);
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
 
-            assertEquals(compLayout.getCurrentTextColor(),0xFFFF0000);
+            assertEquals(compLayout.getCurrentTextColor(), 0xFFFF0000);
             assertEquals(compLayout.getCurrentTextColor(),parsedLayout.getCurrentTextColor());
         }
 
@@ -1761,10 +1761,10 @@ public class TestLocalLayout1
             assertEquals((Float)TestUtil.getField(compLayout,"mDisabledAlpha"),0.6f);
             assertEquals((Float)TestUtil.getField(compLayout,"mDisabledAlpha"),(Float)TestUtil.getField(parsedLayout,"mDisabledAlpha"));
 
-            assertEquals(compLayout.getTextOff(),"NORL");
+            assertEquals(compLayout.getTextOff(), "NORL");
             assertEquals(compLayout.getTextOff(),parsedLayout.getTextOff());
 
-            assertEquals(compLayout.getTextOn(),"YESRL");
+            assertEquals(compLayout.getTextOn(), "YESRL");
             assertEquals(compLayout.getTextOn(),parsedLayout.getTextOn());
         }
 
@@ -1809,7 +1809,7 @@ public class TestLocalLayout1
             final Chronometer compLayout = (Chronometer) comp.getChildAt(childCount);
             final Chronometer parsedLayout = (Chronometer) parsed.getChildAt(childCount);
 
-            assertEquals(compLayout.getFormat(),"Time: %s");
+            assertEquals(compLayout.getFormat(), "Time: %s");
             assertEquals(compLayout.getFormat(),parsedLayout.getFormat());
         }
 
@@ -1865,15 +1865,19 @@ public class TestLocalLayout1
 
             // android:completionHint
             assertEquals((CharSequence) TestUtil.getField(compLayout, "mHintText"), "Sports suggested");
-            assertEquals((CharSequence) TestUtil.getField(parsedLayout, "mHintText"), (CharSequence) TestUtil.getField(parsedLayout, "mHintText"));
+            assertEquals((CharSequence) TestUtil.getField(compLayout, "mHintText"), (CharSequence) TestUtil.getField(parsedLayout, "mHintText"));
 
             // android:completionHintView
             assertPositive((Integer) TestUtil.getField(compLayout, "mHintResource"));
-            assertEquals((Integer) TestUtil.getField(parsedLayout, "mHintResource"), (Integer) TestUtil.getField(parsedLayout, "mHintResource"));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mHintResource"), (Integer) TestUtil.getField(parsedLayout, "mHintResource"));
+
+            assertEquals((Integer) TestUtil.getField(compLayout, "mHintResource"),R.layout.auto_complete_text_view_hint_view);
+            assertEquals((Integer) TestUtil.getField(compLayout, "mHintResource"),(Integer) TestUtil.getField(parsedLayout, "mHintResource")); // Porque existe el id compilado y tiene prioridad en el caso dinámico
+
 
             // android:completionThreshold
             assertEquals((Integer) TestUtil.getField(compLayout, "mThreshold"), 3);
-            assertEquals((Integer) TestUtil.getField(parsedLayout, "mThreshold"), (Integer) TestUtil.getField(parsedLayout, "mThreshold"));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mThreshold"), (Integer) TestUtil.getField(parsedLayout, "mThreshold"));
 
 
             assertEquals(compLayout.getDropDownAnchor(), res.getIdentifier("id/anchorOfAutoCompleteTextViewDropDownId", null, ctx.getPackageName()));
@@ -1896,6 +1900,7 @@ public class TestLocalLayout1
             assertEquals(compLayout.getDropDownWidth(),parsedLayout.getDropDownWidth());
         }
 
+
         // TextView used as anchor of AutoCompleteTextView Suggest Drop Down (upper View)
         {
             childCount++;
@@ -1907,6 +1912,62 @@ public class TestLocalLayout1
             assertEquals(compLayout.getText(),parsedLayout.getText());
         }
 
+        {
+            childCount++;
+
+            final AutoCompleteTextView compLayout = (AutoCompleteTextView) comp.getChildAt(childCount);
+            final AutoCompleteTextView parsedLayout = (AutoCompleteTextView) parsed.getChildAt(childCount);
+
+            // android:completionHint
+            assertEquals((CharSequence) TestUtil.getField(compLayout, "mHintText"), "Sports suggested");
+            assertEquals((CharSequence) TestUtil.getField(compLayout, "mHintText"), (CharSequence) TestUtil.getField(parsedLayout, "mHintText"));
+
+            // android:completionHintView
+
+            assertEquals((Integer) TestUtil.getField(compLayout, "mHintResource"), R.layout.auto_complete_text_view_hint_view_compiled);
+            assertPositive((Integer) TestUtil.getField(compLayout, "mHintResource")); // El layout por defecto, en este test no se toca mHintResource, se define directamente mHintView
+
+            assertPositive((Integer) TestUtil.getField(parsedLayout, "mHintResource"));
+
+            TextView compHintView = (TextView) TestUtil.getField(compLayout, "mHintView");
+            assertEquals(compHintView.getCurrentTextColor(),0xFFFF0000);
+            TextView parsedHintView = (TextView) TestUtil.getField(parsedLayout, "mHintView");
+            assertEquals(parsedHintView.getCurrentTextColor(),0xFFFF0000);
+
+            // android:completionThreshold
+            assertEquals((Integer) TestUtil.getField(compLayout, "mThreshold"), 3);
+            assertEquals((Integer) TestUtil.getField(compLayout, "mThreshold"), (Integer) TestUtil.getField(parsedLayout, "mThreshold"));
+
+
+            assertEquals(compLayout.getDropDownAnchor(), res.getIdentifier("id/anchorOfAutoCompleteTextViewDropDownId2", null, ctx.getPackageName()));
+            assertEquals(compLayout.getDropDownAnchor(),parsedLayout.getDropDownAnchor());
+
+            assertEquals(compLayout.getDropDownHeight(),ValueUtil.dpToPixelIntRound(150.3f, res));
+            assertEquals(compLayout.getDropDownHeight(),parsedLayout.getDropDownHeight());
+
+            assertEquals(compLayout.getDropDownHorizontalOffset(),ValueUtil.dpToPixelIntFloor(10.3f, res));
+            assertEquals(compLayout.getDropDownHorizontalOffset(), parsedLayout.getDropDownHorizontalOffset());
+
+            assertNotNull((StateListDrawable) TestUtil.getField(compLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}));
+            assertEquals((StateListDrawable) TestUtil.getField(compLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}), (StateListDrawable) TestUtil.getField(parsedLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}));
+
+            assertEquals(compLayout.getDropDownVerticalOffset(), ValueUtil.dpToPixelIntFloor(5.3f, res));
+            assertEquals(compLayout.getDropDownVerticalOffset(),parsedLayout.getDropDownVerticalOffset());
+
+            assertEquals(compLayout.getDropDownWidth(),ValueUtil.dpToPixelIntRound(300.3f, res));
+            assertEquals(compLayout.getDropDownWidth(),parsedLayout.getDropDownWidth());
+        }
+
+        // TextView used as anchor of AutoCompleteTextView Suggest Drop Down (upper View)
+        {
+            childCount++;
+
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(),"Anchor of AutoCompleteTextView Suggest Drop Down 2");
+            assertEquals(compLayout.getText(),parsedLayout.getText());
+        }
 
         // Test AdapterViewFlipper y AdapterViewAnimator
         {

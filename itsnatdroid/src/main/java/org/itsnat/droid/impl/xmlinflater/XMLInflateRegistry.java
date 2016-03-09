@@ -42,10 +42,13 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
+import org.itsnat.droid.impl.xmlinflater.layout.LayoutValueCompiled;
+import org.itsnat.droid.impl.xmlinflater.layout.LayoutValueDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttr;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrCompiled;
-import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttrDynamic;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribs;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribsCompiled;
+import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribsDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
@@ -297,7 +300,7 @@ public class XMLInflateRegistry
         return findViewIdDynamicallyAdded(idName);
     }
 
-    public ViewStyleAttr getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
+    public ViewStyleAttribs getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
     {
         // Ya no solo es para el atributo "style": if (attr.getNamespaceURI() != null || !"style".equals(attr.getName())) throw MiscUtil.internalError();
 
@@ -308,16 +311,14 @@ public class XMLInflateRegistry
             ElementValuesStyle elemStyle = elementResources.getViewStyle(attrDyn.getValuesResourceName());
             DOMAttr domAttrParent = elemStyle.getParentAttr();
             List<DOMAttr> domAttrValueList = elemStyle.getChildDOMAttrValueList();
-            return new ViewStyleAttrDynamic(domAttrParent,domAttrValueList);
+            return new ViewStyleAttribsDynamic(domAttrParent,domAttrValueList);
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
             Context ctx = xmlInflater.getContext();
             String attrValue = attr.getValue();
-            int styleId = getIdentifierCompiled(attrValue, ctx);
-            if (styleId == 0)
-                return null;
-            return new ViewStyleAttrCompiled(styleId);
+            int styleId = getIdentifierCompiled(attrValue, ctx); // Si no se encuentra da error, no devuelve 0
+            return new ViewStyleAttribsCompiled(styleId);
         }
         else throw MiscUtil.internalError();
     }
@@ -330,19 +331,19 @@ public class XMLInflateRegistry
     }
 */
 
-    public int getViewStyle(ViewStyleAttr style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
+    public int getViewStyle(ViewStyleAttribs style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
     {
         // El retorno es el id del style compilado si existe o el del parent en caso de <style name="..." parent="...">
         if (style == null)
             return 0;
 
-        if (style instanceof ViewStyleAttrCompiled)
+        if (style instanceof ViewStyleAttribsCompiled)
         {
-            return ((ViewStyleAttrCompiled)style).getIdentifier();
+            return ((ViewStyleAttribsCompiled)style).getIdentifier();
         }
-        else if (style instanceof ViewStyleAttrDynamic)
+        else if (style instanceof ViewStyleAttribsDynamic)
         {
-            ViewStyleAttrDynamic dynStyle = (ViewStyleAttrDynamic)style;
+            ViewStyleAttribsDynamic dynStyle = (ViewStyleAttribsDynamic)style;
             List<DOMAttr> styleItemAttrs = dynStyle.getDOMAttrItemList();
             if (styleItemAttrs != null) // Si es null es raro, es el caso de <style> vacío
                 styleItemsDynamicAttribs.addAll(styleItemAttrs);
@@ -350,7 +351,7 @@ public class XMLInflateRegistry
             DOMAttr parentStyleDOMAttr = dynStyle.getDOMAttrParentStyle(); // Puede ser null
             if (parentStyleDOMAttr == null)
                 return 0;
-            return getIdentifierCompiled(parentStyleDOMAttr.getValue(),ctx); // Error si no se encuentra, si se especifica ha de existir
+            return getIdentifierCompiled(parentStyleDOMAttr.getValue(),ctx); // Si no se encuentra da error, no devuelve 0
         }
         else throw MiscUtil.internalError();
     }
@@ -1025,8 +1026,7 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
-            if (resId <= 0) return null;
+            int resId = getIdentifierCompiled(attrValue, ctx); // Si no se encuentra da error, no devuelve 0
             return ctx.getResources().getDrawable(resId);
         }
         else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
@@ -1038,113 +1038,70 @@ public class XMLInflateRegistry
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public View getLayout(DOMAttr attr, XMLInflaterLayout xmlInflaterParent,ViewGroup viewParent,int indexChild,ArrayList<DOMAttr> includeAttribs)
+    public LayoutValue getLayout(DOMAttr attr,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
     {
-        // Sólo es llamado al procesar <include> dinámicamente.
-        // viewParent es por ahora NO nulo, no hay todavía un caso de uso con viewParent nulo pues esta llamada es para cargar un Layout a través de un <include> (por ahora)
+        return getLayout(attr,xmlInflaterParent,viewParent,indexChild,null);
+    }
 
-        Context ctx = xmlInflaterParent.getContext();
-
+    public LayoutValue getLayout(DOMAttr attr,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    {
         if (attr instanceof DOMAttrDynamic)
         {
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             if (attrDyn.getValuesResourceName() != null)
             {
                 ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflaterParent);
-                return elementResources.getLayout(attrDyn.getValuesResourceName(), xmlInflaterParent,viewParent,indexChild,includeAttribs);
+                return elementResources.getLayout(attrDyn.getValuesResourceName(), xmlInflaterParent, viewParent, indexChild,includeAttribs);
             }
             else
             {
-                int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
-
-                String resourceMime = attrDyn.getResourceMime();
-                if (MimeUtil.isMIMEResourceXML(resourceMime))
-                {
-                    PageImpl pageParent = PageImpl.getPageImpl(xmlInflaterParent);
-
-                    if (attr instanceof DOMAttrRemote && pageParent == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
-
-                    int countBefore = viewParent.getChildCount();
-
-                    ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
-                    AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
-                    AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
-
-                    ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attrDyn.getResource();
-                    XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
-
-                    XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, pageParent);
-                    View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
-
-                    if (pageParent != null) // existe página padre
-                    {
-                        XMLInflaterLayoutPage xmlInflaterLayoutPageParent = (XMLInflaterLayoutPage) xmlInflaterParent; // No esperamos que sea XMLInflaterDrawablePage
-                        InflatedLayoutPageImpl inflatedLayoutPageParent = xmlInflaterLayoutPageParent.getInflatedLayoutPageImpl();
-
-                        InflatedLayoutPageImpl inflatedLayoutPage = ((XMLInflaterLayoutPage) xmlInflaterLayout).getInflatedLayoutPageImpl();
-                        List<String> scriptList = inflatedLayoutPage.getScriptList();
-
-                        if (!scriptList.isEmpty())
-                        {
-                            inflatedLayoutPageParent.getScriptList().addAll(scriptList);
-                        }
-
-                        if (inflatedLayoutPage instanceof InflatedLayoutPageItsNatImpl)
-                        {
-                            String loadInitScript = ((InflatedLayoutPageItsNatImpl) inflatedLayoutPage).getLoadInitScript();
-                            if (loadInitScript != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server document for referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
-                        }
-                    }
-
-
-                    if (rootView != viewParent) throw MiscUtil.internalError(); // rootView es igual a viewParent
-
-                    int countAfter = viewParent.getChildCount();
-                    int countInserted = countAfter - countBefore;
-                    if (countInserted == 1 && includeAttribs != null)
-                    {
-                        View rootViewChild = viewParent.getChildAt(indexChild);
-
-                        xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild, viewParent, includeAttribs);
-                    }
-
-                    InflatedLayoutImpl inflatedLayout = xmlInflaterLayout.getInflatedLayoutImpl();
-
-                    ViewMapByXMLId viewMapByXMLId = inflatedLayout.getViewMapByXMLId();
-                    WeakMapWithValue<String, View> weakMapWithValue = viewMapByXMLId.getMapIdViewXMLStdPureField();
-                    if (weakMapWithValue != null)
-                    {
-                        InflatedLayoutImpl inflatedLayoutParent = (InflatedLayoutImpl) xmlInflaterParent.getInflatedXML();
-                        weakMapWithValue.copyTo(inflatedLayoutParent.getViewMapByXMLId().getMapIdViewXMLStd());
-                    }
-
-                    return rootView;
-                }
-                else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
+                View view = getViewLayoutDynamicFromXML(attrDyn, xmlInflaterParent, viewParent,indexChild, includeAttribs);
+                return new LayoutValueDynamic(view);
             }
         }
         else if (attr instanceof DOMAttrCompiledResource)
         {
+            Context ctx = xmlInflaterParent.getContext();
             String attrValue = attr.getValue();
-            return getLayoutCompiled(attrValue, xmlInflaterParent, viewParent, indexChild, includeAttribs);
+            int layoutId = getIdentifierCompiled(attrValue, ctx); // Si no se encuentra da error, no devuelve 0
+            return new LayoutValueCompiled(layoutId);
         }
         else throw MiscUtil.internalError();
     }
 
-    private View getLayoutCompiled(String attrValue, XMLInflater xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+
+    public View getViewLayout(DOMAttr attr, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    {
+        LayoutValue layoutValue = getLayout(attr,xmlInflaterParent,viewParent,indexChild,includeAttribs);
+
+        if (layoutValue instanceof LayoutValueDynamic)
+        {
+            return ((LayoutValueDynamic)layoutValue).getView();
+        }
+        else if (layoutValue instanceof LayoutValueCompiled)
+        {
+            int id = ((LayoutValueCompiled)layoutValue).getLayoutId();
+            return getViewLayoutCompiled(id, xmlInflaterParent,viewParent,indexChild,includeAttribs);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private View getViewLayoutCompiled(int resId,XMLInflater xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
         // viewParent es por ahora NO nulo
 
-        if (isResource(attrValue))
+        Context ctx = xmlInflater.getContext();
+
+        int countBefore = -1;
+        if (viewParent != null)
         {
-            Context ctx = xmlInflater.getContext();
+            countBefore = viewParent.getChildCount();
+        }
 
-            int resId = getIdentifierCompiled(attrValue, ctx);
-            if (resId <= 0) return null;
-            int countBefore = viewParent.getChildCount();
+        View rootView = LayoutInflater.from(ctx).inflate(resId, viewParent);
 
-            View rootView = LayoutInflater.from(ctx).inflate(resId, viewParent);
-
+        if (viewParent != null)
+        {
             if (rootView != viewParent) throw MiscUtil.internalError(); // rootView es igual a viewParent
 
             int countAfter = viewParent.getChildCount();
@@ -1152,16 +1109,95 @@ public class XMLInflateRegistry
             if (countInserted == 1 && includeAttribs != null)
             {
                 View rootViewChild = viewParent.getChildAt(indexChild);
-                XMLInflaterLayout xmlInflaterLayout = (XMLInflaterLayout)xmlInflater;
+                XMLInflaterLayout xmlInflaterLayout = (XMLInflaterLayout) xmlInflater;
 
-                xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild,viewParent,includeAttribs);
+                xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild, viewParent, includeAttribs);
+            }
+        }
+
+        return rootView;
+    }
+
+    private View getViewLayoutDynamicFromXML(DOMAttrDynamic attr, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    {
+        if (attr.getValuesResourceName() != null) throw MiscUtil.internalError();
+
+        Context ctx = xmlInflaterParent.getContext();
+
+        int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
+
+        String resourceMime = attr.getResourceMime();
+        if (MimeUtil.isMIMEResourceXML(resourceMime))
+        {
+            PageImpl pageParent = PageImpl.getPageImpl(xmlInflaterParent);
+
+            if (attr instanceof DOMAttrRemote && pageParent == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+
+            int countBefore = 0;
+            if (viewParent != null)
+            {
+                countBefore = viewParent.getChildCount();
+            }
+
+            ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
+            AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
+            AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
+
+            ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attr.getResource();
+            XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
+
+            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, pageParent);
+            View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
+
+            if (pageParent != null) // existe página padre
+            {
+                XMLInflaterLayoutPage xmlInflaterLayoutPageParent = (XMLInflaterLayoutPage) xmlInflaterParent; // No esperamos que sea XMLInflaterDrawablePage
+                InflatedLayoutPageImpl inflatedLayoutPageParent = xmlInflaterLayoutPageParent.getInflatedLayoutPageImpl();
+
+                InflatedLayoutPageImpl inflatedLayoutPage = ((XMLInflaterLayoutPage) xmlInflaterLayout).getInflatedLayoutPageImpl();
+                List<String> scriptList = inflatedLayoutPage.getScriptList();
+
+                if (!scriptList.isEmpty())
+                {
+                    inflatedLayoutPageParent.getScriptList().addAll(scriptList);
+                }
+
+                if (inflatedLayoutPage instanceof InflatedLayoutPageItsNatImpl)
+                {
+                    String loadInitScript = ((InflatedLayoutPageItsNatImpl) inflatedLayoutPage).getLoadInitScript();
+                    if (loadInitScript != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server document for referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
+                }
+            }
+
+            if (viewParent != null)
+            {
+                if (rootView != viewParent) throw MiscUtil.internalError(); // rootView es igual a viewParent
+
+                int countAfter = viewParent.getChildCount();
+                int countInserted = countAfter - countBefore;
+                if (countInserted == 1 && includeAttribs != null)
+                {
+                    View rootViewChild = viewParent.getChildAt(indexChild);
+
+                    xmlInflaterLayout.fillIncludeAttributesFromGetLayout(rootViewChild, viewParent, includeAttribs);
+                }
+            }
+
+            InflatedLayoutImpl inflatedLayout = xmlInflaterLayout.getInflatedLayoutImpl();
+
+            ViewMapByXMLId viewMapByXMLId = inflatedLayout.getViewMapByXMLId();
+            WeakMapWithValue<String, View> weakMapWithValue = viewMapByXMLId.getMapIdViewXMLStdPureField();
+            if (weakMapWithValue != null)
+            {
+                InflatedLayoutImpl inflatedLayoutParent = (InflatedLayoutImpl) xmlInflaterParent.getInflatedXML();
+                weakMapWithValue.copyTo(inflatedLayoutParent.getViewMapByXMLId().getMapIdViewXMLStd());
             }
 
             return rootView;
         }
-
-        throw new ItsNatDroidException("Cannot process " + attrValue);
+        else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
+
 
     private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
     {
