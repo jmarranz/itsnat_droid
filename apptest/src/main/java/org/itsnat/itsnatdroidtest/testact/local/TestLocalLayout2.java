@@ -975,40 +975,44 @@ public class TestLocalLayout2
         {
             childCount++;
 
-            FrameLayout compLayout = (FrameLayout) comp.getChildAt(childCount);
-            FrameLayout parsedLayout = (FrameLayout) parsed.getChildAt(childCount);
+            LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
+
 
             SlidingDrawer compDrawer = (SlidingDrawer) compLayout.getChildAt(0);
             SlidingDrawer parsedDrawer = (SlidingDrawer) parsedLayout.getChildAt(0);
 
             // android:allowSingleTap
-            assertFalse((Boolean)TestUtil.getField(compDrawer, "mAllowSingleTap"));
-            assertEquals((Boolean)TestUtil.getField(compDrawer,"mAllowSingleTap"), (Boolean)TestUtil.getField(parsedDrawer, "mAllowSingleTap"));
+            assertFalse((Boolean) TestUtil.getField(compDrawer, "mAllowSingleTap"));
+            assertEquals((Boolean) TestUtil.getField(compDrawer, "mAllowSingleTap"), (Boolean) TestUtil.getField(parsedDrawer, "mAllowSingleTap"));
 
             // android:animateOnClick
             assertTrue((Boolean) TestUtil.getField(compDrawer, "mAnimateOnClick"));
-            assertEquals((Boolean)TestUtil.getField(compDrawer,"mAnimateOnClick"), (Boolean)TestUtil.getField(parsedDrawer, "mAnimateOnClick"));
+            assertEquals((Boolean) TestUtil.getField(compDrawer, "mAnimateOnClick"), (Boolean) TestUtil.getField(parsedDrawer, "mAnimateOnClick"));
 
             // android:bottomOffset
-            assertEquals((Integer) TestUtil.getField(compDrawer,"mBottomOffset"), ValueUtil.dpToPixelIntFloor(10.3f, res));
-            assertEquals((Integer)TestUtil.getField(compDrawer,"mBottomOffset"), (Integer)TestUtil.getField(parsedDrawer, "mBottomOffset"));
+            assertEquals((Integer) TestUtil.getField(compDrawer, "mBottomOffset"), ValueUtil.dpToPixelIntFloor(10.3f, res));
+            assertEquals((Integer) TestUtil.getField(compDrawer, "mBottomOffset"), (Integer) TestUtil.getField(parsedDrawer, "mBottomOffset"));
 
             // android:handle
-            assertEquals((Integer) TestUtil.getField(compDrawer,"mHandleId"), res.getIdentifier("@id/slidingHandle", null, ctx.getPackageName()));
-            assertEquals((Integer)TestUtil.getField(compDrawer,"mHandleId"), (Integer)TestUtil.getField(parsedDrawer, "mHandleId"));
+            assertEquals((Integer) TestUtil.getField(compDrawer, "mHandleId"), res.getIdentifier("@id/slidingHandle", null, ctx.getPackageName()));
+            assertEquals((Integer) TestUtil.getField(compDrawer, "mHandleId"), (Integer) TestUtil.getField(parsedDrawer, "mHandleId"));
 
             // android:content
-            assertEquals((Integer)TestUtil.getField(compDrawer,"mContentId"), res.getIdentifier("@id/slidingContent", null, ctx.getPackageName()));
-            assertEquals((Integer)TestUtil.getField(compDrawer,"mContentId"), (Integer)TestUtil.getField(parsedDrawer, "mContentId"));
+            assertEquals((Integer) TestUtil.getField(compDrawer, "mContentId"), res.getIdentifier("@id/slidingContent", null, ctx.getPackageName()));
+            assertEquals((Integer) TestUtil.getField(compDrawer, "mContentId"), (Integer) TestUtil.getField(parsedDrawer, "mContentId"));
 
             // android:orientation
-            assertFalse((Boolean)TestUtil.getField(compDrawer,"mVertical"));
-            assertEquals((Boolean)TestUtil.getField(compDrawer,"mVertical"), (Boolean)TestUtil.getField(parsedDrawer, "mVertical"));
+            assertFalse((Boolean) TestUtil.getField(compDrawer, "mVertical"));
+            assertEquals((Boolean) TestUtil.getField(compDrawer, "mVertical"), (Boolean) TestUtil.getField(parsedDrawer, "mVertical"));
 
             // android:topOffset
-            assertEquals((Integer) TestUtil.getField(compDrawer,"mTopOffset"), ValueUtil.dpToPixelIntFloor(10.3f, res));
-            assertEquals((Integer)TestUtil.getField(compDrawer,"mTopOffset"), (Integer)TestUtil.getField(parsedDrawer, "mTopOffset"));
+            assertEquals((Integer) TestUtil.getField(compDrawer, "mTopOffset"), ValueUtil.dpToPixelIntFloor(10.3f, res));
+            assertEquals((Integer) TestUtil.getField(compDrawer, "mTopOffset"), (Integer) TestUtil.getField(parsedDrawer, "mTopOffset"));
+
         }
+
+
 
 
         // Test ViewStub

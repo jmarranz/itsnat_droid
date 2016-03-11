@@ -72,8 +72,8 @@ public class ClassDescView_widget_SlidingDrawer extends ClassDescViewBased
         addAttrDescAN(new AttrDescReflecFieldSetBoolean(this, "allowSingleTap", "mAllowSingleTap", true));
         addAttrDescAN(new AttrDescReflecFieldSetBoolean(this, "animateOnClick", "mAnimateOnClick", true));
         addAttrDescAN(new AttrDescReflecFieldSetDimensionIntFloor(this, "bottomOffset", "mBottomOffset", 0));
-        addAttrDescAN(new AttrDescReflecFieldSetId(this, "content", "mContentId", -1));
-        addAttrDescAN(new AttrDescReflecFieldSetId(this, "handle", "mHandleId", -1));
+        addAttrDescAN(new AttrDescReflecFieldSetId(this, "content", "mContentId", -1)); // SlidingDrawer sólo admite referenciar un TextView hijo del <SlidingDrawer>, getLayout() no vale
+        addAttrDescAN(new AttrDescReflecFieldSetId(this, "handle", "mHandleId", -1));   // SlidingDrawer sólo admite referenciar un TextView hijo del <SlidingDrawer>, getLayout() no vale
         addAttrDescAN(new AttrDescView_widget_SlidingDrawer_orientation(this));
         addAttrDescAN(new AttrDescReflecFieldSetDimensionIntFloor(this, "topOffset", "mTopOffset", 0));
     }

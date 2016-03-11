@@ -622,11 +622,12 @@
             android:background="#00ff00"/>
 
         <!-- SlidingDrawer
-         Es necesario un FrameLayout o similar contenedor con dimensiones concretas
+         Es necesario un LinearLayout o similar contenedor con dimensiones concretas
         -->
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="100dp"
+            android:orientation="vertical">
 
             <SlidingDrawer
                 android:layout_width="match_parent"
@@ -655,7 +656,8 @@
 
             </SlidingDrawer>
 
-        </FrameLayout>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
