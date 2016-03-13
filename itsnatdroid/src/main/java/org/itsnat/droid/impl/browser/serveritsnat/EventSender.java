@@ -8,6 +8,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpRequestData;
+import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
@@ -15,6 +16,7 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.net.SocketTimeoutException;
@@ -73,7 +75,11 @@ public class EventSender
                                                     Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext) throws Exception
     {
         // Ejecutado en multihilo en el caso async
-        HttpRequestResultOKBeanshellImpl result = (HttpRequestResultOKBeanshellImpl)HttpUtil.httpPost(servletPath, httpRequestData, paramList, null);
+        HttpRequestResultOKImpl result = HttpUtil.httpPost(servletPath, httpRequestData, paramList, null);
+        if (!(result instanceof HttpRequestResultOKBeanshellImpl))
+            throw new ItsNatDroidServerResponseException("Expected " + MimeUtil.MIME_BEANSHELL + " MIME in Content-Type:" + result.getMimeType(),result);
+
+        HttpRequestResultOKBeanshellImpl resultBS = (HttpRequestResultOKBeanshellImpl)result;
 
         // No veo problemas de multithread en estas 4 líneas de código:
         PageItsNatImpl pageItsNat = eventSender.getItsNatDocItsNatImpl().getPageItsNatImpl();
@@ -81,15 +87,15 @@ public class EventSender
         XMLDOMLayoutPageItsNat xmlDOMLayoutPage = pageItsNat.getInflatedLayoutPageItsNatImpl().getXMLDOMLayoutPageItsNat();
         String itsNatServerVersion = pageItsNat.getItsNatServerVersion();
 
-        String code = result.getResponseText();
+        String code = resultBS.getResponseText();
 
         XMLDOMLayoutPageItsNatDownloader downloader = XMLDOMLayoutPageItsNatDownloader.createXMLDOMLayoutPageItsNatDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
         LinkedList<DOMAttrRemote> attrRemoteListBSParsed = downloader.parseBeanShellAndDownloadRemoteResources(code);
 
         if (attrRemoteListBSParsed != null)
-            result.setAttrRemoteListBSParsed(attrRemoteListBSParsed);
+            resultBS.setAttrRemoteListBSParsed(attrRemoteListBSParsed);
 
-        return result;
+        return resultBS;
     }
 
     public static void onFinishOk(EventSender eventSender, EventGenericImpl evt, HttpRequestResultOKBeanshellImpl result)

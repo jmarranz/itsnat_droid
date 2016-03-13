@@ -58,6 +58,9 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         {
 
             interp.set(NamespaceUtil.XMLNS_ANDROID_ALIAS, NamespaceUtil.XMLNS_ANDROID);
+
+            // interp.setStrictJava(true);
+
             // No definimos aquí set("itsNatDoc",null) o similar para poder definir métodos alert y toast
             // porque queda "itsNatDoc" como global y cualquier set() cambia valor global y por tanto ya no es local por Page
 
@@ -70,6 +73,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
             code.append("import android.view.*;");
             code.append("import android.widget.*;");
             code.append("import " + CustomFunction.class.getName() + ";");
+
 
             code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a){return new Object[]{a};}");

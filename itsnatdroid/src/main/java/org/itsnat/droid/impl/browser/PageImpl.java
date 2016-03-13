@@ -299,6 +299,11 @@ public abstract class PageImpl implements Page
         return pageRequestCloned.clone();
     }
 
+    public boolean isDisposed()
+    {
+        return dispose;
+    }
+
     public void dispose()
     {
         if (dispose) return;

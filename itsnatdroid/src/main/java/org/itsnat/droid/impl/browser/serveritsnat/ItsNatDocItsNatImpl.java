@@ -49,8 +49,6 @@ import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
-import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
@@ -232,37 +230,6 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         paramList.add(new NameValue("itsnat_session_id", pageItsNat.getItsNatSessionImpl().getId()));
         return paramList;
     }
-
-    private String extractAttrNamespaceURI(String namespaceURI, String name)
-    {
-        if (namespaceURI != null) return namespaceURI; // De ItsNat server el script nunca contiene un android:localname (localname a secas) si el namespaceURI ha sido especificado explícitamente
-
-        // El namespace puede estar en el name como prefijo por ejemplo "android:"
-        String prefix = NamespaceUtil.getPrefix(name);
-        if (prefix == null)
-            return null;
-
-        InflatedLayoutPageImpl inflatedLayoutPage = getPageImpl().getInflatedLayoutPageImpl();
-        return inflatedLayoutPage.getRootNamespaceByPrefix(prefix); // Puede ser null, no encontrado
-    }
-
-    private String extractAttrLocalName(String namespaceURI, String name)
-    {
-        if (namespaceURI != null) return name; // De ItsNat server el script nunca contiene un android:localname (localname a secas) si el namespaceURI ha sido especificado explícitamente
-
-        // El namespace puede estar en el name como prefijo por ejemplo "android:"
-        String prefix = NamespaceUtil.getPrefix(name);
-        if (prefix == null)
-            return name;
-
-        InflatedLayoutPageImpl inflatedLayoutPage = getPageImpl().getInflatedLayoutPageImpl();
-        namespaceURI = inflatedLayoutPage.getRootNamespaceByPrefix(prefix);
-        if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará lo consideramos como un atributo desconocido y conservamos el prefijo
-            return NamespaceUtil.getLocalName(name);
-
-        return name;
-    }
-
 
     private DOMAttr toDOMAttr(String namespaceURI,String name,String value)
     {

@@ -215,22 +215,37 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
         ex.printStackTrace();
 
-        StringBuilder msg = new StringBuilder();
-        msg.append("User Msg: Event processing error");
-        if (evt instanceof NormalEvent)
-            msg.append("\nType: " + ((NormalEvent)evt).getType());
-        msg.append("\nException Msg: " + ex.getMessage());
-
-        TestUtil.alertDialog(act,msg.toString());
         if (ex instanceof ItsNatDroidServerResponseException)
-            TestUtil.alertDialog(act, "User Msg: Server loaded content returned error: " + ((ItsNatDroidServerResponseException) ex).getHttpRequestResult().getResponseText());
+        {
+            if (page.isDisposed())
+                TestUtil.alertDialog(act, "User Msg: received event in page disposed (this error usually should be hidden for end users) " + ((ItsNatDroidServerResponseException) ex).getHttpRequestResult().getResponseText());
+            else
+                TestUtil.alertDialog(act, "User Msg: Server loaded content returned error: " + ((ItsNatDroidServerResponseException) ex).getHttpRequestResult().getResponseText());
+        }
         else if (ex instanceof ItsNatDroidScriptException)
         {
             ItsNatDroidScriptException exScr = (ItsNatDroidScriptException) ex;
+            StringBuilder msg = new StringBuilder();
+            msg.append("User Msg: Event processing error (executing script code)");
+            if (evt instanceof NormalEvent)
+                msg.append("\nType: " + ((NormalEvent)evt).getType());
+            msg.append("\nException Msg: " + exScr.getMessage());
+            msg.append("\nCode: " + exScr.getScript());
+
             if (exScr.getCause() instanceof EvalError)
                 ((EvalError) exScr.getCause()).printStackTrace();
 
             Log.v("TestActivity", "CODE:" + exScr.getScript());
+        }
+        else
+        {
+            StringBuilder msg = new StringBuilder();
+            msg.append("User Msg: Event processing error");
+            if (evt instanceof NormalEvent)
+                msg.append("\nType: " + ((NormalEvent)evt).getType());
+            msg.append("\nException Msg: " + ex.getMessage());
+
+            TestUtil.alertDialog(act,msg.toString());
         }
 
     }

@@ -26,5 +26,6 @@ public interface Page
     public void setOnServerStateLostListener(OnServerStateLostListener listener);
     public void setOnHttpRequestErrorListener(OnHttpRequestErrorListener listener);
     public PageRequest reusePageRequest();
+    public boolean isDisposed();
     public void dispose();
 }

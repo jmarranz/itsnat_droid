@@ -51,7 +51,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
         if (XMLDOMValues.isResourceTypeValues(resType))
         {
             int valuesResourcePos = value.lastIndexOf(':'); // Esperamos el de por ej "...filename.xml:size" pero puede devolvernos el de "@assets:dimen..." lo que significa que no existe valuesResourceName lo cual es erróneo
-            if (valuesResourcePos > posType) // Correcto, existe un segundo ":" para el valuesResourceName
+            if (valuesResourcePos > posType && isResourceNameValid(value,valuesResourcePos)) // Correcto, existe un segundo ":" para el valuesResourceName y es un nombre válido
             {
                 locationTmp = value.substring(posPath + 1,valuesResourcePos); // incluye la extension
 
@@ -109,6 +109,25 @@ public abstract class DOMAttrDynamic extends DOMAttr
             this.mime = MimeUtil.MIME_XML;
             this.ninePatch = false;
         }
+    }
+
+    private boolean isResourceNameValid(String value,int valuesResourcePos)
+    {
+        String resName = value.substring(valuesResourcePos + 1);
+
+        // El nombre de un recurso ya sea un path o un <item name="resname"> o un <string name="resname> se convierte en una variable Java en la clase R.java
+        // (ejemplo public static final int prueba=0x7f090005; por lo que este es el criterio de validez
+        int len = resName.length();
+        for(int i = 0; i < len; i++)
+        {
+            char c = resName.charAt(0);
+            if (i == 0 && !Character.isJavaIdentifierStart(c))
+                return false;
+            else if (!Character.isJavaIdentifierPart(c))
+                return false;
+        }
+
+        return true;
     }
 
     public String getResourceType()

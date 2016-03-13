@@ -169,34 +169,34 @@ public class XMLInflateRegistry
         else throw MiscUtil.internalError();
     }
 
-    private int getIdentifierAddIfNecessaryCompiled(String value,String type, Context ctx)
+    private int getIdentifierAddIfNecessaryCompiled(String attrValue,String type, Context ctx)
     {
         // type puede ser null
         // Procesamos aquí los casos de "@+id/...", la razón es que cualquier atributo que referencie un id (más allá
         // de android:id) puede registrar un nuevo atributo lo cual es útil si el android:id como tal está después,
         // después en android:id ya no hace falta que sea "@+id/...".
         // http://stackoverflow.com/questions/11029635/android-radiogroup-checkedbutton-property
-        if (("+id".equals(type) || "id".equals(type)) && (!value.startsWith("@+id/") && !value.startsWith("@id/")))
+        if (("+id".equals(type) || "id".equals(type)) && (!attrValue.startsWith("@+id/") && !attrValue.startsWith("@id/")))
         {
-            if ("+id".equals(type)) value = "@+id/" + value;
-            else value = "@id/" + value;
+            if ("+id".equals(type)) attrValue = "@+id/" + attrValue;
+            else attrValue = "@id/" + attrValue;
         }
 
         int id;
-        if (value.startsWith("@+id/") || value.startsWith("@id/")) // Si fuera el caso de "@+mypackage:id/name" ese caso no lo soportamos, no lo he visto nunca aunque en teoría está sintácticamente permitido
+        if (attrValue.startsWith("@+id/") || attrValue.startsWith("@id/")) // Si fuera el caso de "@+mypackage:id/name" ese caso no lo soportamos, no lo he visto nunca aunque en teoría está sintácticamente permitido
         {
-            id = getIdentifierCompiled(value, ctx, false); // Tiene prioridad el recurso de Android, pues para qué generar un id nuevo si ya existe o bien ya fue registrado dinámicamente
+            id = getIdentifierCompiled(attrValue, ctx, false); // Tiene prioridad el recurso de Android, pues para qué generar un id nuevo si ya existe o bien ya fue registrado dinámicamente
             if (id <= 0)
             {
-                int pos = value.indexOf('/');
-                String idName = value.substring(pos + 1);
-                if (value.startsWith("@+id/")) id = findViewIdDynamicallyAddedAddIfNecessary(idName);
+                int pos = attrValue.indexOf('/');
+                String idName = attrValue.substring(pos + 1);
+                if (attrValue.startsWith("@+id/")) id = findViewIdDynamicallyAddedAddIfNecessary(idName);
                 else id = findViewIdDynamicallyAdded(idName);
                 if (id <= 0)
-                    throw new ItsNatDroidException("Not found resource with id \"" + value + "\" you could use @+id/ ");
+                    throw new ItsNatDroidException("Not found resource with id \"" + attrValue + "\" you could use @+id/ ");
             }
         }
-        else id = getIdentifierCompiled(value, ctx);
+        else id = getIdentifierCompiled(attrValue, ctx);
         return id;
     }
 
@@ -205,53 +205,58 @@ public class XMLInflateRegistry
         return getIdentifierCompiled(attrValue, ctx, true);
     }
 
-    private int getIdentifierCompiled(String value, Context ctx, boolean throwErr)
+    private boolean isIdentifierCompiledValueNull(String attrValue)
     {
-        if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
+        return ("0".equals(attrValue) || "-1".equals(attrValue) || "@null".equals(attrValue));
+    }
+
+    private int getIdentifierCompiled(String attrValue, Context ctx, boolean throwErr)
+    {
+        if (isIdentifierCompiledValueNull(attrValue)) return 0; // Si throwErr es true, es el único caso en el que se devuelve 0
 
         int id;
-        char first = value.charAt(0);
+        char first = attrValue.charAt(0);
         if (first == '?')
         {
-            id = getIdentifierCompiledAttrTheme(value, ctx);
+            id = getIdentifierCompiledAttrTheme(attrValue, ctx);
             if (id > 0)
                 return id;
         }
         else if (first == '@')
         {
             // Tiene prioridad el registro de Android que el de ItsNat en el caso de "@+id", para qué generar un id si ya existe como recurso
-            id = getIdentifierResource(value, ctx);
+            id = getIdentifierResource(attrValue, ctx);
             if (id > 0)
                 return id;
 
-            if (value.startsWith("@id/") || value.startsWith("@+id/"))
+            if (attrValue.startsWith("@id/") || attrValue.startsWith("@+id/"))
             {
                 // En este caso es posible que se haya registrado dinámicamente el id via "@+id/..."
-                id = getViewIdDynamicallyAdded(value);
+                id = getViewIdDynamicallyAdded(attrValue);
                 if (id > 0)
                     return id;
             }
         }
-        else if (value.startsWith("android:"))
+        else if (attrValue.startsWith("android:"))
         {
             // Es el caso de style parent definido por Android ej: <style name="..." parent="android:Theme.Holo.Light.DarkActionBar"> que es la manera reducida de poner:
             // parent="@android:style/Theme.Holo.Light.DarkActionBar" que se procesaría en el caso anterior
             // Sinceramente no se como obtenerlo via Resources.getIdentifier, lo que hacemos es convertirlo en el formato parent="@android:style/Theme.Holo.Light.DarkActionBar"
 
             int pos = "android:".length();
-            value = "@android:style/" +  value.substring(pos);
+            attrValue = "@android:style/" +  attrValue.substring(pos);
 
-            id = getIdentifierResource(value,ctx);
+            id = getIdentifierResource(attrValue,ctx);
             if (id > 0)
                 return id;
         }
         else
         {
-            throw new ItsNatDroidException("Bad format in identifier declaration: " + value);
+            throw new ItsNatDroidException("Bad format in identifier declaration: " + attrValue);
         }
 
         if (throwErr && id <= 0)
-            throw new ItsNatDroidException("Not found resource with id value \"" + value + "\"");
+            throw new ItsNatDroidException("Not found resource with id value \"" + attrValue + "\"");
         return id;
     }
 
@@ -317,7 +322,7 @@ public class XMLInflateRegistry
         {
             Context ctx = xmlInflater.getContext();
             String attrValue = attr.getValue();
-            int styleId = getIdentifierCompiled(attrValue, ctx); // Si no se encuentra da error, no devuelve 0
+            int styleId = getIdentifierCompiled(attrValue, ctx);
             return new ViewStyleAttribsCompiled(styleId);
         }
         else throw MiscUtil.internalError();
@@ -351,7 +356,7 @@ public class XMLInflateRegistry
             DOMAttr parentStyleDOMAttr = dynStyle.getDOMAttrParentStyle(); // Puede ser null
             if (parentStyleDOMAttr == null)
                 return 0;
-            return getIdentifierCompiled(parentStyleDOMAttr.getValue(),ctx); // Si no se encuentra da error, no devuelve 0
+            return getIdentifierCompiled(parentStyleDOMAttr.getValue(),ctx);
         }
         else throw MiscUtil.internalError();
     }
@@ -384,6 +389,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for an integer resource");
             return ctx.getResources().getInteger(resId);
         }
         else
@@ -420,6 +426,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a dimension resource");
             return ctx.getResources().getDimension(resId); // No hay getFloat
         }
         else return parseFloat(attrValue);
@@ -447,6 +454,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a integer resource");
             return ctx.getResources().getString(resId);
         }
         return StringUtil.convertEscapedStringLiteralToNormalString(attrValue);
@@ -474,6 +482,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a text resource");
             return ctx.getResources().getText(resId);
         }
         else
@@ -616,6 +625,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a text array resource");
             return ctx.getResources().getTextArray(resId);
         }
         else throw MiscUtil.internalError();
@@ -643,6 +653,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a boolean resource");
             return ctx.getResources().getBoolean(resId);
         }
         else return Boolean.parseBoolean(attrValue);
@@ -672,6 +683,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a dimension resource");
             float num = ctx.getResources().getDimension(resId);
             return new Dimension(TypedValue.COMPLEX_UNIT_PX, num);
         }
@@ -778,6 +790,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a dimension resource");
             String value = res.getString(resId);
             return parseDimensionPercFloat(value, ctx);
         }
@@ -906,6 +919,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a color resource");
             return ctx.getResources().getColor(resId);
         }
         else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
@@ -947,6 +961,7 @@ public class XMLInflateRegistry
         if (isResource(attrValue))
         {
             int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a percentage resource");
             String str = ctx.getResources().getString(resId);
             return getPercent(str);
         }
@@ -1026,7 +1041,8 @@ public class XMLInflateRegistry
     {
         if (isResource(attrValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx); // Si no se encuentra da error, no devuelve 0
+            int resId = getIdentifierCompiled(attrValue, ctx);
+            if (resId == 0) return null;
             return ctx.getResources().getDrawable(resId);
         }
         else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
@@ -1063,7 +1079,7 @@ public class XMLInflateRegistry
         {
             Context ctx = xmlInflaterParent.getContext();
             String attrValue = attr.getValue();
-            int layoutId = getIdentifierCompiled(attrValue, ctx); // Si no se encuentra da error, no devuelve 0
+            int layoutId = getIdentifierCompiled(attrValue, ctx);
             return new LayoutValueCompiled(layoutId);
         }
         else throw MiscUtil.internalError();
@@ -1081,6 +1097,7 @@ public class XMLInflateRegistry
         else if (layoutValue instanceof LayoutValueCompiled)
         {
             int id = ((LayoutValueCompiled)layoutValue).getLayoutId();
+            if (id <= 0) return null;
             return getViewLayoutCompiled(id, xmlInflaterParent,viewParent,indexChild,includeAttribs);
         }
         else throw MiscUtil.internalError();
