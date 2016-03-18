@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.view.View;
 import android.widget.AdapterViewAnimator;
@@ -25,9 +24,9 @@ public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Bas
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int id = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
-
-        ObjectAnimator animator = id > 0 ? (ObjectAnimator)AnimatorInflater.loadAnimator(attrCtx.getContext(), id) : getDefaultAnimation();
+        ObjectAnimator animator = (ObjectAnimator)loadAnimator(attr,attrCtx.getXMLInflaterLayout());
+        if (animator == null)
+            animator = getDefaultAnimation();
 
         setAnimation((AdapterViewAnimator)view,animator);
     }

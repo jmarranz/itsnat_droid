@@ -1,9 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -168,12 +170,22 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
 
     public int getColor(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getColor(attr,xmlInflater);
+        return getXMLInflateRegistry().getColor(attr, xmlInflater);
     }
 
     public float getPercent(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getPercent(attr,xmlInflater);
+        return getXMLInflateRegistry().getPercent(attr, xmlInflater);
+    }
+
+    public Animator loadAnimator(DOMAttr attr, XMLInflater xmlInflater)
+    {
+        return getXMLInflateRegistry().loadAnimator(attr, xmlInflater);
+    }
+
+    public Animation loadAnimation(DOMAttr attr, XMLInflater xmlInflater)
+    {
+        return getXMLInflateRegistry().loadAnimation(attr, xmlInflater);
     }
 
     public static <T> T parseSingleName(String value, MapSmart<String, T> nameValueMap)

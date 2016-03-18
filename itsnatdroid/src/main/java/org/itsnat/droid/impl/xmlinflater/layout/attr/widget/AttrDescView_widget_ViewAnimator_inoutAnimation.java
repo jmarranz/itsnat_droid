@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.ViewAnimator;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -22,13 +22,12 @@ public class AttrDescView_widget_ViewAnimator_inoutAnimation extends AttrDesc<Cl
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        Context ctx = attrCtx.getContext();
-        int id = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
+        Animation animation = loadAnimation(attr, attrCtx.getXMLInflaterLayout());
 
         if ("inAnimation".equals(name))
-            ((ViewAnimator)view).setInAnimation(ctx,id);
+            ((ViewAnimator)view).setInAnimation(animation);
         else if ("outAnimation".equals(name))
-            ((ViewAnimator)view).setOutAnimation(ctx,id);
+            ((ViewAnimator)view).setOutAnimation(animation);
     }
 
     @Override

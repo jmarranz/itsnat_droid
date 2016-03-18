@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
     private String loadURLBase()
     {
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
-        String urlBase = settings.getString("remoteUrlBase", "http://192.168.1.215:8080/itsnat_dev/");
+        String urlBase = settings.getString("remoteUrlBase", getResources().getString(R.string.remoteUrlBase));
         return urlBase;
     }
 

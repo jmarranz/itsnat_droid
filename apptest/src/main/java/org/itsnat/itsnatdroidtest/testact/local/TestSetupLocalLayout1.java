@@ -67,7 +67,7 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
 
     private static void defineAdapterViewAnimator(TestActivity act, View rootView)
     {
-        Resources res = act.getResources();
+        // Resources res = act.getResources();
         AdapterViewFlipper viewFlipper = (AdapterViewFlipper) rootView.findViewById(R.id.adapterViewAnimatorTestId);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -86,7 +86,7 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
     {
         // http://stackoverflow.com/questions/17636735/expandable-listview-in-fragment
 
-        Resources res = act.getResources();
+        // Resources res = act.getResources();
         ExpandableListView listView = (ExpandableListView) rootView.findViewById(R.id.expanListViewTestId);
 
         final int NUM_GROUPS = 10;
@@ -130,7 +130,7 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
 
     private static void defineSpinnerDialog(TestActivity act, View rootView)
     {
-        Resources res = act.getResources();
+        // Resources res = act.getResources();
         Spinner gridView = (Spinner) rootView.findViewById(R.id.spinnerDialogTestId);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Aunque parece que es para dropdown sirve para dialog también y queda mejor que sin definir
@@ -139,7 +139,7 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
 
     private static void defineSpinnerDropdown(TestActivity act, View rootView)
     {
-        Resources res = act.getResources();
+        // Resources res = act.getResources();
         Spinner gridView = (Spinner) rootView.findViewById(R.id.spinnerDropdownTestId);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

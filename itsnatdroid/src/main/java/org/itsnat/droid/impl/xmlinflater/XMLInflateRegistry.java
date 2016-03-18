@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -12,6 +14,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
@@ -1259,6 +1263,29 @@ public class XMLInflateRegistry
         cacheXMLDOMValuesXMLInflaterValuesMap.put(xmlDOMValues,elementResources);
 
         return elementResources;
+    }
+
+
+    public Animator loadAnimator(DOMAttr attr, XMLInflater xmlInflater)
+    {
+        // HACER: caso dinámico
+
+        int id = getIdentifier(attr, xmlInflater);
+        if (id <= 0)
+            return null;
+
+        return AnimatorInflater.loadAnimator(xmlInflater.getContext(), id);
+    }
+
+    public Animation loadAnimation(DOMAttr attr, XMLInflater xmlInflater)
+    {
+        // HACER: caso dinámico
+
+        int id = getIdentifier(attr, xmlInflater);
+        if (id <= 0)
+            return null;
+
+        return AnimationUtils.loadAnimation(xmlInflater.getContext(), id);
     }
 }
 
