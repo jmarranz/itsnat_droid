@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 
 import android.graphics.drawable.Drawable;
 
-import org.itsnat.droid.AttrDrawableInflaterListener;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -13,6 +11,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
+import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
@@ -30,14 +29,14 @@ import java.util.Map;
  */
 public class XMLInflaterDrawable extends XMLInflater
 {
-    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
+    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
     {
-        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
+        super(inflatedXML,bitmapDensityReference,attrInflaterListeners);
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
     {
-        return new XMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener);
+        return new XMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrInflaterListeners);
     }
 
 

@@ -41,4 +41,10 @@
         <item>Cádiz</item>
     </string-array>
 
+    <item name="prueba_animator" type="animator">@animator/object_animator_test</item>
+    <item name="prueba_anim" type="anim">@anim/fade_in</item>
+
+    <!-- <animator name="prueba_animator2" type="animator">@animator/object_animator_test</animator> -->
+    <!-- <anim name="prueba_anim2" type="anim">@anim/fade_in</anim> -->
+
 </resources>

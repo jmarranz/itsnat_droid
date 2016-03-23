@@ -9,6 +9,8 @@ import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MimeUtil;
 
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ANIM;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ANIMATOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
 
@@ -59,11 +61,11 @@ public abstract class DOMAttrDynamic extends DOMAttr
             }
             else // No hay selector ":selector"
             {
-                if (TYPE_DRAWABLE.equals(resType) || TYPE_LAYOUT.equals(resType))
+                if (TYPE_ANIM.equals(resType) || TYPE_ANIMATOR.equals(resType) || TYPE_DRAWABLE.equals(resType) || TYPE_LAYOUT.equals(resType))
                 {
                     // En el caso "drawable" podemos tener un acceso a un <drawable> en archivo XML en /res/values o bien directamente acceder al XML en /res/drawable
                     // este es el caso de acceso DIRECTO al XML del drawable
-                    // Idem con <item name="..." type="layout">
+                    // Idem con <item name="..." type="layout"> y type="anim" y type="animator"
                     locationTmp = value.substring(posPath + 1);
 
                     this.valuesResourceName = null;

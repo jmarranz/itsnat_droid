@@ -18,6 +18,7 @@ public interface PageRequest
     public PageRequest setOnScriptErrorListener(OnScriptErrorListener listener);
     public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
     public PageRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener listener);
+    public PageRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener listener);
     public PageRequest addRequestProperty(String name, String value);
     public PageRequest setRequestProperty(String name, String value);
     public boolean removeProperty(String name);

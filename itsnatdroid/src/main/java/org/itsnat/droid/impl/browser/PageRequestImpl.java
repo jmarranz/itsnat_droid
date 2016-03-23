@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 
 import org.apache.http.params.HttpParams;
+import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ClientErrorMode;
@@ -53,6 +54,7 @@ public class PageRequestImpl implements PageRequest
     protected OnScriptErrorListener scriptErrorListener;
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
+    protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
     protected boolean sync = false;
     protected String url;
     protected String pageURLBase;
@@ -82,6 +84,7 @@ public class PageRequestImpl implements PageRequest
         this.scriptErrorListener = origin.getOnScriptErrorListener();
         this.attrLayoutInflaterListener = origin.attrLayoutInflaterListener;
         this.attrDrawableInflaterListener = origin.attrDrawableInflaterListener;
+        this.attrAnimatorInflaterListener = origin.attrAnimatorInflaterListener;
         this.sync = origin.sync;
         this.url = origin.url;
         this.pageURLBase = origin.pageURLBase;
@@ -188,6 +191,17 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
+    public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()
+    {
+        return attrAnimatorInflaterListener;
+    }
+
+    @Override
+    public PageRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener attrAnimatorInflaterListener)
+    {
+        this.attrAnimatorInflaterListener = attrAnimatorInflaterListener;
+        return this;
+    }
 
     public RequestPropertyMap getRequestPropertyMap()
     {

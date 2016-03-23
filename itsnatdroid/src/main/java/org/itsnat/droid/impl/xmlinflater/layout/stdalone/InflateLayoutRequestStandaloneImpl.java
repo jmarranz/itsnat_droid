@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 
+import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
@@ -32,6 +33,8 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH; // 320 (xhdpi), por ej el Nexus 4
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
+    protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
+
 
     public InflateLayoutRequestStandaloneImpl(ItsNatDroidImpl itsNatDroid)
     {
@@ -96,6 +99,18 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
         this.attrDrawableInflaterListener = attrDrawableInflaterListener;
+        return this;
+    }
+
+    public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()
+    {
+        return attrAnimatorInflaterListener;
+    }
+
+    @Override
+    public InflateLayoutRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener attrAnimatorInflaterListener)
+    {
+        this.attrAnimatorInflaterListener = attrAnimatorInflaterListener;
         return this;
     }
 

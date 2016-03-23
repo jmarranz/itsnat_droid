@@ -1,6 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.shared.classtree;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttributeMap;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.StringUtil;
@@ -103,6 +105,10 @@ public abstract class ClassDesc<Tnative>
             return null; // Namespace no gestionado aquí
     }
 
+    protected static DOMAttr findAttribute(String namespaceURI, String attrName, DOMAttributeMap attribMap)
+    {
+        return attribMap.getDOMAttribute(namespaceURI, attrName);
+    }
 
     public abstract Class<Tnative> getDeclaredClass();
 

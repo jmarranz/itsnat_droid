@@ -1,10 +1,12 @@
 package org.itsnat.droid.impl.domparser;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
+import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
 import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
@@ -17,6 +19,8 @@ public class XMLDOMRegistry
     protected ItsNatDroidImpl parent;
     protected XMLDOMCache<XMLDOMLayout> domLayoutCache = new XMLDOMCache<XMLDOMLayout>();
     protected XMLDOMCache<XMLDOMDrawable> domDrawableCache = new XMLDOMCache<XMLDOMDrawable>();
+    protected XMLDOMCache<XMLDOMAnimator> domAnimatorCache = new XMLDOMCache<XMLDOMAnimator>();
+    //protected XMLDOMCache<XMLDOMAnim> domAnimCache = new XMLDOMCache<XMLDOMAnim>();
     protected XMLDOMCache<XMLDOMValues> domValuesCache = new XMLDOMCache<XMLDOMValues>();
 
     public XMLDOMRegistry(ItsNatDroidImpl parent)
@@ -91,6 +95,21 @@ public class XMLDOMRegistry
         return cachedXMLDOMDrawable;
     }
 
+    public XMLDOMAnimator getXMLDOMAnimatorCache(String markup,XMLDOMParserContext xmlDOMParserContext)
+    {
+        // Ver notas de getXMLDOMLayoutCache()
+        XMLDOMAnimator cachedXMLDOMAnimator = domAnimatorCache.get(markup);
+        if (cachedXMLDOMAnimator != null)
+            return cachedXMLDOMAnimator;
+
+        cachedXMLDOMAnimator = new XMLDOMAnimator();
+        domAnimatorCache.put(markup, cachedXMLDOMAnimator); // Cacheamos cuanto antes pues puede haber recursividad
+
+        XMLDOMAnimatorParser parser = XMLDOMAnimatorParser.createXMLDOMAnimatorParser(xmlDOMParserContext);
+        parser.parse(markup,cachedXMLDOMAnimator);
+        return cachedXMLDOMAnimator;
+    }
+
     public XMLDOMValues getXMLDOMValuesCache(String markup,XMLDOMParserContext xmlDOMParserContext)
     {
         // Ver notas de getXMLDOMLayoutCache()
@@ -108,4 +127,6 @@ public class XMLDOMRegistry
         parser.parse(markup,cachedXMLDOMValues);
         return cachedXMLDOMValues;
     }
+
+
 }

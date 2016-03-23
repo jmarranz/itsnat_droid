@@ -273,7 +273,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                      : new PendingViewPostCreateProcessDefault(view);
     }
 
-    private void addViewObject(ViewGroup viewParent,View view,int index,PendingViewPostCreateProcess pendingViewPostCreateProcess)
+    private void addViewObject(View view,ViewGroup viewParent,int index,PendingViewPostCreateProcess pendingViewPostCreateProcess)
     {
         pendingViewPostCreateProcess.executePendingLayoutParamsTasks(); // Aquí ya definimos los atributos para los LayoutParams inmediatamente antes de añadir al View padre que es más o menos lo que se hace en addView antes de añadir al padre y después de definir el LayoutParams del View via generateDefaultLayoutParams(AttributeSet)
 
@@ -300,7 +300,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         rootView.setLayoutParams(layoutParams);
 
-        fillViewAttributesAndAddView(rootView, null, -1, rootDOMElemView.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+        fillViewAttributesAndAdd(rootView, null, -1, rootDOMElemView.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
         return rootView;
     }
@@ -319,16 +319,11 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         view.setLayoutParams(layoutParams);
 
-        fillViewAttributesAndAddView(view, viewParent,index, attributeMap.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
+        fillViewAttributesAndAdd(view, viewParent, index, attributeMap.getDOMAttributes(), styleLayoutParamsAttribs, styleDynamicAttribs, xmlInflaterLayout, pendingPostInsertChildrenTasks);
 
         return view;
     }
 
-
-    protected static DOMAttr findAttribute(String namespaceURI, String attrName, DOMAttributeMap attribMap)
-    {
-        return attribMap.getDOMAttribute(namespaceURI, attrName);
-    }
 
     private ViewStyleAttribs findStyleAttribute(DOMAttributeMap attribMap, XMLInflaterLayout xmlInflaterLayout)
     {
@@ -396,13 +391,13 @@ public class ClassDescViewBased extends ClassDesc<View>
         return view;
     }
 
-    private void fillViewAttributesAndAddView(View view,ViewGroup viewParent,int index,Map<String,DOMAttr> attribMap,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs,XMLInflaterLayout xmlInflaterLayout,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private void fillViewAttributesAndAdd(View view, ViewGroup viewParent, int index, Map<String, DOMAttr> attribMap, List<DOMAttr> styleLayoutParamsAttribs, List<DOMAttr> styleDynamicAttribs, XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         PendingViewPostCreateProcess pendingViewPostCreateProcess = createPendingViewPostCreateProcess(view, viewParent);
         AttrLayoutContext attrCtx = new AttrLayoutContext(xmlInflaterLayout, pendingViewPostCreateProcess, pendingPostInsertChildrenTasks);
 
         fillViewAttributes(view, attribMap,styleLayoutParamsAttribs,styleDynamicAttribs, attrCtx); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
-        addViewObject(viewParent, view, index, pendingViewPostCreateProcess);
+        addViewObject(view,viewParent,index, pendingViewPostCreateProcess);
 
         pendingViewPostCreateProcess.destroy();
     }

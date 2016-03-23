@@ -2,10 +2,9 @@ package org.itsnat.droid.impl.xmlinflater.layout.stdalone;
 
 import android.view.View;
 
-import org.itsnat.droid.AttrDrawableInflaterListener;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
+import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 /**
@@ -13,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
  */
 public class XMLInflaterLayoutStandalone extends XMLInflaterLayout
 {
-    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener)
+    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl inflatedXML,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
     {
-        super(inflatedXML,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener);
+        super(inflatedXML,bitmapDensityReference,attrInflaterListeners);
     }
 
     @Override

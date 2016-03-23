@@ -7,6 +7,8 @@ import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesArrayBa
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesStyle;
 
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ANIM;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ANIMATOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ARRAY;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
@@ -45,6 +47,13 @@ public class ClassDescValuesMgr extends ClassDescMgr<ClassDescValues>
         addClassDesc(style);
 
         // color, dimen etc
+
+        ClassDescValuesItemNormal anim = new ClassDescValuesItemNormal(this,TYPE_ANIM);
+        addClassDesc(anim);
+
+        ClassDescValuesItemNormal animator = new ClassDescValuesItemNormal(this,TYPE_ANIMATOR);
+        addClassDesc(animator);
+
         ClassDescValuesItemNormal bool = new ClassDescValuesItemNormal(this,TYPE_BOOL);
         addClassDesc(bool);
 

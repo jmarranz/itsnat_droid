@@ -24,7 +24,7 @@ public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Bas
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        ObjectAnimator animator = (ObjectAnimator)loadAnimator(attr,attrCtx.getXMLInflaterLayout());
+        ObjectAnimator animator = (ObjectAnimator) getAnimator(attr, attrCtx.getXMLInflaterLayout());
         if (animator == null)
             animator = getDefaultAnimation();
 

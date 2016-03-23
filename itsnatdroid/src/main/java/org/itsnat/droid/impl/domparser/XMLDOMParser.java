@@ -289,19 +289,28 @@ public abstract class XMLDOMParser
         String resourceType = attr.getResourceType();
 
         XMLDOM xmlDOM;
-        if (attr.getValuesResourceName() == null) // No es <drawable> o un <item name="..." type="layout"> en un res/values/archivo.xml
+        if (attr.getValuesResourceName() == null) // No es <drawable> o un <item name="..." type="layout"> <item ... type="anim"> o <item ... type="animator"> en un res/values/archivo.xml
         {
-            if ("drawable".equals(resourceType))
+            if (XMLDOMValues.TYPE_ANIM.equals(resourceType))
+            {
+                throw new ItsNatDroidException("TO DO");
+                //xmlDOM = xmlDOMRegistry.getXMLDOMAnimCache(markup, xmlDOMParserContext);
+            }
+            if (XMLDOMValues.TYPE_ANIMATOR.equals(resourceType))
+            {
+                xmlDOM = xmlDOMRegistry.getXMLDOMAnimatorCache(markup, xmlDOMParserContext);
+            }
+            else if (XMLDOMValues.TYPE_DRAWABLE.equals(resourceType))
             {
                 xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, xmlDOMParserContext);
             }
-            else if ("layout".equals(resourceType))
+            else if (XMLDOMValues.TYPE_LAYOUT.equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, layoutType,xmlDOMParserContext);
+                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, layoutType, xmlDOMParserContext);
             }
             else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType + " or missing ending :selector");
         }
-        else if (XMLDOMValues.isResourceTypeValues(resourceType)) // Incluye el caso de <drawable> y <item name="..." type="layout">
+        else if (XMLDOMValues.isResourceTypeValues(resourceType)) // Incluye el caso de <drawable>, <item name="..." type="layout"> <item ... type="anim"> y <item ... type="animator">
         {
             // En el caso "drawable" podemos tener un acceso a un <drawable> en archivo XML en /res/values o bien directamente acceder al XML en /res/drawable
             // Este es el caso de acceso a un item <drawable> de un XML values

@@ -178,15 +178,16 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflateRegistry().getPercent(attr, xmlInflater);
     }
 
-    public Animator loadAnimator(DOMAttr attr, XMLInflater xmlInflater)
+    public Animation getAnimation(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().loadAnimator(attr, xmlInflater);
+        return getXMLInflateRegistry().getAnimation(attr, xmlInflater);
     }
 
-    public Animation loadAnimation(DOMAttr attr, XMLInflater xmlInflater)
+    public Animator getAnimator(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().loadAnimation(attr, xmlInflater);
+        return getXMLInflateRegistry().getAnimator(attr, xmlInflater);
     }
+
 
     public static <T> T parseSingleName(String value, MapSmart<String, T> nameValueMap)
     {

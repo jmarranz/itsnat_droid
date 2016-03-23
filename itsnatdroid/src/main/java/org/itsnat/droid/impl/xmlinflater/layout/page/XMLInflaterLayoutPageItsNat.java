@@ -3,11 +3,10 @@ package org.itsnat.droid.impl.xmlinflater.layout.page;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.AttrDrawableInflaterListener;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
+import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
@@ -19,9 +18,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
  */
 public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
 {
-    public XMLInflaterLayoutPageItsNat(InflatedLayoutPageItsNatImpl inflatedXML, int bitmapDensityReference, AttrLayoutInflaterListener inflateLayoutListener, AttrDrawableInflaterListener attrDrawableInflaterListener)
+    public XMLInflaterLayoutPageItsNat(InflatedLayoutPageItsNatImpl inflatedXML, int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
     {
-        super(inflatedXML, bitmapDensityReference, inflateLayoutListener, attrDrawableInflaterListener);
+        super(inflatedXML, bitmapDensityReference,attrInflaterListeners);
     }
 
     public InflatedLayoutPageItsNatImpl getInflatedLayoutPageItsNatImpl()

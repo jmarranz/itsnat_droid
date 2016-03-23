@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import org.itsnat.droid.AttrDrawableInflaterListener;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -28,6 +26,7 @@ import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResourceImage;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
+import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
@@ -35,6 +34,7 @@ import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
+import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
@@ -42,6 +42,8 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
+import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
+import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -74,6 +76,7 @@ public class XMLInflateRegistry
     private ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
     private ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
     private ClassDescValuesMgr classDescValuesMgr = new ClassDescValuesMgr(this);
+    private ClassDescAnimatorMgr classDescAnimatorMgr = new ClassDescAnimatorMgr(this);
     private Map<XMLDOMValues,ElementValuesResources> cacheXMLDOMValuesXMLInflaterValuesMap = new HashMap<XMLDOMValues, ElementValuesResources>();
 
     public XMLInflateRegistry(ItsNatDroidImpl parent)
@@ -99,6 +102,11 @@ public class XMLInflateRegistry
     public ClassDescValuesMgr getClassDescValuesMgr()
     {
         return classDescValuesMgr;
+    }
+
+    public ClassDescAnimatorMgr getClassDescAnimatorMgr()
+    {
+        return classDescAnimatorMgr;
     }
 
     public int generateViewId()
@@ -1013,14 +1021,13 @@ public class XMLInflateRegistry
                     if (attr instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
                     ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
-                    AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
-                    AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
+                    AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
                     ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attrDyn.getResource();
                     XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
                     InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
 
-                    XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
+                    XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference,attrInflaterListeners);
                     return xmlInflaterDrawable.inflateDrawable();
                 }
                 else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -1092,7 +1099,7 @@ public class XMLInflateRegistry
 
     public View getViewLayout(DOMAttr attr, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
-        LayoutValue layoutValue = getLayout(attr,xmlInflaterParent,viewParent,indexChild,includeAttribs);
+        LayoutValue layoutValue = getLayout(attr, xmlInflaterParent, viewParent, indexChild, includeAttribs);
 
         if (layoutValue instanceof LayoutValueDynamic)
         {
@@ -1161,13 +1168,12 @@ public class XMLInflateRegistry
             }
 
             ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
-            AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
-            AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
+            AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
             ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attr.getResource();
             XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
-            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, pageParent);
+            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrInflaterListeners, ctx, pageParent);
             View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
 
             if (pageParent != null) // existe página padre
@@ -1219,6 +1225,101 @@ public class XMLInflateRegistry
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
 
+    public Animation getAnimation(DOMAttr attr,XMLInflater xmlInflaterParent)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            if (attrDyn.getValuesResourceName() != null)
+            {
+                ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflaterParent);
+                return elementResources.getAnimation(attrDyn.getValuesResourceName(), xmlInflaterParent);
+            }
+            else
+            {
+
+                throw new ItsNatDroidException("TO DO");
+                //Animation animation = getAnimationDynamicFromXML(attrDyn, xmlInflater);
+                //return animation;
+            }
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            Context ctx = xmlInflaterParent.getContext();
+            String attrValue = attr.getValue();
+            return getAnimationCompiled(attrValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private Animation getAnimationCompiled(String attrValue,Context ctx)
+    {
+        int id = getIdentifierCompiled(attrValue, ctx);
+        if (id <= 0)
+            return null;
+
+        return AnimationUtils.loadAnimation(ctx, id);
+    }
+
+
+    public Animator getAnimator(DOMAttr attr,XMLInflater xmlInflaterParent)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            if (attrDyn.getValuesResourceName() != null)
+            {
+                ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflaterParent);
+                return elementResources.getAnimator(attrDyn.getValuesResourceName(), xmlInflaterParent);
+            }
+            else
+            {
+                return getAnimatorDynamicFromXML(attrDyn,xmlInflaterParent);
+            }
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            Context ctx = xmlInflaterParent.getContext();
+            String attrValue = attr.getValue();
+            return getAnimatorCompiled(attrValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private Animator getAnimatorDynamicFromXML(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
+    {
+        if (attrDyn.getValuesResourceName() != null) throw MiscUtil.internalError();
+
+        Context ctx = xmlInflaterParent.getContext();
+
+        int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
+
+        // Esperamos un Animator
+        PageImpl page = PageImpl.getPageImpl(xmlInflaterParent);
+
+        if (attrDyn instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+
+        ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
+
+        AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
+
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attrDyn.getResource();
+        XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
+        InflatedAnimator inflatedAnimator = InflatedAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
+
+        XMLInflaterAnimator xmlInflaterAnimator = XMLInflaterAnimator.createXMLInflaterAnimator(inflatedAnimator, bitmapDensityReference, attrInflaterListeners);
+        return xmlInflaterAnimator.inflateAnimator();
+    }
+
+    private Animator getAnimatorCompiled(String attrValue,Context ctx)
+    {
+        int id = getIdentifierCompiled(attrValue, ctx);
+        if (id <= 0)
+            return null;
+
+        return AnimatorInflater.loadAnimator(ctx, id);
+    }
+
 
     private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
     {
@@ -1252,12 +1353,11 @@ public class XMLInflateRegistry
         int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
         ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
-        AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflaterParent.getAttrLayoutInflaterListener();
-        AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflaterParent.getAttrDrawableInflaterListener();
+        AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
         InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx, page);
 
-        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrLayoutInflaterListener, attrDrawableInflaterListener);
+        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrInflaterListeners);
         ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
 
         cacheXMLDOMValuesXMLInflaterValuesMap.put(xmlDOMValues,elementResources);
@@ -1265,27 +1365,5 @@ public class XMLInflateRegistry
         return elementResources;
     }
 
-
-    public Animator loadAnimator(DOMAttr attr, XMLInflater xmlInflater)
-    {
-        // HACER: caso dinámico
-
-        int id = getIdentifier(attr, xmlInflater);
-        if (id <= 0)
-            return null;
-
-        return AnimatorInflater.loadAnimator(xmlInflater.getContext(), id);
-    }
-
-    public Animation loadAnimation(DOMAttr attr, XMLInflater xmlInflater)
-    {
-        // HACER: caso dinámico
-
-        int id = getIdentifier(attr, xmlInflater);
-        if (id <= 0)
-            return null;
-
-        return AnimationUtils.loadAnimation(xmlInflater.getContext(), id);
-    }
 }
 

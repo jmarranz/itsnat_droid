@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.page;
 
 import android.content.Context;
 
+import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
@@ -21,15 +22,6 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
         this.page = page; // NO puede ser nulo
     }
 
-    /*
-    public static ItsNatDroidImpl getItsNatDroidImpl(PageImpl page)
-    {
-        PageRequestImpl pageRequest = page.getPageRequestClonedImpl();
-        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
-        ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
-        return itsNatDroid;
-    }
-*/
 
     public String getEncoding()
     {
@@ -49,6 +41,11 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
     public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
     {
         return page.getPageRequestClonedImpl().getAttrDrawableInflaterListener();
+    }
+
+    public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()
+    {
+        return page.getPageRequestClonedImpl().getAttrAnimatorInflaterListener();
     }
 
     public Context getContext()

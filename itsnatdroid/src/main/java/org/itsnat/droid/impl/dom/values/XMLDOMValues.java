@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class XMLDOMValues extends XMLDOM
 {
+    public final static String TYPE_ANIM = "anim";
+    public final static String TYPE_ANIMATOR = "animator";
     public final static String TYPE_BOOL = "bool";
     public final static String TYPE_COLOR = "color";
     public final static String TYPE_DIMEN = "dimen";
@@ -30,6 +32,8 @@ public class XMLDOMValues extends XMLDOM
     {
         resourceTypeValues.add("style");
 
+        resourceTypeValues.add(TYPE_ANIM);
+        resourceTypeValues.add(TYPE_ANIMATOR);
         resourceTypeValues.add(TYPE_BOOL);
         resourceTypeValues.add(TYPE_COLOR);
         resourceTypeValues.add(TYPE_DIMEN);

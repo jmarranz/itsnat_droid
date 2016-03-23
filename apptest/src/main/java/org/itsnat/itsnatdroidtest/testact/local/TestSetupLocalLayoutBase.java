@@ -1,11 +1,13 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.animation.Animator;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
+import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
@@ -23,7 +25,7 @@ import java.io.InputStream;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener
+public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimatorInflaterListener
 {
     public static final String NAMESPACE_ANDROID = "http://schemas.android.com/apk/res/android";
 
@@ -84,6 +86,28 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
         return true;
     }
 
+    @Override
+    public boolean setAttribute(Page page, Animator obj, String namespace, String name, String value)
+    {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android Animator attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
+        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+
+        return true;
+    }
+
+    @Override
+    public boolean removeAttribute(Page page, Animator obj, String namespace, String name)
+    {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android Animator attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
+        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+
+        return true;
+    }
+
     protected View loadCompiledAndBindBackReloadButtons(int layoutId)
     {
         TestActivity act = getTestActivity();
@@ -122,6 +146,7 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
                 .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH) // 320
                 .setAttrLayoutInflaterListener(this)
                 .setAttrDrawableInflaterListener(this)
+                .setAttrAnimatorInflaterListener(this)
                 .setContext(act)
                 .inflate(input,null);
 

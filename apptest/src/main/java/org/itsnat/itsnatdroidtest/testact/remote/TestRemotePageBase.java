@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.remote;
 
+import android.animation.Animator;
 import android.graphics.drawable.Drawable;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
@@ -35,7 +37,7 @@ import bsh.EvalError;
  * Created by jmarranz on 13/08/14.
  */
 public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnScriptErrorListener,OnEventErrorListener,
-        AttrLayoutInflaterListener,AttrDrawableInflaterListener
+                            AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimatorInflaterListener
 {
     public static final boolean TEST_SYNC_REQUESTS = false;
 
@@ -245,7 +247,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
                 msg.append("\nType: " + ((NormalEvent)evt).getType());
             msg.append("\nException Msg: " + ex.getMessage());
 
-            TestUtil.alertDialog(act,msg.toString());
+            TestUtil.alertDialog(act, msg.toString());
         }
 
     }
@@ -278,6 +280,20 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         return true;
     }
 
+    @Override
+    public boolean setAttribute(Page page, Animator obj, String namespace, String name, String value)
+    {
+        System.out.println("NOT FOUND ANIMATOR ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+        return true;
+    }
+
+    @Override
+    public boolean removeAttribute(Page page, Animator obj, String namespace, String name)
+    {
+        System.out.println("NOT FOUND ANIMATOR ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+        return true;
+    }
+
     protected void changeLayout(View rootView)
     {
         fragment.setRootView(rootView);
@@ -297,6 +313,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         .setOnScriptErrorListener(this) // Comentar para ver el modo de error built-in
         .setAttrLayoutInflaterListener(this)
         .setAttrDrawableInflaterListener(this)
+        .setAttrAnimatorInflaterListener(this)
         .setConnectTimeout(getConnectionTimeout())
         .setReadTimeout(getReadTimeout())
         .setURL(url)

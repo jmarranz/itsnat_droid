@@ -1,7 +1,9 @@
 package org.itsnat.droid.impl.xmlinflated.values;
 
+import android.animation.Animator;
 import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -17,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ANIM;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ANIMATOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_BOOL;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_COLOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DIMEN;
@@ -117,6 +121,20 @@ public class ElementValuesResources extends ElementValues
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ID,name);
         XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
         return xmlInflateRegistry.getIdentifier(valueAsDOMAttr, type, xmlInflater);
+    }
+
+    public Animation getAnimation(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIM,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getAnimation(valueAsDOMAttr, xmlInflater);
+    }
+
+    public Animator getAnimator(String name,XMLInflater xmlInflater)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIMATOR,name);
+        XMLInflateRegistry xmlInflateRegistry = xmlInflater.getInflatedXML().getXMLInflateRegistry();
+        return xmlInflateRegistry.getAnimator(valueAsDOMAttr, xmlInflater);
     }
 
     public boolean getBoolean(String name,XMLInflater xmlInflater)
