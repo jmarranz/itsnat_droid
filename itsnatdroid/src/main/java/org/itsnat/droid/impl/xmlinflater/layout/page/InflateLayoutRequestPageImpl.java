@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
  */
 public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
 {
-    protected PageImpl page;
+    protected final PageImpl page;
 
     public InflateLayoutRequestPageImpl(ItsNatDroidImpl itsNatDroid, PageImpl page)
     {

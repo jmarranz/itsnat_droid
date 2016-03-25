@@ -84,9 +84,9 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     }
 
     @Override
-    public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener inflateLayoutListener)
+    public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener attrLayoutInflaterListener)
     {
-        this.attrLayoutInflaterListener = inflateLayoutListener;
+        this.attrLayoutInflaterListener = attrLayoutInflaterListener;
         return this;
     }
 

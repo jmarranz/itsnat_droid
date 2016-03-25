@@ -133,8 +133,23 @@ public class ClassDescViewBased extends ClassDesc<View>
         return setAttribute(view, attr, attrCtx);
     }
 
+    public boolean setAttribute(View view,DOMAttr attr,AttrLayoutContext attrCtx)
+    {
+        try
+        {
+            return setAttributeThisClass(view,attr,attrCtx);
+        }
+        catch (Exception ex)
+        {
+            String namespaceURI = attr.getNamespaceURI();
+            String name = attr.getName(); // El nombre devuelto no contiene el namespace
+            String value = attr.getValue();
+            throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + view, ex);
+        }
+    }
+
     //@SuppressWarnings("unchecked")
-    protected boolean setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
+    protected boolean setAttributeThisClass(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
 
@@ -144,53 +159,48 @@ public class ClassDescViewBased extends ClassDesc<View>
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
         String value = attr.getValue();
 
-        try
+
+        if (isAttributeIgnored(namespaceURI, name))
+            return true; // Se trata de forma especial en otro lugar
+
+        final AttrDesc<ClassDescViewBased, View, AttrLayoutContext> attrDesc = this.<ClassDescViewBased, View, AttrLayoutContext>getAttrDesc(namespaceURI, name);
+        if (attrDesc != null)
         {
-            if (isAttributeIgnored(namespaceURI, name))
-                return true; // Se trata de forma especial en otro lugar
-
-            final AttrDesc<ClassDescViewBased, View, AttrLayoutContext> attrDesc = this.<ClassDescViewBased, View, AttrLayoutContext>getAttrDesc(namespaceURI, name);
-            if (attrDesc != null)
+            Runnable task = new Runnable()
             {
-                Runnable task = new Runnable()
+                @Override
+                public void run()
                 {
-                    @Override
-                    public void run()
-                    {
-                        attrDesc.setAttribute(view, attr, attrCtx);
-                    }
-                };
-                if (DOMAttrRemote.isPendingToDownload(attr)) // Hay al menos un caso es el cuando una página remota NO generada por ItsNat tiene Views que por ejemplo referencian recursos remotos tal y como drawables, al menos así damos más soporte a las páginas no ItsNat
-                    AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
-                else
-                    task.run();
-
-                return true;
-            }
+                    attrDesc.setAttribute(view, attr, attrCtx);
+                }
+            };
+            if (DOMAttrRemote.isPendingToDownload(attr)) // Hay al menos un caso es el cuando una página remota NO generada por ItsNat tiene Views que por ejemplo referencian recursos remotos tal y como drawables, al menos así damos más soporte a las páginas no ItsNat
+                AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
             else
-            {
-                // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
-                // y tiene prioridad la clase más derivada
-                ClassDescViewBased parentClass = getParentClassDescViewBased();
-                if (parentClass != null)
-                {
-                    if (parentClass.setAttribute(view, attr, attrCtx))
-                        return true;
+                task.run();
 
-                    return false;
-                }
-                else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
-                {
-                    XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-                    return processSetAttrCustom(view, namespaceURI, name, value, xmlInflaterLayout);
-                }
-
-            }
+            return true;
         }
-        catch (Exception ex)
+        else
         {
-            throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + view, ex);
+            // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
+            // y tiene prioridad la clase más derivada
+            ClassDescViewBased parentClass = getParentClassDescViewBased();
+            if (parentClass != null)
+            {
+                if (parentClass.setAttributeThisClass(view, attr, attrCtx))
+                    return true;
+
+                return false;
+            }
+            else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
+            {
+                XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
+                return processSetAttrCustom(view, namespaceURI, name, value, xmlInflaterLayout);
+            }
+
         }
+
     }
 
     public boolean removeAttributeOrInlineEventHandler(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
@@ -202,43 +212,50 @@ public class ClassDescViewBased extends ClassDesc<View>
         return removeAttribute(view, namespaceURI, name, attrCtx);
     }
 
-    //@SuppressWarnings("unchecked")
-    protected boolean removeAttribute(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
+    public boolean removeAttribute(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
     {
-        if (!isInit()) init();
-
         try
         {
-            if (isAttributeIgnored(namespaceURI,name))
-                return true; // Se trata de forma especial en otro lugar
-
-            AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(namespaceURI, name);
-            if (attrDesc != null)
-            {
-                attrDesc.removeAttribute(view,attrCtx);
-                // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
-                return true;
-            }
-            else
-            {
-                ClassDescViewBased parentClass = getParentClassDescViewBased();
-                if (parentClass != null)
-                {
-                    if (parentClass.removeAttribute(view, namespaceURI, name, attrCtx))
-                        return true;
-                    return false;
-                }
-                else
-                {
-                    XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-                    return processRemoveAttrCustom(view, namespaceURI, name, xmlInflaterLayout);
-                }
-            }
+            return removeAttributeThisClass(view,namespaceURI,name,attrCtx);
         }
         catch(Exception ex)
         {
             throw new ItsNatDroidException("Error removing attribute: " + namespaceURI + " " + name + " in object " + view, ex);
         }
+    }
+
+    //@SuppressWarnings("unchecked")
+    protected boolean removeAttributeThisClass(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
+    {
+        if (!isInit()) init();
+
+
+        if (isAttributeIgnored(namespaceURI,name))
+            return true; // Se trata de forma especial en otro lugar
+
+        AttrDesc<ClassDescViewBased,View,AttrLayoutContext> attrDesc = this.<ClassDescViewBased,View,AttrLayoutContext>getAttrDesc(namespaceURI, name);
+        if (attrDesc != null)
+        {
+            attrDesc.removeAttribute(view,attrCtx);
+            // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
+            return true;
+        }
+        else
+        {
+            ClassDescViewBased parentClass = getParentClassDescViewBased();
+            if (parentClass != null)
+            {
+                if (parentClass.removeAttributeThisClass(view, namespaceURI, name, attrCtx))
+                    return true;
+                return false;
+            }
+            else
+            {
+                XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
+                return processRemoveAttrCustom(view, namespaceURI, name, xmlInflaterLayout);
+            }
+        }
+
     }
 
     private boolean processSetAttrCustom(View view, String namespaceURI, String name, String value, XMLInflaterLayout xmlInflaterLayout)

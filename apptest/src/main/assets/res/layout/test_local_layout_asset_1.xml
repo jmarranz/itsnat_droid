@@ -743,7 +743,7 @@ Android TV uimt: television"
             android:textSize="15dp"
             android:background="#00ff00"/>
 
-        <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
+        <!-- Test AdapterViewFlipper (and AdapterViewAnimator)   -->
         <AdapterViewFlipper
             android:id="@id/adapterViewAnimatorTestId"
             android:layout_width="match_parent"
@@ -753,10 +753,7 @@ Android TV uimt: television"
             android:loopViews="true"
             android:outAnimation="@animator/object_animator_test"
             android:autoStart="true"
-            android:flipInterval="2000"
-            >
-
-        </AdapterViewFlipper>
+            android:flipInterval="2000"  />
 
         <TextView
             android:layout_width="match_parent"

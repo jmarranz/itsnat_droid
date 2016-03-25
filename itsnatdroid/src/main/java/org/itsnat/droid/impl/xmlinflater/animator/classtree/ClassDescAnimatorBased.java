@@ -92,68 +92,90 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
     {
         // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
 
+        try
+        {
+            return setAttributeThisClass(animator,attr,attrCtx);
+        }
+        catch (Exception ex)
+        {
+            String namespaceURI = attr.getNamespaceURI();
+            String name = attr.getName(); // El nombre devuelto no contiene el namespace
+            String value = attr.getValue();
+            throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + animator, ex);
+        }
+    }
+
+    private boolean setAttributeThisClass(final Animator animator, final DOMAttr attr, final AttrAnimatorContext attrCtx)
+    {
+        // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
+
         if (!isInit()) init();
 
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
         String value = attr.getValue();
 
-        try
+        if (isAttributeIgnored(namespaceURI, name))
+            return true; // Se trata de forma especial en otro lugar
+
+        final AttrDesc<ClassDescAnimatorBased, Animator, AttrAnimatorContext> attrDesc = this.<ClassDescAnimatorBased, Animator, AttrAnimatorContext>getAttrDesc(namespaceURI, name);
+        if (attrDesc != null)
         {
-            if (isAttributeIgnored(namespaceURI, name))
-                return true; // Se trata de forma especial en otro lugar
-
-            final AttrDesc<ClassDescAnimatorBased, Animator, AttrAnimatorContext> attrDesc = this.<ClassDescAnimatorBased, Animator, AttrAnimatorContext>getAttrDesc(namespaceURI, name);
-            if (attrDesc != null)
+            Runnable task = new Runnable()
             {
-                Runnable task = new Runnable()
+                @Override
+                public void run()
                 {
-                    @Override
-                    public void run()
-                    {
-                        attrDesc.setAttribute(animator, attr, attrCtx);
-                    }
-                };
-                if (DOMAttrRemote.isPendingToDownload(attr)) // Ver comentarios en la clase equivalente de drawables, layouts etc
-                    AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
-                else
-                    task.run();
-
-                return true;
-            }
+                    attrDesc.setAttribute(animator, attr, attrCtx);
+                }
+            };
+            if (DOMAttrRemote.isPendingToDownload(attr)) // Ver comentarios en la clase equivalente de drawables, layouts etc
+                AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
             else
-            {
-                // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
-                // y tiene prioridad la clase más derivada
-                ClassDescAnimatorBased parentClass = getParentClassDescAnimatorBased();
-                if (parentClass != null)
-                {
-                    if (parentClass.setAttribute(animator, attr, attrCtx))
-                        return true;
+                task.run();
 
-                    return false;
-                }
-                else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
-                {
-                    XMLInflaterAnimator xmlInflaterAnimator = attrCtx.getXMLInflaterAnimator();
-                    return processSetAttrCustom(animator, namespaceURI, name, value, xmlInflaterAnimator);
-                }
+            return true;
+        }
+        else
+        {
+            // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
+            // y tiene prioridad la clase más derivada
+            ClassDescAnimatorBased parentClass = getParentClassDescAnimatorBased();
+            if (parentClass != null)
+            {
+                if (parentClass.setAttributeThisClass(animator, attr, attrCtx))
+                    return true;
+
+                return false;
+            }
+            else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
+            {
+                XMLInflaterAnimator xmlInflaterAnimator = attrCtx.getXMLInflaterAnimator();
+                return processSetAttrCustom(animator, namespaceURI, name, value, xmlInflaterAnimator);
             }
         }
-        catch (Exception ex)
-        {
-            throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + animator, ex);
-        }
+
     }
 
 
+    public boolean removeAttribute(Animator animator, String namespaceURI, String name, AttrAnimatorContext attrCtx)
+    {
+        try
+        {
+            return removeAttributeThisClass(animator,namespaceURI,name,attrCtx);
+        }
+        catch(Exception ex)
+        {
+            throw new ItsNatDroidException("Error removing attribute: " + namespaceURI + " " + name + " in object " + animator, ex);
+        }
+    }
+
     //@SuppressWarnings("unchecked")
-    protected boolean removeAttribute(Animator animator, String namespaceURI, String name, AttrAnimatorContext attrCtx)
+    private boolean removeAttributeThisClass(Animator animator, String namespaceURI, String name, AttrAnimatorContext attrCtx)
     {
         if (!isInit()) init();
 
-        try
-        {
+
             if (isAttributeIgnored(namespaceURI,name))
                 return true; // Se trata de forma especial en otro lugar
 
@@ -169,7 +191,7 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
                 ClassDescAnimatorBased parentClass = getParentClassDescAnimatorBased();
                 if (parentClass != null)
                 {
-                    if (parentClass.removeAttribute(animator, namespaceURI, name, attrCtx))
+                    if (parentClass.removeAttributeThisClass(animator, namespaceURI, name, attrCtx))
                         return true;
                     return false;
                 }
@@ -179,11 +201,7 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
                     return processRemoveAttrCustom(animator, namespaceURI, name, xmlInflaterAnimator);
                 }
             }
-        }
-        catch(Exception ex)
-        {
-            throw new ItsNatDroidException("Error removing attribute: " + namespaceURI + " " + name + " in object " + animator, ex);
-        }
+
     }
 
     private boolean processSetAttrCustom(Animator animator, String namespaceURI, String name, String value, XMLInflaterAnimator xmlInflaterAnimator)

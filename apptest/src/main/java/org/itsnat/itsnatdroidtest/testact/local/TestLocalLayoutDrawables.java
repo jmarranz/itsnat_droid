@@ -34,12 +34,6 @@ public class TestLocalLayoutDrawables
         Context ctx = compRoot.getContext();
         final Resources res = ctx.getResources();
 
-        // comp = "Layout compiled"
-        // parsed = "Layout dynamically parsed"
-        // No podemos testear layout_width/height en el ScrollView root porque un View está desconectado y al desconectar el width y el height se ponen a 0
-        // assertEquals(comp.getWidth(),parsed.getWidth());
-        // assertEquals(comp.getHeight(),parsed.getHeight());
-
         LinearLayout comp = (LinearLayout) compRoot.getChildAt(0);
         LinearLayout parsed = (LinearLayout) parsedRoot.getChildAt(0);
 

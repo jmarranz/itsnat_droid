@@ -34,12 +34,19 @@
                 android:textSize="20dp"
                 android:layout_below="@+id/testLocalLayout2"/>
 
+        <Button android:id="@+id/testLocalAnimations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST LOCAL ANIMATIONS"
+                android:textSize="20dp"
+                android:layout_below="@+id/testLocalDrawables"/>
+
         <Button android:id="@+id/testRemoteLayoutCore"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="TEST REMOTE LAYOUT CORE"
                   android:textSize="20dp"
-                  android:layout_below="@id/testLocalDrawables"/>
+                  android:layout_below="@id/testLocalAnimations"/>
 
         <Button android:id="@+id/testRemoteIncludeLayout"
                 android:layout_width="wrap_content"

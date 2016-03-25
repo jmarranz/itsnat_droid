@@ -71,8 +71,22 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         return false; // es redefinido
     }
 
-
     public boolean setAttribute(final DrawableOrElementDrawableWrapper draw,final DOMAttr attr,final AttrDrawableContext attrCtx)
+    {
+        try
+        {
+            return setAttributeThisClass(draw,attr,attrCtx);
+        }
+        catch(Exception ex)
+        {
+            String namespaceURI = attr.getNamespaceURI();
+            String name = attr.getName(); // El nombre devuelto no contiene el namespace
+            String value = attr.getValue();
+            throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + draw.getInstanceToSetAttributes(), ex); // draw.getDrawable() devuelve null en este contexto en algunos casos (atributos en objetos item auxiliares)
+        }
+    }
+
+    private boolean setAttributeThisClass(final DrawableOrElementDrawableWrapper draw,final DOMAttr attr,final AttrDrawableContext attrCtx)
     {
         if (!isInit()) init();
 
@@ -82,51 +96,46 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
 
         XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
 
-        try
+
+        if (isAttributeIgnored(draw, namespaceURI, name))
+            return true; // Se trata de forma especial en otro lugar
+
+        final AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(namespaceURI, name);
+        if (attrDesc != null)
         {
-            if (isAttributeIgnored(draw, namespaceURI, name))
-                return true; // Se trata de forma especial en otro lugar
-
-            final AttrDesc<ClassDescDrawable, Object, AttrDrawableContext> attrDesc = this.<ClassDescDrawable, Object, AttrDrawableContext>getAttrDesc(namespaceURI, name);
-            if (attrDesc != null)
+            Runnable task = new Runnable()
             {
-                Runnable task = new Runnable()
+                @Override
+                public void run()
                 {
-                    @Override
-                    public void run()
-                    {
-                        attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr, attrCtx);
-                    }
-                };
-                if (DOMAttrRemote.isPendingToDownload(attr)) // No se me ocurre ningún caso (un XML de un drawable una vez cargado no tiene scripts ni estado en el servidor y no lo cambiamos por interacción del usuario) pero por simetría con los layout lo dejamos
-                    AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterDrawable());
-                else
-                    task.run();
-
-                return true;
-            }
+                    attrDesc.setAttribute(draw.getInstanceToSetAttributes(), attr, attrCtx);
+                }
+            };
+            if (DOMAttrRemote.isPendingToDownload(attr)) // No se me ocurre ningún caso (un XML de un drawable una vez cargado no tiene scripts ni estado en el servidor y no lo cambiamos por interacción del usuario) pero por simetría con los layout lo dejamos
+                AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterDrawable());
             else
-            {
-                // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
-                // y tiene prioridad la clase más derivada
+                task.run();
 
-                ClassDescDrawable parentClass = getParentClassDescDrawable();
-                if (parentClass != null)
-                {
-                    if (parentClass.setAttribute(draw, attr, attrCtx))
-                        return true;
-                    return false;
-                }
-                else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
-                {
-                    return processAttrCustom(draw,namespaceURI,name,value,xmlInflaterDrawable);
-                }
+            return true;
+        }
+        else
+        {
+            // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
+            // y tiene prioridad la clase más derivada
+
+            ClassDescDrawable parentClass = getParentClassDescDrawable();
+            if (parentClass != null)
+            {
+                if (parentClass.setAttributeThisClass(draw, attr, attrCtx))
+                    return true;
+                return false;
+            }
+            else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
+            {
+                return processAttrCustom(draw,namespaceURI,name,value,xmlInflaterDrawable);
             }
         }
-        catch(Exception ex)
-        {
-            throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + attr.getValue() + " in object " + draw.getInstanceToSetAttributes(), ex); // draw.getDrawable() devuelve null en este contexto en algunos casos (atributos en objetos item auxiliares)
-        }
+
     }
 
     private boolean processAttrCustom(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name,String value,XMLInflaterDrawable xmlInflaterDrawable)

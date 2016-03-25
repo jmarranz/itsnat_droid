@@ -30,11 +30,11 @@ public class ClassDescView_Include extends ClassDescViewBased
     }
 
     @Override
-    public boolean setAttribute(final View view,final DOMAttr attr,final AttrLayoutContext attrCtx)
+    protected boolean setAttributeThisClass(final View view,final DOMAttr attr,final AttrLayoutContext attrCtx)
     {
         // Se redefine totalmente porque necesitamos memorizar los atributos (excepto el layout)
         if (attr.getNamespaceURI() == null && attr.getName().equals("layout"))
-            return super.setAttribute(view, attr, attrCtx);
+            return super.setAttributeThisClass(view, attr, attrCtx);
 
         ((_IncludeFakeViewGroup_)view).saveAttrib(attr);
 

@@ -751,10 +751,7 @@ Android TV uimt: television"
             android:loopViews="true"
             android:outAnimation="@animator/object_animator_test"
             android:autoStart="true"
-            android:flipInterval="2000"
-            >
-
-        </AdapterViewFlipper>
+            android:flipInterval="2000" />
 
         <TextView
             android:layout_width="match_parent"

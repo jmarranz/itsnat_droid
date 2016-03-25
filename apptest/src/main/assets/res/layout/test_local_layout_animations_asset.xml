@@ -1,0 +1,65 @@
+<org.itsnat.itsnatdroidtest.testact.util.CustomScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.itsnat.itsnatdroidtest.MainActivity">
+    <!--
+        "#dddddd" gris claro
+        "#ffdddd" rosa
+        "#aaaaaa" gris oscuro
+        "#55ddffdd" verde claro
+        "#eeee55" amarillo
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BACK" />
+
+        <Button
+            android:id="@id/buttonReload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_reload" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="ObjectAnimator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+
+        <AdapterViewFlipper
+            android:id="@+id/objectAnimatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:animateFirstView="true"
+            android:inAnimation="@animator/object_animator_test"
+            android:loopViews="true"
+            android:outAnimation="@animator/object_animator_test"
+            android:autoStart="true"
+            android:flipInterval="2000"  />
+
+        <AdapterViewFlipper
+            android:id="@+id/objectAnimatorTestId2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:animateFirstView="true"
+            android:inAnimation="@assets:animator/res/animator/test_object_animator_asset.xml"
+            android:loopViews="true"
+            android:outAnimation="@assets:animator/res/animator/test_object_animator_asset.xml"
+            android:autoStart="true"
+            android:flipInterval="2000"  />
+
+
+    </LinearLayout>
+
+</org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>
