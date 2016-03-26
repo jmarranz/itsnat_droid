@@ -3,9 +3,12 @@
 <!-- http://stackoverflow.com/questions/15582434/using-a-valueanimator-to-make-a-textview-blink-different-colors -->
 <objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
     android:propertyName="backgroundColor"
-    android:valueFrom="#FFFF8080"
-    android:valueTo="#FF8080FF"
+    android:valueFrom="#FFFF8000"
+    android:valueTo="#FFFF80FF"
     android:duration="200"
-    android:repeatMode="reverse" /> <!-- android:repeatCount="-1" -->
+    android:repeatCount="1"
+    android:repeatMode="reverse"
+    android:startOffset="10"
+     />
 
 

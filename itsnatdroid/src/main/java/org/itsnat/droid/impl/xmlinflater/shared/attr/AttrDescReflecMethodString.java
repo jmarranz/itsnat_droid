@@ -39,7 +39,8 @@ public class AttrDescReflecMethodString<TclassDesc extends ClassDesc,TattrTarget
     @Override
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
-        callMethod(target, "");
+        if (defaultValue != null)
+            callMethod(target, defaultValue);
     }
 
 }

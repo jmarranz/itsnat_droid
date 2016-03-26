@@ -20,9 +20,10 @@ import java.util.Map;
 /**
  * Created by Jose on 15/10/2015.
  */
-public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDesc<Animator>
+public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDesc<T>
 {
-    public ClassDescAnimatorBased(ClassDescAnimatorMgr classMgr, String tagName, ClassDescAnimatorBased<? extends Animator> parentClass)
+    @SuppressWarnings("unchecked")
+    public ClassDescAnimatorBased(ClassDescAnimatorMgr classMgr, String tagName, ClassDescAnimatorBased parentClass)
     {
         super(classMgr, tagName, parentClass);
     }
@@ -37,16 +38,12 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
         return (ClassDescAnimatorBased) getParentClassDesc(); // Puede ser null
     }
 
-    @Override
-    public Class<Animator> getDeclaredClass()
-    {
-        return null; // No se necesita, no se implementa
-    }
+    public abstract Class<T> getDeclaredClass();
 
     @Override
     protected void init()
     {
-        // initClass();
+        //initClass();
 
         super.init();
     }
