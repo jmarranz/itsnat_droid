@@ -671,6 +671,24 @@ public class XMLInflateRegistry
         else return Boolean.parseBoolean(attrValue);
     }
 
+    public boolean isDimension(DOMAttr attr)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            return "dimen".equals(attrDyn.getResourceType());
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            String value = attr.getValue();
+            if (value.startsWith("?android:attr/"))
+                throw new ItsNatDroidException("Resource type cannot be determined using \"?android:attr/\" in this context");
+            if (value.startsWith("@android:dimen/") || value.startsWith("@dimen/"))
+                return true;
+            return getDimensionSuffixNotError(value) != null;
+        }
+        else throw MiscUtil.internalError();
+    }
 
     public Dimension getDimensionObject(DOMAttr attr,XMLInflater xmlInflater)
     {
@@ -877,16 +895,23 @@ public class XMLInflateRegistry
 
     private static String getDimensionSuffix(String value)
     {
-        String valueTrim = value.trim();
+        String suffix = getDimensionSuffixNotError(value);
+        if (suffix == null) throw new ItsNatDroidException("Unrecognized dimension: " + value);
+        return suffix;
+    }
 
-        if (valueTrim.endsWith("dp")) return "dp";
-        if (valueTrim.endsWith("dip")) // Concesión al pasado
+    public static String getDimensionSuffixNotError(String value)
+    {
+        if (value.endsWith(" ")) throw new ItsNatDroidException("Dimension cannot end with space: \"" + value + "\"");
+
+        if (value.endsWith("dp")) return "dp";
+        if (value.endsWith("dip")) // Concesión al pasado
             return "dip";
-        else if (valueTrim.endsWith("px")) return "px";
-        else if (valueTrim.endsWith("sp")) return "sp";
-        else if (valueTrim.endsWith("in")) return "in";
-        else if (valueTrim.endsWith("mm")) return "mm";
-        else throw new ItsNatDroidException("ERROR unrecognized dimension: " + valueTrim);
+        else if (value.endsWith("px")) return "px";
+        else if (value.endsWith("sp")) return "sp";
+        else if (value.endsWith("in")) return "in";
+        else if (value.endsWith("mm")) return "mm";
+        else return null;
     }
 
     private static float parseFloat(String value)
@@ -907,6 +932,25 @@ public class XMLInflateRegistry
         // Nexus 5 tiene un scale 3 de dp a px (xxhdpi), con un valor de 0.3 devuelve 0.9 bien para probar si usar round/floor
         // La VM ItsNatDroid es una Nexus 4
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
+    }
+
+    public boolean isColor(DOMAttr attr)
+    {
+        if (attr instanceof DOMAttrDynamic)
+        {
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            return "color".equals(attrDyn.getResourceType());
+        }
+        else if (attr instanceof DOMAttrCompiledResource)
+        {
+            String value = attr.getValue();
+            if (value.startsWith("?android:attr/"))
+                throw new ItsNatDroidException("Resource type cannot be determined using \"?android:attr/\" in this context");
+            if (value.startsWith("@android:color/") || value.startsWith("@color/"))
+                return true;
+            return value.startsWith("#");
+        }
+        else throw MiscUtil.internalError();
     }
 
     public int getColor(DOMAttr attr,XMLInflater xmlInflater)

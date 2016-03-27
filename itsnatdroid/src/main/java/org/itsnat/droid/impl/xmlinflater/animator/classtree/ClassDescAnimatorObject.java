@@ -2,11 +2,11 @@ package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 
+import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
+import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodString;
 
 /**
@@ -26,9 +26,16 @@ public class ClassDescAnimatorObject extends ClassDescAnimatorBased<ObjectAnimat
     }
 
     @Override
-    protected ObjectAnimator createAnimatorObject(Context ctx)
+    protected ObjectAnimator createAnimatorNative(Context ctx)
     {
         return new ObjectAnimator();
+    }
+
+    protected void fillAnimatorAttributes(Animator animator,DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
+    {
+        ((ClassDescAnimatorValue)parentClass).fillAnimatorValueConstructionAttributes(animator, domElement, attrCtx);
+
+        super.fillAnimatorAttributes(animator, domElement,attrCtx);
     }
 
     @SuppressWarnings("unchecked")

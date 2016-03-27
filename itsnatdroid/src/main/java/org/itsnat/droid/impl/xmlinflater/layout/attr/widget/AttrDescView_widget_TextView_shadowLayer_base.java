@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.content.Context;
 import android.graphics.Paint;
 import android.os.Build;
 import android.view.View;
@@ -55,8 +54,8 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
         float dy = -1;
         int color = -1;
 
-        Context ctx = attrCtx.getContext();
-        String value = attr.getValue();
+        //Context ctx = attrCtx.getContext();
+        //String value = attr.getValue();
         if (name.equals("shadowColor"))
         {
             int convValue = getColor(attr,attrCtx.getXMLInflater());

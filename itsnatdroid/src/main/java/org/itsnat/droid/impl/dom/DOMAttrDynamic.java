@@ -65,7 +65,7 @@ public abstract class DOMAttrDynamic extends DOMAttr
                 {
                     // En el caso "drawable" podemos tener un acceso a un <drawable> en archivo XML en /res/values o bien directamente acceder al XML en /res/drawable
                     // este es el caso de acceso DIRECTO al XML del drawable
-                    // Idem con <item name="..." type="layout"> y type="anim" y type="animator"
+                    // Idem con <item name="..." type="layout">, type="anim" y type="animator"
                     locationTmp = value.substring(posPath + 1);
 
                     this.valuesResourceName = null;

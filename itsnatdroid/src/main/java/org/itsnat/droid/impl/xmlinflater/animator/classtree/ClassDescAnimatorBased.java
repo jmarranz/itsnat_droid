@@ -48,33 +48,34 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
         super.init();
     }
 
-    public Animator createRootAnimatorObjectAndFillAttributes(DOMElemAnimator rootDOMElemAnimator,AttrAnimatorContext attrCtx)
+    public Animator createRootAnimatorNativeAndFillAttributes(DOMElemAnimator rootDOMElemAnimator, AttrAnimatorContext attrCtx)
     {
         XMLInflaterAnimator xmlInflaterAnimator = attrCtx.getXMLInflaterAnimator();
 
-        Animator rootAnimator = createAnimatorObject(xmlInflaterAnimator.getContext());
+        Animator rootAnimator = createAnimatorNative(xmlInflaterAnimator.getContext());
         xmlInflaterAnimator.getInflatedAnimator().setRootAnimator(rootAnimator); // Lo antes posible
 
-        fillAnimatorAttributes(rootAnimator, rootDOMElemAnimator.getDOMAttributes(), attrCtx);
+        fillAnimatorAttributes(rootAnimator, rootDOMElemAnimator, attrCtx);
 
         return rootAnimator;
     }
 
-    public Animator createAnimatorObjectAndFillAttributes(DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
+    public Animator createAnimatorNativeAndFillAttributes(DOMElemAnimator domElement, AttrAnimatorContext attrCtx)
     {
         XMLInflaterAnimator xmlInflaterAnimator = attrCtx.getXMLInflaterAnimator();
 
-        Animator animator = createAnimatorObject(xmlInflaterAnimator.getContext());
+        Animator animator = createAnimatorNative(xmlInflaterAnimator.getContext());
 
-        fillAnimatorAttributes(animator, domElement.getDOMAttributes(), attrCtx);
+        fillAnimatorAttributes(animator, domElement, attrCtx);
 
         return animator;
     }
 
-    protected abstract T createAnimatorObject(Context ctx);
+    protected abstract T createAnimatorNative(Context ctx);
 
-    private void fillAnimatorAttributes(Animator animator,Map<String,DOMAttr> attribMap,AttrAnimatorContext attrCtx)
+    protected void fillAnimatorAttributes(Animator animator,DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
     {
+        Map<String,DOMAttr> attribMap = domElement.getDOMAttributes();
         if (attribMap != null)
         {
             for (Map.Entry<String,DOMAttr> entry : attribMap.entrySet())

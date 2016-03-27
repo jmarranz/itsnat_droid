@@ -1,11 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
 import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodLong;
 
 /**
  * Created by Jose on 15/10/2015.
@@ -25,9 +24,9 @@ public class ClassDescAnimator extends ClassDescAnimatorBased<Animator>
 
 
     @Override
-    protected Animator createAnimatorObject(Context ctx)
+    protected Animator createAnimatorNative(Context ctx)
     {
-        return null; // No se necesita
+        return null; // No se necesita, Animator es abstract
     }
 
     @SuppressWarnings("unchecked")
@@ -35,7 +34,7 @@ public class ClassDescAnimator extends ClassDescAnimatorBased<Animator>
     {
         super.init();
 
-        addAttrDescAN(new AttrDescReflecMethodInt(this, "duration", 0)); // Se puede llamar independientemente de valueFrom y valueTo
-        addAttrDescAN(new AttrDescReflecMethodInt(this, "startOffset", "setStartDelay", 0)); // "
+        addAttrDescAN(new AttrDescReflecMethodLong(this, "duration", 0L)); // Se puede llamar independientemente de valueFrom y valueTo
+        addAttrDescAN(new AttrDescReflecMethodLong(this, "startOffset", "setStartDelay", 0L)); // "
     }
 }

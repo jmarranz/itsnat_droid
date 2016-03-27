@@ -54,7 +54,7 @@ public class XMLInflaterAnimator extends XMLInflater
         AttrAnimatorContext attrCtx = new AttrAnimatorContext(this);
 
         ClassDescAnimatorBased classDesc = getClassDescAnimatorBased(rootDOMElem);
-        Animator animatorRoot = classDesc.createRootAnimatorObjectAndFillAttributes(rootDOMElem,attrCtx);
+        Animator animatorRoot = classDesc.createRootAnimatorNativeAndFillAttributes(rootDOMElem, attrCtx);
 
         if (animatorRoot instanceof AnimatorSet)
             processChildElements((DOMElemAnimatorSet)rootDOMElem, (AnimatorSet)animatorRoot,attrCtx);
@@ -73,7 +73,7 @@ public class XMLInflaterAnimator extends XMLInflater
         int i = 0;
         for (DOMElement childDOMElem : childDOMElemList)
         {
-            Animator animator = inflateNextElement((DOMElemAnimator)childDOMElem,domElemParent,parentAnimator,attrCtx);
+            Animator animator = inflateNextElement((DOMElemAnimator)childDOMElem,attrCtx);
             childAnimators[i] = animator;
             i++;
         }
@@ -86,10 +86,10 @@ public class XMLInflaterAnimator extends XMLInflater
             throw new ItsNatDroidException("Unknown ordering attribute value: " + ordering);
     }
 
-    protected Animator inflateNextElement(DOMElemAnimator domElement,DOMElemAnimatorSet domElementParent,AnimatorSet parentAnimator,AttrAnimatorContext attrCtx)
+    protected Animator inflateNextElement(DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
     {
         ClassDescAnimatorBased classDesc = getClassDescAnimatorBased(domElement);
-        Animator animator = classDesc.createAnimatorObjectAndFillAttributes(domElement, attrCtx);
+        Animator animator = classDesc.createAnimatorNativeAndFillAttributes(domElement, attrCtx);
 
         if (animator instanceof AnimatorSet)
             processChildElements((DOMElemAnimatorSet)domElement, (AnimatorSet)animator,attrCtx);
