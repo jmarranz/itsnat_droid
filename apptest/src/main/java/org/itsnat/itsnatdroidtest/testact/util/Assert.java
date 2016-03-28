@@ -1,6 +1,11 @@
 package org.itsnat.itsnatdroidtest.testact.util;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.NinePatch;
@@ -35,6 +40,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -814,16 +820,100 @@ public class Assert
     }
 
 
+    public static void assertEquals(Animator a,Animator b)
+    {
+        if (a instanceof ObjectAnimator)
+            assertEquals((ObjectAnimator)a,(ObjectAnimator)b);
+        else if (a instanceof ValueAnimator)
+            assertEquals((ValueAnimator)a,(ValueAnimator)b);
+        else if (a instanceof AnimatorSet)
+            assertEquals((AnimatorSet)a,(AnimatorSet)b);
+    }
+
+    public static void assertEqualsAnimator(Animator a,Animator b)
+    {
+        // duration, startOffset
+        assertEquals(a.getDuration(), b.getDuration());
+        assertEquals(a.getStartDelay(), b.getStartDelay());
+    }
+
+    public static void assertEquals(ValueAnimator a,ValueAnimator b)
+    {
+        assertEqualsAnimator(a,b);
+
+        // repeatCount, repeatMode
+        assertEquals(a.getRepeatCount(), b.getRepeatCount());
+        assertEquals(a.getRepeatMode(), b.getRepeatMode());
+
+        assertTrue(a.getInterpolator().equals(b.getInterpolator()));
+
+        // "valueType" "valueFrom" "valueTo"
+
+        PropertyValuesHolder[] a_pvhArr = a.getValues();
+        PropertyValuesHolder[] b_pvhArr = b.getValues();
+        assertEquals(a_pvhArr.length,b_pvhArr.length);
+        for(int i = 0; i < a_pvhArr.length; i++)
+        {
+            PropertyValuesHolder a_pvh = a_pvhArr[i];
+            PropertyValuesHolder b_pvh = b_pvhArr[i];
+
+            assertEquals(a_pvh.getPropertyName(), b_pvh.getPropertyName());
+
+            String a_cvt = ((Class) TestUtil.getField(a_pvh, PropertyValuesHolder.class, "mValueType")).getName();
+            String b_cvt = ((Class) TestUtil.getField(b_pvh, PropertyValuesHolder.class, "mValueType")).getName();
+            assertEquals(a_cvt, b_cvt);
+
+            Object a_keyframeset = TestUtil.getField(a_pvh, PropertyValuesHolder.class, "mKeyframeSet");
+            Object b_keyframeset = TestUtil.getField(b_pvh, PropertyValuesHolder.class, "mKeyframeSet");
+
+            ArrayList a_keyframes = (ArrayList)TestUtil.getField(a_keyframeset, TestUtil.resolveClass("android.animation.KeyframeSet"), "mKeyframes");
+            ArrayList b_keyframes = (ArrayList)TestUtil.getField(b_keyframeset, TestUtil.resolveClass("android.animation.KeyframeSet"), "mKeyframes");
+
+            int a_size = a_keyframes.size();
+            int b_size = b_keyframes.size();
+            assertEquals(a_size, b_size);
+            for(int j = 0; j < a_size; j++)
+            {
+                Object a_keyframe = a_keyframes.get(j);
+                Object b_keyframe = b_keyframes.get(j);
+
+                String a_valueType = ((Class)TestUtil.getField(a_keyframe, TestUtil.resolveClass("android.animation.Keyframe"), "mValueType")).getName();
+                String b_valueType = ((Class)TestUtil.getField(b_keyframe, TestUtil.resolveClass("android.animation.Keyframe"), "mValueType")).getName();
+
+                assertEquals(a_cvt, a_valueType);
+                assertEquals(b_cvt, b_valueType);
+
+                String a_keyframeClassName = null;
+                if (a_valueType.equals("int"))
+                    a_keyframeClassName = "android.animation.Keyframe$IntKeyframe";
+                else if (a_valueType.equals("float"))
+                    a_keyframeClassName = "android.animation.Keyframe$FloatKeyframe";
+
+                String b_keyframeClassName = null;
+                if (b_valueType.equals("int"))
+                    b_keyframeClassName = "android.animation.Keyframe$IntKeyframe";
+                else if (b_valueType.equals("float"))
+                    b_keyframeClassName = "android.animation.Keyframe$FloatKeyframe";
+
+                Object a_value = TestUtil.getField(a_keyframe, TestUtil.resolveClass(a_keyframeClassName),"mValue");
+                Object b_value = TestUtil.getField(b_keyframe, TestUtil.resolveClass(b_keyframeClassName),"mValue");
+                assertEquals(a_value, b_value);
+            }
+
+            TypeEvaluator a_te = (TypeEvaluator) TestUtil.getField(a_pvh, PropertyValuesHolder.class, "mEvaluator");
+            TypeEvaluator b_te = (TypeEvaluator) TestUtil.getField(b_pvh, PropertyValuesHolder.class, "mEvaluator");
+            assertEquals(a_te, b_te);
+        }
+    }
+
 
     public static void assertEquals(ObjectAnimator a,ObjectAnimator b)
     {
-        // Comparamos unas cuantas propiedades
-        assertEquals(a.getPropertyName(),b.getPropertyName());
-//        assertEquals(a.getTarget().getClass().getName(),a.getTarget().getClass().getName());
-        assertTrue(a.getInterpolator().equals(b.getInterpolator()));
+        assertEquals((ValueAnimator) a, (ValueAnimator)b);
 
-        assertEquals(a.getDuration(), b.getDuration());
-        assertEquals(a.getRepeatMode(),b.getRepeatMode());
+        assertEquals(a.getPropertyName(),b.getPropertyName());
+
+
     }
 
     public static void assertEquals(AnimationSet a,AnimationSet b)
