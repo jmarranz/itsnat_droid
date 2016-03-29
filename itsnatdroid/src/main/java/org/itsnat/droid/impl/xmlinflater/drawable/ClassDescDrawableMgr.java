@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable;
 
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawable;
@@ -35,7 +35,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionD
  */
 public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
 {
-    public ClassDescDrawableMgr(XMLInflateRegistry parent)
+    public ClassDescDrawableMgr(XMLInflaterRegistry parent)
     {
         super(parent);
         initClassDesc();

@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.util.HashMap;
@@ -32,9 +32,9 @@ public abstract class ClassDesc<Tnative>
         this.parentClass = parentClass;
     }
 
-    public XMLInflateRegistry getXMLInflateRegistry()
+    public XMLInflaterRegistry getXMLInflaterRegistry()
     {
-        return classMgr.getXMLInflateRegistry();
+        return classMgr.getXMLInflaterRegistry();
     }
 
     public ClassDescMgr getClassDescMgr()

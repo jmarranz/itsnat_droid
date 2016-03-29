@@ -347,13 +347,13 @@ public class ClassDescViewBased extends ClassDesc<View>
         DOMAttr domAttr = findAttribute(null, "style", attribMap);
         if (domAttr == null)
             return null;
-        return getXMLInflateRegistry().getViewStyle(domAttr, xmlInflaterLayout);
+        return getXMLInflaterRegistry().getViewStyle(domAttr, xmlInflaterLayout);
     }
 
     private View createViewObject(DOMAttributeMap attributeMap, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ViewStyleAttribs style = findStyleAttribute(attributeMap, xmlInflaterLayout);
-        int idStyleCompiledOrParent = getXMLInflateRegistry().getViewStyle(style,styleDynamicAttribs,xmlInflaterLayout.getContext());
+        int idStyleCompiledOrParent = getXMLInflaterRegistry().getViewStyle(style, styleDynamicAttribs, xmlInflaterLayout.getContext());
 
         View view = createViewObject(attributeMap, idStyleCompiledOrParent, pendingPostInsertChildrenTasks, xmlInflaterLayout.getContext());
 

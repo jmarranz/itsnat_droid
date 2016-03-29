@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableContainer;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
@@ -44,11 +44,11 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
 
     public Drawable getChildDrawable(String drawableAttrName,DOMElemDrawable domElement, XMLInflaterDrawable inflaterDrawable,ArrayList<ElementDrawable> childList)
     {
-        XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
+        XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
 
         // Si el drawable está definido como elemento hijo gana éste por delante del atributo drawable
         DOMAttr attrDrawable = domElement.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, drawableAttrName); // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elemento hijo
-        Drawable drawable = attrDrawable != null ? xmlInflateRegistry.getDrawable(attrDrawable, inflaterDrawable) : null;
+        Drawable drawable = attrDrawable != null ? xmlInflaterRegistry.getDrawable(attrDrawable, inflaterDrawable) : null;
 
         if (childList != null)
         {

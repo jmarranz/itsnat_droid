@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 
 /**
  * Created by jmarranz on 7/11/14.
@@ -28,9 +28,9 @@ public abstract class InflatedXML
         return itsNatDroid;
     }
 
-    public XMLInflateRegistry getXMLInflateRegistry()
+    public XMLInflaterRegistry getXMLInflaterRegistry()
     {
-        return itsNatDroid.getXMLInflateRegistry();
+        return itsNatDroid.getXMLInflaterRegistry();
     }
 
     public Context getContext()

@@ -5,7 +5,6 @@ import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 
 import org.itsnat.droid.InflatedLayout;
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;

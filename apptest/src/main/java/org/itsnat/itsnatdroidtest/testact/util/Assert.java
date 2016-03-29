@@ -43,6 +43,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -863,19 +864,31 @@ public class Assert
             String b_cvt = ((Class) TestUtil.getField(b_pvh, PropertyValuesHolder.class, "mValueType")).getName();
             assertEquals(a_cvt, b_cvt);
 
-            Object a_keyframeset = TestUtil.getField(a_pvh, PropertyValuesHolder.class, "mKeyframeSet");
-            Object b_keyframeset = TestUtil.getField(b_pvh, PropertyValuesHolder.class, "mKeyframeSet");
+            List a_keyframeList;
+            List b_keyframeList;
+            if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP)
+            {
+                Object a_keyframeset = TestUtil.getField(a_pvh, PropertyValuesHolder.class, "mKeyframeSet");
+                Object b_keyframeset = TestUtil.getField(b_pvh, PropertyValuesHolder.class, "mKeyframeSet");
 
-            ArrayList a_keyframes = (ArrayList)TestUtil.getField(a_keyframeset, TestUtil.resolveClass("android.animation.KeyframeSet"), "mKeyframes");
-            ArrayList b_keyframes = (ArrayList)TestUtil.getField(b_keyframeset, TestUtil.resolveClass("android.animation.KeyframeSet"), "mKeyframes");
+                a_keyframeList = (ArrayList) TestUtil.getField(a_keyframeset, TestUtil.resolveClass("android.animation.KeyframeSet"), "mKeyframes");
+                b_keyframeList = (ArrayList) TestUtil.getField(b_keyframeset, TestUtil.resolveClass("android.animation.KeyframeSet"), "mKeyframes");
+            }
+            else // >= LOLLIPOP
+            {
+                Object a_keyframes = TestUtil.getField(a_pvh, PropertyValuesHolder.class, "mKeyframes");
+                Object b_keyframes = TestUtil.getField(b_pvh, PropertyValuesHolder.class, "mKeyframes");
+                a_keyframeList = (List) TestUtil.callGetMethod(a_keyframes,TestUtil.resolveClass("android.animation.Keyframes"),"getKeyframes"); // Retorna un Arrays.ArrayList
+                b_keyframeList = (List) TestUtil.callGetMethod(b_keyframes,TestUtil.resolveClass("android.animation.Keyframes"),"getKeyframes");
+            }
 
-            int a_size = a_keyframes.size();
-            int b_size = b_keyframes.size();
+            int a_size = a_keyframeList.size();
+            int b_size = b_keyframeList.size();
             assertEquals(a_size, b_size);
             for(int j = 0; j < a_size; j++)
             {
-                Object a_keyframe = a_keyframes.get(j);
-                Object b_keyframe = b_keyframes.get(j);
+                Object a_keyframe = a_keyframeList.get(j);
+                Object b_keyframe = b_keyframeList.get(j);
 
                 String a_valueType = ((Class)TestUtil.getField(a_keyframe, TestUtil.resolveClass("android.animation.Keyframe"), "mValueType")).getName();
                 String b_valueType = ((Class)TestUtil.getField(b_keyframe, TestUtil.resolveClass("android.animation.Keyframe"), "mValueType")).getName();
@@ -902,7 +915,11 @@ public class Assert
 
             TypeEvaluator a_te = (TypeEvaluator) TestUtil.getField(a_pvh, PropertyValuesHolder.class, "mEvaluator");
             TypeEvaluator b_te = (TypeEvaluator) TestUtil.getField(b_pvh, PropertyValuesHolder.class, "mEvaluator");
-            assertEquals(a_te, b_te);
+            if (a_te != null)
+            {
+                if (b_te == null) assertEquals(a_te,null);
+                assertEquals(a_te.getClass(), b_te.getClass()); // No comparamos las instancias pues pueden no ser iguales pero ser del mismo tipo, en el caso de ArgEvaluator no hay params
+            }
         }
     }
 
@@ -912,8 +929,6 @@ public class Assert
         assertEquals((ValueAnimator) a, (ValueAnimator)b);
 
         assertEquals(a.getPropertyName(),b.getPropertyName());
-
-
     }
 
     public static void assertEquals(AnimationSet a,AnimationSet b)

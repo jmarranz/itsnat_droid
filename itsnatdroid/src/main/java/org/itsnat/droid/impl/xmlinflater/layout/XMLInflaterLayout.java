@@ -25,8 +25,8 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageNotItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageNotItsNat;
@@ -104,7 +104,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public ClassDescViewBased getClassDescViewBased(DOMElemView domElemView)
     {
-        ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflaterRegistry().getClassDescViewMgr();
         return classDescViewMgr.get(domElemView);
     }
 
@@ -203,8 +203,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
     public void fillIncludeAttributesFromGetLayout(View rootViewChild,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
     {
         String className = rootViewChild.getClass().getName();
-        XMLInflateRegistry xmlInflateRegistry = getInflatedLayoutImpl().getItsNatDroidImpl().getXMLInflateRegistry();
-        ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(className);
+        XMLInflaterRegistry xmlInflaterRegistry = getInflatedLayoutImpl().getItsNatDroidImpl().getXMLInflaterRegistry();
+        ClassDescViewBased classDesc = xmlInflaterRegistry.getClassDescViewMgr().get(className);
         if (classDesc == null)
             throw new ItsNatDroidException("Not found processor for " + className);
 

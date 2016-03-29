@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResourceImage;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
@@ -149,12 +149,12 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         return false;
     }
 
-    public static Bitmap getBitmapNoScale(DOMAttr attr,Context ctx,XMLInflateRegistry xmlInflateRegistry)
+    public static Bitmap getBitmapNoScale(DOMAttr attr,Context ctx,XMLInflaterRegistry xmlInflaterRegistry)
     {
-        return getBitmap(attr, -1, ctx, xmlInflateRegistry);
+        return getBitmap(attr, -1, ctx, xmlInflaterRegistry);
     }
 
-    public static Bitmap getBitmap(DOMAttr attr,int bitmapDensityReference,Context ctx,XMLInflateRegistry xmlInflateRegistry)
+    public static Bitmap getBitmap(DOMAttr attr,int bitmapDensityReference,Context ctx,XMLInflaterRegistry xmlInflaterRegistry)
     {
         if (attr instanceof DOMAttrDynamic)
         {
@@ -168,10 +168,10 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         else if (attr instanceof DOMAttrCompiledResource)
         {
             String attrValue = attr.getValue();
-            if (XMLInflateRegistry.isResource(attrValue))
+            if (XMLInflaterRegistry.isResource(attrValue))
             {
                 // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/NinePatchDrawable.java#240
-                int resId = xmlInflateRegistry.getIdentifierCompiled(attrValue,ctx); // Si no se encuentra da error, no devuelve 0
+                int resId = xmlInflaterRegistry.getIdentifierCompiled(attrValue,ctx); // Si no se encuentra da error, no devuelve 0
                 TypedValue value = new TypedValue();
                 Resources res = ctx.getResources();
                 InputStream is = res.openRawResource(resId, value);

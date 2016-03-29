@@ -98,7 +98,7 @@ public class XMLInflaterValues extends XMLInflater
 
     private ElementValuesStyle createElementValuesStyle(DOMElemValuesStyle domElement, ElementValuesResources parentChildValues)
     {
-        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
+        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflaterRegistry().getClassDescValuesMgr();
         ClassDescValuesStyle classDesc = (ClassDescValuesStyle)classDescValuesMgr.get("style");
 
         ElementValuesStyle childValuesChild = classDesc.createElementValuesStyle(domElement, parentChildValues);
@@ -107,7 +107,7 @@ public class XMLInflaterValues extends XMLInflater
 
     private ElementValuesArrayBase createElementValuesArrayBase(DOMElemValuesArrayBase domElement, ElementValuesResources parentChildValues)
     {
-        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
+        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflaterRegistry().getClassDescValuesMgr();
         ClassDescValuesArrayBase classDesc = (ClassDescValuesArrayBase)classDescValuesMgr.get(domElement.getTagName());
 
         ElementValuesArrayBase childValuesChild = classDesc.createElementValuesArrayBase(domElement, parentChildValues);
@@ -118,7 +118,7 @@ public class XMLInflaterValues extends XMLInflater
     {
         String resourceType = ClassDescValuesItemNormal.getResourceTypeItemNormal(domElement);
 
-        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflateRegistry().getClassDescValuesMgr();
+        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflaterRegistry().getClassDescValuesMgr();
         ClassDescValuesItemNormal classDesc = (ClassDescValuesItemNormal)classDescValuesMgr.get(resourceType);
         if (classDesc == null)
             throw new ItsNatDroidException("Not found processor for resource type: " + resourceType);

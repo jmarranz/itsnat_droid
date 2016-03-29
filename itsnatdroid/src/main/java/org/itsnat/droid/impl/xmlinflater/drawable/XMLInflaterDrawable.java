@@ -62,7 +62,7 @@ public class XMLInflaterDrawable extends XMLInflater
         InflatedDrawable inflatedDrawable = getInflatedDrawable();
 
         String name = rootDOMElem.getTagName();
-        ClassDescDrawableMgr classDescDrawableMgr = inflatedDrawable.getXMLInflateRegistry().getClassDescDrawableMgr();
+        ClassDescDrawableMgr classDescDrawableMgr = inflatedDrawable.getXMLInflaterRegistry().getClassDescDrawableMgr();
         ClassDescElementDrawableRoot<? extends Drawable> classDesc = (ClassDescElementDrawableRoot<? extends Drawable>)classDescDrawableMgr.get(name);
         if (classDesc == null)
             throw new ItsNatDroidException("Drawable type is not supported: " + name);
@@ -131,7 +131,7 @@ public class XMLInflaterDrawable extends XMLInflater
     {
         String parentName = getFullName(domElementParent);
         String name = parentName + ":" + domElement.getTagName();
-        ClassDescDrawableMgr classDescDrawableMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
+        ClassDescDrawableMgr classDescDrawableMgr = getInflatedDrawable().getXMLInflaterRegistry().getClassDescDrawableMgr();
         ClassDescElementDrawableChild classDesc = (ClassDescElementDrawableChild)classDescDrawableMgr.get(name);
         if (classDesc == null)
         {

@@ -33,7 +33,7 @@ public class XMLInflaterAnimator extends XMLInflater
 
     public ClassDescAnimatorBased getClassDescAnimatorBased(DOMElemAnimator domElemAnimator)
     {
-        ClassDescAnimatorMgr classDescMgr = getInflatedAnimator().getXMLInflateRegistry().getClassDescAnimatorMgr();
+        ClassDescAnimatorMgr classDescMgr = getInflatedAnimator().getXMLInflaterRegistry().getClassDescAnimatorMgr();
         return classDescMgr.get(domElemAnimator.getTagName());
     }
 

@@ -61,7 +61,7 @@ public class StringUtil
         // El caracter '"' está presente como \" en una string delimitada con "
         // El caracter '\'' está presente como ' en una string delimitada con "
 
-        // Se usa también en XMLInflateRegistry.getString() y getText() porque en XML se pueden poner \n, \t etc y el compilador de Android los procesa y los deja como caracteres normales
+        // Se usa también en XMLInflaterRegistry.getString() y getText() porque en XML se pueden poner \n, \t etc y el compilador de Android los procesa y los deja como caracteres normales
 
 
         StringBuilder codeRes = new StringBuilder();

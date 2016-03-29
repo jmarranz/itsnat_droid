@@ -46,7 +46,7 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
 
         Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable,childList);
 
-        //XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
+        //XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
 
         DOMAttr attrGravity = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "gravity");
         int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso

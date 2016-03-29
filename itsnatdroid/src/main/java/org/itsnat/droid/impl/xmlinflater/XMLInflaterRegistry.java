@@ -68,7 +68,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 25/06/14.
  */
-public class XMLInflateRegistry
+public class XMLInflaterRegistry
 {
     private ItsNatDroidImpl parent;
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
@@ -79,7 +79,7 @@ public class XMLInflateRegistry
     private ClassDescAnimatorMgr classDescAnimatorMgr = new ClassDescAnimatorMgr(this);
     private Map<XMLDOMValues,ElementValuesResources> cacheXMLDOMValuesXMLInflaterValuesMap = new HashMap<XMLDOMValues, ElementValuesResources>();
 
-    public XMLInflateRegistry(ItsNatDroidImpl parent)
+    public XMLInflaterRegistry(ItsNatDroidImpl parent)
     {
         this.parent = parent;
     }

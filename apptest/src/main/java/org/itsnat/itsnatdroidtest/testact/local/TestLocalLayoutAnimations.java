@@ -2,31 +2,14 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.InsetDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.LevelListDrawable;
-import android.graphics.drawable.NinePatchDrawable;
-import android.graphics.drawable.RotateDrawable;
-import android.graphics.drawable.ScaleDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.TransitionDrawable;
-import android.widget.AdapterViewAnimator;
 import android.widget.AdapterViewFlipper;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
-
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 
 
 /**

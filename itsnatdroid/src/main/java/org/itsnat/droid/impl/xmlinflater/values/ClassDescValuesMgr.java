@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.values;
 
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValues;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesArrayBase;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesItemNormal;
@@ -27,7 +27,7 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
  */
 public class ClassDescValuesMgr extends ClassDescMgr<ClassDescValues>
 {
-    public ClassDescValuesMgr(XMLInflateRegistry parent)
+    public ClassDescValuesMgr(XMLInflaterRegistry parent)
     {
         super(parent);
         initClassDesc();

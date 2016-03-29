@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewUnknown;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_Include;
@@ -61,7 +61,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 {
     public final String[] implicitImports = new String[] { "android.view.", "android.widget." };  // Es para añadir imports implícitos tal y como hace Android en los layouts
 
-    public ClassDescViewMgr(XMLInflateRegistry parent)
+    public ClassDescViewMgr(XMLInflaterRegistry parent)
     {
         super(parent);
         initClassDesc();

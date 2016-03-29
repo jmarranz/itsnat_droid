@@ -24,7 +24,7 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.UINotification;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -159,7 +159,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         if (id > 0)
             return id;
 
-        XMLInflateRegistry layoutService = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
+        XMLInflaterRegistry layoutService = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflaterRegistry();
         id = layoutService.findViewIdDynamicallyAdded(name);
         return id;
     }

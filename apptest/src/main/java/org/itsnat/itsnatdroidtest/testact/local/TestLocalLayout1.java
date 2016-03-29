@@ -320,7 +320,7 @@ public class TestLocalLayout1
                     assertEquals(compTextView.getId(), R.id.test_id_textviewtest3);
                     //assertEquals(compTextView.getId(), parsedTextView.getId());
                     ItsNatDroidImpl itsNatDroid = (ItsNatDroidImpl)ItsNatDroidRoot.get();
-                    assertEquals(parsedTextView.getId(),itsNatDroid.getXMLInflateRegistry().findViewIdDynamicallyAdded("textViewTest3"));
+                    assertEquals(parsedTextView.getId(),itsNatDroid.getXMLInflaterRegistry().findViewIdDynamicallyAdded("textViewTest3"));
 
                     assertEquals(compTextView.getText(), "Text size=15.3dp, color=red,padding");
                     assertEquals(compTextView.getText(), parsedTextView.getText());

@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
@@ -35,19 +35,19 @@ public class ClassDescInsetDrawable extends ClassDescDrawableWrapper<InsetDrawab
 
         Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, childList);
 
-        XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
+        XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
 
         DOMAttr attrInsetTop = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetTop");
-        int insetTop = attrInsetTop != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetTop, inflaterDrawable) : 0;
+        int insetTop = attrInsetTop != null ? xmlInflaterRegistry.getDimensionIntFloor(attrInsetTop, inflaterDrawable) : 0;
 
         DOMAttr attrInsetRight = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetRight");
-        int insetRight = attrInsetRight != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetRight,inflaterDrawable) : 0;
+        int insetRight = attrInsetRight != null ? xmlInflaterRegistry.getDimensionIntFloor(attrInsetRight,inflaterDrawable) : 0;
 
         DOMAttr attrInsetBottom = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetBottom");
-        int insetBottom = attrInsetBottom != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetBottom,inflaterDrawable) : 0;
+        int insetBottom = attrInsetBottom != null ? xmlInflaterRegistry.getDimensionIntFloor(attrInsetBottom,inflaterDrawable) : 0;
 
         DOMAttr attrInsetLeft = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetLeft");
-        int insetLeft = attrInsetLeft != null ? xmlInflateRegistry.getDimensionIntFloor(attrInsetLeft,inflaterDrawable) : 0;
+        int insetLeft = attrInsetLeft != null ? xmlInflaterRegistry.getDimensionIntFloor(attrInsetLeft,inflaterDrawable) : 0;
 
         elementDrawableRoot.setDrawable(new InsetDrawable(childDrawable,insetLeft, insetTop, insetRight, insetBottom));
 

@@ -49,7 +49,7 @@ import org.itsnat.droid.impl.util.MapListLight;
 import org.itsnat.droid.impl.util.MapListReal;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 
@@ -575,8 +575,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         PageItsNatImpl page = getPageItsNatImpl();
         XMLInflaterLayoutPageItsNat xmlInflaterLayout = page.getXMLInflaterLayoutPageItsNat();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
-        XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
-        ClassDescViewBased classDesc = xmlInflateRegistry.getClassDescViewMgr().get(newChildToIn);
+        XMLInflaterRegistry xmlInflaterRegistry = browser.getItsNatDroidImpl().getXMLInflaterRegistry();
+        ClassDescViewBased classDesc = xmlInflaterRegistry.getClassDescViewMgr().get(newChildToIn);
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
         View view = classDesc.createViewObjectAndFillAttributesAndAddFromRemote((ViewGroup) parentNode.getView(), newChildToIn, index, xmlInflaterLayout, null);

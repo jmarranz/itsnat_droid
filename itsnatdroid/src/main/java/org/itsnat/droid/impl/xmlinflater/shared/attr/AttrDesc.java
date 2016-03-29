@@ -17,8 +17,8 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribs;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -60,9 +60,9 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return name;
     }
 
-    protected XMLInflateRegistry getXMLInflateRegistry()
+    protected XMLInflaterRegistry getXMLInflaterRegistry()
     {
-        return classDesc.getXMLInflateRegistry();
+        return classDesc.getXMLInflaterRegistry();
     }
 
     public static void processDownloadTask(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
@@ -74,118 +74,118 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
 
     public int getIdentifier(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getIdentifier(attr, xmlInflater);
+        return getXMLInflaterRegistry().getIdentifier(attr, xmlInflater);
     }
 
     public ViewStyleAttribs getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getViewStyle(attr, xmlInflater);
+        return getXMLInflaterRegistry().getViewStyle(attr, xmlInflater);
     }
 
     public int getViewStyle(ViewStyleAttribs style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
     {
-        return getXMLInflateRegistry().getViewStyle(style,styleItemsDynamicAttribs,ctx);
+        return getXMLInflaterRegistry().getViewStyle(style, styleItemsDynamicAttribs, ctx);
     }
 
     public int getInteger(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getInteger(attr, xmlInflater);
+        return getXMLInflaterRegistry().getInteger(attr, xmlInflater);
     }
 
     public float getFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getFloat(attr, xmlInflater);
+        return getXMLInflaterRegistry().getFloat(attr, xmlInflater);
     }
 
     public String getString(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getString(attr, xmlInflater);
+        return getXMLInflaterRegistry().getString(attr, xmlInflater);
     }
 
     public CharSequence getText(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getText(attr, xmlInflater);
+        return getXMLInflaterRegistry().getText(attr, xmlInflater);
     }
 
     public CharSequence[] getTextArray(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getTextArray(attr, xmlInflater);
+        return getXMLInflaterRegistry().getTextArray(attr, xmlInflater);
     }
 
     public boolean getBoolean(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getBoolean(attr, xmlInflater);
+        return getXMLInflaterRegistry().getBoolean(attr, xmlInflater);
     }
 
     public int getDimensionIntFloor(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionIntFloor(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionIntFloor(attr, xmlInflater);
     }
 
     public int getDimensionIntRound(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionIntRound(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionIntRound(attr, xmlInflater);
     }
 
     public float getDimensionFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionFloat(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionFloat(attr, xmlInflater);
     }
 
     public float getDimensionFloatFloor(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionFloatFloor(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionFloatFloor(attr, xmlInflater);
     }
 
     public float getDimensionFloatRound(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionFloatRound(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionFloatRound(attr, xmlInflater);
     }
 
 
     public PercFloat getDimensionPercFloat(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionPercFloat(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionPercFloat(attr, xmlInflater);
     }
 
     public int getDimensionWithNameIntRound(DOMAttr attr,XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDimensionWithNameIntRound(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionWithNameIntRound(attr, xmlInflater);
     }
 
     public Drawable getDrawable(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getDrawable(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDrawable(attr, xmlInflater);
     }
 
     public LayoutValue getLayout(DOMAttr attr,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
     {
-        return getXMLInflateRegistry().getLayout(attr, xmlInflaterParent, viewParent, indexChild);
+        return getXMLInflaterRegistry().getLayout(attr, xmlInflaterParent, viewParent, indexChild);
     }
 
     public View getViewLayout(DOMAttr attr, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
-        return getXMLInflateRegistry().getViewLayout(attr, xmlInflater, viewParent, indexChild, includeAttribs);
+        return getXMLInflaterRegistry().getViewLayout(attr, xmlInflater, viewParent, indexChild, includeAttribs);
     }
 
     public int getColor(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getColor(attr, xmlInflater);
+        return getXMLInflaterRegistry().getColor(attr, xmlInflater);
     }
 
     public float getPercent(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getPercent(attr, xmlInflater);
+        return getXMLInflaterRegistry().getPercent(attr, xmlInflater);
     }
 
     public Animation getAnimation(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getAnimation(attr, xmlInflater);
+        return getXMLInflaterRegistry().getAnimation(attr, xmlInflater);
     }
 
     public Animator getAnimator(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getXMLInflateRegistry().getAnimator(attr, xmlInflater);
+        return getXMLInflaterRegistry().getAnimator(attr, xmlInflater);
     }
 
 

@@ -10,15 +10,15 @@ import java.util.HashMap;
  */
 public abstract class ClassDescMgr<TclassDesc extends ClassDesc>
 {
-    protected XMLInflateRegistry parent;
+    protected XMLInflaterRegistry parent;
     protected final HashMap<String, TclassDesc> classes = new HashMap<String, TclassDesc>();
 
-    public ClassDescMgr(XMLInflateRegistry parent)
+    public ClassDescMgr(XMLInflaterRegistry parent)
     {
         this.parent = parent;
     }
 
-    public XMLInflateRegistry getXMLInflateRegistry()
+    public XMLInflaterRegistry getXMLInflaterRegistry()
     {
         return parent;
     }

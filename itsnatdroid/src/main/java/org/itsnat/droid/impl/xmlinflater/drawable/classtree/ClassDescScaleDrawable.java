@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
@@ -40,16 +40,16 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
 
         Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, childList);
 
-        XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
+        XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
 
         DOMAttr attrGravity = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleGravity");
         int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
 
         DOMAttr attrScaleHeight = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleHeight");
-        float scaleHeight = attrScaleHeight != null ? xmlInflateRegistry.getPercent(attrScaleHeight, inflaterDrawable) : -1;
+        float scaleHeight = attrScaleHeight != null ? xmlInflaterRegistry.getPercent(attrScaleHeight, inflaterDrawable) : -1;
 
         DOMAttr attrScaleWidth = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleWidth");
-        float scaleWidth = attrScaleWidth != null ? xmlInflateRegistry.getPercent(attrScaleWidth,inflaterDrawable) : -1;
+        float scaleWidth = attrScaleWidth != null ? xmlInflaterRegistry.getPercent(attrScaleWidth,inflaterDrawable) : -1;
 
         elementDrawableRoot.setDrawable(new ScaleDrawable(childDrawable,gravity,scaleWidth,scaleHeight));
 

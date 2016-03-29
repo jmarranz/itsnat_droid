@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
@@ -28,13 +28,13 @@ public class AttrDescReflecMethodColor<TclassDesc extends ClassDesc,TattrTarget,
     public AttrDescReflecMethodColor(TclassDesc parent, String name, String methodName, int defaultValue)
     {
         super(parent,name,methodName,getClassParam());
-        this.defaultValue = XMLInflateRegistry.toStringColorTransparent(defaultValue);
+        this.defaultValue = XMLInflaterRegistry.toStringColorTransparent(defaultValue);
     }
 
     public AttrDescReflecMethodColor(TclassDesc parent, String name, int defaultValue)
     {
         super(parent, name,getClassParam());
-        this.defaultValue = XMLInflateRegistry.toStringColorTransparent(defaultValue);
+        this.defaultValue = XMLInflaterRegistry.toStringColorTransparent(defaultValue);
     }
 
 

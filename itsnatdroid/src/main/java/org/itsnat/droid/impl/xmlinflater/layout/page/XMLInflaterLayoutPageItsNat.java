@@ -35,7 +35,7 @@ public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
 
     public void setAttributeSingleFromRemote(View view, DOMAttr attr)
     {
-        ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflaterRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
 
         // Es single y por tanto  si define alguna tarea pendiente tenemos que ejecutarla como si ya no hubiera más atributos pendientes
@@ -54,7 +54,7 @@ public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
         // Este método por ahora no se llama nunca, pero lo dejamos programado por si ItsNat Server amplía su uso (ver código y notas del llamador de este método)
 
         PageItsNatImpl page = getPageItsNatImpl();
-        ClassDescViewMgr classDescViewMgr = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflaterRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
 
         PendingViewPostCreateProcess pendingViewPostCreateProcess = viewClassDesc.createPendingViewPostCreateProcess(view, (ViewGroup) view.getParent());
@@ -73,7 +73,7 @@ public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
 
     public boolean removeAttributeFromRemote(View view, String namespaceURI, String name)
     {
-        ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflaterRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
 
         AttrLayoutContext attrCtx = new AttrLayoutContext(this,null,null);

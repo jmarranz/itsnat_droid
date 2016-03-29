@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.animator;
 
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimator;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorBased;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorObject;
@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorVal
  */
 public class ClassDescAnimatorMgr extends ClassDescMgr<ClassDescAnimatorBased>
 {
-    public ClassDescAnimatorMgr(XMLInflateRegistry parent)
+    public ClassDescAnimatorMgr(XMLInflaterRegistry parent)
     {
         super(parent);
         initClassDesc();

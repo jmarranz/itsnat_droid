@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
+import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 
@@ -11,7 +12,7 @@ import org.itsnat.droid.impl.dom.DOMAttributeMap;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
@@ -92,7 +93,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         else valueType = 0; // VALUE_TYPE_FLOAT
 
         XMLInflaterAnimator xmlInflaterAnimator = attrCtx.getXMLInflaterAnimator();
-        XMLInflateRegistry xmlInflateRegistry = xmlInflaterAnimator.getInflatedAnimator().getXMLInflateRegistry();
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterAnimator.getInflatedAnimator().getXMLInflaterRegistry();
 
         boolean hasFrom = false;
         boolean isDimensionFrom = false;
@@ -100,13 +101,13 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         if (valueFromAttr != null)
         {
             hasFrom = true;
-            if (xmlInflateRegistry.isColor(valueFromAttr))
+            if (xmlInflaterRegistry.isColor(valueFromAttr))
             {
                 valueType = 2; // Nos inventamos que el valor 2 es un posible VALUE_TYPE_COLOR
             }
             else
             {
-                isDimensionFrom = xmlInflateRegistry.isDimension(valueFromAttr);
+                isDimensionFrom = xmlInflaterRegistry.isDimension(valueFromAttr);
             }
         }
 
@@ -116,24 +117,26 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         if (valueToAttr != null)
         {
             hasTo = true;
-            if (xmlInflateRegistry.isColor(valueToAttr))
+            if (xmlInflaterRegistry.isColor(valueToAttr))
             {
                 if (hasFrom && valueType != 2) throw new ItsNatDroidException("Attribute value of valueFrom has a different type than valueTo color value");
                 valueType = 2; // Nos inventamos que el valor 2 es un posible VALUE_TYPE_COLOR
             }
             else
             {
-                isDimensionTo = xmlInflateRegistry.isDimension(valueToAttr);
+                isDimensionTo = xmlInflaterRegistry.isDimension(valueToAttr);
             }
         }
 
         if (hasFrom || hasTo)
         {
+            TypeEvaluator evaluator = null;
+
             if (valueType == 2) // Color
             {
-                valueAnimator.setEvaluator(new ArgbEvaluator());
-                int valueFrom = hasFrom ? xmlInflateRegistry.getColor(valueFromAttr, xmlInflaterAnimator) : 0;
-                int valueTo = hasTo ? xmlInflateRegistry.getColor(valueToAttr, xmlInflaterAnimator) : 0;
+                evaluator = new ArgbEvaluator(); // es mejor basarse en 5.0 http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/5.0.2_r1/android/animation/AnimatorInflater.java que en 4.0 que parece que tiene un bug (el setEvaluator DEBE llamarse DESPUES de definir el from y to )
+                int valueFrom = hasFrom ? xmlInflaterRegistry.getColor(valueFromAttr, xmlInflaterAnimator) : 0;
+                int valueTo = hasTo ? xmlInflaterRegistry.getColor(valueToAttr, xmlInflaterAnimator) : 0;
                 if (hasFrom)
                 {
                     if (hasTo) valueAnimator.setIntValues(valueFrom,valueTo);
@@ -150,12 +153,12 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
                 int valueTo = 0;
                 if (hasFrom)
                 {
-                    valueFrom = isDimensionFrom ? xmlInflateRegistry.getDimensionIntFloor(valueFromAttr, xmlInflaterAnimator) : xmlInflateRegistry.getInteger(valueFromAttr, xmlInflaterAnimator);
+                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionIntFloor(valueFromAttr, xmlInflaterAnimator) : xmlInflaterRegistry.getInteger(valueFromAttr, xmlInflaterAnimator);
                 }
 
                 if (hasTo)
                 {
-                    valueTo = isDimensionTo ? xmlInflateRegistry.getDimensionIntFloor(valueToAttr, xmlInflaterAnimator) : xmlInflateRegistry.getInteger(valueToAttr, xmlInflaterAnimator);
+                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionIntFloor(valueToAttr, xmlInflaterAnimator) : xmlInflaterRegistry.getInteger(valueToAttr, xmlInflaterAnimator);
                 }
 
                 if (hasFrom)
@@ -174,12 +177,12 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
                 float valueTo = 0f;
                 if (hasFrom)
                 {
-                    valueFrom = isDimensionFrom ? xmlInflateRegistry.getDimensionFloat(valueFromAttr, xmlInflaterAnimator) : xmlInflateRegistry.getFloat(valueFromAttr, xmlInflaterAnimator);
+                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionFloat(valueFromAttr, xmlInflaterAnimator) : xmlInflaterRegistry.getFloat(valueFromAttr, xmlInflaterAnimator);
                 }
 
                 if (hasTo)
                 {
-                    valueTo = isDimensionTo ? xmlInflateRegistry.getDimensionFloat(valueToAttr, xmlInflaterAnimator) : xmlInflateRegistry.getFloat(valueToAttr, xmlInflaterAnimator);
+                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionFloat(valueToAttr, xmlInflaterAnimator) : xmlInflaterRegistry.getFloat(valueToAttr, xmlInflaterAnimator);
                 }
 
                 if (hasFrom)
@@ -192,6 +195,9 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
                     valueAnimator.setFloatValues(valueTo);
                 }
             }
+
+            if (evaluator != null)
+                valueAnimator.setEvaluator(evaluator);
         }
     }
 
