@@ -910,7 +910,12 @@ public class Assert
 
                 Object a_value = TestUtil.getField(a_keyframe, TestUtil.resolveClass(a_keyframeClassName),"mValue");
                 Object b_value = TestUtil.getField(b_keyframe, TestUtil.resolveClass(b_keyframeClassName),"mValue");
-                assertEquals(a_value, b_value);
+                if (a_value instanceof Float)
+                    assertEquals((Float)a_value,(Float)b_value);
+                else if (a_value instanceof Integer)
+                    assertEquals((Integer)a_value,(Integer)b_value);
+                else
+                    assertEquals(a_value,b_value);
             }
 
             TypeEvaluator a_te = (TypeEvaluator) TestUtil.getField(a_pvh, PropertyValuesHolder.class, "mEvaluator");

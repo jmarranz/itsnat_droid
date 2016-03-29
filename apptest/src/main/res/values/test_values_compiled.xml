@@ -17,6 +17,8 @@
     <item name="test_float_textview_lineSpacingMultiplier" type="dimen" format="float">1.2</item> <!-- http://stackoverflow.com/questions/3282390/add-floating-point-value-to-android-resources-values -->
     <item name="test_drawable_scaledrawable_scaleWidth" type="dimen" >60.3%</item> <!-- Alternative in this case:  <string name="test_drawable_scaledrawable_scaleWidth">60.3%</string> -->
 
+    <item name="test_animator_object_animator_values" type="animator">@animator/test_object_animator_compiled</item>
+
     <style name="test_style_textview_compiled" parent="android:Widget.DeviceDefault.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -41,7 +43,6 @@
         <item>Cádiz</item>
     </string-array>
 
-    <item name="prueba_animator" type="animator">@animator/object_animator_test</item>
     <item name="prueba_anim" type="anim">@anim/fade_in</item>
 
     <!-- <animator name="prueba_animator2" type="animator">@animator/object_animator_test</animator> -->

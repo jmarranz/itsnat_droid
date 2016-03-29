@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.values.classtree;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
 import org.itsnat.droid.impl.dom.values.DOMElemValuesItemNormal;
@@ -46,6 +47,7 @@ public class ClassDescValuesItemNormal extends ClassDescValues<ElementValuesItem
         if (tagName.equals("item"))
         {
             DOMAttr attrType = domElement.getDOMAttribute(null, "type");
+            if (attrType == null) throw new ItsNatDroidException("Missing the type attribute in <item> declaration");
             String type = attrType.getValue();
             if (XMLDOMValues.TYPE_DIMEN.equals(type))
             {

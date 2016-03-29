@@ -15,7 +15,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public class AttrDescView_widget_AdapterViewAnimator_inoutAnimation extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    protected static final int DEFAULT_ANIMATION_DURATION = 200;
+    protected static final int DEFAULT_ANIMATION_DURATION = 200; // Copiado del código fuente
 
     public AttrDescView_widget_AdapterViewAnimator_inoutAnimation(ClassDescViewBased parent, String name)
     {

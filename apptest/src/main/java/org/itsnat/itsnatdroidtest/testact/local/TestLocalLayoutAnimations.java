@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.widget.AdapterViewFlipper;
@@ -7,6 +8,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import org.itsnat.itsnatdroidtest.R;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
@@ -64,6 +67,9 @@ public class TestLocalLayoutAnimations
             final AdapterViewFlipper compLayout = (AdapterViewFlipper) comp.getChildAt(childCount);
             final AdapterViewFlipper parsedLayout = (AdapterViewFlipper) parsed.getChildAt(childCount);
 
+            assertEquals(compLayout.getId(), R.id.objectAnimatorTestId1);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
             assertNotNull(compLayout.getInAnimation());
             assertEquals(compLayout.getInAnimation(),parsedLayout.getInAnimation());
 
@@ -77,11 +83,47 @@ public class TestLocalLayoutAnimations
             final AdapterViewFlipper compLayout = (AdapterViewFlipper) comp.getChildAt(childCount);
             final AdapterViewFlipper parsedLayout = (AdapterViewFlipper) parsed.getChildAt(childCount);
 
+            assertEquals(compLayout.getId(), R.id.objectAnimatorTestId2);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
             assertNotNull(compLayout.getInAnimation());
             assertEquals(compLayout.getInAnimation(),parsedLayout.getInAnimation());
 
             assertNotNull(compLayout.getOutAnimation());
             assertEquals(compLayout.getOutAnimation(),parsedLayout.getOutAnimation());
+        }
+
+        {
+            childCount++;
+
+            final AdapterViewFlipper compLayout = (AdapterViewFlipper) comp.getChildAt(childCount);
+            final AdapterViewFlipper parsedLayout = (AdapterViewFlipper) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getId(), R.id.objectAnimatorTestId3);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            assertNotNull(compLayout.getInAnimation());
+            assertEquals(compLayout.getInAnimation(),parsedLayout.getInAnimation());
+
+            assertNotNull(compLayout.getOutAnimation());
+            assertEquals(compLayout.getOutAnimation(),parsedLayout.getOutAnimation());
+        }
+
+        {
+            childCount++;
+
+            final AdapterViewFlipper compLayout = (AdapterViewFlipper) comp.getChildAt(childCount);
+            final AdapterViewFlipper parsedLayout = (AdapterViewFlipper) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getId(), R.id.objectAnimatorTestId4);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            assertNotNull(compLayout.getInAnimation());
+            assertEquals(compLayout.getInAnimation(),parsedLayout.getInAnimation());
+
+            assertNotNull(compLayout.getOutAnimation());
+            assertEquals(compLayout.getOutAnimation(),parsedLayout.getOutAnimation());
+
         }
 
         //System.out.println("\n\n\n");

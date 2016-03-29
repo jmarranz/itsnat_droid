@@ -27,7 +27,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
     public static final MapSmart<String,Integer> repeatModeMap = MapSmart.<String,Integer>create(2);
     static
     {
-        repeatModeMap.put("repeat", ValueAnimator.RESTART);
+        repeatModeMap.put("restart", ValueAnimator.RESTART); // En el tutorial aparece "repeat", no es correcto
         repeatModeMap.put("reverse", ValueAnimator.REVERSE);
     }
 
@@ -171,7 +171,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
                     valueAnimator.setIntValues(valueTo);
                 }
             }
-            else if (valueType == 2) // Float
+            else if (valueType == 0) // Float
             {
                 float valueFrom = 0f;
                 float valueTo = 0f;

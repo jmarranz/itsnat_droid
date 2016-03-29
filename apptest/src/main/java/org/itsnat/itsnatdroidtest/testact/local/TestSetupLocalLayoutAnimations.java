@@ -1,5 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
@@ -57,12 +59,23 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
     private static void defineObjectAnimatorTests(TestActivity act, View rootView)
     {
         // Resources res = act.getResources();
-        AdapterViewFlipper viewFlipper1 = (AdapterViewFlipper) rootView.findViewById(R.id.objectAnimatorTestId1);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
-        viewFlipper1.setAdapter(adapter1);
+        AdapterViewFlipper viewFlipper;
+        ArrayAdapter<CharSequence> adapter;
 
-        AdapterViewFlipper viewFlipper2 = (AdapterViewFlipper) rootView.findViewById(R.id.objectAnimatorTestId2);
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
-        viewFlipper2.setAdapter(adapter2);
+        viewFlipper = (AdapterViewFlipper) rootView.findViewById(R.id.objectAnimatorTestId1);
+        adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+        viewFlipper.setAdapter(adapter);
+
+        viewFlipper = (AdapterViewFlipper) rootView.findViewById(R.id.objectAnimatorTestId2);
+        adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+        viewFlipper.setAdapter(adapter);
+
+        viewFlipper = (AdapterViewFlipper) rootView.findViewById(R.id.objectAnimatorTestId3);
+        adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+        viewFlipper.setAdapter(adapter);
+
+        viewFlipper = (AdapterViewFlipper) rootView.findViewById(R.id.objectAnimatorTestId4);
+        adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+        viewFlipper.setAdapter(adapter);
     }
 }

@@ -59,11 +59,28 @@ public class XMLInflaterAnimator extends XMLInflater
         if (animatorRoot instanceof AnimatorSet)
             processChildElements((DOMElemAnimatorSet)rootDOMElem, (AnimatorSet)animatorRoot,attrCtx);
 
+        // En teoría <objectAnimator> y <animator> podrían tener elementos hijo tal y como
+        // <objectAnimator>
+        //     <propertyValuesHolder android:propertyName="x" android:valueTo="400"/>
+        //     <propertyValuesHolder android:propertyName="y" android:valueTo="200"/>
+        // <animator>
+        //      <keyframe android:fraction="0" android:value="1"/>
+        //      <keyframe android:fraction=".2" android:value=".4"/>
+        //      <keyframe android:fraction="1" android:value="0"/>
+        // pudiéndose declarar varias propiedades a la vez y animarlas a la vez.
+        // Sin embargo este XML fue introducido en Android 5.0 Lollipop, aunque es posible hacerlo de forma programática usando
+        // ValueAnimator.setValues(PropertyValuesHolder... values)
+        // http://developer.android.com/reference/android/animation/ObjectAnimator.html
+        // http://developer.android.com/reference/android/animation/ValueAnimator.html
+        // http://stackoverflow.com/questions/32885324/propertyvaluesholder-causes-crash-when-used-in-xml-defined-animation
+
         return animatorRoot;
     }
 
     private void processChildElements(DOMElemAnimatorSet domElemParent, AnimatorSet parentAnimator,AttrAnimatorContext attrCtx)
     {
+
+
         LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null || childDOMElemList.size() == 0) return;
 

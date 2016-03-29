@@ -60,6 +60,28 @@
             android:autoStart="true"
             android:flipInterval="2000"  />
 
+        <AdapterViewFlipper
+            android:id="@+id/objectAnimatorTestId3"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:animateFirstView="true"
+            android:inAnimation="@animator/test_animator_object_animator_values"
+            android:loopViews="true"
+            android:outAnimation="@animator/test_animator_object_animator_values"
+            android:autoStart="true"
+            android:flipInterval="2000"  />
+
+
+        <AdapterViewFlipper
+            android:id="@+id/objectAnimatorTestId4"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@android:color/white"
+            android:animateFirstView="true"
+            android:inAnimation="@animator/test_object_animator_2_compiled"
+            android:loopViews="true"
+            android:autoStart="true"
+            android:flipInterval="2000"  /> <!-- android:outAnimation="@animator/test_object_animator_2_compiled" -->
 
     </LinearLayout>
 
