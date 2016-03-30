@@ -41,5 +41,7 @@ public interface ItsNatDoc
 
     public void appendFragment(View parentView, String markup);
     public void insertFragment(View parentView, String markup, View viewRef);
+
+
 }
 

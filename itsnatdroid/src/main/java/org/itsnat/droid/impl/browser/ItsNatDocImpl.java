@@ -20,11 +20,13 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocNotItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.UINotification;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -345,7 +347,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 
     public void downloadScript(String src,OnHttpRequestListener listener)
     {
-        downloadFile(src, MimeUtil.MIME_BEANSHELL,listener);
+        downloadFile(src, MimeUtil.MIME_BEANSHELL, listener);
     }
 
     private void downloadFile(String src,String mime,OnHttpRequestListener listener)
@@ -383,4 +385,12 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         client.request(attr, !sync);
     }
 
+    public View getLayout(String resourceLocation,ViewGroup viewParent,int index)
+    {
+        PageImpl page = getPageImpl();
+        XMLInflaterRegistry xmlInflaterRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflaterRegistry();
+        XMLInflaterLayoutPage xmlInflaterParent = page.getXMLInflaterLayoutPage();
+        DOMAttr attr = DOMAttr.create(null,"_NONE_",resourceLocation);
+        return xmlInflaterRegistry.getViewLayout(attr,xmlInflaterParent,viewParent,index,null);
+    }
 }

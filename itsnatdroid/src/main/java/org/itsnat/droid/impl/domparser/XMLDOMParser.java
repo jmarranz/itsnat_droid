@@ -39,7 +39,7 @@ public abstract class XMLDOMParser
         this.xmlDOMParserContext = xmlDOMParserContext;
     }
 
-    public static XmlPullParser newPullParser(Reader input)
+    protected static XmlPullParser newPullParser(Reader input)
     {
         try
         {

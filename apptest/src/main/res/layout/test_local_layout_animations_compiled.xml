@@ -83,6 +83,7 @@
             android:autoStart="true"
             android:flipInterval="2000"  /> <!-- android:outAnimation="@animator/test_object_animator_2_compiled" -->
 
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

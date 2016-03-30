@@ -19,7 +19,6 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
  */
 public abstract class DOMAttrDynamic extends DOMAttr
 {
-    // protected XMLDOMParserContext xmlDOMParserContext;
     protected final String resType;
     protected final String extension; // xml, png...
     protected final String valuesResourceName; // No nulo sólo en el caso de "values" tras el :
@@ -31,8 +30,6 @@ public abstract class DOMAttrDynamic extends DOMAttr
     public DOMAttrDynamic(String namespaceURI, String name, String value)
     {
         super(namespaceURI, name, value);
-
-        // this.xmlDOMParserContext = xmlDOMParserContext;
 
         // Ej. @assets:drawable/res/drawable/file.png   Path: res/drawable/file.png
 

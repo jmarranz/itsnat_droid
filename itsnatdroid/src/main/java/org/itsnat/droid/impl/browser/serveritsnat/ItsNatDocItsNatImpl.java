@@ -51,6 +51,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 
 import java.util.HashMap;
@@ -732,7 +733,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     public void setInnerXML2(Object[] idObj,String className,String markup)
     {
         Node parentNode = getNode(idObj);
-        setInnerXML(parentNode, className,markup);
+        setInnerXML(parentNode, className, markup);
     }
 
     @Override
@@ -1082,17 +1083,15 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void addAttachUnloadListener(final int commMode)
     {
-        final ItsNatDocItsNatImpl itsNatDoc = this;
         this.attachUnloadCallback = new Runnable()
         {
             @Override
             public void run()
             {
-                AttachedClientUnloadEventImpl evt = new AttachedClientUnloadEventImpl(itsNatDoc,commMode,-1);
+                AttachedClientUnloadEventImpl evt = new AttachedClientUnloadEventImpl(ItsNatDocItsNatImpl.this,commMode,-1);
                 evt.sendEvent();
             }
         };
     }
-
 
 }

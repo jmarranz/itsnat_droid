@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
@@ -52,8 +53,7 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
     private static void initialConfiguration(TestActivity act, View rootView)
     {
         defineObjectAnimatorTests(act, rootView);
-
-
+        //defineValueAnimatorTests(act, rootView);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView)
@@ -77,5 +77,12 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         viewFlipper = (AdapterViewFlipper) rootView.findViewById(R.id.objectAnimatorTestId4);
         adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
         viewFlipper.setAdapter(adapter);
+
+
+
+
     }
+
+
+
 }
