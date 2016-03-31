@@ -17,7 +17,7 @@ public class DOMElemValuesItemNormal extends DOMElemValuesItemNamed
     {
         String itemName = getNameAttr();
 
-        this.valueAsDOMAttr = DOMAttr.create(null, itemName, text);
+        this.valueAsDOMAttr = DOMAttr.createDOMAttr(null, itemName, text);
 
         return valueAsDOMAttr;
     }

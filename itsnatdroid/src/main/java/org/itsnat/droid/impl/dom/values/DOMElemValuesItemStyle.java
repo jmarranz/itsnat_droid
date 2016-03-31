@@ -23,7 +23,7 @@ public class DOMElemValuesItemStyle extends DOMElemValuesItemNamed
         if (namespaceURI != null)
             itemName = NamespaceUtil.getLocalName(itemName);
 
-        this.valueAsDOMAttr = DOMAttr.create(namespaceURI, itemName, text);
+        this.valueAsDOMAttr = DOMAttr.createDOMAttr(namespaceURI, itemName, text);
 
         return valueAsDOMAttr;
     }

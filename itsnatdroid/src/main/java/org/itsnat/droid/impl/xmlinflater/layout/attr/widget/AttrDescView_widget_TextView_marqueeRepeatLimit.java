@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
@@ -22,7 +21,7 @@ public class AttrDescView_widget_TextView_marqueeRepeatLimit extends AttrDescRef
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         if ("marquee_forever".equals(attr.getValue()))
-            attr = DOMAttrCompiledResource.createDOMAttrCompiledResource((DOMAttrCompiledResource) attr, "-1");
+            attr = DOMAttr.createDOMAttrCopy(attr, "-1");
         super.setAttribute(view, attr, attrCtx);
     }
 }

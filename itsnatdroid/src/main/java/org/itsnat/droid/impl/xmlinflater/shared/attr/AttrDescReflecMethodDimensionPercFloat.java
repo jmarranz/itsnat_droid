@@ -33,7 +33,7 @@ public class AttrDescReflecMethodDimensionPercFloat<TclassDesc extends ClassDesc
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        PercFloat convValue = getDimensionPercFloat(attr, attrCtx.getXMLInflater());
+        PercFloat convValue = getDimensionPercFloat(attr.getResourceDesc(), attrCtx.getXMLInflater());
         callMethod(target, convValue);
     }
 

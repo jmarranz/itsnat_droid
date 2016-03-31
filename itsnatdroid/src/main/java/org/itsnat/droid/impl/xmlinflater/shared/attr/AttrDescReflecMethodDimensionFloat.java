@@ -24,6 +24,6 @@ public class AttrDescReflecMethodDimensionFloat<TclassDesc extends ClassDesc,Tat
     @Override
     public float getDimensionFloatAbstract(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getDimensionFloat(attr, xmlInflater);
+        return getDimensionFloat(attr.getResourceDesc(), xmlInflater);
     }
 }

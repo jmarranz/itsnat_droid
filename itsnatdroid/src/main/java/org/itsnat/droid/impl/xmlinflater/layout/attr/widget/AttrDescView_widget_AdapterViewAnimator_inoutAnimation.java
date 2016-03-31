@@ -25,7 +25,7 @@ public class AttrDescView_widget_AdapterViewAnimator_inoutAnimation extends Attr
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        ObjectAnimator animator = (ObjectAnimator) getAnimator(attr, attrCtx.getXMLInflaterLayout());
+        ObjectAnimator animator = (ObjectAnimator) getAnimator(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
 
         AdapterViewAnimator adapterViewAnimator = (AdapterViewAnimator)view;
 

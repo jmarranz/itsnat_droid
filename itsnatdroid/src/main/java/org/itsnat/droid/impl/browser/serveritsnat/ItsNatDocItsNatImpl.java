@@ -43,6 +43,8 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ResourceDesc;
+import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapListLight;
@@ -51,7 +53,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NameValue;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 
 import java.util.HashMap;
@@ -232,28 +233,29 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         return paramList;
     }
 
-    private DOMAttr toDOMAttr(String namespaceURI,String name,String value)
+    private DOMAttr toDOMAttrSyncResource(String namespaceURI, String name, String value)
     {
         XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
-        DOMAttr attr = xmlDOMLayoutPage.toDOMAttrNotSyncResource(namespaceURI, name, value);
+        DOMAttr attr = xmlDOMLayoutPage.createDOMAttrNotSyncResource(namespaceURI, name, value);
 
-        if (this.attrRemoteListBSParsed != null && attr instanceof DOMAttrRemote) // Si attrRemoteListBSParsed es null es que no hay atributos remotos extraidos del script para sincronizar
+        ResourceDesc resourceDesc = attr.getResourceDesc();
+        if (this.attrRemoteListBSParsed != null && resourceDesc instanceof ResourceDescRemote) // Si attrRemoteListBSParsed es null es que no hay atributos remotos extraidos del script para sincronizar
         {
-            DOMAttrRemote attrRemote = (DOMAttrRemote)attr;
+            ResourceDescRemote resourceDescRemote = (ResourceDescRemote)resourceDesc;
             DOMAttrRemote attrWithRes = attrRemoteListBSParsed.removeFirst();
-            attrRemote.check(attrWithRes.getNamespaceURI(),attrWithRes.getName(),attrWithRes.getValue()); // Para estar tranquilos de que to_do va bien
-            attrRemote.setResource(attrWithRes.getResource());
+            attr.checkEquals(attrWithRes.getNamespaceURI(), attrWithRes.getName(), attrWithRes.getValue()); // Para estar tranquilos de que to_do va bien (es el mismo atributor, podemos copiar el objeto Resource)
+            resourceDescRemote.setResource(attrWithRes.getResourceDescRemote().getResource());
         }
         return attr;
     }
 
-    private DOMAttr[] toDOMAttr(String namespaceURI,String[] attrNames,String[] attrValues)
+    private DOMAttr[] toDOMAttrSyncResource(String namespaceURI, String[] attrNames, String[] attrValues)
     {
         DOMAttr[] attrArray = new DOMAttr[attrNames.length];
         if (attrNames.length > 0)
         {
             for (int i = 0; i < attrNames.length; i++)
-                attrArray[i] = toDOMAttr(namespaceURI, attrNames[i], attrValues[i]);
+                attrArray[i] = toDOMAttrSyncResource(namespaceURI, attrNames[i], attrValues[i]);
         }
         return attrArray;
     }
@@ -263,7 +265,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         View view = node.getView();
 
         Configuration configuration = getContext().getResources().getConfiguration();
-        DOMAttr attr = toDOMAttr(namespaceURI, name, value);
+        DOMAttr attr = toDOMAttrSyncResource(namespaceURI, name, value);
 
         if (view != null)
         {
@@ -313,7 +315,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         {
             PageItsNatImpl page = getPageItsNatImpl();
 
-            DOMAttr[] attrArray = toDOMAttr(namespaceURI,attrNames,attrValues);
+            DOMAttr[] attrArray = toDOMAttrSyncResource(namespaceURI, attrNames, attrValues);
             page.getXMLInflaterLayoutPageItsNat().setAttrBatchFromRemote(view, attrArray);
         }
         else // Es un nodo no insertado todavía
@@ -329,7 +331,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
                 {
                     String name = attrNames[i];
                     String value = attrValues[i];
-                    DOMAttr attr = toDOMAttr(namespaceURI, name, value);
+                    DOMAttr attr = toDOMAttrSyncResource(namespaceURI, name, value);
                     nodeToIn.setDOMAttribute(attr);
                 }
             }

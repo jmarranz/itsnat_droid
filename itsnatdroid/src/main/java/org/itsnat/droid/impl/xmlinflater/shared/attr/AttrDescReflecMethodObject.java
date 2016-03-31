@@ -29,7 +29,7 @@ public class AttrDescReflecMethodObject<TclassDesc extends ClassDesc,TattrTarget
     public void setAttribute(TattrTarget target,DOMAttr attr, TattrContext attrCtx)
     {
         // El único caso que usa AttrDescReflecMethodObject es el atributo android:tag y sólo veo el caso de uso de ser una cadena
-        CharSequence convValue = getText(attr,attrCtx.getXMLInflater());
+        CharSequence convValue = getText(attr.getResourceDesc(),attrCtx.getXMLInflater());
         callMethod(target, convValue);
     }
 

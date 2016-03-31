@@ -60,11 +60,11 @@ public abstract class XMLDOMLayoutPage extends XMLDOMLayout
         return name;
     }
 
-    public DOMAttr toDOMAttrNotSyncResource(String namespaceURI,String name,String value)
+    public DOMAttr createDOMAttrNotSyncResource(String namespaceURI, String name, String value)
     {
         String namespaceURIFinal = extractAttrNamespaceURI(namespaceURI, name);
         String localName = extractAttrLocalName(namespaceURI, name);
-        DOMAttr attr = DOMAttr.create(namespaceURIFinal, localName, value);
+        DOMAttr attr = DOMAttr.createDOMAttr(namespaceURIFinal, localName, value);
         return attr;
     }
 

@@ -9,10 +9,11 @@ import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
-import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResourceImage;
+import org.itsnat.droid.impl.dom.ResourceDesc;
+import org.itsnat.droid.impl.dom.ResourceDescCompiled;
+import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
@@ -149,36 +150,36 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         return false;
     }
 
-    public static Bitmap getBitmapNoScale(DOMAttr attr,Context ctx,XMLInflaterRegistry xmlInflaterRegistry)
+    public static Bitmap getBitmapNoScale(ResourceDesc resourceDesc,Context ctx,XMLInflaterRegistry xmlInflaterRegistry)
     {
-        return getBitmap(attr, -1, ctx, xmlInflaterRegistry);
+        return getBitmap(resourceDesc, -1, ctx, xmlInflaterRegistry);
     }
 
-    public static Bitmap getBitmap(DOMAttr attr,int bitmapDensityReference,Context ctx,XMLInflaterRegistry xmlInflaterRegistry)
+    public static Bitmap getBitmap(ResourceDesc resourceDesc,int bitmapDensityReference,Context ctx,XMLInflaterRegistry xmlInflaterRegistry)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
             // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ParsedResourceImage resource = (ParsedResourceImage)attrDyn.getResource();
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ParsedResourceImage resource = (ParsedResourceImage)resourceDescDyn.getResource();
             byte[] byteArray = resource.getImgBytes();
             Resources res = ctx.getResources();
             return DrawableUtil.createBitmap(byteArray, bitmapDensityReference, res);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
-            String attrValue = attr.getValue();
-            if (XMLInflaterRegistry.isResource(attrValue))
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            if (XMLInflaterRegistry.isResource(resourceDescValue))
             {
                 // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/NinePatchDrawable.java#240
-                int resId = xmlInflaterRegistry.getIdentifierCompiled(attrValue,ctx); // Si no se encuentra da error, no devuelve 0
+                int resId = xmlInflaterRegistry.getIdentifierCompiled(resourceDescValue,ctx); // Si no se encuentra da error, no devuelve 0
                 TypedValue value = new TypedValue();
                 Resources res = ctx.getResources();
                 InputStream is = res.openRawResource(resId, value);
                 return DrawableUtil.createBitmap(is,value,res);
             }
 
-            throw new ItsNatDroidException("Cannot process " + attrValue);
+            throw new ItsNatDroidException("Cannot process " + resourceDescValue);
         }
         else throw MiscUtil.internalError();
     }

@@ -22,7 +22,7 @@ public class AttrDescReflecFieldMethodBoolean<TclassDesc extends ClassDesc,Tattr
     @Override
     public void setAttribute(final TattrTarget target, final DOMAttr attr,final TattrContext attrCtx)
     {
-        boolean convertedValue = getBoolean(attr, attrCtx.getXMLInflater());
+        boolean convertedValue = getBoolean(attr.getResourceDesc(), attrCtx.getXMLInflater());
         callFieldMethod(target, convertedValue);
     }
 

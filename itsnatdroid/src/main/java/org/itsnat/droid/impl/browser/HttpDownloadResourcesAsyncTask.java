@@ -2,8 +2,8 @@ package org.itsnat.droid.impl.browser;
 
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
-import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
+import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<HttpRequestResultOKImpl>>
 {
-    protected final List<DOMAttrRemote> attrRemoteList;
+    protected final List<ResourceDescRemote> resDescRemoteList;
     protected final DownloadResourcesHttpClient parent;
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
@@ -25,11 +25,11 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected final XMLDOMParserContext xmlDOMParserContext;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
-    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent,String pageURLBase,HttpRequestData httpRequestData,
+    public HttpDownloadResourcesAsyncTask(List<ResourceDescRemote> resDescRemoteList,DownloadResourcesHttpClient parent,String pageURLBase,HttpRequestData httpRequestData,
                                           OnHttpRequestListener httpRequestListener,OnHttpRequestErrorListener errorListener,int errorMode,
                                           String itsNatServerVersion,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
-        this.attrRemoteList = attrRemoteList;
+        this.resDescRemoteList = resDescRemoteList;
         this.parent = parent;
         this.pageURLBase = pageURLBase;
         this.httpRequestData = httpRequestData;
@@ -43,7 +43,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
 
     protected List<HttpRequestResultOKImpl> executeInBackground() throws Exception
     {
-        return DownloadResourcesHttpClient.executeInBackground(attrRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
+        return DownloadResourcesHttpClient.executeInBackground(resDescRemoteList,pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
     }
 
     @Override

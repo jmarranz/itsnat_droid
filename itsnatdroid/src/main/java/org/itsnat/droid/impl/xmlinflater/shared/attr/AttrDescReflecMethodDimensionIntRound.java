@@ -25,6 +25,6 @@ public class AttrDescReflecMethodDimensionIntRound<TclassDesc extends ClassDesc,
     @Override
     public int getDimensionIntAbstract(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getDimensionIntRound(attr, xmlInflater);
+        return getDimensionIntRound(attr.getResourceDesc(), xmlInflater);
     }
 }

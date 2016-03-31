@@ -36,7 +36,7 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
         if (attrSrc == null) throw new ItsNatDroidException("Missing src attribute in element " + rootElem.getTagName());
 
         // No necesita escalar pues por definición es "flexible"
-        Bitmap bitmap = ClassDescDrawable.getBitmap(attrSrc,inflaterDrawable.getBitmapDensityReference(),ctx,classMgr.getXMLInflaterRegistry());
+        Bitmap bitmap = getBitmap(attrSrc.getResourceDesc(),inflaterDrawable.getBitmapDensityReference(),ctx,classMgr.getXMLInflaterRegistry());
 
         NinePatchDrawable drawable = DrawableUtil.createNinePatchDrawable(bitmap,ctx.getResources());
         return new ElementDrawableRoot(drawable);

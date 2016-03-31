@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.browser;
 
-import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
+import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
@@ -32,17 +32,17 @@ public class HttpResourceDownloader
         this.xmlDOMParserContext = xmlDOMParserContext;
     }
 
-    public List<HttpRequestResultOKImpl> downloadResources(List<DOMAttrRemote> attrRemoteList) throws Exception
+    public List<HttpRequestResultOKImpl> downloadResources(List<ResourceDescRemote> resDescRemoteList) throws Exception
     {
         List<HttpRequestResultOKImpl> resultList = Collections.synchronizedList(new ArrayList<HttpRequestResultOKImpl>()); // Necesario synchronizedList(), pues se comparte entre hilos
-        downloadResources(attrRemoteList,resultList);
+        downloadResources(resDescRemoteList,resultList);
         return resultList;
     }
 
-    private void downloadResources(List<DOMAttrRemote> attrRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
+    private void downloadResources(List<ResourceDescRemote> resDescRemoteList,List<HttpRequestResultOKImpl> resultList) throws Exception
     {
-        int len = attrRemoteList.size();
-        DOMAttrRemote[] attrRemoteArray = attrRemoteList.toArray(new DOMAttrRemote[len]);
+        int len = resDescRemoteList.size();
+        ResourceDescRemote[] resDescRemoteArray = resDescRemoteList.toArray(new ResourceDescRemote[len]);
         final Thread[] threadArray = new Thread[len];
         final Exception[] exList = new Exception[len];
 
@@ -69,8 +69,8 @@ public class HttpResourceDownloader
             final boolean[] stop = new boolean[1];
             for (int k = j1; k < j2; k++)
             {
-                DOMAttrRemote attr = attrRemoteArray[k];
-                Runnable task = createTaskToDownloadResource(attr, stop, k, resultList, exList);
+                ResourceDescRemote resourceDesc = resDescRemoteArray[k];
+                Runnable task = createTaskToDownloadResource(resourceDesc, stop, k, resultList, exList);
                 Thread thread = new Thread(task);
                 thread.start();  // Alternativa: ThreadPoolExecutor, aunque realmente el que asigna cores a threads es Linux a bajo nivel
                 threadArray[k] = thread;
@@ -89,7 +89,7 @@ public class HttpResourceDownloader
 
     }
 
-    private Runnable createTaskToDownloadResource(final DOMAttrRemote attr, final boolean[] stop, final int i, final List<HttpRequestResultOKImpl> resultList, final Exception[] exList) throws Exception
+    private Runnable createTaskToDownloadResource(final ResourceDescRemote resourceDesc, final boolean[] stop, final int i, final List<HttpRequestResultOKImpl> resultList, final Exception[] exList) throws Exception
     {
         Runnable task = new Runnable()
         {
@@ -98,8 +98,8 @@ public class HttpResourceDownloader
                 if (stop[0]) return;
                 try
                 {
-                    String resourceMime = attr.getResourceMime();
-                    String absURL = HttpUtil.composeAbsoluteURL(attr.getLocation(xmlDOMParserContext), pageURLBase);
+                    String resourceMime = resourceDesc.getResourceMime();
+                    String absURL = HttpUtil.composeAbsoluteURL(resourceDesc.getLocation(xmlDOMParserContext), pageURLBase);
                     ParsedResource parsedResource;
                     synchronized(urlResDownloadedMap)
                     {
@@ -108,11 +108,11 @@ public class HttpResourceDownloader
                     }
                     if (parsedResource != null)
                     {
-                        attr.setResource(parsedResource.copy());
+                        resourceDesc.setResource(parsedResource.copy());
                         return;
                     }
                     HttpRequestResultOKImpl resultResource = HttpUtil.httpGet(absURL, httpRequestData, null, resourceMime);
-                    processHttpRequestResultResource(absURL,attr, resultResource, resultList);
+                    processHttpRequestResultResource(absURL,resourceDesc, resultResource, resultList);
                 }
                 catch (Exception ex)
                 {
@@ -125,13 +125,13 @@ public class HttpResourceDownloader
         return task;
     }
 
-    private void processHttpRequestResultResource(String absURL,DOMAttrRemote attr, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList) throws Exception
+    private void processHttpRequestResultResource(String absURL,ResourceDescRemote resourceDesc, HttpRequestResultOKImpl resultRes, List<HttpRequestResultOKImpl> resultList) throws Exception
     {
         // Método llamado en multihilo
 
         resultList.add(resultRes);
 
-        ParsedResource resource = XMLDOMParser.parseDOMAttrRemote(attr, resultRes,xmlDOMParserContext);
+        ParsedResource resource = XMLDOMParser.parseResourceDescRemote(resourceDesc, resultRes, xmlDOMParserContext);
         synchronized(urlResDownloadedMap)
         {
             urlResDownloadedMap.put(absURL,resource); // No pasa nada si dos hilos con el mismo absURL-resource hacen put seguidos
@@ -140,7 +140,7 @@ public class HttpResourceDownloader
         if (resource instanceof ParsedResourceXMLDOM)
         {
             XMLDOM xmlDOM = ((ParsedResourceXMLDOM)resource).getXMLDOM();
-            String absURLContainer = HttpUtil.composeAbsoluteURL(attr.getLocation(xmlDOMParserContext), pageURLBase);
+            String absURLContainer = HttpUtil.composeAbsoluteURL(resourceDesc.getLocation(xmlDOMParserContext), pageURLBase);
             String pageURLBaseContainer = HttpUtil.getBasePathOfURL(absURLContainer);
             XMLDOMDownloader downloader = XMLDOMDownloader.createXMLDOMDownloader(xmlDOM,pageURLBaseContainer, httpRequestData, itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
             downloader.downloadRemoteResources();

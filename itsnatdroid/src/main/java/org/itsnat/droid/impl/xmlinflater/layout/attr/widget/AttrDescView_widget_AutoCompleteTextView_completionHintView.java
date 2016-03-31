@@ -31,7 +31,7 @@ public class AttrDescView_widget_AutoCompleteTextView_completionHintView extends
     @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
-        LayoutValue layoutValue = getLayout(attr, attrCtx.getXMLInflaterLayout(), null, -1);
+        LayoutValue layoutValue = getLayout(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout(), null, -1);
         if (layoutValue instanceof LayoutValueDynamic)
         {
             View hintView = ((LayoutValueDynamic) layoutValue).getView();

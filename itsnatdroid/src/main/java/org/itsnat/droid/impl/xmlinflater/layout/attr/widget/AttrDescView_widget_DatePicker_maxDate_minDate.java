@@ -64,7 +64,7 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDesc<Cla
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final String date = getString(attr, attrCtx.getXMLInflaterLayout());
+        final String date = getString(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
 
         final Object datePickerObject = getDatePickerObject((DatePicker) view);
 

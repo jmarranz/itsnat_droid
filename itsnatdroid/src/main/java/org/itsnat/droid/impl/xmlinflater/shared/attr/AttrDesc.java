@@ -10,8 +10,8 @@ import android.view.animation.Animation;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
@@ -69,17 +69,17 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     {
         PageImpl page = PageImpl.getPageImpl(xmlInflater); // NO puede ser nulo
 
-        page.getItsNatDocImpl().downloadResources(attr, task);
+        page.getItsNatDocImpl().downloadResources(attr.getResourceDescRemote(), task);
     }
 
-    public int getIdentifier(DOMAttr attr, XMLInflater xmlInflater)
+    public int getIdentifier(ResourceDesc resourceDesc, XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getIdentifier(attr, xmlInflater);
+        return getXMLInflaterRegistry().getIdentifier(resourceDesc, xmlInflater);
     }
 
-    public ViewStyleAttribs getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
+    public ViewStyleAttribs getViewStyle(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getViewStyle(attr, xmlInflater);
+        return getXMLInflaterRegistry().getViewStyle(resourceDesc, xmlInflater);
     }
 
     public int getViewStyle(ViewStyleAttribs style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
@@ -87,105 +87,105 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflaterRegistry().getViewStyle(style, styleItemsDynamicAttribs, ctx);
     }
 
-    public int getInteger(DOMAttr attr,XMLInflater xmlInflater)
+    public int getInteger(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getInteger(attr, xmlInflater);
+        return getXMLInflaterRegistry().getInteger(resourceDesc, xmlInflater);
     }
 
-    public float getFloat(DOMAttr attr,XMLInflater xmlInflater)
+    public float getFloat(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getFloat(attr, xmlInflater);
+        return getXMLInflaterRegistry().getFloat(resourceDesc, xmlInflater);
     }
 
-    public String getString(DOMAttr attr,XMLInflater xmlInflater)
+    public String getString(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getString(attr, xmlInflater);
+        return getXMLInflaterRegistry().getString(resourceDesc, xmlInflater);
     }
 
-    public CharSequence getText(DOMAttr attr,XMLInflater xmlInflater)
+    public CharSequence getText(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getText(attr, xmlInflater);
+        return getXMLInflaterRegistry().getText(resourceDesc, xmlInflater);
     }
 
-    public CharSequence[] getTextArray(DOMAttr attr,XMLInflater xmlInflater)
+    public CharSequence[] getTextArray(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getTextArray(attr, xmlInflater);
+        return getXMLInflaterRegistry().getTextArray(resourceDesc, xmlInflater);
     }
 
-    public boolean getBoolean(DOMAttr attr,XMLInflater xmlInflater)
+    public boolean getBoolean(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getBoolean(attr, xmlInflater);
+        return getXMLInflaterRegistry().getBoolean(resourceDesc, xmlInflater);
     }
 
-    public int getDimensionIntFloor(DOMAttr attr,XMLInflater xmlInflater)
+    public int getDimensionIntFloor(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getDimensionIntFloor(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionIntFloor(resourceDesc, xmlInflater);
     }
 
-    public int getDimensionIntRound(DOMAttr attr,XMLInflater xmlInflater)
+    public int getDimensionIntRound(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getDimensionIntRound(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionIntRound(resourceDesc, xmlInflater);
     }
 
-    public float getDimensionFloat(DOMAttr attr,XMLInflater xmlInflater)
+    public float getDimensionFloat(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getDimensionFloat(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionFloat(resourceDesc, xmlInflater);
     }
 
-    public float getDimensionFloatFloor(DOMAttr attr,XMLInflater xmlInflater)
+    public float getDimensionFloatFloor(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getDimensionFloatFloor(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionFloatFloor(resourceDesc, xmlInflater);
     }
 
-    public float getDimensionFloatRound(DOMAttr attr,XMLInflater xmlInflater)
+    public float getDimensionFloatRound(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getDimensionFloatRound(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionFloatRound(resourceDesc, xmlInflater);
     }
 
 
-    public PercFloat getDimensionPercFloat(DOMAttr attr,XMLInflater xmlInflater)
+    public PercFloat getDimensionPercFloat(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getDimensionPercFloat(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionPercFloat(resourceDesc, xmlInflater);
     }
 
-    public int getDimensionWithNameIntRound(DOMAttr attr,XMLInflater xmlInflater)
+    public int getDimensionWithNameIntRound(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getDimensionWithNameIntRound(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDimensionWithNameIntRound(resourceDesc, xmlInflater);
     }
 
-    public Drawable getDrawable(DOMAttr attr, XMLInflater xmlInflater)
+    public Drawable getDrawable(ResourceDesc resourceDesc, XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getDrawable(attr, xmlInflater);
+        return getXMLInflaterRegistry().getDrawable(resourceDesc, xmlInflater);
     }
 
-    public LayoutValue getLayout(DOMAttr attr,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
+    public LayoutValue getLayout(ResourceDesc resourceDesc,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
     {
-        return getXMLInflaterRegistry().getLayout(attr, xmlInflaterParent, viewParent, indexChild);
+        return getXMLInflaterRegistry().getLayout(resourceDesc, xmlInflaterParent, viewParent, indexChild);
     }
 
-    public View getViewLayout(DOMAttr attr, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    public View getViewLayout(ResourceDesc resourceDesc, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
-        return getXMLInflaterRegistry().getViewLayout(attr, xmlInflater, viewParent, indexChild, includeAttribs);
+        return getXMLInflaterRegistry().getViewLayout(resourceDesc, xmlInflater, viewParent, indexChild, includeAttribs);
     }
 
-    public int getColor(DOMAttr attr, XMLInflater xmlInflater)
+    public int getColor(ResourceDesc resourceDesc, XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getColor(attr, xmlInflater);
+        return getXMLInflaterRegistry().getColor(resourceDesc, xmlInflater);
     }
 
-    public float getPercent(DOMAttr attr, XMLInflater xmlInflater)
+    public float getPercent(ResourceDesc resourceDesc, XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getPercent(attr, xmlInflater);
+        return getXMLInflaterRegistry().getPercent(resourceDesc, xmlInflater);
     }
 
-    public Animation getAnimation(DOMAttr attr, XMLInflater xmlInflater)
+    public Animation getAnimation(ResourceDesc resourceDesc, XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getAnimation(attr, xmlInflater);
+        return getXMLInflaterRegistry().getAnimation(resourceDesc, xmlInflater);
     }
 
-    public Animator getAnimator(DOMAttr attr, XMLInflater xmlInflater)
+    public Animator getAnimator(ResourceDesc resourceDesc, XMLInflater xmlInflater)
     {
-        return getXMLInflaterRegistry().getAnimator(attr, xmlInflater);
+        return getXMLInflaterRegistry().getAnimator(resourceDesc, xmlInflater);
     }
 
 
@@ -220,8 +220,8 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     protected void setToRemoveAttribute(TattrTarget target, String value, TattrContext attrCtx)
     {
         // Este método es llamado desde removeAttributeFromRemote, cuyo valor será o @null o un recurso de Android, no esperamos
-        // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrCompiledResource
-        DOMAttrCompiledResource attr = (DOMAttrCompiledResource) DOMAttr.create(NamespaceUtil.XMLNS_ANDROID, getName(), value);
+        // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a DOMAttrCompiled
+        DOMAttr attr = DOMAttr.createDOMAttr(NamespaceUtil.XMLNS_ANDROID, getName(), value);
 
         setAttribute(target, attr,attrCtx);
     }

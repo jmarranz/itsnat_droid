@@ -52,7 +52,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         Context ctx = attrCtx.getContext();
-        ViewStyleAttribs style = getViewStyle(attr, attrCtx.getXMLInflaterLayout());
+        ViewStyleAttribs style = getViewStyle(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
         List<DOMAttr> styleItemsDynamicAttribs = (style instanceof ViewStyleAttribsDynamic) ? new ArrayList<DOMAttr>() : null;
         int dateTextAppearanceResId = getViewStyle(style,styleItemsDynamicAttribs,ctx);
 

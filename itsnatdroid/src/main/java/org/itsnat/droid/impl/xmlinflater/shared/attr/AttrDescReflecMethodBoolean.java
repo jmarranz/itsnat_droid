@@ -32,7 +32,7 @@ public class AttrDescReflecMethodBoolean<TclassDesc extends ClassDesc,TattrTarge
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        boolean convValue = getBoolean(attr, attrCtx.getXMLInflater());
+        boolean convValue = getBoolean(attr.getResourceDesc(), attrCtx.getXMLInflater());
         callMethod(target, convValue);
     }
 

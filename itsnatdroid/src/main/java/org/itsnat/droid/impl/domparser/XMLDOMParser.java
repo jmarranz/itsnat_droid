@@ -7,12 +7,14 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrAsset;
-import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.dom.ParsedResourceImage;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
+import org.itsnat.droid.impl.dom.ResourceDescAsset;
+import org.itsnat.droid.impl.dom.ResourceDescDynamic;
+import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
@@ -193,7 +195,7 @@ public abstract class XMLDOMParser
 
     protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
-        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value);
+        DOMAttr attrib = DOMAttr.createDOMAttr(namespaceURI, name, value);
         addDOMAttr(element,attrib,xmlDOMParent);
         return attrib;
     }
@@ -208,7 +210,7 @@ public abstract class XMLDOMParser
         {
             DOMAttrAsset assetAttr = (DOMAttrAsset)attrib;
 
-            String location = assetAttr.getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
+            String location = assetAttr.getResourceDescAsset().getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
             InputStream ims = null;
             byte[] res;
             try
@@ -228,18 +230,18 @@ public abstract class XMLDOMParser
                 if (ims != null) try { ims.close(); } catch (IOException ex) { throw new ItsNatDroidException(ex); }
             }
 
-            parseDOMAttrAsset(assetAttr, res);
+            parseResourceDescAsset(assetAttr.getResourceDescAsset(), res);
         }
     }
 
 
-    private ParsedResource parseDOMAttrAsset(DOMAttrAsset assetAttr, byte[] input)
+    private ParsedResource parseResourceDescAsset(ResourceDescAsset resourceDescAsset, byte[] input)
     {
-        String resourceMime = assetAttr.getResourceMime();
+        String resourceMime = resourceDescAsset.getResourceMime();
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = StringUtil.toString(input, "UTF-8");
-            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(assetAttr, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE,xmlDOMParserContext);
+            ParsedResourceXMLDOM resource = parseResourceDescDynamicXML(resourceDescAsset, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
             XMLDOM xmlDOM = resource.getXMLDOM();
             if (xmlDOM.getDOMAttrRemoteList() != null)
                 throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
@@ -247,49 +249,49 @@ public abstract class XMLDOMParser
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
         {
-            ParsedResourceImage resource = parseDOMAttrDynamicResourceImage(assetAttr,input);
+            ParsedResourceImage resource = parseResourceDescDynamicResourceImage(resourceDescAsset, input);
             return resource;
         }
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
 
 
-    public static ParsedResource parseDOMAttrRemote(DOMAttrRemote remoteAttr, HttpRequestResultOKImpl resultRes,XMLDOMParserContext xmlDOMParserContext) throws Exception
+    public static ParsedResource parseResourceDescRemote(ResourceDescRemote resourceDescRemote, HttpRequestResultOKImpl resultRes, XMLDOMParserContext xmlDOMParserContext) throws Exception
     {
         // Método llamado en multihilo
 
         // No te preocupes, quizás lo hemos pre-loaded y cacheado via otro DOMAttrRemote idéntico en datos pero diferente instancia, tal es el caso del
         // pre-parseo de código beanshell, es normal que no esté en este DOMAttrRemote obtenido
 
-        String resourceMime = remoteAttr.getResourceMime();
+        String resourceMime = resourceDescRemote.getResourceMime();
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = resultRes.getResponseText();
 
             String itsNatServerVersion = resultRes.getItsNatServerVersion(); // Puede ser null
 
-            ParsedResourceXMLDOM resource = parseDOMAttrDynamicXML(remoteAttr, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE,xmlDOMParserContext);
+            ParsedResourceXMLDOM resource = parseResourceDescDynamicXML(resourceDescRemote, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMParserContext);
             return resource;
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
         {
             byte[] img = resultRes.getResponseByteArray();
-            ParsedResourceImage resource = parseDOMAttrDynamicResourceImage(remoteAttr,img);
+            ParsedResourceImage resource = parseResourceDescDynamicResourceImage(resourceDescRemote, img);
             return resource;
         }
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
 
 
-    private static ParsedResourceXMLDOM parseDOMAttrDynamicXML(DOMAttrDynamic attr, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType,XMLDOMParserContext xmlDOMParserContext)
+    private static ParsedResourceXMLDOM parseResourceDescDynamicXML(ResourceDescDynamic resourceDesc, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
     {
         XMLDOMRegistry xmlDOMRegistry = xmlDOMParserContext.getXMLDOMRegistry();
 
         // Es llamado en multihilo en el caso de DOMAttrRemote
-        String resourceType = attr.getResourceType();
+        String resourceType = resourceDesc.getResourceType();
 
         XMLDOM xmlDOM;
-        if (attr.getValuesResourceName() == null) // No es <drawable> o un <item name="..." type="layout"> <item ... type="anim"> o <item ... type="animator"> en un res/values/archivo.xml
+        if (resourceDesc.getValuesResourceName() == null) // No es <drawable> o un <item name="..." type="layout"> <item ... type="anim"> o <item ... type="animator"> en un res/values/archivo.xml
         {
             if (XMLDOMValues.TYPE_ANIM.equals(resourceType))
             {
@@ -321,15 +323,15 @@ public abstract class XMLDOMParser
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 
         ParsedResourceXMLDOM resource = new ParsedResourceXMLDOM(xmlDOM);
-        attr.setResource(resource);
+        resourceDesc.setResource(resource);
 
         return resource;
     }
 
-    public static ParsedResourceImage parseDOMAttrDynamicResourceImage(DOMAttrDynamic attr,byte[] img)
+    public static ParsedResourceImage parseResourceDescDynamicResourceImage(ResourceDescDynamic resourceDesc, byte[] img)
     {
         ParsedResourceImage resource = new ParsedResourceImage(img);
-        attr.setResource(resource);
+        resourceDesc.setResource(resource);
         return resource;
     }
 

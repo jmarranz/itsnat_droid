@@ -20,7 +20,7 @@ public class DOMElemValuesItemArrayBase extends DOMElemValuesNoChildElem
     @Override
     public DOMAttr setTextNode(String text)
     {
-        this.valueAsDOMAttr = DOMAttr.create(null, getValueAsDOMAttrName(), text);
+        this.valueAsDOMAttr = DOMAttr.createDOMAttr(null, getValueAsDOMAttrName(), text);
 
         return valueAsDOMAttr;
     }

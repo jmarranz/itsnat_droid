@@ -22,7 +22,7 @@ public class AttrDescReflecFieldSetId<TclassDesc extends ClassDesc,TattrTarget,T
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        int id = getIdentifier(attr, attrCtx.getXMLInflater());
+        int id = getIdentifier(attr.getResourceDesc(), attrCtx.getXMLInflater());
 
         setField(target,id);
     }

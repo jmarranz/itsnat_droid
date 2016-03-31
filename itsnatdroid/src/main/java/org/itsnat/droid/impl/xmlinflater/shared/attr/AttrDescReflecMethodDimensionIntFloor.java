@@ -25,7 +25,7 @@ public class AttrDescReflecMethodDimensionIntFloor<TclassDesc extends ClassDesc,
     @Override
     public int getDimensionIntAbstract(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getDimensionIntFloor(attr, xmlInflater);
+        return getDimensionIntFloor(attr.getResourceDesc(), xmlInflater);
     }
 
 }

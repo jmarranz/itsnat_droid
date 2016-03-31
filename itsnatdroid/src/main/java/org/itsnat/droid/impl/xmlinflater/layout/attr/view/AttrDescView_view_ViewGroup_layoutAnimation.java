@@ -23,7 +23,7 @@ public class AttrDescView_view_ViewGroup_layoutAnimation extends AttrDesc<ClassD
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int id = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
+        int id = getIdentifier(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
 
         LayoutAnimationController controller = id > 0 ?  AnimationUtils.loadLayoutAnimation(attrCtx.getContext(), id) : null;
 

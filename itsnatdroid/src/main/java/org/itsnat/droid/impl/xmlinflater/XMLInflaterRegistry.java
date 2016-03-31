@@ -21,11 +21,12 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrCompiledResource;
-import org.itsnat.droid.impl.dom.DOMAttrDynamic;
-import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResourceImage;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
+import org.itsnat.droid.impl.dom.ResourceDesc;
+import org.itsnat.droid.impl.dom.ResourceDescCompiled;
+import org.itsnat.droid.impl.dom.ResourceDescDynamic;
+import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -144,131 +145,131 @@ public class XMLInflaterRegistry
         return newId;
     }
 
-    public int getIdentifier(DOMAttr attr, XMLInflater xmlInflater)
+    public int getIdentifier(ResourceDesc resourceDesc, XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            String type = attrDyn.getResourceType();
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getIdentifier(attrDyn.getValuesResourceName(), type, xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            String type = resourceDescDyn.getResourceType();
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getIdentifier(resourceDescDyn.getValuesResourceName(), type, xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getIdentifierAddIfNecessaryCompiled(value,null, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getIdentifierAddIfNecessaryCompiled(resourceDescValue,null, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    public int getIdentifier(DOMAttr attr, String type, XMLInflater xmlInflater)
+    public int getIdentifier(ResourceDesc resourceDesc, String type, XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
             // Es raro que pase por aquí, sería cuando un <item type="id"> en un XML values tiene como valor un path remoto/dinámico
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            type = attrDyn.getResourceType();
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getIdentifier(attrDyn.getValuesResourceName(), type, xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            type = resourceDescDyn.getResourceType();
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getIdentifier(resourceDescDyn.getValuesResourceName(), type, xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getIdentifierAddIfNecessaryCompiled(value,type, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getIdentifierAddIfNecessaryCompiled(resourceDescValue,type, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private int getIdentifierAddIfNecessaryCompiled(String attrValue,String type, Context ctx)
+    private int getIdentifierAddIfNecessaryCompiled(String resourceDescValue,String type, Context ctx)
     {
         // type puede ser null
         // Procesamos aquí los casos de "@+id/...", la razón es que cualquier atributo que referencie un id (más allá
         // de android:id) puede registrar un nuevo atributo lo cual es útil si el android:id como tal está después,
         // después en android:id ya no hace falta que sea "@+id/...".
         // http://stackoverflow.com/questions/11029635/android-radiogroup-checkedbutton-property
-        if (("+id".equals(type) || "id".equals(type)) && (!attrValue.startsWith("@+id/") && !attrValue.startsWith("@id/")))
+        if (("+id".equals(type) || "id".equals(type)) && (!resourceDescValue.startsWith("@+id/") && !resourceDescValue.startsWith("@id/")))
         {
-            if ("+id".equals(type)) attrValue = "@+id/" + attrValue;
-            else attrValue = "@id/" + attrValue;
+            if ("+id".equals(type)) resourceDescValue = "@+id/" + resourceDescValue;
+            else resourceDescValue = "@id/" + resourceDescValue;
         }
 
         int id;
-        if (attrValue.startsWith("@+id/") || attrValue.startsWith("@id/")) // Si fuera el caso de "@+mypackage:id/name" ese caso no lo soportamos, no lo he visto nunca aunque en teoría está sintácticamente permitido
+        if (resourceDescValue.startsWith("@+id/") || resourceDescValue.startsWith("@id/")) // Si fuera el caso de "@+mypackage:id/name" ese caso no lo soportamos, no lo he visto nunca aunque en teoría está sintácticamente permitido
         {
-            id = getIdentifierCompiled(attrValue, ctx, false); // Tiene prioridad el recurso de Android, pues para qué generar un id nuevo si ya existe o bien ya fue registrado dinámicamente
+            id = getIdentifierCompiled(resourceDescValue, ctx, false); // Tiene prioridad el recurso de Android, pues para qué generar un id nuevo si ya existe o bien ya fue registrado dinámicamente
             if (id <= 0)
             {
-                int pos = attrValue.indexOf('/');
-                String idName = attrValue.substring(pos + 1);
-                if (attrValue.startsWith("@+id/")) id = findViewIdDynamicallyAddedAddIfNecessary(idName);
+                int pos = resourceDescValue.indexOf('/');
+                String idName = resourceDescValue.substring(pos + 1);
+                if (resourceDescValue.startsWith("@+id/")) id = findViewIdDynamicallyAddedAddIfNecessary(idName);
                 else id = findViewIdDynamicallyAdded(idName);
                 if (id <= 0)
-                    throw new ItsNatDroidException("Not found resource with id \"" + attrValue + "\" you could use @+id/ ");
+                    throw new ItsNatDroidException("Not found resource with id \"" + resourceDescValue + "\" you could use @+id/ ");
             }
         }
-        else id = getIdentifierCompiled(attrValue, ctx);
+        else id = getIdentifierCompiled(resourceDescValue, ctx);
         return id;
     }
 
-    public int getIdentifierCompiled(String attrValue, Context ctx)
+    public int getIdentifierCompiled(String resourceDescValue, Context ctx)
     {
-        return getIdentifierCompiled(attrValue, ctx, true);
+        return getIdentifierCompiled(resourceDescValue, ctx, true);
     }
 
-    private boolean isIdentifierCompiledValueNull(String attrValue)
+    private boolean isIdentifierCompiledValueNull(String resourceDescValue)
     {
-        return ("0".equals(attrValue) || "-1".equals(attrValue) || "@null".equals(attrValue));
+        return ("0".equals(resourceDescValue) || "-1".equals(resourceDescValue) || "@null".equals(resourceDescValue));
     }
 
-    private int getIdentifierCompiled(String attrValue, Context ctx, boolean throwErr)
+    private int getIdentifierCompiled(String resourceDescValue, Context ctx, boolean throwErr)
     {
-        if (isIdentifierCompiledValueNull(attrValue)) return 0; // Si throwErr es true, es el único caso en el que se devuelve 0
+        if (isIdentifierCompiledValueNull(resourceDescValue)) return 0; // Si throwErr es true, es el único caso en el que se devuelve 0
 
         int id;
-        char first = attrValue.charAt(0);
+        char first = resourceDescValue.charAt(0);
         if (first == '?')
         {
-            id = getIdentifierCompiledAttrTheme(attrValue, ctx);
+            id = getIdentifierCompiledAttrTheme(resourceDescValue, ctx);
             if (id > 0)
                 return id;
         }
         else if (first == '@')
         {
             // Tiene prioridad el registro de Android que el de ItsNat en el caso de "@+id", para qué generar un id si ya existe como recurso
-            id = getIdentifierResource(attrValue, ctx);
+            id = getIdentifierResource(resourceDescValue, ctx);
             if (id > 0)
                 return id;
 
-            if (attrValue.startsWith("@id/") || attrValue.startsWith("@+id/"))
+            if (resourceDescValue.startsWith("@id/") || resourceDescValue.startsWith("@+id/"))
             {
                 // En este caso es posible que se haya registrado dinámicamente el id via "@+id/..."
-                id = getViewIdDynamicallyAdded(attrValue);
+                id = getViewIdDynamicallyAdded(resourceDescValue);
                 if (id > 0)
                     return id;
             }
         }
-        else if (attrValue.startsWith("android:"))
+        else if (resourceDescValue.startsWith("android:"))
         {
             // Es el caso de style parent definido por Android ej: <style name="..." parent="android:Theme.Holo.Light.DarkActionBar"> que es la manera reducida de poner:
             // parent="@android:style/Theme.Holo.Light.DarkActionBar" que se procesaría en el caso anterior
             // Sinceramente no se como obtenerlo via Resources.getIdentifier, lo que hacemos es convertirlo en el formato parent="@android:style/Theme.Holo.Light.DarkActionBar"
 
             int pos = "android:".length();
-            attrValue = "@android:style/" +  attrValue.substring(pos);
+            resourceDescValue = "@android:style/" +  resourceDescValue.substring(pos);
 
-            id = getIdentifierResource(attrValue,ctx);
+            id = getIdentifierResource(resourceDescValue,ctx);
             if (id > 0)
                 return id;
         }
         else
         {
-            throw new ItsNatDroidException("Bad format in identifier declaration: " + attrValue);
+            throw new ItsNatDroidException("Bad format in identifier declaration: " + resourceDescValue);
         }
 
         if (throwErr && id <= 0)
-            throw new ItsNatDroidException("Not found resource with id value \"" + attrValue + "\"");
+            throw new ItsNatDroidException("Not found resource with id value \"" + resourceDescValue + "\"");
         return id;
     }
 
@@ -317,36 +318,29 @@ public class XMLInflaterRegistry
         return findViewIdDynamicallyAdded(idName);
     }
 
-    public ViewStyleAttribs getViewStyle(DOMAttr attr,XMLInflater xmlInflater)
+    public ViewStyleAttribs getViewStyle(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
         // Ya no solo es para el atributo "style": if (attr.getNamespaceURI() != null || !"style".equals(attr.getName())) throw MiscUtil.internalError();
 
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            ElementValuesStyle elemStyle = elementResources.getViewStyle(attrDyn.getValuesResourceName());
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            ElementValuesStyle elemStyle = elementResources.getViewStyle(resourceDescDyn.getValuesResourceName());
             DOMAttr domAttrParent = elemStyle.getParentAttr();
             List<DOMAttr> domAttrValueList = elemStyle.getChildDOMAttrValueList();
             return new ViewStyleAttribsDynamic(domAttrParent,domAttrValueList);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String attrValue = attr.getValue();
-            int styleId = getIdentifierCompiled(attrValue, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            int styleId = getIdentifierCompiled(resourceDescValue, ctx);
             return new ViewStyleAttribsCompiled(styleId);
         }
         else throw MiscUtil.internalError();
     }
 
-    /*
-    public int getViewStyle(DOMAttr attr,XMLInflater xmlInflater,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
-    {
-        ViewStyleAttr styleAttr = getViewStyle(attr,xmlInflater);
-        return getViewStyle(styleAttr,styleItemsDynamicAttribs,ctx);
-    }
-*/
 
     public int getViewStyle(ViewStyleAttribs style,List<DOMAttr> styleItemsDynamicAttribs,Context ctx)
     {
@@ -379,121 +373,121 @@ public class XMLInflaterRegistry
         return attrValue.startsWith("@") || attrValue.startsWith("?");
     }
 
-    public int getInteger(DOMAttr attr,XMLInflater xmlInflater)
+    public int getInteger(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getInteger(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getInteger(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getIntegerCompiled(value, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getIntegerCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private int getIntegerCompiled(String attrValue, Context ctx)
+    private int getIntegerCompiled(String resourceDescValue, Context ctx)
     {
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for an integer resource");
             return ctx.getResources().getInteger(resId);
         }
         else
         {
-            if (attrValue.startsWith("0x"))
+            if (resourceDescValue.startsWith("0x"))
             {
-                attrValue = attrValue.substring(2);
-                return Integer.parseInt(attrValue, 16);
+                resourceDescValue = resourceDescValue.substring(2);
+                return Integer.parseInt(resourceDescValue, 16);
             }
-            return Integer.parseInt(attrValue);
+            return Integer.parseInt(resourceDescValue);
         }
     }
 
-    public float getFloat(DOMAttr attr,XMLInflater xmlInflater)
+    public float getFloat(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getFloat(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getFloat(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getFloatCompiled(value, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getFloatCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private float getFloatCompiled(String attrValue, Context ctx)
+    private float getFloatCompiled(String resourceDescValue, Context ctx)
     {
         // Ojo, para valores sin sufijo de dimensión (por ej layout_weight o alpha)
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a dimension resource");
             return ctx.getResources().getDimension(resId); // No hay getFloat
         }
-        else return parseFloat(attrValue);
+        else return parseFloat(resourceDescValue);
     }
 
-    public String getString(DOMAttr attr,XMLInflater xmlInflater)
+    public String getString(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getString(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getString(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getStringCompiled(value, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getStringCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private String getStringCompiled(String attrValue, Context ctx)
+    private String getStringCompiled(String resourceDescValue, Context ctx)
     {
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a integer resource");
             return ctx.getResources().getString(resId);
         }
-        return StringUtil.convertEscapedStringLiteralToNormalString(attrValue);
+        return StringUtil.convertEscapedStringLiteralToNormalString(resourceDescValue);
     }
 
-    public CharSequence getText(DOMAttr attr,XMLInflater xmlInflater)
+    public CharSequence getText(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getText(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getText(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getTextCompiled(value, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getTextCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private CharSequence getTextCompiled(String attrValue, Context ctx)
+    private CharSequence getTextCompiled(String resourceDescValue, Context ctx)
     {
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a text resource");
             return ctx.getResources().getText(resId);
         }
@@ -501,12 +495,12 @@ public class XMLInflaterRegistry
         {
             // Vemos si contiene HTML, nos ahorraremos el procesado como HTML sin serlo y además conseguiremos que funcionen los tests a nivel de misma clase devuelta, pues Android
             // parece que hace lo mismo, es decir cuando no es HTML devuelve un String en vez de un SpannedString.
-            if (isHTML(attrValue))
+            if (isHTML(resourceDescValue))
             {
-                Spanned spannedValue = Html.fromHtml(attrValue);
+                Spanned spannedValue = Html.fromHtml(resourceDescValue);
                 return new SpannedString(spannedValue); // Para que el tipo devuelto sea el mismo que en el caso compilado y pasemos los tests
             }
-            return StringUtil.convertEscapedStringLiteralToNormalString(attrValue);
+            return StringUtil.convertEscapedStringLiteralToNormalString(resourceDescValue);
         }
     }
 
@@ -615,72 +609,72 @@ public class XMLInflaterRegistry
         return false;
     }
 
-    public CharSequence[] getTextArray(DOMAttr attr,XMLInflater xmlInflater)
+    public CharSequence[] getTextArray(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getTextArray(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getTextArray(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getTextArrayCompiled(value, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getTextArrayCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private CharSequence[] getTextArrayCompiled(String attrValue, Context ctx)
+    private CharSequence[] getTextArrayCompiled(String resourceDescValue, Context ctx)
     {
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a text array resource");
             return ctx.getResources().getTextArray(resId);
         }
         else throw MiscUtil.internalError();
     }
 
-    public boolean getBoolean(DOMAttr attr,XMLInflater xmlInflater)
+    public boolean getBoolean(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getBoolean(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getBoolean(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getBooleanCompiled(value, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getBooleanCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private boolean getBooleanCompiled(String attrValue, Context ctx)
+    private boolean getBooleanCompiled(String resourceDescValue, Context ctx)
     {
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a boolean resource");
             return ctx.getResources().getBoolean(resId);
         }
-        else return Boolean.parseBoolean(attrValue);
+        else return Boolean.parseBoolean(resourceDescValue);
     }
 
-    public boolean isDimension(DOMAttr attr)
+    public boolean isDimension(ResourceDesc resourceDesc)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            return "dimen".equals(attrDyn.getResourceType());
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            return "dimen".equals(resourceDescDyn.getResourceType());
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
-            String value = attr.getValue();
+            String value = resourceDesc.getResourceDescValue();
             if (value.startsWith("?android:attr/"))
                 throw new ItsNatDroidException("Resource type cannot be determined using \"?android:attr/\" in this context");
             if (value.startsWith("@android:dimen/") || value.startsWith("@dimen/"))
@@ -690,36 +684,36 @@ public class XMLInflaterRegistry
         else throw MiscUtil.internalError();
     }
 
-    public Dimension getDimensionObject(DOMAttr attr,XMLInflater xmlInflater)
+    public Dimension getDimensionObject(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getDimensionObject(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getDimensionObject(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String originalValue = attr.getValue();
+            String originalValue = resourceDesc.getResourceDescValue();
             return getDimensionObjectCompiled(originalValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private Dimension getDimensionObjectCompiled(String attrValue, Context ctx)
+    private Dimension getDimensionObjectCompiled(String resourceDescValue, Context ctx)
     {
         // El retorno es en px
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a dimension resource");
             float num = ctx.getResources().getDimension(resId);
             return new Dimension(TypedValue.COMPLEX_UNIT_PX, num);
         }
         else
         {
-            return getDimensionObjectCompiled(attrValue);
+            return getDimensionObjectCompiled(resourceDescValue);
         }
     }
 
@@ -735,24 +729,24 @@ public class XMLInflaterRegistry
         return new Dimension(complexUnit, num);
     }
 
-    public int getDimensionIntFloor(DOMAttr attr,XMLInflater xmlInflater)
+    public int getDimensionIntFloor(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
         // TypedValue.complexToDimensionPixelOffset
-        return (int) getDimensionFloat(attr, xmlInflater);
+        return (int) getDimensionFloat(resourceDesc, xmlInflater);
     }
 
-    public int getDimensionIntRound(DOMAttr attr,XMLInflater xmlInflater)
+    public int getDimensionIntRound(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
         // TypedValue.complexToDimensionPixelSize
-        float num = getDimensionFloat(attr, xmlInflater);
+        float num = getDimensionFloat(resourceDesc, xmlInflater);
         int numInt = (int)(num + 0.5f);
         return numInt;
     }
 
-    public float getDimensionFloat(DOMAttr attr,XMLInflater xmlInflater)
+    public float getDimensionFloat(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
         // El retorno es en px
-        Dimension dimen = getDimensionObject(attr, xmlInflater);
+        Dimension dimen = getDimensionObject(resourceDesc, xmlInflater);
         int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
         float num = dimen.getValue();
 
@@ -760,42 +754,42 @@ public class XMLInflaterRegistry
         return toPixelFloat(unit, num, res);
     }
 
-    public float getDimensionFloatFloor(DOMAttr attr,XMLInflater xmlInflater)
+    public float getDimensionFloatFloor(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
         // El retorno es en px
-        float num = getDimensionFloat(attr, xmlInflater);
+        float num = getDimensionFloat(resourceDesc, xmlInflater);
         // num = (float) Math.floor(num);
         int numInt = (int)num;
         return numInt;
     }
 
-    public float getDimensionFloatRound(DOMAttr attr,XMLInflater xmlInflater)
+    public float getDimensionFloatRound(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
         // El retorno es en px
-        float num = getDimensionFloat(attr, xmlInflater);
+        float num = getDimensionFloat(resourceDesc, xmlInflater);
         //num = Math.round(num);
         int numInt = (int)(num + 0.5f);
         return numInt;
     }
 
-    public PercFloat getDimensionPercFloat(DOMAttr attr,XMLInflater xmlInflater)
+    public PercFloat getDimensionPercFloat(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getDimensionPercFloat(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getDimensionPercFloat(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String originalValue = attr.getValue();
+            String originalValue = resourceDesc.getResourceDescValue();
             return getDimensionPercFloatCompiled(originalValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private PercFloat getDimensionPercFloatCompiled(String attrValue, Context ctx)
+    private PercFloat getDimensionPercFloatCompiled(String resourceDescValue, Context ctx)
     {
         // Este método y PercFloat sólo se usa para el gradientRadius de GradientDrawable <shape> <gradient android:gradientRadius android:centerX y centerY>
 
@@ -817,16 +811,16 @@ public class XMLInflaterRegistry
         // Recuerda que gradientRadius sólo se usa en el caso de RADIAL_GRADIENT, en dicho caso de hecho es obligatorio
 
         Resources res = ctx.getResources();
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a dimension resource");
             String value = res.getString(resId);
             return parseDimensionPercFloat(value, ctx);
         }
         else
         {
-            return parseDimensionPercFloat(attrValue, ctx);
+            return parseDimensionPercFloat(resourceDescValue, ctx);
         }
     }
 
@@ -867,18 +861,18 @@ public class XMLInflaterRegistry
         }
     }
 
-    public int getDimensionWithNameIntRound(DOMAttr attr,XMLInflater xmlInflater)
+    public int getDimensionWithNameIntRound(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
         int dimension;
 
-        String value = attr.getValue();
+        String value = resourceDesc.getResourceDescValue();
         // No hace falta hacer trim en caso de "match_parent" etc un espacio fastidia el attr
         if ("match_parent".equals(value) || "fill_parent".equals(value))
             dimension = ViewGroup.LayoutParams.MATCH_PARENT;
         else if ("wrap_content".equals(value))
             dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
         else
-            dimension = getDimensionIntRound(attr, xmlInflater);
+            dimension = getDimensionIntRound(resourceDesc, xmlInflater);
 
         return dimension;
     }
@@ -934,16 +928,16 @@ public class XMLInflaterRegistry
         return TypedValue.applyDimension(unit, value, res.getDisplayMetrics());
     }
 
-    public boolean isColor(DOMAttr attr)
+    public boolean isColor(ResourceDesc resourceDesc)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            return "color".equals(attrDyn.getResourceType());
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            return "color".equals(resourceDescDyn.getResourceType());
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
-            String value = attr.getValue();
+            String value = resourceDesc.getResourceDescValue();
             if (value.startsWith("?android:attr/"))
                 throw new ItsNatDroidException("Resource type cannot be determined using \"?android:attr/\" in this context");
             if (value.startsWith("@android:color/") || value.startsWith("@color/"))
@@ -953,37 +947,37 @@ public class XMLInflaterRegistry
         else throw MiscUtil.internalError();
     }
 
-    public int getColor(DOMAttr attr,XMLInflater xmlInflater)
+    public int getColor(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getColor(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getColor(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getColorCompiled(value, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getColorCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private int getColorCompiled(String attrValue, Context ctx)
+    private int getColorCompiled(String resourceDescValue, Context ctx)
     {
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a color resource");
             return ctx.getResources().getColor(resId);
         }
-        else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
+        else if (resourceDescValue.startsWith("#")) // Color literal. No hace falta hacer trim
         {
-            return Color.parseColor(attrValue);
+            return Color.parseColor(resourceDescValue);
         }
 
-        throw new ItsNatDroidException("Cannot process " + attrValue);
+        throw new ItsNatDroidException("Cannot process " + resourceDescValue);
     }
 
 
@@ -993,37 +987,37 @@ public class XMLInflaterRegistry
         return "#00000000";
     }
 
-    public float getPercent(DOMAttr attr,XMLInflater xmlInflater)
+    public float getPercent(ResourceDesc resourceDesc,XMLInflater xmlInflater)
     {
         // Leer notas en getPercentCompiled()
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflater);
-            return elementResources.getPercent(attrDyn.getValuesResourceName(), xmlInflater);
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflater);
+            return elementResources.getPercent(resourceDescDyn.getValuesResourceName(), xmlInflater);
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflater.getContext();
-            String value = attr.getValue();
-            return getPercentCompiled(value, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getPercentCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private float getPercentCompiled(String attrValue, Context ctx)
+    private float getPercentCompiled(String resourceDescValue, Context ctx)
     {
         // Sólo se usa en ScaleDrawable, de hecho el método getPercent que usa Android es local en dicha clase, no se reutiliza para otros casos, el valor compilado se obtiene de Resources.getString()
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a percentage resource");
             String str = ctx.getResources().getString(resId);
             return getPercent(str);
         }
         else
         {
-            return getPercent(attrValue);
+            return getPercent(resourceDescValue);
         }
     }
 
@@ -1040,34 +1034,34 @@ public class XMLInflaterRegistry
     }
 
 
-    public Drawable getDrawable(DOMAttr attr,XMLInflater xmlInflaterParent)
+    public Drawable getDrawable(ResourceDesc resourceDesc,XMLInflater xmlInflaterParent)
     {
         Context ctx = xmlInflaterParent.getContext();
 
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic) attr;
-            if (attrDyn.getValuesResourceName() != null)
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            if (resourceDescDyn.getValuesResourceName() != null)
             {
-                ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflaterParent);
-                return elementResources.getDrawable(attrDyn.getValuesResourceName(), xmlInflaterParent);
+                ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterParent);
+                return elementResources.getDrawable(resourceDescDyn.getValuesResourceName(), xmlInflaterParent);
             }
             else
             {
                 int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
-                String resourceMime = attrDyn.getResourceMime();
+                String resourceMime = resourceDescDyn.getResourceMime();
                 if (MimeUtil.isMIMEResourceXML(resourceMime))
                 {
                     // Esperamos un drawable
                     PageImpl page = PageImpl.getPageImpl(xmlInflaterParent);
 
-                    if (attr instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+                    if (resourceDesc instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
                     ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
                     AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
-                    ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attrDyn.getResource();
+                    ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getResource();
                     XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
                     InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
 
@@ -1076,74 +1070,74 @@ public class XMLInflaterRegistry
                 }
                 else if (MimeUtil.isMIMEResourceImage(resourceMime))
                 {
-                    ParsedResourceImage resource = (ParsedResourceImage) attrDyn.getResource();
+                    ParsedResourceImage resource = (ParsedResourceImage) resourceDescDyn.getResource();
                     byte[] byteArray = resource.getImgBytes();
-                    boolean expectedNinePatch = attrDyn.isNinePatch();
+                    boolean expectedNinePatch = resourceDescDyn.isNinePatch();
                     return DrawableUtil.createImageBasedDrawable(byteArray, bitmapDensityReference, expectedNinePatch, ctx.getResources());
                 }
                 else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
             }
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
-            String attrValue = attr.getValue();
-            return getDrawableCompiled(attrValue, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getDrawableCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private Drawable getDrawableCompiled(String attrValue, Context ctx)
+    private Drawable getDrawableCompiled(String resourceDescValue, Context ctx)
     {
-        if (isResource(attrValue))
+        if (isResource(resourceDescValue))
         {
-            int resId = getIdentifierCompiled(attrValue, ctx);
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) return null;
             return ctx.getResources().getDrawable(resId);
         }
-        else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
+        else if (resourceDescValue.startsWith("#")) // Color literal. No hace falta hacer trim
         {
-            int color = Color.parseColor(attrValue);
+            int color = Color.parseColor(resourceDescValue);
             return new ColorDrawable(color);
         }
 
-        throw new ItsNatDroidException("Cannot process " + attrValue);
+        throw new ItsNatDroidException("Cannot process " + resourceDescValue);
     }
 
-    public LayoutValue getLayout(DOMAttr attr,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
+    public LayoutValue getLayout(ResourceDesc resourceDesc,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
     {
-        return getLayout(attr,xmlInflaterParent,viewParent,indexChild,null);
+        return getLayout(resourceDesc,xmlInflaterParent,viewParent,indexChild,null);
     }
 
-    public LayoutValue getLayout(DOMAttr attr,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    public LayoutValue getLayout(ResourceDesc resourceDesc,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            if (attrDyn.getValuesResourceName() != null)
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            if (resourceDescDyn.getValuesResourceName() != null)
             {
-                ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflaterParent);
-                return elementResources.getLayout(attrDyn.getValuesResourceName(), xmlInflaterParent, viewParent, indexChild,includeAttribs);
+                ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterParent);
+                return elementResources.getLayout(resourceDescDyn.getValuesResourceName(), xmlInflaterParent, viewParent, indexChild, includeAttribs);
             }
             else
             {
-                View view = getViewLayoutDynamicFromXML(attrDyn, xmlInflaterParent, viewParent,indexChild, includeAttribs);
+                View view = getViewLayoutDynamicFromXML(resourceDescDyn, xmlInflaterParent, viewParent,indexChild, includeAttribs);
                 return new LayoutValueDynamic(view);
             }
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflaterParent.getContext();
-            String attrValue = attr.getValue();
-            int layoutId = getIdentifierCompiled(attrValue, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            int layoutId = getIdentifierCompiled(resourceDescValue, ctx);
             return new LayoutValueCompiled(layoutId);
         }
         else throw MiscUtil.internalError();
     }
 
 
-    public View getViewLayout(DOMAttr attr, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    public View getViewLayout(ResourceDesc resourceDesc, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
-        LayoutValue layoutValue = getLayout(attr, xmlInflaterParent, viewParent, indexChild, includeAttribs);
+        LayoutValue layoutValue = getLayout(resourceDesc, xmlInflaterParent, viewParent, indexChild, includeAttribs);
 
         if (layoutValue instanceof LayoutValueDynamic)
         {
@@ -1190,20 +1184,20 @@ public class XMLInflaterRegistry
         return rootView;
     }
 
-    private View getViewLayoutDynamicFromXML(DOMAttrDynamic attr, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    private View getViewLayoutDynamicFromXML(ResourceDescDynamic resourceDesc, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
-        if (attr.getValuesResourceName() != null) throw MiscUtil.internalError();
+        if (resourceDesc.getValuesResourceName() != null) throw MiscUtil.internalError();
 
         Context ctx = xmlInflaterParent.getContext();
 
         int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 
-        String resourceMime = attr.getResourceMime();
+        String resourceMime = resourceDesc.getResourceMime();
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             PageImpl pageParent = PageImpl.getPageImpl(xmlInflaterParent);
 
-            if (attr instanceof DOMAttrRemote && pageParent == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+            if (resourceDesc instanceof ResourceDescRemote && pageParent == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
             int countBefore = 0;
             if (viewParent != null)
@@ -1214,7 +1208,7 @@ public class XMLInflaterRegistry
             ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
             AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
-            ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attr.getResource();
+            ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDesc.getResource();
             XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
             XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrInflaterListeners, ctx, pageParent);
@@ -1269,15 +1263,15 @@ public class XMLInflaterRegistry
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }
 
-    public Animation getAnimation(DOMAttr attr,XMLInflater xmlInflaterParent)
+    public Animation getAnimation(ResourceDesc resourceDesc,XMLInflater xmlInflaterParent)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            if (attrDyn.getValuesResourceName() != null)
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            if (resourceDescDyn.getValuesResourceName() != null)
             {
-                ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflaterParent);
-                return elementResources.getAnimation(attrDyn.getValuesResourceName(), xmlInflaterParent);
+                ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterParent);
+                return elementResources.getAnimation(resourceDescDyn.getValuesResourceName(), xmlInflaterParent);
             }
             else
             {
@@ -1287,18 +1281,18 @@ public class XMLInflaterRegistry
                 //return animation;
             }
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflaterParent.getContext();
-            String attrValue = attr.getValue();
-            return getAnimationCompiled(attrValue, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getAnimationCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private Animation getAnimationCompiled(String attrValue,Context ctx)
+    private Animation getAnimationCompiled(String resourceDescValue,Context ctx)
     {
-        int id = getIdentifierCompiled(attrValue, ctx);
+        int id = getIdentifierCompiled(resourceDescValue, ctx);
         if (id <= 0)
             return null;
 
@@ -1306,33 +1300,33 @@ public class XMLInflaterRegistry
     }
 
 
-    public Animator getAnimator(DOMAttr attr,XMLInflater xmlInflaterParent)
+    public Animator getAnimator(ResourceDesc resourceDesc,XMLInflater xmlInflaterParent)
     {
-        if (attr instanceof DOMAttrDynamic)
+        if (resourceDesc instanceof ResourceDescDynamic)
         {
-            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            if (attrDyn.getValuesResourceName() != null)
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            if (resourceDescDyn.getValuesResourceName() != null)
             {
-                ElementValuesResources elementResources = getElementValuesResources(attrDyn, xmlInflaterParent);
-                return elementResources.getAnimator(attrDyn.getValuesResourceName(), xmlInflaterParent);
+                ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterParent);
+                return elementResources.getAnimator(resourceDescDyn.getValuesResourceName(), xmlInflaterParent);
             }
             else
             {
-                return getAnimatorDynamicFromXML(attrDyn,xmlInflaterParent);
+                return getAnimatorDynamicFromXML(resourceDescDyn,xmlInflaterParent);
             }
         }
-        else if (attr instanceof DOMAttrCompiledResource)
+        else if (resourceDesc instanceof ResourceDescCompiled)
         {
             Context ctx = xmlInflaterParent.getContext();
-            String attrValue = attr.getValue();
-            return getAnimatorCompiled(attrValue, ctx);
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getAnimatorCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
     }
 
-    private Animator getAnimatorDynamicFromXML(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
+    private Animator getAnimatorDynamicFromXML(ResourceDescDynamic resourceDescDyn, XMLInflater xmlInflaterParent)
     {
-        if (attrDyn.getValuesResourceName() != null) throw MiscUtil.internalError();
+        if (resourceDescDyn.getValuesResourceName() != null) throw MiscUtil.internalError();
 
         Context ctx = xmlInflaterParent.getContext();
 
@@ -1341,13 +1335,13 @@ public class XMLInflaterRegistry
         // Esperamos un Animator
         PageImpl page = PageImpl.getPageImpl(xmlInflaterParent);
 
-        if (attrDyn instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+        if (resourceDescDyn instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
         ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
 
         AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
-        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) attrDyn.getResource();
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getResource();
         XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
         InflatedAnimator inflatedAnimator = InflatedAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
 
@@ -1355,9 +1349,9 @@ public class XMLInflaterRegistry
         return xmlInflaterAnimator.inflateAnimator();
     }
 
-    private Animator getAnimatorCompiled(String attrValue,Context ctx)
+    private Animator getAnimatorCompiled(String resourceDescValue,Context ctx)
     {
-        int id = getIdentifierCompiled(attrValue, ctx);
+        int id = getIdentifierCompiled(resourceDescValue, ctx);
         if (id <= 0)
             return null;
 
@@ -1365,9 +1359,9 @@ public class XMLInflaterRegistry
     }
 
 
-    private ElementValuesResources getElementValuesResources(DOMAttrDynamic attrDyn, XMLInflater xmlInflaterParent)
+    private ElementValuesResources getElementValuesResources(ResourceDescDynamic resourceDescDynamic, XMLInflater xmlInflaterParent)
     {
-        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)attrDyn.getResource();
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)resourceDescDynamic.getResource();
         XMLDOMValues xmlDOMValues = (XMLDOMValues)resource.getXMLDOM();
 
         // Una vez parseado XMLDOMValues y cargados los recursos remotos se cachea y NO se modifica (no hay un pre-clonado
@@ -1386,13 +1380,13 @@ public class XMLInflaterRegistry
 
         Context ctx = xmlInflaterParent.getContext();
 
-        String resourceMime = attrDyn.getResourceMime();
+        String resourceMime = resourceDescDynamic.getResourceMime();
         if (!MimeUtil.isMIMEResourceXML(resourceMime))
             throw new ItsNatDroidException("Unsupported resource MIME in this context: " + resourceMime);
 
         PageImpl page = PageImpl.getPageImpl(xmlInflaterParent); // Puede ser null
 
-        if (attrDyn instanceof DOMAttrRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+        if (resourceDescDynamic instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
         int bitmapDensityReference = xmlInflaterParent.getBitmapDensityReference();
 

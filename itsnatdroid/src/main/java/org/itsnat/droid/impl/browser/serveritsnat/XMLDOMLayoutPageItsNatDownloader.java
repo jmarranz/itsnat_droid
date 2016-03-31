@@ -53,7 +53,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
         if (attrRemoteListBSParsed[0] != null)
         {
             // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
-            downloadResources(attrRemoteListBSParsed[0]);
+            downloadRemoteAttrResources(attrRemoteListBSParsed[0]);
         }
 
         if (classNameListBSParsed[0] != null)
@@ -375,7 +375,7 @@ public class XMLDOMLayoutPageItsNatDownloader extends XMLDOMLayoutPageDownloader
     {
         XMLDOMLayoutPageItsNat xmlDOMLayoutPageItsNat = getXMLDOMLayoutPageItsNat();
 
-        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.toDOMAttrNotSyncResource(namespaceURI, name, value);
+        return (DOMAttrRemote)xmlDOMLayoutPageItsNat.createDOMAttrNotSyncResource(namespaceURI, name, value);
     }
 
     private static String parseNamespaceURI(String code)

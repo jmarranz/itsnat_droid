@@ -60,7 +60,7 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
                 value = a.getString(i);
             }
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name, value);
+            DOMAttr attr = DOMAttr.createDOMAttr(NamespaceUtil.XMLNS_ANDROID, name, value);
             styleLayoutParamsAttribs.add(attr);
         }
 

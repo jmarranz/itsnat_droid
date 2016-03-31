@@ -23,7 +23,7 @@ public class AttrDescView_widget_ListViewAndAbsSpinner_entries extends AttrDesc<
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        CharSequence[] entries = getTextArray(attr,attrCtx.getXMLInflaterLayout());
+        CharSequence[] entries = getTextArray(attr.getResourceDesc(),attrCtx.getXMLInflaterLayout());
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(attrCtx.getContext(), android.R.layout.simple_list_item_1, entries);
         if (view instanceof ListView)

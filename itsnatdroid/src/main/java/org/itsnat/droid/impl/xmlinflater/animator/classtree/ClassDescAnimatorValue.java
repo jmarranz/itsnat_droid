@@ -101,13 +101,13 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         if (valueFromAttr != null)
         {
             hasFrom = true;
-            if (xmlInflaterRegistry.isColor(valueFromAttr))
+            if (xmlInflaterRegistry.isColor(valueFromAttr.getResourceDesc()))
             {
                 valueType = 2; // Nos inventamos que el valor 2 es un posible VALUE_TYPE_COLOR
             }
             else
             {
-                isDimensionFrom = xmlInflaterRegistry.isDimension(valueFromAttr);
+                isDimensionFrom = xmlInflaterRegistry.isDimension(valueFromAttr.getResourceDesc());
             }
         }
 
@@ -117,14 +117,14 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         if (valueToAttr != null)
         {
             hasTo = true;
-            if (xmlInflaterRegistry.isColor(valueToAttr))
+            if (xmlInflaterRegistry.isColor(valueToAttr.getResourceDesc()))
             {
                 if (hasFrom && valueType != 2) throw new ItsNatDroidException("Attribute value of valueFrom has a different type than valueTo color value");
                 valueType = 2; // Nos inventamos que el valor 2 es un posible VALUE_TYPE_COLOR
             }
             else
             {
-                isDimensionTo = xmlInflaterRegistry.isDimension(valueToAttr);
+                isDimensionTo = xmlInflaterRegistry.isDimension(valueToAttr.getResourceDesc());
             }
         }
 
@@ -135,8 +135,8 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
             if (valueType == 2) // Color
             {
                 evaluator = new ArgbEvaluator(); // es mejor basarse en 5.0 http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/5.0.2_r1/android/animation/AnimatorInflater.java que en 4.0 que parece que tiene un bug (el setEvaluator DEBE llamarse DESPUES de definir el from y to )
-                int valueFrom = hasFrom ? xmlInflaterRegistry.getColor(valueFromAttr, xmlInflaterAnimator) : 0;
-                int valueTo = hasTo ? xmlInflaterRegistry.getColor(valueToAttr, xmlInflaterAnimator) : 0;
+                int valueFrom = hasFrom ? xmlInflaterRegistry.getColor(valueFromAttr.getResourceDesc(), xmlInflaterAnimator) : 0;
+                int valueTo = hasTo ? xmlInflaterRegistry.getColor(valueToAttr.getResourceDesc(), xmlInflaterAnimator) : 0;
                 if (hasFrom)
                 {
                     if (hasTo) valueAnimator.setIntValues(valueFrom,valueTo);
@@ -153,12 +153,12 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
                 int valueTo = 0;
                 if (hasFrom)
                 {
-                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionIntFloor(valueFromAttr, xmlInflaterAnimator) : xmlInflaterRegistry.getInteger(valueFromAttr, xmlInflaterAnimator);
+                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionIntFloor(valueFromAttr.getResourceDesc(), xmlInflaterAnimator) : xmlInflaterRegistry.getInteger(valueFromAttr.getResourceDesc(), xmlInflaterAnimator);
                 }
 
                 if (hasTo)
                 {
-                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionIntFloor(valueToAttr, xmlInflaterAnimator) : xmlInflaterRegistry.getInteger(valueToAttr, xmlInflaterAnimator);
+                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionIntFloor(valueToAttr.getResourceDesc(), xmlInflaterAnimator) : xmlInflaterRegistry.getInteger(valueToAttr.getResourceDesc(), xmlInflaterAnimator);
                 }
 
                 if (hasFrom)
@@ -177,12 +177,12 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
                 float valueTo = 0f;
                 if (hasFrom)
                 {
-                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionFloat(valueFromAttr, xmlInflaterAnimator) : xmlInflaterRegistry.getFloat(valueFromAttr, xmlInflaterAnimator);
+                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionFloat(valueFromAttr.getResourceDesc(), xmlInflaterAnimator) : xmlInflaterRegistry.getFloat(valueFromAttr.getResourceDesc(), xmlInflaterAnimator);
                 }
 
                 if (hasTo)
                 {
-                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionFloat(valueToAttr, xmlInflaterAnimator) : xmlInflaterRegistry.getFloat(valueToAttr, xmlInflaterAnimator);
+                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionFloat(valueToAttr.getResourceDesc(), xmlInflaterAnimator) : xmlInflaterRegistry.getFloat(valueToAttr.getResourceDesc(), xmlInflaterAnimator);
                 }
 
                 if (hasFrom)

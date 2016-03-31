@@ -21,7 +21,7 @@ public abstract class AttrDescReflecFieldFieldMethodDrawable<TclassDesc extends 
     @Override
     public void setAttribute(final TattrTarget target,final DOMAttr attr,final TattrContext attrCtx)
     {
-        Drawable convValue = getDrawable(attr,attrCtx.getXMLInflater());
+        Drawable convValue = getDrawable(attr.getResourceDesc(),attrCtx.getXMLInflater());
         callFieldFieldMethod(target, convValue);
     }
 

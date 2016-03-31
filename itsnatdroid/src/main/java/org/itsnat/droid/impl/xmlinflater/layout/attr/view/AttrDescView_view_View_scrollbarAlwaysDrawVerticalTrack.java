@@ -25,7 +25,7 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack extends Att
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final boolean convertedValue = getBoolean(attr, attrCtx.getXMLInflater());
+        final boolean convertedValue = getBoolean(attr.getResourceDesc(), attrCtx.getXMLInflater());
 
         PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
         if (pendingViewPostCreateProcess != null)

@@ -1,37 +1,22 @@
 package org.itsnat.droid.impl.dom;
 
-import org.itsnat.droid.impl.util.MiscUtil;
-
 /**
  * Created by jmarranz on 3/11/14.
  */
 public class DOMAttrRemote extends DOMAttrDynamic
 {
-    public DOMAttrRemote(String namespaceURI, String name, String value)
+    public DOMAttrRemote(String namespaceURI, String name, ResourceDescRemote resourceDesc)
     {
-        super(namespaceURI, name, value);
-    }
-
-    public boolean isDownloaded()
-    {
-        return resource != null;
-    }
-
-    public static boolean isRemote(String value)
-    {
-        return value.startsWith("@remote:");
+        super(namespaceURI, name, resourceDesc);
     }
 
     public static boolean isPendingToDownload(DOMAttr attr)
     {
-        return (attr instanceof DOMAttrRemote && !((DOMAttrRemote) attr).isDownloaded());
+        return (attr instanceof DOMAttrRemote && !(((DOMAttrRemote)attr).getResourceDescRemote()).isDownloaded());
     }
 
-    public void check(String namespaceURI,String name,String value)
+    public ResourceDescRemote getResourceDescRemote()
     {
-        // Este chequeo nos sirve para quedarnos más tranquilos y cuesta muy poco
-        if (!MiscUtil.equalsNullAllowed(this.namespaceURI,namespaceURI)) throw MiscUtil.internalError();
-        if (!MiscUtil.equalsNullAllowed(this.name,name)) throw MiscUtil.internalError();
-        if (!MiscUtil.equalsNullAllowed(this.value,value)) throw MiscUtil.internalError();
+        return (ResourceDescRemote)resourceDesc;
     }
 }

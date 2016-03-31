@@ -120,91 +120,91 @@ public class ElementValuesResources extends ElementValues
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ID,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getIdentifier(valueAsDOMAttr, type, xmlInflater);
+        return xmlInflaterRegistry.getIdentifier(valueAsDOMAttr.getResourceDesc(), type, xmlInflater);
     }
 
     public Animation getAnimation(String name,XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIM,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getAnimation(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getAnimation(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public Animator getAnimator(String name,XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIMATOR,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getAnimator(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getAnimator(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public boolean getBoolean(String name,XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_BOOL,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getBoolean(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getBoolean(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public int getColor(String name,XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_COLOR,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getColor(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getColor(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public Dimension getDimensionObject(String name, XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getDimensionObject(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getDimensionObject(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public PercFloat getDimensionPercFloat(String name, XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getDimensionPercFloat(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getDimensionPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public Drawable getDrawable(String name, XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DRAWABLE,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getDrawable(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getDrawable(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public LayoutValue getLayout(String name, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_LAYOUT,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getLayout(valueAsDOMAttr, xmlInflater, viewParent, indexChild, includeAttribs);
+        return xmlInflaterRegistry.getLayout(valueAsDOMAttr.getResourceDesc(), xmlInflater, viewParent, indexChild, includeAttribs);
     }
 
     public float getFloat(String name,XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_FLOAT,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getFloat(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getFloat(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public int getInteger(String name,XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_INTEGER,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getInteger(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getInteger(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public String getString(String name,XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getString(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getString(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public CharSequence getText(String name,XMLInflater xmlInflater)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name); // NO HAY tipo "text" tal y como <text name="somename">some <b>text</b></text>
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getText(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getText(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public CharSequence[] getTextArray(String name,XMLInflater xmlInflater)
@@ -215,7 +215,7 @@ public class ElementValuesResources extends ElementValues
         int i = 0;
         for(DOMAttr valueAsDOMAttr : valueAsDOMAttrList)
         {
-            res[i] = xmlInflaterRegistry.getText(valueAsDOMAttr, xmlInflater);
+            res[i] = xmlInflaterRegistry.getText(valueAsDOMAttr.getResourceDesc(), xmlInflater);
             i++;
         }
         return res;
@@ -228,7 +228,7 @@ public class ElementValuesResources extends ElementValues
         if (valueAsDOMAttr == null) valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_DIMEN, name);
         if (valueAsDOMAttr == null) throw new ItsNatDroidException("Expected a <string> or <item type=\"dimen\"> for resource name: " + name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getPercent(valueAsDOMAttr, xmlInflater);
+        return xmlInflaterRegistry.getPercent(valueAsDOMAttr.getResourceDesc(), xmlInflater);
     }
 
     public ElementValuesStyle getViewStyle(String name)

@@ -57,7 +57,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
                 value = "wrap_content";
             // Si no es uno de los casos anteriores esperamos el valor original ej "20dp"
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.createDOMAttr(NamespaceUtil.XMLNS_ANDROID, name, value);
             styleLayoutParamsAttribs.add(attr);
         }
 
@@ -82,7 +82,7 @@ public class ClassDescView_view_ViewGroup extends ClassDescViewBased
             String value = a.getString(i);
 
             String name = marginlayoutParamsNames[i];
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.createDOMAttr(NamespaceUtil.XMLNS_ANDROID, name, value);
             styleLayoutParamsAttribs.add(attr);
         }
 

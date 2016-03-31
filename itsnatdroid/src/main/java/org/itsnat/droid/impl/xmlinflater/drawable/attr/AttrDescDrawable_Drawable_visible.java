@@ -20,7 +20,7 @@ public class AttrDescDrawable_Drawable_visible<TattrTarget extends Drawable> ext
     @Override
     public void setAttribute(TattrTarget draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
-        boolean visible = getBoolean(attr, attrCtx.getXMLInflater());
+        boolean visible = getBoolean(attr.getResourceDesc(), attrCtx.getXMLInflater());
         boolean restart = true; // Ni idea
         draw.setVisible(visible, restart);
     }

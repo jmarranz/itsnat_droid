@@ -347,7 +347,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         DOMAttr domAttr = findAttribute(null, "style", attribMap);
         if (domAttr == null)
             return null;
-        return getXMLInflaterRegistry().getViewStyle(domAttr, xmlInflaterLayout);
+        return getXMLInflaterRegistry().getViewStyle(domAttr.getResourceDesc(), xmlInflaterLayout);
     }
 
     private View createViewObject(DOMAttributeMap attributeMap, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)

@@ -22,7 +22,7 @@ public class AttrDescReflecFieldSetFloat<TclassDesc extends ClassDesc,TattrTarge
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        float convertedValue = getFloat(attr,attrCtx.getXMLInflater());
+        float convertedValue = getFloat(attr.getResourceDesc(),attrCtx.getXMLInflater());
 
         setField(target,convertedValue);
     }

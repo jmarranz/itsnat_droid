@@ -5,13 +5,13 @@ package org.itsnat.droid.impl.dom;
  */
 public class DOMAttrAsset extends DOMAttrDynamic
 {
-    public DOMAttrAsset(String namespaceURI, String name, String value)
+    public DOMAttrAsset(String namespaceURI, String name, ResourceDescAsset resourceDesc)
     {
-        super(namespaceURI, name, value);
+        super(namespaceURI, name, resourceDesc);
     }
 
-    public static boolean isAsset(String value)
+    public ResourceDescAsset getResourceDescAsset()
     {
-        return value.startsWith("@assets:");
+        return (ResourceDescAsset)resourceDesc;
     }
 }

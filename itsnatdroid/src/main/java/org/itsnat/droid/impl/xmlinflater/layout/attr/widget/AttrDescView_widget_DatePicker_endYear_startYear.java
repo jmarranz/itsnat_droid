@@ -59,7 +59,7 @@ public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDesc<C
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final String year = getString(attr,attrCtx.getXMLInflaterLayout());
+        final String year = getString(attr.getResourceDesc(),attrCtx.getXMLInflaterLayout());
 
         Object datePickerObject = getDatePickerObject(view);
 

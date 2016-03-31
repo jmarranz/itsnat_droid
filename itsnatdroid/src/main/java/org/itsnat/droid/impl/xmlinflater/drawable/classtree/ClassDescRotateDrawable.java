@@ -79,7 +79,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
             mDrawableField.set(rotateState,childDrawable);
 
         DOMAttr pivotXAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "pivotX");
-        PercFloat pivotXObj = pivotXAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotXAttr,inflaterDrawable) : null;
+        PercFloat pivotXObj = pivotXAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotXAttr.getResourceDesc(),inflaterDrawable) : null;
         boolean pivotXRel;
         float pivotX;
         if (pivotXObj == null)
@@ -96,7 +96,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         mPivotXField.set(rotateState,pivotX);
 
         DOMAttr pivotYAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "pivotY");
-        PercFloat pivotYObj = pivotYAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotYAttr,inflaterDrawable) : null;
+        PercFloat pivotYObj = pivotYAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotYAttr.getResourceDesc(),inflaterDrawable) : null;
         boolean pivotYRel;
         float pivotY;
         if (pivotYObj == null)
@@ -114,12 +114,12 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
 
 
         DOMAttr fromDegreesAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "fromDegrees");
-        float fromDegrees = fromDegreesAttr != null ? xmlInflaterRegistry.getFloat(fromDegreesAttr,inflaterDrawable) : 0.0f;
+        float fromDegrees = fromDegreesAttr != null ? xmlInflaterRegistry.getFloat(fromDegreesAttr.getResourceDesc(),inflaterDrawable) : 0.0f;
         mFromDegreesField.set(rotateState,fromDegrees);
         mCurrentDegreesField.set(rotateState,fromDegrees);
 
         DOMAttr toDegreesAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "toDegrees");
-        float toDegrees = toDegreesAttr != null ? xmlInflaterRegistry.getFloat(toDegreesAttr,inflaterDrawable) : 360.0f;
+        float toDegrees = toDegreesAttr != null ? xmlInflaterRegistry.getFloat(toDegreesAttr.getResourceDesc(),inflaterDrawable) : 360.0f;
         mToDegreesField.set(rotateState,toDegrees);
 
         childDrawable.setCallback((Drawable.Callback)drawable); // childDrawable no puede ser nulo

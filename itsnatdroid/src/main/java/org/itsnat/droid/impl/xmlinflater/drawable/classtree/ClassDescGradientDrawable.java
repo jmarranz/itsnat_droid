@@ -114,39 +114,39 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         int shape = attrShape != null ? AttrDesc.<Integer>parseSingleName(attrShape.getValue(), shapeValueMap) : RECTANGLE;
 
         DOMAttr attrDither = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "dither");
-        boolean dither = attrDither != null ? xmlInflaterRegistry.getBoolean(attrDither,inflaterDrawable) : false;
+        boolean dither = attrDither != null ? xmlInflaterRegistry.getBoolean(attrDither.getResourceDesc(),inflaterDrawable) : false;
 
 
         if (shape == RING)
         {
             DOMAttr attrInnerRadius = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "innerRadius");
-            int innerRadius = attrInnerRadius != null ? xmlInflaterRegistry.getDimensionIntRound(attrInnerRadius, inflaterDrawable) : -1; // Hay que iniciar en -1 para que no se use
+            int innerRadius = attrInnerRadius != null ? xmlInflaterRegistry.getDimensionIntRound(attrInnerRadius.getResourceDesc(), inflaterDrawable) : -1; // Hay que iniciar en -1 para que no se use
             innerRadiusField.set(gradientState,innerRadius);
             if (innerRadius == -1)
             {
                 DOMAttr attrInnerRadiusRatio = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "innerRadiusRatio");
                 if (attrInnerRadiusRatio != null)
                 {
-                    float innerRadiusRatio = xmlInflaterRegistry.getFloat(attrInnerRadiusRatio, inflaterDrawable);
+                    float innerRadiusRatio = xmlInflaterRegistry.getFloat(attrInnerRadiusRatio.getResourceDesc(), inflaterDrawable);
                     innerRadiusRatioField.set(gradientState,innerRadiusRatio);
                 }
             }
 
             DOMAttr attrThickness = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "thickness");
-            int thickness = attrThickness != null ? xmlInflaterRegistry.getDimensionIntRound(attrThickness, inflaterDrawable) : -1;   // Hay que iniciar en -1 para que no se use
+            int thickness = attrThickness != null ? xmlInflaterRegistry.getDimensionIntRound(attrThickness.getResourceDesc(), inflaterDrawable) : -1;   // Hay que iniciar en -1 para que no se use
             thicknessField.set(gradientState,thickness);
             if (thickness == -1)
             {
                 DOMAttr attrThicknessRatio = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "thicknessRatio");
                 if (attrThicknessRatio != null)
                 {
-                    float thicknessRatio = xmlInflaterRegistry.getFloat(attrThicknessRatio,inflaterDrawable);
+                    float thicknessRatio = xmlInflaterRegistry.getFloat(attrThicknessRatio.getResourceDesc(),inflaterDrawable);
                     thicknessRatioField.set(gradientState,thicknessRatio);
                 }
             }
 
             DOMAttr attrUseLevelForShape = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "useLevel");
-            boolean useLevelForShape = attrUseLevelForShape != null ? xmlInflaterRegistry.getBoolean(attrUseLevelForShape, inflaterDrawable) : true;
+            boolean useLevelForShape = attrUseLevelForShape != null ? xmlInflaterRegistry.getBoolean(attrUseLevelForShape.getResourceDesc(), inflaterDrawable) : true;
             useLevelForShapeField.set(gradientState,useLevelForShape);
         }
 

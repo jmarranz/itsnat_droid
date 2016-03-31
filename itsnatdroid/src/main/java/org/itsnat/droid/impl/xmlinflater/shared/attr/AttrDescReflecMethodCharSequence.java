@@ -32,7 +32,7 @@ public class AttrDescReflecMethodCharSequence<TclassDesc extends ClassDesc,Tattr
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        CharSequence convValue = getText(attr, attrCtx.getXMLInflater());
+        CharSequence convValue = getText(attr.getResourceDesc(), attrCtx.getXMLInflater());
         callMethod(target, convValue);
     }
 

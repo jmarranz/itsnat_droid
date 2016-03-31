@@ -34,7 +34,7 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDesc<Class
                 String value = attr.getValue();
                 if (!value.isEmpty())
                 {
-                    int viewId = getIdentifier(attr, attrCtx.getXMLInflaterLayout());
+                    int viewId = getIdentifier(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
                     params.addRule(selector, viewId);
                 }
                 else

@@ -28,7 +28,7 @@ public class AttrDescView_widget_TextView_textAppearance extends AttrDesc<ClassD
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         Context ctx = attrCtx.getContext();
-        ViewStyleAttribs style = getViewStyle(attr, attrCtx.getXMLInflaterLayout());
+        ViewStyleAttribs style = getViewStyle(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
         List<DOMAttr> styleItemsDynamicAttribs = (style instanceof ViewStyleAttribsDynamic) ? new ArrayList<DOMAttr>() : null;
         int idStyleCompiledOrParent = getViewStyle(style,styleItemsDynamicAttribs,ctx);
 

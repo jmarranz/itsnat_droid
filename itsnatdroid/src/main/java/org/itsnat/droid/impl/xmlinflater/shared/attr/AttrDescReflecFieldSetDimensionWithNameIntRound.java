@@ -22,7 +22,7 @@ public class AttrDescReflecFieldSetDimensionWithNameIntRound<TclassDesc extends 
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        int convertedValue = getDimensionWithNameIntRound(attr, attrCtx.getXMLInflater());
+        int convertedValue = getDimensionWithNameIntRound(attr.getResourceDesc(), attrCtx.getXMLInflater());
 
         setField(target,convertedValue);
     }

@@ -23,7 +23,7 @@ public class AttrDescView_view_View_layout_width extends AttrDesc<ClassDescViewB
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int width = getDimensionWithNameIntRound(attr, attrCtx.getXMLInflaterLayout());
+        final int width = getDimensionWithNameIntRound(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
 
         Runnable task = new Runnable(){
             @Override

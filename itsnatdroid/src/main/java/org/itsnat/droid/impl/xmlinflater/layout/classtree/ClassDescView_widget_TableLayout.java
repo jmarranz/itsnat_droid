@@ -44,7 +44,7 @@ public class ClassDescView_widget_TableLayout extends ClassDescViewBased
 
             String name = layoutParamsNames[i];
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.createDOMAttr(NamespaceUtil.XMLNS_ANDROID, name, value);
             styleLayoutParamsAttribs.add(attr);
         }
 

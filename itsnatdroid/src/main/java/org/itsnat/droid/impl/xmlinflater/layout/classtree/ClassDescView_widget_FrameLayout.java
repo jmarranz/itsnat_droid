@@ -47,7 +47,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
             // Esperamos sólo name = "layout_gravity"
             String valueStr = GravityUtil.getNameFromValue(value); // Ej 0x30 | 0x50 => "top|bottom"
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,valueStr);
+            DOMAttr attr = DOMAttr.createDOMAttr(NamespaceUtil.XMLNS_ANDROID, name, valueStr);
             styleLayoutParamsAttribs.add(attr);
         }
 

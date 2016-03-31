@@ -64,7 +64,7 @@ public class ClassDescView_widget_RelativeLayout extends ClassDescViewBased
 
             String name = layoutParamsNames[i];
 
-            DOMAttr attr = DOMAttr.create(NamespaceUtil.XMLNS_ANDROID,name,value);
+            DOMAttr attr = DOMAttr.createDOMAttr(NamespaceUtil.XMLNS_ANDROID, name, value);
             styleLayoutParamsAttribs.add(attr);
         }
 

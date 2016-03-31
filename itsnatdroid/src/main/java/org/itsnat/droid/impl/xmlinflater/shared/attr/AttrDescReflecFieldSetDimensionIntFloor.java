@@ -20,6 +20,6 @@ public class AttrDescReflecFieldSetDimensionIntFloor<TclassDesc extends ClassDes
     @Override
     public int getDimensionInt(DOMAttr attr, XMLInflater xmlInflater)
     {
-        return getDimensionIntFloor(attr, xmlInflater);
+        return getDimensionIntFloor(attr.getResourceDesc(), xmlInflater);
     }
 }
