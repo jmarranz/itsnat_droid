@@ -21,6 +21,7 @@ public class XMLDOMRegistry
     protected XMLDOMCache<XMLDOMDrawable> domDrawableCache = new XMLDOMCache<XMLDOMDrawable>();
     protected XMLDOMCache<XMLDOMAnimator> domAnimatorCache = new XMLDOMCache<XMLDOMAnimator>();
     //protected XMLDOMCache<XMLDOMAnim> domAnimCache = new XMLDOMCache<XMLDOMAnim>();
+    // Menues???
     protected XMLDOMCache<XMLDOMValues> domValuesCache = new XMLDOMCache<XMLDOMValues>();
 
     public XMLDOMRegistry(ItsNatDroidImpl parent)
@@ -37,6 +38,9 @@ public class XMLDOMRegistry
     {
         domLayoutCache.clear();
         domDrawableCache.clear();
+        domAnimatorCache.clear();
+        // domAnimCache.clear();
+        // Menues???
         domValuesCache.clear();
     }
 

@@ -48,6 +48,12 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         return layoutParser;
     }
 
+    @Override
+    protected boolean isAndroidNSPrefixNeeded()
+    {
+        return true;
+    }
+
     public void parse(String markup,XMLDOMLayout domLayout)
     {
         StringReader input = new StringReader(markup);

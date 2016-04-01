@@ -13,6 +13,7 @@ public abstract class XMLDOM
     protected TimestampExtended timestampExt;
     protected MapLight<String,String> rootNamespacesByPrefix = new MapLight<String,String>(); // Se lee en multihilo pero se crea en monohilo por lo que no lo sincronizamos
     protected String androidNSPrefix;
+    protected String itsNatDroidResourceNSPrefix;
     protected DOMElement rootElement;
     protected LinkedList<DOMAttrRemote> remoteAttribList;
 
@@ -31,11 +32,19 @@ public abstract class XMLDOM
         return androidNSPrefix;
     }
 
+    public String getItsNatDroidResourceNSPrefix()
+    {
+        return itsNatDroidResourceNSPrefix;
+    }
+
     public void addNamespace(String prefix,String ns)
     {
         rootNamespacesByPrefix.put(prefix, ns);
+
         if (NamespaceUtil.XMLNS_ANDROID.equals(ns))
             this.androidNSPrefix = prefix;
+        else if (NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(ns))
+            this.itsNatDroidResourceNSPrefix = prefix;
     }
 
     public MapLight<String,String> getRootNamespacesByPrefix()

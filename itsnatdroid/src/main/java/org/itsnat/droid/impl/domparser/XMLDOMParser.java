@@ -70,21 +70,17 @@ public abstract class XMLDOMParser
         }
 
         if (isAndroidNSPrefixNeeded() && xmlDOM.getAndroidNSPrefix() == null)
-            throw new ItsNatDroidException("Missing android namespace declaration in root element");
+            throw new ItsNatDroidException("Missing android namespace declaration in the root element of the XML");
 
         DOMElement rootElement = createRootElementAndFillAttributes(rootElemName, parser, xmlDOM);
+        setRootElement(rootElement, xmlDOM);
 
         processChildElements(rootElement, parser, xmlDOM);
-
-        setRootElement(rootElement, xmlDOM);
 
         return rootElement;
     }
 
-    protected boolean isAndroidNSPrefixNeeded()
-    {
-        return true; // Se redefine
-    }
+    protected abstract boolean isAndroidNSPrefixNeeded();
 
     protected DOMElement createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {

@@ -33,7 +33,7 @@ public class XMLDOMAnimatorParser extends XMLDOMParser
     @Override
     protected boolean isAndroidNSPrefixNeeded()
     {
-        return false;
+        return true;
     }
 
     public void parse(String markup,XMLDOMAnimator xmlDOMAnimator)

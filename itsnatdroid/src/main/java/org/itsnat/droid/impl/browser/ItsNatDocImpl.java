@@ -23,6 +23,7 @@ import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.MimeUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.UINotification;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 
@@ -54,7 +55,8 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
             return new ItsNatDocItsNatImpl((PageItsNatImpl)page,errorMode);
         else if (page instanceof PageNotItsNatImpl)
             return new ItsNatDocNotItsNatImpl((PageNotItsNatImpl)page,errorMode);
-        return null; // Impossible
+        else
+            throw MiscUtil.internalError();
     }
 
     public XMLDOMParserContext getXMLDOMParserContext()

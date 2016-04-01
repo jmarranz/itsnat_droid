@@ -28,6 +28,12 @@ public class XMLDOMDrawableParser extends XMLDOMParser
         return new XMLDOMDrawableParser(xmlDOMParserContext);
     }
 
+    @Override
+    protected boolean isAndroidNSPrefixNeeded()
+    {
+        return true;
+    }
+
     public void parse(String markup,XMLDOMDrawable xmlDOMDrawable)
     {
         StringReader input = new StringReader(markup);
@@ -55,6 +61,7 @@ public class XMLDOMDrawableParser extends XMLDOMParser
         String rootElemName = getRootElementName(parser);
         parseRootElement(rootElemName,parser, xmlDOMDrawable);
     }
+
 
     @Override
     protected DOMElement createElement(String name,DOMElement parent)
