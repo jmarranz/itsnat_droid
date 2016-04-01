@@ -50,7 +50,10 @@ public abstract class XMLDOMParser
             parser.setInput(input);
             return parser;
         }
-        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
+        catch (XmlPullParserException ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
     }
 
     protected void setRootElement(DOMElement rootElement, XMLDOM xmlDOM)
@@ -58,7 +61,7 @@ public abstract class XMLDOMParser
         xmlDOM.setRootElement(rootElement);
     }
 
-    public DOMElement parseRootElement(String rootElemName,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    public DOMElement parseRootElement(String rootElemName, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         int nsStart = parser.getNamespaceCount(parser.getDepth() - 1);
         int nsEnd = parser.getNamespaceCount(parser.getDepth());
@@ -79,6 +82,7 @@ public abstract class XMLDOMParser
 
         return rootElement;
     }
+
 
     protected abstract boolean isAndroidNSPrefixNeeded();
 
@@ -183,12 +187,6 @@ public abstract class XMLDOMParser
         throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT VIEW");
     }
 
-    protected void addDOMAttr(DOMElement element, DOMAttr attrib, XMLDOM xmlDOMParent)
-    {
-        prepareDOMAttrToDownload(attrib,xmlDOMParent);
-        element.setDOMAttribute(attrib);
-    }
-
     protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
         DOMAttr attrib = DOMAttr.createDOMAttr(namespaceURI, name, value);
@@ -196,7 +194,13 @@ public abstract class XMLDOMParser
         return attrib;
     }
 
-    private void prepareDOMAttrToDownload(DOMAttr attrib, XMLDOM xmlDOMParent)
+    protected void addDOMAttr(DOMElement element, DOMAttr attrib, XMLDOM xmlDOMParent)
+    {
+        prepareDOMAttrToLoadResource(attrib, xmlDOMParent);
+        element.setDOMAttribute(attrib);
+    }
+
+    protected void prepareDOMAttrToLoadResource(DOMAttr attrib, XMLDOM xmlDOMParent)
     {
         if (attrib instanceof DOMAttrRemote)
         {
@@ -207,6 +211,7 @@ public abstract class XMLDOMParser
             DOMAttrAsset assetAttr = (DOMAttrAsset)attrib;
 
             String location = assetAttr.getResourceDescAsset().getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
+            // En assets el location empezará siempre con res/, AssetManager.open() NO admite el uso de ".." o /res . No pasa nada, los assets son para pruebas no es necesario que se comporte igual que en remoto (con HTTP)
             InputStream ims = null;
             byte[] res;
             try

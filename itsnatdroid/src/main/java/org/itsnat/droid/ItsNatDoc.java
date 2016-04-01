@@ -13,6 +13,7 @@ public interface ItsNatDoc
 {
     public Page getPage();
 
+    public ItsNatResources getItsNatResources();
     public View getRootView();
     public View findViewByXMLId(String id);
     public int getResourceIdentifier(String name);
@@ -41,7 +42,5 @@ public interface ItsNatDoc
 
     public void appendFragment(View parentView, String markup);
     public void insertFragment(View parentView, String markup, View viewRef);
-
-
 }
 

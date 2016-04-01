@@ -55,7 +55,7 @@ public class XMLDOMDownloader
             LinkedList<ResourceDescRemote> resDescRemoteList = new LinkedList<ResourceDescRemote>();
             for(DOMAttrRemote attr : attrRemoteList)
             {
-                resDescRemoteList.add((ResourceDescRemote)attr.getResourceDesc());
+                resDescRemoteList.add(attr.getResourceDescRemote());
             }
             downloadRemoteResources(resDescRemoteList);
         }

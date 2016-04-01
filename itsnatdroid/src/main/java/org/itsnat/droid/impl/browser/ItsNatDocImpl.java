@@ -12,6 +12,7 @@ import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidScriptException;
+import org.itsnat.droid.ItsNatResources;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.OnScriptErrorListener;
@@ -38,15 +39,18 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 {
     protected final PageImpl page;
     protected int errorMode;
+    protected final ItsNatResourcesImpl itsNatResources;
     protected final FragmentLayoutInserter fragmentLayoutInserter = new FragmentLayoutInserter(this);
     protected final ItsNatViewNullImpl nullView = new ItsNatViewNullImpl(this); // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
-    protected final DroidEventDispatcher eventDispatcher = DroidEventDispatcher.createDroidEventDispatcher(this);
+    protected final DroidEventDispatcher eventDispatcher = DroidEventDispatcher.createDroidEventDispatcher(this); // En el caso de "No ItsNat" hay un limitado soporte de inline event handlers (onclick etc)
+
     protected Handler handler;
 
     public ItsNatDocImpl(PageImpl page,int errorMode)
     {
         this.page = page;
         this.errorMode = errorMode;
+        this.itsNatResources = new ItsNatResourcesImpl(this); // Iniciamos aquí para que el atributo page esté ya definido
     }
 
     public static ItsNatDocImpl createItsNatDoc(PageImpl page,int errorMode)
@@ -62,6 +66,17 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     public XMLDOMParserContext getXMLDOMParserContext()
     {
         return getPageImpl().getXMLDOMParserContext();
+    }
+
+    @Override
+    public ItsNatResources getItsNatResources()
+    {
+        return getItsNatResourcesImpl();
+    }
+
+    public ItsNatResourcesImpl getItsNatResourcesImpl()
+    {
+        return itsNatResources;
     }
 
     @Override

@@ -20,11 +20,4 @@ public class ResourceDescRemote extends ResourceDescDynamic
     {
         return value.startsWith("@remote:");
     }
-
-    public static boolean isPendingToDownload(ResourceDesc resourceDesc)
-    {
-        return (resourceDesc instanceof ResourceDescRemote && !((ResourceDescRemote) resourceDesc).isDownloaded());
-    }
-
-
 }

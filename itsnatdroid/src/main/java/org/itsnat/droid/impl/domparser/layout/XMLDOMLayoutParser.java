@@ -1,13 +1,17 @@
 package org.itsnat.droid.impl.domparser.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMElemLayout;
 import org.itsnat.droid.impl.dom.layout.DOMElemMerge;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -84,6 +88,20 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
 
     public abstract XMLDOMLayout createXMLDOMLayout();
 
+
+    @Override
+    protected void prepareDOMAttrToLoadResource(DOMAttr attrib, XMLDOM xmlDOMParent)
+    {
+        if (!(attrib instanceof DOMAttrRemote))
+        {
+            if (NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(attrib.getNamespaceURI()))
+                throw new ItsNatDroidException("Value of attributes with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " must locate to remote resources");
+            // Los atributos con namespace XMLNS_ITSNATDROID_RESOURCE sirven para que sean detectados en el parseo como atributos remotos y se cargue automáticamente el recurso
+            // para poder ser accedidos via ItsNatResources.getLayout() etc
+        }
+
+        super.prepareDOMAttrToLoadResource(attrib,xmlDOMParent);
+    }
 
     @Override
     protected DOMElement createElement(String name,DOMElement parent)

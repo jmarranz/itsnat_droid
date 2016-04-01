@@ -33,6 +33,7 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
@@ -1342,6 +1343,8 @@ public class XMLInflaterRegistry
         AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
         ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getResource();
+        if (resource == null)
+            throw new ItsNatDroidException("Resource is still not loaded, maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
         XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
         InflatedAnimator inflatedAnimator = InflatedAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
 

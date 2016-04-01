@@ -24,6 +24,7 @@ import org.itsnat.droid.impl.dom.DOMAttributeMap;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
@@ -55,7 +56,7 @@ import java.util.Map;
 public class ClassDescViewBased extends ClassDesc<View>
 {
     protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP =
-            new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class, "generateDefaultLayoutParams");
+                            new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class, "generateDefaultLayoutParams");
 
     protected Class<View> clasz;
     protected Constructor<? extends View> constructor1P;
@@ -119,7 +120,8 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     protected boolean isAttributeIgnored(String namespaceURI, String name)
     {
-        return isStyleAttribute(namespaceURI, name) || isClassAttribute(namespaceURI, name); // Se trata de forma especial en otro lugar
+        return isStyleAttribute(namespaceURI, name) || isClassAttribute(namespaceURI, name) ||  // Se trata de forma especial en otro lugar
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI); // No se hace nada con ellos, son para precargar y acceder via ItsNatResources.getLayout() etc
     }
 
     public boolean setAttributeOrInlineEventHandler(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
