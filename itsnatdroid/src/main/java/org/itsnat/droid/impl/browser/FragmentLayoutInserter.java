@@ -109,7 +109,7 @@ public class FragmentLayoutInserter
         markup = newMarkup.toString();
 
         XMLDOMRegistry xmlDOMRegistry = xmlDOMParserContext.getXMLDOMRegistry();
-        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCache(markup,itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, xmlDOMParserContext);
+        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCacheByMarkup(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, xmlDOMParserContext);
         return xmlDOMLayout;
     }
 

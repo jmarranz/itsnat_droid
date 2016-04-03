@@ -13,7 +13,7 @@ public class ResourceDescRemote extends ResourceDescDynamic
 
     public boolean isDownloaded()
     {
-        return resource != null;
+        return parsedResource != null;
     }
 
     public static boolean isRemote(String value)

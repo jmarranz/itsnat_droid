@@ -143,7 +143,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
         XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,assetManager,configuration,displayMetrics);
 
-        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCache(markup,null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
+        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCacheByMarkup(markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
 
         int indexChild = parentView != null ? parentView.getChildCount() - 1 : -1;
 

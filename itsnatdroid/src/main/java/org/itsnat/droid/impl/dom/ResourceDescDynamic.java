@@ -25,7 +25,7 @@ public abstract class ResourceDescDynamic extends ResourceDesc
     protected final boolean ninePatch;
     protected final String mime;
     protected final String location;
-    protected volatile ParsedResource resource;
+    protected volatile ParsedResource parsedResource;
 
     public ResourceDescDynamic(String resourceDescValue)
     {
@@ -161,20 +161,20 @@ public abstract class ResourceDescDynamic extends ResourceDesc
         return mime;
     }
 
-    public ParsedResource getResource()
+    public ParsedResource getParsedResource()
     {
-        // Es sólo llamado en el hilo UI pero setResource se llama en multihilo
-        return resource;
+        // Es sólo llamado en el hilo UI pero setParsedResource se llama en multihilo
+        return parsedResource;
     }
 
-    public void setResource(ParsedResource resource)
+    public void setParsedResource(ParsedResource parsedResource)
     {
         // Es llamado en multihilo en el caso de recurso remoto (por eso es volatile)
         // No pasa nada porque se llame e inmediatamente después se cambie el valor, puede ocurrir que se esté procesando
         // el mismo atributo a la vez por dos hilos, ten en cuenta que el template puede estar cacheado y reutilizado, pero no pasa nada
         // porque el nuevo remoteResource NUNCA es null y es siempre el mismo recurso como mucho actualizado si ha cambiado
         // en el servidor
-        this.resource = resource;
+        this.parsedResource = parsedResource;
     }
 
 

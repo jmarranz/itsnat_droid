@@ -1062,7 +1062,7 @@ public class XMLInflaterRegistry
                     ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
                     AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
-                    ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getResource();
+                    ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
                     XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
                     InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
 
@@ -1071,7 +1071,7 @@ public class XMLInflaterRegistry
                 }
                 else if (MimeUtil.isMIMEResourceImage(resourceMime))
                 {
-                    ParsedResourceImage resource = (ParsedResourceImage) resourceDescDyn.getResource();
+                    ParsedResourceImage resource = (ParsedResourceImage) resourceDescDyn.getParsedResource();
                     byte[] byteArray = resource.getImgBytes();
                     boolean expectedNinePatch = resourceDescDyn.isNinePatch();
                     return DrawableUtil.createImageBasedDrawable(byteArray, bitmapDensityReference, expectedNinePatch, ctx.getResources());
@@ -1209,7 +1209,7 @@ public class XMLInflaterRegistry
             ItsNatDroidImpl itsNatDroid = xmlInflaterParent.getInflatedXML().getItsNatDroidImpl();
             AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
-            ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDesc.getResource();
+            ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDesc.getParsedResource();
             XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
             XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrInflaterListeners, ctx, pageParent);
@@ -1342,7 +1342,7 @@ public class XMLInflaterRegistry
 
         AttrInflaterListeners attrInflaterListeners = xmlInflaterParent.getAttrInflaterListeners();
 
-        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getResource();
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
         if (resource == null)
             throw new ItsNatDroidException("Resource is still not loaded, maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
         XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
@@ -1364,7 +1364,7 @@ public class XMLInflaterRegistry
 
     private ElementValuesResources getElementValuesResources(ResourceDescDynamic resourceDescDynamic, XMLInflater xmlInflaterParent)
     {
-        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)resourceDescDynamic.getResource();
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM)resourceDescDynamic.getParsedResource();
         XMLDOMValues xmlDOMValues = (XMLDOMValues)resource.getXMLDOM();
 
         // Una vez parseado XMLDOMValues y cargados los recursos remotos se cachea y NO se modifica (no hay un pre-clonado

@@ -297,19 +297,19 @@ public abstract class XMLDOMParser
             if (XMLDOMValues.TYPE_ANIM.equals(resourceType))
             {
                 throw new ItsNatDroidException("TO DO");
-                //xmlDOM = xmlDOMRegistry.getXMLDOMAnimCache(markup, xmlDOMParserContext);
+                //xmlDOM = xmlDOMRegistry.getXMLDOMAnimCacheByMarkup(markup, xmlDOMParserContext);
             }
             if (XMLDOMValues.TYPE_ANIMATOR.equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMAnimatorCache(markup, xmlDOMParserContext);
+                xmlDOM = xmlDOMRegistry.getXMLDOMAnimatorCacheByMarkup(markup, resourceDesc, xmlDOMParserContext);
             }
             else if (XMLDOMValues.TYPE_DRAWABLE.equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCache(markup, xmlDOMParserContext);
+                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCacheByMarkup(markup, xmlDOMParserContext);
             }
             else if (XMLDOMValues.TYPE_LAYOUT.equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, layoutType, xmlDOMParserContext);
+                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCacheByMarkup(markup, itsNatServerVersion, layoutType, xmlDOMParserContext);
             }
             else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType + " or missing ending :selector");
         }
@@ -319,12 +319,12 @@ public abstract class XMLDOMParser
             // Este es el caso de acceso a un item <drawable> de un XML values
             // Idem con <item name="..." type="layout">
 
-            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCache(markup,xmlDOMParserContext);
+            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCacheByMarkup(markup, xmlDOMParserContext);
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 
         ParsedResourceXMLDOM resource = new ParsedResourceXMLDOM(xmlDOM);
-        resourceDesc.setResource(resource);
+        resourceDesc.setParsedResource(resource);
 
         return resource;
     }
@@ -332,7 +332,7 @@ public abstract class XMLDOMParser
     public static ParsedResourceImage parseResourceDescDynamicResourceImage(ResourceDescDynamic resourceDesc, byte[] img)
     {
         ParsedResourceImage resource = new ParsedResourceImage(img);
-        resourceDesc.setResource(resource);
+        resourceDesc.setParsedResource(resource);
         return resource;
     }
 

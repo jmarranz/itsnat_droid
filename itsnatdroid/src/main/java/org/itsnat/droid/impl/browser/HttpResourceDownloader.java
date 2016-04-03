@@ -108,7 +108,7 @@ public class HttpResourceDownloader
                     }
                     if (parsedResource != null)
                     {
-                        resourceDesc.setResource(parsedResource.copy());
+                        resourceDesc.setParsedResource(parsedResource.copy());
                         return;
                     }
                     HttpRequestResultOKImpl resultResource = HttpUtil.httpGet(absURL, httpRequestData, null, resourceMime);

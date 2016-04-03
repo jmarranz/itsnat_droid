@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.domparser;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -17,12 +18,13 @@ import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
 public class XMLDOMRegistry
 {
     protected ItsNatDroidImpl parent;
-    protected XMLDOMCache<XMLDOMLayout> domLayoutCache = new XMLDOMCache<XMLDOMLayout>();
-    protected XMLDOMCache<XMLDOMDrawable> domDrawableCache = new XMLDOMCache<XMLDOMDrawable>();
-    protected XMLDOMCache<XMLDOMAnimator> domAnimatorCache = new XMLDOMCache<XMLDOMAnimator>();
-    //protected XMLDOMCache<XMLDOMAnim> domAnimCache = new XMLDOMCache<XMLDOMAnim>();
+    protected ResourceCache<XMLDOMLayout> layoutCacheByMarkup = new ResourceCache<XMLDOMLayout>();
+    protected ResourceCache<XMLDOMDrawable> drawableCacheByMarkup = new ResourceCache<XMLDOMDrawable>();
+    protected ResourceCache<XMLDOMAnimator> animatorCacheByMarkup = new ResourceCache<XMLDOMAnimator>();
+    protected ResourceCache<ResourceDescDynamic> animatorCacheByResDescValue = new ResourceCache<ResourceDescDynamic>(); // ResourceDescDynamic contiene el ParsedResource conteniendo el recurso y su localización
+    // protected XMLDOMCache<XMLDOMAnim> animCacheByMarkup = new XMLDOMCache<XMLDOMAnim>();
     // Menues???
-    protected XMLDOMCache<XMLDOMValues> domValuesCache = new XMLDOMCache<XMLDOMValues>();
+    protected ResourceCache<XMLDOMValues> valuesCacheByMarkup = new ResourceCache<XMLDOMValues>();
 
     public XMLDOMRegistry(ItsNatDroidImpl parent)
     {
@@ -36,17 +38,18 @@ public class XMLDOMRegistry
 
     public void cleanCaches()
     {
-        domLayoutCache.clear();
-        domDrawableCache.clear();
-        domAnimatorCache.clear();
+        layoutCacheByMarkup.clear();
+        drawableCacheByMarkup.clear();
+        animatorCacheByMarkup.clear();
+        animatorCacheByResDescValue.clear();
         // domAnimCache.clear();
         // Menues???
-        domValuesCache.clear();
+        valuesCacheByMarkup.clear();
     }
 
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion,XMLDOMLayoutParser.LayoutType layoutType,XMLDOMParserContext xmlDOMParserContext)
+    public XMLDOMLayout getXMLDOMLayoutCacheByMarkup(String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
     {
-        // Este método DEBE ser multihilo, el objeto domLayoutCache ya lo es.
+        // Este método DEBE ser multihilo, el objeto layoutCacheByMarkup ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
         // es un caché.
 
@@ -62,12 +65,12 @@ public class XMLDOMRegistry
         else
             markupWithoutLoadScript[0] = markup;
 
-        XMLDOMLayout cachedXMLDOMLayout = domLayoutCache.get(markupWithoutLoadScript[0]);
+        XMLDOMLayout cachedXMLDOMLayout = layoutCacheByMarkup.get(markupWithoutLoadScript[0]);
         if (cachedXMLDOMLayout == null)
         {
             XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,layoutType,xmlDOMParserContext);
             cachedXMLDOMLayout = layoutParser.createXMLDOMLayout();
-            domLayoutCache.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
+            layoutCacheByMarkup.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
 
             layoutParser.parse(markup,cachedXMLDOMLayout);
             if (cachedXMLDOMLayout instanceof XMLDOMLayoutPageItsNat)
@@ -85,39 +88,45 @@ public class XMLDOMRegistry
         return clonedDOMLayout;
     }
 
-    public XMLDOMDrawable getXMLDOMDrawableCache(String markup,XMLDOMParserContext xmlDOMParserContext)
+    public XMLDOMDrawable getXMLDOMDrawableCacheByMarkup(String markup, XMLDOMParserContext xmlDOMParserContext)
     {
-        // Ver notas de getXMLDOMLayoutCache()
-        XMLDOMDrawable cachedXMLDOMDrawable = domDrawableCache.get(markup);
+        // Ver notas de getXMLDOMLayoutCacheByMarkup()
+        XMLDOMDrawable cachedXMLDOMDrawable = drawableCacheByMarkup.get(markup);
         if (cachedXMLDOMDrawable != null) return cachedXMLDOMDrawable;
 
         cachedXMLDOMDrawable = new XMLDOMDrawable();
-        domDrawableCache.put(markup, cachedXMLDOMDrawable); // Cacheamos cuanto antes pues puede haber recursividad
+        drawableCacheByMarkup.put(markup, cachedXMLDOMDrawable); // Cacheamos cuanto antes pues puede haber recursividad
 
         XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(xmlDOMParserContext);
         parser.parse(markup,cachedXMLDOMDrawable);
         return cachedXMLDOMDrawable;
     }
 
-    public XMLDOMAnimator getXMLDOMAnimatorCache(String markup,XMLDOMParserContext xmlDOMParserContext)
+    public XMLDOMAnimator getXMLDOMAnimatorCacheByMarkup(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
     {
-        // Ver notas de getXMLDOMLayoutCache()
-        XMLDOMAnimator cachedXMLDOMAnimator = domAnimatorCache.get(markup);
+        // Ver notas de getXMLDOMLayoutCacheByMarkup()
+        XMLDOMAnimator cachedXMLDOMAnimator = animatorCacheByMarkup.get(markup);
         if (cachedXMLDOMAnimator != null)
             return cachedXMLDOMAnimator;
 
         cachedXMLDOMAnimator = new XMLDOMAnimator();
-        domAnimatorCache.put(markup, cachedXMLDOMAnimator); // Cacheamos cuanto antes pues puede haber recursividad
+        animatorCacheByMarkup.put(markup, cachedXMLDOMAnimator); // Cacheamos cuanto antes pues puede haber recursividad
+        animatorCacheByResDescValue.put(resourceDesc.getResourceDescValue(), resourceDesc);
 
         XMLDOMAnimatorParser parser = XMLDOMAnimatorParser.createXMLDOMAnimatorParser(xmlDOMParserContext);
         parser.parse(markup,cachedXMLDOMAnimator);
         return cachedXMLDOMAnimator;
     }
 
-    public XMLDOMValues getXMLDOMValuesCache(String markup,XMLDOMParserContext xmlDOMParserContext)
+    public ResourceDescDynamic getResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
-        // Ver notas de getXMLDOMLayoutCache()
-        XMLDOMValues cachedXMLDOMValues = domValuesCache.get(markup);
+        return animatorCacheByResDescValue.get(resourceDescValue);
+    }
+
+    public XMLDOMValues getXMLDOMValuesCacheByMarkup(String markup, XMLDOMParserContext xmlDOMParserContext)
+    {
+        // Ver notas de getXMLDOMLayoutCacheByMarkup()
+        XMLDOMValues cachedXMLDOMValues = valuesCacheByMarkup.get(markup);
         if (cachedXMLDOMValues != null)
         {
 //System.out.println("CACHED cachedXMLDOMValues");
@@ -125,7 +134,7 @@ public class XMLDOMRegistry
         }
 
         cachedXMLDOMValues = new XMLDOMValues();
-        domValuesCache.put(markup, cachedXMLDOMValues); // Cacheamos cuanto antes pues puede haber recursividad
+        valuesCacheByMarkup.put(markup, cachedXMLDOMValues); // Cacheamos cuanto antes pues puede haber recursividad
 
         XMLDOMValuesParser parser = XMLDOMValuesParser.createXMLDOMValuesParser(xmlDOMParserContext);
         parser.parse(markup,cachedXMLDOMValues);

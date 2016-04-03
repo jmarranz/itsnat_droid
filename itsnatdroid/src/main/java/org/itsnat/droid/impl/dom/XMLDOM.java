@@ -10,7 +10,6 @@ import java.util.LinkedList;
  */
 public abstract class XMLDOM
 {
-    protected TimestampExtended timestampExt;
     protected MapLight<String,String> rootNamespacesByPrefix = new MapLight<String,String>(); // Se lee en multihilo pero se crea en monohilo por lo que no lo sincronizamos
     protected String androidNSPrefix;
     protected String itsNatDroidResourceNSPrefix;
@@ -19,12 +18,7 @@ public abstract class XMLDOM
 
     public XMLDOM()
     {
-        this.timestampExt = new TimestampExtended();
-    }
 
-    public TimestampExtended getTimestampExtended()
-    {
-        return timestampExt;
     }
 
     public String getAndroidNSPrefix()
@@ -80,7 +74,6 @@ public abstract class XMLDOM
 
     public void partialClone(XMLDOM cloned)
     {
-        cloned.timestampExt = new TimestampExtended(this.timestampExt); // No es necesario clonar pero así aseguramos que no el original no cambia a través del clone accidentalmente y viceversa
         cloned.rootNamespacesByPrefix = this.rootNamespacesByPrefix;
         cloned.androidNSPrefix = this.androidNSPrefix;
         cloned.rootElement = this.rootElement;

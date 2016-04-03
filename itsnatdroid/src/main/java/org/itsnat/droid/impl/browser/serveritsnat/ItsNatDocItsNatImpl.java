@@ -243,8 +243,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         {
             ResourceDescRemote resourceDescRemote = (ResourceDescRemote)resourceDesc;
             DOMAttrRemote attrWithRes = attrRemoteListBSParsed.removeFirst();
-            attr.checkEquals(attrWithRes.getNamespaceURI(), attrWithRes.getName(), attrWithRes.getValue()); // Para estar tranquilos de que to_do va bien (es el mismo atributor, podemos copiar el objeto Resource)
-            resourceDescRemote.setResource(attrWithRes.getResourceDescRemote().getResource());
+            attr.checkEquals(attrWithRes.getNamespaceURI(), attrWithRes.getName(), attrWithRes.getValue()); // Para estar tranquilos de que to_do va bien (es el mismo atributo, podemos copiar el objeto ParsedResource)
+            resourceDescRemote.setParsedResource(attrWithRes.getResourceDescRemote().getParsedResource());
         }
         return attr;
     }

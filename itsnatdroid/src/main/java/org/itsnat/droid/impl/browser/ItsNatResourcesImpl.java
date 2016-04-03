@@ -2,8 +2,12 @@ package org.itsnat.droid.impl.browser;
 
 import android.animation.Animator;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatResources;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.ResourceDesc;
+import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -14,11 +18,14 @@ public class ItsNatResourcesImpl implements ItsNatResources
 {
     protected final ItsNatDocImpl itsNatDoc;
     protected final XMLInflaterRegistry xmlInflaterRegistry;
+    protected final XMLDOMRegistry xmlDOMRegistry;
 
     public ItsNatResourcesImpl(ItsNatDocImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
-        this.xmlInflaterRegistry = itsNatDoc.getPageImpl().getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflaterRegistry();
+        ItsNatDroidImpl itsNatDroid = itsNatDoc.getPageImpl().getItsNatDroidBrowserImpl().getItsNatDroidImpl();
+        this.xmlInflaterRegistry = itsNatDroid.getXMLInflaterRegistry();
+        this.xmlDOMRegistry = itsNatDroid.getXMLDOMRegistry();
     }
 
     private XMLInflaterLayoutPage getXMLInflaterLayoutPage()
@@ -26,9 +33,15 @@ public class ItsNatResourcesImpl implements ItsNatResources
         return itsNatDoc.getPageImpl().getXMLInflaterLayoutPage();
     }
 
-    public Animator getAnimator(String resourceDesc)
+    private ItsNatDroidException newException(String resourceDescValue)
     {
-        ResourceDesc resourceDescObj = ResourceDesc.create(resourceDesc);
-        return xmlInflaterRegistry.getAnimator(resourceDescObj,getXMLInflaterLayoutPage());
+        return new ItsNatDroidException("Resource " + resourceDescValue + " is still not loaded, maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+    }
+
+    public Animator getAnimator(String resourceDescValue)
+    {
+        ResourceDesc resourceDesc = xmlDOMRegistry.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        if (resourceDesc == null) throw newException(resourceDescValue);
+        return xmlInflaterRegistry.getAnimator(resourceDesc,getXMLInflaterLayoutPage());
     }
 }

@@ -161,7 +161,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         {
             // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
             ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
-            ParsedResourceImage resource = (ParsedResourceImage)resourceDescDyn.getResource();
+            ParsedResourceImage resource = (ParsedResourceImage)resourceDescDyn.getParsedResource();
             byte[] byteArray = resource.getImgBytes();
             Resources res = ctx.getResources();
             return DrawableUtil.createBitmap(byteArray, bitmapDensityReference, res);
