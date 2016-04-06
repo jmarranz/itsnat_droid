@@ -105,13 +105,17 @@ public class XMLDOMRegistry
     public XMLDOMAnimator getXMLDOMAnimatorCacheByMarkup(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
     {
         // Ver notas de getXMLDOMLayoutCacheByMarkup()
+        String resourceDescValue = resourceDesc.getResourceDescValue();
+        if (animatorCacheByResDescValue.get(resourceDescValue) == null)
+            animatorCacheByResDescValue.put(resourceDescValue, resourceDesc); // Lo hacemos antes de animatorCacheByMarkup.get() de esta manera cacheamos también en el caso raro de dos archivos con el mismo markup, por otra parte en el caso de que ya exista se actualiza el timestamp del recurso al hacer el get (recurso recientemente usado)
+
         XMLDOMAnimator cachedXMLDOMAnimator = animatorCacheByMarkup.get(markup);
         if (cachedXMLDOMAnimator != null)
             return cachedXMLDOMAnimator;
 
         cachedXMLDOMAnimator = new XMLDOMAnimator();
         animatorCacheByMarkup.put(markup, cachedXMLDOMAnimator); // Cacheamos cuanto antes pues puede haber recursividad
-        animatorCacheByResDescValue.put(resourceDesc.getResourceDescValue(), resourceDesc);
+
 
         XMLDOMAnimatorParser parser = XMLDOMAnimatorParser.createXMLDOMAnimatorParser(xmlDOMParserContext);
         parser.parse(markup,cachedXMLDOMAnimator);

@@ -95,9 +95,9 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         if (!(attrib instanceof DOMAttrRemote))
         {
             if (NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(attrib.getNamespaceURI()))
-                throw new ItsNatDroidException("Value of attributes with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " must locate to remote resources");
-            // Los atributos con namespace XMLNS_ITSNATDROID_RESOURCE sirven para que sean detectados en el parseo como atributos remotos y se cargue automáticamente el recurso
-            // para poder ser accedidos via ItsNatResources.getLayout() etc
+                throw new ItsNatDroidException("Values of attributes with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " must reference remote resources");
+            // Los atributos con namespace XMLNS_ITSNATDROID_RESOURCE sirven para que sean detectados en el parseo como atributos remotos y se cargue automáticamente el recurso asociado
+            // para poder ser accedidos via ItsNatResources.getLayout() etc e ignorados en el proceso normal de atributos
         }
 
         super.prepareDOMAttrToLoadResource(attrib,xmlDOMParent);
