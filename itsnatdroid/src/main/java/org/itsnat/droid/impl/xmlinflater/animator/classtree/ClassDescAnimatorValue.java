@@ -207,7 +207,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         super.init();
 
         addAttrDescAN(new AttrDescReflecMethodInt(this, "repeatCount", 0)); // Se puede llamar independientemente de valueFrom y valueTo
-        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "repeat"));  // "
+        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));  // "
     }
 
 }

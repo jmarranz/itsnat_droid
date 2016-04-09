@@ -55,7 +55,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         HttpRequestData httpRequestData = new HttpRequestData(page);
 
         String itsNatServerVersion = page.getItsNatServerVersion();
-        Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
+        Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>(); // es temporal, sólo dura durante la request, la cual suele cargar múltiples recursos y a veces de forma repetida
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
         AssetManager assetManager = res.getAssets();
         Configuration configuration = res.getConfiguration();
@@ -101,7 +101,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
     }
 
     public static List<HttpRequestResultOKImpl> executeInBackground(List<ResourceDescRemote> resDescRemoteList,String pageURLBase,HttpRequestData httpRequestData, String itsNatServerVersion,
-                                            Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext) throws Exception
+                                                                    Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext) throws Exception
     {
         // Llamado en multithread en caso de async
         HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);

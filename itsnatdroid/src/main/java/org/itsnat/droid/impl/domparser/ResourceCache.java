@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.domparser;
 
 import org.itsnat.droid.impl.dom.TimestampExtended;
 import org.itsnat.droid.impl.dom.TimestampExtendedComparator;
-import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.HashMap;
