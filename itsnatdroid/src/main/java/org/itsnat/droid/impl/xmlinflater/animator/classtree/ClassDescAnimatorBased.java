@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
@@ -128,7 +129,7 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
                 }
             };
             if (DOMAttrRemote.isPendingToDownload(attr)) // Ver comentarios en la clase equivalente de drawables, layouts etc
-                AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
+                AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflaterContext());
             else
                 task.run();
 
@@ -148,8 +149,8 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
             }
             else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
             {
-                XMLInflaterAnimator xmlInflaterAnimator = attrCtx.getXMLInflaterAnimator();
-                return processSetAttrCustom(animator, namespaceURI, name, value, xmlInflaterAnimator);
+                XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
+                return processSetAttrCustom(animator, namespaceURI, name, value, xmlInflaterContext);
             }
         }
 
@@ -195,32 +196,32 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
                 }
                 else
                 {
-                    XMLInflaterAnimator xmlInflaterAnimator = attrCtx.getXMLInflaterAnimator();
-                    return processRemoveAttrCustom(animator, namespaceURI, name, xmlInflaterAnimator);
+                    XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
+                    return processRemoveAttrCustom(animator, namespaceURI, name, xmlInflaterContext);
                 }
             }
 
     }
 
-    private boolean processSetAttrCustom(Animator animator, String namespaceURI, String name, String value, XMLInflaterAnimator xmlInflaterAnimator)
+    private boolean processSetAttrCustom(Animator animator, String namespaceURI, String name, String value, XMLInflaterContext xmlInflaterContext)
     {
         // No se encuentra opción de proceso custom
-        AttrAnimatorInflaterListener listener = xmlInflaterAnimator.getAttrAnimatorInflaterListener();
+        AttrAnimatorInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrAnimatorInflaterListener();
         if(listener!=null)
         {
-            PageImpl page = PageImpl.getPageImpl(xmlInflaterAnimator); // Puede ser null
+            PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
             return listener.setAttribute(page, animator, namespaceURI, name, value);
         }
         return false;
     }
 
-    private boolean processRemoveAttrCustom(Animator animator, String namespaceURI, String name, XMLInflaterAnimator xmlInflaterAnimator)
+    private boolean processRemoveAttrCustom(Animator animator, String namespaceURI, String name, XMLInflaterContext xmlInflaterContext)
     {
         // No se encuentra opción de proceso custom
-        AttrAnimatorInflaterListener listener = xmlInflaterAnimator.getAttrAnimatorInflaterListener();
+        AttrAnimatorInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrAnimatorInflaterListener();
         if(listener!=null)
         {
-            PageImpl page = PageImpl.getPageImpl(xmlInflaterAnimator); // Puede ser null
+            PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
             return listener.removeAttribute(page, animator, namespaceURI, name);
         }
         return false;

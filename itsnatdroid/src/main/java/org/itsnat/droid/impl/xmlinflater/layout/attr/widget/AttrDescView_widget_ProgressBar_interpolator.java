@@ -21,7 +21,7 @@ public class AttrDescView_widget_ProgressBar_interpolator extends AttrDesc<Class
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int resId = getIdentifier(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
+        int resId = getIdentifier(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
 
         ((ProgressBar)view).setInterpolator(attrCtx.getContext(), resId);
     }

@@ -23,7 +23,7 @@ public class AttrDescView_widget_Spinner_dropDownVerticalOffset extends AttrDesc
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convertedValue = getDimensionIntFloor(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
+        int convertedValue = getDimensionIntFloor(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
 
         try
         {

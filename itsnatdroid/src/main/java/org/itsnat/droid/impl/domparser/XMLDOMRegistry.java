@@ -122,7 +122,7 @@ public class XMLDOMRegistry
         return cachedXMLDOMAnimator;
     }
 
-    public ResourceDescDynamic getResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
+    public ResourceDescDynamic getAnimatorResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
         return animatorCacheByResDescValue.get(resourceDescValue);
     }

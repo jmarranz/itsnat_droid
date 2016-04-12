@@ -48,7 +48,7 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
                 ArrayList<DOMAttr> includeAttribs = ((_IncludeFakeViewGroup_)view).getAttribs();
 
                 //int countBefore = viewParent.getChildCount();
-                View resView = getViewLayout(attr.getResourceDesc(), xmlInflater, viewParent, indexOfInclude, includeAttribs);
+                View resView = getViewLayout(attr.getResourceDesc(),attrCtx.getXMLInflaterContext(), xmlInflater, viewParent, indexOfInclude, includeAttribs);
                 if (resView != viewParent) throw new ItsNatDroidException("Internal Error"); // Es así, ten en cuenta que el layout incluido puede ser un <merge> con varios views, si viewParent es no nulo se devuelve viewParent, idem que en el inflado nativo
 
                 // Test para ver que se ha insertado si fue al final (eliminar en el futuro):

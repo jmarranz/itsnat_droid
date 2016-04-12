@@ -210,31 +210,43 @@ public abstract class XMLDOMParser
         {
             DOMAttrAsset assetAttr = (DOMAttrAsset)attrib;
 
-            String location = assetAttr.getResourceDescAsset().getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
-            // En assets el location empezará siempre con res/, AssetManager.open() NO admite el uso de ".." o /res . No pasa nada, los assets son para pruebas no es necesario que se comporte igual que en remoto (con HTTP)
-            InputStream ims = null;
-            byte[] res;
-            try
+            prepareResourceDescAssetToLoadResource(assetAttr.getResourceDescAsset());
+        }
+        // Nada que preparar
+    }
+
+    public void prepareResourceDescAssetToLoadResource(ResourceDescAsset resourceDescAsset)
+    {
+        String location = resourceDescAsset.getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
+        // En assets el location empezará siempre con res/, AssetManager.open() NO admite el uso de ".." o /res . No pasa nada, los assets son para pruebas no es necesario que se comporte igual que en remoto (con HTTP)
+        InputStream ims = null;
+        byte[] res;
+        try
+        {
+            // AssetManager.open es multihilo, de todas formas va a ser MUY raro que usemos assets junto a remote
+            // http://www.netmite.com/android/mydroid/frameworks/base/libs/utils/AssetManager.cpp
+            AssetManager assetManager = xmlDOMParserContext.getAssetManager();
+            ims = assetManager.open(location);
+            res = IOUtil.read(ims);
+        }
+        catch (IOException ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+        finally
+        {
+            if (ims != null) try
             {
-                // AssetManager.open es multihilo, de todas formas va a ser MUY raro que usemos assets junto a remote
-                // http://www.netmite.com/android/mydroid/frameworks/base/libs/utils/AssetManager.cpp
-                AssetManager assetManager = xmlDOMParserContext.getAssetManager();
-                ims = assetManager.open(location);
-                res = IOUtil.read(ims);
+                ims.close();
             }
             catch (IOException ex)
             {
                 throw new ItsNatDroidException(ex);
             }
-            finally
-            {
-                if (ims != null) try { ims.close(); } catch (IOException ex) { throw new ItsNatDroidException(ex); }
-            }
-
-            parseResourceDescAsset(assetAttr.getResourceDescAsset(), res);
         }
-    }
 
+        parseResourceDescAsset(resourceDescAsset, res);
+    }
 
     private ParsedResource parseResourceDescAsset(ResourceDescAsset resourceDescAsset, byte[] input)
     {
@@ -242,7 +254,7 @@ public abstract class XMLDOMParser
         if (MimeUtil.isMIMEResourceXML(resourceMime))
         {
             String markup = StringUtil.toString(input, "UTF-8");
-            ParsedResourceXMLDOM resource = parseResourceDescDynamicXML(resourceDescAsset, markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
+            ParsedResourceXMLDOM resource = parseResourceDescDynamicXML(markup, resourceDescAsset, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
             XMLDOM xmlDOM = resource.getXMLDOM();
             if (xmlDOM.getDOMAttrRemoteList() != null)
                 throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
@@ -271,7 +283,7 @@ public abstract class XMLDOMParser
 
             String itsNatServerVersion = resultRes.getItsNatServerVersion(); // Puede ser null
 
-            ParsedResourceXMLDOM resource = parseResourceDescDynamicXML(resourceDescRemote, markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMParserContext);
+            ParsedResourceXMLDOM resource = parseResourceDescDynamicXML(markup, resourceDescRemote, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMParserContext);
             return resource;
         }
         else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -284,7 +296,7 @@ public abstract class XMLDOMParser
     }
 
 
-    private static ParsedResourceXMLDOM parseResourceDescDynamicXML(ResourceDescDynamic resourceDesc, String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
+    private static ParsedResourceXMLDOM parseResourceDescDynamicXML(String markup,ResourceDescDynamic resourceDesc, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
     {
         XMLDOMRegistry xmlDOMRegistry = xmlDOMParserContext.getXMLDOMRegistry();
 

@@ -43,7 +43,6 @@ public abstract class PageImpl implements Page
     protected final XMLDOMParserContext xmlDOMParserContext;
 
     protected final int bitmapDensityReference;
-    protected int errorMode;
     protected final XMLInflaterLayoutPage xmlInflaterLayoutPage;
     protected final String uniqueIdForInterpreter;
     protected final Interpreter interp;
@@ -74,8 +73,12 @@ public abstract class PageImpl implements Page
         this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter)); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 
+        XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
+        InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(itsNatDroid,this);
+        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null,-1,this);
+
         int errorMode = pageRequestCloned.getClientErrorMode(); // En una página devuelta por ItsNat Server será reemplazado en el init
-        this.itsNatDoc = ItsNatDocImpl.createItsNatDoc(this,errorMode);
+        this.itsNatDoc = ItsNatDocImpl.createItsNatDoc(this,errorMode); // El último para que  PageImpl esté ya bien creado antes de inicializar  ItsNatDocImpl
 
         // Definimos pronto el itsNatDoc para que los layout include tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc antes de inflarlos
         try
@@ -99,12 +102,6 @@ public abstract class PageImpl implements Page
 
         itsNatDoc.eval(methods.toString()); // Rarísimo que de error
 
-        InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(itsNatDroid,this);
-
-
-        XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
-
-        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null,-1,this);
 
         InflatedLayoutPageImpl inflatedLayoutPage = xmlInflaterLayoutPage.getInflatedLayoutPageImpl();
 
@@ -126,6 +123,11 @@ public abstract class PageImpl implements Page
     public static PageImpl getPageImpl(XMLInflater xmlInflater)
     {
         InflatedXML inflatedXML = xmlInflater.getInflatedXML();
+        return getPageImpl(inflatedXML);
+    }
+
+    public static PageImpl getPageImpl(InflatedXML inflatedXML)
+    {
         if (inflatedXML instanceof InflatedXMLPage) // Contiene un PageImpl
             return ((InflatedXMLPage)inflatedXML).getPageImpl();
         return null;
@@ -195,11 +197,6 @@ public abstract class PageImpl implements Page
     public int getBitmapDensityReference()
     {
         return bitmapDensityReference;
-    }
-
-    public int getClientErrorMode()
-    {
-        return errorMode;
     }
 
     @Override

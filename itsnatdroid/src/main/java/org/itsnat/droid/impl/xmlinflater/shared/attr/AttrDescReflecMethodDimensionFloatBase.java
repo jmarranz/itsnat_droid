@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
-import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
@@ -33,7 +33,7 @@ public abstract class AttrDescReflecMethodDimensionFloatBase<TclassDesc extends 
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        float convValue = getDimensionFloatAbstract(attr, attrCtx.getXMLInflater());
+        float convValue = getDimensionFloatAbstract(attr, attrCtx.getXMLInflaterContext());
         callMethod(target, convValue);
     }
 
@@ -45,5 +45,5 @@ public abstract class AttrDescReflecMethodDimensionFloatBase<TclassDesc extends 
             callMethod(target, defaultValue);
     }
 
-    public abstract float getDimensionFloatAbstract(DOMAttr attr, XMLInflater xmlInflater);
+    public abstract float getDimensionFloatAbstract(DOMAttr attr, XMLInflaterContext xmlInflaterContext);
 }

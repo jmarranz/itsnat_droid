@@ -22,7 +22,7 @@ public class AttrDescView_view_View_layout_weight extends AttrDesc<ClassDescView
     @Override
     public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final float weight = getFloat(attr.getResourceDesc(),attrCtx.getXMLInflaterLayout());
+        final float weight = getFloat(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
 
         Runnable task = new Runnable(){
             @Override

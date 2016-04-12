@@ -68,8 +68,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     private static final String key_itsNatUserListenersByName = "itsNatUserListenersByName";
 
     protected String itsNatServletPath; // Definido en el servidor
-    protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
-    protected DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
+    protected final Map<String,Node> nodeCacheById = new HashMap<String,Node>();
+    protected final DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
     protected Map<String,DroidEventListener> droidEventListeners;
     protected Map<String,TimerEventListener> timerEventListeners;
     protected Map<String,UserEventListener> userListenersById;
@@ -82,7 +82,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
     protected boolean enableEvtMonitors = true;
     protected List<EventMonitor> evtMonitorList;
-    protected EventManager evtManager = new EventManager(this);
+    protected final EventManager evtManager = new EventManager(this);
     protected LinkedList<DOMAttrRemote> attrRemoteListBSParsed;
 
 

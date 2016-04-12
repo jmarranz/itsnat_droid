@@ -10,6 +10,8 @@ import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
@@ -37,16 +39,17 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
-        inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
+        XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
+        XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
+
+        xmlInflaterDrawable.processChildElements(rootElem, elementDrawableRoot,attrCtx);
         ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
 
-        Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable,childList);
-
-        //XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
+        Drawable childDrawable = getChildDrawable("drawable", rootElem, xmlInflaterContext,childList);
 
         DOMAttr attrGravity = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "gravity");
         int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso

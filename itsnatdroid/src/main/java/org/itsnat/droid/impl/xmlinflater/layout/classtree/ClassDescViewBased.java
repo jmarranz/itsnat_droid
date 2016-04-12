@@ -27,6 +27,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -177,7 +178,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                 }
             };
             if (DOMAttrRemote.isPendingToDownload(attr)) // Hay al menos un caso es el cuando una página remota NO generada por ItsNat tiene Views que por ejemplo referencian recursos remotos tal y como drawables, al menos así damos más soporte a las páginas no ItsNat
-                AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflater());
+                AttrDesc.processDownloadTask((DOMAttrRemote) attr, task, attrCtx.getXMLInflaterContext());
             else
                 task.run();
 
@@ -197,8 +198,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             }
             else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
             {
-                XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-                return processSetAttrCustom(view, namespaceURI, name, value, xmlInflaterLayout);
+                return processSetAttrCustom(view, namespaceURI, name, value, attrCtx.getXMLInflaterContext());
             }
 
         }
@@ -253,32 +253,31 @@ public class ClassDescViewBased extends ClassDesc<View>
             }
             else
             {
-                XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-                return processRemoveAttrCustom(view, namespaceURI, name, xmlInflaterLayout);
+                return processRemoveAttrCustom(view, namespaceURI, name, attrCtx.getXMLInflaterContext());
             }
         }
 
     }
 
-    private boolean processSetAttrCustom(View view, String namespaceURI, String name, String value, XMLInflaterLayout xmlInflaterLayout)
+    private boolean processSetAttrCustom(View view, String namespaceURI, String name, String value, XMLInflaterContext xmlInflaterContext)
     {
         // No se encuentra opción de proceso custom
-        AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+        AttrLayoutInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrLayoutInflaterListener();
         if(listener!=null)
         {
-            PageImpl page = PageImpl.getPageImpl(xmlInflaterLayout); // Puede ser null
+            PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
             return listener.setAttribute(page, view, namespaceURI, name, value);
         }
         return false;
     }
 
-    private boolean processRemoveAttrCustom(View view, String namespaceURI, String name, XMLInflaterLayout xmlInflaterLayout)
+    private boolean processRemoveAttrCustom(View view, String namespaceURI, String name, XMLInflaterContext xmlInflaterContext)
     {
         // No se encuentra opción de proceso custom
-        AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+        AttrLayoutInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrLayoutInflaterListener();
         if(listener!=null)
         {
-            PageImpl page = PageImpl.getPageImpl(xmlInflaterLayout); // Puede ser null
+            PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
             return listener.removeAttribute(page, view, namespaceURI, name);
         }
         return false;
@@ -305,13 +304,13 @@ public class ClassDescViewBased extends ClassDesc<View>
         pendingViewPostCreateProcess.executePendingPostAddViewTasks(); // Aunque sea el root lo llamamos pues de otra manera podemos dejar alguna acción sin ejecutar
     }
 
-    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView, XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,XMLInflaterLayout xmlInflaterLayout, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ViewGroup.LayoutParams layoutParams = generateDefaultLayoutParams(null);
         List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
-        View rootView = createViewObject(rootDOMElemView.getDOMAttributeMap(), xmlInflaterLayout,layoutParams,styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
+        View rootView = createViewObject(rootDOMElemView.getDOMAttributeMap(), xmlInflaterLayout.getXMLInflaterContext(),layoutParams,styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
         xmlInflaterLayout.getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
@@ -331,7 +330,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         List<DOMAttr> styleLayoutParamsAttribs = new ArrayList<DOMAttr>(); // capacity = 12
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
-        View view = createViewObject(attributeMap, xmlInflaterLayout, layoutParams, styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
+        View view = createViewObject(attributeMap, xmlInflaterLayout.getXMLInflaterContext(), layoutParams, styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
         if (styleDynamicAttribs.isEmpty()) styleDynamicAttribs = null;
@@ -344,20 +343,20 @@ public class ClassDescViewBased extends ClassDesc<View>
     }
 
 
-    private ViewStyleAttribs findStyleAttribute(DOMAttributeMap attribMap, XMLInflaterLayout xmlInflaterLayout)
+    private ViewStyleAttribs findStyleAttribute(DOMAttributeMap attribMap, XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr domAttr = findAttribute(null, "style", attribMap);
         if (domAttr == null)
             return null;
-        return getXMLInflaterRegistry().getViewStyle(domAttr.getResourceDesc(), xmlInflaterLayout);
+        return getXMLInflaterRegistry().getViewStyle(domAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    private View createViewObject(DOMAttributeMap attributeMap, XMLInflaterLayout xmlInflaterLayout,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private View createViewObject(DOMAttributeMap attributeMap,XMLInflaterContext xmlInflaterContext, ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,List<DOMAttr> styleDynamicAttribs, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
-        ViewStyleAttribs style = findStyleAttribute(attributeMap, xmlInflaterLayout);
-        int idStyleCompiledOrParent = getXMLInflaterRegistry().getViewStyle(style, styleDynamicAttribs, xmlInflaterLayout.getContext());
+        ViewStyleAttribs style = findStyleAttribute(attributeMap, xmlInflaterContext);
+        int idStyleCompiledOrParent = getXMLInflaterRegistry().getViewStyle(style, styleDynamicAttribs, xmlInflaterContext.getContext());
 
-        View view = createViewObject(attributeMap, idStyleCompiledOrParent, pendingPostInsertChildrenTasks, xmlInflaterLayout.getContext());
+        View view = createViewObject(attributeMap, idStyleCompiledOrParent, pendingPostInsertChildrenTasks, xmlInflaterContext.getContext());
 
         if (idStyleCompiledOrParent != 0)
             getLayoutParamsFromStyleId(idStyleCompiledOrParent,layoutParams,styleLayoutParamsAttribs,(ContextThemeWrapper)view.getContext());

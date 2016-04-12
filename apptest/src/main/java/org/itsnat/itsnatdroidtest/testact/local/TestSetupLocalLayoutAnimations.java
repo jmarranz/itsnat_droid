@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
@@ -37,7 +38,7 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
                     InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_animations_asset.xml");
                     View dynamicRootView = layout.getRootView();
 
-                    initialConfiguration(act, dynamicRootView);
+                    initialConfiguration(act, dynamicRootView,layout);
 
                     TestLocalLayoutAnimations.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView);
                 //}
@@ -48,13 +49,13 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
             }
         });
 
-        initialConfiguration(act, compiledRootView);
+        initialConfiguration(act, compiledRootView,null);
     }
 
-    private static void initialConfiguration(TestActivity act, View rootView)
+    private static void initialConfiguration(TestActivity act, View rootView,InflatedLayout layout)
     {
         defineObjectAnimatorTests(act, rootView);
-        defineValueAnimatorTests(act, rootView);
+        defineValueAnimatorTests(act, rootView,layout);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView)
@@ -80,20 +81,31 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         viewFlipper.setAdapter(adapter);
     }
 
-    private static void defineValueAnimatorTests(TestActivity act, View rootView)
+    private static void defineValueAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
     {
-        /*
-        final TextView textView = null; //(TextView) rootView.findViewById(R.id.valueAnimatorTestId);
+        final TextView textView = (TextView) rootView.findViewById(R.id.valueAnimatorTestId1);
 
-        ValueAnimator va = null;
-        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                textView.setBackgroundColor(value);
-            }
-        });
+        ValueAnimator valueAnimator;
+        if (layout == null)
+            valueAnimator = (ValueAnimator) AnimatorInflater.loadAnimator(act,R.animator.test_value_animator_compiled);
+        else
+            valueAnimator = null; // (ValueAnimator)layout.getItsNatResources().getAnimator("@assets:animator/res/animator/test_value_animator_asset.xml");
 
-        */
+if (valueAnimator != null)
+{
+    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+    {
+        public void onAnimationUpdate(ValueAnimator animation)
+        {
+            Integer value = (Integer) animation.getAnimatedValue();
+            textView.setBackgroundColor(value);
+        }
+    });
+
+    valueAnimator.start();
+}
+
+
     }
 
 

@@ -26,7 +26,7 @@ public class AttrDescView_view_View_layout_rowSpan extends AttrDesc<ClassDescVie
     {
         // Default: 1
 
-        final int rowSpan = getInteger(attr.getResourceDesc(),attrCtx.getXMLInflaterLayout());
+        final int rowSpan = getInteger(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
 
         final PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
         Runnable task = new Runnable(){

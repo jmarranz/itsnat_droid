@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
-import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 
@@ -18,9 +18,9 @@ public class AttrDescReflecFieldSetDimensionIntRound<TclassDesc extends ClassDes
     }
 
     @Override
-    public int getDimensionInt(DOMAttr attr, XMLInflater xmlInflater)
+    public int getDimensionInt(DOMAttr attr, XMLInflaterContext xmlInflaterContext)
     {
-        return getDimensionIntRound(attr.getResourceDesc(), xmlInflater);
+        return getDimensionIntRound(attr.getResourceDesc(), xmlInflaterContext);
     }
 
 }

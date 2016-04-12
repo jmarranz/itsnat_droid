@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -23,7 +22,9 @@ import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemSolid;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemStroke;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -99,12 +100,13 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        Context ctx = inflaterDrawable.getContext();
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         GradientDrawable drawable = new GradientDrawable();
+
+        XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
 
         XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
 
@@ -114,46 +116,47 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         int shape = attrShape != null ? AttrDesc.<Integer>parseSingleName(attrShape.getValue(), shapeValueMap) : RECTANGLE;
 
         DOMAttr attrDither = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "dither");
-        boolean dither = attrDither != null ? xmlInflaterRegistry.getBoolean(attrDither.getResourceDesc(),inflaterDrawable) : false;
+        boolean dither = attrDither != null ? xmlInflaterRegistry.getBoolean(attrDither.getResourceDesc(),xmlInflaterContext) : false;
 
 
         if (shape == RING)
         {
             DOMAttr attrInnerRadius = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "innerRadius");
-            int innerRadius = attrInnerRadius != null ? xmlInflaterRegistry.getDimensionIntRound(attrInnerRadius.getResourceDesc(), inflaterDrawable) : -1; // Hay que iniciar en -1 para que no se use
+            int innerRadius = attrInnerRadius != null ? xmlInflaterRegistry.getDimensionIntRound(attrInnerRadius.getResourceDesc(), xmlInflaterContext) : -1; // Hay que iniciar en -1 para que no se use
             innerRadiusField.set(gradientState,innerRadius);
             if (innerRadius == -1)
             {
                 DOMAttr attrInnerRadiusRatio = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "innerRadiusRatio");
                 if (attrInnerRadiusRatio != null)
                 {
-                    float innerRadiusRatio = xmlInflaterRegistry.getFloat(attrInnerRadiusRatio.getResourceDesc(), inflaterDrawable);
+                    float innerRadiusRatio = xmlInflaterRegistry.getFloat(attrInnerRadiusRatio.getResourceDesc(), xmlInflaterContext);
                     innerRadiusRatioField.set(gradientState,innerRadiusRatio);
                 }
             }
 
             DOMAttr attrThickness = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "thickness");
-            int thickness = attrThickness != null ? xmlInflaterRegistry.getDimensionIntRound(attrThickness.getResourceDesc(), inflaterDrawable) : -1;   // Hay que iniciar en -1 para que no se use
+            int thickness = attrThickness != null ? xmlInflaterRegistry.getDimensionIntRound(attrThickness.getResourceDesc(), xmlInflaterContext) : -1;   // Hay que iniciar en -1 para que no se use
             thicknessField.set(gradientState,thickness);
             if (thickness == -1)
             {
                 DOMAttr attrThicknessRatio = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "thicknessRatio");
                 if (attrThicknessRatio != null)
                 {
-                    float thicknessRatio = xmlInflaterRegistry.getFloat(attrThicknessRatio.getResourceDesc(),inflaterDrawable);
+                    float thicknessRatio = xmlInflaterRegistry.getFloat(attrThicknessRatio.getResourceDesc(),xmlInflaterContext);
                     thicknessRatioField.set(gradientState,thicknessRatio);
                 }
             }
 
             DOMAttr attrUseLevelForShape = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "useLevel");
-            boolean useLevelForShape = attrUseLevelForShape != null ? xmlInflaterRegistry.getBoolean(attrUseLevelForShape.getResourceDesc(), inflaterDrawable) : true;
+            boolean useLevelForShape = attrUseLevelForShape != null ? xmlInflaterRegistry.getBoolean(attrUseLevelForShape.getResourceDesc(), xmlInflaterContext) : true;
             useLevelForShapeField.set(gradientState,useLevelForShape);
         }
 
         drawable.setShape(shape);
         drawable.setDither(dither);
 
-        inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
+        XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
+        xmlInflaterDrawable.processChildElements(rootElem, elementDrawableRoot,attrCtx);
         ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
 
         for(int i = 0; i < itemList.size(); i++)

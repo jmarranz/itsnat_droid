@@ -25,7 +25,7 @@ public class AttrDescView_widget_TextView_lineSpacingExtra extends AttrDesc<Clas
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        float convertedValue = getDimensionFloatRound(attr.getResourceDesc(),attrCtx.getXMLInflaterLayout());
+        float convertedValue = getDimensionFloatRound(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
 
         TextView textView = (TextView)view;
         textView.setLineSpacing(convertedValue, getMultiplier(textView));

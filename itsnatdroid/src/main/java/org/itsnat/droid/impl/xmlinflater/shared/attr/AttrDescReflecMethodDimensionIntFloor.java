@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
-import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
@@ -23,9 +23,9 @@ public class AttrDescReflecMethodDimensionIntFloor<TclassDesc extends ClassDesc,
     }
 
     @Override
-    public int getDimensionIntAbstract(DOMAttr attr, XMLInflater xmlInflater)
+    public int getDimensionIntAbstract(DOMAttr attr, XMLInflaterContext xmlInflaterContext)
     {
-        return getDimensionIntFloor(attr.getResourceDesc(), xmlInflater);
+        return getDimensionIntFloor(attr.getResourceDesc(), xmlInflaterContext);
     }
 
 }

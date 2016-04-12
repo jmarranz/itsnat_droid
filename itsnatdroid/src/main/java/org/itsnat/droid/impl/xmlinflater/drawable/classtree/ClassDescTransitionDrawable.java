@@ -7,6 +7,7 @@ import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.TransitionDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
@@ -28,11 +29,13 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
-        inflaterDrawable.processChildElements(rootElem,elementDrawableRoot);
+        XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
+
+        xmlInflaterDrawable.processChildElements(rootElem,elementDrawableRoot,attrCtx);
         ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
 
         {

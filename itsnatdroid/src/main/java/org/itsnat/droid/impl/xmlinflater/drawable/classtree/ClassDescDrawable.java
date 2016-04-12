@@ -15,6 +15,7 @@ import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.dom.ResourceDescCompiled;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -113,7 +114,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
                 }
             };
             if (DOMAttrRemote.isPendingToDownload(attr)) // No se me ocurre ningún caso (un XML de un drawable una vez cargado no tiene scripts ni estado en el servidor y no lo cambiamos por interacción del usuario) pero por simetría con los layout lo dejamos
-                AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterDrawable());
+                AttrDesc.processDownloadTask((DOMAttrRemote)attr,task,attrCtx.getXMLInflaterContext());
             else
                 task.run();
 
@@ -133,18 +134,18 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
             }
             else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
             {
-                return processAttrCustom(draw,namespaceURI,name,value,xmlInflaterDrawable);
+                return processAttrCustom(draw,namespaceURI,name,value,attrCtx.getXMLInflaterContext());
             }
         }
 
     }
 
-    private boolean processAttrCustom(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name,String value,XMLInflaterDrawable xmlInflaterDrawable)
+    private boolean processAttrCustom(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name,String value,XMLInflaterContext xmlInflaterContext)
     {
-        AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
+        AttrDrawableInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrDrawableInflaterListener();
         if (listener != null)
         {
-            PageImpl page = PageImpl.getPageImpl(xmlInflaterDrawable); // Puede ser nulo
+            PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser nulo
             return listener.setAttribute(page, draw.getDrawable(), namespaceURI, name, value);
         }
         return false;

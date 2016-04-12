@@ -8,9 +8,9 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_BitmapDrawable_tileMode;
 import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
@@ -27,12 +27,14 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        Context ctx = inflaterDrawable.getContext();
+        XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
+
+        Context ctx = xmlInflaterContext.getContext();
         DOMAttr attrSrc = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "src");
 
-        Bitmap bitmap = ClassDescDrawable.getBitmap(attrSrc.getResourceDesc(),inflaterDrawable.getBitmapDensityReference(), ctx, classMgr.getXMLInflaterRegistry());
+        Bitmap bitmap = ClassDescDrawable.getBitmap(attrSrc.getResourceDesc(),xmlInflaterContext.getBitmapDensityReference(), ctx, classMgr.getXMLInflaterRegistry());
         return new ElementDrawableRoot(new BitmapDrawable(ctx.getResources(),bitmap));
     }
 

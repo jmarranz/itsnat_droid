@@ -5,6 +5,7 @@ import android.content.Context;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
@@ -13,14 +14,15 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 public abstract class XMLInflater
 {
     protected final InflatedXML inflatedXML;
-    protected final int bitmapDensityReference;
-    protected final AttrInflaterListeners attrInflaterListeners;
+    protected final XMLInflaterContext xmlInflaterContext;
+
 
     protected XMLInflater(InflatedXML inflatedXML,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
     {
         this.inflatedXML = inflatedXML;
-        this.bitmapDensityReference = bitmapDensityReference;
-        this.attrInflaterListeners = attrInflaterListeners;
+
+        PageImpl page = PageImpl.getPageImpl(inflatedXML); // Puede ser null
+        this.xmlInflaterContext = new XMLInflaterContext(inflatedXML.getItsNatDroidImpl(),inflatedXML.getContext(),page,bitmapDensityReference, attrInflaterListeners);
     }
 
     public InflatedXML getInflatedXML()
@@ -28,33 +30,13 @@ public abstract class XMLInflater
         return inflatedXML;
     }
 
-    public int getBitmapDensityReference()
+    public XMLInflaterContext getXMLInflaterContext()
     {
-        return bitmapDensityReference;
-    }
-
-    public AttrInflaterListeners getAttrInflaterListeners()
-    {
-        return attrInflaterListeners;
-    }
-
-    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
-    {
-        return attrInflaterListeners.getAttrLayoutInflaterListener();
-    }
-
-    public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
-    {
-        return attrInflaterListeners.getAttrDrawableInflaterListener();
-    }
-
-    public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()
-    {
-        return attrInflaterListeners.getAttrAnimatorInflaterListener();
+        return xmlInflaterContext;
     }
 
     public Context getContext()
     {
-        return inflatedXML.getContext();
+        return xmlInflaterContext.getContext();
     }
 }

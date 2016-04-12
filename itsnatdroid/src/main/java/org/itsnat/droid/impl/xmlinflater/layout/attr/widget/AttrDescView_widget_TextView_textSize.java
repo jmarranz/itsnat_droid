@@ -24,7 +24,7 @@ public class AttrDescView_widget_TextView_textSize extends AttrDesc<ClassDescVie
     {
         TextView textView = (TextView)view;
 
-        float value = getDimensionFloatRound(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
+        float value = getDimensionFloatRound(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,value);
     }
 

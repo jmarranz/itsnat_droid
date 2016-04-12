@@ -10,4 +10,5 @@ public interface InflatedLayout
     public ItsNatDroid getItsNatDroid();
     public View getRootView();
     public View findViewByXMLId(String id);
+    public ItsNatResources getItsNatResources();
 }

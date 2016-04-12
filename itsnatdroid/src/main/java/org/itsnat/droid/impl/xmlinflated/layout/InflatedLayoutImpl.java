@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
 /**
  * Created by jmarranz on 16/06/14.
  */
-public abstract class InflatedLayoutImpl extends InflatedXML implements InflatedLayout
+public abstract class InflatedLayoutImpl extends InflatedXML
 {
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
@@ -47,14 +47,12 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     }
 
 
-    @Override
     public ItsNatDroid getItsNatDroid()
     {
         return getItsNatDroidImpl();
     }
 
 
-    @Override
     public View getRootView()
     {
         return rootView;
@@ -65,6 +63,12 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         this.rootView = rootView;
     }
 
+
+    public View findViewByXMLId(String id)
+    {
+        if (viewMapByXMLId == null) return null;
+        return viewMapByXMLId.findViewByXMLId(id);
+    }
 
     public ViewMapByXMLId getViewMapByXMLId()
     {
@@ -85,13 +89,6 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     public void setXMLId(String id, View view)
     {
         getViewMapByXMLId().setXMLId(id, view);
-    }
-
-    @Override
-    public View findViewByXMLId(String id)
-    {
-        if (viewMapByXMLId == null) return null;
-        return viewMapByXMLId.findViewByXMLId(id);
     }
 
 /*

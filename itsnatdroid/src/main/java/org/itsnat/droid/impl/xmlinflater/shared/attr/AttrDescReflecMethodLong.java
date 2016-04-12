@@ -32,7 +32,7 @@ public class AttrDescReflecMethodLong<TclassDesc extends ClassDesc,TattrTarget,T
     @Override
     public void setAttribute(TattrTarget target,DOMAttr attr, TattrContext attrCtx)
     {
-        int convValue = getInteger(attr.getResourceDesc(),attrCtx.getXMLInflater()); // No hay un Resources.getLong(), en Android aunque el atributo contenedor sea long el dato se suele manejar como int
+        int convValue = getInteger(attr.getResourceDesc(),attrCtx.getXMLInflaterContext()); // No hay un Resources.getLong(), en Android aunque el atributo contenedor sea long el dato se suele manejar como int
         callMethod(target, convValue);
     }
 

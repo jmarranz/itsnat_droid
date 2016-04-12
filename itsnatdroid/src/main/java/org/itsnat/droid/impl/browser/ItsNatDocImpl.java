@@ -17,6 +17,7 @@ import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocNotItsNatImpl;
@@ -50,7 +51,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     {
         this.page = page;
         this.errorMode = errorMode;
-        this.itsNatResources = new ItsNatResourcesImpl(this); // Iniciamos aquí para que el atributo page esté ya definido
+        this.itsNatResources = new ItsNatResourcesRemoteImpl(this); // Iniciamos aquí para que el atributo page esté ya definido como atributo
     }
 
     public static ItsNatDocImpl createItsNatDoc(PageImpl page,int errorMode)

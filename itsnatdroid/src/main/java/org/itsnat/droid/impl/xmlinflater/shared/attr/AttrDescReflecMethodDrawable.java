@@ -34,7 +34,7 @@ public class AttrDescReflecMethodDrawable<TclassDesc extends ClassDesc,TattrTarg
     @Override
     public void setAttribute(final TattrTarget target,final DOMAttr attr, final TattrContext attrCtx)
     {
-        Drawable convValue = getDrawable(attr.getResourceDesc(),attrCtx.getXMLInflater());
+        Drawable convValue = getDrawable(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
         callMethod(target, convValue);
     }
 

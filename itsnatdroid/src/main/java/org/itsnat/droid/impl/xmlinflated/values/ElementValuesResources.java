@@ -9,7 +9,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.Dimension;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
-import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -116,119 +116,119 @@ public class ElementValuesResources extends ElementValues
         return type + "#" + name;
     }
 
-    public int getIdentifier(String name, String type, XMLInflater xmlInflater)
+    public int getIdentifier(String name, String type, XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ID,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getIdentifier(valueAsDOMAttr.getResourceDesc(), type, xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getIdentifier(valueAsDOMAttr.getResourceDesc(), type, xmlInflaterContext);
     }
 
-    public Animation getAnimation(String name,XMLInflater xmlInflater)
+    public Animation getAnimation(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIM,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getAnimation(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getAnimation(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public Animator getAnimator(String name,XMLInflater xmlInflater)
+    public Animator getAnimator(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIMATOR,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getAnimator(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getAnimator(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public boolean getBoolean(String name,XMLInflater xmlInflater)
+    public boolean getBoolean(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_BOOL,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getBoolean(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getBoolean(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public int getColor(String name,XMLInflater xmlInflater)
+    public int getColor(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_COLOR,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getColor(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getColor(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public Dimension getDimensionObject(String name, XMLInflater xmlInflater)
+    public Dimension getDimensionObject(String name, XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getDimensionObject(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getDimensionObject(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public PercFloat getDimensionPercFloat(String name, XMLInflater xmlInflater)
+    public PercFloat getDimensionPercFloat(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getDimensionPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getDimensionPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public Drawable getDrawable(String name, XMLInflater xmlInflater)
+    public Drawable getDrawable(String name, XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DRAWABLE,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getDrawable(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getDrawable(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public LayoutValue getLayout(String name, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    public LayoutValue getLayout(String name,XMLInflaterContext xmlInflaterContext, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_LAYOUT,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getLayout(valueAsDOMAttr.getResourceDesc(), xmlInflater, viewParent, indexChild, includeAttribs);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getLayout(valueAsDOMAttr.getResourceDesc(),xmlInflaterContext, xmlInflater, viewParent, indexChild, includeAttribs);
     }
 
-    public float getFloat(String name,XMLInflater xmlInflater)
+    public float getFloat(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_FLOAT,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getFloat(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public int getInteger(String name,XMLInflater xmlInflater)
+    public int getInteger(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_INTEGER,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getInteger(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getInteger(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public String getString(String name,XMLInflater xmlInflater)
+    public String getString(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getString(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getString(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public CharSequence getText(String name,XMLInflater xmlInflater)
+    public CharSequence getText(String name,XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name); // NO HAY tipo "text" tal y como <text name="somename">some <b>text</b></text>
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getText(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getText(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public CharSequence[] getTextArray(String name,XMLInflater xmlInflater)
+    public CharSequence[] getTextArray(String name,XMLInflaterContext xmlInflaterContext)
     {
         List<DOMAttr> valueAsDOMAttrList = getElementValuesChildWithChildElemValue(TYPE_STRING_ARRAY, name); // NO HAY tipo "text-array" nos basamos en "string-array" los items pueden ser HTML y resolverse con getText
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
         CharSequence[] res = new CharSequence[valueAsDOMAttrList.size()];
         int i = 0;
         for(DOMAttr valueAsDOMAttr : valueAsDOMAttrList)
         {
-            res[i] = xmlInflaterRegistry.getText(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+            res[i] = xmlInflaterRegistry.getText(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
             i++;
         }
         return res;
     }
 
-    public float getPercent(String name,XMLInflater xmlInflater)
+    public float getPercent(String name,XMLInflaterContext xmlInflaterContext)
     {
         // Puede usarse un <string...>10.5%</string> o un <item ... type="dimen">10.5%</item>
         DOMAttr valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_STRING, name);
         if (valueAsDOMAttr == null) valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_DIMEN, name);
         if (valueAsDOMAttr == null) throw new ItsNatDroidException("Expected a <string> or <item type=\"dimen\"> for resource name: " + name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflater.getInflatedXML().getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getPercent(valueAsDOMAttr.getResourceDesc(), xmlInflater);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getPercent(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
     public ElementValuesStyle getViewStyle(String name)

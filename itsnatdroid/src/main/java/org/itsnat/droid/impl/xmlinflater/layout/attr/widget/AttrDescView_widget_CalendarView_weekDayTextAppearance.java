@@ -37,7 +37,7 @@ public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends Attr
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         Context ctx = attrCtx.getContext();
-        ViewStyleAttribs style = getViewStyle(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
+        ViewStyleAttribs style = getViewStyle(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
         List<DOMAttr> styleItemsDynamicAttribs = (style instanceof ViewStyleAttribsDynamic) ? new ArrayList<DOMAttr>() : null;
         int weekDayTextAppearanceResId = getViewStyle(style,styleItemsDynamicAttribs,ctx);
 

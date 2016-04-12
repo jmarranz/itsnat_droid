@@ -23,4 +23,9 @@ public abstract class AttrContext
     {
         return xmlInflater;
     }
+
+    public XMLInflaterContext getXMLInflaterContext()
+    {
+        return xmlInflater.getXMLInflaterContext();
+    }
 }

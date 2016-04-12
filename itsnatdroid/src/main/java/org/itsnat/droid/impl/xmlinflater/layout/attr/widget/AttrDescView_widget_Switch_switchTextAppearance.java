@@ -28,7 +28,7 @@ public class AttrDescView_widget_Switch_switchTextAppearance extends AttrDesc<Cl
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         Context ctx = attrCtx.getContext();
-        ViewStyleAttribs style = getViewStyle(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
+        ViewStyleAttribs style = getViewStyle(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
         List<DOMAttr> styleItemsDynamicAttribs = (style instanceof ViewStyleAttribsDynamic) ? new ArrayList<DOMAttr>() : null;
         int switchTextAppearanceResId = getViewStyle(style,styleItemsDynamicAttribs,ctx);
 

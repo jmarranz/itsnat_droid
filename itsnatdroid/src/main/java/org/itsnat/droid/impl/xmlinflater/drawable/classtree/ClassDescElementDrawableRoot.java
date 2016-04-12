@@ -10,7 +10,9 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableContainer;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
@@ -42,13 +44,13 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
         return drawableLayers;
     }
 
-    public Drawable getChildDrawable(String drawableAttrName,DOMElemDrawable domElement, XMLInflaterDrawable inflaterDrawable,ArrayList<ElementDrawable> childList)
+    public Drawable getChildDrawable(String drawableAttrName, DOMElemDrawable domElement, XMLInflaterContext xmlInflaterContext, ArrayList<ElementDrawable> childList)
     {
         XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
 
         // Si el drawable está definido como elemento hijo gana éste por delante del atributo drawable
         DOMAttr attrDrawable = domElement.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, drawableAttrName); // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elemento hijo
-        Drawable drawable = attrDrawable != null ? xmlInflaterRegistry.getDrawable(attrDrawable.getResourceDesc(), inflaterDrawable) : null;
+        Drawable drawable = attrDrawable != null ? xmlInflaterRegistry.getDrawable(attrDrawable.getResourceDesc(), xmlInflaterContext) : null;
 
         if (childList != null)
         {
@@ -67,6 +69,6 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
         return drawable; // Puede ser null
     }
 
-    public abstract ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable);
+    public abstract ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx);
 }
 

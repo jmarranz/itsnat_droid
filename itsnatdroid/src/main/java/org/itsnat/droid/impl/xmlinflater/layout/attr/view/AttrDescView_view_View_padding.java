@@ -20,7 +20,7 @@ public class AttrDescView_view_View_padding extends AttrDesc<ClassDescViewBased,
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int convValue = getDimensionIntRound(attr.getResourceDesc(), attrCtx.getXMLInflaterLayout());
+        int convValue = getDimensionIntRound(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
 
         String name = getName();
         if ("padding".equals(name))

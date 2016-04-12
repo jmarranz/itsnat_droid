@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
@@ -14,7 +13,9 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
@@ -59,27 +60,29 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        Context ctx = inflaterDrawable.getContext();
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
         RotateDrawable drawable = new RotateDrawable();
 
-        inflaterDrawable.processChildElements(rootElem, elementDrawableRoot);
+        XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
+        XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
+
+        xmlInflaterDrawable.processChildElements(rootElem, elementDrawableRoot,attrCtx);
         ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
 
         XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
         Drawable.ConstantState rotateState = rotateStateField.get(drawable);
 
-        Drawable childDrawable = getChildDrawable("drawable", rootElem, inflaterDrawable, childList);
+        Drawable childDrawable = getChildDrawable("drawable", rootElem, xmlInflaterContext, childList);
         if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // level 23, v6.0
             mDrawableField.set(drawable,childDrawable);
         else
             mDrawableField.set(rotateState,childDrawable);
 
         DOMAttr pivotXAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "pivotX");
-        PercFloat pivotXObj = pivotXAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotXAttr.getResourceDesc(),inflaterDrawable) : null;
+        PercFloat pivotXObj = pivotXAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotXAttr.getResourceDesc(),xmlInflaterContext) : null;
         boolean pivotXRel;
         float pivotX;
         if (pivotXObj == null)
@@ -96,7 +99,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         mPivotXField.set(rotateState,pivotX);
 
         DOMAttr pivotYAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "pivotY");
-        PercFloat pivotYObj = pivotYAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotYAttr.getResourceDesc(),inflaterDrawable) : null;
+        PercFloat pivotYObj = pivotYAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotYAttr.getResourceDesc(),xmlInflaterContext) : null;
         boolean pivotYRel;
         float pivotY;
         if (pivotYObj == null)
@@ -114,12 +117,12 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
 
 
         DOMAttr fromDegreesAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "fromDegrees");
-        float fromDegrees = fromDegreesAttr != null ? xmlInflaterRegistry.getFloat(fromDegreesAttr.getResourceDesc(),inflaterDrawable) : 0.0f;
+        float fromDegrees = fromDegreesAttr != null ? xmlInflaterRegistry.getFloat(fromDegreesAttr.getResourceDesc(),xmlInflaterContext) : 0.0f;
         mFromDegreesField.set(rotateState,fromDegrees);
         mCurrentDegreesField.set(rotateState,fromDegrees);
 
         DOMAttr toDegreesAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "toDegrees");
-        float toDegrees = toDegreesAttr != null ? xmlInflaterRegistry.getFloat(toDegreesAttr.getResourceDesc(),inflaterDrawable) : 360.0f;
+        float toDegrees = toDegreesAttr != null ? xmlInflaterRegistry.getFloat(toDegreesAttr.getResourceDesc(),xmlInflaterContext) : 360.0f;
         mToDegreesField.set(rotateState,toDegrees);
 
         childDrawable.setCallback((Drawable.Callback)drawable); // childDrawable no puede ser nulo

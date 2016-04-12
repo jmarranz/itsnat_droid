@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.dom.DOMAttributeMap;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.NamespaceUtil;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
@@ -130,13 +131,15 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
 
         if (hasFrom || hasTo)
         {
+            XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
+
             TypeEvaluator evaluator = null;
 
             if (valueType == 2) // Color
             {
                 evaluator = new ArgbEvaluator(); // es mejor basarse en 5.0 http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/5.0.2_r1/android/animation/AnimatorInflater.java que en 4.0 que parece que tiene un bug (el setEvaluator DEBE llamarse DESPUES de definir el from y to )
-                int valueFrom = hasFrom ? xmlInflaterRegistry.getColor(valueFromAttr.getResourceDesc(), xmlInflaterAnimator) : 0;
-                int valueTo = hasTo ? xmlInflaterRegistry.getColor(valueToAttr.getResourceDesc(), xmlInflaterAnimator) : 0;
+                int valueFrom = hasFrom ? xmlInflaterRegistry.getColor(valueFromAttr.getResourceDesc(), xmlInflaterContext) : 0;
+                int valueTo = hasTo ? xmlInflaterRegistry.getColor(valueToAttr.getResourceDesc(), xmlInflaterContext) : 0;
                 if (hasFrom)
                 {
                     if (hasTo) valueAnimator.setIntValues(valueFrom,valueTo);
@@ -153,12 +156,12 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
                 int valueTo = 0;
                 if (hasFrom)
                 {
-                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionIntFloor(valueFromAttr.getResourceDesc(), xmlInflaterAnimator) : xmlInflaterRegistry.getInteger(valueFromAttr.getResourceDesc(), xmlInflaterAnimator);
+                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionIntFloor(valueFromAttr.getResourceDesc(), xmlInflaterContext) : xmlInflaterRegistry.getInteger(valueFromAttr.getResourceDesc(), xmlInflaterContext);
                 }
 
                 if (hasTo)
                 {
-                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionIntFloor(valueToAttr.getResourceDesc(), xmlInflaterAnimator) : xmlInflaterRegistry.getInteger(valueToAttr.getResourceDesc(), xmlInflaterAnimator);
+                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionIntFloor(valueToAttr.getResourceDesc(), xmlInflaterContext) : xmlInflaterRegistry.getInteger(valueToAttr.getResourceDesc(), xmlInflaterContext);
                 }
 
                 if (hasFrom)
@@ -177,12 +180,12 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
                 float valueTo = 0f;
                 if (hasFrom)
                 {
-                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionFloat(valueFromAttr.getResourceDesc(), xmlInflaterAnimator) : xmlInflaterRegistry.getFloat(valueFromAttr.getResourceDesc(), xmlInflaterAnimator);
+                    valueFrom = isDimensionFrom ? xmlInflaterRegistry.getDimensionFloat(valueFromAttr.getResourceDesc(), xmlInflaterContext) : xmlInflaterRegistry.getFloat(valueFromAttr.getResourceDesc(), xmlInflaterContext);
                 }
 
                 if (hasTo)
                 {
-                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionFloat(valueToAttr.getResourceDesc(), xmlInflaterAnimator) : xmlInflaterRegistry.getFloat(valueToAttr.getResourceDesc(), xmlInflaterAnimator);
+                    valueTo = isDimensionTo ? xmlInflaterRegistry.getDimensionFloat(valueToAttr.getResourceDesc(), xmlInflaterContext) : xmlInflaterRegistry.getFloat(valueToAttr.getResourceDesc(), xmlInflaterContext);
                 }
 
                 if (hasFrom)

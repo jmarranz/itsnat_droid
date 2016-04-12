@@ -25,7 +25,7 @@ public class AttrDescView_widget_TextView_lineSpacingMultiplier extends AttrDesc
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        float convertedValue = getFloat(attr.getResourceDesc(),attrCtx.getXMLInflaterLayout());
+        float convertedValue = getFloat(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
 
         TextView textView = (TextView)view;
         textView.setLineSpacing(getLineSpacingExtra(textView),convertedValue);

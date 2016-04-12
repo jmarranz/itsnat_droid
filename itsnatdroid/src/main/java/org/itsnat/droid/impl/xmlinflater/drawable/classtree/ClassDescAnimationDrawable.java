@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.AnimationDrawableItem;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
@@ -28,11 +29,12 @@ public class ClassDescAnimationDrawable extends ClassDescElementDrawableRoot<Ani
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, XMLInflaterDrawable inflaterDrawable)
+    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
         ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
 
-        inflaterDrawable.processChildElements(rootElem,elementDrawableRoot);
+        XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
+        xmlInflaterDrawable.processChildElements(rootElem,elementDrawableRoot,attrCtx);
         ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
 
         AnimationDrawable drawable = new AnimationDrawable();

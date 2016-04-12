@@ -18,6 +18,7 @@ import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.IOUtil;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 
 import java.io.InputStream;
@@ -123,14 +124,16 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     public InflatedLayout inflate(InputStream input,ViewGroup parentView)
     {
         String markup = IOUtil.read(input,encoding);
-        return inflateLayoutStandalone(markup,parentView).getInflatedLayoutImpl();
+        XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone = inflateLayoutStandalone(markup,parentView);
+        return xmlInflaterLayoutStandalone.getInflatedLayoutStandaloneImpl();
     }
 
     @Override
     public InflatedLayout inflate(Reader input,ViewGroup parentView)
     {
         String markup = IOUtil.read(input);
-        return inflateLayoutStandalone(markup,parentView).getInflatedLayoutImpl();
+        XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone = inflateLayoutStandalone(markup,parentView);
+        return xmlInflaterLayoutStandalone.getInflatedLayoutStandaloneImpl();
     }
 
     private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup,ViewGroup parentView)

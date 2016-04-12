@@ -51,7 +51,7 @@ public class AttrDescView_widget_ImageView_tint extends AttrDesc<ClassDescViewBa
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        final int convValue = getColor(attr.getResourceDesc(),attrCtx.getXMLInflater());
+        final int convValue = getColor(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
 
         if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
         {
