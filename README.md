@@ -1,6 +1,7 @@
 News
 ======
 
+- Apr. 13, 2016.  [FIRST DEMO!!](https://sourceforge.net/projects/itsnat/files/itsnat_droid_demo/apptest-debug-0.5.0.0.1.apk) and the associated [ItsNat Library](https://sourceforge.net/projects/itsnat/files/itsnat_droid/itsnatdroid-debug-0.5.0.0.1.aar) 
 - Jul. 16, 2015.  Article about native vs hybrid with a reference to ItsNat Droid [Native Mobile vs. Hybrid Mobile: The Eternal Question](https://dzone.com/articles/native-mobile-vs-hybrid-mobile-itsnat-droid).
 
 ItsNat Droid Client SDK
@@ -84,11 +85,15 @@ alternative to android:id (valid also)
 On development
 ------
 
-ItsNat Droid Client SDK (and server side code in ItsNat Server) is on heavy development, there is no release in spite you can download the source code and play (master branch)
+ItsNat Droid Client SDK (and server side code in ItsNat Server) is on heavy development, there is no release in spite you can download a demo and play or build from source code using Android Studio (master branch)
+
+The published app demo (apptest) points to the server http://www.innowhere.com/itsnat_dev/ . Android XML layouts are generated using a MIME not recognized by web browsers. 
+
+Source code:
 
 https://github.com/jmarranz/itsnat_droid
 
-Development happens on development branch, this is the branch to get the latest:
+Development happens on the development branch, this is the branch to get the latest:
 
 https://github.com/jmarranz/itsnat_droid/tree/development
 
@@ -97,9 +102,9 @@ Android client code is Java 6 compatible and supports Android +4.0.3 devices, de
 You can play with the "apptest" Android application with many visual tests (also there're a lot of tests in code), no you're not going to find here something pretty, just
 systematic testing. You must configure the URL of your ItsNat server (when loading this app click the Back button of your device for URL configuration, save your URL and then
 click on "GO TO TESTS" button). Some examples like "TEST LOCAL X" are local and can run without ItsNat server, the key to understand these tests is by clicking "RELOAD" button
-you get the same layout but processed dynamically.
+you get the same layout but processed dynamically (same files as compiled XMLs but as asset files).
 
-All said before is already done and running like layouts (including <include> tag support) and drawables, but some ambitious new things are pending like be able of download and render other types of resources 
+All said before is already done and running like layouts (including <include> tag support) drawables and some work on animations is done, but ambitious new things are pending like be able of download and all types of Android resources 
 and higher level components attached to DOM elements for easier management like components in ItsNat Web.
 
 License of ItsNat Droid Client (ItsNat server is LGPL v3)
