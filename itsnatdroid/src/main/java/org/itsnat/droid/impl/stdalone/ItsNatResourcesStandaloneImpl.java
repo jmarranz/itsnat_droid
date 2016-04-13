@@ -1,12 +1,17 @@
 package org.itsnat.droid.impl.stdalone;
 
 import android.animation.Animator;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.dom.ResourceDesc;
-import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
-import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
-import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
+import org.itsnat.droid.impl.dom.ResourceDescAsset;
+import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
 
 /**
@@ -28,24 +33,28 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 
     public Animator getAnimator(String resourceDescValue)
     {
-        /*
+        Context ctx = xmlInflaterLayoutStandalone.getContext();
+
         ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         if (resourceDesc == null)
         {
-            // XMLInflaterRegistry
-            XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
-            InflatedAnimator inflatedAnimator = InflatedAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
+            resourceDesc = ResourceDesc.create(resourceDescValue);
 
-            XMLInflaterAnimator xmlInflaterAnimator = XMLInflaterAnimator.createXMLInflaterAnimator(inflatedAnimator, bitmapDensityReference, attrInflaterListeners);
-            return xmlInflaterAnimator.inflateAnimator();
+            if (resourceDesc instanceof ResourceDescAsset)
+            {
+                ResourceDescAsset resourceDescAsset = (ResourceDescAsset) resourceDesc;
 
+                Resources res = ctx.getResources();
+                AssetManager assetManager = res.getAssets();
+                Configuration configuration = res.getConfiguration();
+                DisplayMetrics displayMetrics = res.getDisplayMetrics();
+                XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry, assetManager, configuration, displayMetrics);
 
-            resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+                XMLDOMAnimatorParser xmlDOMAnimatorParser = XMLDOMAnimatorParser.createXMLDOMAnimatorParser(xmlDOMParserContext);
+                xmlDOMAnimatorParser.prepareResourceDescAssetToLoadResource(resourceDescAsset);
+            }
         }
-        if (resourceDesc == null) throw newException(resourceDescValue);
-        return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
 
-        */
-        return null;
+        return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
     }
 }

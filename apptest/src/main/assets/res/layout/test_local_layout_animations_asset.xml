@@ -82,6 +82,21 @@
             android:flipInterval="2000"  /> <!-- android:outAnimation="@assets:animator/res/animator/test_object_animator_2_asset.xml" -->
 
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="ValueAnimator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/valueAnimatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ValueAnimator Test 1"
+            android:textSize="15dp"
+            android:background="@android:color/white"/>
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

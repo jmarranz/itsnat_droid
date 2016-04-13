@@ -1,8 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.animation.AnimatorInflater;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
@@ -13,6 +11,7 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
+import org.itsnat.itsnatdroidtest.testact.util.Assert;
 import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
 
 /**
@@ -87,25 +86,25 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
 
         ValueAnimator valueAnimator;
         if (layout == null)
-            valueAnimator = (ValueAnimator) AnimatorInflater.loadAnimator(act,R.animator.test_value_animator_compiled);
+            valueAnimator = (ValueAnimator)AnimatorInflater.loadAnimator(act,R.animator.test_value_animator_compiled);
         else
-            valueAnimator = null; // (ValueAnimator)layout.getItsNatResources().getAnimator("@assets:animator/res/animator/test_value_animator_asset.xml");
+            valueAnimator = (ValueAnimator)layout.getItsNatResources().getAnimator("@assets:animator/res/animator/test_value_animator_asset.xml");
 
-if (valueAnimator != null)
-{
-    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-    {
-        public void onAnimationUpdate(ValueAnimator animation)
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
         {
-            Integer value = (Integer) animation.getAnimatedValue();
-            textView.setBackgroundColor(value);
-        }
-    });
+            public void onAnimationUpdate(ValueAnimator animation)
+            {
+                Integer value = (Integer) animation.getAnimatedValue();
+                textView.setBackgroundColor(value);
+            }
+        });
 
-    valueAnimator.start();
-}
+        valueAnimator.start();
 
-
+        Assert.assertEquals(valueAnimator.getDuration(), 2000);
+        Assert.assertEquals(valueAnimator.getRepeatCount(), -1);
+        Assert.assertEquals(valueAnimator.getRepeatMode(), 2);
+        Assert.assertEquals(valueAnimator.getStartDelay(), 10);
     }
 
 

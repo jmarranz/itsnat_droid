@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflated.layout;
 import android.content.Context;
 import android.view.View;
 
-import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;

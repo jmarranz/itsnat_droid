@@ -5,7 +5,6 @@ import android.content.Context;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatResources;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutStandalone;
 import org.itsnat.droid.impl.stdalone.ItsNatResourcesStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;

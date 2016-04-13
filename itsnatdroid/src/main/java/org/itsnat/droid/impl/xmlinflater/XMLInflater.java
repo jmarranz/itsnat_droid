@@ -2,9 +2,6 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
 
-import org.itsnat.droid.AttrAnimatorInflaterListener;
-import org.itsnat.droid.AttrDrawableInflaterListener;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 

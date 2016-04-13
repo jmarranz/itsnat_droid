@@ -1,6 +1,5 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.widget.AdapterViewFlipper;
@@ -125,6 +124,30 @@ public class TestLocalLayoutAnimations
             assertEquals(compLayout.getOutAnimation(),parsedLayout.getOutAnimation());
 
         }
+
+        // ValueAnimator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "ValueAnimator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getId(), R.id.valueAnimatorTestId1);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            // El test de la animación se hace en otro lado:
+            // TestSetupLocalLayoutAnimations.defineValueAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
+        }
+
 
         //System.out.println("\n\n\n");
 

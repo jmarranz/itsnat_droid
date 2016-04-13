@@ -1,11 +1,7 @@
 package org.itsnat.droid.impl;
 
-import android.animation.Animator;
-
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatResources;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
-import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 

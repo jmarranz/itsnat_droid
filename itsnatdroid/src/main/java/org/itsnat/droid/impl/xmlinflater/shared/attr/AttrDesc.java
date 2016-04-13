@@ -17,7 +17,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
-import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;

@@ -1328,12 +1328,12 @@ public class XMLInflaterRegistry
 
         int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
 
+        AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+
         // Esperamos un Animator
         PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
 
         if (resourceDescDyn instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
-
-        AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
 
         ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
         if (resource == null)

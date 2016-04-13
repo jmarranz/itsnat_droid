@@ -3,11 +3,9 @@ package org.itsnat.droid.impl.browser;
 import android.animation.Animator;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 
 /**
  * Created by jmarranz on 12/04/2016.

@@ -14,7 +14,6 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
-import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 import java.util.ArrayList;
 
