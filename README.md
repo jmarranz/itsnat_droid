@@ -67,13 +67,32 @@ alternative to android:id (valid also)
   For instance (layout and layout fragment) in a web server:
 
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_core.xml
-  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_core_fragment.xml
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/fragment/test_droid_core_and_stateless_fragment.xml
 
   Some server side code snippets manipulating layouts:
 
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/droid/core/TestDroidFragmentInsertionInnerXML.java
-  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/droid/core/TestDroidFragmentInsertionUsingAPI.java
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/droid/core/TestDroidFragmentInsertionUsingDOMAPI.java
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/droid/core/TestDroidToDOM.java
+
+  Do you need Drawables?
+  
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_remote_drawables.xml
+  
+  Some examples of drawable XML declarations (linked in the previous layout example):
+  
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/droid/res/drawable/test_gradient_drawable_remote.xml
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/droid/res/drawable/test_layer_drawable_remote.xml
+  
+  Do you need animations?
+  
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_remote_animations.xml
+  
+  Some examples of animations in XML (linked in the previous layout example):  
+  
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/droid/res/animator/test_object_animator_remote.xml
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/droid/res/animator/test_value_animator_remote.xml
+  
 
   Do you remember the powerful Remote Control capability of ItsNat Web? Yes you can do the same with Android, another Android device can be monitor an Android layout of another
   device (with permission of course), most of non-web stuff of ItsNat server is supported.
