@@ -171,7 +171,8 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
             @Override
             public void onServerStateLost(Page page)
             {
-                TestUtil.alertDialog(act, "User Msg: SERVER STATE LOST!!");
+                if (page.isDisposed())
+                    TestUtil.alertDialog(act, "User Msg: SERVER STATE LOST!!");
             }
         });
     }

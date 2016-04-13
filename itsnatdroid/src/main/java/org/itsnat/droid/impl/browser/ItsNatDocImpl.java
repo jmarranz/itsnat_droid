@@ -40,7 +40,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 {
     protected final PageImpl page;
     protected int errorMode;
-    protected final ItsNatResourcesImpl itsNatResources;
+    protected ItsNatResourcesImpl itsNatResources;
     protected final FragmentLayoutInserter fragmentLayoutInserter = new FragmentLayoutInserter(this);
     protected final ItsNatViewNullImpl nullView = new ItsNatViewNullImpl(this); // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
     protected final DroidEventDispatcher eventDispatcher = DroidEventDispatcher.createDroidEventDispatcher(this); // En el caso de "No ItsNat" hay un limitado soporte de inline event handlers (onclick etc)
@@ -51,7 +51,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     {
         this.page = page;
         this.errorMode = errorMode;
-        this.itsNatResources = new ItsNatResourcesRemoteImpl(this); // Iniciamos aquí para que el atributo page esté ya definido como atributo
     }
 
     public static ItsNatDocImpl createItsNatDoc(PageImpl page,int errorMode)
@@ -77,6 +76,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 
     public ItsNatResourcesImpl getItsNatResourcesImpl()
     {
+        if (itsNatResources == null) this.itsNatResources = new ItsNatResourcesRemoteImpl(this);
         return itsNatResources;
     }
 

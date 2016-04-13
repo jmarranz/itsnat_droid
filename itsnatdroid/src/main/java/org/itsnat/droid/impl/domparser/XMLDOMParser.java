@@ -56,11 +56,6 @@ public abstract class XMLDOMParser
         }
     }
 
-    protected void setRootElement(DOMElement rootElement, XMLDOM xmlDOM)
-    {
-        xmlDOM.setRootElement(rootElement);
-    }
-
     public DOMElement parseRootElement(String rootElemName, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         int nsStart = parser.getNamespaceCount(parser.getDepth() - 1);
@@ -76,7 +71,7 @@ public abstract class XMLDOMParser
             throw new ItsNatDroidException("Missing android namespace declaration in the root element of the XML");
 
         DOMElement rootElement = createRootElementAndFillAttributes(rootElemName, parser, xmlDOM);
-        setRootElement(rootElement, xmlDOM);
+        xmlDOM.setRootElement(rootElement);
 
         processChildElements(rootElement, parser, xmlDOM);
 

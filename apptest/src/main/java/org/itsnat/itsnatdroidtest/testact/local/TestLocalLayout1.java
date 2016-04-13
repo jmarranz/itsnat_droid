@@ -1638,6 +1638,8 @@ public class TestLocalLayout1
             TypedArray ta = ctx.obtainStyledAttributes(ctx.getResources().getIdentifier("@android:style/TextAppearance.DeviceDefault.Small", null, null), attrs);
             float textSize = ta.getDimension(0, 0);
             ta.recycle();
+            // El textSize se define haciendo un float-round, eso mismo tenemos que hacer con el default de TextAppearance:
+            textSize = (int)(textSize + 0.5f);
             assertEquals(compLayout.getTextSize(), textSize);
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
 
