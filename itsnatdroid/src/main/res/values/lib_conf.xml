@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string  name="itsNatDroidLibVersionName">0.5.0.0.1</string>
+    <string  name="itsNatDroidLibVersionName">0.5.0.0.2</string>
     <integer name="itsNatDroidLibVersionCode">1</integer>
 
 </resources>
