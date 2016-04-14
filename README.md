@@ -9,6 +9,15 @@ ItsNat Droid Client SDK
 
 ItsNat Droid Client SDK is a Java based Android development library to develop dynamic Android applications on demand downloading native Android UI layouts similar to the web paradigm.
 
+Downloads: Demo and SDK library
+------
+
+[DEMO](https://sourceforge.net/projects/itsnat/files/itsnat_droid_demo/apptest-debug-0.5.0.0.1.apk) : the application used to test ItsNat Droid, all features are used here.
+
+[ItsNat Library](https://sourceforge.net/projects/itsnat/files/itsnat_droid/itsnatdroid-debug-0.5.0.0.1.aar) : the library to be includes in your application providing a public and simple API.
+
+Requirement: Android +4.0.3
+
 What is ItsNat Droid?
 ------
 
