@@ -25,4 +25,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //compile files('libs/bsh-2.1.8.jar')
 }

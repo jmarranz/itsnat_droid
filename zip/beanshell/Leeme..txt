@@ -3,3 +3,7 @@ http://www.beanshell.org/
 
 El original.
 
+Respecto a poder declarar clases nuevas en Android, ver notas en 2.1
+
+
+

@@ -5,17 +5,21 @@ beanshell2 fork of BeanShell
 https://code.google.com/p/beanshell2/  
 https://code.google.com/archive/p/beanshell2/  Es posible que ya no exista, Google cierra totalmente Google Code
 
-
-Se ha llevado el código fuente (fork) oficialmente (se enlaza en la pag de code.google) a: 
+Se ha llevado el cï¿½digo fuente (fork) oficialmente (se enlaza en la pag de code.google) a: 
 
 https://github.com/pejobo/beanshell2 
 
-pero ahí no hay apenas documentación, aunque los ejemplos de scripts del código fuente son muy ilustrativos.
 
-Lo positivo de v2.1 (> 2.0) es que se pueden crear clases Java normales en código script, en 2.0 apenas métodos estáticos (sin necesidad de poner static).
+pero ahï¿½ no hay apenas documentaciï¿½n, aunque los ejemplos de scripts del cï¿½digo fuente son muy ilustrativos.
+
+Lo positivo de v2.1 (> 2.0) es que se pueden crear clases Java normales en cï¿½digo script, en 2.0 apenas mï¿½todos estï¿½ticos (sin necesidad de poner static).
+
+SIN EMBARGO hay un problema, BeanShell trata de generar bytecode para la JVM y Dalvik no traga eso, por lo que NO podemos generar clases nuevas.
+
+https://groups.google.com/forum/#!topic/android-scripting/jDxmmbHVHtY
 
 
-Última versión:
+ï¿½ltima versiï¿½n:
 
 Feb. 20, 2014
 
