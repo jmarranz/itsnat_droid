@@ -54,17 +54,34 @@ In spite of ItsNat Droid Client contains the name "ItsNat", it can be used outsi
 
 ItsNat Droid client has several levels of interoperatibility:
 
-1. Parsing a XML file containing an Android layout, this XML can be read from any source. Dependent native resources are loaded when specified in layout.
+1. Parsing a XML file containing an Android layout, this XML can be read from any source by you (assets folder is recommended). Dependent native resources and/or resources in "asset" directory are loaded when specified in layout.
 
-2. Built-in "page" system similar to the web paradigm of page, instead an HTML page you download an Android layout in XML form. By using a simple API you can download remote native
- Android layouts from ANY web server and be able of doing Single Page Interface with Android layouts.
+    The application is fully local according to UI but organization based on assets provides more flexibility. Folders and file organization in `assets/` folder can be similar
+    to the standard `res/` folder but this is not mandatory.
 
-   Take a look to this very simple and raw example of a SPI application web server agnostic.
+    Take a look to this layout example in `assets/` folder:
+   
+    https://github.com/jmarranz/itsnat_droid/blob/master/apptest/src/main/assets/res/layout/test_local_layout_asset_1.xml
+
+    Take a look to references like `@assets:layout/res/layout/test_include_2_asset.xml` or `@assets:layout/res/values/test_values_asset.xml:test_layout_include_3`.
+    The prefix `@assets:` indicates ItsNat Droid must search the required resource into the folder `assets/`, as you can see native references to standard `res/` and android O.S. 
+    provided resources are possible. The second example `@assets:layout/res/values/test_values_asset.xml:test_layout_include_3` access to the `test_values_asset.xml` file
+    containing a `<resources></resources>` XML locating the specified variable `test_layout_include_3`.  
+      
+
+2. Built-in "page" system similar to the web paradigm of page, instead an HTML page you download an Android layout in XML form, Android styling is possible and can be defined remotely instead
+ of CSS. By using a simple API you can download remote native Android layouts from ANY web server and be able of doing Single Page Interface with Android layouts.
+
+   Take a look to this very simple, raw and ugly example of a SPI application web server agnostic.
 
    https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/ItsNatDroidServletNoItsNat.java
 
-   As you can see &lt;script&gt; elements containing Beanshell scripts are an extension to Android layouts. There are some other extensions like using the "id" standard attribute as
-alternative to android:id (valid also)
+   As you can see &lt;script&gt; elements containing Beanshell scripts are an extension to Android layouts similar to JavaScript. Beanshell is a sort of Java interpreted, 
+   Beanshell code can directly access to native Java APIs, there is no need to define custom "bridges" like in JavaScript-WebView.
+   
+   There are some other extensions like using the "id" standard attribute as alternative to android:id (valid also).
+
+  Take a look to resource references like `@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml` 
 
 3. Total integration with ItsNat server.
 
@@ -78,6 +95,9 @@ alternative to android:id (valid also)
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_core.xml
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/fragment/test_droid_core_and_stateless_fragment.xml
 
+  You can find resource references like this `@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_layout_height` there is no much to explain, the referenced resource
+   is the remote archive `test_values_remote.xml` (expected a `<resources></resources>` format) and read the variable `test_dimen_layout_height`.
+
   Some server side code snippets manipulating layouts:
 
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/java/test/droid/core/TestDroidFragmentInsertionInnerXML.java
@@ -86,29 +106,34 @@ alternative to android:id (valid also)
 
   Do you need Drawables?
   
-  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_remote_drawables.xml
+  https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_remote_drawables.xml 
   
   Some examples of drawable XML declarations (linked in the previous layout example):
   
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/droid/res/drawable/test_gradient_drawable_remote.xml
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/droid/res/drawable/test_layer_drawable_remote.xml
+
+  Yes inside XML resources you can reference other remote XML resources like in `@remote:drawable/list_selector_background_focused_light_remote.9.png`    
   
   Do you need animations?
   
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/WEB-INF/pages/droid/test/test_droid_remote_animations.xml
-  
+ 
   Some examples of animations in XML (linked in the previous layout example):  
   
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/droid/res/animator/test_object_animator_remote.xml
   https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev/src/main/webapp/droid/res/animator/test_value_animator_remote.xml
   
-
   Do you remember the powerful Remote Control capability of ItsNat Web? Yes you can do the same with Android, another Android device can be monitor an Android layout of another
   device (with permission of course), most of non-web stuff of ItsNat server is supported.
 
   There is no "ItsNat modes" (web/Android) in ItsNat server, Android layouts can coexist in the same web application with Web layouts, the main difference is when an Android layout
   (registered with MIME android/layout) is requested  ItsNat manages this type with some differences regarding to web layouts (all of them using JavaScript).
 
+
+Finally as you can see ItsNat Droid allows construction of remote Android applications with different levels of remoting, from almost fully remote to some stuff remote. The assets
+alternative was initially designed to help testing, but it can be used when res/ standard format is too rigid. 
+  
 
 On development
 ------

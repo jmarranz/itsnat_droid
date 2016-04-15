@@ -1,10 +1,14 @@
+# https://intellij-support.jetbrains.com/hc/en-us/articles/206544839-How-to-manage-projects-under-Version-Control-Systems
+# http://stackoverflow.com/questions/11968531/what-to-gitignore-from-the-idea-folder
+# http://stackoverflow.com/questions/26363025/gitignore-misc-xml-and-iml-with-android-studio-0-8-9
+
 .gradle
 /local.properties
-# http://stackoverflow.com/questions/11968531/what-to-gitignore-from-the-idea-folder
 /.idea/workspace.xml
 /.idea/tasks.xml
 /.idea/*.iws
 /.idea/libraries
+.DS_Store
 /build
 
 /docs_internal/
