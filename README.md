@@ -18,6 +18,8 @@ Downloads: Demo and SDK library
 
 Requirement: Android +4.0.3
 
+The source code of the server side (an ItsNat based web application) [is here](https://github.com/jmarranz/itsnat_server/blob/master/itsnat_dev)
+
 What is ItsNat Droid?
 ------
 
@@ -46,6 +48,11 @@ integration with Android native APIs without an explicit API provided by the fra
 was normal Java native code, and the reverse is true, you can access Beanshell objects and methods from Java native code. By this way you can decide how much native Java code
 "built-in" functionality is in your application to get the max speed and how much is in Beanshell (slower) without a pre-build rigid bridge necessary in Android WebView
 (in a WebView the Java API able to be called by JavaScript must be previously declared through Java interfaces method to method) used in HTML/CSS/JavaScript mobile solutions.
+
+ItsNat Droid makes a big effort to mimic the Android conventions to build Android applications specifically UI but extended and moved to a remote side, where Android resources are delivered,
+events are received following using a sort of AJAX, behaviour is transported to client as scripts and many actions can be executed in server side including remote UI manipulation. 
+As you can see later, the level of remote UI and behaviour is up to you (from almost fully remote to something remote).
+
 
 Interoperatibility levels
 ------
