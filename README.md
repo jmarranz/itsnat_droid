@@ -23,10 +23,11 @@ The source code of the server side (an ItsNat based web application) [is here](h
 What is ItsNat Droid?
 ------
 
-ItsNat Droid makes possible to use Android following the web paradigm but using only native Android APIs and UIs.
+ItsNat Droid makes possible to make Android client/server applications following the web paradigm but using only native Android APIs and UIs. ItsNat Droid is open source, and yes, 
+it is associated to the [ItsNat Web Framework](http://www.itsnat.org) (in fact this framework is extended for Android).
 
-ItsNat Droid was born to compete with PhoneGap providing similar approaches but using native Android layouts/resources and Beanshell as scripting language instead of clumsy
-HTML/CSS/JavaScript trying to simulate native components and behavior.
+ItsNat Droid was born to compete with PhoneGap and similar HTML/CSS/JS based tools, providing similar approaches but using native Android layouts/resources and Beanshell as scripting 
+language instead of clumsy HTML/CSS/JavaScript trying to simulate native components and behavior.
 
 It tries to break the "Amazon shop app dilemma": fully exploit of Android native UI capabilities vs UI flexible maintenance in server without app upgrade (just to change a color)
 using web tech.
