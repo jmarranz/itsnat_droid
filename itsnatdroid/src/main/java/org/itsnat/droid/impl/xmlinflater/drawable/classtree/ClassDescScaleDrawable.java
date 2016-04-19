@@ -54,7 +54,11 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
         DOMAttr attrScaleWidth = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleWidth");
         float scaleWidth = attrScaleWidth != null ? xmlInflaterRegistry.getPercent(attrScaleWidth.getResourceDesc(),xmlInflaterContext) : -1;
 
-        elementDrawableRoot.setDrawable(new ScaleDrawable(childDrawable,gravity,scaleWidth,scaleHeight));
+        ScaleDrawable drawable = new ScaleDrawable(childDrawable,gravity,scaleWidth,scaleHeight);
+
+        childDrawable.setCallback(drawable);
+
+        elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
     }

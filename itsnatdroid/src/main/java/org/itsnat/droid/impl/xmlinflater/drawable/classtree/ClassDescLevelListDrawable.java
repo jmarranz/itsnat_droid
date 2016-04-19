@@ -46,6 +46,8 @@ public class ClassDescLevelListDrawable extends ClassDescElementDrawableRoot<Lev
             int max = maxObj != null ? maxObj : 0; // Según el código fuente
 
             drawable.addLevel(min,max,drawableItem);
+
+            drawableItem.setCallback(drawable); // Se puede ver en el código fuente si se sigue hasta addChild(Drawable dr)
         }
 
         elementDrawableRoot.setDrawable(drawable);

@@ -46,6 +46,11 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
 
         TransitionDrawable drawable = new TransitionDrawable(drawableLayers);
 
+        for(Drawable drawableLayer : drawableLayers)
+        {
+            drawableLayer.setCallback(drawable);
+        }
+
         ClassDescLayerDrawable parentClassDesc = getParentClassDescDrawable();
 
         parentClassDesc.setItemAttributes(drawable, itemList);

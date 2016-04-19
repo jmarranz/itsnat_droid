@@ -71,7 +71,7 @@
                       android:layout_below="@id/testStyle"
                       style="@style/test_style2"/> <!-- id="textViewTest1" no se puede usar en un compilado -->
 
-            <TextView android:id="@+id/textViewTest2"
+            <TextView android:id="@+id/textViewTest2_compiled"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="Hello world 2!"
@@ -84,7 +84,7 @@
                       android:textSize="@dimen/test_dimen_textview_textSize"
                       android:textColor="@color/test_color_textview_textColor"
                       android:background="#dddddd"
-                      android:layout_below="@id/textViewTest2"
+                      android:layout_below="@id/textViewTest2_compiled"
                       style="@style/test_style_textview_compiled" />
 
             <TextView android:id="@+id/textViewTest4"

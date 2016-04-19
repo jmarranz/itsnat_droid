@@ -79,6 +79,8 @@ public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<Sta
             }
 
             drawable.addState(definedStates,drawableItem);
+
+            drawableItem.setCallback(drawable);   // Al final si se sigue hasta addChild(Drawable dr) lo encontramos
         }
 
         elementDrawableRoot.setDrawable(drawable);

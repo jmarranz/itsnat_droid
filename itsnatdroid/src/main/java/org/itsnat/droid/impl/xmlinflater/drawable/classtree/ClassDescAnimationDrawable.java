@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -50,10 +51,15 @@ public class ClassDescAnimationDrawable extends ClassDescElementDrawableRoot<Ani
                 throw new ItsNatDroidException("<animation-list><item> tag requires a 'duration' attribute");
             }
 
+            Drawable itemDrawable = item.getDrawable();
+
+            itemDrawable.setCallback(drawable);
+
             drawable.addFrame(item.getDrawable(), duration);
         }
 
         elementDrawableRoot.setDrawable(drawable);
+
 
         return elementDrawableRoot;
     }

@@ -249,13 +249,13 @@ public class TestLocalLayout1
 
                     // Test id ya definido como recurso compilado
                     assertEquals(compTextView.getId(), R.id.textViewTest1);
-                    assertEquals(compTextView.getId(), parsedTextView.getId());
+                    assertEquals(((TextView) compLayout.findViewById(R.id.textViewTest1)), compTextView);
+                    assertEquals(((TextView) parsedLayout.findViewById(parsedTextView.getId())), parsedTextView);
+                    assertEquals(compTextView.getId(), parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
 
                     // Test findViewByXMLId
-                    if (compTextView != compLayout.findViewById(R.id.textViewTest1))
-                        throw new RuntimeException("FAIL");
-                    if (parsedTextView != layout.findViewByXMLId("textViewTest1"))
-                        throw new RuntimeException("FAIL");
+                    assertEquals(parsedTextView, layout.findViewByXMLId("textViewTest1"));
+
 
                     assertEquals(compTextView.getText(), "Hello world 1!");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
@@ -293,11 +293,12 @@ public class TestLocalLayout1
                     final TextView compTextView = (TextView) compLayout.getChildAt(childCountL2);
                     final TextView parsedTextView = (TextView) parsedLayout.getChildAt(childCountL2);
 
-                    // Test id añadido dinámicamente "@+id/..."
+                    // Test id añadido dinámicamente "@+id/..." los ids compilado y asset son nombres diferentes en este caso
                     // En este caso el valor del id compilado (que existe) no es igual al añadido dinámicamente
-                    assertEquals(((TextView) compLayout.findViewById(R.id.textViewTest2)), compTextView);
+                    assertEquals(((TextView) compLayout.findViewById(R.id.textViewTest2_compiled)), compTextView);
                     assertEquals(((TextView) parsedLayout.findViewById(parsedTextView.getId())), parsedTextView);
-                    assertEquals(compTextView.getId(), parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
+
+                    assertEquals("org.itsnat.itsnatdroidtest:id/textViewTest2_compiled",ctx.getResources().getResourceName(compTextView.getId()));
 
                     assertEquals(compTextView.getText(), "Hello world 2!");
                     assertEquals(compTextView.getText(), parsedTextView.getText());
@@ -319,7 +320,7 @@ public class TestLocalLayout1
 
                     assertEquals(compTextView.getId(), R.id.test_id_textviewtest3);
                     //assertEquals(compTextView.getId(), parsedTextView.getId());
-                    ItsNatDroidImpl itsNatDroid = (ItsNatDroidImpl)ItsNatDroidRoot.get();
+                    ItsNatDroidImpl itsNatDroid = (ItsNatDroidImpl)ItsNatDroidRoot.get(); // Internal access, not valid for end users
                     assertEquals(parsedTextView.getId(),itsNatDroid.getXMLInflaterRegistry().findViewIdDynamicallyAdded("textViewTest3"));
 
                     assertEquals(compTextView.getText(), "Text size=15.3dp, color=red,padding");

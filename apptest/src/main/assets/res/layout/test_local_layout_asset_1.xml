@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.itsnat.itsnatdroidtest.testact.TestActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,7 +71,7 @@
                 android:layout_below="@id/testStyle"
                 style="@style/test_style2"/>
 
-            <TextView android:id="@+id/textViewTest2"
+            <TextView android:id="@+id/textViewTest2_asset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hello world 2!"
@@ -85,7 +86,7 @@
                 android:textSize="@assets:dimen/res/values/test_values_asset.xml:test_dimen_textview_textSize"
                 android:textColor="@assets:color/res/values/test_values_asset.xml:test_color_textview_textColor"
                 android:background="#dddddd"
-                android:layout_below="@id/textViewTest2"
+                android:layout_below="@id/textViewTest2_asset"
                 style="@assets:style/res/values/test_values_asset.xml:test_style_textview_asset" />
 
             <TextView android:id="@+id/textViewTest4"

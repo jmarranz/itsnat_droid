@@ -54,7 +54,11 @@ public class ClassDescInsetDrawable extends ClassDescDrawableWrapper<InsetDrawab
         DOMAttr attrInsetLeft = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "insetLeft");
         int insetLeft = attrInsetLeft != null ? xmlInflaterRegistry.getDimensionIntFloor(attrInsetLeft.getResourceDesc(),xmlInflaterContext) : 0;
 
-        elementDrawableRoot.setDrawable(new InsetDrawable(childDrawable,insetLeft, insetTop, insetRight, insetBottom));
+        InsetDrawable drawable = new InsetDrawable(childDrawable,insetLeft, insetTop, insetRight, insetBottom);
+
+        childDrawable.setCallback(drawable);
+
+        elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
     }

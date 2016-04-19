@@ -38,6 +38,11 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
 
         LayerDrawable drawable = new LayerDrawable(drawableLayers);
 
+        for(Drawable drawableLayer : drawableLayers)
+        {
+            drawableLayer.setCallback(drawable);
+        }
+
         setItemAttributes(drawable,itemList);
 
         elementDrawableRoot.setDrawable(drawable);

@@ -90,9 +90,9 @@ public abstract class XMLDOMParser
         return rootElement;
     }
 
-    protected DOMElement createElementAndFillAttributesAndAdd(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM)
+    protected DOMElement createElementAndFillAttributesAndAdd(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM) throws XmlPullParserException
     {
-        // parentElementDrawable es null en el caso de parseo de fragment
+        // parentElement es null en el caso de parseo de fragment
         DOMElement element = createElement(name,parentElement);
 
         fillAttributesAndAddElement(parentElement, element, parser, xmlDOM);
@@ -100,14 +100,22 @@ public abstract class XMLDOMParser
         return element;
     }
 
-    protected void fillAttributesAndAddElement(DOMElement parentElement, DOMElement element,XmlPullParser parser,XMLDOM xmlDOM)
+    protected void fillAttributesAndAddElement(DOMElement parentElement, DOMElement element,XmlPullParser parser,XMLDOM xmlDOM) throws XmlPullParserException
     {
         fillElementAttributes(element, parser, xmlDOM);
         if (parentElement != null) parentElement.addChildDOMElement(element);
     }
 
-    protected void fillElementAttributes(DOMElement element,XmlPullParser parser,XMLDOM xmlDOM)
+    protected void fillElementAttributes(DOMElement element,XmlPullParser parser,XMLDOM xmlDOM) throws XmlPullParserException
     {
+        if (element.getParentDOMElement() != null) // No es root
+        {
+            int nsStart = parser.getNamespaceCount(parser.getDepth() - 1);
+            int nsEnd = parser.getNamespaceCount(parser.getDepth());
+            if (nsStart != nsEnd)
+                throw new ItsNatDroidException("Namespaces only must be defined in root element");
+        }
+
         int len = parser.getAttributeCount();
         if (len == 0) return;
 
