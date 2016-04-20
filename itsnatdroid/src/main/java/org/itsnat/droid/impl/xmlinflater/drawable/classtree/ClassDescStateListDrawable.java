@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<StateListDrawable> // ClassDescDrawableContainerBASE<StateListDrawable>
+public class ClassDescStateListDrawable extends ClassDescDrawableContainerBased<StateListDrawable> // ClassDescDrawableContainerBASE<StateListDrawable>
 {
     protected MethodContainer<DrawableContainer.DrawableContainerState> methodGetStateListState;
     protected MethodContainer<Void> methodGetStateListStateIsConstantSize;
@@ -80,7 +80,7 @@ public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<Sta
 
             drawable.addState(definedStates,drawableItem);
 
-            drawableItem.setCallback(drawable);   // Al final si se sigue hasta addChild(Drawable dr) lo encontramos
+            setCallback(drawableItem,drawable);   // Al final si se sigue hasta addChild(Drawable dr) lo encontramos
         }
 
         elementDrawableRoot.setDrawable(drawable);
@@ -88,6 +88,11 @@ public class ClassDescStateListDrawable extends ClassDescElementDrawableRoot<Sta
         return elementDrawableRoot;
     }
 
+    @Override
+    public void setCallback(Drawable childDrawable, StateListDrawable parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
+    }
 
     @Override
     public Class<StateListDrawable> getDrawableOrElementDrawableClass()

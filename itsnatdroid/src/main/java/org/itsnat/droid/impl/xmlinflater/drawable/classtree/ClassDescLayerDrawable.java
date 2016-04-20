@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDrawable>
+public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDrawable> implements ClassDescCallback<LayerDrawable>
 {
     public ClassDescLayerDrawable(ClassDescDrawableMgr classMgr)
     {
@@ -40,7 +40,7 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
 
         for(Drawable drawableLayer : drawableLayers)
         {
-            drawableLayer.setCallback(drawable);
+            setCallback(drawableLayer,drawable);
         }
 
         setItemAttributes(drawable,itemList);
@@ -50,7 +50,13 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
         return elementDrawableRoot;
     }
 
-    public void setItemAttributes(LayerDrawable drawable,ArrayList<ElementDrawable> itemList)
+    @Override
+    public void setCallback(Drawable childDrawable, LayerDrawable parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
+    }
+
+    public void setItemAttributes(LayerDrawable drawable, ArrayList<ElementDrawable> itemList)
     {
         // Es llamado este método también por ClassDescTransitionDrawable
         for (int i = 0; i < itemList.size(); i++)

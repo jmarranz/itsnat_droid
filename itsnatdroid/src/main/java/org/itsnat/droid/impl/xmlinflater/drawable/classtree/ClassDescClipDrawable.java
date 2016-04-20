@@ -59,12 +59,19 @@ public class ClassDescClipDrawable extends ClassDescDrawableWrapper<ClipDrawable
 
         ClipDrawable drawable = new ClipDrawable(childDrawable,gravity,orientation);
 
-        childDrawable.setCallback(drawable);
+        setCallback(childDrawable,drawable);
 
         elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
     }
+
+    @Override
+    public void setCallback(Drawable childDrawable, ClipDrawable parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
+    }
+
 
     @Override
     protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)

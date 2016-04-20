@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.TransitionDrawable;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<TransitionDrawable>
+public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<TransitionDrawable> implements ClassDescCallback<LayerDrawable>
 {
     public ClassDescTransitionDrawable(ClassDescDrawableMgr classMgr,ClassDescLayerDrawable parentClass)
     {
@@ -48,7 +49,7 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
 
         for(Drawable drawableLayer : drawableLayers)
         {
-            drawableLayer.setCallback(drawable);
+            setCallback(drawableLayer,drawable);
         }
 
         ClassDescLayerDrawable parentClassDesc = getParentClassDescDrawable();
@@ -60,6 +61,11 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
         return elementDrawableRoot;
     }
 
+    @Override
+    public void setCallback(Drawable childDrawable, LayerDrawable parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
+    }
 
     @Override
     public Class<TransitionDrawable> getDrawableOrElementDrawableClass()

@@ -56,11 +56,17 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
 
         ScaleDrawable drawable = new ScaleDrawable(childDrawable,gravity,scaleWidth,scaleHeight);
 
-        childDrawable.setCallback(drawable);
+        setCallback(childDrawable,drawable);
 
         elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
+    }
+
+    @Override
+    public void setCallback(Drawable childDrawable, ScaleDrawable parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
     }
 
     @Override

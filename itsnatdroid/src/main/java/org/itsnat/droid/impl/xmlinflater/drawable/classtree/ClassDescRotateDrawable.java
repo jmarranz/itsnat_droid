@@ -125,12 +125,17 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         float toDegrees = toDegreesAttr != null ? xmlInflaterRegistry.getFloat(toDegreesAttr.getResourceDesc(),xmlInflaterContext) : 360.0f;
         mToDegreesField.set(rotateState,toDegrees);
 
-        childDrawable.setCallback((Drawable.Callback)drawable); // childDrawable no puede ser nulo
-
+        setCallback(childDrawable,drawable); // childDrawable no puede ser nulo
 
         elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
+    }
+
+    @Override
+    public void setCallback(Drawable childDrawable, RotateDrawable parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
     }
 
     @Override

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescAnimationDrawable extends ClassDescElementDrawableRoot<AnimationDrawable> // ClassDescDrawableContainerBASE<AnimationDrawable>
+public class ClassDescAnimationDrawable extends ClassDescDrawableContainerBased<AnimationDrawable>
 {
     public ClassDescAnimationDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawable<? super AnimationDrawable> parentClass)
     {
@@ -53,15 +53,21 @@ public class ClassDescAnimationDrawable extends ClassDescElementDrawableRoot<Ani
 
             Drawable itemDrawable = item.getDrawable();
 
-            itemDrawable.setCallback(drawable);
+            setCallback(itemDrawable,drawable);
 
-            drawable.addFrame(item.getDrawable(), duration);
+            drawable.addFrame(itemDrawable, duration);
         }
 
         elementDrawableRoot.setDrawable(drawable);
 
 
         return elementDrawableRoot;
+    }
+
+    @Override
+    public void setCallback(Drawable childDrawable, AnimationDrawable parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
     }
 
     @Override

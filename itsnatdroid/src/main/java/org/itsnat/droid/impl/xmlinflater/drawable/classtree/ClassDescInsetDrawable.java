@@ -56,11 +56,17 @@ public class ClassDescInsetDrawable extends ClassDescDrawableWrapper<InsetDrawab
 
         InsetDrawable drawable = new InsetDrawable(childDrawable,insetLeft, insetTop, insetRight, insetBottom);
 
-        childDrawable.setCallback(drawable);
+        setCallback(childDrawable,drawable);
 
         elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
+    }
+
+    @Override
+    public void setCallback(Drawable childDrawable, InsetDrawable parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
     }
 
     @Override
