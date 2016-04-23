@@ -7,13 +7,13 @@ import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
-import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -38,7 +38,7 @@ public class TestSetupLocalLayoutDrawables extends TestSetupLocalLayoutBase
 
                 initialConfiguration(act, dynamicRootView);
 
-                TestLocalLayoutDrawables.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView);
+                TestLocalLayoutDrawables.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }
         });
 

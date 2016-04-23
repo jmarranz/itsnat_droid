@@ -134,12 +134,12 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
 
         String responseText = page.getHttpRequestResult().getResponseText();
-        Log.v("TestActivity", "CONTENT:" + new String(responseText));
+        // Log.v("TestActivity", "CONTENT:" + responseText);
 
         boolean showContentInAlert = false;
         if (showContentInAlert)
         {
-            TestUtil.alertDialog(act, "LAYOUT", new String(responseText));
+            TestUtil.alertDialog(act, "LAYOUT", responseText);
         }
 
         View rootView = page.getItsNatDoc().getRootView();

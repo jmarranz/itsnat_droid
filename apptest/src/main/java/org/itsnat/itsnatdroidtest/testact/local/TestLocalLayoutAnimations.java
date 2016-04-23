@@ -148,6 +148,31 @@ public class TestLocalLayoutAnimations
             // TestSetupLocalLayoutAnimations.defineValueAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
         }
 
+        // AnimatorSet Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "AnimatorSet Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getId(), R.id.animatorSetTestId1);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            // El test de la animación se hace en otro lado:
+            // TestSetupLocalLayoutAnimations.defineAnimatorSetTests(TestActivity act, View rootView,InflatedLayout layout)
+        }
+
+
+
 
         //System.out.println("\n\n\n");
 

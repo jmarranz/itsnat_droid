@@ -1,4 +1,4 @@
-<org.itsnat.itsnatdroidtest.testact.util.CustomScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -97,6 +97,21 @@
             android:textSize="15dp"
             android:background="@android:color/white"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="AnimatorSet Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/animatorSetTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AnimatorSet Test 1"
+            android:textSize="15dp"
+            android:background="@android:color/holo_green_light" />
+
     </LinearLayout>
 
-</org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>
+</ScrollView>

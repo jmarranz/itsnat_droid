@@ -1,10 +1,16 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.itsnat.droid.InflatedLayout;
@@ -12,7 +18,8 @@ import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 import org.itsnat.itsnatdroidtest.testact.util.Assert;
-import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
+
+import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -39,7 +46,7 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
 
                     initialConfiguration(act, dynamicRootView,layout);
 
-                    TestLocalLayoutAnimations.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView);
+                    TestLocalLayoutAnimations.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
                 //}
                 //catch(ItsNatDroidException ex)
                 //{
@@ -55,6 +62,7 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
     {
         defineObjectAnimatorTests(act, rootView);
         defineValueAnimatorTests(act, rootView,layout);
+        defineSetAnimatorTests(act, rootView,layout);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView)
@@ -107,5 +115,85 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         Assert.assertEquals(valueAnimator.getStartDelay(), 10);
     }
 
+    private static void defineSetAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
+    {
+        final TextView textView = (TextView) rootView.findViewById(R.id.animatorSetTestId1);
 
+        final AnimatorSet animatorSet;
+        if (layout == null)
+            animatorSet = (AnimatorSet)AnimatorInflater.loadAnimator(act,R.animator.test_animator_set_compiled);
+        else
+            animatorSet = (AnimatorSet)layout.getItsNatResources().getAnimator("@assets:animator/res/animator/test_animator_set_asset.xml");
+
+        animatorSet.setTarget(textView);
+
+        animatorSet.addListener(new Animator.AnimatorListener()
+        {
+            @Override
+            public void onAnimationStart(Animator animation)  { }
+
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                animatorSet.start();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) { }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) { }
+        });
+
+        animatorSet.start();
+
+        testAnimatorSet(animatorSet,-1);
+    }
+
+    private static void testAnimatorSet(AnimatorSet animatorSetParent,int indexParent)
+    {
+        ArrayList<Animator> list = animatorSetParent.getChildAnimations();
+        for(int i = 0; i < list.size() ; i++)
+        {
+            Animator anim = list.get(i);
+            if (indexParent == -1)
+            {
+                if (i == 0)
+                {
+                    AnimatorSet animSet = (AnimatorSet)anim;
+                    testAnimatorSet(animSet,0);
+                }
+                else if (i == 1)
+                {
+                    ObjectAnimator objAnim = (ObjectAnimator)anim;
+                    Assert.assertEquals(objAnim.getPropertyName(), "alpha");
+
+                    Assert.assertEquals(objAnim.getDuration(), 2000);
+                    // Los valores ya se testean más a fondo en otro sitio, esto es un test de AnimatorSet
+                    //  android:valueFrom="0"  android:valueTo="1"
+                }
+            }
+            else if (indexParent == 0)
+            {
+                if (i == 0)
+                {
+                    ObjectAnimator objAnim = (ObjectAnimator)anim;
+                    Assert.assertEquals(objAnim.getPropertyName(), "x");
+
+                    Assert.assertEquals(objAnim.getDuration(), 1000);
+                    // Los valores ya se testean más a fondo en otro sitio, esto es un test de AnimatorSet
+                    // android:valueType="floatType"  android:valueFrom="0"   android:valueTo="100.3dp"
+                }
+                else if (i == 1)
+                {
+                    ObjectAnimator objAnim = (ObjectAnimator)anim;
+                    Assert.assertEquals(objAnim.getPropertyName(), "backgroundColor");
+
+                    Assert.assertEquals(objAnim.getDuration(), 1000);
+                    // Los valores ya se testean más a fondo en otro sitio, esto es un test de AnimatorSet
+                    // android:valueFrom="#FFFF8000"  android:valueTo="#FFFF80FF"
+                }
+            }
+        }
+    }
 }
