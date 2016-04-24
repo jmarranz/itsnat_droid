@@ -1,8 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.stdalone;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
@@ -34,7 +32,6 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
-
 
     public InflateLayoutRequestStandaloneImpl(ItsNatDroidImpl itsNatDroid)
     {
@@ -138,12 +135,9 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup,ViewGroup parentView)
     {
         Resources res = getContext().getResources();
-        AssetManager assetManager = res.getAssets();
-        Configuration configuration = res.getConfiguration();
-        DisplayMetrics displayMetrics = res.getDisplayMetrics();
 
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
-        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,assetManager,configuration,displayMetrics);
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
 
         XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCacheByMarkup(markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
 

@@ -31,7 +31,7 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
 /**
  * Created by jmarranz on 31/10/14.
  */
-public class XMLDOMValuesParser extends XMLDOMParser
+public class XMLDOMValuesParser extends XMLDOMParser<XMLDOMValues>
 {
     protected XMLDOMValuesParser(XMLDOMParserContext xmlDOMParserContext)
     {
@@ -49,6 +49,7 @@ public class XMLDOMValuesParser extends XMLDOMParser
         return false;
     }
 
+    @Override
     public void parse(String markup,XMLDOMValues xmlDOMValues)
     {
         StringReader input = new StringReader(markup);

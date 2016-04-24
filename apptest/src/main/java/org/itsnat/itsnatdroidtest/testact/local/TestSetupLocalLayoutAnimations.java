@@ -60,12 +60,12 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
 
     private static void initialConfiguration(TestActivity act, View rootView,InflatedLayout layout)
     {
-        defineObjectAnimatorTests(act, rootView);
+        defineObjectAnimatorTests(act, rootView,layout);
         defineValueAnimatorTests(act, rootView,layout);
         defineSetAnimatorTests(act, rootView,layout);
     }
 
-    private static void defineObjectAnimatorTests(TestActivity act, View rootView)
+    private static void defineObjectAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
     {
         // Resources res = act.getResources();
         AdapterViewFlipper viewFlipper;
@@ -84,7 +84,17 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         viewFlipper.setAdapter(adapter);
 
         viewFlipper = (AdapterViewFlipper) rootView.findViewById(R.id.objectAnimatorTestId4);
-        adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+        if (layout == null)
+        {
+            adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+        }
+        else
+        {
+            // TO DO
+            //layout.getItsNatResources().
+            // adapter = new ArrayAdapter(act,android.R.layout.simple_list_item_1, T[] objects);
+            adapter = null;
+        }
         viewFlipper.setAdapter(adapter);
     }
 

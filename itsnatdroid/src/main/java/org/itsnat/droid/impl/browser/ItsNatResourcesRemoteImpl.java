@@ -30,4 +30,15 @@ public class ItsNatResourcesRemoteImpl extends ItsNatResourcesImpl
         if (resourceDesc == null) throw newException(resourceDescValue);
         return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
     }
+
+    public CharSequence[] getTextArray(String resourceDescValue)
+    {
+        return null;
+        /*
+        ResourceDesc resourceDesc = xmlDOMRegistry.getTextArrayResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        if (resourceDesc == null) throw newException(resourceDescValue);
+        return xmlInflaterRegistry.getTextArray(resourceDesc,xmlInflaterContext);
+        */
+    }
+
 }

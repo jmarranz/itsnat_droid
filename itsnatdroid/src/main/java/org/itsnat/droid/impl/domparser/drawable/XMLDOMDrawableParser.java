@@ -16,7 +16,7 @@ import java.io.StringReader;
 /**
  * Created by jmarranz on 31/10/14.
  */
-public class XMLDOMDrawableParser extends XMLDOMParser
+public class XMLDOMDrawableParser extends XMLDOMParser<XMLDOMDrawable>
 {
     protected XMLDOMDrawableParser(XMLDOMParserContext xmlDOMParserContext)
     {
@@ -34,6 +34,7 @@ public class XMLDOMDrawableParser extends XMLDOMParser
         return true;
     }
 
+    @Override
     public void parse(String markup,XMLDOMDrawable xmlDOMDrawable)
     {
         StringReader input = new StringReader(markup);

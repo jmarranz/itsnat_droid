@@ -18,7 +18,7 @@ import java.io.StringReader;
 /**
  * Created by jmarranz on 31/10/14.
  */
-public class XMLDOMAnimatorParser extends XMLDOMParser
+public class XMLDOMAnimatorParser extends XMLDOMParser<XMLDOMAnimator>
 {
     protected XMLDOMAnimatorParser(XMLDOMParserContext xmlDOMParserContext)
     {
@@ -36,6 +36,7 @@ public class XMLDOMAnimatorParser extends XMLDOMParser
         return true;
     }
 
+    @Override
     public void parse(String markup,XMLDOMAnimator xmlDOMAnimator)
     {
         StringReader input = new StringReader(markup);

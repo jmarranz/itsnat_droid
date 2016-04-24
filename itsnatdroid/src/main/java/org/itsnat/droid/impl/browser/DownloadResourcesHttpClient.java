@@ -1,10 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.util.DisplayMetrics;
 
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.HttpRequestResult;
@@ -57,11 +54,8 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         String itsNatServerVersion = page.getItsNatServerVersion();
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>(); // es temporal, sólo dura durante la request, la cual suele cargar múltiples recursos y a veces de forma repetida
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
-        AssetManager assetManager = res.getAssets();
-        Configuration configuration = res.getConfiguration();
-        DisplayMetrics displayMetrics = res.getDisplayMetrics();
 
-        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,assetManager,configuration,displayMetrics);
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
 
         if (async)
         {

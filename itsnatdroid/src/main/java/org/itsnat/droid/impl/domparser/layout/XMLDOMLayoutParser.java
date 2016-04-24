@@ -23,7 +23,7 @@ import java.io.StringReader;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public abstract class XMLDOMLayoutParser extends XMLDOMParser
+public abstract class XMLDOMLayoutParser extends XMLDOMParser<XMLDOMLayout>
 {
     public enum LayoutType { PAGE, PAGE_FRAGMENT, STANDALONE };
 
@@ -58,6 +58,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
         return true;
     }
 
+    @Override
     public void parse(String markup,XMLDOMLayout domLayout)
     {
         StringReader input = new StringReader(markup);

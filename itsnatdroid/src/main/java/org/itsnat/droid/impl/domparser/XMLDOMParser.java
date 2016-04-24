@@ -17,6 +17,7 @@ import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
+import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
@@ -32,7 +33,7 @@ import java.io.Reader;
 /**
  * Created by jmarranz on 31/10/14.
  */
-public abstract class XMLDOMParser
+public abstract class XMLDOMParser<Txmldom extends XMLDOM>
 {
     protected final XMLDOMParserContext xmlDOMParserContext;
 
@@ -55,6 +56,8 @@ public abstract class XMLDOMParser
             throw new ItsNatDroidException(ex);
         }
     }
+
+    public abstract void parse(String markup,Txmldom xmlDOM);
 
     public DOMElement parseRootElement(String rootElemName, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
@@ -218,6 +221,12 @@ public abstract class XMLDOMParser
         // Nada que preparar
     }
 
+    public static void prepareResourceDescAssetToLoadResource(ResourceDescAsset resourceDescAsset,XMLDOMParserContext xmlDOMParserContext)
+    {
+        XMLDOMAnimatorParser xmlDOMAnimatorParser = XMLDOMAnimatorParser.createXMLDOMAnimatorParser(xmlDOMParserContext);
+        xmlDOMAnimatorParser.prepareResourceDescAssetToLoadResource(resourceDescAsset);
+    }
+
     public void prepareResourceDescAssetToLoadResource(ResourceDescAsset resourceDescAsset)
     {
         String location = resourceDescAsset.getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
@@ -320,7 +329,7 @@ public abstract class XMLDOMParser
             }
             else if (XMLDOMValues.TYPE_DRAWABLE.equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCacheByMarkup(markup, xmlDOMParserContext);
+                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCacheByMarkup(markup,resourceDesc, xmlDOMParserContext);
             }
             else if (XMLDOMValues.TYPE_LAYOUT.equals(resourceType))
             {
@@ -334,7 +343,7 @@ public abstract class XMLDOMParser
             // Este es el caso de acceso a un item <drawable> de un XML values
             // Idem con <item name="..." type="layout">
 
-            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCacheByMarkup(markup, xmlDOMParserContext);
+            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCacheByMarkup(markup,resourceDesc, xmlDOMParserContext);
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
 

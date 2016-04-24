@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.domparser;
 
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 /**
@@ -14,12 +15,17 @@ public class XMLDOMParserContext
     protected final Configuration configuration; // Aunque se use onConfigurationChanged(Configuration newConfig) y no se recree la actividad el objeto antiguo afortunadamente se actualiza por lo que si se "salva" este XMLDOMParserContext asociado a un Context que no se recrea, aunque haya un Configuration nuevo dado por onConfigurationChanged, el anterior sigue valiendo (por ejemplo orientation está actualizado)
     protected final DisplayMetrics displayMetrics;
 
-    public XMLDOMParserContext(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration,DisplayMetrics displayMetrics)
+    private XMLDOMParserContext(XMLDOMRegistry xmlDOMRegistry,AssetManager assetManager,Configuration configuration,DisplayMetrics displayMetrics)
     {
         this.xmlDOMRegistry = xmlDOMRegistry;
         this.assetManager = assetManager;
         this.configuration = configuration;
         this.displayMetrics = displayMetrics;
+    }
+
+    public XMLDOMParserContext(XMLDOMRegistry xmlDOMRegistry,Resources res)
+    {
+        this(xmlDOMRegistry,res.getAssets(),res.getConfiguration(),res.getDisplayMetrics());
     }
 
     public XMLDOMRegistry getXMLDOMRegistry()

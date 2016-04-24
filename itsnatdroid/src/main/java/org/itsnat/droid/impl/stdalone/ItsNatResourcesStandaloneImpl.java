@@ -2,14 +2,13 @@ package org.itsnat.droid.impl.stdalone;
 
 import android.animation.Animator;
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.util.DisplayMetrics;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.dom.ResourceDescAsset;
+import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
@@ -19,7 +18,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStanda
  */
 public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 {
-    protected XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone;
+    protected final XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone;
+    protected final XMLDOMParserContext xmlDOMParserContext;
 
     public ItsNatResourcesStandaloneImpl(XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone)
     {
@@ -27,34 +27,53 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
               xmlInflaterLayoutStandalone.getXMLInflaterContext(),
               xmlInflaterLayoutStandalone.getInflatedLayoutStandaloneImpl().getItsNatDroidImpl().getXMLInflaterRegistry());
 
-        this.xmlInflaterLayoutStandalone = xmlInflaterLayoutStandalone;
         // En este caso PageImpl es null
+
+        this.xmlInflaterLayoutStandalone = xmlInflaterLayoutStandalone;
+
+        Resources res = xmlInflaterLayoutStandalone.getContext().getResources();
+        this.xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
+    }
+
+    public Context getContext()
+    {
+        return xmlInflaterLayoutStandalone.getContext();
+    }
+
+    private ResourceDesc loadAndCacheResourceDesc(String resourceDescValue)
+    {
+        Resources res = getContext().getResources();
+
+        ResourceDesc resourceDesc = ResourceDesc.create(resourceDescValue);
+
+        if (resourceDesc instanceof ResourceDescAsset)
+        {
+            ResourceDescAsset resourceDescAsset = (ResourceDescAsset) resourceDesc;
+            XMLDOMAnimatorParser.prepareResourceDescAssetToLoadResource(resourceDescAsset, xmlDOMParserContext);
+        }
+        else if (resourceDesc instanceof ResourceDescRemote)
+        {
+            throw new ItsNatDroidException("Remote resource is not allowed in this context, use assets instead");
+        }
+
+        return resourceDesc;
     }
 
     public Animator getAnimator(String resourceDescValue)
     {
-        Context ctx = xmlInflaterLayoutStandalone.getContext();
-
         ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         if (resourceDesc == null)
-        {
-            resourceDesc = ResourceDesc.create(resourceDescValue);
-
-            if (resourceDesc instanceof ResourceDescAsset)
-            {
-                ResourceDescAsset resourceDescAsset = (ResourceDescAsset) resourceDesc;
-
-                Resources res = ctx.getResources();
-                AssetManager assetManager = res.getAssets();
-                Configuration configuration = res.getConfiguration();
-                DisplayMetrics displayMetrics = res.getDisplayMetrics();
-                XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry, assetManager, configuration, displayMetrics);
-
-                XMLDOMAnimatorParser xmlDOMAnimatorParser = XMLDOMAnimatorParser.createXMLDOMAnimatorParser(xmlDOMParserContext);
-                xmlDOMAnimatorParser.prepareResourceDescAssetToLoadResource(resourceDescAsset);
-            }
-        }
+            resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
 
         return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
     }
+
+    public CharSequence[] getTextArray(String resourceDescValue)
+    {
+        //public CharSequence[] getTextArray(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+
+        return null;
+    }
+
+
 }

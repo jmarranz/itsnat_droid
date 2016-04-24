@@ -1,8 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.DisplayMetrics;
@@ -311,11 +309,8 @@ public class PageRequestImpl implements PageRequest
         HttpRequestData httpRequestData = new HttpRequestData(this);
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
-        AssetManager assetManager = res.getAssets();
-        Configuration configuration = res.getConfiguration();
-        DisplayMetrics displayMetrics = res.getDisplayMetrics();
 
-        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,assetManager,configuration,displayMetrics);
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
 
         if (sync)
             executeSync(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMParserContext);

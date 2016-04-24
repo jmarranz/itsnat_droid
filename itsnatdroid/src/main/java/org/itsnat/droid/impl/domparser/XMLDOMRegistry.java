@@ -7,10 +7,10 @@ import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
-import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
-import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
+import org.itsnat.droid.impl.domparser.animator.ResourceCacheByMarkupAndResDescAnimator;
+import org.itsnat.droid.impl.domparser.drawable.ResourceCacheByMarkupAndResDescDrawable;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
-import org.itsnat.droid.impl.domparser.values.XMLDOMValuesParser;
+import org.itsnat.droid.impl.domparser.values.ResourceCacheByMarkupAndResDescValues;
 
 /**
  * Created by Jose on 01/12/2015.
@@ -19,12 +19,11 @@ public class XMLDOMRegistry
 {
     protected ItsNatDroidImpl parent;
     protected ResourceCache<XMLDOMLayout> layoutCacheByMarkup = new ResourceCache<XMLDOMLayout>();
-    protected ResourceCache<XMLDOMDrawable> drawableCacheByMarkup = new ResourceCache<XMLDOMDrawable>();
-    protected ResourceCache<XMLDOMAnimator> animatorCacheByMarkup = new ResourceCache<XMLDOMAnimator>();
-    protected ResourceCache<ResourceDescDynamic> animatorCacheByResDescValue = new ResourceCache<ResourceDescDynamic>(); // ResourceDescDynamic contiene el ParsedResource conteniendo el recurso y su localización
-    // protected XMLDOMCache<XMLDOMAnim> animCacheByMarkup = new XMLDOMCache<XMLDOMAnim>();
+    protected ResourceCacheByMarkupAndResDescDrawable drawableCache = new ResourceCacheByMarkupAndResDescDrawable();
+    protected ResourceCacheByMarkupAndResDescAnimator animatorCache = new ResourceCacheByMarkupAndResDescAnimator();
+    // Anim?
     // Menues???
-    protected ResourceCache<XMLDOMValues> valuesCacheByMarkup = new ResourceCache<XMLDOMValues>();
+    protected ResourceCacheByMarkupAndResDescValues valuesCache = new ResourceCacheByMarkupAndResDescValues();
 
     public XMLDOMRegistry(ItsNatDroidImpl parent)
     {
@@ -39,12 +38,11 @@ public class XMLDOMRegistry
     public void cleanCaches()
     {
         layoutCacheByMarkup.clear();
-        drawableCacheByMarkup.clear();
-        animatorCacheByMarkup.clear();
-        animatorCacheByResDescValue.clear();
-        // domAnimCache.clear();
+        drawableCache.cleanCaches();
+        animatorCache.cleanCaches();
+        // Anim ?
         // Menues???
-        valuesCacheByMarkup.clear();
+        valuesCache.cleanCaches();
     }
 
     public XMLDOMLayout getXMLDOMLayoutCacheByMarkup(String markup, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
@@ -88,62 +86,34 @@ public class XMLDOMRegistry
         return clonedDOMLayout;
     }
 
-    public XMLDOMDrawable getXMLDOMDrawableCacheByMarkup(String markup, XMLDOMParserContext xmlDOMParserContext)
+    public XMLDOMDrawable getXMLDOMDrawableCacheByMarkup(String markup,ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
     {
-        // Ver notas de getXMLDOMLayoutCacheByMarkup()
-        XMLDOMDrawable cachedXMLDOMDrawable = drawableCacheByMarkup.get(markup);
-        if (cachedXMLDOMDrawable != null) return cachedXMLDOMDrawable;
+        return drawableCache.getXMLDOMCacheByMarkup(markup,resourceDesc,xmlDOMParserContext);
+    }
 
-        cachedXMLDOMDrawable = new XMLDOMDrawable();
-        drawableCacheByMarkup.put(markup, cachedXMLDOMDrawable); // Cacheamos cuanto antes pues puede haber recursividad
-
-        XMLDOMDrawableParser parser = XMLDOMDrawableParser.createXMLDOMDrawableParser(xmlDOMParserContext);
-        parser.parse(markup,cachedXMLDOMDrawable);
-        return cachedXMLDOMDrawable;
+    public ResourceDescDynamic getDrawableResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
+    {
+        return drawableCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
     }
 
     public XMLDOMAnimator getXMLDOMAnimatorCacheByMarkup(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
     {
-        // Ver notas de getXMLDOMLayoutCacheByMarkup()
-        String resourceDescValue = resourceDesc.getResourceDescValue();
-        if (animatorCacheByResDescValue.get(resourceDescValue) == null)
-            animatorCacheByResDescValue.put(resourceDescValue, resourceDesc); // Lo hacemos antes de animatorCacheByMarkup.get() de esta manera cacheamos también en el caso raro de dos archivos con el mismo markup, por otra parte en el caso de que ya exista se actualiza el timestamp del recurso al hacer el get (recurso recientemente usado)
-
-        XMLDOMAnimator cachedXMLDOMAnimator = animatorCacheByMarkup.get(markup);
-        if (cachedXMLDOMAnimator != null)
-            return cachedXMLDOMAnimator;
-
-        cachedXMLDOMAnimator = new XMLDOMAnimator();
-        animatorCacheByMarkup.put(markup, cachedXMLDOMAnimator); // Cacheamos cuanto antes pues puede haber recursividad
-
-
-        XMLDOMAnimatorParser parser = XMLDOMAnimatorParser.createXMLDOMAnimatorParser(xmlDOMParserContext);
-        parser.parse(markup,cachedXMLDOMAnimator);
-        return cachedXMLDOMAnimator;
+        return animatorCache.getXMLDOMCacheByMarkup(markup,resourceDesc,xmlDOMParserContext);
     }
 
     public ResourceDescDynamic getAnimatorResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
-        return animatorCacheByResDescValue.get(resourceDescValue);
+        return animatorCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
     }
 
-    public XMLDOMValues getXMLDOMValuesCacheByMarkup(String markup, XMLDOMParserContext xmlDOMParserContext)
+    public XMLDOMValues getXMLDOMValuesCacheByMarkup(String markup, ResourceDescDynamic resourceDesc,XMLDOMParserContext xmlDOMParserContext)
     {
-        // Ver notas de getXMLDOMLayoutCacheByMarkup()
-        XMLDOMValues cachedXMLDOMValues = valuesCacheByMarkup.get(markup);
-        if (cachedXMLDOMValues != null)
-        {
-//System.out.println("CACHED cachedXMLDOMValues");
-            return cachedXMLDOMValues;
-        }
-
-        cachedXMLDOMValues = new XMLDOMValues();
-        valuesCacheByMarkup.put(markup, cachedXMLDOMValues); // Cacheamos cuanto antes pues puede haber recursividad
-
-        XMLDOMValuesParser parser = XMLDOMValuesParser.createXMLDOMValuesParser(xmlDOMParserContext);
-        parser.parse(markup,cachedXMLDOMValues);
-        return cachedXMLDOMValues;
+        return valuesCache.getXMLDOMCacheByMarkup(markup,resourceDesc,xmlDOMParserContext);
     }
 
+    public ResourceDescDynamic geValuesResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
+    {
+        return valuesCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+    }
 
 }
