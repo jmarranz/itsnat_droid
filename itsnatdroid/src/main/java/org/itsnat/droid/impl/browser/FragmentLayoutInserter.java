@@ -6,9 +6,11 @@ import android.view.ViewGroup;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMElemView;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -109,7 +111,8 @@ public class FragmentLayoutInserter
         markup = newMarkup.toString();
 
         XMLDOMRegistry xmlDOMRegistry = xmlDOMParserContext.getXMLDOMRegistry();
-        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage) xmlDOMRegistry.getXMLDOMLayoutCacheByMarkup(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, xmlDOMParserContext);
+        ParsedResourceXMLDOM<XMLDOMLayout> resourceXMLDOM = xmlDOMRegistry.buildXMLDOMLayoutAndCachingByMarkupAndResDesc(markup,null, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE_FRAGMENT, xmlDOMParserContext);
+        XMLDOMLayoutPage xmlDOMLayout = (XMLDOMLayoutPage)resourceXMLDOM.getXMLDOM();
         return xmlDOMLayout;
     }
 

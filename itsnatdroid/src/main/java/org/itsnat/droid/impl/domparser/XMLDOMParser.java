@@ -308,32 +308,32 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
     }
 
 
-    private static ParsedResourceXMLDOM parseResourceDescDynamicXML(String markup,ResourceDescDynamic resourceDesc, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
+    private static ParsedResourceXMLDOM<? extends XMLDOM> parseResourceDescDynamicXML(String markup,ResourceDescDynamic resourceDesc, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
     {
         XMLDOMRegistry xmlDOMRegistry = xmlDOMParserContext.getXMLDOMRegistry();
 
         // Es llamado en multihilo en el caso de DOMAttrRemote
         String resourceType = resourceDesc.getResourceType();
 
-        XMLDOM xmlDOM;
+        ParsedResourceXMLDOM<? extends XMLDOM> resource;
         if (resourceDesc.getValuesResourceName() == null) // No es <drawable> o un <item name="..." type="layout"> <item ... type="anim"> o <item ... type="animator"> en un res/values/archivo.xml
         {
             if (XMLDOMValues.TYPE_ANIM.equals(resourceType))
             {
                 throw new ItsNatDroidException("TO DO");
-                //xmlDOM = xmlDOMRegistry.getXMLDOMAnimCacheByMarkup(markup, xmlDOMParserContext);
+                //xmlDOM = xmlDOMRegistry.buildXMLDOMAnimAndCachingByMarkupAndResDesc(markup, xmlDOMParserContext);
             }
             if (XMLDOMValues.TYPE_ANIMATOR.equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMAnimatorCacheByMarkup(markup, resourceDesc, xmlDOMParserContext);
+                resource = xmlDOMRegistry.buildXMLDOMAnimatorAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
             }
             else if (XMLDOMValues.TYPE_DRAWABLE.equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMDrawableCacheByMarkup(markup,resourceDesc, xmlDOMParserContext);
+                resource = xmlDOMRegistry.buildXMLDOMDrawableAndCachingByMarkupAndResDesc(markup,resourceDesc, xmlDOMParserContext);
             }
             else if (XMLDOMValues.TYPE_LAYOUT.equals(resourceType))
             {
-                xmlDOM = xmlDOMRegistry.getXMLDOMLayoutCacheByMarkup(markup, itsNatServerVersion, layoutType, xmlDOMParserContext);
+                resource = xmlDOMRegistry.buildXMLDOMLayoutAndCachingByMarkupAndResDesc(markup,resourceDesc,itsNatServerVersion, layoutType, xmlDOMParserContext);
             }
             else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType + " or missing ending :selector");
         }
@@ -343,12 +343,9 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
             // Este es el caso de acceso a un item <drawable> de un XML values
             // Idem con <item name="..." type="layout">
 
-            xmlDOM = xmlDOMRegistry.getXMLDOMValuesCacheByMarkup(markup,resourceDesc, xmlDOMParserContext);
+            resource = xmlDOMRegistry.buildXMLDOMValuesAndCachingByMarkupAndResDesc(markup,resourceDesc, xmlDOMParserContext);
         }
         else throw new ItsNatDroidException("Unsupported resource type as asset or remote: " + resourceType);
-
-        ParsedResourceXMLDOM resource = new ParsedResourceXMLDOM(xmlDOM);
-        resourceDesc.setParsedResource(resource);
 
         return resource;
     }

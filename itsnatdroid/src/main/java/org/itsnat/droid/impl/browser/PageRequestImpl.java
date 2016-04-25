@@ -22,6 +22,8 @@ import org.itsnat.droid.impl.browser.serveritsnat.XMLDOMLayoutPageItsNatDownload
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.ParsedResource;
+import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
@@ -402,7 +404,9 @@ public class PageRequestImpl implements PageRequest
         String markup = httpRequestResult.getResponseText();
         String itsNatServerVersion = httpRequestResult.getItsNatServerVersion(); // Puede ser null (page no servida por ItsNat)
         XMLDOMRegistry xmlDOMRegistry = xmlDOMParserContext.getXMLDOMRegistry();
-        XMLDOMLayoutPage xmlDOMLayoutPage = (XMLDOMLayoutPage)xmlDOMRegistry.getXMLDOMLayoutCacheByMarkup(markup, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMParserContext);
+
+        ParsedResourceXMLDOM<XMLDOMLayout> resourceXMLDOM = xmlDOMRegistry.buildXMLDOMLayoutAndCachingByMarkupAndResDesc(markup,null, itsNatServerVersion, XMLDOMLayoutParser.LayoutType.PAGE, xmlDOMParserContext);
+        XMLDOMLayoutPage xmlDOMLayoutPage = (XMLDOMLayoutPage)resourceXMLDOM.getXMLDOM();
 
         PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, xmlDOMLayoutPage,xmlDOMParserContext);
 

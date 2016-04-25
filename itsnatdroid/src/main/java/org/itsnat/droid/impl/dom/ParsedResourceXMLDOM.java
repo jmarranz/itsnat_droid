@@ -3,16 +3,16 @@ package org.itsnat.droid.impl.dom;
 /**
  * Created by jmarranz on 20/01/2016.
  */
-public class ParsedResourceXMLDOM extends ParsedResource
+public class ParsedResourceXMLDOM<T extends XMLDOM> extends ParsedResource
 {
-    protected XMLDOM xmlDOM;
+    protected T xmlDOM;
 
-    public ParsedResourceXMLDOM(XMLDOM xmlDOM)
+    public ParsedResourceXMLDOM(T xmlDOM)
     {
         this.xmlDOM = xmlDOM;
     }
 
-    public XMLDOM getXMLDOM()
+    public T getXMLDOM()
     {
         return xmlDOM;
     }
@@ -20,6 +20,6 @@ public class ParsedResourceXMLDOM extends ParsedResource
     @Override
     public ParsedResource copy()
     {
-        return new ParsedResourceXMLDOM(xmlDOM);
+        return new ParsedResourceXMLDOM<T>(xmlDOM);
     }
 }

@@ -11,6 +11,7 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
@@ -139,11 +140,13 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
         XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
 
-        XMLDOMLayout domLayout = xmlDOMRegistry.getXMLDOMLayoutCacheByMarkup(markup, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
+        ParsedResourceXMLDOM<XMLDOMLayout> resourceXMLDOM = xmlDOMRegistry.buildXMLDOMLayoutAndCachingByMarkupAndResDesc(markup,null, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
+
+        XMLDOMLayout xmlDOMLayout = resourceXMLDOM.getXMLDOM();
 
         int indexChild = parentView != null ? parentView.getChildCount() - 1 : -1;
 
-        return (XMLInflaterLayoutStandalone)inflateLayout(domLayout,parentView,indexChild,null);
+        return (XMLInflaterLayoutStandalone)inflateLayout(xmlDOMLayout,parentView,indexChild,null);
     }
 
 }
