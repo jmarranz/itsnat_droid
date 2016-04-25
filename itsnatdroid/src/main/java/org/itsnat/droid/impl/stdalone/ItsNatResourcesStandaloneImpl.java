@@ -42,7 +42,7 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 
     private ResourceDesc loadAndCacheResourceDesc(String resourceDescValue)
     {
-        Resources res = getContext().getResources();
+
 
         ResourceDesc resourceDesc = ResourceDesc.create(resourceDescValue);
 
@@ -59,21 +59,21 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
         return resourceDesc;
     }
 
+    @Override
     public Animator getAnimator(String resourceDescValue)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         if (resourceDesc == null)
             resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
-
         return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
     }
 
+    @Override
     public CharSequence[] getTextArray(String resourceDescValue)
     {
-        //public CharSequence[] getTextArray(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
-
-        return null;
+        ResourceDesc resourceDesc = xmlDOMRegistry.geValuesResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        if (resourceDesc == null)
+            resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
+        return xmlInflaterRegistry.getTextArray(resourceDesc,xmlInflaterContext);
     }
-
-
 }

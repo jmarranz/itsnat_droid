@@ -8,4 +8,5 @@ import android.animation.Animator;
 public interface ItsNatResources
 {
     public Animator getAnimator(String resourceDesc);
+    public CharSequence[] getTextArray(String resourceDescValue);
 }

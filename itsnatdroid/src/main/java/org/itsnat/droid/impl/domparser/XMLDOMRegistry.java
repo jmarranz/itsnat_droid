@@ -40,6 +40,8 @@ public class XMLDOMRegistry
     public void cleanCaches()
     {
         layoutCacheByMarkup.clear();
+        layoutCacheByResDescValue.clear();
+
         drawableCache.cleanCaches();
         animatorCache.cleanCaches();
         // Anim ?
@@ -126,6 +128,8 @@ public class XMLDOMRegistry
 
     public ParsedResourceXMLDOM<XMLDOMValues> buildXMLDOMValuesAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
     {
+        // El resourceDesc parámetro tiene una referencia final a la variable requerida, ej :textSize Esto es normal y se cacheará el getResourceDescValue() asociado al objeto
+        // pero hay que notar que el markup será siempre el mismo para todas las referencias al contenido del values XML
         return valuesCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup,resourceDesc,xmlDOMParserContext);
     }
 

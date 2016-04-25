@@ -4,10 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
@@ -90,10 +88,8 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         }
         else
         {
-            // TO DO
-            //layout.getItsNatResources().
-            // adapter = new ArrayAdapter(act,android.R.layout.simple_list_item_1, T[] objects);
-            adapter = null;
+            CharSequence[] sportsArray = layout.getItsNatResources().getTextArray("@assets:array/res/values/arrays_asset.xml:sports_array");
+            adapter = new ArrayAdapter<CharSequence>(act,android.R.layout.simple_list_item_1,sportsArray);
         }
         viewFlipper.setAdapter(adapter);
     }
