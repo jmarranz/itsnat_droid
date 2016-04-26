@@ -6,8 +6,10 @@ import android.os.StrictMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Toast;
 
+import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
@@ -37,7 +39,7 @@ import bsh.EvalError;
  * Created by jmarranz on 13/08/14.
  */
 public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnScriptErrorListener,OnEventErrorListener,
-                            AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimatorInflaterListener
+                            AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimationInflaterListener,AttrAnimatorInflaterListener
 {
     public static final boolean TEST_SYNC_REQUESTS = false;
 
@@ -278,6 +280,20 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     public boolean removeAttribute(Page page, Drawable obj, String namespace, String name)
     {
         System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+        return true;
+    }
+
+    @Override
+    public boolean setAttribute(Page page, Animation obj, String namespace, String name, String value)
+    {
+        System.out.println("NOT FOUND ANIMATION ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+        return true;
+    }
+
+    @Override
+    public boolean removeAttribute(Page page, Animation obj, String namespace, String name)
+    {
+        System.out.println("NOT FOUND ANIMATION ATTRIBUTE (removeAttribute): " + namespace + " " + name);
         return true;
     }
 

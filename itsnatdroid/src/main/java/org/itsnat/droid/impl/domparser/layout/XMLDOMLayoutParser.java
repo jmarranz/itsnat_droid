@@ -12,12 +12,6 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 
 
 /**
@@ -58,34 +52,6 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser<XMLDOMLayout>
         return true;
     }
 
-    @Override
-    public void parse(String markup,XMLDOMLayout domLayout)
-    {
-        StringReader input = new StringReader(markup);
-        parse(input,domLayout);
-    }
-
-    private void parse(Reader input,XMLDOMLayout domLayout)
-    {
-        try
-        {
-            XmlPullParser parser = newPullParser(input);
-            parse(parser,domLayout);
-        }
-        catch (IOException ex) { throw new ItsNatDroidException(ex); }
-        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
-        finally
-        {
-            try { input.close(); }
-            catch (IOException ex) { throw new ItsNatDroidException(ex); }
-        }
-    }
-
-    private void parse(XmlPullParser parser,XMLDOMLayout domLayout) throws IOException, XmlPullParserException
-    {
-        String rootElemName = getRootElementName(parser);
-        parseRootElement(rootElemName,parser,domLayout);
-    }
 
     public abstract XMLDOMLayout createXMLDOMLayout();
 
@@ -107,9 +73,6 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser<XMLDOMLayout>
     @Override
     protected DOMElement createElement(String name,DOMElement parent)
     {
-        /*if ("include".equals(name))
-            return new DOMInclude(name,(DOMView)parent);
-        else */
         if ("merge".equals(name))
         {
             if (parent != null) throw new ItsNatDroidException("<merge> only can be used as a root element of the XML layout");

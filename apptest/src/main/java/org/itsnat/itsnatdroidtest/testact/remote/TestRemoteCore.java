@@ -56,6 +56,7 @@ public class TestRemoteCore extends TestRemotePageBase
         .setOnScriptErrorListener(this)
         .setAttrLayoutInflaterListener(this)
         .setAttrDrawableInflaterListener(this)
+        .setAttrAnimationInflaterListener(this)
         .setAttrAnimatorInflaterListener(this)
         .setConnectTimeout(getConnectionTimeout())
         .setReadTimeout(getReadTimeout())

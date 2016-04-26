@@ -22,8 +22,8 @@ public class XMLDOMRegistry
     protected ResourceCache<XMLDOMLayout> layoutCacheByMarkup = new ResourceCache<XMLDOMLayout>();
     protected ResourceCache<ResourceDescDynamic> layoutCacheByResDescValue = new ResourceCache<ResourceDescDynamic>();
     protected ResourceCacheByMarkupAndResDescDrawable drawableCache = new ResourceCacheByMarkupAndResDescDrawable();
+    protected ResourceCacheByMarkupAndResDescDrawable animationCache = new ResourceCacheByMarkupAndResDescDrawable();
     protected ResourceCacheByMarkupAndResDescAnimator animatorCache = new ResourceCacheByMarkupAndResDescAnimator();
-    // Anim?
     // Menues???
     protected ResourceCacheByMarkupAndResDescValues valuesCache = new ResourceCacheByMarkupAndResDescValues();
 
@@ -43,8 +43,8 @@ public class XMLDOMRegistry
         layoutCacheByResDescValue.clear();
 
         drawableCache.cleanCaches();
+        animationCache.cleanCaches();
         animatorCache.cleanCaches();
-        // Anim ?
         // Menues???
         valuesCache.cleanCaches();
     }
@@ -114,6 +114,16 @@ public class XMLDOMRegistry
     public ResourceDescDynamic getDrawableResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
         return drawableCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+    }
+
+    public ParsedResourceXMLDOM<XMLDOMDrawable> buildXMLDOMAnimationAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
+    {
+        return animationCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup,resourceDesc,xmlDOMParserContext);
+    }
+
+    public ResourceDescDynamic getAnimationResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
+    {
+        return animationCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
     }
 
     public ParsedResourceXMLDOM<XMLDOMAnimator> buildXMLDOMAnimatorAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)

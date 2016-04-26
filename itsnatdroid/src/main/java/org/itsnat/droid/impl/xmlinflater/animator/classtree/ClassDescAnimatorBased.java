@@ -142,10 +142,8 @@ public abstract class ClassDescAnimatorBased<T extends Animator> extends ClassDe
             ClassDescAnimatorBased parentClass = getParentClassDescAnimatorBased();
             if (parentClass != null)
             {
-                if (parentClass.setAttributeThisClass(animator, attr, attrCtx))
-                    return true;
+                return parentClass.setAttributeThisClass(animator, attr, attrCtx);
 
-                return false;
             }
             else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
             {

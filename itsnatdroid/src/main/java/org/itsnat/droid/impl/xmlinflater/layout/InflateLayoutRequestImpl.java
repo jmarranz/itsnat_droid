@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
@@ -36,13 +37,15 @@ public abstract class InflateLayoutRequestImpl
 
     public abstract AttrDrawableInflaterListener getAttrDrawableInflaterListener();
 
+    public abstract AttrAnimationInflaterListener getAttrAnimationInflaterListener();
+
     public abstract AttrAnimatorInflaterListener getAttrAnimatorInflaterListener();
 
     public abstract Context getContext();
 
     public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup parentView,int indexChild,PageImpl page)
     {
-        AttrInflaterListeners attrInflaterListeners = new AttrInflaterListeners(getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getAttrAnimatorInflaterListener());
+        AttrInflaterListeners attrInflaterListeners = new AttrInflaterListeners(getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getAttrAnimationInflaterListener(),getAttrAnimatorInflaterListener());
         return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,parentView,indexChild,getBitmapDensityReference(),attrInflaterListeners,getContext(),page);
     }
 

@@ -16,6 +16,7 @@ public interface InflateLayoutRequest
     public InflateLayoutRequest setBitmapDensityReference(int density);
     public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
     public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener listener);
+    public InflateLayoutRequest setAttrAnimationInflaterListener(AttrAnimationInflaterListener attrAnimationInflaterListener);
     public InflateLayoutRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener listener);
     public InflatedLayout inflate(InputStream input, ViewGroup parentView);
     public InflatedLayout inflate(Reader input, ViewGroup parentView);

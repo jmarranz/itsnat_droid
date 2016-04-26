@@ -5,8 +5,10 @@ import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Toast;
 
+import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
@@ -25,7 +27,7 @@ import java.io.InputStream;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimatorInflaterListener
+public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimationInflaterListener,AttrAnimatorInflaterListener
 {
     public static final String NAMESPACE_ANDROID = "http://schemas.android.com/apk/res/android";
 
@@ -87,12 +89,34 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
     }
 
     @Override
+    public boolean setAttribute(Page page, Animation obj, String namespace, String name, String value)
+    {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android Animation attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
+        System.out.println("NOT FOUND ANIMATION ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+
+        return true;
+    }
+
+    @Override
+    public boolean removeAttribute(Page page, Animation obj, String namespace, String name)
+    {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android Animation attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
+        System.out.println("NOT FOUND ANIMATION ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+
+        return true;
+    }
+
+    @Override
     public boolean setAttribute(Page page, Animator obj, String namespace, String name, String value)
     {
         if (NAMESPACE_ANDROID.equals(namespace))
             throw new RuntimeException("Android Animator attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
-        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+        System.out.println("NOT FOUND ANIMATOR ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
 
         return true;
     }
@@ -103,7 +127,7 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
         if (NAMESPACE_ANDROID.equals(namespace))
             throw new RuntimeException("Android Animator attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
-        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+        System.out.println("NOT FOUND ANIMATOR ATTRIBUTE (removeAttribute): " + namespace + " " + name);
 
         return true;
     }
@@ -146,6 +170,7 @@ public abstract class TestSetupLocalLayoutBase implements AttrLayoutInflaterList
                 .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH) // 320
                 .setAttrLayoutInflaterListener(this)
                 .setAttrDrawableInflaterListener(this)
+                .setAttrAnimationInflaterListener(this)
                 .setAttrAnimatorInflaterListener(this)
                 .setContext(act)
                 .inflate(input,null);

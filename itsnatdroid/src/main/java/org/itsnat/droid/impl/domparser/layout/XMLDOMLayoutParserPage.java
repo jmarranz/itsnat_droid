@@ -29,7 +29,8 @@ public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
             parseScriptElement(parser,(XMLDOMLayoutPage)xmlDOM);
             return null; // Ignorar porque "desaparece"
         }
-        else return super.processElement(name,parentElement,parser, xmlDOM);
+        else
+            return super.processElement(name,parentElement,parser, xmlDOM);
     }
 
     protected void parseScriptElement(XmlPullParser parser, XMLDOMLayoutPage xmlDOM) throws IOException, XmlPullParserException

@@ -29,6 +29,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * Created by jmarranz on 31/10/14.
@@ -57,7 +58,33 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         }
     }
 
-    public abstract void parse(String markup,Txmldom xmlDOM);
+    public void parse(String markup,Txmldom xmlDOM)
+    {
+        StringReader input = new StringReader(markup);
+        parse(input,xmlDOM);
+    }
+
+    private void parse(Reader input,Txmldom xmlDOM)
+    {
+        try
+        {
+            XmlPullParser parser = newPullParser(input);
+            parse(parser,xmlDOM);
+        }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
+        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
+        finally
+        {
+            try { input.close(); }
+            catch (IOException ex) { throw new ItsNatDroidException(ex); }
+        }
+    }
+
+    private void parse(XmlPullParser parser,Txmldom xmlDOM) throws IOException, XmlPullParserException
+    {
+        String rootElemName = getRootElementName(parser);
+        parseRootElement(rootElemName,parser, xmlDOM);
+    }
 
     public DOMElement parseRootElement(String rootElemName, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
@@ -320,10 +347,9 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         {
             if (XMLDOMValues.TYPE_ANIM.equals(resourceType))
             {
-                throw new ItsNatDroidException("TO DO");
-                //xmlDOM = xmlDOMRegistry.buildXMLDOMAnimAndCachingByMarkupAndResDesc(markup, xmlDOMParserContext);
+                resource = xmlDOMRegistry.buildXMLDOMAnimationAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
             }
-            if (XMLDOMValues.TYPE_ANIMATOR.equals(resourceType))
+            else if (XMLDOMValues.TYPE_ANIMATOR.equals(resourceType))
             {
                 resource = xmlDOMRegistry.buildXMLDOMAnimatorAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
             }

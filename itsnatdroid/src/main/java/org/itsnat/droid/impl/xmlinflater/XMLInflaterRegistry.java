@@ -27,6 +27,7 @@ import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.dom.ResourceDescCompiled;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
+import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -36,6 +37,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
+import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
 import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
@@ -44,6 +46,8 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
+import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
+import org.itsnat.droid.impl.xmlinflater.anim.XMLInflaterAnimation;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -78,6 +82,7 @@ public class XMLInflaterRegistry
     private ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
     private ClassDescDrawableMgr classDescDrawableMgr = new ClassDescDrawableMgr(this);
     private ClassDescValuesMgr classDescValuesMgr = new ClassDescValuesMgr(this);
+    private ClassDescAnimationMgr classDescAnimationMgr = new ClassDescAnimationMgr(this);
     private ClassDescAnimatorMgr classDescAnimatorMgr = new ClassDescAnimatorMgr(this);
     private Map<XMLDOMValues,ElementValuesResources> cacheXMLDOMValuesXMLInflaterValuesMap = new HashMap<XMLDOMValues, ElementValuesResources>();
 
@@ -104,6 +109,11 @@ public class XMLInflaterRegistry
     public ClassDescValuesMgr getClassDescValuesMgr()
     {
         return classDescValuesMgr;
+    }
+
+    public ClassDescAnimationMgr getClassDescAnimationMgr()
+    {
+        return classDescAnimationMgr;
     }
 
     public ClassDescAnimatorMgr getClassDescAnimatorMgr()
@@ -1271,10 +1281,7 @@ public class XMLInflaterRegistry
             }
             else
             {
-
-                throw new ItsNatDroidException("TO DO");
-                //Animation animation = getAnimationDynamicFromXML(attrDyn, xmlInflater);
-                //return animation;
+                return getAnimationDynamicFromXML(resourceDescDyn,xmlInflaterContext);
             }
         }
         else if (resourceDesc instanceof ResourceDescCompiled)
@@ -1284,6 +1291,31 @@ public class XMLInflaterRegistry
             return getAnimationCompiled(resourceDescValue, ctx);
         }
         else throw MiscUtil.internalError();
+    }
+
+    private Animation getAnimationDynamicFromXML(ResourceDescDynamic resourceDescDyn, XMLInflaterContext xmlInflaterContext)
+    {
+        if (resourceDescDyn.getValuesResourceName() != null) throw MiscUtil.internalError();
+
+        Context ctx = xmlInflaterContext.getContext();
+
+        int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
+
+        AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+
+        // Esperamos un Animator
+        PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
+
+        if (resourceDescDyn instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
+        if (resource == null)
+            throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+        XMLDOMAnimation xmlDOMAnimation = (XMLDOMAnimation) resource.getXMLDOM();
+        InflatedAnimation inflatedAnimation = InflatedAnimation.createInflatedAnimation(itsNatDroid, xmlDOMAnimation, ctx, page);
+
+        XMLInflaterAnimation xmlInflaterAnimation = XMLInflaterAnimation.createXMLInflaterAnimation(inflatedAnimation, bitmapDensityReference, attrInflaterListeners);
+        return xmlInflaterAnimation.inflateAnimation();
     }
 
     private Animation getAnimationCompiled(String resourceDescValue,Context ctx)
@@ -1369,10 +1401,7 @@ public class XMLInflaterRegistry
 
         ElementValuesResources elementValuesResources = cacheXMLDOMValuesXMLInflaterValuesMap.get(xmlDOMValues);
         if (elementValuesResources != null)
-        {
-//System.out.println("CACHED elementValuesResources");
             return elementValuesResources;
-        }
 
         Context ctx = xmlInflaterContext.getContext();
 

@@ -191,10 +191,8 @@ public class ClassDescViewBased extends ClassDesc<View>
             ClassDescViewBased parentClass = getParentClassDescViewBased();
             if (parentClass != null)
             {
-                if (parentClass.setAttributeThisClass(view, attr, attrCtx))
-                    return true;
+                return parentClass.setAttributeThisClass(view, attr, attrCtx);
 
-                return false;
             }
             else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
             {

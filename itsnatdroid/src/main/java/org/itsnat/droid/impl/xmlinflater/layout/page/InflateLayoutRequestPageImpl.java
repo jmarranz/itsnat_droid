@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.page;
 
 import android.content.Context;
 
+import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
@@ -41,6 +42,12 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
     public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
     {
         return page.getPageRequestClonedImpl().getAttrDrawableInflaterListener();
+    }
+
+    @Override
+    public AttrAnimationInflaterListener getAttrAnimationInflaterListener()
+    {
+        return page.getPageRequestClonedImpl().getAttrAnimationInflaterListener();
     }
 
     public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()

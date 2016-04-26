@@ -128,9 +128,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
             ClassDescDrawable parentClass = getParentClassDescDrawable();
             if (parentClass != null)
             {
-                if (parentClass.setAttributeThisClass(draw, attr, attrCtx))
-                    return true;
-                return false;
+                return parentClass.setAttributeThisClass(draw, attr, attrCtx);
             }
             else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
             {

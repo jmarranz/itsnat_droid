@@ -21,8 +21,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ARRAY;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER_ARRAY;
@@ -49,34 +47,6 @@ public class XMLDOMValuesParser extends XMLDOMParser<XMLDOMValues>
         return false;
     }
 
-    @Override
-    public void parse(String markup,XMLDOMValues xmlDOMValues)
-    {
-        StringReader input = new StringReader(markup);
-        parse(input,xmlDOMValues);
-    }
-
-    private void parse(Reader input,XMLDOMValues xmlDOMValues)
-    {
-        try
-        {
-            XmlPullParser parser = newPullParser(input);
-            parse(parser,xmlDOMValues);
-        }
-        catch (IOException ex) { throw new ItsNatDroidException(ex); }
-        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
-        finally
-        {
-            try { input.close(); }
-            catch (IOException ex) { throw new ItsNatDroidException(ex); }
-        }
-    }
-
-    private void parse(XmlPullParser parser,XMLDOMValues xmlDOMValues) throws IOException, XmlPullParserException
-    {
-        String rootElemName = getRootElementName(parser);
-        parseRootElement(rootElemName,parser, xmlDOMValues);
-    }
 
     @Override
     protected DOMElement createElement(String tagName,DOMElement parent)
@@ -97,7 +67,7 @@ public class XMLDOMValuesParser extends XMLDOMParser<XMLDOMValues>
                     throw new ItsNatDroidException("Not supported yet:" + tagName);
             }
 
-            throw new ItsNatDroidException("Unrecognized element name:" + tagName);
+            throw new ItsNatDroidException("Unrecognized element name in this context:" + tagName);
         }
         else
         {
