@@ -3,6 +3,8 @@ package org.itsnat.droid.impl.xmlinflater.anim;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 
+import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSet;
 import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
@@ -10,6 +12,8 @@ import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
 import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationBased;
+
+import java.util.LinkedList;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -42,7 +46,7 @@ public class XMLInflaterAnimation extends XMLInflater
         return inflateRoot(getInflatedAnimation().getXMLDOMAnimation());
     }
 
-    private Animation inflateRoot(XMLDOMAnimation xmlDOMAnimation)
+    private AnimationSet inflateRoot(XMLDOMAnimation xmlDOMAnimation)
     {
         DOMElemAnimation rootDOMElem = (DOMElemAnimation)xmlDOMAnimation.getRootDOMElement();
 
@@ -51,19 +55,19 @@ public class XMLInflaterAnimation extends XMLInflater
         ClassDescAnimationBased classDesc = getClassDescAnimationBased(rootDOMElem);
         Animation animationRoot = classDesc.createRootAnimationNativeAndFillAttributes(rootDOMElem, attrCtx);
 
-        if (animationRoot instanceof AnimationSet)
-            processChildElements((DOMElemAnimationSet)rootDOMElem, (AnimationSet)animationRoot,attrCtx);
+        if (!(animationRoot instanceof AnimationSet))
+            throw new ItsNatDroidException("Expected a <set> element, found <" + rootDOMElem.getTagName() + ">");
 
-        return animationRoot;
+        AnimationSet animationRootSet = (AnimationSet)animationRoot;
+        processChildElements((DOMElemAnimationSet)rootDOMElem,animationRootSet,attrCtx);
+
+        return animationRootSet;
     }
 
     private void processChildElements(DOMElemAnimationSet domElemParent, AnimationSet parentAnimation, AttrAnimationContext attrCtx)
     {
-        /*
         LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null || childDOMElemList.size() == 0) return;
-
-        String ordering = ClassDescAnimationSet.getOrderingAttribute(domElemParent);
 
         Animation[] childAnimations = new Animation[childDOMElemList.size()];
         int i = 0;
@@ -73,15 +77,6 @@ public class XMLInflaterAnimation extends XMLInflater
             childAnimations[i] = animation;
             i++;
         }
-
-        if ("together".equals(ordering))
-            parentAnimation.playTogether(childAnimations);
-        else if ("sequentially".equals(ordering))
-            parentAnimation.playSequentially(childAnimations);
-        else
-            throw new ItsNatDroidException("Unknown ordering attribute value: " + ordering);
-
-            */
     }
 
     protected Animation inflateNextElement(DOMElemAnimation domElement,AttrAnimationContext attrCtx)

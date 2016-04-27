@@ -7,18 +7,10 @@ import org.itsnat.droid.impl.dom.XMLDOM;
 /**
  * Created by jmarranz on 24/04/2016.
  */
-public abstract class ResourceCacheByMarkupAndResDesc<TxmlDom extends XMLDOM,TxmlDomParser extends XMLDOMParser>
+public abstract class ResourceCacheByMarkupAndResDesc<TxmlDom extends XMLDOM,TxmlDomParser extends XMLDOMParser> extends ResourceCacheByMarkupAndResDescBase<TxmlDom,TxmlDomParser>
 {
-    protected ResourceCache<TxmlDom> cacheByMarkup = new ResourceCache<TxmlDom>();
-    protected ResourceCache<ResourceDescDynamic> cacheByResDescValue = new ResourceCache<ResourceDescDynamic>(); // ResourceDescDynamic contiene el ParsedResource conteniendo el recurso y su localización
-
     protected ResourceCacheByMarkupAndResDesc()
     {
-    }
-
-    public ResourceDescDynamic getResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
-    {
-        return cacheByResDescValue.get(resourceDescValue);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,12 +42,6 @@ public abstract class ResourceCacheByMarkupAndResDesc<TxmlDom extends XMLDOM,Txm
         resourceDesc.setParsedResource(resource);
 
         return resource;
-    }
-
-    public void cleanCaches()
-    {
-        cacheByMarkup.clear();
-        cacheByResDescValue.clear();
     }
 
     protected abstract TxmlDom createXMLDOMInstance();

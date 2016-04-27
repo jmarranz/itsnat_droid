@@ -2,30 +2,24 @@ package org.itsnat.droid.impl.domparser.layout;
 
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
+import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.ResourceCache;
+import org.itsnat.droid.impl.domparser.ResourceCacheByMarkupAndResDescBase;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.domparser.anim.XMLDOMAnimationParser;
 
 /**
  * Created by jmarranz on 24/04/2016.
  */
-public class ResourceCacheByMarkupAndResDescLayout
+public class ResourceCacheByMarkupAndResDescLayout extends ResourceCacheByMarkupAndResDescBase<XMLDOMLayout,XMLDOMLayoutParser>
 {
-    protected ResourceCache<XMLDOMLayout> layoutCacheByMarkup = new ResourceCache<XMLDOMLayout>();
-    protected ResourceCache<ResourceDescDynamic> layoutCacheByResDescValue = new ResourceCache<ResourceDescDynamic>();
-
     public ResourceCacheByMarkupAndResDescLayout()
     {
     }
 
-    public void cleanCaches()
-    {
-        layoutCacheByMarkup.clear();
-        layoutCacheByResDescValue.clear();
-    }
-
-    public ParsedResourceXMLDOM<XMLDOMLayout> buildXMLDOMLayoutAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
+    public ParsedResourceXMLDOM<XMLDOMLayout> buildXMLDOMAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
     {
         // Este método DEBE ser multihilo, el objeto layoutCacheByMarkup ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
@@ -42,8 +36,8 @@ public class ResourceCacheByMarkupAndResDescLayout
         if (resourceDesc != null)
         {
             String resourceDescValue = resourceDesc.getResourceDescValue();
-            if (layoutCacheByResDescValue.get(resourceDescValue) == null)
-                layoutCacheByResDescValue.put(resourceDescValue, resourceDesc); // Lo hacemos antes de cacheByMarkup.get() de esta manera cacheamos también en el caso raro de dos archivos con el mismo markup, por otra parte en el caso de que ya exista se actualiza el timestamp del recurso al hacer el get (recurso recientemente usado)
+            if (cacheByResDescValue.get(resourceDescValue) == null)
+                cacheByResDescValue.put(resourceDescValue, resourceDesc); // Lo hacemos antes de cacheByMarkup.get() de esta manera cacheamos también en el caso raro de dos archivos con el mismo markup, por otra parte en el caso de que ya exista se actualiza el timestamp del recurso al hacer el get (recurso recientemente usado)
         }
 
 
@@ -54,12 +48,12 @@ public class ResourceCacheByMarkupAndResDescLayout
         else
             markupWithoutLoadScript[0] = markup;
 
-        XMLDOMLayout cachedXMLDOMLayout = layoutCacheByMarkup.get(markupWithoutLoadScript[0]); // En el caso no nulo el cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
+        XMLDOMLayout cachedXMLDOMLayout = cacheByMarkup.get(markupWithoutLoadScript[0]); // En el caso no nulo el cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
         if (cachedXMLDOMLayout == null)
         {
             XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,layoutType,xmlDOMParserContext);
             cachedXMLDOMLayout = layoutParser.createXMLDOMLayout();
-            layoutCacheByMarkup.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
+            cacheByMarkup.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
 
             layoutParser.parse(markup,cachedXMLDOMLayout);
             if (cachedXMLDOMLayout instanceof XMLDOMLayoutPageItsNat)
@@ -75,11 +69,6 @@ public class ResourceCacheByMarkupAndResDescLayout
             resourceDesc.setParsedResource(resource);
 
         return resource;
-    }
-
-    public ResourceDescDynamic getLayoutResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
-    {
-        return layoutCacheByResDescValue.get(resourceDescValue);
     }
 
 }

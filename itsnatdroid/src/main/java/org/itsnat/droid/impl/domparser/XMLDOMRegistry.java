@@ -52,12 +52,12 @@ public class XMLDOMRegistry
 
     public ParsedResourceXMLDOM<XMLDOMLayout> buildXMLDOMLayoutAndCachingByMarkupAndResDesc(String markup,ResourceDescDynamic resourceDesc, String itsNatServerVersion, XMLDOMLayoutParser.LayoutType layoutType, XMLDOMParserContext xmlDOMParserContext)
     {
-        return layoutCache.buildXMLDOMLayoutAndCachingByMarkupAndResDesc(markup,resourceDesc,itsNatServerVersion,layoutType,xmlDOMParserContext);
+        return layoutCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup,resourceDesc,itsNatServerVersion,layoutType,xmlDOMParserContext);
     }
 
     public ResourceDescDynamic getLayoutResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
-        return layoutCache.getLayoutResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        return layoutCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
     }
 
     public ParsedResourceXMLDOM<XMLDOMDrawable> buildXMLDOMDrawableAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
