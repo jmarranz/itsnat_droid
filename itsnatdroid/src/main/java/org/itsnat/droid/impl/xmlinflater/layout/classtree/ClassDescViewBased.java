@@ -138,15 +138,18 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     public boolean setAttribute(View view,DOMAttr attr,AttrLayoutContext attrCtx)
     {
+        String namespaceURI = attr.getNamespaceURI();
+        String name = attr.getName(); // El nombre devuelto no contiene el namespace
+        String value = attr.getValue();
         try
         {
-            return setAttributeThisClass(view,attr,attrCtx);
+            if (setAttributeThisClass(view,attr,attrCtx))
+                return true;
+
+            return processSetAttrCustom(view, namespaceURI, name, value, attrCtx.getXMLInflaterContext());
         }
         catch (Exception ex)
         {
-            String namespaceURI = attr.getNamespaceURI();
-            String name = attr.getName(); // El nombre devuelto no contiene el namespace
-            String value = attr.getValue();
             throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + view, ex);
         }
     }
@@ -160,8 +163,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
-        String value = attr.getValue();
-
+        //String value = attr.getValue();
 
         if (isAttributeIgnored(namespaceURI, name))
             return true; // Se trata de forma especial en otro lugar
@@ -192,13 +194,9 @@ public class ClassDescViewBased extends ClassDesc<View>
             if (parentClass != null)
             {
                 return parentClass.setAttributeThisClass(view, attr, attrCtx);
-
-            }
-            else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
-            {
-                return processSetAttrCustom(view, namespaceURI, name, value, attrCtx.getXMLInflaterContext());
             }
 
+            return false;
         }
 
     }
@@ -216,7 +214,10 @@ public class ClassDescViewBased extends ClassDesc<View>
     {
         try
         {
-            return removeAttributeThisClass(view,namespaceURI,name,attrCtx);
+            if (removeAttributeThisClass(view,namespaceURI,name,attrCtx))
+                return true;
+
+            return processRemoveAttrCustom(view, namespaceURI, name, attrCtx.getXMLInflaterContext());
         }
         catch(Exception ex)
         {
@@ -228,7 +229,6 @@ public class ClassDescViewBased extends ClassDesc<View>
     protected boolean removeAttributeThisClass(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();
-
 
         if (isAttributeIgnored(namespaceURI,name))
             return true; // Se trata de forma especial en otro lugar
@@ -245,14 +245,10 @@ public class ClassDescViewBased extends ClassDesc<View>
             ClassDescViewBased parentClass = getParentClassDescViewBased();
             if (parentClass != null)
             {
-                if (parentClass.removeAttributeThisClass(view, namespaceURI, name, attrCtx))
-                    return true;
-                return false;
+                return parentClass.removeAttributeThisClass(view, namespaceURI, name, attrCtx);
             }
-            else
-            {
-                return processRemoveAttrCustom(view, namespaceURI, name, attrCtx.getXMLInflaterContext());
-            }
+
+            return false;
         }
 
     }

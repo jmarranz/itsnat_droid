@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
  */
 public class DOMElemAnimation extends DOMElement
 {
-    public DOMElemAnimation(String tagName, DOMElemAnimation parentElement)
+    public DOMElemAnimation(String tagName, DOMElemAnimationSet parentElement)
     {
         super(tagName, parentElement);
     }

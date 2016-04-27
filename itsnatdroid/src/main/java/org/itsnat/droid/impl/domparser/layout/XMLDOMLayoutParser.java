@@ -71,14 +71,14 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser<XMLDOMLayout>
     }
 
     @Override
-    protected DOMElement createElement(String name,DOMElement parent)
+    protected DOMElement createElement(String tagName,DOMElement parent)
     {
-        if ("merge".equals(name))
+        if ("merge".equals(tagName))
         {
             if (parent != null) throw new ItsNatDroidException("<merge> only can be used as a root element of the XML layout");
-            return new DOMElemMerge(name, null);
+            return new DOMElemMerge(tagName, null);
         }
         else
-            return new DOMElemView(name,(DOMElemLayout)parent);
+            return new DOMElemView(tagName,(DOMElemLayout)parent);
     }
 }

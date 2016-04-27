@@ -28,8 +28,8 @@ public class XMLDOMDrawableParser extends XMLDOMParser<XMLDOMDrawable>
     }
 
     @Override
-    protected DOMElement createElement(String name,DOMElement parent)
+    protected DOMElement createElement(String tagName,DOMElement parent)
     {
-        return new DOMElemDrawable(name,(DOMElemDrawable)parent);
+        return new DOMElemDrawable(tagName,(DOMElemDrawable)parent);
     }
 }

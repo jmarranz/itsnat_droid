@@ -5,7 +5,7 @@ package org.itsnat.droid.impl.dom.animator;
  */
 public class DOMElemAnimatorSet extends DOMElemAnimator
 {
-    public DOMElemAnimatorSet(DOMElemAnimator parentElement)
+    public DOMElemAnimatorSet(DOMElemAnimatorSet parentElement)
     {
         super("set", parentElement);
     }

@@ -91,15 +91,20 @@ public abstract class ClassDescAnimationBased<T extends Animation> extends Class
     {
         // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
 
+        String namespaceURI = attr.getNamespaceURI();
+        String name = attr.getName(); // El nombre devuelto no contiene el namespace
+        String value = attr.getValue();
+
         try
         {
-            return setAttributeThisClass(animation,attr,attrCtx);
+            if (setAttributeThisClass(animation,attr,attrCtx))
+                return true;
+
+            XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
+            return processSetAttrCustom(animation, namespaceURI, name, value, xmlInflaterContext);
         }
         catch (Exception ex)
         {
-            String namespaceURI = attr.getNamespaceURI();
-            String name = attr.getName(); // El nombre devuelto no contiene el namespace
-            String value = attr.getValue();
             throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + animation, ex);
         }
     }
@@ -112,7 +117,7 @@ public abstract class ClassDescAnimationBased<T extends Animation> extends Class
 
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
-        String value = attr.getValue();
+        //String value = attr.getValue();
 
         if (isAttributeIgnored(namespaceURI, name))
             return true; // Se trata de forma especial en otro lugar
@@ -143,15 +148,10 @@ public abstract class ClassDescAnimationBased<T extends Animation> extends Class
             if (parentClass != null)
             {
                 return parentClass.setAttributeThisClass(animation, attr, attrCtx);
+            }
 
-            }
-            else // if (parentClass == null) // Esto es para que se llame una sola vez al processAttrCustom al recorrer hacia arriba el árbol
-            {
-                XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
-                return processSetAttrCustom(animation, namespaceURI, name, value, xmlInflaterContext);
-            }
+            return false;
         }
-
     }
 
 
@@ -159,7 +159,11 @@ public abstract class ClassDescAnimationBased<T extends Animation> extends Class
     {
         try
         {
-            return removeAttributeThisClass(animation,namespaceURI,name,attrCtx);
+            if (removeAttributeThisClass(animation,namespaceURI,name,attrCtx))
+                return true;
+
+            XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
+            return processRemoveAttrCustom(animation, namespaceURI, name, xmlInflaterContext);
         }
         catch(Exception ex)
         {
@@ -173,32 +177,26 @@ public abstract class ClassDescAnimationBased<T extends Animation> extends Class
         if (!isInit()) init();
 
 
-            if (isAttributeIgnored(namespaceURI,name))
-                return true; // Se trata de forma especial en otro lugar
+        if (isAttributeIgnored(namespaceURI,name))
+            return true; // Se trata de forma especial en otro lugar
 
-            AttrDesc<ClassDescAnimationBased,Animation,AttrAnimationContext> attrDesc = this.<ClassDescAnimationBased,Animation,AttrAnimationContext>getAttrDesc(namespaceURI, name);
-            if (attrDesc != null)
+        AttrDesc<ClassDescAnimationBased,Animation,AttrAnimationContext> attrDesc = this.<ClassDescAnimationBased,Animation,AttrAnimationContext>getAttrDesc(namespaceURI, name);
+        if (attrDesc != null)
+        {
+            attrDesc.removeAttribute(animation,attrCtx);
+            // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
+            return true;
+        }
+        else
+        {
+            ClassDescAnimationBased parentClass = getParentClassDescAnimationBased();
+            if (parentClass != null)
             {
-                attrDesc.removeAttribute(animation,attrCtx);
-                // No tiene mucho sentido añadir isPendingToDownload etc aquí, no encuentro un caso de que al eliminar el atributo el valor por defecto a definir sea remoto aunque sea un drawable lo normal será un "@null" o un drawable por defecto nativo de Android
-                return true;
-            }
-            else
-            {
-                ClassDescAnimationBased parentClass = getParentClassDescAnimationBased();
-                if (parentClass != null)
-                {
-                    if (parentClass.removeAttributeThisClass(animation, namespaceURI, name, attrCtx))
-                        return true;
-                    return false;
-                }
-                else
-                {
-                    XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
-                    return processRemoveAttrCustom(animation, namespaceURI, name, xmlInflaterContext);
-                }
+                return parentClass.removeAttributeThisClass(animation, namespaceURI, name, attrCtx);
             }
 
+            return false;
+        }
     }
 
     private boolean processSetAttrCustom(Animation animation, String namespaceURI, String name, String value, XMLInflaterContext xmlInflaterContext)

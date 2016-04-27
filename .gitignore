@@ -10,5 +10,6 @@
 /.idea/libraries
 .DS_Store
 /build
+*.iml
 
 /docs_internal/

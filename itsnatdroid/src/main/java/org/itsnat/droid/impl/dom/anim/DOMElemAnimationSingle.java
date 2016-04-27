@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.dom.animator;
+package org.itsnat.droid.impl.dom.anim;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -6,14 +6,9 @@ import org.itsnat.droid.impl.dom.DOMElement;
 /**
  * Created by jmarranz on 21/03/2016.
  */
-public class DOMElemAnimatorValue extends DOMElemAnimator
+public class DOMElemAnimationSingle extends DOMElemAnimation
 {
-    public DOMElemAnimatorValue(DOMElemAnimatorSet parentElement)
-    {
-        super("animator", parentElement);
-    }
-
-    public DOMElemAnimatorValue(String tagName,DOMElemAnimatorSet parentElement)
+    public DOMElemAnimationSingle(String tagName, DOMElemAnimationSet parentElement)
     {
         super(tagName, parentElement);
     }

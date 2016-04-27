@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.domparser.animator;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimatorObject;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimatorSet;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimatorValue;
@@ -37,7 +36,7 @@ public class XMLDOMAnimatorParser extends XMLDOMParser<XMLDOMAnimator>
     {
         // Interesante ver el código fuente de: AnimatorInflater : Animator createAnimatorFromXml(Context c, XmlPullParser parser)
 
-        DOMElemAnimator parentAnimator = (DOMElemAnimator)parent;
+        DOMElemAnimatorSet parentAnimator = (DOMElemAnimatorSet)parent;
         if ("set".equals(tagName))
         {
             return new DOMElemAnimatorSet(parentAnimator);

@@ -79,8 +79,6 @@ public class XMLInflaterAnimator extends XMLInflater
 
     private void processChildElements(DOMElemAnimatorSet domElemParent, AnimatorSet parentAnimator,AttrAnimatorContext attrCtx)
     {
-
-
         LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null || childDOMElemList.size() == 0) return;
 
