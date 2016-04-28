@@ -47,7 +47,7 @@
             android:loopViews="true"
             android:outAnimation="@animator/object_animator_test"
             android:autoStart="true"
-            android:flipInterval="2000"  />
+            android:flipInterval="3000"  />
 
         <AdapterViewFlipper
             android:id="@+id/objectAnimatorTestId2"
@@ -58,7 +58,7 @@
             android:loopViews="true"
             android:outAnimation="@animator/test_object_animator_compiled"
             android:autoStart="true"
-            android:flipInterval="2000"  />
+            android:flipInterval="3000"  />
 
         <AdapterViewFlipper
             android:id="@+id/objectAnimatorTestId3"
@@ -69,7 +69,7 @@
             android:loopViews="true"
             android:outAnimation="@animator/test_animator_object_animator_values"
             android:autoStart="true"
-            android:flipInterval="2000"  />
+            android:flipInterval="3000"  />
 
 
         <AdapterViewFlipper
@@ -81,7 +81,7 @@
             android:inAnimation="@animator/test_object_animator_2_compiled"
             android:loopViews="true"
             android:autoStart="true"
-            android:flipInterval="2000"  /> <!-- android:outAnimation="@animator/test_object_animator_2_compiled" -->
+            android:flipInterval="3000"  /> <!-- android:outAnimation="@animator/test_object_animator_2_compiled" -->
 
 
         <TextView
@@ -115,6 +115,39 @@
             android:background="@android:color/holo_green_light"
             /> <!--  -->
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="AlphaAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:animateFirstView="true"
+            android:inAnimation="@anim/test_animation_translate_in_from_right_compiled"
+            android:outAnimation="@anim/test_animation_translate_out_to_right_compiled"
+            android:autoStart="true"
+            android:flipInterval="3000"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#55ff0000"
+                android:text="AlphaAnimation Test 1"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#5500ff00"
+                android:text="AlphaAnimation Test 2"
+                android:textSize="20dp"/>
+
+        </ViewFlipper>
 
 
     </LinearLayout>

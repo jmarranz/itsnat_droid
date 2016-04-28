@@ -2007,7 +2007,7 @@ public class TestLocalLayout1
             assertEquals(compLayout.isAutoStart(),parsedLayout.isAutoStart());
 
             // android:flipInterval  (getFlipInterval es Level 16)
-            assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),2000);
+            assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),3000);
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
         }
 

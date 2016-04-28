@@ -31,7 +31,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test FrameLayout"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -57,7 +57,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test CalendarView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -87,7 +87,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test DatePicker"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -108,7 +108,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test GestureOverlayView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -140,7 +140,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test HorizontalScrollView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -162,7 +162,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ScrollView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -184,7 +184,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ViewFlipper (and ViewAnimator)"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -197,7 +197,7 @@
             android:inAnimation="@anim/in_from_right"
             android:outAnimation="@anim/out_to_right"
             android:autoStart="true"
-            android:flipInterval="2000"
+            android:flipInterval="3000"
             >
 
             <TextView
@@ -218,7 +218,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test GridLayout"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -289,7 +289,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test LinearLayout"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -372,7 +372,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test RadioGroup (and RadioButton)"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -400,7 +400,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test SearchView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -419,7 +419,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test TabWidget (and TabHost)"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -486,7 +486,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test TableLayout,TableRow,TableLayout.LayoutParams"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -552,7 +552,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test RelativeLayout"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -616,7 +616,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test SlidingDrawer"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -661,7 +661,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ViewStub"
             android:textSize="15dp"
             android:background="#00ff00"/>

@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflater.anim;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSet;
@@ -46,7 +45,7 @@ public class XMLInflaterAnimation extends XMLInflater
         return inflateRoot(getInflatedAnimation().getXMLDOMAnimation());
     }
 
-    private AnimationSet inflateRoot(XMLDOMAnimation xmlDOMAnimation)
+    private Animation inflateRoot(XMLDOMAnimation xmlDOMAnimation)
     {
         DOMElemAnimation rootDOMElem = (DOMElemAnimation)xmlDOMAnimation.getRootDOMElement();
 
@@ -55,13 +54,16 @@ public class XMLInflaterAnimation extends XMLInflater
         ClassDescAnimationBased classDesc = getClassDescAnimationBased(rootDOMElem);
         Animation animationRoot = classDesc.createRootAnimationNativeAndFillAttributes(rootDOMElem, attrCtx);
 
-        if (!(animationRoot instanceof AnimationSet))
-            throw new ItsNatDroidException("Expected a <set> element, found <" + rootDOMElem.getTagName() + ">");
+        // No te creas t_odo lo que viene en la doc de Android, cualquier Animation puede ser root
+        // http://developerlife.com/tutorials/?p=343 (ejemplo <alpha>)
+        // <alpha xmlns:android="http://schemas.android.com/apk/res/android"
+        //        android:interpolator="@android:anim/accelerate_interpolator"
+        //        android:fromAlpha="0.0" android:toAlpha="1.0" android:duration="100" />
 
-        AnimationSet animationRootSet = (AnimationSet)animationRoot;
-        processChildElements((DOMElemAnimationSet)rootDOMElem,animationRootSet,attrCtx);
+        if (animationRoot instanceof AnimationSet)
+            processChildElements((DOMElemAnimationSet)rootDOMElem,(AnimationSet)animationRoot,attrCtx);
 
-        return animationRootSet;
+        return animationRoot;
     }
 
     private void processChildElements(DOMElemAnimationSet domElemParent, AnimationSet parentAnimation, AttrAnimationContext attrCtx)

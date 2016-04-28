@@ -43,7 +43,7 @@
         <TextView
             android:text="Test misc attribs"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:textSize="15dp"
             android:background="#00ff00"/>
 
@@ -101,7 +101,7 @@
         <TextView
             android:text="Test resource folder filters"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:textSize="15dp"
             android:background="#00ff00"/>
 
@@ -232,7 +232,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test Custom View"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -252,7 +252,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test View Attribs"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -350,7 +350,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test AnalogClock"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -368,7 +368,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ImageView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -390,7 +390,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ProgressBar"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -426,7 +426,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test RatingBar"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -447,7 +447,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test SeekBar"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -463,7 +463,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test TextView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -567,7 +567,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test CompoundButton via CheckBox"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -584,7 +584,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test Switch"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -608,7 +608,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ToggleButton"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -625,7 +625,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test CheckedTextView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -643,7 +643,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test Chronometer"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -658,7 +658,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test EditText"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -681,7 +681,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test AutoCompleteTextView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -739,7 +739,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test AdapterViewFlipper (and AdapterViewAnimator)"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -754,11 +754,11 @@ Android TV uimt: television"
             android:loopViews="true"
             android:outAnimation="@animator/object_animator_test"
             android:autoStart="true"
-            android:flipInterval="2000"  />
+            android:flipInterval="3000"  />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ViewGroup attrs and ViewGroup.LayoutParams"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -797,7 +797,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ViewGroup.MarginLayoutParams"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -830,7 +830,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test AbsListView (and AdapterView) via ListView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -855,7 +855,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test GridView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -875,7 +875,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ListView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -896,7 +896,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test ExpandableListView"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -921,7 +921,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test Gallery"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -941,7 +941,7 @@ Android TV uimt: television"
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Test Spinner"
             android:textSize="15dp"
             android:background="#00ff00"/>
