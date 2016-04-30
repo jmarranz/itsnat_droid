@@ -36,18 +36,6 @@ public class ClassDescAnimationTranslate extends ClassDescAnimationBased<Transla
         return false;
     }
 
-    protected void fillAnimationAttributes(Animation animation, DOMElemAnimation domElement, AttrAnimationContext attrCtx)
-    {
-        fillAnimationValueConstructionAttributes(animation, domElement, attrCtx);
-
-        super.fillAnimationAttributes(animation, domElement,attrCtx);
-    }
-
-    protected void fillAnimationValueConstructionAttributes(Animation animation, DOMElemAnimation domElement, AttrAnimationContext attrCtx)
-    {
-        // ???????
-    }
-
     protected void init()
     {
         super.init();

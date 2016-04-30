@@ -58,8 +58,8 @@ public class ClassDescAnimation extends ClassDescAnimationBased<Animation>
         addAttrDescAN(new AttrDescReflecMethodInterpolator(this, "interpolator","@android:anim/accelerateDecelerateInterpolator")); // Cuando no se define uno externamente se asegura un AccelerateDecelerateInterpolator por lo que consideramos que es el de por defecto si se eliminara el atributo
         addAttrDescAN(new AttrDescAnimation_view_animation_Animation_repeatCount(this));
         addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));
-        addAttrDescAN(new AttrDescReflecMethodInt(this, "zAdjustment", 0));
         addAttrDescAN(new AttrDescReflecMethodLong(this, "startOffset", 0L));
+        addAttrDescAN(new AttrDescReflecMethodInt(this, "zAdjustment", 0));
     }
 }
 

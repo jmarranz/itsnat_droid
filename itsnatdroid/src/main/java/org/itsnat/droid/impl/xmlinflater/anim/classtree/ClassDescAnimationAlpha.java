@@ -7,6 +7,7 @@ import android.view.animation.Animation;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat;
 
 /**
  * Created by Jose on 15/10/2015.
@@ -36,24 +37,14 @@ public class ClassDescAnimationAlpha extends ClassDescAnimationBased<AlphaAnimat
         return false;
     }
 
-    protected void fillAnimationAttributes(Animation animation, DOMElemAnimation domElement, AttrAnimationContext attrCtx)
-    {
-        fillAnimationValueConstructionAttributes(animation, domElement, attrCtx);
 
-        super.fillAnimationAttributes(animation, domElement,attrCtx);
-    }
-
-    protected void fillAnimationValueConstructionAttributes(Animation animation, DOMElemAnimation domElement, AttrAnimationContext attrCtx)
-    {
-        // ???????
-    }
-
+    @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();
 
-        //addAttrDescAN(new AttrDescReflecMethodInt(this, "repeatCount", 0)); // Se puede llamar independientemente de valueFrom y valueTo
-        //addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));  // "
+        addAttrDescAN(new AttrDescReflecFieldSetFloat(this, "fromAlpha", "mFromAlpha",1.0f));
+        addAttrDescAN(new AttrDescReflecFieldSetFloat(this, "toAlpha", "mToAlpha",1.0f));
     }
 
 }

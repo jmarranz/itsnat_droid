@@ -31,22 +31,13 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
     protected boolean isAttributeIgnored(String namespaceURI,String name)
     {
         return false;
-        /*
-        if (super.isAttributeIgnored(namespaceURI,name))
-            return true;
-        return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && name.equals("ordering");
-        */
     }
 
-    /*
-    public static String getOrderingAttribute(DOMElemAnimatorSet domElemParent)
+    protected void init()
     {
-        // Por defecto es together
-        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/animation/AnimatorInflater.java#AnimatorInflater.createAnimatorFromXml
-        DOMAttr attr = findAttribute(NamespaceUtil.XMLNS_ANDROID, "ordering", domElemParent.getDOMAttributeMap());
-        if (attr == null)
-            return "together";
-        return attr.getValue();
+        super.init();
+
+        //addAttrDescAN(new AttrDescReflecMethodInt(this, "repeatCount", 0)); // Se puede llamar independientemente de valueFrom y valueTo
+        //addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));  // "
     }
-    */
 }

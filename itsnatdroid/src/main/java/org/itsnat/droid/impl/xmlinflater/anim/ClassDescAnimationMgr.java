@@ -33,9 +33,6 @@ public class ClassDescAnimationMgr extends ClassDescMgr<ClassDescAnimationBased>
     {
         ClassDescAnimation animation = new ClassDescAnimation(this);
 
-        ClassDescAnimationSet set = new ClassDescAnimationSet(this,animation);
-        addClassDesc(set);
-
         ClassDescAnimationAlpha alpha = new ClassDescAnimationAlpha(this,animation);
         addClassDesc(alpha);
 
@@ -44,6 +41,9 @@ public class ClassDescAnimationMgr extends ClassDescMgr<ClassDescAnimationBased>
 
         ClassDescAnimationScale scale = new ClassDescAnimationScale(this,animation);
         addClassDesc(scale);
+
+        ClassDescAnimationSet set = new ClassDescAnimationSet(this,animation);
+        addClassDesc(set);
 
         ClassDescAnimationTranslate translate = new ClassDescAnimationTranslate(this,animation);
         addClassDesc(translate);
