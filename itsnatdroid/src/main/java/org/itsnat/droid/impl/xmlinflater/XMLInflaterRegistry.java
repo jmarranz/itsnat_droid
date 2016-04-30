@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
@@ -29,6 +30,7 @@ import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
+import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
@@ -39,6 +41,7 @@ import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
 import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
+import org.itsnat.droid.impl.xmlinflated.animinterp.InflatedInterpolator;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
@@ -50,6 +53,8 @@ import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.anim.XMLInflaterAnimation;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
+import org.itsnat.droid.impl.xmlinflater.animinterp.ClassDescInterpolatorMgr;
+import org.itsnat.droid.impl.xmlinflater.animinterp.XMLInflaterInterpolator;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -84,6 +89,7 @@ public class XMLInflaterRegistry
     private ClassDescValuesMgr classDescValuesMgr = new ClassDescValuesMgr(this);
     private ClassDescAnimationMgr classDescAnimationMgr = new ClassDescAnimationMgr(this);
     private ClassDescAnimatorMgr classDescAnimatorMgr = new ClassDescAnimatorMgr(this);
+    private ClassDescInterpolatorMgr classDescInterpolatorMgr = new ClassDescInterpolatorMgr(this);
     private Map<XMLDOMValues,ElementValuesResources> cacheXMLDOMValuesXMLInflaterValuesMap = new HashMap<XMLDOMValues, ElementValuesResources>();
 
     public XMLInflaterRegistry(ItsNatDroidImpl itsNatDroid)
@@ -119,6 +125,11 @@ public class XMLInflaterRegistry
     public ClassDescAnimatorMgr getClassDescAnimatorMgr()
     {
         return classDescAnimatorMgr;
+    }
+
+    public ClassDescInterpolatorMgr getClassDescInterpolatorMgr()
+    {
+        return classDescInterpolatorMgr;
     }
 
     public int generateViewId()
@@ -1384,6 +1395,67 @@ public class XMLInflaterRegistry
             return null;
 
         return AnimatorInflater.loadAnimator(ctx, id);
+    }
+
+    public Interpolator getInterpolator(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
+    {
+        // http://developer.android.com/guide/topics/resources/animation-resource.html#Interpolators
+        if (resourceDesc instanceof ResourceDescDynamic)
+        {
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            if (resourceDescDyn.getValuesResourceName() != null)
+            {
+                ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
+                return elementResources.getInterpolator(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
+            }
+            else
+            {
+                return getInterpolatorDynamicFromXML(resourceDescDyn,xmlInflaterContext);
+            }
+        }
+        else if (resourceDesc instanceof ResourceDescCompiled)
+        {
+            Context ctx = xmlInflaterContext.getContext();
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getInterpolatorCompiled(resourceDescValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private Interpolator getInterpolatorDynamicFromXML(ResourceDescDynamic resourceDescDyn, XMLInflaterContext xmlInflaterContext)
+    {
+        if (resourceDescDyn.getValuesResourceName() != null) throw MiscUtil.internalError();
+
+        Context ctx = xmlInflaterContext.getContext();
+
+        int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
+
+        AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+
+        // Esperamos un Animator
+        PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
+
+        if (resourceDescDyn instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
+        if (resource == null)
+            throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+
+        XMLDOMInterpolator xmlDOMInterpolator = (XMLDOMInterpolator) resource.getXMLDOM();
+        InflatedInterpolator inflatedInterpolator = InflatedInterpolator.createInflatedInterpolator(itsNatDroid, xmlDOMInterpolator, ctx, page);
+
+        XMLInflaterInterpolator xmlInflaterInterpolator = XMLInflaterInterpolator.createXMLInflaterInterpolator(inflatedInterpolator, bitmapDensityReference, attrInflaterListeners);
+
+        return xmlInflaterInterpolator.inflateInterpolator();
+    }
+
+    private Interpolator getInterpolatorCompiled(String resourceDescValue,Context ctx)
+    {
+        int id = getIdentifierCompiled(resourceDescValue, ctx);
+        if (id <= 0)
+            return null;
+
+        return AnimationUtils.loadInterpolator(ctx, id);
     }
 
 

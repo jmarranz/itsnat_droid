@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -188,6 +189,10 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflaterRegistry().getAnimator(resourceDesc, xmlInflaterContext);
     }
 
+    public Interpolator getInterpolator(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
+    {
+        return getXMLInflaterRegistry().getInterpolator(resourceDesc, xmlInflaterContext);
+    }
 
     public static <T> T parseSingleName(String value, MapSmart<String, T> nameValueMap)
     {

@@ -10,7 +10,7 @@ public abstract class MapSmart<Key,Value>
 {
     public static <Key,Value> MapSmart<Key,Value> create(int items)
     {
-        if (items >= 8) return new MapSmartNormal<Key,Value>(); // Compensa hacer como máximo 3 búsquedas en vez de ocho
+        if (items >= 6) return new MapSmartNormal<Key,Value>(); // Compensa hacer como máximo 3 búsquedas en vez de seis
         else return new MapSmartArray<Key,Value>(items);
     }
 

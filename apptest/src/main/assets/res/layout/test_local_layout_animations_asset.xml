@@ -31,7 +31,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="ObjectAnimator Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -84,7 +84,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="ValueAnimator Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -99,7 +99,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="AnimatorSet Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>

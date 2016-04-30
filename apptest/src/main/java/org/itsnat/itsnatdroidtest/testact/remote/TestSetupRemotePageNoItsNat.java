@@ -6,15 +6,16 @@ import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestRemotePage extends TestRemotePageBase
+public class TestSetupRemotePageNoItsNat extends TestSetupRemotePageBase
 {
-    public TestRemotePage(final TestActivityTabFragment fragment, final ItsNatDroidBrowser droidBrowser)
+    public TestSetupRemotePageNoItsNat(TestActivityTabFragment fragment, ItsNatDroidBrowser droidBrowser)
     {
-        super(fragment,droidBrowser);
+        super(fragment,droidBrowser,false);
     }
 
     public void test(String url)
     {
         executePageRequest(url);
     }
+
 }

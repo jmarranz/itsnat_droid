@@ -19,9 +19,9 @@ import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestRemoteCore extends TestRemotePageBase
+public class TestSetupRemoteCore extends TestSetupRemotePageBase
 {
-    public TestRemoteCore(final TestActivityTabFragment fragment,final ItsNatDroidBrowser droidBrowser)
+    public TestSetupRemoteCore(final TestActivityTabFragment fragment, final ItsNatDroidBrowser droidBrowser)
     {
         super(fragment,droidBrowser);
     }
@@ -58,6 +58,7 @@ public class TestRemoteCore extends TestRemotePageBase
         .setAttrDrawableInflaterListener(this)
         .setAttrAnimationInflaterListener(this)
         .setAttrAnimatorInflaterListener(this)
+        .setAttrInterpolatorInflaterListener(this)
         .setConnectTimeout(getConnectionTimeout())
         .setReadTimeout(getReadTimeout())
         .setURL(url)

@@ -3,13 +3,13 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_indeterminate;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_indeterminateBehavior;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_interpolator;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ProgressBar_progressDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetDimensionIntRound;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInterpolator;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -32,7 +32,7 @@ public class ClassDescView_widget_ProgressBar extends ClassDescViewBased
         addAttrDescAN(new AttrDescReflecMethodDrawable(this, "indeterminateDrawable", null)); // Android tiene un drawable por defecto
         addAttrDescAN(new AttrDescReflecFieldSetInt(this, "indeterminateDuration", "mDuration", 4000));
         addAttrDescAN(new AttrDescReflecFieldSetBoolean(this, "indeterminateOnly", "mOnlyIndeterminate", false));
-        addAttrDescAN(new AttrDescView_widget_ProgressBar_interpolator(this));
+        addAttrDescAN(new AttrDescReflecMethodInterpolator(this,"interpolator","@android:anim/linear_interpolator")); // Yo creo que es el que usa por defecto Android en este caso
         addAttrDescAN(new AttrDescReflecMethodInt(this, "max", 100));
         addAttrDescAN(new AttrDescReflecFieldSetDimensionIntRound(this, "maxHeight", "mMaxHeight", 48));
         addAttrDescAN(new AttrDescReflecFieldSetDimensionIntRound(this, "maxWidth", "mMaxWidth", 48));

@@ -39,13 +39,14 @@ public class ClassDescAnimationMgr extends ClassDescMgr<ClassDescAnimationBased>
         ClassDescAnimationAlpha alpha = new ClassDescAnimationAlpha(this,animation);
         addClassDesc(alpha);
 
+        ClassDescAnimationRotate rotate = new ClassDescAnimationRotate(this,animation);
+        addClassDesc(rotate);
+
         ClassDescAnimationScale scale = new ClassDescAnimationScale(this,animation);
         addClassDesc(scale);
 
         ClassDescAnimationTranslate translate = new ClassDescAnimationTranslate(this,animation);
         addClassDesc(translate);
 
-        ClassDescAnimationRotate rotate = new ClassDescAnimationRotate(this,animation);
-        addClassDesc(rotate);
     }
 }

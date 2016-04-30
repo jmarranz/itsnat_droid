@@ -6,6 +6,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
@@ -58,9 +60,13 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
 
     private static void initialConfiguration(TestActivity act, View rootView,InflatedLayout layout)
     {
+        // Animator tests
         defineObjectAnimatorTests(act, rootView,layout);
         defineValueAnimatorTests(act, rootView,layout);
         defineSetAnimatorTests(act, rootView,layout);
+
+        // Animation tests
+        defineAlphaAnimationTests(act, rootView,layout);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -201,5 +207,20 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
                 }
             }
         }
+    }
+
+    private static void defineAlphaAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
+    {
+        final TextView textView = (TextView) rootView.findViewById(R.id.alphaAnimationTestId1);
+
+        final AlphaAnimation alphaAnimation;
+        if (layout == null)
+            alphaAnimation = (AlphaAnimation) AnimationUtils.loadAnimation(act,R.anim.test_animation_alpha_compiled);
+        else
+            alphaAnimation = null; // (AnimatorSet)layout.getItsNatResources().getAnimator("@assets:animator/res/animator/test_animator_set_asset.xml");
+
+        textView.startAnimation(alphaAnimation);
+
+
     }
 }

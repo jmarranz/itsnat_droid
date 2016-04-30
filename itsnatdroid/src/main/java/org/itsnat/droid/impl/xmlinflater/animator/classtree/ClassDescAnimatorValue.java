@@ -17,7 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
+import org.itsnat.droid.impl.xmlinflater.animator.attr.AttrDescAnimator_animation_Animator_repeatCount;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
 /**
@@ -209,7 +209,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
     {
         super.init();
 
-        addAttrDescAN(new AttrDescReflecMethodInt(this, "repeatCount", 0)); // Se puede llamar independientemente de valueFrom y valueTo
+        addAttrDescAN(new AttrDescAnimator_animation_Animator_repeatCount(this)); // Se puede llamar independientemente de valueFrom y valueTo
         addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));  // "
     }
 

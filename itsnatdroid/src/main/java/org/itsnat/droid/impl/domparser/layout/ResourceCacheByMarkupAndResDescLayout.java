@@ -2,13 +2,10 @@ package org.itsnat.droid.impl.domparser.layout;
 
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
-import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
-import org.itsnat.droid.impl.domparser.ResourceCache;
 import org.itsnat.droid.impl.domparser.ResourceCacheByMarkupAndResDescBase;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.anim.XMLDOMAnimationParser;
 
 /**
  * Created by jmarranz on 24/04/2016.

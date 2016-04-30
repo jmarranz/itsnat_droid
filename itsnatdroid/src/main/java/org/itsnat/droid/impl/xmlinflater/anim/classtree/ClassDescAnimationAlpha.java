@@ -1,30 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
-import android.animation.Animator;
-import android.animation.ArgbEvaluator;
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttributeMap;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
-import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
-import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
-import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
-import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
-import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
-import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
-import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorBased;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 
 /**
  * Created by Jose on 15/10/2015.

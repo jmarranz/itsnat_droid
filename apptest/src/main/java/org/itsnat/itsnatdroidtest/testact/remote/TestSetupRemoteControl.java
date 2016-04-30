@@ -10,9 +10,9 @@ import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestRemoteControl extends TestRemotePageBase
+public class TestSetupRemoteControl extends TestSetupRemotePageBase
 {
-    public TestRemoteControl(final TestActivityTabFragment fragment,final ItsNatDroidBrowser droidBrowser)
+    public TestSetupRemoteControl(final TestActivityTabFragment fragment, final ItsNatDroidBrowser droidBrowser)
     {
         super(fragment,droidBrowser);
     }

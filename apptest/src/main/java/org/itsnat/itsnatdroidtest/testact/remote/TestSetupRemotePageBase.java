@@ -7,11 +7,13 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
 import android.widget.Toast;
 
 import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidBrowser;
@@ -31,6 +33,7 @@ import org.itsnat.droid.event.NormalEvent;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
+import org.itsnat.itsnatdroidtest.testact.TestSetupBase;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import bsh.EvalError;
@@ -38,8 +41,7 @@ import bsh.EvalError;
 /**
  * Created by jmarranz on 13/08/14.
  */
-public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnScriptErrorListener,OnEventErrorListener,
-                            AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimationInflaterListener,AttrAnimatorInflaterListener
+public abstract class TestSetupRemotePageBase extends TestSetupBase implements OnPageLoadListener,OnPageLoadErrorListener,OnScriptErrorListener,OnEventErrorListener
 {
     public static final boolean TEST_SYNC_REQUESTS = false;
 
@@ -47,12 +49,12 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     protected final ItsNatDroidBrowser droidBrowser;
     protected boolean useItsNatServer;
 
-    public TestRemotePageBase(TestActivityTabFragment fragment,ItsNatDroidBrowser droidBrowser)
+    public TestSetupRemotePageBase(TestActivityTabFragment fragment, ItsNatDroidBrowser droidBrowser)
     {
         this(fragment,droidBrowser,true);
     }
 
-    public TestRemotePageBase(TestActivityTabFragment fragment,ItsNatDroidBrowser droidBrowser,boolean useItsNatServer)
+    public TestSetupRemotePageBase(TestActivityTabFragment fragment, ItsNatDroidBrowser droidBrowser, boolean useItsNatServer)
     {
         this.fragment = fragment;
         this.droidBrowser = droidBrowser;
@@ -255,62 +257,6 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
     }
 
-    @Override
-    public boolean setAttribute(final Page page,View view, String namespace, String name, final String value)
-    {
-        System.out.println("NOT FOUND LAYOUT ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
-        return true;
-    }
-
-    @Override
-    public boolean removeAttribute(Page page,View view, String namespace, String name)
-    {
-        System.out.println("NOT FOUND LAYOUT ATTRIBUTE (removeAttribute): " + namespace + " " + name);
-        return true;
-    }
-
-    @Override
-    public boolean setAttribute(Page page, Drawable obj, String namespace, String name, String value)
-    {
-        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
-        return true;
-    }
-
-    @Override
-    public boolean removeAttribute(Page page, Drawable obj, String namespace, String name)
-    {
-        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (removeAttribute): " + namespace + " " + name);
-        return true;
-    }
-
-    @Override
-    public boolean setAttribute(Page page, Animation obj, String namespace, String name, String value)
-    {
-        System.out.println("NOT FOUND ANIMATION ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
-        return true;
-    }
-
-    @Override
-    public boolean removeAttribute(Page page, Animation obj, String namespace, String name)
-    {
-        System.out.println("NOT FOUND ANIMATION ATTRIBUTE (removeAttribute): " + namespace + " " + name);
-        return true;
-    }
-
-    @Override
-    public boolean setAttribute(Page page, Animator obj, String namespace, String name, String value)
-    {
-        System.out.println("NOT FOUND ANIMATOR ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
-        return true;
-    }
-
-    @Override
-    public boolean removeAttribute(Page page, Animator obj, String namespace, String name)
-    {
-        System.out.println("NOT FOUND ANIMATOR ATTRIBUTE (removeAttribute): " + namespace + " " + name);
-        return true;
-    }
-
     protected void changeLayout(View rootView)
     {
         fragment.setRootView(rootView);
@@ -331,6 +277,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         .setAttrLayoutInflaterListener(this)
         .setAttrDrawableInflaterListener(this)
         .setAttrAnimatorInflaterListener(this)
+        .setAttrInterpolatorInflaterListener(this)
         .setConnectTimeout(getConnectionTimeout())
         .setReadTimeout(getReadTimeout())
         .setURL(url)

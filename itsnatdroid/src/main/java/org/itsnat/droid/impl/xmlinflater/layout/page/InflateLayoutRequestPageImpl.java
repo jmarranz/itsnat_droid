@@ -5,6 +5,7 @@ import android.content.Context;
 import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -53,6 +54,11 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
     public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()
     {
         return page.getPageRequestClonedImpl().getAttrAnimatorInflaterListener();
+    }
+
+    public AttrInterpolatorInflaterListener getAttrInterpolatorInflaterListener()
+    {
+        return page.getPageRequestClonedImpl().getAttrInterpolatorInflaterListener();
     }
 
     public Context getContext()

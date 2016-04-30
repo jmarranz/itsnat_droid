@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
@@ -35,6 +36,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected AttrAnimationInflaterListener attrAnimationInflaterListener;
     protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
+    protected AttrInterpolatorInflaterListener attrInterpolatorInflaterListener;
 
     public InflateLayoutRequestStandaloneImpl(ItsNatDroidImpl itsNatDroid)
     {
@@ -123,6 +125,18 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     public InflateLayoutRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener attrAnimatorInflaterListener)
     {
         this.attrAnimatorInflaterListener = attrAnimatorInflaterListener;
+        return this;
+    }
+
+    public AttrInterpolatorInflaterListener getAttrInterpolatorInflaterListener()
+    {
+        return attrInterpolatorInflaterListener;
+    }
+
+    @Override
+    public InflateLayoutRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener)
+    {
+        this.attrInterpolatorInflaterListener = attrInterpolatorInflaterListener;
         return this;
     }
 

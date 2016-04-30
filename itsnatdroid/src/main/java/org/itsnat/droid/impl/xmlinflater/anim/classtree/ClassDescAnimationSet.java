@@ -1,16 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
-import android.animation.AnimatorSet;
 import android.content.Context;
 import android.view.animation.AnimationSet;
 
-import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.animator.DOMElemAnimatorSet;
-import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
-import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
-import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimator;
-import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorBased;
 
 /**
  * Created by Jose on 15/10/2015.

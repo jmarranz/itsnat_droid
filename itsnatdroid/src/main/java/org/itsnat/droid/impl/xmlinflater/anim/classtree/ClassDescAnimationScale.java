@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
 import android.content.Context;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 

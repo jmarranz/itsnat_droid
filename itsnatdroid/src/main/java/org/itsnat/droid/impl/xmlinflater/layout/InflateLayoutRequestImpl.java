@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -41,11 +42,14 @@ public abstract class InflateLayoutRequestImpl
 
     public abstract AttrAnimatorInflaterListener getAttrAnimatorInflaterListener();
 
+    public abstract AttrInterpolatorInflaterListener getAttrInterpolatorInflaterListener();
+
     public abstract Context getContext();
 
     public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup parentView,int indexChild,PageImpl page)
     {
-        AttrInflaterListeners attrInflaterListeners = new AttrInflaterListeners(getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getAttrAnimationInflaterListener(),getAttrAnimatorInflaterListener());
+        AttrInflaterListeners attrInflaterListeners = new AttrInflaterListeners(getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getAttrAnimationInflaterListener(),
+                getAttrAnimatorInflaterListener(),getAttrInterpolatorInflaterListener());
         return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,parentView,indexChild,getBitmapDensityReference(),attrInflaterListeners,getContext(),page);
     }
 

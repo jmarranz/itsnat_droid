@@ -9,6 +9,7 @@ import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrAnimationInflaterListener;
 import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.HttpRequestResult;
@@ -57,6 +58,7 @@ public class PageRequestImpl implements PageRequest
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected AttrAnimationInflaterListener attrAnimationInflaterListener;
     protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
+    protected AttrInterpolatorInflaterListener attrInterpolatorInflaterListener;
     protected boolean sync = false;
     protected String url;
     protected String pageURLBase;
@@ -88,6 +90,7 @@ public class PageRequestImpl implements PageRequest
         this.attrDrawableInflaterListener = origin.attrDrawableInflaterListener;
         this.attrAnimationInflaterListener = origin.attrAnimationInflaterListener;
         this.attrAnimatorInflaterListener = origin.attrAnimatorInflaterListener;
+        this.attrInterpolatorInflaterListener = origin.attrInterpolatorInflaterListener;
         this.sync = origin.sync;
         this.url = origin.url;
         this.pageURLBase = origin.pageURLBase;
@@ -209,6 +212,18 @@ public class PageRequestImpl implements PageRequest
     public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()
     {
         return attrAnimatorInflaterListener;
+    }
+
+    @Override
+    public PageRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener)
+    {
+        this.attrInterpolatorInflaterListener = attrInterpolatorInflaterListener;
+        return this;
+    }
+
+    public AttrInterpolatorInflaterListener getAttrInterpolatorInflaterListener()
+    {
+        return attrInterpolatorInflaterListener;
     }
 
     @Override

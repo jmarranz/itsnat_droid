@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -128,6 +129,13 @@ public class ElementValuesResources extends ElementValues
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIM,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
         return xmlInflaterRegistry.getAnimation(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
+    }
+
+    public Interpolator getInterpolator(String name, XMLInflaterContext xmlInflaterContext)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIM,name); // android.view.animation.Interpolator se referencia como anim/
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getInterpolator(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
     public Animator getAnimator(String name,XMLInflaterContext xmlInflaterContext)
