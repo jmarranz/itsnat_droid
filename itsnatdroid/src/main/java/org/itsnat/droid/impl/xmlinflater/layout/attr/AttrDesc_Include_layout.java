@@ -74,7 +74,7 @@ public class AttrDesc_Include_layout extends AttrDesc<ClassDescViewBased,View,At
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "@null", attrCtx);
+        setAttributeToRemove(view, "@null", attrCtx);
     }
 
 }

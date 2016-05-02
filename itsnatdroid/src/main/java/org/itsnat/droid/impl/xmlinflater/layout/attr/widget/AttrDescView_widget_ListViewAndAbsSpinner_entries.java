@@ -35,7 +35,7 @@ public class AttrDescView_widget_ListViewAndAbsSpinner_entries extends AttrDesc<
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0",attrCtx);
+        setAttributeToRemove(view, "0",attrCtx);
     }
 
 }

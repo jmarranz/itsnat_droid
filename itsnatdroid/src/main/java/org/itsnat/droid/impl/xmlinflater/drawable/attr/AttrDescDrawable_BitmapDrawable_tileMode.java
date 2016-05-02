@@ -66,6 +66,6 @@ public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDesc<ClassDesc
     @Override
     public void removeAttribute(BitmapDrawable target, AttrDrawableContext attrCtx)
     {
-        setToRemoveAttribute(target, "disabled",attrCtx);
+        setAttributeToRemove(target, "disabled",attrCtx);
     }
 }

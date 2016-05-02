@@ -93,7 +93,7 @@ public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDesc<C
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "",attrCtx);
+        setAttributeToRemove(view, "",attrCtx);
     }
 
     private Object getDatePickerObject(View view)

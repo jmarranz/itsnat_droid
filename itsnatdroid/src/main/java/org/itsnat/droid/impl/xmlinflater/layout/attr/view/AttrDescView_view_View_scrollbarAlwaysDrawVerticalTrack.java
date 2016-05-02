@@ -49,7 +49,7 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack extends Att
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "false",attrCtx);
+        setAttributeToRemove(view, "false",attrCtx);
     }
 
 

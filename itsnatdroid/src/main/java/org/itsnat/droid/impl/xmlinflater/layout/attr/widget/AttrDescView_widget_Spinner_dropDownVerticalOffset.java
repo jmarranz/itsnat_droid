@@ -38,6 +38,6 @@ public class AttrDescView_widget_Spinner_dropDownVerticalOffset extends AttrDesc
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0dp",attrCtx);
+        setAttributeToRemove(view, "0dp",attrCtx);
     }
 }

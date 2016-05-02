@@ -41,6 +41,6 @@ public class AttrDescView_widget_TextView_ellipsize extends AttrDesc<ClassDescVi
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "@null",attrCtx);
+        setAttributeToRemove(view, "@null",attrCtx);
     }
 }

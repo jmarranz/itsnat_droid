@@ -110,7 +110,7 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDesc<Cla
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "", attrCtx);
+        setAttributeToRemove(view, "", attrCtx);
     }
 
     private Object getDatePickerObject(DatePicker view)

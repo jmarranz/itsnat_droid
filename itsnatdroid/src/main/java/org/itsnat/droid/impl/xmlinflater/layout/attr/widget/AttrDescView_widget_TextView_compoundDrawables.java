@@ -83,7 +83,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<Cla
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "@null", attrCtx);
+        setAttributeToRemove(view, "@null", attrCtx);
     }
 
     protected Drawable getDrawable(View view,int index)

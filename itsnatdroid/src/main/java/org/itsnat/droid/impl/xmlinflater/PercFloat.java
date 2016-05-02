@@ -9,7 +9,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
  */
 public class PercFloat
 {
-
     protected int dataType; // TypedValue.TYPE_FRACTION, TypedValue.TYPE_FLOAT
     protected boolean fractionParent; // Sólo útil en caso de TYPE_FRACTION
     protected float value;
@@ -30,9 +29,14 @@ public class PercFloat
         return dataType;
     }
 
+    public boolean isFraction()
+    {
+        return dataType == TypedValue.TYPE_FRACTION;
+    }
+
     public boolean isFractionParent()
     {
-        return fractionParent;
+        return fractionParent; // Sólo interesa cuando es
     }
 
     public float getValue() {

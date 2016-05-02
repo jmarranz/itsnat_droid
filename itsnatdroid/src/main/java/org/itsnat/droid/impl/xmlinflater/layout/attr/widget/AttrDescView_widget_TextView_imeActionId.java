@@ -30,7 +30,7 @@ public class AttrDescView_widget_TextView_imeActionId extends AttrDesc<ClassDesc
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0",attrCtx);
+        setAttributeToRemove(view, "0",attrCtx);
     }
 
 }

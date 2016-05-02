@@ -56,7 +56,7 @@ public abstract class AttrDescViewTypeface extends AttrDesc<ClassDescViewBased,V
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "normal",attrCtx);
+        setAttributeToRemove(view, "normal",attrCtx);
     }
 
 

@@ -113,7 +113,7 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDesc<C
             value = DEFAULT_MAX_DATE;
         else if ("minDate".equals(name))
             value = DEFAULT_MIN_DATE;
-        setToRemoveAttribute(view, value,attrCtx);
+        setAttributeToRemove(view, value,attrCtx);
     }
 
     private Object getCalendarObject(CalendarView view)

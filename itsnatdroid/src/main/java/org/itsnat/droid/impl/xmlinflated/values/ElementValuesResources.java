@@ -168,7 +168,9 @@ public class ElementValuesResources extends ElementValues
 
     public PercFloat getDimensionPercFloat(String name,XMLInflaterContext xmlInflaterContext)
     {
-        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name);
+        if (valueAsDOMAttr == null) valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
+        if (valueAsDOMAttr == null) throw new ItsNatDroidException("Expected a <string> or <item type=\"dimen\"> for resource name: " + name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
         return xmlInflaterRegistry.getDimensionPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
@@ -229,15 +231,6 @@ public class ElementValuesResources extends ElementValues
         return res;
     }
 
-    public float getPercent(String name,XMLInflaterContext xmlInflaterContext)
-    {
-        // Puede usarse un <string...>10.5%</string> o un <item ... type="dimen">10.5%</item>
-        DOMAttr valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_STRING, name);
-        if (valueAsDOMAttr == null) valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_DIMEN, name);
-        if (valueAsDOMAttr == null) throw new ItsNatDroidException("Expected a <string> or <item type=\"dimen\"> for resource name: " + name);
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getPercent(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
-    }
 
     public ElementValuesStyle getViewStyle(String name)
     {

@@ -50,7 +50,7 @@ public class AttrDescView_widget_TableLayout_stretchColumns extends AttrDesc<Cla
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "", attrCtx);
+        setAttributeToRemove(view, "", attrCtx);
     }
 
 

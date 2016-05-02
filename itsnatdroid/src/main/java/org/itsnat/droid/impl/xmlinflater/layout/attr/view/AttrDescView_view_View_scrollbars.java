@@ -44,7 +44,7 @@ public class AttrDescView_view_View_scrollbars extends AttrDesc<ClassDescViewBas
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "none",attrCtx);
+        setAttributeToRemove(view, "none",attrCtx);
     }
 
 

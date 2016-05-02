@@ -38,7 +38,7 @@ public class AttrDescView_view_View_layerType extends AttrDesc<ClassDescViewBase
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "none",attrCtx);
+        setAttributeToRemove(view, "none",attrCtx);
     }
 
 

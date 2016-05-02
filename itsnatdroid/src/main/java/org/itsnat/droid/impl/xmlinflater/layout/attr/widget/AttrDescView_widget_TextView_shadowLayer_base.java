@@ -108,7 +108,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
         else if (name.equals("shadowDy")) defaultValue = "0";
         else if (name.equals("shadowRadius")) defaultValue = "0";
 
-        setToRemoveAttribute(view, defaultValue,attrCtx);
+        setAttributeToRemove(view, defaultValue,attrCtx);
     }
 
 }

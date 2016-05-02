@@ -30,7 +30,7 @@ public class AttrDescView_widget_TextView_imeActionLabel extends AttrDesc<ClassD
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "",attrCtx); // No estoy seguro del valor por defecto
+        setAttributeToRemove(view, "",attrCtx); // No estoy seguro del valor por defecto
     }
 
 }

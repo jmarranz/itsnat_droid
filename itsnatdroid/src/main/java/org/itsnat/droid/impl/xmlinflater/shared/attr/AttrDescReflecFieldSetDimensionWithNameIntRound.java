@@ -31,7 +31,7 @@ public class AttrDescReflecFieldSetDimensionWithNameIntRound<TclassDesc extends 
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
         if (defaultValue != null)
-            setToRemoveAttribute(target, defaultValue,attrCtx);
+            setAttributeToRemove(target, defaultValue,attrCtx);
     }
 
 

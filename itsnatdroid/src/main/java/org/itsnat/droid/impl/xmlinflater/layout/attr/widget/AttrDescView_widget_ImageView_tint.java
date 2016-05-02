@@ -68,6 +68,6 @@ public class AttrDescView_widget_ImageView_tint extends AttrDesc<ClassDescViewBa
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         if (defaultValue != null)
-            setToRemoveAttribute(view, defaultValue,attrCtx);
+            setAttributeToRemove(view, defaultValue,attrCtx);
     }
 }

@@ -42,6 +42,6 @@ public class AttrDescReflecMethodDrawable<TclassDesc extends ClassDesc,TattrTarg
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
         if (defaultValue != null) // Para especificar null se ha de usar "@null"
-            setToRemoveAttribute(target, defaultValue,attrCtx); // defaultValue puede ser null (ej attr background), también valdría "@null" en el atributo
+            setAttributeToRemove(target, defaultValue,attrCtx); // defaultValue puede ser null (ej attr background), también valdría "@null" en el atributo
     }
 }

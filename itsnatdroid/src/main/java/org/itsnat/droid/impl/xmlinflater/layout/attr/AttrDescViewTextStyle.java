@@ -37,7 +37,7 @@ public abstract class AttrDescViewTextStyle extends AttrDesc<ClassDescViewBased,
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "normal",attrCtx);
+        setAttributeToRemove(view, "normal",attrCtx);
     }
 
     protected abstract void setTextStyle(View view,int style);

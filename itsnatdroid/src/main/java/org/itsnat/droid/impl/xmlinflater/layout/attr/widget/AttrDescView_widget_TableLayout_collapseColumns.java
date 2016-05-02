@@ -75,7 +75,7 @@ public class AttrDescView_widget_TableLayout_collapseColumns extends AttrDesc<Cl
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "", attrCtx);
+        setAttributeToRemove(view, "", attrCtx);
     }
 
     private static int getMaxColumns(TableLayout view)

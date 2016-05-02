@@ -33,7 +33,7 @@ public class AttrDescView_widget_ViewAnimator_inoutAnimation extends AttrDesc<Cl
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0", attrCtx);
+        setAttributeToRemove(view, "0", attrCtx);
     }
 
 }

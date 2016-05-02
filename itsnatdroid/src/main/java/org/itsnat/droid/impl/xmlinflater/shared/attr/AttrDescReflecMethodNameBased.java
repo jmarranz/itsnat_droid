@@ -41,7 +41,7 @@ public abstract class AttrDescReflecMethodNameBased<Treturn,TclassDesc extends C
         if (defaultName != null)
         {
             if (defaultName.equals("")) callMethod(target, -1); // Android utiliza el -1 de vez en cuando como valor por defecto
-            else setToRemoveAttribute(target, defaultName,attrCtx);
+            else setAttributeToRemove(target, defaultName,attrCtx);
         }
     }
 

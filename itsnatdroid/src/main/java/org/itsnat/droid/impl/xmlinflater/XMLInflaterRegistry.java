@@ -864,10 +864,10 @@ public class XMLInflaterRegistry
         }
         else
         {
-            final boolean fractionParent = false;
+            final boolean fractionParent = false; // Es indiferente
             dataType = TypedValue.TYPE_FLOAT;
             char last = attrValue.charAt(attrValue.length() - 1);
-            if (Character.isDigit(last))
+            if (Character.isDigit(last) || last == '.')  // 3. es un float válido
             {
                 float value = Float.parseFloat(attrValue);
                 return new PercFloat(dataType, fractionParent, value); // fractionParent es indiferente
@@ -1008,53 +1008,6 @@ public class XMLInflaterRegistry
         if (value != Color.TRANSPARENT) throw MiscUtil.internalError();
         return "#00000000";
     }
-
-    public float getPercent(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
-    {
-        // Leer notas en getPercentCompiled()
-        if (resourceDesc instanceof ResourceDescDynamic)
-        {
-            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
-            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
-            return elementResources.getPercent(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
-        }
-        else if (resourceDesc instanceof ResourceDescCompiled)
-        {
-            Context ctx = xmlInflaterContext.getContext();
-            String resourceDescValue = resourceDesc.getResourceDescValue();
-            return getPercentCompiled(resourceDescValue, ctx);
-        }
-        else throw MiscUtil.internalError();
-    }
-
-    private float getPercentCompiled(String resourceDescValue, Context ctx)
-    {
-        // Sólo se usa en ScaleDrawable, de hecho el método getPercent que usa Android es local en dicha clase, no se reutiliza para otros casos, el valor compilado se obtiene de Resources.getString()
-        if (isResource(resourceDescValue))
-        {
-            int resId = getIdentifierCompiled(resourceDescValue, ctx);
-            if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a percentage resource");
-            String str = ctx.getResources().getString(resId);
-            return getPercent(str);
-        }
-        else
-        {
-            return getPercent(resourceDescValue);
-        }
-    }
-
-    private static float getPercent(String s)
-    {
-        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/ScaleDrawable.java#ScaleDrawable.getPercent%28android.content.res.TypedArray%2Cint%29
-        if (s != null) {
-            if (s.endsWith("%")) {
-                String f = s.substring(0, s.length() - 1);
-                return Float.parseFloat(f) / 100.0f;
-            }
-        }
-        return -1;
-    }
-
 
     public Drawable getDrawable(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
     {

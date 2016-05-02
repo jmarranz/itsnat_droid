@@ -46,7 +46,7 @@ public class AttrDescView_widget_AdapterViewAnimator_inoutAnimation extends Attr
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0", attrCtx);
+        setAttributeToRemove(view, "0", attrCtx);
     }
 
     protected static ObjectAnimator getDefaultInAnimation()

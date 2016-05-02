@@ -49,10 +49,10 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
         int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
 
         DOMAttr attrScaleHeight = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleHeight");
-        float scaleHeight = attrScaleHeight != null ? xmlInflaterRegistry.getPercent(attrScaleHeight.getResourceDesc(), xmlInflaterContext) : -1;
+        float scaleHeight = attrScaleHeight != null ? getPercent(xmlInflaterRegistry.getString(attrScaleHeight.getResourceDesc(), xmlInflaterContext)) : -1; // Se puede poner en un values como un <string> o como un <dimen> (aunque luego se procese como un String)
 
         DOMAttr attrScaleWidth = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleWidth");
-        float scaleWidth = attrScaleWidth != null ? xmlInflaterRegistry.getPercent(attrScaleWidth.getResourceDesc(),xmlInflaterContext) : -1;
+        float scaleWidth = attrScaleWidth != null ? getPercent(xmlInflaterRegistry.getString(attrScaleWidth.getResourceDesc(),xmlInflaterContext)) : -1;
 
         ScaleDrawable drawable = new ScaleDrawable(childDrawable,gravity,scaleWidth,scaleHeight);
 
@@ -62,6 +62,21 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
 
         return elementDrawableRoot;
     }
+
+     private static float getPercent(String value)
+     {
+         // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/ScaleDrawable.java#ScaleDrawable.getPercent%28android.content.res.TypedArray%2Cint%29
+         if (value != null)
+         {
+             if (value.endsWith("%"))
+             {
+                     String f = value.substring(0, value.length() - 1); // Se quita el %
+                     return Float.parseFloat(f) / 100.0f;
+             }
+         }
+         return -1;
+     }
+
 
     @Override
     public void setCallback(Drawable childDrawable, ScaleDrawable parentDrawable)

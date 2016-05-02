@@ -34,7 +34,7 @@ public class AttrDescView_widget_TextView_lineSpacingMultiplier extends AttrDesc
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "1.0", attrCtx);
+        setAttributeToRemove(view, "1.0", attrCtx);
     }
 
     protected float getLineSpacingExtra(TextView view)

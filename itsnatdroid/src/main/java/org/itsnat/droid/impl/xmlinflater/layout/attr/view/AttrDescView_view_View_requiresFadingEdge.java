@@ -45,6 +45,6 @@ public class AttrDescView_view_View_requiresFadingEdge extends AttrDesc<ClassDes
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "vertical",attrCtx);
+        setAttributeToRemove(view, "vertical",attrCtx);
     }
 }

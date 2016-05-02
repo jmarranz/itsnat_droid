@@ -39,7 +39,7 @@ public class AttrDescView_widget_TextView_maxLength extends AttrDesc<ClassDescVi
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "-1", attrCtx);
+        setAttributeToRemove(view, "-1", attrCtx);
     }
 
 }

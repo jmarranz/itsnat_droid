@@ -28,6 +28,6 @@ public class AttrDescDrawable_Drawable_visible<TattrTarget extends Drawable> ext
     @Override
     public void removeAttribute(TattrTarget target, AttrDrawableContext attrCtx)
     {
-        setToRemoveAttribute(target, "true", attrCtx);
+        setAttributeToRemove(target, "true", attrCtx);
     }
 }

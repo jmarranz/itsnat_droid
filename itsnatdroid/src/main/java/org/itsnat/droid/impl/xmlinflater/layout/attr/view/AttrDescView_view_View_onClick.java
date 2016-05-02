@@ -78,6 +78,6 @@ public class AttrDescView_view_View_onClick extends AttrDesc<ClassDescViewBased,
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "",attrCtx);
+        setAttributeToRemove(view, "",attrCtx);
     }
 }

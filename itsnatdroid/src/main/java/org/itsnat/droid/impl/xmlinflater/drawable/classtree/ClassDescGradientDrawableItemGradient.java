@@ -56,7 +56,6 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
 
     public static class GradientTypeUtil
     {
-
         public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create(3);
         static
         {

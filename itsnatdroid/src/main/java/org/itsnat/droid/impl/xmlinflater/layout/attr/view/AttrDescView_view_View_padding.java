@@ -38,6 +38,6 @@ public class AttrDescView_view_View_padding extends AttrDesc<ClassDescViewBased,
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "0dp",attrCtx);
+        setAttributeToRemove(view, "0dp",attrCtx);
     }
 }

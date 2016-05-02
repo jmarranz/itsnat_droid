@@ -33,7 +33,7 @@ public class AttrDescView_widget_SlidingDrawer_orientation extends AttrDescRefle
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "vertical",attrCtx);
+        setAttributeToRemove(view, "vertical",attrCtx);
     }
 
 

@@ -37,6 +37,6 @@ public class AttrDescReflecFieldSetColor<TclassDesc extends ClassDesc,TattrTarge
     public void removeAttribute(TattrTarget target, TattrContext attrCtx)
     {
         if (defaultValue != null)
-            setToRemoveAttribute(target, defaultValue,attrCtx);
+            setAttributeToRemove(target, defaultValue,attrCtx);
     }
 }

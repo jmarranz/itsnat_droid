@@ -39,7 +39,7 @@ public class AttrDescView_widget_TextView_bufferType extends AttrDesc<ClassDescV
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "normal",attrCtx);
+        setAttributeToRemove(view, "normal",attrCtx);
     }
 
 }

@@ -33,6 +33,6 @@ public class AttrDescView_view_ViewGroup_layoutAnimation extends AttrDesc<ClassD
     @Override
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
-        setToRemoveAttribute(view, "-1",attrCtx);
+        setAttributeToRemove(view, "-1",attrCtx);
     }
 }
