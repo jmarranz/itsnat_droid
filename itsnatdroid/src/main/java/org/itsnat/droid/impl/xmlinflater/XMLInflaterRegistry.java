@@ -813,6 +813,11 @@ public class XMLInflaterRegistry
 
     private PercFloat getDimensionPercFloatCompiled(String resourceDescValue, Context ctx)
     {
+        return getDimensionPercFloatCompiled(resourceDescValue,ctx,true);
+    }
+
+    private PercFloat getDimensionPercFloatCompiled(String resourceDescValue, Context ctx, boolean acceptDimension)
+    {
         // Este método y PercFloat sólo se usa para el gradientRadius de GradientDrawable <shape> <gradient android:gradientRadius android:centerX y centerY>
 
         // Las notas se refieren a gradientRadius:
@@ -838,16 +843,16 @@ public class XMLInflaterRegistry
             int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) throw new ItsNatDroidException("Resource id value cannot be @null for a dimension resource");
             String value = res.getString(resId);
-            return parseDimensionPercFloat(value, ctx);
+            return parseDimensionPercFloat(value, ctx, acceptDimension);
         }
         else
         {
-            return parseDimensionPercFloat(resourceDescValue, ctx);
+            return parseDimensionPercFloat(resourceDescValue, ctx, acceptDimension);
         }
     }
 
 
-    private PercFloat parseDimensionPercFloat(String attrValue, Context ctx)
+    private PercFloat parseDimensionPercFloat(String attrValue, Context ctx, boolean acceptDimension)
     {
         // El retorno es en px
         int dataType;
@@ -874,6 +879,8 @@ public class XMLInflaterRegistry
             }
             else
             {
+                if (!acceptDimension) throw new ItsNatDroidException("Dimensions like 20dp are not accepted");
+
                 Dimension dimen = getDimensionObjectCompiled(attrValue);
                 int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
                 float num = dimen.getValue();
@@ -881,6 +888,23 @@ public class XMLInflaterRegistry
                 return new PercFloat(dataType, fractionParent, value); // fractionParent es indiferente
             }
         }
+    }
+
+    public PercFloat getPercFloat(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+    {
+        if (resourceDesc instanceof ResourceDescDynamic)
+        {
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
+            return elementResources.getPercFloat(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
+        }
+        else if (resourceDesc instanceof ResourceDescCompiled)
+        {
+            Context ctx = xmlInflaterContext.getContext();
+            String originalValue = resourceDesc.getResourceDescValue();
+            return getDimensionPercFloatCompiled(originalValue, ctx, false);
+        }
+        else throw MiscUtil.internalError();
     }
 
     public int getDimensionWithNameIntRound(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)

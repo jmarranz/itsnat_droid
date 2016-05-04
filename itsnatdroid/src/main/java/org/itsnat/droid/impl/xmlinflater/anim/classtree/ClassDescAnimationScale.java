@@ -1,12 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
 import android.content.Context;
-import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
-import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
-import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
+import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animation_ScaleAnimation_fromToXYScale;
+import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animation_ScaleAnimation_pivotXY;
 
 /**
  * Created by Jose on 15/10/2015.
@@ -40,8 +39,13 @@ public class ClassDescAnimationScale extends ClassDescAnimationBased<ScaleAnimat
     {
         super.init();
 
-        //addAttrDescAN(new AttrDescReflecMethodInt(this, "repeatCount", 0)); // Se puede llamar independientemente de valueFrom y valueTo
-        //addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));  // "
+        addAttrDescAN(new AttrDescAnimation_view_animation_ScaleAnimation_fromToXYScale(this, "fromXScale"));
+        addAttrDescAN(new AttrDescAnimation_view_animation_ScaleAnimation_fromToXYScale(this, "fromYScale"));
+        addAttrDescAN(new AttrDescAnimation_view_animation_ScaleAnimation_fromToXYScale(this, "toXScale"));
+        addAttrDescAN(new AttrDescAnimation_view_animation_ScaleAnimation_fromToXYScale(this, "toYScale"));
+        addAttrDescAN(new AttrDescAnimation_view_animation_ScaleAnimation_pivotXY(this, "pivotX"));
+        addAttrDescAN(new AttrDescAnimation_view_animation_ScaleAnimation_pivotXY(this, "pivotY"));
+
     }
 
 }

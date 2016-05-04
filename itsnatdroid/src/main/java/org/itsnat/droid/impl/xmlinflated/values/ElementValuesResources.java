@@ -175,6 +175,13 @@ public class ElementValuesResources extends ElementValues
         return xmlInflaterRegistry.getDimensionPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
+    public PercFloat getPercFloat(String name,XMLInflaterContext xmlInflaterContext)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
+    }
+
     public Drawable getDrawable(String name, XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DRAWABLE,name);

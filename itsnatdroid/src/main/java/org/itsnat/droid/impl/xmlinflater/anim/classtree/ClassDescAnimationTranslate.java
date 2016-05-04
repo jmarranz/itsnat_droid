@@ -40,6 +40,8 @@ public class ClassDescAnimationTranslate extends ClassDescAnimationBased<Transla
     {
         super.init();
 
+        SEGUIR;
+
         //addAttrDescAN(new AttrDescReflecMethodInt(this, "repeatCount", 0)); // Se puede llamar independientemente de valueFrom y valueTo
         //addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));  // "
     }

@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater;
 
+import android.content.Context;
 import android.util.TypedValue;
 
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -18,6 +19,8 @@ public class PercFloat
         this.dataType = dataType;
         this.fractionParent = fractionParent;
         this.value = value;
+
+        if (dataType != TypedValue.TYPE_FRACTION && dataType != TypedValue.TYPE_FLOAT) throw MiscUtil.internalError();
     }
 
     public PercFloat(float value)
@@ -45,12 +48,15 @@ public class PercFloat
 
     public float toFloatBasedOnDataType()
     {
-        float valueTmp = this.value;
         if (dataType == TypedValue.TYPE_FRACTION)
         {
-            valueTmp = valueTmp / 100;
+            return this.value / 100;
         }
-        else if (dataType != TypedValue.TYPE_FLOAT) throw MiscUtil.internalError();
-        return valueTmp;
+        else if (dataType == TypedValue.TYPE_FLOAT)
+        {
+            return this.value;
+        }
+        else throw MiscUtil.internalError();
     }
+
 }
