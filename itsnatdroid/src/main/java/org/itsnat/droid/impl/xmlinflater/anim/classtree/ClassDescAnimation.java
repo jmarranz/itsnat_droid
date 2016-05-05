@@ -26,6 +26,14 @@ public class ClassDescAnimation extends ClassDescAnimationBased<Animation>
         repeatModeMap.put("reverse", Animation.REVERSE);
     }
 
+    public static final MapSmart<String,Integer> zAdjustmentMap = MapSmart.<String,Integer>create(3);
+    static
+    {
+        zAdjustmentMap.put("normal", 0);
+        zAdjustmentMap.put("top", 1);
+        zAdjustmentMap.put("bottom", -1);
+    }
+
     public ClassDescAnimation(ClassDescAnimationMgr classMgr)
     {
         super(classMgr, "NONE", null);
@@ -59,7 +67,8 @@ public class ClassDescAnimation extends ClassDescAnimationBased<Animation>
         addAttrDescAN(new AttrDescAnimation_view_animation_Animation_repeatCount(this));
         addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));
         addAttrDescAN(new AttrDescReflecMethodLong(this, "startOffset", 0L));
-        addAttrDescAN(new AttrDescReflecMethodInt(this, "zAdjustment", 0));
+        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "zAdjustment", int.class, zAdjustmentMap, "normal"));
+
     }
 }
 

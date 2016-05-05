@@ -7,6 +7,9 @@ import android.view.animation.TranslateAnimation;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
+import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animation_ScaleAnimation_fromToXYScale;
+import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animation_ScaleAnimation_pivotXY;
+import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animation_TranslateAnimation_fromToXYDelta;
 
 /**
  * Created by Jose on 15/10/2015.
@@ -40,10 +43,10 @@ public class ClassDescAnimationTranslate extends ClassDescAnimationBased<Transla
     {
         super.init();
 
-        SEGUIR;
-
-        //addAttrDescAN(new AttrDescReflecMethodInt(this, "repeatCount", 0)); // Se puede llamar independientemente de valueFrom y valueTo
-        //addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "repeatMode", int.class, repeatModeMap, "restart"));  // "
+        addAttrDescAN(new AttrDescAnimation_view_animation_TranslateAnimation_fromToXYDelta(this, "fromXDelta"));
+        addAttrDescAN(new AttrDescAnimation_view_animation_TranslateAnimation_fromToXYDelta(this, "fromYDelta"));
+        addAttrDescAN(new AttrDescAnimation_view_animation_TranslateAnimation_fromToXYDelta(this, "toXDelta"));
+        addAttrDescAN(new AttrDescAnimation_view_animation_TranslateAnimation_fromToXYDelta(this, "toYDelta"));
     }
 
 }

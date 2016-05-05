@@ -32,6 +32,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Animator Tests"
+            android:textSize="20dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="ObjectAnimator Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -111,6 +120,30 @@
             android:text="AnimatorSet Test 1"
             android:textSize="15dp"
             android:background="@android:color/holo_green_light" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Animation Tests"
+            android:textSize="20dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AlphaAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/alphaAnimationTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AlphaAnimation Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
 
     </LinearLayout>
 

@@ -29,6 +29,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_reload" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Animator Tests"
+            android:textSize="20dp"
+            android:background="#00ff00"/>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -114,6 +123,15 @@
             android:textSize="15dp"
             android:background="@android:color/holo_green_light"
             /> <!--  -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Animation Tests"
+            android:textSize="20dp"
+            android:background="#00ff00"/>
 
         <TextView
             android:layout_width="match_parent"

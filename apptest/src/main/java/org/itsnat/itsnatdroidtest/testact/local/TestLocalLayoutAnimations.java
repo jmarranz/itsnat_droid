@@ -1,5 +1,8 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.widget.AdapterViewFlipper;
@@ -9,6 +12,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.itsnat.itsnatdroidtest.R;
+import org.itsnat.itsnatdroidtest.testact.util.Assert;
+
+import java.util.ArrayList;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
@@ -49,6 +55,16 @@ public class TestLocalLayoutAnimations
             assertEquals(compButton.getText(), parsedButton.getText());
         }
 
+
+        // Animator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Animator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
 
         // ObjectAnimator Tests
         {
@@ -171,10 +187,42 @@ public class TestLocalLayoutAnimations
             // TestSetupLocalLayoutAnimations.defineAnimatorSetTests(TestActivity act, View rootView,InflatedLayout layout)
         }
 
+        // Animation Tests
+        {
+            childCount++;
 
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Animation Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // AlphaAnimation Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "AlphaAnimation Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getId(), R.id.alphaAnimationTestId1);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            // El test de la animación se hace en otro lado:
+            // TestSetupLocalLayoutAnimations.defineAlphaAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
+        }
 
 
         //System.out.println("\n\n\n");
 
     }
+
 }

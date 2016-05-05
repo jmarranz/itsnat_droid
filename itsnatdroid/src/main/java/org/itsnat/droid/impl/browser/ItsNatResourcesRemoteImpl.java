@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.animation.Animator;
+import android.view.animation.Animation;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
@@ -30,6 +31,14 @@ public class ItsNatResourcesRemoteImpl extends ItsNatResourcesImpl
         ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         if (resourceDesc == null) throw newException(resourceDescValue);
         return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
+    }
+
+    @Override
+    public Animation getAnimation(String resourceDescValue)
+    {
+        ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        if (resourceDesc == null) throw newException(resourceDescValue);
+        return xmlInflaterRegistry.getAnimation(resourceDesc,xmlInflaterContext);
     }
 
     @Override

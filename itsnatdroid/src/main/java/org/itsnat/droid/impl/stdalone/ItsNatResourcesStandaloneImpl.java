@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.stdalone;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.view.animation.Animation;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
@@ -66,6 +67,15 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
         if (resourceDesc == null)
             resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
         return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
+    }
+
+    @Override
+    public Animation getAnimation(String resourceDescValue)
+    {
+        ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        if (resourceDesc == null)
+            resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
+        return xmlInflaterRegistry.getAnimation(resourceDesc,xmlInflaterContext);
     }
 
     @Override

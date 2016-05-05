@@ -1,6 +1,7 @@
 package org.itsnat.droid;
 
 import android.animation.Animator;
+import android.view.animation.Animation;
 
 /**
  * Created by jmarranz on 01/04/2016.
@@ -8,5 +9,6 @@ import android.animation.Animator;
 public interface ItsNatResources
 {
     public Animator getAnimator(String resourceDesc);
+    public Animation getAnimation(String resourceDesc);
     public CharSequence[] getTextArray(String resourceDescValue);
 }

@@ -6,7 +6,9 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
@@ -18,6 +20,7 @@ import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 import org.itsnat.itsnatdroidtest.testact.util.Assert;
+import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import java.util.ArrayList;
 
@@ -211,16 +214,50 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
 
     private static void defineAlphaAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
     {
-        final TextView textView = (TextView) rootView.findViewById(R.id.alphaAnimationTestId1);
+        TextView textView = (TextView) rootView.findViewById(R.id.alphaAnimationTestId1);
 
-        final AlphaAnimation alphaAnimation;
+        AlphaAnimation alphaAnimation;
         if (layout == null)
             alphaAnimation = (AlphaAnimation) AnimationUtils.loadAnimation(act,R.anim.test_animation_alpha_compiled);
         else
-            alphaAnimation = null; // (AnimatorSet)layout.getItsNatResources().getAnimator("@assets:animator/res/animator/test_animator_set_asset.xml");
+            alphaAnimation = (AlphaAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_alpha_asset.xml");
 
         textView.startAnimation(alphaAnimation);
 
+        testAlphaAnimation(alphaAnimation);
+    }
 
+    private static void testAnimation(Animation animation)
+    {
+        // android:detachWallpaper
+        Assert.assertEquals(animation.getDetachWallpaper(),true);
+        // android:duration
+        Assert.assertEquals(animation.getDuration(),1000);
+        // android:fillAfter
+        Assert.assertEquals(animation.getFillAfter(),true);
+        // android:fillBefore
+        Assert.assertEquals(animation.getFillBefore(),true);
+        // android:fillEnabled
+        Assert.assertEquals(animation.isFillEnabled(),true);
+        // android:interpolator
+        Assert.assertTrue(animation.getInterpolator() instanceof AccelerateInterpolator);
+        // android:repeatCount
+        Assert.assertEquals(animation.getRepeatCount(),-1); // Infinite
+        // android:repeatMode
+        Assert.assertEquals(animation.getRepeatMode(),1); // restart
+        // android:startOffset
+        Assert.assertEquals(animation.getStartOffset(),10);
+        // android:zAdjustment
+        Assert.assertEquals(animation.getZAdjustment(),-1); // bottom
+    }
+
+    private static void testAlphaAnimation(AlphaAnimation alphaAnimation)
+    {
+        testAnimation(alphaAnimation);
+
+        // android:fromAlpha
+        Assert.assertEquals(TestUtil.getField(alphaAnimation,AlphaAnimation.class,"mFromAlpha"), 0.0f);
+        // android:toAlpha
+        Assert.assertEquals(TestUtil.getField(alphaAnimation,AlphaAnimation.class,"mToAlpha"), 1.0f);
     }
 }
