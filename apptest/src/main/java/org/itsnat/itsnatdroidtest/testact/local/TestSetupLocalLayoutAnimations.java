@@ -10,6 +10,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
@@ -70,6 +72,8 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
 
         // Animation tests
         defineAlphaAnimationTests(act, rootView,layout);
+        defineRotateAnimationTests(act, rootView,layout);
+        defineScaleAnimationTests(act, rootView,layout);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -227,6 +231,36 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         testAlphaAnimation(alphaAnimation);
     }
 
+    private static void defineRotateAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
+    {
+        TextView textView = (TextView) rootView.findViewById(R.id.rotateAnimationTestId1);
+
+        RotateAnimation rotateAnimation;
+        if (layout == null)
+            rotateAnimation = (RotateAnimation) AnimationUtils.loadAnimation(act,R.anim.test_animation_rotate_compiled);
+        else
+            rotateAnimation = (RotateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_rotate_asset.xml");
+
+        textView.startAnimation(rotateAnimation);
+
+        testRotateAnimation(rotateAnimation);
+    }
+
+    private static void defineScaleAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
+    {
+        TextView textView = (TextView) rootView.findViewById(R.id.scaleAnimationTestId1);
+
+        ScaleAnimation animation;
+        if (layout == null)
+            animation = (ScaleAnimation) AnimationUtils.loadAnimation(act,R.anim.test_animation_scale_compiled);
+        else
+            animation = (ScaleAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_scale_asset.xml");
+
+        textView.startAnimation(animation);
+
+        testScaleAnimation(animation);
+    }
+
     private static void testAnimation(Animation animation)
     {
         // android:detachWallpaper
@@ -259,5 +293,40 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         Assert.assertEquals(TestUtil.getField(alphaAnimation,AlphaAnimation.class,"mFromAlpha"), 0.0f);
         // android:toAlpha
         Assert.assertEquals(TestUtil.getField(alphaAnimation,AlphaAnimation.class,"mToAlpha"), 1.0f);
+    }
+
+    private static void testRotateAnimation(RotateAnimation rotateAnimation)
+    {
+        //android:fromDegrees
+        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mFromDegrees"), 0.3f);
+        //android:toDegrees
+        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mToDegrees"), -25.3f);
+
+        // android:pivotX
+        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mPivotXType"), 1);
+        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mPivotXValue"), 0.153f); // 15.3%
+        // android:pivotY
+        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mPivotYType"), 1);
+        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mPivotYValue"), 0.403f); // 40.3%
+    }
+
+    private static void testScaleAnimation(ScaleAnimation scaleAnimation)
+    {
+        // android:fromXScale
+        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mFromX"), 0.9f);
+        // android:fromYScale
+        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mFromY"), 0.9f);
+        // android:toXScale
+        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mToX"), 2.3f);
+        // android:toYScale
+        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mToY"), 2.3f);
+
+
+        // android:pivotX
+        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotXType"), 1);
+        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotXValue"), 0.153f); // 15.3%
+        // android:pivotY
+        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotYType"), 1);
+        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotYValue"), 0.403f); // 40.3%
     }
 }

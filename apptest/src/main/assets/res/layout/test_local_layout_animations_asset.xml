@@ -145,6 +145,36 @@
             android:textSize="15dp"
             android:background="#cccccc"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RotateAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/rotateAnimationTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RotateAnimation Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ScaleAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/scaleAnimationTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ScaleAnimation Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
     </LinearLayout>
 
 </ScrollView>

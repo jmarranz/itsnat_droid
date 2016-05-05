@@ -220,6 +220,52 @@ public class TestLocalLayoutAnimations
             // TestSetupLocalLayoutAnimations.defineAlphaAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
         }
 
+        // RotateAnimation Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "RotateAnimation Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getId(), R.id.rotateAnimationTestId1);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            // El test de la animación se hace en otro lado:
+            // TestSetupLocalLayoutAnimations.defineRotateAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
+        }
+
+        // ScaleAnimation Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "ScaleAnimation Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getId(), R.id.scaleAnimationTestId1);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            // El test de la animación se hace en otro lado:
+            // TestSetupLocalLayoutAnimations.defineScaleAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
+        }
+
 
         //System.out.println("\n\n\n");
 
