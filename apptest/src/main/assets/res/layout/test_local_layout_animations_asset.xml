@@ -175,6 +175,29 @@
             android:textSize="15dp"
             android:background="#cccccc"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TranslateAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/translateAnimationTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TranslateAnimation Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:id="@+id/translateAnimationTestId2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TranslateAnimation Test 2"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
     </LinearLayout>
 
 </ScrollView>

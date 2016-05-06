@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
@@ -74,6 +75,7 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         defineAlphaAnimationTests(act, rootView,layout);
         defineRotateAnimationTests(act, rootView,layout);
         defineScaleAnimationTests(act, rootView,layout);
+        defineTranslateAnimationTests(act, rootView,layout);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -261,6 +263,33 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         testScaleAnimation(animation);
     }
 
+    private static void defineTranslateAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
+    {
+        {
+            TextView textView = (TextView) rootView.findViewById(R.id.translateAnimationTestId1);
+
+            TranslateAnimation animation;
+            if (layout == null) animation = (TranslateAnimation) AnimationUtils.loadAnimation(act, R.anim.test_animation_translate_compiled);
+            else animation = (TranslateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_asset.xml");
+
+            textView.startAnimation(animation);
+
+            testTranslateAnimation_1(animation);
+        }
+
+        {
+            TextView textView = (TextView) rootView.findViewById(R.id.translateAnimationTestId2);
+
+            TranslateAnimation animation;
+            if (layout == null) animation = (TranslateAnimation) AnimationUtils.loadAnimation(act, R.anim.test_animation_translate_2_compiled);
+            else animation = (TranslateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_2_asset.xml");
+
+            textView.startAnimation(animation);
+
+            testTranslateAnimation_2(animation);
+        }
+    }
+
     private static void testAnimation(Animation animation)
     {
         // android:detachWallpaper
@@ -328,5 +357,37 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         // android:pivotY
         Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotYType"), 1);
         Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotYValue"), 0.403f); // 40.3%
+    }
+
+    private static void testTranslateAnimation_1(TranslateAnimation translateAnimation)
+    {
+        // android:fromXDelta
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromXValue"), 1.0f);
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromXType"), 1); // RELATIVE_TO_SELF
+        // android:fromYDelta
+        Assert.assertEquals((Float)TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromYValue"), 0.1f);
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromYType"), 2); // RELATIVE_TO_PARENT
+        // android:toXDelta
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToXValue"), 0.0f);
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToXType"), 1); // RELATIVE_TO_SELF
+        // android:toYDelta
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYValue"), 0.0f);
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYType"), 2); // RELATIVE_TO_PARENT
+    }
+
+    private static void testTranslateAnimation_2(TranslateAnimation translateAnimation)
+    {
+        // android:fromXDelta
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromXValue"), 500f);
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromXType"), 0); // ABSOLUTE
+        // android:fromYDelta
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromYValue"), 0.0f);
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromYType"), 1); // RELATIVE_TO_SELF
+        // android:toXDelta
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToXValue"), 0.0f);
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToXType"), 0); // ABSOLUTE
+        // android:toYDelta
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYValue"), 0.0f);
+        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYType"), 1); // RELATIVE_TO_SELF
     }
 }

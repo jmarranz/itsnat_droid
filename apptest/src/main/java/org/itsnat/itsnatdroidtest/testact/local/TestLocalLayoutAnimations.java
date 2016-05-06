@@ -266,6 +266,29 @@ public class TestLocalLayoutAnimations
             // TestSetupLocalLayoutAnimations.defineScaleAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
         }
 
+        // TranslateAnimation Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "TranslateAnimation Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        {
+            childCount++;
+
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getId(), R.id.translateAnimationTestId1);
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            // El test de la animación se hace en otro lado:
+            // TestSetupLocalLayoutAnimations.defineTranslateAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
+        }
+
 
         //System.out.println("\n\n\n");
 
