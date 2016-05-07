@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.anim.attr;
 
-import android.util.TypedValue;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
@@ -9,7 +8,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
-import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationRotate;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;

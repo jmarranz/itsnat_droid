@@ -11,10 +11,6 @@ import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
-import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.OnPageLoadErrorListener;
-import org.itsnat.droid.OnPageLoadListener;
-import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.Page;
 
 /**

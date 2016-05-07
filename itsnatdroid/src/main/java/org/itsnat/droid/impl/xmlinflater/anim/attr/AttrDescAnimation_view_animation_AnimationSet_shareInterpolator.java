@@ -1,18 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.anim.attr;
 
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
-import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimation;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationSet;
-import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 
 /**
  * Created by jmarranz on 30/04/14.

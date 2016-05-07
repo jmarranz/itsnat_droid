@@ -1,16 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
 import android.content.Context;
-import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
-import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
-import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animation_RotateAnimation_pivotXY;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionPercFloat;
 
 /**
  * Created by Jose on 15/10/2015.

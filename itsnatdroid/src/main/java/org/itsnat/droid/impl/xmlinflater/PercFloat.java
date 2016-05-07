@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater;
 
-import android.content.Context;
 import android.util.TypedValue;
 
 import org.itsnat.droid.impl.util.MiscUtil;

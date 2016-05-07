@@ -1,10 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.remote;
 
 import org.itsnat.droid.ItsNatDroidBrowser;
-import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.OnPageLoadErrorListener;
-import org.itsnat.droid.OnPageLoadListener;
-import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 
 /**

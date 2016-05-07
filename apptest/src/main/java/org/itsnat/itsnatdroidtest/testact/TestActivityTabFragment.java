@@ -13,9 +13,9 @@ import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutAnimations;
 import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteCore;
+import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePageNoItsNat;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupSetupRemoteIncludeLayout;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupSetupRemotePage;
-import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePageNoItsNat;
 
 /**
  * Created by jmarranz on 12/08/14.

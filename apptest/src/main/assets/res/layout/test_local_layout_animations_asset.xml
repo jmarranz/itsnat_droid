@@ -198,6 +198,21 @@
             android:textSize="15dp"
             android:background="#cccccc"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AnimationSet Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/animationSetTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AnimationSet Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
     </LinearLayout>
 
 </ScrollView>

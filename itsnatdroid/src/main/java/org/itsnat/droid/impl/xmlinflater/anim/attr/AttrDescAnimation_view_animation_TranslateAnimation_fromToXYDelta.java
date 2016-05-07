@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.anim.attr;
 
 import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -9,7 +8,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
-import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationScale;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationTranslate;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 

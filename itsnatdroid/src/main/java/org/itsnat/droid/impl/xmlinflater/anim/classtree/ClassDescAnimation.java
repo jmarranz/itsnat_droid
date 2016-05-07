@@ -8,8 +8,6 @@ import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animation_Animation_repeatCount;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodColor;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInterpolator;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodLong;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;

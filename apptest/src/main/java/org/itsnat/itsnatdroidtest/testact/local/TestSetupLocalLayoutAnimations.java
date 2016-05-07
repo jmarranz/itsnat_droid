@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
@@ -76,6 +77,7 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         defineRotateAnimationTests(act, rootView,layout);
         defineScaleAnimationTests(act, rootView,layout);
         defineTranslateAnimationTests(act, rootView,layout);
+        defineAnimationSetTests(act,rootView,layout);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -290,6 +292,19 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         }
     }
 
+    private static void defineAnimationSetTests(TestActivity act, View rootView,InflatedLayout layout)
+    {
+        TextView textView = (TextView) rootView.findViewById(R.id.animationSetTestId1);
+
+        AnimationSet animation;
+        if (layout == null) animation = (AnimationSet) AnimationUtils.loadAnimation(act, R.anim.test_animation_set_compiled);
+        else animation = (AnimationSet) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_set_asset.xml");
+
+        textView.startAnimation(animation);
+
+        testAnimationSet(animation);
+    }
+
     private static void testAnimation(Animation animation)
     {
         // android:detachWallpaper
@@ -389,5 +404,10 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
         // android:toYDelta
         Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYValue"), 0.0f);
         Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYType"), 1); // RELATIVE_TO_SELF
+    }
+
+    private static void testAnimationSet(AnimationSet animation)
+    {
+
     }
 }

@@ -71,13 +71,10 @@ public class XMLInflaterAnimation extends XMLInflater
         LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null || childDOMElemList.size() == 0) return;
 
-        Animation[] childAnimations = new Animation[childDOMElemList.size()];
-        int i = 0;
         for (DOMElement childDOMElem : childDOMElemList)
         {
             Animation animation = inflateNextElement((DOMElemAnimation)childDOMElem,attrCtx);
-            childAnimations[i] = animation;
-            i++;
+            parentAnimation.addAnimation(animation);
         }
     }
 

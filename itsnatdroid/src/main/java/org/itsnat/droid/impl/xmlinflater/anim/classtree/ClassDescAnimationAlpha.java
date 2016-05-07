@@ -2,10 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
 import android.content.Context;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 
-import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
-import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat;
 

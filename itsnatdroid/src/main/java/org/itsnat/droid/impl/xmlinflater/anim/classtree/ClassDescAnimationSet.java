@@ -84,6 +84,5 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
         super.init();
 
         addAttrDescAN(new AttrDescAnimation_view_animation_AnimationSet_shareInterpolator(this));
-
     }
 }

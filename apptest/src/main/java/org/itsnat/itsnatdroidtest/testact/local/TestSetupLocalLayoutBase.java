@@ -1,12 +1,8 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
-import android.animation.Animator;
 import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.Interpolator;
 import android.widget.Toast;
 
 import org.itsnat.droid.AttrAnimationInflaterListener;
@@ -18,7 +14,6 @@ import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidRoot;
-import org.itsnat.droid.Page;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
