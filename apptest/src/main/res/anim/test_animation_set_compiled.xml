@@ -15,12 +15,14 @@
         android:fromAlpha="0.0"
         android:toAlpha="1.0" /> <!-- duration="100" must be ignored, <set> level is used -->
 
-    <translate
-       android:repeatCount="infinite"
-       android:duration="100"
+    <set> <!-- Just to test set anidation -->
+        <translate
+           android:repeatCount="infinite"
+           android:duration="100"
 
-       android:fromXDelta="500" android:toXDelta="0"
-       android:fromYDelta="0%" android:toYDelta="0%" /> <!-- duration="100" must be ignored, <set> level is used -->
+           android:fromXDelta="500" android:toXDelta="0"
+           android:fromYDelta="0%" android:toYDelta="0%" /> <!-- duration="100" must be ignored, <set> level is used -->
+    </set>
 
 </set>
 

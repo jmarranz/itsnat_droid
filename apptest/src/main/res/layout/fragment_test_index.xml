@@ -34,19 +34,26 @@
                 android:textSize="20dp"
                 android:layout_below="@+id/testLocalLayout2"/>
 
-        <Button android:id="@+id/testLocalAnimations"
+        <Button android:id="@+id/testLocalAnimations1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEST LOCAL ANIMATIONS"
+                android:text="TEST LOCAL ANIMATIONS 1"
                 android:textSize="20dp"
                 android:layout_below="@+id/testLocalDrawables"/>
+
+        <Button android:id="@+id/testLocalAnimations2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST LOCAL ANIMATIONS 2"
+                android:textSize="20dp"
+                android:layout_below="@+id/testLocalAnimations1"/>
 
         <Button android:id="@+id/testRemoteLayoutCore"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="TEST REMOTE LAYOUT CORE"
                   android:textSize="20dp"
-                  android:layout_below="@id/testLocalAnimations"/>
+                  android:layout_below="@id/testLocalAnimations2"/>
 
         <Button android:id="@+id/testRemoteIncludeLayout"
                 android:layout_width="wrap_content"

@@ -27,38 +27,32 @@ import org.itsnat.itsnatdroidtest.testact.util.Assert;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
+public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 {
-    public TestSetupLocalLayoutAnimations(TestActivityTabFragment fragment) {
+    public TestSetupLocalLayoutAnimations1(TestActivityTabFragment fragment) {
         super(fragment);
     }
 
     public void test() {
         final TestActivity act = fragment.getTestActivity();
-        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_animations_compiled);
+        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_animations_1_compiled);
 
         final View buttonReload = compiledRootView.findViewById(R.id.buttonReload);
         buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TEST de carga dinámica de layout guardado localmente
-                //try
-                //{
-                    InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_animations_asset.xml");
-                    View dynamicRootView = layout.getRootView();
+                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_animations_1_asset.xml");
+                View dynamicRootView = layout.getRootView();
 
-                    initialConfiguration(act, dynamicRootView,layout);
+                initialConfiguration(act, dynamicRootView,layout);
 
-                    TestLocalLayoutAnimations.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
-                //}
-                //catch(ItsNatDroidException ex)
-                //{
-                  //  throw ex;
-                //}
+                TestLocalLayoutAnimations1.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }
         });
 
@@ -408,6 +402,22 @@ public class TestSetupLocalLayoutAnimations extends TestSetupLocalLayoutBase
 
     private static void testAnimationSet(AnimationSet animation)
     {
+        int mFlags = (Integer)TestUtil.getField(animation,AnimationSet.class,"mFlags");
+        boolean shareInterpolator = (mFlags & 0x10) == 0x10;// PROPERTY_SHARE_INTERPOLATOR_MASK = 0x10
+        Assert.assertFalse(shareInterpolator);
+        Assert.assertEquals(animation.getDuration(), 3000);
+        Assert.assertEquals(animation.getFillAfter(), true);
+        Assert.assertEquals(animation.getFillBefore(), true);
+        Assert.assertEquals(animation.getRepeatMode(), 1); // restart
+        Assert.assertEquals(animation.getStartOffset(), 10);
 
+        List<Animation> children = animation.getAnimations();
+        Assert.assertEquals(children.size(),2);
+
+        Assert.assertTrue(children.get(0) instanceof AlphaAnimation);
+        Assert.assertTrue(children.get(1) instanceof AnimationSet);
+
+        AnimationSet animSetChild = (AnimationSet)children.get(1);
+        Assert.assertTrue(animSetChild.getAnimations().get(0) instanceof TranslateAnimation);
     }
 }

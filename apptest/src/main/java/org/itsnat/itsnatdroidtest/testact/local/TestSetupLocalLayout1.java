@@ -34,7 +34,7 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
     public void test()
     {
         final TestActivity act = fragment.getTestActivity();
-        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_compiled_1);
+        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_1_compiled);
 
         final View buttonReload = compiledRootView.findViewById(R.id.buttonReload);
         buttonReload.setOnClickListener(new View.OnClickListener()
@@ -43,7 +43,7 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_asset_1.xml"); // R.raw.test_local_layout_asset_1
+                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_1_asset.xml"); // R.raw.test_local_layout_1_asset
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView);
@@ -79,7 +79,7 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
         Resources res = act.getResources();
         GridView gridView = (GridView) rootView.findViewById(R.id.gridViewTestId);
         CharSequence[] entries = res.getTextArray(R.array.sports_array);
-        ((GridView) gridView).setAdapter(new ArrayAdapter<CharSequence>(act, android.R.layout.simple_list_item_1, entries));
+        gridView.setAdapter(new ArrayAdapter<CharSequence>(act, android.R.layout.simple_list_item_1, entries));
     }
 
     private static void defineExpandableListView(TestActivity act, View rootView)

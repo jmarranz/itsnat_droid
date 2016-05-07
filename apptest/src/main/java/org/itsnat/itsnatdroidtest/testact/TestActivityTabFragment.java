@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayout1;
 import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayout2;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutAnimations;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutAnimations1;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutAnimations2;
 import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteCore;
@@ -100,13 +101,23 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
-        View testLocalAnimations = rootView.findViewById(R.id.testLocalAnimations);
-        testLocalAnimations.setOnClickListener(new View.OnClickListener()
+        View testLocalAnimations1 = rootView.findViewById(R.id.testLocalAnimations1);
+        testLocalAnimations1.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestSetupLocalLayoutAnimations(TestActivityTabFragment.this).test();
+                new TestSetupLocalLayoutAnimations1(TestActivityTabFragment.this).test();
+            }
+        });
+
+        View testLocalAnimations2 = rootView.findViewById(R.id.testLocalAnimations2);
+        testLocalAnimations2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                new TestSetupLocalLayoutAnimations2(TestActivityTabFragment.this).test();
             }
         });
 

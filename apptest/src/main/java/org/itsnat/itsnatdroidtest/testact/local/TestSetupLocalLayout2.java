@@ -29,7 +29,7 @@ public class TestSetupLocalLayout2 extends TestSetupLocalLayoutBase
     public void test()
     {
         final TestActivity act = fragment.getTestActivity();
-        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_compiled_2);
+        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_2_compiled);
 
         final View buttonReload = compiledRootView.findViewById(R.id.buttonReload);
         buttonReload.setOnClickListener(new View.OnClickListener()
@@ -38,7 +38,7 @@ public class TestSetupLocalLayout2 extends TestSetupLocalLayoutBase
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_asset_2.xml");
+                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_2_asset.xml");
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView);
