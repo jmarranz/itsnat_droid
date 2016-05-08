@@ -10,8 +10,10 @@ import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -37,6 +39,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     protected AttrAnimationInflaterListener attrAnimationInflaterListener;
     protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
     protected AttrInterpolatorInflaterListener attrInterpolatorInflaterListener;
+    protected AttrResourceInflaterListener attrResourcesInflaterListener;
 
     public InflateLayoutRequestStandaloneImpl(ItsNatDroidImpl itsNatDroid)
     {
@@ -137,6 +140,18 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     public InflateLayoutRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener)
     {
         this.attrInterpolatorInflaterListener = attrInterpolatorInflaterListener;
+        return this;
+    }
+
+    public AttrResourceInflaterListener getAttrResourceInflaterListener()
+    {
+        return attrResourcesInflaterListener;
+    }
+
+    @Override
+    public InflateLayoutRequest setAttrResourceInflaterListener(AttrResourceInflaterListener attrResourcesInflaterListener)
+    {
+        this.attrResourcesInflaterListener = attrResourcesInflaterListener;
         return this;
     }
 

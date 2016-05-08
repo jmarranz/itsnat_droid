@@ -8,6 +8,7 @@ import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -44,12 +45,14 @@ public abstract class InflateLayoutRequestImpl
 
     public abstract AttrInterpolatorInflaterListener getAttrInterpolatorInflaterListener();
 
+    public abstract AttrResourceInflaterListener getAttrResourceInflaterListener();
+
     public abstract Context getContext();
 
     public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup parentView,int indexChild,PageImpl page)
     {
         AttrInflaterListeners attrInflaterListeners = new AttrInflaterListeners(getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(),getAttrAnimationInflaterListener(),
-                getAttrAnimatorInflaterListener(),getAttrInterpolatorInflaterListener());
+                getAttrAnimatorInflaterListener(),getAttrInterpolatorInflaterListener(),getAttrResourceInflaterListener());
         return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,parentView,indexChild,getBitmapDensityReference(),attrInflaterListeners,getContext(),page);
     }
 

@@ -21,6 +21,7 @@ public interface PageRequest
     public PageRequest setAttrAnimationInflaterListener(AttrAnimationInflaterListener listener);
     public PageRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener listener);
     public PageRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener);
+    public PageRequest setAttrResourceInflaterListener(AttrResourceInflaterListener attrResourcesInflaterListener);
     public PageRequest addRequestProperty(String name, String value);
     public PageRequest setRequestProperty(String name, String value);
     public boolean removeProperty(String name);

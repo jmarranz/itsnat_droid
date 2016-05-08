@@ -18,14 +18,14 @@ import java.util.HashMap;
  */
 public abstract class ClassDesc<Tnative>
 {
-    protected ClassDescMgr classMgr;
+    protected ClassDescMgr<? extends ClassDesc> classMgr;
     protected String classOrDOMElemName;
     protected ClassDesc<? super Tnative> parentClass;
     protected boolean initiated;
     protected HashMap<String, AttrDesc> attrDescAndroidNSMap;
     protected MapLight<String, AttrDesc> attrDescNoNSMap;
 
-    public ClassDesc(ClassDescMgr classMgr,String classOrDOMElemName,ClassDesc<? super Tnative> parentClass)
+    public ClassDesc(ClassDescMgr<? extends ClassDesc> classMgr,String classOrDOMElemName,ClassDesc<? super Tnative> parentClass)
     {
         this.classMgr = classMgr;
         this.classOrDOMElemName = classOrDOMElemName;

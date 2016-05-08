@@ -11,12 +11,14 @@ import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.Page;
 
 /**
  * Created by jmarranz on 30/04/2016.
  */
-public abstract class TestSetupBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimationInflaterListener,AttrAnimatorInflaterListener,AttrInterpolatorInflaterListener
+public abstract class TestSetupBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimationInflaterListener,
+        AttrAnimatorInflaterListener,AttrInterpolatorInflaterListener,AttrResourceInflaterListener
 {
     public static final String NAMESPACE_ANDROID = "http://schemas.android.com/apk/res/android";
 
@@ -127,6 +129,28 @@ public abstract class TestSetupBase implements AttrLayoutInflaterListener,AttrDr
             throw new RuntimeException("Android Interpolator attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
 
         System.out.println("NOT FOUND INTERPOLATOR ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+
+        return true;
+    }
+
+    @Override
+    public boolean setAttribute(Page page, Object resource, String namespace, String name, String value)
+    {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android " + resource.getClass().getName() + " attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
+        System.out.println("NOT FOUND " + resource.getClass().getName() + " ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+
+        return true;
+    }
+
+    @Override
+    public boolean removeAttribute(Page page, Object resource, String namespace, String name)
+    {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android " + resource.getClass().getName() + " attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
+        System.out.println("NOT FOUND " + resource.getClass().getName() + " ATTRIBUTE (removeAttribute): " + namespace + " " + name);
 
         return true;
     }

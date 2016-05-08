@@ -54,7 +54,7 @@ public class XMLInflaterAnimation extends XMLInflater
         ClassDescAnimationBased classDesc = getClassDescAnimationBased(rootDOMElem);
         Animation animationRoot = classDesc.createRootAnimationNativeAndFillAttributes(rootDOMElem, attrCtx);
 
-        // No te creas t_odo lo que viene en la doc de Android, cualquier Animation puede ser root
+        // No te creas t_odo lo que viene en la doc de Android, cualquier Animation puede ser root no sólo <set>
         // http://developerlife.com/tutorials/?p=343 (ejemplo <alpha>)
         // <alpha xmlns:android="http://schemas.android.com/apk/res/android"
         //        android:interpolator="@android:anim/accelerate_interpolator"

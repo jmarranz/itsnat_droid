@@ -5,11 +5,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
-import org.itsnat.droid.AttrAnimationInflaterListener;
-import org.itsnat.droid.AttrAnimatorInflaterListener;
-import org.itsnat.droid.AttrDrawableInflaterListener;
-import org.itsnat.droid.AttrInterpolatorInflaterListener;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
@@ -25,10 +20,8 @@ import java.io.InputStream;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public abstract class TestSetupLocalLayoutBase extends TestSetupBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener,AttrAnimationInflaterListener,
-                            AttrAnimatorInflaterListener,AttrInterpolatorInflaterListener
+public abstract class TestSetupLocalLayoutBase extends TestSetupBase
 {
-
 
     protected final TestActivityTabFragment fragment;
 
@@ -85,6 +78,7 @@ public abstract class TestSetupLocalLayoutBase extends TestSetupBase implements 
                 .setAttrAnimationInflaterListener(this)
                 .setAttrAnimatorInflaterListener(this)
                 .setAttrInterpolatorInflaterListener(this)
+                .setAttrResourceInflaterListener(this)
                 .setContext(act)
                 .inflate(input,null);
 

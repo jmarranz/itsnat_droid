@@ -19,6 +19,7 @@ public interface InflateLayoutRequest
     public InflateLayoutRequest setAttrAnimationInflaterListener(AttrAnimationInflaterListener attrAnimationInflaterListener);
     public InflateLayoutRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener listener);
     public InflateLayoutRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener);
+    public InflateLayoutRequest setAttrResourceInflaterListener(AttrResourceInflaterListener attrResourcesInflaterListener);
     public InflatedLayout inflate(InputStream input, ViewGroup parentView);
     public InflatedLayout inflate(Reader input, ViewGroup parentView);
 }

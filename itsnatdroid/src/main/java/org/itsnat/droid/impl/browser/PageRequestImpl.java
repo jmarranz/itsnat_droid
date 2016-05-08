@@ -11,6 +11,7 @@ import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrInterpolatorInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
@@ -59,6 +60,7 @@ public class PageRequestImpl implements PageRequest
     protected AttrAnimationInflaterListener attrAnimationInflaterListener;
     protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
     protected AttrInterpolatorInflaterListener attrInterpolatorInflaterListener;
+    protected AttrResourceInflaterListener attrResourcesInflaterListener;
     protected boolean sync = false;
     protected String url;
     protected String pageURLBase;
@@ -215,9 +217,9 @@ public class PageRequestImpl implements PageRequest
     }
 
     @Override
-    public PageRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener)
+    public PageRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener attrAnimatorInflaterListener)
     {
-        this.attrInterpolatorInflaterListener = attrInterpolatorInflaterListener;
+        this.attrAnimatorInflaterListener = attrAnimatorInflaterListener;
         return this;
     }
 
@@ -227,9 +229,21 @@ public class PageRequestImpl implements PageRequest
     }
 
     @Override
-    public PageRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener attrAnimatorInflaterListener)
+    public PageRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener)
     {
-        this.attrAnimatorInflaterListener = attrAnimatorInflaterListener;
+        this.attrInterpolatorInflaterListener = attrInterpolatorInflaterListener;
+        return this;
+    }
+
+    public AttrResourceInflaterListener getAttrResourceInflaterListener()
+    {
+        return attrResourcesInflaterListener;
+    }
+
+    @Override
+    public PageRequest setAttrResourceInflaterListener(AttrResourceInflaterListener attrResourcesInflaterListener)
+    {
+        this.attrResourcesInflaterListener = attrResourcesInflaterListener;
         return this;
     }
 
