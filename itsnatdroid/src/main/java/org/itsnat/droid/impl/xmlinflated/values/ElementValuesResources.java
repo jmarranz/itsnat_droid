@@ -168,8 +168,8 @@ public class ElementValuesResources extends ElementValues
 
     public PercFloat getDimensionPercFloat(String name,XMLInflaterContext xmlInflaterContext)
     {
-        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name);
-        if (valueAsDOMAttr == null) valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
+        DOMAttr valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_STRING,name);
+        if (valueAsDOMAttr == null) valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
         if (valueAsDOMAttr == null) throw new ItsNatDroidException("Expected a <string> or <item type=\"dimen\"> for resource name: " + name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
         return xmlInflaterRegistry.getDimensionPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
@@ -180,6 +180,15 @@ public class ElementValuesResources extends ElementValues
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
         return xmlInflaterRegistry.getPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
+    }
+
+    public String getStringOrDimension(String name,XMLInflaterContext xmlInflaterContext)
+    {
+        DOMAttr valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_STRING,name);
+        if (valueAsDOMAttr == null) valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
+        if (valueAsDOMAttr == null) throw new ItsNatDroidException("Expected a <string> or <item type=\"dimen\"> for resource name: " + name);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getString(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
     public Drawable getDrawable(String name, XMLInflaterContext xmlInflaterContext)

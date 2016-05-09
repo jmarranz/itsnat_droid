@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
 import android.content.Context;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
@@ -11,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animat
  */
 public class ClassDescAnimationTranslate extends ClassDescAnimationBased<TranslateAnimation>
 {
-    public ClassDescAnimationTranslate(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<? super TranslateAnimation> parentClass)
+    public ClassDescAnimationTranslate(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
     {
         super(classMgr, "translate", parentClass);
     }
@@ -23,7 +24,7 @@ public class ClassDescAnimationTranslate extends ClassDescAnimationBased<Transla
     }
 
     @Override
-    protected TranslateAnimation createAnimationNative(Context ctx)
+    protected TranslateAnimation createResourceNative(Context ctx)
     {
         return new TranslateAnimation(ctx,null);
     }

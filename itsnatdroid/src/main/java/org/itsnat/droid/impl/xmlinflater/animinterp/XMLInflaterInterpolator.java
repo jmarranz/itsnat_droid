@@ -2,10 +2,10 @@ package org.itsnat.droid.impl.xmlinflater.animinterp;
 
 import android.view.animation.Interpolator;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.dom.animinterp.DOMElemInterpolator;
 import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
 import org.itsnat.droid.impl.xmlinflated.animinterp.InflatedInterpolator;
-import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorBased;
 
@@ -14,14 +14,14 @@ import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpola
  */
 public class XMLInflaterInterpolator extends XMLInflater
 {
-    protected XMLInflaterInterpolator(InflatedInterpolator inflatedXML, int bitmapDensityReference, AttrInflaterListeners attrInflaterListeners)
+    protected XMLInflaterInterpolator(InflatedInterpolator inflatedXML, int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        super(inflatedXML, bitmapDensityReference, attrInflaterListeners);
+        super(inflatedXML, bitmapDensityReference, attrResourceInflaterListener);
     }
 
-    public static XMLInflaterInterpolator createXMLInflaterInterpolator(InflatedInterpolator inflatedInterpolator, int bitmapDensityReference, AttrInflaterListeners attrInflaterListeners)
+    public static XMLInflaterInterpolator createXMLInflaterInterpolator(InflatedInterpolator inflatedInterpolator, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        return new XMLInflaterInterpolator(inflatedInterpolator,bitmapDensityReference,attrInflaterListeners);
+        return new XMLInflaterInterpolator(inflatedInterpolator,bitmapDensityReference,attrResourceInflaterListener);
     }
 
     public ClassDescInterpolatorBased getClassDescInterpolatorBased(DOMElemInterpolator domElemInterpolator)

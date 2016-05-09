@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
 import android.content.Context;
+import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
@@ -12,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animat
  */
 public class ClassDescAnimationScale extends ClassDescAnimationBased<ScaleAnimation>
 {
-    public ClassDescAnimationScale(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<? super ScaleAnimation> parentClass)
+    public ClassDescAnimationScale(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
     {
         super(classMgr, "scale", parentClass);
     }
@@ -24,7 +25,7 @@ public class ClassDescAnimationScale extends ClassDescAnimationBased<ScaleAnimat
     }
 
     @Override
-    protected ScaleAnimation createAnimationNative(Context ctx)
+    protected ScaleAnimation createResourceNative(Context ctx)
     {
         return new ScaleAnimation(ctx,null);
     }

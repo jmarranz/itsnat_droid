@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
@@ -14,12 +15,12 @@ public abstract class XMLInflater
     protected final XMLInflaterContext xmlInflaterContext;
 
 
-    protected XMLInflater(InflatedXML inflatedXML,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    protected XMLInflater(InflatedXML inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
         this.inflatedXML = inflatedXML;
 
         PageImpl page = PageImpl.getPageImpl(inflatedXML); // Puede ser null
-        this.xmlInflaterContext = new XMLInflaterContext(inflatedXML.getItsNatDroidImpl(),inflatedXML.getContext(),page,bitmapDensityReference, attrInflaterListeners);
+        this.xmlInflaterContext = new XMLInflaterContext(inflatedXML.getItsNatDroidImpl(),inflatedXML.getContext(),page,bitmapDensityReference, attrResourceInflaterListener);
     }
 
     public InflatedXML getInflatedXML()

@@ -15,7 +15,7 @@
     <drawable name="test_drawable_textview_drawableLeft">@drawable/test_drawable_textview_drawableleft_compiled</drawable>
     <item name="test_layout_include_3" type="layout">@layout/test_include_3_compiled</item>
     <item name="test_float_textview_lineSpacingMultiplier" type="dimen" format="float">1.2</item> <!-- http://stackoverflow.com/questions/3282390/add-floating-point-value-to-android-resources-values -->
-    <item name="test_drawable_scaledrawable_scaleWidth" type="dimen" >60.3%</item> <!-- Alternative in this case:  <string name="test_drawable_scaledrawable_scaleWidth">60.3%</string> -->
+    <item name="test_drawable_scaledrawable_scaleWidth" type="dimen">60.3%</item> <!-- Alternative in this case:  <string name="test_drawable_scaledrawable_scaleWidth">60.3%</string> -->
 
     <item name="test_animator_object_animator_values" type="animator">@animator/test_object_animator_compiled</item>
 

@@ -24,7 +24,7 @@ public class ClassDescAnimator extends ClassDescAnimatorBased<Animator>
 
 
     @Override
-    protected Animator createAnimatorNative(Context ctx)
+    protected Animator createResourceNative(Context ctx)
     {
         return null; // No se necesita, Animator es abstract
     }

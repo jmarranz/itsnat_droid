@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.values;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.values.DOMElemValues;
@@ -13,7 +14,6 @@ import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
-import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesArrayBase;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesItemNormal;
@@ -26,14 +26,14 @@ import java.util.LinkedList;
  */
 public class XMLInflaterValues extends XMLInflater
 {
-    protected XMLInflaterValues(InflatedValues inflatedXML,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    protected XMLInflaterValues(InflatedValues inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        super(inflatedXML, bitmapDensityReference,attrInflaterListeners);
+        super(inflatedXML, bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public static XMLInflaterValues createXMLInflaterValues(InflatedValues inflatedValues,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    public static XMLInflaterValues createXMLInflaterValues(InflatedValues inflatedValues,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        return new XMLInflaterValues(inflatedValues,bitmapDensityReference,attrInflaterListeners);
+        return new XMLInflaterValues(inflatedValues,bitmapDensityReference,attrResourceInflaterListener);
     }
 
     public InflatedValues getInflatedValues()

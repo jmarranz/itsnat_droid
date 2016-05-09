@@ -73,11 +73,6 @@ public abstract class TestSetupLocalLayoutBase extends TestSetupBase
         InflatedLayout layout = inflateRequest
                 .setEncoding("UTF-8")
                 .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH) // 320
-                .setAttrLayoutInflaterListener(this)
-                .setAttrDrawableInflaterListener(this)
-                .setAttrAnimationInflaterListener(this)
-                .setAttrAnimatorInflaterListener(this)
-                .setAttrInterpolatorInflaterListener(this)
                 .setAttrResourceInflaterListener(this)
                 .setContext(act)
                 .inflate(input,null);

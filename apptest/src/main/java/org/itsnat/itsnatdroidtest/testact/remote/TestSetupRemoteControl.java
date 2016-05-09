@@ -23,10 +23,11 @@ public class TestSetupRemoteControl extends TestSetupRemotePageBase
     }
 
     @Override
-    public boolean setAttribute(final Page page,View view, String namespace, String name, final String value)
+    public boolean setAttribute(final Page page,Object resource, String namespace, String name, final String value)
     {
-        if (name.equals("url"))
+        if (resource instanceof View && name.equals("url"))
         {
+            View view = (View)resource;
             ItsNatView itsNatView = page.getItsNatDoc().getItsNatView(view);
             itsNatView.setOnClickListener(new View.OnClickListener()
             {
@@ -39,7 +40,7 @@ public class TestSetupRemoteControl extends TestSetupRemotePageBase
             });
             return true;
         }
-        else return super.setAttribute(page,view, namespace, name, value);
+        else return super.setAttribute(page,resource, namespace, name, value);
     }
 
 }

@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 
@@ -26,12 +25,12 @@ public class ClassDescAnimatorObject extends ClassDescAnimatorBased<ObjectAnimat
     }
 
     @Override
-    protected ObjectAnimator createAnimatorNative(Context ctx)
+    protected ObjectAnimator createResourceNative(Context ctx)
     {
         return new ObjectAnimator();
     }
 
-    protected void fillAnimatorAttributes(Animator animator,DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
+    protected void fillAnimatorAttributes(ObjectAnimator animator,DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
     {
         ((ClassDescAnimatorValue)parentClass).fillAnimatorValueConstructionAttributes(animator, domElement, attrCtx);
 

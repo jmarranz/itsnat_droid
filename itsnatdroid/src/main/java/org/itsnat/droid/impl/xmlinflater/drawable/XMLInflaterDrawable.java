@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 
 import android.graphics.drawable.Drawable;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -11,7 +12,6 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
-import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
@@ -29,14 +29,14 @@ import java.util.Map;
  */
 public class XMLInflaterDrawable extends XMLInflater
 {
-    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        super(inflatedXML,bitmapDensityReference,attrInflaterListeners);
+        super(inflatedXML,bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        return new XMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrInflaterListeners);
+        return new XMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrResourceInflaterListener);
     }
 
 

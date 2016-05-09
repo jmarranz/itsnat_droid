@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
 import android.content.Context;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat;
@@ -11,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat
  */
 public class ClassDescAnimationAlpha extends ClassDescAnimationBased<AlphaAnimation>
 {
-    public ClassDescAnimationAlpha(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<? super AlphaAnimation> parentClass)
+    public ClassDescAnimationAlpha(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
     {
         super(classMgr, "alpha", parentClass);
     }
@@ -23,7 +24,7 @@ public class ClassDescAnimationAlpha extends ClassDescAnimationBased<AlphaAnimat
     }
 
     @Override
-    protected AlphaAnimation createAnimationNative(Context ctx)
+    protected AlphaAnimation createResourceNative(Context ctx)
     {
         return new AlphaAnimation(ctx,null);
     }

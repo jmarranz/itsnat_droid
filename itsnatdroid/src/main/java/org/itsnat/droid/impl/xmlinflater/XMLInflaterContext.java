@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 
@@ -15,15 +16,15 @@ public class XMLInflaterContext
     protected final Context ctx;
     protected final PageImpl page; // PUEDE SER NULL
     protected final int bitmapDensityReference;
-    protected final AttrInflaterListeners attrInflaterListeners;
+    protected final AttrResourceInflaterListener attrResourceInflaterListener;
 
-    public XMLInflaterContext(ItsNatDroidImpl itsNatDroid,Context ctx, PageImpl page, int bitmapDensityReference, AttrInflaterListeners attrInflaterListeners)
+    public XMLInflaterContext(ItsNatDroidImpl itsNatDroid,Context ctx, PageImpl page, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         this.itsNatDroid = itsNatDroid;
         this.ctx = ctx;
         this.page = page;
         this.bitmapDensityReference = bitmapDensityReference;
-        this.attrInflaterListeners = attrInflaterListeners;
+        this.attrResourceInflaterListener = attrResourceInflaterListener;
     }
 
     public ItsNatDroidImpl getItsNatDroidImpl()
@@ -46,9 +47,9 @@ public class XMLInflaterContext
         return bitmapDensityReference;
     }
 
-    public AttrInflaterListeners getAttrInflaterListeners()
+    public AttrResourceInflaterListener getAttrResourceInflaterListener()
     {
-        return attrInflaterListeners;
+        return attrResourceInflaterListener;
     }
 
     public XMLInflaterRegistry getXMLInflaterRegistry()

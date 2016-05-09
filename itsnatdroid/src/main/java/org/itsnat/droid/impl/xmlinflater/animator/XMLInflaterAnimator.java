@@ -3,13 +3,13 @@ package org.itsnat.droid.impl.xmlinflater.animator;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimatorSet;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
 import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
-import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorBased;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorSet;
@@ -21,14 +21,14 @@ import java.util.LinkedList;
  */
 public class XMLInflaterAnimator extends XMLInflater
 {
-    protected XMLInflaterAnimator(InflatedAnimator inflatedXML, int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    protected XMLInflaterAnimator(InflatedAnimator inflatedXML, int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        super(inflatedXML, bitmapDensityReference, attrInflaterListeners);
+        super(inflatedXML, bitmapDensityReference, attrResourceInflaterListener);
     }
 
-    public static XMLInflaterAnimator createXMLInflaterAnimator(InflatedAnimator inflatedAnimator,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    public static XMLInflaterAnimator createXMLInflaterAnimator(InflatedAnimator inflatedAnimator,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        return new XMLInflaterAnimator(inflatedAnimator,bitmapDensityReference,attrInflaterListeners);
+        return new XMLInflaterAnimator(inflatedAnimator,bitmapDensityReference,attrResourceInflaterListener);
     }
 
     public ClassDescAnimatorBased getClassDescAnimatorBased(DOMElemAnimator domElemAnimator)

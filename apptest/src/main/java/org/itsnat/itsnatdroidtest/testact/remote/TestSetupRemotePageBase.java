@@ -265,10 +265,7 @@ public abstract class TestSetupRemotePageBase extends TestSetupBase implements O
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
         .setOnScriptErrorListener(this) // Comentar para ver el modo de error built-in
-        .setAttrLayoutInflaterListener(this)
-        .setAttrDrawableInflaterListener(this)
-        .setAttrAnimatorInflaterListener(this)
-        .setAttrInterpolatorInflaterListener(this)
+        .setAttrResourceInflaterListener(this)
         .setConnectTimeout(getConnectionTimeout())
         .setReadTimeout(getReadTimeout())
         .setURL(url)

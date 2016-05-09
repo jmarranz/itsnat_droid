@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.TypedValue;
 
-import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -96,7 +96,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
         String value = attr.getValue();
 
-        XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
+        //XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
 
 
         if (isAttributeIgnored(draw, namespaceURI, name))
@@ -140,7 +140,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
 
     private boolean processAttrCustom(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name,String value,XMLInflaterContext xmlInflaterContext)
     {
-        AttrDrawableInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrDrawableInflaterListener();
+        AttrResourceInflaterListener listener = xmlInflaterContext.getAttrResourceInflaterListener();
         if (listener != null)
         {
             PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser nulo

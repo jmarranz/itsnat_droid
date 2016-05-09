@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.anim.attr;
 
+import android.os.Build;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
@@ -43,7 +44,8 @@ public class AttrDescAnimation_view_animation_ScaleAnimation_pivotXY extends Att
         this.fieldMPivotXYType = new FieldContainer<Integer>(ScaleAnimation.class, fieldPivotXYTypeName);
         this.fieldMPivotXYValue = new FieldContainer<Float>(ScaleAnimation.class, fieldPivotXYValueName);
 
-        this.methodInitializePivotPoint = new MethodContainer<Void>(ScaleAnimation.class,"initializePivotPoint");
+        if (Build.VERSION.SDK_INT > MiscUtil.ICE_CREAM_SANDWICH_MR1)
+            this.methodInitializePivotPoint = new MethodContainer<Void>(ScaleAnimation.class,"initializePivotPoint");
     }
 
     @Override
@@ -66,7 +68,8 @@ public class AttrDescAnimation_view_animation_ScaleAnimation_pivotXY extends Att
 
         fieldMPivotXYType.set(scaleAnimation,pivotType);
         fieldMPivotXYValue.set(scaleAnimation,pivotValue);
-        methodInitializePivotPoint.invoke(scaleAnimation); // scaleAnimation.initializePivotPoint()
+        if (Build.VERSION.SDK_INT > MiscUtil.ICE_CREAM_SANDWICH_MR1)
+            methodInitializePivotPoint.invoke(scaleAnimation); // scaleAnimation.initializePivotPoint()
     }
 
     @Override

@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -907,6 +908,24 @@ public class XMLInflaterRegistry
         else throw MiscUtil.internalError();
     }
 
+    public String getStringOrDimension(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+    {
+        if (resourceDesc instanceof ResourceDescDynamic)
+        {
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
+            return elementResources.getStringOrDimension(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
+        }
+        else if (resourceDesc instanceof ResourceDescCompiled)
+        {
+            Context ctx = xmlInflaterContext.getContext();
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getStringCompiled(resourceDescValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+
     public int getDimensionWithNameIntRound(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
     {
         int dimension;
@@ -1057,13 +1076,13 @@ public class XMLInflaterRegistry
 
                     if (resourceDesc instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
-                    AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+                    AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
 
                     ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
                     XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
                     InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
 
-                    XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference,attrInflaterListeners);
+                    XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference,attrResourceInflaterListener);
                     return xmlInflaterDrawable.inflateDrawable();
                 }
                 else if (MimeUtil.isMIMEResourceImage(resourceMime))
@@ -1200,12 +1219,12 @@ public class XMLInflaterRegistry
                 countBefore = viewParent.getChildCount();
             }
 
-            AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+            AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
 
             ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDesc.getParsedResource();
             XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
-            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrInflaterListeners, ctx, pageParent);
+            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrResourceInflaterListener, ctx, pageParent);
             View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
 
             if (pageParent != null) // existe página padre
@@ -1289,7 +1308,7 @@ public class XMLInflaterRegistry
 
         int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
 
-        AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+        AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
 
         // Esperamos un Animator
         PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
@@ -1302,7 +1321,7 @@ public class XMLInflaterRegistry
         XMLDOMAnimation xmlDOMAnimation = (XMLDOMAnimation) resource.getXMLDOM();
         InflatedAnimation inflatedAnimation = InflatedAnimation.createInflatedAnimation(itsNatDroid, xmlDOMAnimation, ctx, page);
 
-        XMLInflaterAnimation xmlInflaterAnimation = XMLInflaterAnimation.createXMLInflaterAnimation(inflatedAnimation, bitmapDensityReference, attrInflaterListeners);
+        XMLInflaterAnimation xmlInflaterAnimation = XMLInflaterAnimation.createXMLInflaterAnimation(inflatedAnimation, bitmapDensityReference, attrResourceInflaterListener);
         return xmlInflaterAnimation.inflateAnimation();
     }
 
@@ -1348,7 +1367,7 @@ public class XMLInflaterRegistry
 
         int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
 
-        AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+        AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
 
         // Esperamos un Animator
         PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
@@ -1361,7 +1380,7 @@ public class XMLInflaterRegistry
         XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
         InflatedAnimator inflatedAnimator = InflatedAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
 
-        XMLInflaterAnimator xmlInflaterAnimator = XMLInflaterAnimator.createXMLInflaterAnimator(inflatedAnimator, bitmapDensityReference, attrInflaterListeners);
+        XMLInflaterAnimator xmlInflaterAnimator = XMLInflaterAnimator.createXMLInflaterAnimator(inflatedAnimator, bitmapDensityReference, attrResourceInflaterListener);
         return xmlInflaterAnimator.inflateAnimator();
     }
 
@@ -1407,7 +1426,7 @@ public class XMLInflaterRegistry
 
         int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
 
-        AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+        AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
 
         // Esperamos un Animator
         PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
@@ -1421,7 +1440,7 @@ public class XMLInflaterRegistry
         XMLDOMInterpolator xmlDOMInterpolator = (XMLDOMInterpolator) resource.getXMLDOM();
         InflatedInterpolator inflatedInterpolator = InflatedInterpolator.createInflatedInterpolator(itsNatDroid, xmlDOMInterpolator, ctx, page);
 
-        XMLInflaterInterpolator xmlInflaterInterpolator = XMLInflaterInterpolator.createXMLInflaterInterpolator(inflatedInterpolator, bitmapDensityReference, attrInflaterListeners);
+        XMLInflaterInterpolator xmlInflaterInterpolator = XMLInflaterInterpolator.createXMLInflaterInterpolator(inflatedInterpolator, bitmapDensityReference, attrResourceInflaterListener);
 
         return xmlInflaterInterpolator.inflateInterpolator();
     }
@@ -1464,11 +1483,11 @@ public class XMLInflaterRegistry
 
         int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
 
-        AttrInflaterListeners attrInflaterListeners = xmlInflaterContext.getAttrInflaterListeners();
+        AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
 
         InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx, page);
 
-        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrInflaterListeners);
+        XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrResourceInflaterListener);
         ElementValuesResources elementResources = xmlInflaterValues.inflateValues();
 
         cacheXMLDOMValuesXMLInflaterValuesMap.put(xmlDOMValues,elementResources);

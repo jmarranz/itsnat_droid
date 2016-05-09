@@ -1,9 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.shared.classtree;
 
-import android.animation.Animator;
 import android.content.Context;
 
-import org.itsnat.droid.AttrAnimatorInflaterListener;
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -12,7 +10,6 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
-import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
@@ -20,7 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends AttrContext> extends ClassDesc<TnativeResource>
 {
-    public ClassDescResourceBased(ClassDescMgr<ClassDescResourceBased> classMgr, String tagName, ClassDescResourceBased<TnativeResource,TattrCtx> parentClass)
+    public ClassDescResourceBased(ClassDescMgr<? extends ClassDescResourceBased> classMgr, String tagName, ClassDescResourceBased<? super TnativeResource,TattrCtx> parentClass)
     {
         super(classMgr, tagName, parentClass);
     }
@@ -32,12 +29,12 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
     }
 
     @SuppressWarnings("unchecked")
-    public ClassDescResourceBased<TnativeResource,TattrCtx> getParentClassDescAnimatorBased()
+    public ClassDescResourceBased<TnativeResource,TattrCtx> getParentClassDescResourceBased()
     {
         return (ClassDescResourceBased<TnativeResource,TattrCtx>) getParentClassDesc(); // Puede ser null
     }
 
-    public abstract Class<TnativeResource> getDeclaredClass();
+    //public abstract Class<TnativeResource> getDeclaredClass();
 
     @Override
     protected void init()
@@ -109,7 +106,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         {
             // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
             // y tiene prioridad la clase más derivada
-            ClassDescResourceBased<TnativeResource,TattrCtx> parentClass = getParentClassDescAnimatorBased();
+            ClassDescResourceBased<TnativeResource,TattrCtx> parentClass = getParentClassDescResourceBased();
             if (parentClass != null)
             {
                 return parentClass.setAttributeThisClass(resource, attr, attrCtx);
@@ -154,7 +151,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         }
         else
         {
-            ClassDescResourceBased<TnativeResource,TattrCtx> parentClass = getParentClassDescAnimatorBased();
+            ClassDescResourceBased<TnativeResource,TattrCtx> parentClass = getParentClassDescResourceBased();
             if (parentClass != null)
             {
                 return parentClass.removeAttributeThisClass(resource, namespaceURI, name, attrCtx);
@@ -168,7 +165,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
     private boolean processSetAttrCustom(TnativeResource resource, String namespaceURI, String name, String value, XMLInflaterContext xmlInflaterContext)
     {
         // No se encuentra opción de proceso custom
-        AttrResourceInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrResourceInflaterListener();
+        AttrResourceInflaterListener listener = xmlInflaterContext.getAttrResourceInflaterListener();
         if(listener!=null)
         {
             PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
@@ -180,7 +177,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
     private boolean processRemoveAttrCustom(TnativeResource resource, String namespaceURI, String name, XMLInflaterContext xmlInflaterContext)
     {
         // No se encuentra opción de proceso custom
-        AttrResourceInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrResourceInflaterListener();
+        AttrResourceInflaterListener listener = xmlInflaterContext.getAttrResourceInflaterListener();
         if(listener!=null)
         {
             PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null

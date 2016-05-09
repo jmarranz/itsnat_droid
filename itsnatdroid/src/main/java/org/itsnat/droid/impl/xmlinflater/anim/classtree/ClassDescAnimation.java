@@ -45,7 +45,7 @@ public class ClassDescAnimation extends ClassDescAnimationBased<Animation>
 
 
     @Override
-    protected Animation createAnimationNative(Context ctx)
+    protected Animation createResourceNative(Context ctx)
     {
         return null; // No se necesita, Animation es abstract
     }

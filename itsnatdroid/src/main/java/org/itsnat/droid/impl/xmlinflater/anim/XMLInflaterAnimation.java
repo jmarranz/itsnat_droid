@@ -3,12 +3,12 @@ package org.itsnat.droid.impl.xmlinflater.anim;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSet;
 import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
-import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationBased;
 
@@ -19,14 +19,14 @@ import java.util.LinkedList;
  */
 public class XMLInflaterAnimation extends XMLInflater
 {
-    protected XMLInflaterAnimation(InflatedAnimation inflatedXML, int bitmapDensityReference, AttrInflaterListeners attrInflaterListeners)
+    protected XMLInflaterAnimation(InflatedAnimation inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        super(inflatedXML, bitmapDensityReference, attrInflaterListeners);
+        super(inflatedXML, bitmapDensityReference, attrResourceInflaterListener);
     }
 
-    public static XMLInflaterAnimation createXMLInflaterAnimation(InflatedAnimation inflatedAnimation, int bitmapDensityReference, AttrInflaterListeners attrInflaterListeners)
+    public static XMLInflaterAnimation createXMLInflaterAnimation(InflatedAnimation inflatedAnimation, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        return new XMLInflaterAnimation(inflatedAnimation,bitmapDensityReference,attrInflaterListeners);
+        return new XMLInflaterAnimation(inflatedAnimation,bitmapDensityReference,attrResourceInflaterListener);
     }
 
     public ClassDescAnimationBased getClassDescAnimationBased(DOMElemAnimation domElemAnimation)

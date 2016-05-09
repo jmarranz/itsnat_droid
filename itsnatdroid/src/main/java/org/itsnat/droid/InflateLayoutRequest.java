@@ -14,11 +14,6 @@ public interface InflateLayoutRequest
     public InflateLayoutRequest setContext(Context ctx);
     public InflateLayoutRequest setEncoding(String encoding);
     public InflateLayoutRequest setBitmapDensityReference(int density);
-    public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
-    public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener listener);
-    public InflateLayoutRequest setAttrAnimationInflaterListener(AttrAnimationInflaterListener attrAnimationInflaterListener);
-    public InflateLayoutRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener listener);
-    public InflateLayoutRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener);
     public InflateLayoutRequest setAttrResourceInflaterListener(AttrResourceInflaterListener attrResourcesInflaterListener);
     public InflatedLayout inflate(InputStream input, ViewGroup parentView);
     public InflatedLayout inflate(Reader input, ViewGroup parentView);

@@ -5,15 +5,9 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.AttrAnimationInflaterListener;
-import org.itsnat.droid.AttrAnimatorInflaterListener;
-import org.itsnat.droid.AttrDrawableInflaterListener;
-import org.itsnat.droid.AttrInterpolatorInflaterListener;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
-import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -34,11 +28,6 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     protected Context ctx;
     protected String encoding = "UTF-8";
     protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH; // 320 (xhdpi), por ej el Nexus 4
-    protected AttrLayoutInflaterListener attrLayoutInflaterListener;
-    protected AttrDrawableInflaterListener attrDrawableInflaterListener;
-    protected AttrAnimationInflaterListener attrAnimationInflaterListener;
-    protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
-    protected AttrInterpolatorInflaterListener attrInterpolatorInflaterListener;
     protected AttrResourceInflaterListener attrResourcesInflaterListener;
 
     public InflateLayoutRequestStandaloneImpl(ItsNatDroidImpl itsNatDroid)
@@ -83,65 +72,6 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         return itsNatDroid;
     }
 
-    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
-    {
-        return attrLayoutInflaterListener;
-    }
-
-    @Override
-    public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener attrLayoutInflaterListener)
-    {
-        this.attrLayoutInflaterListener = attrLayoutInflaterListener;
-        return this;
-    }
-
-    public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
-    {
-        return attrDrawableInflaterListener;
-    }
-
-    @Override
-    public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener attrDrawableInflaterListener)
-    {
-        this.attrDrawableInflaterListener = attrDrawableInflaterListener;
-        return this;
-    }
-
-    public AttrAnimationInflaterListener getAttrAnimationInflaterListener()
-    {
-        return attrAnimationInflaterListener;
-    }
-
-    @Override
-    public InflateLayoutRequest setAttrAnimationInflaterListener(AttrAnimationInflaterListener attrAnimationInflaterListener)
-    {
-        this.attrAnimationInflaterListener = attrAnimationInflaterListener;
-        return this;
-    }
-
-    public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()
-    {
-        return attrAnimatorInflaterListener;
-    }
-
-    @Override
-    public InflateLayoutRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener attrAnimatorInflaterListener)
-    {
-        this.attrAnimatorInflaterListener = attrAnimatorInflaterListener;
-        return this;
-    }
-
-    public AttrInterpolatorInflaterListener getAttrInterpolatorInflaterListener()
-    {
-        return attrInterpolatorInflaterListener;
-    }
-
-    @Override
-    public InflateLayoutRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener)
-    {
-        this.attrInterpolatorInflaterListener = attrInterpolatorInflaterListener;
-        return this;
-    }
 
     public AttrResourceInflaterListener getAttrResourceInflaterListener()
     {

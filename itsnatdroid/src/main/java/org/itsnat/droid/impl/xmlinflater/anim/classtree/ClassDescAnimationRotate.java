@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.anim.classtree;
 
 import android.content.Context;
+import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
@@ -12,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat
  */
 public class ClassDescAnimationRotate extends ClassDescAnimationBased<RotateAnimation>
 {
-    public ClassDescAnimationRotate(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<? super RotateAnimation> parentClass)
+    public ClassDescAnimationRotate(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
     {
         super(classMgr, "rotate", parentClass);
     }
@@ -24,7 +25,7 @@ public class ClassDescAnimationRotate extends ClassDescAnimationBased<RotateAnim
     }
 
     @Override
-    protected RotateAnimation createAnimationNative(Context ctx)
+    protected RotateAnimation createResourceNative(Context ctx)
     {
         return new RotateAnimation(ctx,null);
     }

@@ -16,11 +16,6 @@ public interface PageRequest
     public PageRequest setOnPageLoadListener(OnPageLoadListener listener);
     public PageRequest setOnPageLoadErrorListener(OnPageLoadErrorListener listener);
     public PageRequest setOnScriptErrorListener(OnScriptErrorListener listener);
-    public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
-    public PageRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener listener);
-    public PageRequest setAttrAnimationInflaterListener(AttrAnimationInflaterListener listener);
-    public PageRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener listener);
-    public PageRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener);
     public PageRequest setAttrResourceInflaterListener(AttrResourceInflaterListener attrResourcesInflaterListener);
     public PageRequest addRequestProperty(String name, String value);
     public PageRequest setRequestProperty(String name, String value);

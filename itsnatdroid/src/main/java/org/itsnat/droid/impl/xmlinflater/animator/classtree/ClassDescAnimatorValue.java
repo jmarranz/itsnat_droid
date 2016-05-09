@@ -32,7 +32,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         repeatModeMap.put("reverse", ValueAnimator.REVERSE);
     }
 
-    public ClassDescAnimatorValue(ClassDescAnimatorMgr classMgr, ClassDescAnimatorBased<? super Animator> parentClass)
+    public ClassDescAnimatorValue(ClassDescAnimatorMgr classMgr, ClassDescAnimatorBased<Animator> parentClass)
     {
         super(classMgr, "animator", parentClass);
     }
@@ -44,7 +44,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
     }
 
     @Override
-    protected ValueAnimator createAnimatorNative(Context ctx)
+    protected ValueAnimator createResourceNative(Context ctx)
     {
         return new ValueAnimator();
     }
@@ -57,14 +57,14 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && ("valueType".equals(name) || "valueFrom".equals(name) || "valueTo".equals(name));
     }
 
-    protected void fillAnimatorAttributes(Animator animator,DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
+    protected void fillAnimatorAttributes(ValueAnimator animator,DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
     {
         fillAnimatorValueConstructionAttributes(animator, domElement, attrCtx);
 
         super.fillAnimatorAttributes(animator, domElement,attrCtx);
     }
 
-    protected void fillAnimatorValueConstructionAttributes(Animator animator, DOMElemAnimator domElement, AttrAnimatorContext attrCtx)
+    protected void fillAnimatorValueConstructionAttributes(ValueAnimator animator, DOMElemAnimator domElement, AttrAnimatorContext attrCtx)
     {
         /*
             Enum values used in XML attributes to indicate the value for mValueType

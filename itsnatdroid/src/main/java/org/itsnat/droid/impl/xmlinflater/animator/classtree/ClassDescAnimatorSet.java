@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.content.Context;
 
@@ -13,7 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
  */
 public class ClassDescAnimatorSet extends ClassDescAnimatorBased<AnimatorSet>
 {
-    public ClassDescAnimatorSet(ClassDescAnimatorMgr classMgr, ClassDescAnimator parentClass)
+    public ClassDescAnimatorSet(ClassDescAnimatorMgr classMgr, ClassDescAnimatorBased<Animator> parentClass)
     {
         super(classMgr, "set", parentClass);
     }
@@ -25,7 +26,7 @@ public class ClassDescAnimatorSet extends ClassDescAnimatorBased<AnimatorSet>
     }
 
     @Override
-    protected AnimatorSet createAnimatorNative(Context ctx)
+    protected AnimatorSet createResourceNative(Context ctx)
     {
         return new AnimatorSet();
     }

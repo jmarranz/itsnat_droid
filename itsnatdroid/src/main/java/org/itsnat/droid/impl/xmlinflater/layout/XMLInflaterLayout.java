@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -24,7 +25,6 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageNotItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
-import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -40,13 +40,13 @@ import java.util.LinkedList;
  */
 public abstract class XMLInflaterLayout extends XMLInflater
 {
-    public XMLInflaterLayout(InflatedLayoutImpl inflatedXML,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    public XMLInflaterLayout(InflatedLayoutImpl inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        super(inflatedXML, bitmapDensityReference,attrInflaterListeners);
+        super(inflatedXML, bitmapDensityReference,attrResourceInflaterListener);
     }
 
     public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index,
-                                                  int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners,
+                                                  int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener,
                                                   Context ctx,PageImpl page)
     {
         InflatedLayoutImpl inflatedLayout;
@@ -65,23 +65,23 @@ public abstract class XMLInflaterLayout extends XMLInflater
             return null; // Internal Error
 
 
-        XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrInflaterListeners);
+        XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrResourceInflaterListener);
         xmlInflaterLayout.inflateLayout(viewParent, index);
         return xmlInflaterLayout;
     }
 
-    private static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    private static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
         if (inflatedLayout instanceof InflatedLayoutPageImpl)
         {
             if (inflatedLayout instanceof InflatedLayoutPageItsNatImpl)
-                return new XMLInflaterLayoutPageItsNat((InflatedLayoutPageItsNatImpl)inflatedLayout,bitmapDensityReference,attrInflaterListeners);
+                return new XMLInflaterLayoutPageItsNat((InflatedLayoutPageItsNatImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
             else if (inflatedLayout instanceof InflatedLayoutPageNotItsNatImpl)
-                return new XMLInflaterLayoutPageNotItsNat((InflatedLayoutPageNotItsNatImpl)inflatedLayout,bitmapDensityReference,attrInflaterListeners);
+                return new XMLInflaterLayoutPageNotItsNat((InflatedLayoutPageNotItsNatImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
         }
         else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
         {
-            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,bitmapDensityReference,attrInflaterListeners);
+            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
         }
 
         return null; // Internal error

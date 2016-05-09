@@ -54,11 +54,7 @@ public class TestSetupRemoteCore extends TestSetupRemotePageBase
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)  // Comentar para ver el modo de error built-in
         .setOnScriptErrorListener(this)
-        .setAttrLayoutInflaterListener(this)
-        .setAttrDrawableInflaterListener(this)
-        .setAttrAnimationInflaterListener(this)
-        .setAttrAnimatorInflaterListener(this)
-        .setAttrInterpolatorInflaterListener(this)
+        .setAttrResourceInflaterListener(this)
         .setConnectTimeout(getConnectionTimeout())
         .setReadTimeout(getReadTimeout())
         .setURL(url)

@@ -26,7 +26,7 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
 
     protected FieldContainer<Integer> fieldMFlags;
 
-    public ClassDescAnimationSet(ClassDescAnimationMgr classMgr, ClassDescAnimation parentClass)
+    public ClassDescAnimationSet(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
     {
         super(classMgr, "set", parentClass);
 
@@ -40,7 +40,7 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
     }
 
     @Override
-    protected AnimationSet createAnimationNative(Context ctx)
+    protected AnimationSet createResourceNative(Context ctx)
     {
         return new AnimationSet(ctx,null);
     }
@@ -51,7 +51,7 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
         return false;
     }
 
-    protected void fillAnimationAttributes(Animation animation, DOMElemAnimation domElement, AttrAnimationContext attrCtx)
+    protected void fillAnimationAttributes(AnimationSet animation, DOMElemAnimation domElement, AttrAnimationContext attrCtx)
     {
         super.fillAnimationAttributes(animation,domElement,attrCtx);
 
@@ -59,7 +59,7 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
 
         AnimationSet animationSet = (AnimationSet)animation;
 
-        int flags = fieldMFlags.get(animationSet);
+        int flags = fieldMFlags.get(animation);
 
         DOMAttr attrDuration = domElement.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "duration");
         if (attrDuration != null) flags |= PROPERTY_DURATION_MASK;

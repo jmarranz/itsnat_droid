@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 
-import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
@@ -256,7 +256,7 @@ public class ClassDescViewBased extends ClassDesc<View>
     private boolean processSetAttrCustom(View view, String namespaceURI, String name, String value, XMLInflaterContext xmlInflaterContext)
     {
         // No se encuentra opción de proceso custom
-        AttrLayoutInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrLayoutInflaterListener();
+        AttrResourceInflaterListener listener = xmlInflaterContext.getAttrResourceInflaterListener();
         if(listener!=null)
         {
             PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
@@ -268,7 +268,7 @@ public class ClassDescViewBased extends ClassDesc<View>
     private boolean processRemoveAttrCustom(View view, String namespaceURI, String name, XMLInflaterContext xmlInflaterContext)
     {
         // No se encuentra opción de proceso custom
-        AttrLayoutInflaterListener listener = xmlInflaterContext.getAttrInflaterListeners().getAttrLayoutInflaterListener();
+        AttrResourceInflaterListener listener = xmlInflaterContext.getAttrResourceInflaterListener();
         if(listener!=null)
         {
             PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null

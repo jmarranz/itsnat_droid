@@ -19,6 +19,7 @@ public class ClassDescAnimatorMgr extends ClassDescMgr<ClassDescAnimatorBased>
         initClassDesc();
     }
 
+    // @SuppressWarnings("unchecked")
     @Override
     public ClassDescAnimatorBased get(String resourceTypeName)
     {
@@ -37,7 +38,7 @@ public class ClassDescAnimatorMgr extends ClassDescMgr<ClassDescAnimatorBased>
         ClassDescAnimatorValue value = new ClassDescAnimatorValue(this,animator);
         addClassDesc(value);
 
-            ClassDescAnimatorObject object = new ClassDescAnimatorObject(this,value);
+            ClassDescAnimatorObject object = new ClassDescAnimatorObject(this, value);
             addClassDesc(object);
 
     }

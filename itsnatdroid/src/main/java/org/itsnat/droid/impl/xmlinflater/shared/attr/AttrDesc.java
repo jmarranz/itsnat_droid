@@ -154,6 +154,11 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflaterRegistry().getPercFloat(resourceDesc, xmlInflaterContext);
     }
 
+    public String getStringOrDimension(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+    {
+        return getXMLInflaterRegistry().getStringOrDimension(resourceDesc, xmlInflaterContext);
+    }
+
     public int getDimensionWithNameIntRound(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
     {
         return getXMLInflaterRegistry().getDimensionWithNameIntRound(resourceDesc, xmlInflaterContext);

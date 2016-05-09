@@ -1,16 +1,16 @@
 package org.itsnat.droid.impl.xmlinflater.layout.page;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageNotItsNatImpl;
-import org.itsnat.droid.impl.xmlinflater.AttrInflaterListeners;
 
 /**
  * Created by jmarranz on 20/01/2016.
  */
 public class XMLInflaterLayoutPageNotItsNat extends XMLInflaterLayoutPage
 {
-    public XMLInflaterLayoutPageNotItsNat(InflatedLayoutPageNotItsNatImpl inflatedXML, int bitmapDensityReference,AttrInflaterListeners attrInflaterListeners)
+    public XMLInflaterLayoutPageNotItsNat(InflatedLayoutPageNotItsNatImpl inflatedXML, int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        super(inflatedXML, bitmapDensityReference, attrInflaterListeners);
+        super(inflatedXML, bitmapDensityReference, attrResourceInflaterListener);
     }
 
     public InflatedLayoutPageNotItsNatImpl getInflatedLayoutPageNotItsNatImpl()

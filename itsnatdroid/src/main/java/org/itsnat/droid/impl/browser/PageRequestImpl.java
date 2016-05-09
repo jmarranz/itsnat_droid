@@ -6,11 +6,6 @@ import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 
 import org.apache.http.params.HttpParams;
-import org.itsnat.droid.AttrAnimationInflaterListener;
-import org.itsnat.droid.AttrAnimatorInflaterListener;
-import org.itsnat.droid.AttrDrawableInflaterListener;
-import org.itsnat.droid.AttrInterpolatorInflaterListener;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.HttpRequestResult;
@@ -55,11 +50,6 @@ public class PageRequestImpl implements PageRequest
     protected OnPageLoadListener pageLoadListener;
     protected OnPageLoadErrorListener pageLoadErrorListener;
     protected OnScriptErrorListener scriptErrorListener;
-    protected AttrLayoutInflaterListener attrLayoutInflaterListener;
-    protected AttrDrawableInflaterListener attrDrawableInflaterListener;
-    protected AttrAnimationInflaterListener attrAnimationInflaterListener;
-    protected AttrAnimatorInflaterListener attrAnimatorInflaterListener;
-    protected AttrInterpolatorInflaterListener attrInterpolatorInflaterListener;
     protected AttrResourceInflaterListener attrResourcesInflaterListener;
     protected boolean sync = false;
     protected String url;
@@ -88,11 +78,7 @@ public class PageRequestImpl implements PageRequest
         this.pageLoadListener = origin.pageLoadListener;
         this.pageLoadErrorListener = origin.pageLoadErrorListener;
         this.scriptErrorListener = origin.getOnScriptErrorListener();
-        this.attrLayoutInflaterListener = origin.attrLayoutInflaterListener;
-        this.attrDrawableInflaterListener = origin.attrDrawableInflaterListener;
-        this.attrAnimationInflaterListener = origin.attrAnimationInflaterListener;
-        this.attrAnimatorInflaterListener = origin.attrAnimatorInflaterListener;
-        this.attrInterpolatorInflaterListener = origin.attrInterpolatorInflaterListener;
+        this.attrResourcesInflaterListener = origin.attrResourcesInflaterListener;
         this.sync = origin.sync;
         this.url = origin.url;
         this.pageURLBase = origin.pageURLBase;
@@ -172,66 +158,6 @@ public class PageRequestImpl implements PageRequest
     public PageRequest setOnScriptErrorListener(OnScriptErrorListener listener)
     {
         this.scriptErrorListener = listener;
-        return this;
-    }
-
-    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
-    {
-        return attrLayoutInflaterListener;
-    }
-
-    @Override
-    public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener attrLayoutInflaterListener)
-    {
-        this.attrLayoutInflaterListener = attrLayoutInflaterListener;
-        return this;
-    }
-
-    public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
-    {
-        return attrDrawableInflaterListener;
-    }
-
-    @Override
-    public PageRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener attrDrawableInflaterListener)
-    {
-        this.attrDrawableInflaterListener = attrDrawableInflaterListener;
-        return this;
-    }
-
-    public AttrAnimationInflaterListener getAttrAnimationInflaterListener()
-    {
-        return attrAnimationInflaterListener;
-    }
-
-    @Override
-    public PageRequest setAttrAnimationInflaterListener(AttrAnimationInflaterListener attrAnimatorInflaterListener)
-    {
-        this.attrAnimationInflaterListener = attrAnimationInflaterListener;
-        return this;
-    }
-
-    public AttrAnimatorInflaterListener getAttrAnimatorInflaterListener()
-    {
-        return attrAnimatorInflaterListener;
-    }
-
-    @Override
-    public PageRequest setAttrAnimatorInflaterListener(AttrAnimatorInflaterListener attrAnimatorInflaterListener)
-    {
-        this.attrAnimatorInflaterListener = attrAnimatorInflaterListener;
-        return this;
-    }
-
-    public AttrInterpolatorInflaterListener getAttrInterpolatorInflaterListener()
-    {
-        return attrInterpolatorInflaterListener;
-    }
-
-    @Override
-    public PageRequest setAttrInterpolatorInflaterListener(AttrInterpolatorInflaterListener attrInterpolatorInflaterListener)
-    {
-        this.attrInterpolatorInflaterListener = attrInterpolatorInflaterListener;
         return this;
     }
 
