@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSet;
 import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationBased;
 
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ import java.util.LinkedList;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public class XMLInflaterAnimation extends XMLInflater
+public class XMLInflaterAnimation extends XMLInflaterResource<Animation>
 {
     protected XMLInflaterAnimation(InflatedAnimation inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
@@ -29,7 +30,8 @@ public class XMLInflaterAnimation extends XMLInflater
         return new XMLInflaterAnimation(inflatedAnimation,bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public ClassDescAnimationBased getClassDescAnimationBased(DOMElemAnimation domElemAnimation)
+    @SuppressWarnings("unchecked")
+    public ClassDescAnimationBased<Animation> getClassDescAnimationBased(DOMElemAnimation domElemAnimation)
     {
         ClassDescAnimationMgr classDescMgr = getInflatedAnimation().getXMLInflaterRegistry().getClassDescAnimationMgr();
         return classDescMgr.get(domElemAnimation.getTagName());
@@ -51,8 +53,8 @@ public class XMLInflaterAnimation extends XMLInflater
 
         AttrAnimationContext attrCtx = new AttrAnimationContext(this);
 
-        ClassDescAnimationBased classDesc = getClassDescAnimationBased(rootDOMElem);
-        Animation animationRoot = classDesc.createRootAnimationNativeAndFillAttributes(rootDOMElem, attrCtx);
+        ClassDescAnimationBased<Animation> classDesc = getClassDescAnimationBased(rootDOMElem);
+        Animation animationRoot = classDesc.createRootResourceAndFillAttributes(rootDOMElem, attrCtx);
 
         // No te creas t_odo lo que viene en la doc de Android, cualquier Animation puede ser root no sólo <set>
         // http://developerlife.com/tutorials/?p=343 (ejemplo <alpha>)
@@ -80,8 +82,8 @@ public class XMLInflaterAnimation extends XMLInflater
 
     protected Animation inflateNextElement(DOMElemAnimation domElement,AttrAnimationContext attrCtx)
     {
-        ClassDescAnimationBased classDesc = getClassDescAnimationBased(domElement);
-        Animation animation = classDesc.createAnimationNativeAndFillAttributes(domElement, attrCtx);
+        ClassDescAnimationBased<Animation> classDesc = getClassDescAnimationBased(domElement);
+        Animation animation = classDesc.createResourceAndFillAttributes(domElement, attrCtx);
 
         if (animation instanceof AnimationSet)
             processChildElements((DOMElemAnimationSet)domElement, (AnimationSet)animation,attrCtx);

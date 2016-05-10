@@ -6,15 +6,14 @@ import android.view.animation.Animation;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
+import org.itsnat.droid.impl.xmlinflated.InflatedResource;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
  * Created by jmarranz on 7/11/14.
  */
-public abstract class InflatedAnimation extends InflatedXML
+public abstract class InflatedAnimation extends InflatedResource<Animation>
 {
-    protected Animation animation;
-
     public InflatedAnimation(ItsNatDroidImpl itsNatDroid, XMLDOMAnimation xmlDOMAnimation, Context ctx)
     {
         super(itsNatDroid, xmlDOMAnimation,ctx);
@@ -28,16 +27,6 @@ public abstract class InflatedAnimation extends InflatedXML
     public XMLDOMAnimation getXMLDOMAnimation()
     {
         return (XMLDOMAnimation) xmlDOM;
-    }
-
-    public Animation getRootAnimation()
-    {
-        return animation;
-    }
-
-    public void setRootAnimation(Animation animation)
-    {
-        this.animation = animation;
     }
 
 }

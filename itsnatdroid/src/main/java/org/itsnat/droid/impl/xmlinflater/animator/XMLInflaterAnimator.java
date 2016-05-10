@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.dom.animator.DOMElemAnimatorSet;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
 import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorBased;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorSet;
 
@@ -19,7 +20,7 @@ import java.util.LinkedList;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public class XMLInflaterAnimator extends XMLInflater
+public class XMLInflaterAnimator extends XMLInflaterResource<Animator>
 {
     protected XMLInflaterAnimator(InflatedAnimator inflatedXML, int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
     {
@@ -31,7 +32,8 @@ public class XMLInflaterAnimator extends XMLInflater
         return new XMLInflaterAnimator(inflatedAnimator,bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public ClassDescAnimatorBased getClassDescAnimatorBased(DOMElemAnimator domElemAnimator)
+    @SuppressWarnings("unchecked")
+    public ClassDescAnimatorBased<Animator> getClassDescAnimatorBased(DOMElemAnimator domElemAnimator)
     {
         ClassDescAnimatorMgr classDescMgr = getInflatedAnimator().getXMLInflaterRegistry().getClassDescAnimatorMgr();
         return classDescMgr.get(domElemAnimator.getTagName());
@@ -53,8 +55,8 @@ public class XMLInflaterAnimator extends XMLInflater
 
         AttrAnimatorContext attrCtx = new AttrAnimatorContext(this);
 
-        ClassDescAnimatorBased classDesc = getClassDescAnimatorBased(rootDOMElem);
-        Animator animatorRoot = classDesc.createRootAnimatorNativeAndFillAttributes(rootDOMElem, attrCtx);
+        ClassDescAnimatorBased<Animator> classDesc = getClassDescAnimatorBased(rootDOMElem);
+        Animator animatorRoot = classDesc.createRootResourceAndFillAttributes(rootDOMElem, attrCtx);
 
         if (animatorRoot instanceof AnimatorSet)
             processChildElements((DOMElemAnimatorSet)rootDOMElem, (AnimatorSet)animatorRoot,attrCtx);
@@ -103,8 +105,8 @@ public class XMLInflaterAnimator extends XMLInflater
 
     protected Animator inflateNextElement(DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
     {
-        ClassDescAnimatorBased classDesc = getClassDescAnimatorBased(domElement);
-        Animator animator = classDesc.createAnimatorNativeAndFillAttributes(domElement, attrCtx);
+        ClassDescAnimatorBased<Animator> classDesc = getClassDescAnimatorBased(domElement);
+        Animator animator = classDesc.createResourceAndFillAttributes(domElement, attrCtx);
 
         if (animator instanceof AnimatorSet)
             processChildElements((DOMElemAnimatorSet)domElement, (AnimatorSet)animator,attrCtx);

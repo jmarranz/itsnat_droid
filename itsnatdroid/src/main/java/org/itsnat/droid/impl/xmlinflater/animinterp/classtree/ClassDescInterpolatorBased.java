@@ -16,8 +16,7 @@ import java.util.Map;
  */
 public abstract class ClassDescInterpolatorBased<T extends Interpolator> extends ClassDescResourceBased<T,AttrInterpolatorContext>
 {
-    @SuppressWarnings("unchecked")
-    public ClassDescInterpolatorBased(ClassDescInterpolatorMgr classMgr, String tagName, ClassDescInterpolatorBased parentClass)
+    public ClassDescInterpolatorBased(ClassDescInterpolatorMgr classMgr, String tagName, ClassDescInterpolatorBased<? super T> parentClass)
     {
         super(classMgr, tagName, parentClass);
     }
@@ -43,40 +42,5 @@ public abstract class ClassDescInterpolatorBased<T extends Interpolator> extends
         super.init();
     }
 
-    public Interpolator createRootInterpolatorNativeAndFillAttributes(DOMElemInterpolator rootDOMElemInterpolator, AttrInterpolatorContext attrCtx)
-    {
-        XMLInflaterInterpolator xmlInflaterInterpolator = attrCtx.getXMLInflaterInterpolator();
-
-        T rootInterpolator = createResourceNative(xmlInflaterInterpolator.getContext());
-        xmlInflaterInterpolator.getInflatedInterpolator().setRootInterpolator(rootInterpolator); // Lo antes posible
-
-        fillInterpolatorAttributes(rootInterpolator, rootDOMElemInterpolator, attrCtx);
-
-        return rootInterpolator;
-    }
-
-    public Interpolator createInterpolatorNativeAndFillAttributes(DOMElemInterpolator domElement, AttrInterpolatorContext attrCtx)
-    {
-        XMLInflaterInterpolator xmlInflaterInterpolator = attrCtx.getXMLInflaterInterpolator();
-
-        T interpolator = createResourceNative(xmlInflaterInterpolator.getContext());
-
-        fillInterpolatorAttributes(interpolator, domElement, attrCtx);
-
-        return interpolator;
-    }
-
-    protected void fillInterpolatorAttributes(T interpolator,DOMElemInterpolator domElement,AttrInterpolatorContext attrCtx)
-    {
-        Map<String,DOMAttr> attribMap = domElement.getDOMAttributes();
-        if (attribMap != null)
-        {
-            for (Map.Entry<String,DOMAttr> entry : attribMap.entrySet())
-            {
-                DOMAttr attr = entry.getValue();
-                setAttribute(interpolator, attr, attrCtx);
-            }
-        }
-    }
 
 }

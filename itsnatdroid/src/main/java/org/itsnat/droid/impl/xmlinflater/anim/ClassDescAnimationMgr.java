@@ -21,7 +21,6 @@ public class ClassDescAnimationMgr extends ClassDescMgr<ClassDescAnimationBased>
         initClassDesc();
     }
 
-    // @SuppressWarnings("unchecked")
     @Override
     public ClassDescAnimationBased get(String resourceTypeName)
     {

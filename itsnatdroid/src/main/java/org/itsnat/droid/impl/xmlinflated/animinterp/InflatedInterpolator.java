@@ -6,15 +6,14 @@ import android.view.animation.Interpolator;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
+import org.itsnat.droid.impl.xmlinflated.InflatedResource;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
  * Created by jmarranz on 7/11/14.
  */
-public abstract class InflatedInterpolator extends InflatedXML
+public abstract class InflatedInterpolator extends InflatedResource<Interpolator>
 {
-    protected Interpolator interpolator;
-
     public InflatedInterpolator(ItsNatDroidImpl itsNatDroid, XMLDOMInterpolator xmlDOMInterpolator, Context ctx)
     {
         super(itsNatDroid, xmlDOMInterpolator,ctx);
@@ -28,16 +27,6 @@ public abstract class InflatedInterpolator extends InflatedXML
     public XMLDOMInterpolator getXMLDOMInterpolator()
     {
         return (XMLDOMInterpolator) xmlDOM;
-    }
-
-    public Interpolator getRootInterpolator()
-    {
-        return interpolator;
-    }
-
-    public void setRootInterpolator(Interpolator interpolator)
-    {
-        this.interpolator = interpolator;
     }
 
 }

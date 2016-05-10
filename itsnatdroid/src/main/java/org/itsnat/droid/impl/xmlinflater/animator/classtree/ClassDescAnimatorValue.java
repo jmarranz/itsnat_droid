@@ -5,15 +5,19 @@ import android.animation.ArgbEvaluator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.view.animation.AnimationSet;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttributeMap;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.NamespaceUtil;
+import org.itsnat.droid.impl.xmlinflater.AttrResourceContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
@@ -57,14 +61,15 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && ("valueType".equals(name) || "valueFrom".equals(name) || "valueTo".equals(name));
     }
 
-    protected void fillAnimatorAttributes(ValueAnimator animator,DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
+    @Override
+    protected void fillResourceAttributes(ValueAnimator animator, DOMElement domElement,  AttrAnimatorContext attrCtx)
     {
         fillAnimatorValueConstructionAttributes(animator, domElement, attrCtx);
 
-        super.fillAnimatorAttributes(animator, domElement,attrCtx);
+        super.fillResourceAttributes(animator, domElement,attrCtx);
     }
 
-    protected void fillAnimatorValueConstructionAttributes(ValueAnimator animator, DOMElemAnimator domElement, AttrAnimatorContext attrCtx)
+    protected void fillAnimatorValueConstructionAttributes(ValueAnimator animator, DOMElement domElement, AttrAnimatorContext attrCtx)
     {
         /*
             Enum values used in XML attributes to indicate the value for mValueType
@@ -93,8 +98,8 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         }
         else valueType = 0; // VALUE_TYPE_FLOAT
 
-        XMLInflaterAnimator xmlInflaterAnimator = attrCtx.getXMLInflaterAnimator();
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterAnimator.getInflatedAnimator().getXMLInflaterRegistry();
+        XMLInflaterResource xmlInflaterAnimator = attrCtx.getXMLInflaterResource();
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterAnimator.getInflatedResource().getXMLInflaterRegistry();
 
         boolean hasFrom = false;
         boolean isDimensionFrom = false;

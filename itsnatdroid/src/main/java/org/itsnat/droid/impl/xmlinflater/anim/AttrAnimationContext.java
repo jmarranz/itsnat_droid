@@ -1,11 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.anim;
 
-import org.itsnat.droid.impl.xmlinflater.AttrContext;
+import android.view.animation.Animation;
+import org.itsnat.droid.impl.xmlinflater.AttrResourceContext;
 
 /**
  * Created by Jose on 09/11/2015.
  */
-public class AttrAnimationContext extends AttrContext
+public class AttrAnimationContext extends AttrResourceContext<Animation>
 {
     public AttrAnimationContext(XMLInflaterAnimation xmlInflater)
     {

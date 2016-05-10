@@ -12,7 +12,6 @@ public abstract class AttrDescReflecMethod<TclassDesc extends ClassDesc,TattrTar
 {
     protected MethodContainer method;
 
-    //@SuppressWarnings("unchecked")
     public AttrDescReflecMethod(TclassDesc parent, String name, String methodName, Class classParam)
     {
         super(parent,name);

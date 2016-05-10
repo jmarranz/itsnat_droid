@@ -1,21 +1,29 @@
 package org.itsnat.droid.impl.xmlinflater.shared.classtree;
 
 import android.content.Context;
+import android.view.animation.Animation;
 
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
+import org.itsnat.droid.impl.xmlinflater.AttrResourceContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
+import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
+import org.itsnat.droid.impl.xmlinflater.anim.XMLInflaterAnimation;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
+
+import java.util.Map;
 
 /**
  * Created by Jose on 15/10/2015.
  */
-public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends AttrContext> extends ClassDesc<TnativeResource>
+public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends AttrResourceContext> extends ClassDesc<TnativeResource>
 {
     public ClassDescResourceBased(ClassDescMgr<? extends ClassDescResourceBased> classMgr, String tagName, ClassDescResourceBased<? super TnativeResource,TattrCtx> parentClass)
     {
@@ -47,7 +55,44 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
 
     protected abstract TnativeResource createResourceNative(Context ctx);
 
+    public TnativeResource createRootResourceAndFillAttributes(DOMElement rootDOMElem, TattrCtx attrCtx)
+    {
+        @SuppressWarnings("unchecked")
+        XMLInflaterResource<TnativeResource> xmlInflater = attrCtx.getXMLInflaterResource();
 
+        TnativeResource rootResource = createResourceNative(xmlInflater.getContext());
+        xmlInflater.getInflatedResource().setRootResource(rootResource); // Lo antes posible
+
+        fillResourceAttributes(rootResource, rootDOMElem, attrCtx);
+
+        return rootResource;
+    }
+
+
+    public TnativeResource createResourceAndFillAttributes(DOMElement domElement, TattrCtx attrCtx)
+    {
+        @SuppressWarnings("unchecked")
+        XMLInflaterResource<TnativeResource> xmlInflater = attrCtx.getXMLInflaterResource();
+
+        TnativeResource resource = createResourceNative(xmlInflater.getContext());
+
+        fillResourceAttributes(resource, domElement, attrCtx);
+
+        return resource;
+    }
+
+    protected void fillResourceAttributes(TnativeResource animation, DOMElement domElement, TattrCtx attrCtx)
+    {
+        Map<String,DOMAttr> attribMap = domElement.getDOMAttributes();
+        if (attribMap != null)
+        {
+            for (Map.Entry<String,DOMAttr> entry : attribMap.entrySet())
+            {
+                DOMAttr attr = entry.getValue();
+                setAttribute(animation, attr, attrCtx);
+            }
+        }
+    }
 
     protected boolean setAttribute(final TnativeResource resource, final DOMAttr attr, final TattrCtx attrCtx)
     {
@@ -70,7 +115,6 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         }
     }
 
-    // @SuppressWarnings("unchecked")
     private boolean setAttributeThisClass(final TnativeResource resource, final DOMAttr attr, final TattrCtx attrCtx)
     {
         // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
@@ -133,7 +177,6 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         }
     }
 
-    //@SuppressWarnings("unchecked")
     private boolean removeAttributeThisClass(TnativeResource resource, String namespaceURI, String name, TattrCtx attrCtx)
     {
         if (!isInit()) init();

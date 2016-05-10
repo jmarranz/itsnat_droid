@@ -1,9 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
+import org.itsnat.droid.impl.xmlinflater.AttrResourceContext;
 import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodString;
@@ -30,11 +33,12 @@ public class ClassDescAnimatorObject extends ClassDescAnimatorBased<ObjectAnimat
         return new ObjectAnimator();
     }
 
-    protected void fillAnimatorAttributes(ObjectAnimator animator,DOMElemAnimator domElement,AttrAnimatorContext attrCtx)
+    @Override
+    protected void fillResourceAttributes(ObjectAnimator animator, DOMElement domElement, AttrAnimatorContext attrCtx)
     {
         ((ClassDescAnimatorValue)parentClass).fillAnimatorValueConstructionAttributes(animator, domElement, attrCtx);
 
-        super.fillAnimatorAttributes(animator, domElement,attrCtx);
+        super.fillResourceAttributes(animator, domElement,attrCtx);
     }
 
     @SuppressWarnings("unchecked")

@@ -154,7 +154,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         }
     }
 
-    //@SuppressWarnings("unchecked")
     protected boolean setAttributeThisClass(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
     {
         // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
@@ -225,7 +224,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         }
     }
 
-    //@SuppressWarnings("unchecked")
     protected boolean removeAttributeThisClass(View view, String namespaceURI, String name, AttrLayoutContext attrCtx)
     {
         if (!isInit()) init();

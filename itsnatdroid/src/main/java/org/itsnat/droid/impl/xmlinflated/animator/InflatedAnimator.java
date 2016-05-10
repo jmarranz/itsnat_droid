@@ -6,15 +6,14 @@ import android.content.Context;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
+import org.itsnat.droid.impl.xmlinflated.InflatedResource;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
  * Created by jmarranz on 7/11/14.
  */
-public abstract class InflatedAnimator extends InflatedXML
+public abstract class InflatedAnimator  extends InflatedResource<Animator>
 {
-    protected Animator animator;
-
     public InflatedAnimator(ItsNatDroidImpl itsNatDroid, XMLDOMAnimator xmlDOMAnimator, Context ctx)
     {
         super(itsNatDroid, xmlDOMAnimator,ctx);
@@ -28,16 +27,6 @@ public abstract class InflatedAnimator extends InflatedXML
     public XMLDOMAnimator getXMLDOMAnimator()
     {
         return (XMLDOMAnimator) xmlDOM;
-    }
-
-    public Animator getRootAnimator()
-    {
-        return animator;
-    }
-
-    public void setRootAnimator(Animator animator)
-    {
-        this.animator = animator;
     }
 
 }
