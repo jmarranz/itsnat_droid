@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
+import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -124,11 +125,11 @@ public class ElementValuesResources extends ElementValues
         return xmlInflaterRegistry.getIdentifier(valueAsDOMAttr.getResourceDesc(), type, xmlInflaterContext);
     }
 
-    public Animation getAnimation(String name,XMLInflaterContext xmlInflaterContext)
+    public LayoutAnimationController getLayoutAnimation(String name, XMLInflaterContext xmlInflaterContext)
     {
-        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIM,name);
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIM,name); // android.view.animation.LayoutAnimationController se referencia como anim/
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getAnimation(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
+        return xmlInflaterRegistry.getLayoutAnimation(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
     public Interpolator getInterpolator(String name, XMLInflaterContext xmlInflaterContext)
@@ -137,6 +138,14 @@ public class ElementValuesResources extends ElementValues
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
         return xmlInflaterRegistry.getInterpolator(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
+
+    public Animation getAnimation(String name,XMLInflaterContext xmlInflaterContext)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_ANIM,name);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getAnimation(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
+    }
+
 
     public Animator getAnimator(String name,XMLInflaterContext xmlInflaterContext)
     {

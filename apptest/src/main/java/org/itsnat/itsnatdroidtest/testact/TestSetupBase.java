@@ -1,11 +1,5 @@
 package org.itsnat.itsnatdroidtest.testact;
 
-import android.animation.Animator;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.Interpolator;
-
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.Page;
 

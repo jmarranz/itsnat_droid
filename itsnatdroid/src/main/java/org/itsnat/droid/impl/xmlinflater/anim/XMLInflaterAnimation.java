@@ -9,7 +9,6 @@ import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
 import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSet;
 import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
-import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationBased;
 

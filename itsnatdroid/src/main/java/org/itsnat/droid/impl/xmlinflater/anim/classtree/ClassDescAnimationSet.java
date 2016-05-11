@@ -6,14 +6,11 @@ import android.view.animation.AnimationSet;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.dom.anim.DOMElemAnimation;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflater.AttrResourceContext;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animation_AnimationSet_shareInterpolator;
-import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 
 /**
  * Created by Jose on 15/10/2015.

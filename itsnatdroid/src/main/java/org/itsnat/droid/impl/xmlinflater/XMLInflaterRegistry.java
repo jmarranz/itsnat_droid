@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -32,6 +33,7 @@ import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
 import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
+import org.itsnat.droid.impl.dom.animlayout.XMLDOMLayoutAnimation;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
@@ -43,6 +45,7 @@ import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
 import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
 import org.itsnat.droid.impl.xmlinflated.animinterp.InflatedInterpolator;
+import org.itsnat.droid.impl.xmlinflated.animlayout.InflatedLayoutAnimation;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
@@ -56,6 +59,8 @@ import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
 import org.itsnat.droid.impl.xmlinflater.animinterp.ClassDescInterpolatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animinterp.XMLInflaterInterpolator;
+import org.itsnat.droid.impl.xmlinflater.animlayout.ClassDescLayoutAnimationMgr;
+import org.itsnat.droid.impl.xmlinflater.animlayout.XMLInflaterLayoutAnimation;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -91,6 +96,7 @@ public class XMLInflaterRegistry
     private ClassDescAnimationMgr classDescAnimationMgr = new ClassDescAnimationMgr(this);
     private ClassDescAnimatorMgr classDescAnimatorMgr = new ClassDescAnimatorMgr(this);
     private ClassDescInterpolatorMgr classDescInterpolatorMgr = new ClassDescInterpolatorMgr(this);
+    private ClassDescLayoutAnimationMgr classDescLayoutAnimationMgr = new ClassDescLayoutAnimationMgr(this);
     private Map<XMLDOMValues,ElementValuesResources> cacheXMLDOMValuesXMLInflaterValuesMap = new HashMap<XMLDOMValues, ElementValuesResources>();
 
     public XMLInflaterRegistry(ItsNatDroidImpl itsNatDroid)
@@ -131,6 +137,11 @@ public class XMLInflaterRegistry
     public ClassDescInterpolatorMgr getClassDescInterpolatorMgr()
     {
         return classDescInterpolatorMgr;
+    }
+
+    public ClassDescLayoutAnimationMgr getClassDescLayoutAnimationMgr()
+    {
+        return classDescLayoutAnimationMgr;
     }
 
     public int generateViewId()
@@ -1274,6 +1285,64 @@ public class XMLInflaterRegistry
             return rootView;
         }
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
+    }
+
+    public LayoutAnimationController getLayoutAnimation(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
+    {
+        if (resourceDesc instanceof ResourceDescDynamic)
+        {
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            if (resourceDescDyn.getValuesResourceName() != null)
+            {
+                ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
+                return elementResources.getLayoutAnimation(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
+            }
+            else
+            {
+                return getLayoutAnimationDynamicFromXML(resourceDescDyn,xmlInflaterContext);
+            }
+        }
+        else if (resourceDesc instanceof ResourceDescCompiled)
+        {
+            Context ctx = xmlInflaterContext.getContext();
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getLayoutAnimationCompiled(resourceDescValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private LayoutAnimationController getLayoutAnimationDynamicFromXML(ResourceDescDynamic resourceDescDyn, XMLInflaterContext xmlInflaterContext)
+    {
+        if (resourceDescDyn.getValuesResourceName() != null) throw MiscUtil.internalError();
+
+        Context ctx = xmlInflaterContext.getContext();
+
+        int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
+
+        AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
+
+        // Esperamos un LayoutAnimationController
+        PageImpl page = xmlInflaterContext.getPageImpl(); // Puede ser null
+
+        if (resourceDescDyn instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+
+        ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
+        if (resource == null)
+            throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+        XMLDOMLayoutAnimation xmlDOMLayoutAnimation = (XMLDOMLayoutAnimation) resource.getXMLDOM();
+        InflatedLayoutAnimation inflatedLayoutAnimation = InflatedLayoutAnimation.createInflatedLayoutAnimation(itsNatDroid, xmlDOMLayoutAnimation, ctx, page);
+
+        XMLInflaterLayoutAnimation xmlInflaterLayoutAnimation = XMLInflaterLayoutAnimation.createXMLInflaterLayoutAnimation(inflatedLayoutAnimation, bitmapDensityReference, attrResourceInflaterListener);
+        return xmlInflaterLayoutAnimation.inflateLayoutAnimation();
+    }
+
+    private LayoutAnimationController getLayoutAnimationCompiled(String resourceDescValue,Context ctx)
+    {
+        int id = getIdentifierCompiled(resourceDescValue, ctx);
+        if (id <= 0)
+            return null;
+
+        return AnimationUtils.loadLayoutAnimation(ctx, id);
     }
 
     public Animation getAnimation(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)

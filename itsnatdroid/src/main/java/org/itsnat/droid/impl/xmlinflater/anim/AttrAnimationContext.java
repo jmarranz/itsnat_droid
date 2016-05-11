@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.anim;
 
 import android.view.animation.Animation;
+
 import org.itsnat.droid.impl.xmlinflater.AttrResourceContext;
 
 /**

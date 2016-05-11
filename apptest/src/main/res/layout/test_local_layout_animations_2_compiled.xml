@@ -34,19 +34,60 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="LayoutAnimation Tests"
+            android:text="layoutAnimation / gridLayoutAnimation Tests"
             android:textSize="20dp"
             android:background="#00ff00"/>
 
-<!--
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ObjectAnimator Tests"
+            android:text="layoutAnimation Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>
 
--->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdddd"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true"
+            android:animationCache="true"
+            android:layoutAnimation="@anim/test_layoutanimation_compiled"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TestView Child 1"
+                android:background="#dddddd" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TestView Child 2"
+                android:background="#ddddff" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="gridLayoutAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <GridView android:id="@+id/gridViewAnimationTestId"
+                  android:layout_width="match_parent"
+                  android:layout_height="150dp"
+                  android:background="#ffdddd"
+                  android:columnWidth="30.3dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:horizontalSpacing="5.3dp"
+                  android:numColumns="3"
+                  android:stretchMode="columnWidth"
+                  android:verticalSpacing="5.3dp"
+                  android:layoutAnimation="@anim/test_gridlayoutanimation_compiled">
+        </GridView>
 
     </LinearLayout>
 

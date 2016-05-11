@@ -22,6 +22,11 @@ public class XMLDOMInterpolatorParser extends XMLDOMParser<XMLDOMInterpolator>
         return new XMLDOMInterpolatorParser(xmlDOMParserContext);
     }
 
+    public static boolean isInterpolatorRoot(String rootElemName)
+    {
+        return rootElemName.endsWith("Interpolator");
+    }
+
     @Override
     protected boolean isAndroidNSPrefixNeeded()
     {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
+import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -184,6 +185,16 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflaterRegistry().getColor(resourceDesc, xmlInflaterContext);
     }
 
+    public LayoutAnimationController getLayoutAnimation(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
+    {
+        return getXMLInflaterRegistry().getLayoutAnimation(resourceDesc, xmlInflaterContext);
+    }
+
+    public Interpolator getInterpolator(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
+    {
+        return getXMLInflaterRegistry().getInterpolator(resourceDesc, xmlInflaterContext);
+    }
+
     public Animation getAnimation(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
     {
         return getXMLInflaterRegistry().getAnimation(resourceDesc, xmlInflaterContext);
@@ -192,11 +203,6 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     public Animator getAnimator(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
     {
         return getXMLInflaterRegistry().getAnimator(resourceDesc, xmlInflaterContext);
-    }
-
-    public Interpolator getInterpolator(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
-    {
-        return getXMLInflaterRegistry().getInterpolator(resourceDesc, xmlInflaterContext);
     }
 
     public static <T> T parseSingleName(String value, MapSmart<String, T> nameValueMap)

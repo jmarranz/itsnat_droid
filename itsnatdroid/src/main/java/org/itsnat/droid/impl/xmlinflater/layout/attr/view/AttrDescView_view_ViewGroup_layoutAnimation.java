@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -23,11 +22,9 @@ public class AttrDescView_view_ViewGroup_layoutAnimation extends AttrDesc<ClassD
     @Override
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int id = getIdentifier(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
+        LayoutAnimationController layoutAnimation = getLayoutAnimation(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
 
-        LayoutAnimationController controller = id > 0 ?  AnimationUtils.loadLayoutAnimation(attrCtx.getContext(), id) : null;
-
-        ((ViewGroup)view).setLayoutAnimation(controller);
+        ((ViewGroup)view).setLayoutAnimation(layoutAnimation);
     }
 
     @Override

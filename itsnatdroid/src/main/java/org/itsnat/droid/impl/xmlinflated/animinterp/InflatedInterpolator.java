@@ -7,7 +7,6 @@ import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
 import org.itsnat.droid.impl.xmlinflated.InflatedResource;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
  * Created by jmarranz on 7/11/14.

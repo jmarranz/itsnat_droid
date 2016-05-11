@@ -18,6 +18,8 @@ import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
+import org.itsnat.droid.impl.domparser.animinterp.XMLDOMInterpolatorParser;
+import org.itsnat.droid.impl.domparser.animlayout.XMLDOMLayoutAnimationParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
@@ -43,7 +45,7 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         this.xmlDOMParserContext = xmlDOMParserContext;
     }
 
-    protected static XmlPullParser newPullParser(Reader input)
+    private static XmlPullParser newPullParser(Reader input)
     {
         try
         {
@@ -217,7 +219,7 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
             return parser.getName();
         }
 
-        throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT VIEW");
+        throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT ELEMENT");
     }
 
     protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
@@ -347,7 +349,13 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         {
             if (XMLDOMValues.TYPE_ANIM.equals(resourceType))
             {
-                resource = xmlDOMRegistry.buildXMLDOMAnimationAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
+                String rootElemName = new XMLDOMAnimDiscriminatorParser().parse(markup);
+                if (XMLDOMLayoutAnimationParser.isLayoutAnimatorRoot(rootElemName)) // Derivados de LayoutAnimatorController
+                    resource = xmlDOMRegistry.buildXMLDOMLayoutAnimationAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
+                else if (XMLDOMInterpolatorParser.isInterpolatorRoot(rootElemName)) // Derivados de Interpolator
+                    resource = xmlDOMRegistry.buildXMLDOMInterpolatorAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
+                else // los derivados de Animation
+                    resource = xmlDOMRegistry.buildXMLDOMAnimationAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
             }
             else if (XMLDOMValues.TYPE_ANIMATOR.equals(resourceType))
             {

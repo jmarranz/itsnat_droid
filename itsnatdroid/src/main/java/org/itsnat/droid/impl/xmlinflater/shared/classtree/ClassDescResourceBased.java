@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.shared.classtree;
 
 import android.content.Context;
-import android.view.animation.Animation;
 
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -9,13 +8,10 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.xmlinflater.AttrContext;
 import org.itsnat.droid.impl.xmlinflater.AttrResourceContext;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
-import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
-import org.itsnat.droid.impl.xmlinflater.anim.XMLInflaterAnimation;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 import java.util.Map;

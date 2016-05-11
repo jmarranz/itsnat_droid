@@ -2,14 +2,9 @@ package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
 import android.animation.Animator;
 
-import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflater.animator.AttrAnimatorContext;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
-import org.itsnat.droid.impl.xmlinflater.animator.XMLInflaterAnimator;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDescResourceBased;
-
-import java.util.Map;
 
 /**
  * Created by Jose on 15/10/2015.

@@ -5,11 +5,15 @@ import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
+import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
+import org.itsnat.droid.impl.dom.animlayout.XMLDOMLayoutAnimation;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.anim.ResourceCacheByMarkupAndResDescAnimation;
 import org.itsnat.droid.impl.domparser.animator.ResourceCacheByMarkupAndResDescAnimator;
+import org.itsnat.droid.impl.domparser.animinterp.ResourceCacheByMarkupAndResDescInterpolator;
+import org.itsnat.droid.impl.domparser.animlayout.ResourceCacheByMarkupAndResDescLayoutAnimation;
 import org.itsnat.droid.impl.domparser.drawable.ResourceCacheByMarkupAndResDescDrawable;
 import org.itsnat.droid.impl.domparser.layout.ResourceCacheByMarkupAndResDescLayout;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
@@ -24,6 +28,8 @@ public class XMLDOMRegistry
 
     protected ResourceCacheByMarkupAndResDescLayout layoutCache = new ResourceCacheByMarkupAndResDescLayout();
     protected ResourceCacheByMarkupAndResDescDrawable drawableCache = new ResourceCacheByMarkupAndResDescDrawable();
+    protected ResourceCacheByMarkupAndResDescLayoutAnimation layoutAnimationCache = new ResourceCacheByMarkupAndResDescLayoutAnimation();
+    protected ResourceCacheByMarkupAndResDescInterpolator interpolatorCache = new ResourceCacheByMarkupAndResDescInterpolator();
     protected ResourceCacheByMarkupAndResDescAnimation animationCache = new ResourceCacheByMarkupAndResDescAnimation();
     protected ResourceCacheByMarkupAndResDescAnimator animatorCache = new ResourceCacheByMarkupAndResDescAnimator();
     // Menues???
@@ -68,6 +74,16 @@ public class XMLDOMRegistry
     public ResourceDescDynamic getDrawableResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
         return drawableCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+    }
+
+    public ParsedResourceXMLDOM<XMLDOMLayoutAnimation> buildXMLDOMLayoutAnimationAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
+    {
+        return layoutAnimationCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
+    }
+
+    public ParsedResourceXMLDOM<XMLDOMInterpolator> buildXMLDOMInterpolatorAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
+    {
+        return interpolatorCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
     }
 
     public ParsedResourceXMLDOM<XMLDOMAnimation> buildXMLDOMAnimationAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
