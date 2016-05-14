@@ -69,15 +69,169 @@
 
         </LinearLayout>
 
-
-<!--
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ObjectAnimator Tests"
+            android:text="gridLayoutAnimation Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>
--->
+
+        <GridView android:id="@+id/gridViewAnimationTestId"
+                  android:layout_width="match_parent"
+                  android:layout_height="150dp"
+                  android:background="#ffdddd"
+                  android:columnWidth="30.3dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:horizontalSpacing="5.3dp"
+                  android:numColumns="3"
+                  android:stretchMode="columnWidth"
+                  android:verticalSpacing="5.3dp"
+                  android:layoutAnimation="@assets:anim/res/anim/test_gridlayoutanimation_asset.xml">
+        </GridView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Interpolator Tests"
+            android:textSize="20dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="accelerateDecelerateInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/acDecInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="accelerateDecelerateInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="accelerateInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/acInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="accelerateInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="anticipateInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/anticipateInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="anticipateInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="anticipateOvershootInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/antOverInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="anticipateOvershootInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="bounceInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/bounceInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="bounceInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cycleInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/cycleInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cycleInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="decelerateInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/decelerateInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="decelerateInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="linearInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/linearInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="linearInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="overshootInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/overshootInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="overshootInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
 
      </LinearLayout>
 

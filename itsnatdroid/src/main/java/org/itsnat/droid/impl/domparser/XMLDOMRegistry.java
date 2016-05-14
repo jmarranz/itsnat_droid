@@ -81,9 +81,19 @@ public class XMLDOMRegistry
         return layoutAnimationCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
     }
 
+    public ResourceDescDynamic getLayoutAnimationResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
+    {
+        return layoutAnimationCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+    }
+
     public ParsedResourceXMLDOM<XMLDOMInterpolator> buildXMLDOMInterpolatorAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
     {
         return interpolatorCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
+    }
+
+    public ResourceDescDynamic getInterpolatorResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
+    {
+        return interpolatorCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
     }
 
     public ParsedResourceXMLDOM<XMLDOMAnimation> buildXMLDOMAnimationAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)

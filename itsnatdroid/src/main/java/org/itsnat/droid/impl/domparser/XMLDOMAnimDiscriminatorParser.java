@@ -20,7 +20,7 @@ public class XMLDOMAnimDiscriminatorParser
         try
         {
             XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
+            // No es necesario, así es más rápido: parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
             return parser;
         }

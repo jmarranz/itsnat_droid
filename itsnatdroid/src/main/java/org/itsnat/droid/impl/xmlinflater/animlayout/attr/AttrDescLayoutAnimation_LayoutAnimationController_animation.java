@@ -12,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescLayoutAnimation_view_animation_LayoutAnimationController_animation extends AttrDesc<ClassDescLayoutAnimationBased,LayoutAnimationController,AttrLayoutAnimationContext>
+public class AttrDescLayoutAnimation_LayoutAnimationController_animation extends AttrDesc<ClassDescLayoutAnimationBased,LayoutAnimationController,AttrLayoutAnimationContext>
 {
-    public AttrDescLayoutAnimation_view_animation_LayoutAnimationController_animation(ClassDescLayoutAnimation parent)
+    public AttrDescLayoutAnimation_LayoutAnimationController_animation(ClassDescLayoutAnimation parent)
     {
         super(parent,"animation");
     }

@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.browser;
 
 import android.animation.Animator;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
+import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
@@ -36,9 +38,25 @@ public class ItsNatResourcesRemoteImpl extends ItsNatResourcesImpl
     @Override
     public Animation getAnimation(String resourceDescValue)
     {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        ResourceDesc resourceDesc = xmlDOMRegistry.getAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         if (resourceDesc == null) throw newException(resourceDescValue);
         return xmlInflaterRegistry.getAnimation(resourceDesc,xmlInflaterContext);
+    }
+
+    @Override
+    public LayoutAnimationController getLayoutAnimation(String resourceDescValue)
+    {
+        ResourceDesc resourceDesc = xmlDOMRegistry.getLayoutAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        if (resourceDesc == null) throw newException(resourceDescValue);
+        return xmlInflaterRegistry.getLayoutAnimation(resourceDesc,xmlInflaterContext);
+    }
+
+    @Override
+    public Interpolator getInterpolator(String resourceDescValue)
+    {
+        ResourceDesc resourceDesc = xmlDOMRegistry.getInterpolatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        if (resourceDesc == null) throw newException(resourceDescValue);
+        return xmlInflaterRegistry.getInterpolator(resourceDesc,xmlInflaterContext);
     }
 
     @Override

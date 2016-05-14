@@ -49,9 +49,7 @@ public class XMLInflaterInterpolator extends XMLInflaterResource<Interpolator>
 
         ClassDescInterpolatorBased<Interpolator> classDesc = getClassDescInterpolatorBased(rootDOMElem);
         Interpolator interpolatorRoot = classDesc.createRootResourceAndFillAttributes(rootDOMElem, attrCtx);
-
         // NO hay hijos
-
         return interpolatorRoot;
     }
 

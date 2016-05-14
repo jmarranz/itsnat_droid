@@ -77,7 +77,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         return resource;
     }
 
-    protected void fillResourceAttributes(TnativeResource animation, DOMElement domElement, TattrCtx attrCtx)
+    protected void fillResourceAttributes(TnativeResource resource, DOMElement domElement, TattrCtx attrCtx)
     {
         Map<String,DOMAttr> attribMap = domElement.getDOMAttributes();
         if (attribMap != null)
@@ -85,7 +85,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
             for (Map.Entry<String,DOMAttr> entry : attribMap.entrySet())
             {
                 DOMAttr attr = entry.getValue();
-                setAttribute(animation, attr, attrCtx);
+                setAttribute(resource, attr, attrCtx);
             }
         }
     }

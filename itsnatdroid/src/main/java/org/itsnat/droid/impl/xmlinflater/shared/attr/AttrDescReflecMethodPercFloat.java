@@ -8,20 +8,20 @@ import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecMethodDimensionPercFloat<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
+public class AttrDescReflecMethodPercFloat<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>
         extends AttrDescReflecMethod<TclassDesc,TattrTarget,TattrContext>
 {
     protected boolean useObject;
     protected PercFloat defaultValue;
 
-    public AttrDescReflecMethodDimensionPercFloat(TclassDesc parent, String name, String methodName,boolean useObject,PercFloat defaultValue)
+    public AttrDescReflecMethodPercFloat(TclassDesc parent, String name, String methodName,boolean useObject, PercFloat defaultValue)
     {
         super(parent,name,methodName,getClassParam(useObject));
         this.useObject = useObject;
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodDimensionPercFloat(TclassDesc parent, String name,boolean useObject,PercFloat defaultValue)
+    public AttrDescReflecMethodPercFloat(TclassDesc parent, String name,boolean useObject, PercFloat defaultValue)
     {
         super(parent,name,getClassParam(useObject));
         this.useObject = useObject;
@@ -36,7 +36,7 @@ public class AttrDescReflecMethodDimensionPercFloat<TclassDesc extends ClassDesc
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        PercFloat convValue = getDimensionPercFloat(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
+        PercFloat convValue = getPercFloat(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
         if (useObject)
         {
             callMethod(target, convValue);

@@ -2,7 +2,14 @@ package org.itsnat.droid.impl.xmlinflater.animinterp;
 
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorAccelerate;
+import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorAnticipate;
+import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorAnticipateOvershoot;
 import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorBased;
+import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorCycle;
+import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorDecelerate;
+import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorNoField;
+import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorOvershoot;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -25,35 +32,32 @@ public class ClassDescInterpolatorMgr extends ClassDescMgr<ClassDescInterpolator
     @Override
     protected void initClassDesc()
     {
+        // http://developer.android.com/guide/topics/resources/animation-resource.html#Interpolators
+        ClassDescInterpolatorAccelerate accelerate = new ClassDescInterpolatorAccelerate(this);
+        addClassDesc(accelerate);
 
-        //ClassDescAnimationSet set = new ClassDescAnimationSet(this,animation);
-        //addClassDesc(set);
+        ClassDescInterpolatorDecelerate decelerate = new ClassDescInterpolatorDecelerate(this);
+        addClassDesc(decelerate);
 
+        ClassDescInterpolatorCycle cycle = new ClassDescInterpolatorCycle(this);
+        addClassDesc(cycle);
 
+        ClassDescInterpolatorAnticipate anticipate = new ClassDescInterpolatorAnticipate(this);
+        addClassDesc(anticipate);
+
+        ClassDescInterpolatorOvershoot overshoot = new ClassDescInterpolatorOvershoot(this);
+        addClassDesc(overshoot);
+
+        ClassDescInterpolatorAnticipateOvershoot anticipOvershoot = new ClassDescInterpolatorAnticipateOvershoot(this);
+        addClassDesc(anticipOvershoot);
+
+        // Sin fields
+        ClassDescInterpolatorNoField accDec = new ClassDescInterpolatorNoField(this,"accelerateDecelerateInterpolator");
+        addClassDesc(accDec);
+        ClassDescInterpolatorNoField bounce = new ClassDescInterpolatorNoField(this,"bounceInterpolator");
+        addClassDesc(bounce);
+        ClassDescInterpolatorNoField linear = new ClassDescInterpolatorNoField(this,"linearInterpolator");
+        addClassDesc(linear);
     }
 
-    /*
-301            if (name.equals("linearInterpolator")) {
-302                interpolator = new LinearInterpolator(c, attrs);
-303            } else if (name.equals("accelerateInterpolator")) {
-304                interpolator = new AccelerateInterpolator(c, attrs);
-305            } else if (name.equals("decelerateInterpolator")) {
-306                interpolator = new DecelerateInterpolator(c, attrs);
-307            }  else if (name.equals("accelerateDecelerateInterpolator")) {
-308                interpolator = new AccelerateDecelerateInterpolator(c, attrs);
-309            }  else if (name.equals("cycleInterpolator")) {
-310                interpolator = new CycleInterpolator(c, attrs);
-311            } else if (name.equals("anticipateInterpolator")) {
-312                interpolator = new AnticipateInterpolator(c, attrs);
-313            } else if (name.equals("overshootInterpolator")) {
-314                interpolator = new OvershootInterpolator(c, attrs);
-315            } else if (name.equals("anticipateOvershootInterpolator")) {
-316                interpolator = new AnticipateOvershootInterpolator(c, attrs);
-317            } else if (name.equals("bounceInterpolator")) {
-318                interpolator = new BounceInterpolator(c, attrs);
-319            } else {
-320                throw new RuntimeException("Unknown interpolator name: " + parser.getName());
-321            }
-
-     */
 }

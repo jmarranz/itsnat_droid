@@ -45,10 +45,10 @@ public class ClassDescGradientDrawableItemGradient extends ClassDescElementDrawa
 
         addAttrDescAN(new AttrDescReflecMethodFloat(this, "angle", 0f));
         addAttrDescAN(new AttrDescReflecMethodColor(this, "centerColor", 0));
-        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerX", new PercFloat(0.5f)));
-        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerY", new PercFloat(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerX", true, new PercFloat(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerY", true, new PercFloat(0.5f)));
         addAttrDescAN(new AttrDescReflecMethodColor(this, "endColor", 0));
-        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius", new PercFloat(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius",true, new PercFloat(0.5f)));
         addAttrDescAN(new AttrDescReflecMethodColor(this, "startColor", 0));
         addAttrDescAN(new AttrDescReflecMethodNameSingle<Integer, ClassDescDrawable, GradientDrawableItemGradient, AttrDrawableContext>(this, "type", int.class, GradientTypeUtil.nameValueMap, "linear"));
         addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescDrawable, GradientDrawableItemGradient, AttrDrawableContext>(this, "useLevel", false));
