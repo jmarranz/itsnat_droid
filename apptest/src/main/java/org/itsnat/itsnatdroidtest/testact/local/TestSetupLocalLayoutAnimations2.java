@@ -24,6 +24,8 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
+import org.itsnat.itsnatdroidtest.testact.util.Assert;
+import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -72,8 +74,8 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
     private static void initInterpolatorTests(TestActivity act, View rootView,InflatedLayout layout)
     {
-        initInterpolatorAccelerateDecelerateTest(act,rootView,layout);
         initInterpolatorAccelerateTest(act,rootView,layout);
+        initInterpolatorAccelerateDecelerateTest(act,rootView,layout);
         initInterpolatorAnticipateTest(act,rootView,layout);
         initInterpolatorAnticipateOvershootTest(act,rootView,layout);
         initInterpolatorBounceTest(act,rootView,layout);
@@ -104,19 +106,6 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
         return interpolator;
     }
 
-    private static void initInterpolatorAccelerateDecelerateTest(TestActivity act, View rootView,InflatedLayout layout)
-    {
-        TextView textView = getTextView(rootView,R.id.acDecInterpolatorTestId1);
-        Animation animation = getAnimation(act,layout);
-
-        AccelerateDecelerateInterpolator interpolator = (AccelerateDecelerateInterpolator)getInterpolator(
-                R.anim.test_interpolator_acceleratedecelerate_compiled,
-                "@assets:anim/res/anim/test_interpolator_acceleratedecelerate_asset.xml",act,layout);
-
-        animation.setInterpolator(interpolator);
-        textView.startAnimation(animation);
-    }
-
     private static void initInterpolatorAccelerateTest(TestActivity act, View rootView,InflatedLayout layout)
     {
         TextView textView = getTextView(rootView,R.id.acInterpolatorTestId1);
@@ -128,6 +117,24 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
         animation.setInterpolator(interpolator);
         textView.startAnimation(animation);
+
+        Assert.assertEquals((Float)TestUtil.getField(interpolator,AccelerateInterpolator.class,"mFactor"),2.0f);
+        Assert.assertEquals((Double)TestUtil.getField(interpolator,AccelerateInterpolator.class,"mDoubleFactor"),(double)(2 * 2.0f));
+    }
+
+    private static void initInterpolatorAccelerateDecelerateTest(TestActivity act, View rootView,InflatedLayout layout)
+    {
+        TextView textView = getTextView(rootView,R.id.acDecInterpolatorTestId1);
+        Animation animation = getAnimation(act,layout);
+
+        AccelerateDecelerateInterpolator interpolator = (AccelerateDecelerateInterpolator)getInterpolator(
+                R.anim.test_interpolator_acceleratedecelerate_compiled,
+                "@assets:anim/res/anim/test_interpolator_acceleratedecelerate_asset.xml",act,layout);
+
+        animation.setInterpolator(interpolator);
+        textView.startAnimation(animation);
+
+        // Nothing to test, no fields
     }
 
     private static void initInterpolatorAnticipateTest(TestActivity act, View rootView,InflatedLayout layout)
@@ -141,6 +148,8 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
         animation.setInterpolator(interpolator);
         textView.startAnimation(animation);
+
+        Assert.assertEquals((Float)TestUtil.getField(interpolator,AnticipateInterpolator.class,"mTension"),4.0f);
     }
 
     private static void initInterpolatorAnticipateOvershootTest(TestActivity act, View rootView,InflatedLayout layout)
@@ -154,6 +163,8 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
         animation.setInterpolator(interpolator);
         textView.startAnimation(animation);
+
+        Assert.assertEquals((Float)TestUtil.getField(interpolator,AnticipateOvershootInterpolator.class,"mTension"),3.0f * 2.0f);
     }
 
     private static void initInterpolatorBounceTest(TestActivity act, View rootView,InflatedLayout layout)
@@ -167,6 +178,8 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
         animation.setInterpolator(interpolator);
         textView.startAnimation(animation);
+
+        // Nothing to test, no fields
     }
 
     private static void initInterpolatorCycleTest(TestActivity act, View rootView,InflatedLayout layout)
@@ -180,6 +193,8 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
         animation.setInterpolator(interpolator);
         textView.startAnimation(animation);
+
+        Assert.assertEquals((Float)TestUtil.getField(interpolator,CycleInterpolator.class,"mCycles"),2.0f);
     }
 
     private static void initInterpolatorDecelerateTest(TestActivity act, View rootView,InflatedLayout layout)
@@ -193,6 +208,8 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
         animation.setInterpolator(interpolator);
         textView.startAnimation(animation);
+
+        Assert.assertEquals((Float)TestUtil.getField(interpolator,DecelerateInterpolator.class,"mFactor"),2.0f);
     }
 
     private static void initInterpolatorLinearTest(TestActivity act, View rootView,InflatedLayout layout)
@@ -206,6 +223,8 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
         animation.setInterpolator(interpolator);
         textView.startAnimation(animation);
+
+        // Nothing to test, no fields
     }
 
     private static void initInterpolatorOvershootTest(TestActivity act, View rootView,InflatedLayout layout)
@@ -219,5 +238,7 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
         animation.setInterpolator(interpolator);
         textView.startAnimation(animation);
+
+        Assert.assertEquals((Float)TestUtil.getField(interpolator,OvershootInterpolator.class,"mTension"),4.0f);
     }
 }

@@ -169,7 +169,196 @@ public class TestLocalLayoutAnimations2
             assertNotNull(parsedInterp);
         }
 
-SEGUIR;
+        // Interpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "Interpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // accelerateDecelerateInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "accelerateDecelerateInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // accelerateDecelerateInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "accelerateDecelerateInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // accelerateInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "accelerateInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // accelerateInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "accelerateInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // anticipateInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "anticipateInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // anticipateInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "anticipateInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // anticipateOvershootInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "anticipateOvershootInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // anticipateInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "anticipateOvershootInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // bounceInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "bounceInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // bounceInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "bounceInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // cycleInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "cycleInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // cycleInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "cycleInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // decelerateInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "decelerateInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // decelerateInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "decelerateInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // linearInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "linearInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // linearInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "linearInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // overshootInterpolator Tests
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "overshootInterpolator Tests");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+        // overshootInterpolator Test 1
+        {
+            childCount++;
+
+            TextView compTextView = (TextView) comp.getChildAt(childCount);
+            TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "overshootInterpolator Test 1");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
 
         //System.out.println("\n\n\n");
 

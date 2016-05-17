@@ -45,7 +45,8 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     protected String urlTestCore;
     protected String urlTestIncludeLayout;
     protected String urlTestRemDrawables;
-    protected String urlTestRemAnimations;
+    protected String urlTestRemAnimations1;
+    protected String urlTestRemAnimations2;
     protected String urlTestRemCtrl;
     protected String urlTestStatelessCore;
     protected String urlTestComponents;
@@ -83,7 +84,8 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         this.urlTestCore =           urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_core";
         this.urlTestIncludeLayout =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_include_slowloadmode_layout";
         this.urlTestRemDrawables =   urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_drawables";
-        this.urlTestRemAnimations =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_animations";
+        this.urlTestRemAnimations1 =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_animations_1";
+        this.urlTestRemAnimations2 =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_animations_2";
         this.urlTestRemCtrl =        urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_ctrl";
         this.urlTestStatelessCore =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_stateless_core_initial";
         this.urlTestComponents =     urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_components";
@@ -166,11 +168,15 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         return urlTestRemDrawables;
     }
 
-    public String getUrlTestRemoteAnimations()
+    public String getUrlTestRemoteAnimations1()
     {
-        return urlTestRemAnimations;
+        return urlTestRemAnimations1;
     }
 
+    public String getUrlTestRemoteAnimations2()
+    {
+        return urlTestRemAnimations2;
+    }
 
     public String getUrlTestRemCtrl()
     {

@@ -69,19 +69,26 @@
                 android:textSize="20dp"
                 android:layout_below="@id/testRemoteIncludeLayout"/>
 
-        <Button android:id="@+id/testRemoteAnimations"
+        <Button android:id="@+id/testRemoteAnimations1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEST REMOTE ANIMATIONS"
+                android:text="TEST REMOTE ANIMATIONS 1"
                 android:textSize="20dp"
                 android:layout_below="@+id/testRemoteLayoutDrawables"/>
+
+        <Button android:id="@+id/testRemoteAnimations2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST REMOTE ANIMATIONS 2"
+                android:textSize="20dp"
+                android:layout_below="@+id/testRemoteAnimations1"/>
 
         <Button android:id="@+id/testRemoteControl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TEST REMOTE CONTROL"
                 android:textSize="20dp"
-                android:layout_below="@id/testRemoteAnimations"/>
+                android:layout_below="@id/testRemoteAnimations2"/>
 
         <Button android:id="@+id/testRemoteStatelessCore"
                 android:layout_width="wrap_content"

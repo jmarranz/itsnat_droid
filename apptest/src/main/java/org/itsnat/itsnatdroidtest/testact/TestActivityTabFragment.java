@@ -15,8 +15,8 @@ import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteCore;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePageNoItsNat;
-import org.itsnat.itsnatdroidtest.testact.remote.TestSetupSetupRemoteIncludeLayout;
-import org.itsnat.itsnatdroidtest.testact.remote.TestSetupSetupRemotePage;
+import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteIncludeLayout;
+import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePage;
 
 /**
  * Created by jmarranz on 12/08/14.
@@ -142,7 +142,7 @@ public class TestActivityTabFragment extends Fragment
             public void onClick(View view)
             {
                 String url = act.getUrlTestIncludeLayout();
-                TestSetupSetupRemoteIncludeLayout test = new TestSetupSetupRemoteIncludeLayout(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                TestSetupRemoteIncludeLayout test = new TestSetupRemoteIncludeLayout(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
                 test.test(url);
             }
         });
@@ -155,23 +155,34 @@ public class TestActivityTabFragment extends Fragment
             public void onClick(View view)
             {
                 String url = act.getUrlTestRemoteDrawables();
-                TestSetupSetupRemotePage test = new TestSetupSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                TestSetupRemotePage test = new TestSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
                 test.test(url);
             }
         });
 
-        View testRemoteAnimations = rootView.findViewById(R.id.testRemoteAnimations);
-        testRemoteAnimations.setOnClickListener(new View.OnClickListener()
+        View testRemoteAnimations1 = rootView.findViewById(R.id.testRemoteAnimations1);
+        testRemoteAnimations1.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                String url = act.getUrlTestRemoteAnimations();
-                TestSetupSetupRemotePage test = new TestSetupSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                String url = act.getUrlTestRemoteAnimations1();
+                TestSetupRemotePage test = new TestSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
                 test.test(url);
             }
         });
 
+        View testRemoteAnimations2 = rootView.findViewById(R.id.testRemoteAnimations2);
+        testRemoteAnimations2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = act.getUrlTestRemoteAnimations2();
+                TestSetupRemotePage test = new TestSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                test.test(url);
+            }
+        });
 
         View testRemoteControl = rootView.findViewById(R.id.testRemoteControl);
         testRemoteControl.setOnClickListener(new View.OnClickListener()
@@ -192,7 +203,7 @@ public class TestActivityTabFragment extends Fragment
             public void onClick(View view)
             {
                 String url = act.getUrlTestStatelessCore();
-                TestSetupSetupRemotePage test = new TestSetupSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                TestSetupRemotePage test = new TestSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
                 test.test(url);
             }
         });
@@ -204,7 +215,7 @@ public class TestActivityTabFragment extends Fragment
             public void onClick(View view)
             {
                 String url = act.getUrlTestComponents();
-                TestSetupSetupRemotePage test = new TestSetupSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                TestSetupRemotePage test = new TestSetupRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
                 test.test(url);
             }
         });

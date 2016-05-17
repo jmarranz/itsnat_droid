@@ -6,9 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
@@ -24,10 +22,8 @@ import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 import org.itsnat.itsnatdroidtest.testact.util.Assert;
-import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -226,7 +222,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
         textView.startAnimation(alphaAnimation);
 
-        testAlphaAnimation(alphaAnimation);
+        TestLocalLayoutAnimations1.testAlphaAnimation(alphaAnimation);
     }
 
     private static void defineRotateAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -241,7 +237,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
         textView.startAnimation(rotateAnimation);
 
-        testRotateAnimation(rotateAnimation);
+        TestLocalLayoutAnimations1.testRotateAnimation(rotateAnimation);
     }
 
     private static void defineScaleAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -256,7 +252,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
         textView.startAnimation(animation);
 
-        testScaleAnimation(animation);
+        TestLocalLayoutAnimations1.testScaleAnimation(animation);
     }
 
     private static void defineTranslateAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -265,12 +261,12 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
             TextView textView = (TextView) rootView.findViewById(R.id.translateAnimationTestId1);
 
             TranslateAnimation animation;
-            if (layout == null) animation = (TranslateAnimation) AnimationUtils.loadAnimation(act, R.anim.test_animation_translate_compiled);
-            else animation = (TranslateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_asset.xml");
+            if (layout == null) animation = (TranslateAnimation) AnimationUtils.loadAnimation(act, R.anim.test_animation_translate_1_compiled);
+            else animation = (TranslateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_1_asset.xml");
 
             textView.startAnimation(animation);
 
-            testTranslateAnimation_1(animation);
+            TestLocalLayoutAnimations1.testTranslateAnimation_1(animation);
         }
 
         {
@@ -282,7 +278,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
             textView.startAnimation(animation);
 
-            testTranslateAnimation_2(animation);
+            TestLocalLayoutAnimations1.testTranslateAnimation_2(animation);
         }
     }
 
@@ -296,128 +292,8 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
         textView.startAnimation(animation);
 
-        testAnimationSet(animation);
+        TestLocalLayoutAnimations1.testAnimationSet(animation);
     }
 
-    private static void testAnimation(Animation animation)
-    {
-        // android:detachWallpaper
-        Assert.assertEquals(animation.getDetachWallpaper(),true);
-        // android:duration
-        Assert.assertEquals(animation.getDuration(),1000);
-        // android:fillAfter
-        Assert.assertEquals(animation.getFillAfter(),true);
-        // android:fillBefore
-        Assert.assertEquals(animation.getFillBefore(),true);
-        // android:fillEnabled
-        Assert.assertEquals(animation.isFillEnabled(),true);
-        // android:interpolator
-        Assert.assertTrue(animation.getInterpolator() instanceof AccelerateInterpolator);
-        // android:repeatCount
-        Assert.assertEquals(animation.getRepeatCount(),-1); // Infinite
-        // android:repeatMode
-        Assert.assertEquals(animation.getRepeatMode(),1); // restart
-        // android:startOffset
-        Assert.assertEquals(animation.getStartOffset(),10);
-        // android:zAdjustment
-        Assert.assertEquals(animation.getZAdjustment(),-1); // bottom
-    }
 
-    private static void testAlphaAnimation(AlphaAnimation alphaAnimation)
-    {
-        testAnimation(alphaAnimation);
-
-        // android:fromAlpha
-        Assert.assertEquals(TestUtil.getField(alphaAnimation,AlphaAnimation.class,"mFromAlpha"), 0.0f);
-        // android:toAlpha
-        Assert.assertEquals(TestUtil.getField(alphaAnimation,AlphaAnimation.class,"mToAlpha"), 1.0f);
-    }
-
-    private static void testRotateAnimation(RotateAnimation rotateAnimation)
-    {
-        //android:fromDegrees
-        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mFromDegrees"), 0.3f);
-        //android:toDegrees
-        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mToDegrees"), -25.3f);
-
-        // android:pivotX
-        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mPivotXType"), 1);
-        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mPivotXValue"), 0.153f); // 15.3%
-        // android:pivotY
-        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mPivotYType"), 1);
-        Assert.assertEquals(TestUtil.getField(rotateAnimation,RotateAnimation.class,"mPivotYValue"), 0.403f); // 40.3%
-    }
-
-    private static void testScaleAnimation(ScaleAnimation scaleAnimation)
-    {
-        // android:fromXScale
-        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mFromX"), 0.9f);
-        // android:fromYScale
-        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mFromY"), 0.9f);
-        // android:toXScale
-        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mToX"), 2.3f);
-        // android:toYScale
-        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mToY"), 2.3f);
-
-
-        // android:pivotX
-        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotXType"), 1);
-        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotXValue"), 0.153f); // 15.3%
-        // android:pivotY
-        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotYType"), 1);
-        Assert.assertEquals(TestUtil.getField(scaleAnimation,ScaleAnimation.class,"mPivotYValue"), 0.403f); // 40.3%
-    }
-
-    private static void testTranslateAnimation_1(TranslateAnimation translateAnimation)
-    {
-        // android:fromXDelta
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromXValue"), 1.0f);
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromXType"), 1); // RELATIVE_TO_SELF
-        // android:fromYDelta
-        Assert.assertEquals((Float)TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromYValue"), 0.1f);
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromYType"), 2); // RELATIVE_TO_PARENT
-        // android:toXDelta
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToXValue"), 0.0f);
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToXType"), 1); // RELATIVE_TO_SELF
-        // android:toYDelta
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYValue"), 0.0f);
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYType"), 2); // RELATIVE_TO_PARENT
-    }
-
-    private static void testTranslateAnimation_2(TranslateAnimation translateAnimation)
-    {
-        // android:fromXDelta
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromXValue"), 500f);
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromXType"), 0); // ABSOLUTE
-        // android:fromYDelta
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromYValue"), 0.0f);
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mFromYType"), 1); // RELATIVE_TO_SELF
-        // android:toXDelta
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToXValue"), 0.0f);
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToXType"), 0); // ABSOLUTE
-        // android:toYDelta
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYValue"), 0.0f);
-        Assert.assertEquals(TestUtil.getField(translateAnimation,TranslateAnimation.class,"mToYType"), 1); // RELATIVE_TO_SELF
-    }
-
-    private static void testAnimationSet(AnimationSet animation)
-    {
-        int mFlags = (Integer)TestUtil.getField(animation,AnimationSet.class,"mFlags");
-        boolean shareInterpolator = (mFlags & 0x10) == 0x10;// PROPERTY_SHARE_INTERPOLATOR_MASK = 0x10
-        Assert.assertFalse(shareInterpolator);
-        Assert.assertEquals(animation.getDuration(), 3000);
-        Assert.assertEquals(animation.getFillAfter(), true);
-        Assert.assertEquals(animation.getFillBefore(), true);
-        Assert.assertEquals(animation.getRepeatMode(), 1); // restart
-        Assert.assertEquals(animation.getStartOffset(), 10);
-
-        List<Animation> children = animation.getAnimations();
-        Assert.assertEquals(children.size(),2);
-
-        Assert.assertTrue(children.get(0) instanceof AlphaAnimation);
-        Assert.assertTrue(children.get(1) instanceof AnimationSet);
-
-        AnimationSet animSetChild = (AnimationSet)children.get(1);
-        Assert.assertTrue(animSetChild.getAnimations().get(0) instanceof TranslateAnimation);
-    }
 }
