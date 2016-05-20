@@ -33,7 +33,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageNotIts
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -169,7 +169,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     protected void processChildViews(DOMElemView domElemViewParent, View viewParent, XMLDOM xmlDOMParent)
     {
-        LinkedList<DOMElement> childElemList = domElemViewParent.getChildDOMElementList();
+        List<DOMElement> childElemList = domElemViewParent.getChildDOMElementList();
         if (childElemList != null)
         {
             ViewGroup viewParentGroup = (ViewGroup)viewParent;

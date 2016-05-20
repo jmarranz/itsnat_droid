@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorBased;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorSet;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -80,7 +80,7 @@ public class XMLInflaterAnimator extends XMLInflaterResource<Animator>
 
     private void processChildElements(DOMElemAnimatorSet domElemParent, AnimatorSet parentAnimator,AttrAnimatorContext attrCtx)
     {
-        LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
+        List<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null || childDOMElemList.size() == 0) return;
 
         String ordering = ClassDescAnimatorSet.getOrderingAttribute(domElemParent);

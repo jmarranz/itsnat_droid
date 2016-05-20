@@ -4,7 +4,8 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 6/05/14.
@@ -12,9 +13,9 @@ import java.util.LinkedList;
 public abstract class PendingViewPostCreateProcess
 {
     protected View view;
-    protected LinkedList<Runnable> pendingSetAttribsTaskList;
-    protected LinkedList<Runnable> pendingLayoutParamsTasks;
-    protected LinkedList<Runnable> pendingPostAddViewTasks;
+    protected List<Runnable> pendingSetAttribsTaskList;
+    protected List<Runnable> pendingLayoutParamsTasks;
+    protected List<Runnable> pendingPostAddViewTasks;
     protected boolean destroy = false;
 
     public PendingViewPostCreateProcess(View view)
@@ -25,7 +26,7 @@ public abstract class PendingViewPostCreateProcess
     public void addPendingSetAttribsTask(Runnable task)
     {
         if (destroy) throw new ItsNatDroidException("Is already destroyed");
-        if (pendingSetAttribsTaskList == null) this.pendingSetAttribsTaskList = new LinkedList<Runnable>();
+        if (pendingSetAttribsTaskList == null) this.pendingSetAttribsTaskList = new ArrayList<Runnable>();
         pendingSetAttribsTaskList.add(task);
     }
 
@@ -44,7 +45,7 @@ public abstract class PendingViewPostCreateProcess
     {
         if (destroy)
             throw new ItsNatDroidException("Is already destroyed");
-        if (pendingLayoutParamsTasks == null) this.pendingLayoutParamsTasks = new LinkedList<Runnable>();
+        if (pendingLayoutParamsTasks == null) this.pendingLayoutParamsTasks = new ArrayList<Runnable>();
         pendingLayoutParamsTasks.add(task);
     }
 
@@ -64,7 +65,7 @@ public abstract class PendingViewPostCreateProcess
     public void addPendingPostAddViewTask(Runnable task)
     {
         if (destroy) throw new ItsNatDroidException("Is already destroyed");
-        if (pendingPostAddViewTasks == null) this.pendingPostAddViewTasks = new LinkedList<Runnable>();
+        if (pendingPostAddViewTasks == null) this.pendingPostAddViewTasks = new ArrayList<Runnable>();
         pendingPostAddViewTasks.add(task);
     }
 

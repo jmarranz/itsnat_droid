@@ -3,7 +3,8 @@ package org.itsnat.droid.impl.dom;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 3/11/14.
@@ -14,7 +15,7 @@ public abstract class XMLDOM
     protected String androidNSPrefix;
     //protected String itsNatDroidResourceNSPrefix;
     protected DOMElement rootElement;
-    protected LinkedList<DOMAttrRemote> remoteAttribList;
+    protected List<DOMAttrRemote> remoteAttribList;
 
     public XMLDOM()
     {
@@ -63,14 +64,14 @@ public abstract class XMLDOM
         this.rootElement = rootElement;
     }
 
-    public LinkedList<DOMAttrRemote> getDOMAttrRemoteList()
+    public List<DOMAttrRemote> getDOMAttrRemoteList()
     {
         return remoteAttribList;
     }
 
     public void addDOMAttrRemote(DOMAttrRemote attr)
     {
-        if (remoteAttribList == null) this.remoteAttribList = new LinkedList<DOMAttrRemote>();
+        if (remoteAttribList == null) this.remoteAttribList = new ArrayList<DOMAttrRemote>();
         remoteAttribList.add(attr);
     }
 

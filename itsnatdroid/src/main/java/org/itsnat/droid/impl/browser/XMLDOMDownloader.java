@@ -7,7 +7,8 @@ import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,15 +45,15 @@ public class XMLDOMDownloader
 
     public void downloadRemoteResources() throws Exception
     {
-        LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
+        List<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
         downloadRemoteAttrResources(attrRemoteList);
     }
 
-    public void downloadRemoteAttrResources(LinkedList<DOMAttrRemote> attrRemoteList) throws Exception
+    public void downloadRemoteAttrResources(List<DOMAttrRemote> attrRemoteList) throws Exception
     {
         if (attrRemoteList != null)
         {
-            LinkedList<ResourceDescRemote> resDescRemoteList = new LinkedList<ResourceDescRemote>();
+            List<ResourceDescRemote> resDescRemoteList = new ArrayList<ResourceDescRemote>();
             for(DOMAttrRemote attr : attrRemoteList)
             {
                 resDescRemoteList.add(attr.getResourceDescRemote());
@@ -61,7 +62,7 @@ public class XMLDOMDownloader
         }
     }
 
-    protected void downloadRemoteResources(LinkedList<ResourceDescRemote> resDescRemoteList) throws Exception
+    protected void downloadRemoteResources(List<ResourceDescRemote> resDescRemoteList) throws Exception
     {
         // llena los elementos de DOMAttrRemote attrRemoteList con el recurso descargado que le corresponde
 

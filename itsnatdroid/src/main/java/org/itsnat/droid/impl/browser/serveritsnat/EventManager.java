@@ -10,8 +10,8 @@ import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.NameValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public class EventManager
 {
     protected ItsNatDocItsNatImpl itsNatDoc;
     protected EventGenericImpl holdEvt = null;
-    protected List<EventGenericImpl> queue = new LinkedList<EventGenericImpl>();
+    protected List<EventGenericImpl> queue = new ArrayList<EventGenericImpl>();
 
     public EventManager(ItsNatDocItsNatImpl itsNatDoc)
     {

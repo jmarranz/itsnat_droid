@@ -1,14 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.animinterp.attr;
 
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.ScaleAnimation;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
-import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
-import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationScale;
 import org.itsnat.droid.impl.xmlinflater.animinterp.AttrInterpolatorContext;
 import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorAccelerate;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;

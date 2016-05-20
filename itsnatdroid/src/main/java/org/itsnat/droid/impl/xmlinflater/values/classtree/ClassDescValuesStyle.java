@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 07/01/2016.
@@ -39,7 +39,7 @@ public class ClassDescValuesStyle extends ClassDescValues<ElementValuesStyle>
 
     private void processChildElementValuesItemStyle(DOMElemValuesStyle domElemParent, ElementValuesStyle parentChildValues)
     {
-        LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
+        List<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return;
 
         parentChildValues.initChildElementValuesList(childDOMElemList.size());

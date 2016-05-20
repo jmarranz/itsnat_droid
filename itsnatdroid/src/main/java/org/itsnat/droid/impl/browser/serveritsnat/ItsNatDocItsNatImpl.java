@@ -55,6 +55,7 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -199,7 +200,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void addEventMonitor(EventMonitor monitor)
     {
-        if (evtMonitorList == null) this.evtMonitorList = new LinkedList<EventMonitor>();
+        if (evtMonitorList == null) this.evtMonitorList = new ArrayList<EventMonitor>();
         evtMonitorList.add(monitor);
     }
 
@@ -226,7 +227,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     public List<NameValue> genParamURL()
     {
         PageItsNatImpl pageItsNat = getPageItsNatImpl();
-        List<NameValue> paramList = new LinkedList<NameValue>();
+        List<NameValue> paramList = new ArrayList<NameValue>();
         paramList.add(new NameValue("itsnat_client_id", pageItsNat.getId()));
         paramList.add(new NameValue("itsnat_session_token", pageItsNat.getItsNatSessionImpl().getToken()));
         paramList.add(new NameValue("itsnat_session_id", pageItsNat.getItsNatSessionImpl().getId()));

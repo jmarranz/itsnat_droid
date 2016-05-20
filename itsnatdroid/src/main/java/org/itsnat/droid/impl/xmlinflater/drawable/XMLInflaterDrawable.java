@@ -21,7 +21,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDra
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableWrapped;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ElementDrawableChildContainer;
 
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -154,7 +154,7 @@ public class XMLInflaterDrawable extends XMLInflater
 
     public void processChildElements(DOMElemDrawable domElemParent,ElementDrawable parentChildDrawable,AttrDrawableContext attrCtx)
     {
-        LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
+        List<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return;
 
         parentChildDrawable.initChildElementDrawableList(childDOMElemList.size());

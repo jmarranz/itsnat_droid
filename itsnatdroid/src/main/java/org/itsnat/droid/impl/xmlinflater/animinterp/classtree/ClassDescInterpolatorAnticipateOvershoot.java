@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.xmlinflater.animinterp.classtree;
 
 import android.content.Context;
 import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.OvershootInterpolator;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -12,7 +11,6 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.animinterp.AttrInterpolatorContext;
 import org.itsnat.droid.impl.xmlinflater.animinterp.ClassDescInterpolatorMgr;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat;
 
 /**
  * Created by Jose on 15/10/2015.

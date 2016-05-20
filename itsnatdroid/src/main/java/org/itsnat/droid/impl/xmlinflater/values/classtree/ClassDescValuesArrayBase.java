@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemArrayBase;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 07/01/2016.
@@ -35,7 +35,7 @@ public class ClassDescValuesArrayBase extends ClassDescValues<ElementValuesArray
 
     private void processChildElementValuesItemArrayBase(DOMElemValuesArrayBase domElemParent, ElementValuesArrayBase parentChildValues)
     {
-        LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
+        List<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return;
 
         parentChildValues.initChildElementValuesList(childDOMElemList.size());

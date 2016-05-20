@@ -14,8 +14,8 @@ import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
     public void request(ResourceDescRemote resDescRemote,boolean async)
     {
-        List<ResourceDescRemote> resDescRemoteList = new LinkedList<ResourceDescRemote>();
+        List<ResourceDescRemote> resDescRemoteList = new ArrayList<ResourceDescRemote>();
         resDescRemoteList.add(resDescRemote);
 
         request(resDescRemoteList, async);

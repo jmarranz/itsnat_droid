@@ -1,12 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.animinterp.classtree;
 
 import android.content.Context;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
 import org.itsnat.droid.impl.xmlinflater.animinterp.ClassDescInterpolatorMgr;
-import org.itsnat.droid.impl.xmlinflater.animinterp.attr.AttrDescInterpolator_AccelerateInterpolator_factor;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSet;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat;
 
 /**

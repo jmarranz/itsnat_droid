@@ -19,7 +19,7 @@ import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesArrayBa
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesStyle;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -60,7 +60,7 @@ public class XMLInflaterValues extends XMLInflater
 
     private void processChildNoChildElemElements(DOMElemValues domElemParent, ElementValuesResources parentChildValues)
     {
-        LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
+        List<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return;
 
         parentChildValues.initChildElementValuesList(childDOMElemList.size());

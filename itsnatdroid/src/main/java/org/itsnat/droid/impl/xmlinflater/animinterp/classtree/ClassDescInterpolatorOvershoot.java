@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.animinterp.classtree;
 
 import android.content.Context;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import org.itsnat.droid.impl.xmlinflater.animinterp.ClassDescInterpolatorMgr;

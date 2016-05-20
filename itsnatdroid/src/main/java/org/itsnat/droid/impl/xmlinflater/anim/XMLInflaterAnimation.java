@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationBased;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -69,7 +69,7 @@ public class XMLInflaterAnimation extends XMLInflaterResource<Animation>
 
     private void processChildElements(DOMElemAnimationSet domElemParent, AnimationSet parentAnimation, AttrAnimationContext attrCtx)
     {
-        LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
+        List<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null || childDOMElemList.size() == 0) return;
 
         for (DOMElement childDOMElem : childDOMElemList)

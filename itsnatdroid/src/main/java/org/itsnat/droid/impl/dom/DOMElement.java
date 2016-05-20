@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.dom;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,7 +12,7 @@ public abstract class DOMElement
     protected String tagName;
     protected DOMElement parentElement; // Si es null es el root
     protected DOMAttributeMap attribs = new DOMAttributeMap();
-    protected LinkedList<DOMElement> childList;
+    protected List<DOMElement> childList;
 
     public DOMElement(String tagName,DOMElement parentElement)
     {
@@ -76,7 +77,7 @@ public abstract class DOMElement
     */
 
 
-    public LinkedList<DOMElement> getChildDOMElementList()
+    public List<DOMElement> getChildDOMElementList()
     {
         return childList;
     }
@@ -84,7 +85,7 @@ public abstract class DOMElement
 
     public void addChildDOMElement(DOMElement domElement)
     {
-        if (childList == null) this.childList = new LinkedList<DOMElement>();
+        if (childList == null) this.childList = new ArrayList<DOMElement>();
         childList.add(domElement);
     }
 
