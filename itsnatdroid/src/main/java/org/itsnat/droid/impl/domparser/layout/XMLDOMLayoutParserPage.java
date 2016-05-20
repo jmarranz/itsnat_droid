@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.domparser.layout;
 
+import android.content.Context;
+
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
@@ -22,7 +24,7 @@ public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
     }
 
     @Override
-    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser, XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
     {
         if (name.equals("script"))
         {
@@ -30,7 +32,7 @@ public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
             return null; // Ignorar porque "desaparece"
         }
         else
-            return super.processElement(name,parentElement,parser, xmlDOM);
+            return super.processElement(name,parentElement,parser, xmlDOM, ctx);
     }
 
     protected void parseScriptElement(XmlPullParser parser, XMLDOMLayoutPage xmlDOM) throws IOException, XmlPullParserException

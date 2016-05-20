@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.domparser.layout;
 
+import android.content.Context;
+
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
@@ -57,7 +59,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser<XMLDOMLayout>
 
 
     @Override
-    protected void prepareDOMAttrToLoadResource(DOMAttr attrib, XMLDOM xmlDOMParent)
+    protected void prepareDOMAttrToLoadResource(DOMAttr attrib, XMLDOM xmlDOMParent,Context ctx)
     {
         if (!(attrib instanceof DOMAttrRemote))
         {
@@ -67,7 +69,7 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser<XMLDOMLayout>
             // para poder ser accedidos via ItsNatResources.getLayout() etc e ignorados en el proceso normal de atributos
         }
 
-        super.prepareDOMAttrToLoadResource(attrib,xmlDOMParent);
+        super.prepareDOMAttrToLoadResource(attrib,xmlDOMParent,ctx);
     }
 
     @Override

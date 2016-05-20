@@ -35,7 +35,7 @@ public abstract class ResourceCacheByMarkupAndResDesc<TxmlDom extends XMLDOM,Txm
             cacheByMarkup.put(markup, cachedXMLDOM); // Cacheamos cuanto antes pues puede haber recursividad
 
             TxmlDomParser parser = createXMLDOMParserInstance(xmlDOMParserContext);
-            parser.parse(markup, cachedXMLDOM);
+            parser.parse(markup, cachedXMLDOM, xmlDOMParserContext.getContextToOpenInternFiles());
         }
 
         ParsedResourceXMLDOM<TxmlDom> resource = new ParsedResourceXMLDOM<TxmlDom>(cachedXMLDOM);

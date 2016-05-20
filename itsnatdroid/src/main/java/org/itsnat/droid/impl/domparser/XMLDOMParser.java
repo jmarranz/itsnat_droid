@@ -1,12 +1,13 @@
 package org.itsnat.droid.impl.domparser;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpRequestResultOKImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrAsset;
+import org.itsnat.droid.impl.dom.DOMAttrLocal;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.ParsedResource;
@@ -14,6 +15,8 @@ import org.itsnat.droid.impl.dom.ParsedResourceImage;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.ResourceDescAsset;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
+import org.itsnat.droid.impl.dom.ResourceDescIntern;
+import org.itsnat.droid.impl.dom.ResourceDescLocal;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
@@ -60,18 +63,18 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         }
     }
 
-    public void parse(String markup,Txmldom xmlDOM)
+    public void parse(String markup,Txmldom xmlDOM,Context ctx)
     {
         StringReader input = new StringReader(markup);
-        parse(input,xmlDOM);
+        parse(input,xmlDOM,ctx);
     }
 
-    private void parse(Reader input,Txmldom xmlDOM)
+    private void parse(Reader input,Txmldom xmlDOM,Context ctx)
     {
         try
         {
             XmlPullParser parser = newPullParser(input);
-            parse(parser,xmlDOM);
+            parse(parser,xmlDOM, ctx);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
@@ -82,13 +85,13 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         }
     }
 
-    private void parse(XmlPullParser parser,Txmldom xmlDOM) throws IOException, XmlPullParserException
+    private void parse(XmlPullParser parser,Txmldom xmlDOM,Context ctx) throws IOException, XmlPullParserException
     {
         String rootElemName = getRootElementName(parser);
-        parseRootElement(rootElemName,parser, xmlDOM);
+        parseRootElement(rootElemName,parser, xmlDOM,ctx);
     }
 
-    public DOMElement parseRootElement(String rootElemName, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    public DOMElement parseRootElement(String rootElemName, XmlPullParser parser, XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
     {
         int nsStart = parser.getNamespaceCount(parser.getDepth() - 1);
         int nsEnd = parser.getNamespaceCount(parser.getDepth());
@@ -102,10 +105,10 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         if (isAndroidNSPrefixNeeded() && xmlDOM.getAndroidNSPrefix() == null)
             throw new ItsNatDroidException("Missing android namespace declaration in the root element of the XML");
 
-        DOMElement rootElement = createRootElementAndFillAttributes(rootElemName, parser, xmlDOM);
+        DOMElement rootElement = createRootElementAndFillAttributes(rootElemName, parser, xmlDOM,ctx);
         xmlDOM.setRootElement(rootElement);
 
-        processChildElements(rootElement, parser, xmlDOM);
+        processChildElements(rootElement, parser, xmlDOM,ctx);
 
         return rootElement;
     }
@@ -113,32 +116,32 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
 
     protected abstract boolean isAndroidNSPrefixNeeded();
 
-    protected DOMElement createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected DOMElement createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
     {
         DOMElement rootElement = createElement(name, null);
 
-        fillAttributesAndAddElement(null, rootElement, parser, xmlDOM);
+        fillAttributesAndAddElement(null, rootElement, parser, xmlDOM,ctx);
 
         return rootElement;
     }
 
-    protected DOMElement createElementAndFillAttributesAndAdd(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM) throws XmlPullParserException
+    protected DOMElement createElementAndFillAttributesAndAdd(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws XmlPullParserException
     {
         // parentElement es null en el caso de parseo de fragment
         DOMElement element = createElement(name,parentElement);
 
-        fillAttributesAndAddElement(parentElement, element, parser, xmlDOM);
+        fillAttributesAndAddElement(parentElement, element, parser, xmlDOM,ctx);
 
         return element;
     }
 
-    protected void fillAttributesAndAddElement(DOMElement parentElement, DOMElement element,XmlPullParser parser,XMLDOM xmlDOM) throws XmlPullParserException
+    protected void fillAttributesAndAddElement(DOMElement parentElement, DOMElement element,XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws XmlPullParserException
     {
-        fillElementAttributes(element, parser, xmlDOM);
+        fillElementAttributes(element, parser, xmlDOM, ctx);
         if (parentElement != null) parentElement.addChildDOMElement(element);
     }
 
-    protected void fillElementAttributes(DOMElement element,XmlPullParser parser,XMLDOM xmlDOM) throws XmlPullParserException
+    protected void fillElementAttributes(DOMElement element,XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws XmlPullParserException
     {
         if (element.getParentDOMElement() != null) // No es root
         {
@@ -158,20 +161,20 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
             if ("".equals(namespaceURI)) namespaceURI = null; // Por estandarizar
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);
-            addDOMAttr(element, namespaceURI, name, value, xmlDOM);
+            addDOMAttr(element, namespaceURI, name, value, xmlDOM, ctx);
         }
     }
 
-    protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
     {
-        DOMElement childView = parseNextChild(parentElement, parser, xmlDOM);
+        DOMElement childView = parseNextChild(parentElement, parser, xmlDOM, ctx);
         while (childView != null)
         {
-            childView = parseNextChild(parentElement,parser, xmlDOM);
+            childView = parseNextChild(parentElement,parser, xmlDOM, ctx);
         }
     }
 
-    private DOMElement parseNextChild(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    private DOMElement parseNextChild(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -180,17 +183,17 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
 
             String name = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-            DOMElement element = processElement(name, parentElement, parser, xmlDOM);
+            DOMElement element = processElement(name, parentElement, parser, xmlDOM,ctx);
             if (element == null) continue; // Se ignora
             return element;
         }
         return null;
     }
 
-    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
     {
-        DOMElement element = createElementAndFillAttributesAndAdd(name, parentElement, parser, xmlDOM);
-        processChildElements(element,parser, xmlDOM);
+        DOMElement element = createElementAndFillAttributesAndAdd(name, parentElement, parser, xmlDOM,ctx);
+        processChildElements(element,parser, xmlDOM,ctx);
         return element;
     }
 
@@ -222,52 +225,62 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT ELEMENT");
     }
 
-    protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
+    protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent,Context ctx)
     {
         DOMAttr attrib = DOMAttr.createDOMAttr(namespaceURI, name, value);
-        addDOMAttr(element,attrib,xmlDOMParent);
+        addDOMAttr(element,attrib,xmlDOMParent,ctx);
         return attrib;
     }
 
-    protected void addDOMAttr(DOMElement element, DOMAttr attrib, XMLDOM xmlDOMParent)
+    protected void addDOMAttr(DOMElement element, DOMAttr attrib, XMLDOM xmlDOMParent,Context ctx)
     {
-        prepareDOMAttrToLoadResource(attrib, xmlDOMParent);
+        prepareDOMAttrToLoadResource(attrib, xmlDOMParent,ctx);
         element.setDOMAttribute(attrib);
     }
 
-    protected void prepareDOMAttrToLoadResource(DOMAttr attrib, XMLDOM xmlDOMParent)
+    protected void prepareDOMAttrToLoadResource(DOMAttr attrib, XMLDOM xmlDOMParent,Context ctx)
     {
         if (attrib instanceof DOMAttrRemote)
         {
             xmlDOMParent.addDOMAttrRemote((DOMAttrRemote) attrib);
         }
-        else if (attrib instanceof DOMAttrAsset)
+        else if (attrib instanceof DOMAttrLocal)
         {
-            DOMAttrAsset assetAttr = (DOMAttrAsset)attrib;
+            DOMAttrLocal localAttr = (DOMAttrLocal)attrib;
 
-            prepareResourceDescAssetToLoadResource(assetAttr.getResourceDescAsset());
+            prepareResourceDescLocalToLoadResource(localAttr.getResourceDescLocal(),ctx);
         }
         // Nada que preparar
     }
 
-    public static void prepareResourceDescAssetToLoadResource(ResourceDescAsset resourceDescAsset,XMLDOMParserContext xmlDOMParserContext)
+    public static void prepareResourceDescLocalToLoadResource(ResourceDescLocal resourceDescLocal, XMLDOMParserContext xmlDOMParserContext)
     {
         XMLDOMAnimatorParser xmlDOMAnimatorParser = XMLDOMAnimatorParser.createXMLDOMAnimatorParser(xmlDOMParserContext);
-        xmlDOMAnimatorParser.prepareResourceDescAssetToLoadResource(resourceDescAsset);
+        xmlDOMAnimatorParser.prepareResourceDescLocalToLoadResource(resourceDescLocal,xmlDOMParserContext.getContextToOpenInternFiles());
     }
 
-    public void prepareResourceDescAssetToLoadResource(ResourceDescAsset resourceDescAsset)
+    public void prepareResourceDescLocalToLoadResource(ResourceDescLocal resourceDescLocal,Context ctxToOpenInternFiles)
     {
-        String location = resourceDescAsset.getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
-        // En assets el location empezará siempre con res/, AssetManager.open() NO admite el uso de ".." o /res . No pasa nada, los assets son para pruebas no es necesario que se comporte igual que en remoto (con HTTP)
+        String location = resourceDescLocal.getLocation(xmlDOMParserContext); // Los assets son para pruebas, no merece la pena perder el tiempo intentando usar un "basePath" para poder especificar paths relativos
+
+        byte[] res = null;
         InputStream ims = null;
-        byte[] res;
         try
         {
-            // AssetManager.open es multihilo, de todas formas va a ser MUY raro que usemos assets junto a remote
-            // http://www.netmite.com/android/mydroid/frameworks/base/libs/utils/AssetManager.cpp
-            AssetManager assetManager = xmlDOMParserContext.getAssetManager();
-            ims = assetManager.open(location);
+            if (resourceDescLocal instanceof ResourceDescAsset)
+            {
+                // En assets el location empezará siempre con res/, AssetManager.open() NO admite el uso de ".." o /res . No pasa nada, los assets son para pruebas no es necesario que se comporte igual que en remoto (con HTTP)
+                // AssetManager.open es multihilo, de todas formas va a ser MUY raro que usemos assets junto a remote
+                // http://www.netmite.com/android/mydroid/frameworks/base/libs/utils/AssetManager.cpp
+                AssetManager assetManager = xmlDOMParserContext.getAssetManager();
+                ims = assetManager.open(location);
+            }
+            else if (resourceDescLocal instanceof ResourceDescIntern)
+            {
+                String internLocation = "intern/" + location;
+                ims = ctxToOpenInternFiles.openFileInput(internLocation);
+            }
+
             res = IOUtil.read(ims);
         }
         catch (IOException ex)
@@ -276,20 +289,15 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         }
         finally
         {
-            if (ims != null) try
-            {
-                ims.close();
-            }
-            catch (IOException ex)
-            {
-                throw new ItsNatDroidException(ex);
-            }
+            if (ims != null)
+                try { ims.close(); }
+                catch (IOException ex) { throw new ItsNatDroidException(ex); }
         }
 
-        parseResourceDescAsset(resourceDescAsset, res);
+        parseResourceDescLocal(resourceDescLocal, res);
     }
 
-    private ParsedResource parseResourceDescAsset(ResourceDescAsset resourceDescAsset, byte[] input)
+    private ParsedResource parseResourceDescLocal(ResourceDescLocal resourceDescAsset, byte[] input)
     {
         String resourceMime = resourceDescAsset.getResourceMime();
         if (MimeUtil.isMIMEResourceXML(resourceMime))

@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.domparser.values;
 
+import android.content.Context;
+
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
@@ -81,7 +83,7 @@ public class XMLDOMValuesParser extends XMLDOMParser<XMLDOMValues>
     }
 
     @Override
-    protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
     {
         if (parentElement instanceof DOMElemValuesNoChildElem)
         {
@@ -101,11 +103,11 @@ public class XMLDOMValuesParser extends XMLDOMParser<XMLDOMValues>
             */
 
             DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
-            addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM);
+            addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM,ctx);
         }
         else
         {
-            super.processChildElements(parentElement, parser, xmlDOM);
+            super.processChildElements(parentElement, parser, xmlDOM,ctx);
         }
     }
 

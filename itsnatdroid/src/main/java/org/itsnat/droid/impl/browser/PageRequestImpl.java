@@ -275,14 +275,15 @@ public class PageRequestImpl implements PageRequest
         // El PageRequestImpl debe poder ser reutilizado si quiere el usuario
         if (url == null) throw new ItsNatDroidException("Missing URL");
 
-        Resources res = getContext().getResources();
+        Context ctx = getContext();
+        Resources res = ctx.getResources();
 
         String pageURLBase = getPageURLBase();
         HttpRequestData httpRequestData = new HttpRequestData(this);
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>();
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 
-        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
 
         if (sync)
             executeSync(url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMParserContext);
@@ -311,7 +312,7 @@ public class PageRequestImpl implements PageRequest
 
     private void executeAsync(String url,String pageURLBase,HttpRequestData httpRequestData,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
     {
-        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMParserContext);
+        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,pageURLBase,httpRequestData,urlResDownloadedMap,xmlDOMParserContext, ctx);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

@@ -57,7 +57,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
         float dy = -1;
         int color = -1;
 
-        //Context ctx = attrCtx.getContext();
+        //Context ctxToOpenInternFiles = attrCtx.getContext();
         //String value = attr.getValue();
         if (name.equals("shadowColor"))
         {

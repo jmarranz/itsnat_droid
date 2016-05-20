@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
+import android.content.Context;
+
 import org.itsnat.droid.impl.dom.ParsedResource;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
@@ -16,9 +18,11 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final String pageURLBase;
     protected final HttpRequestData httpRequestData;
     protected final XMLDOMParserContext xmlDOMParserContext;
+    protected final Context ctx;
     protected final Map<String,ParsedResource> urlResDownloadedMap;
 
-    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url,String pageURLBase,HttpRequestData httpRequestData,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext)
+
+    public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url,String pageURLBase,HttpRequestData httpRequestData,Map<String,ParsedResource> urlResDownloadedMap,XMLDOMParserContext xmlDOMParserContext,Context ctx)
     {
          // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.pageRequest = pageRequest;
@@ -26,6 +30,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.pageURLBase = pageURLBase;
         this.urlResDownloadedMap = urlResDownloadedMap;
         this.xmlDOMParserContext = xmlDOMParserContext;
+        this.ctx = ctx;
         this.httpRequestData = httpRequestData;
     }
 

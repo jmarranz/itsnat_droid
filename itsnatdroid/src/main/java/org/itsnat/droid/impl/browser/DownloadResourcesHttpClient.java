@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import org.itsnat.droid.ClientErrorMode;
@@ -46,7 +46,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
-        Resources res = page.getContext().getResources();
+        Context ctx = page.getContext();
 
         String pageURLBase = getPageURLBase();
         HttpRequestData httpRequestData = new HttpRequestData(page);
@@ -55,7 +55,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         Map<String,ParsedResource> urlResDownloadedMap = new HashMap<String,ParsedResource>(); // es temporal, sólo dura durante la request, la cual suele cargar múltiples recursos y a veces de forma repetida
         XMLDOMRegistry xmlDOMRegistry = browser.getItsNatDroidImpl().getXMLDOMRegistry();
 
-        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
 
         if (async)
         {

@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.domparser.layout;
 
+import android.content.Context;
+
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -52,7 +54,8 @@ public class ResourceCacheByMarkupAndResDescLayout extends ResourceCacheByMarkup
             cachedXMLDOMLayout = layoutParser.createXMLDOMLayout();
             cacheByMarkup.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
 
-            layoutParser.parse(markup,cachedXMLDOMLayout);
+            Context ctx = xmlDOMParserContext.getContextToOpenInternFiles();
+            layoutParser.parse(markup,cachedXMLDOMLayout,ctx);
             if (cachedXMLDOMLayout instanceof XMLDOMLayoutPageItsNat)
                 ((XMLDOMLayoutPageItsNat)cachedXMLDOMLayout).setLoadInitScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
         }

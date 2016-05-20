@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.stdalone;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 
@@ -108,10 +107,10 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
 
     private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup,ViewGroup parentView)
     {
-        Resources res = getContext().getResources();
+        Context ctx = getContext();
 
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
-        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
 
         ParsedResourceXMLDOM<XMLDOMLayout> resourceXMLDOM = xmlDOMRegistry.buildXMLDOMLayoutAndCachingByMarkupAndResDesc(markup,null, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
 

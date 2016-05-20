@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.stdalone;
 
 import android.animation.Animator;
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LayoutAnimationController;
@@ -10,7 +9,7 @@ import android.view.animation.LayoutAnimationController;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.dom.ResourceDesc;
-import org.itsnat.droid.impl.dom.ResourceDescAsset;
+import org.itsnat.droid.impl.dom.ResourceDescLocal;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
@@ -34,8 +33,8 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 
         this.xmlInflaterLayoutStandalone = xmlInflaterLayoutStandalone;
 
-        Resources res = xmlInflaterLayoutStandalone.getContext().getResources();
-        this.xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,res);
+        Context ctx = xmlInflaterLayoutStandalone.getContext();
+        this.xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
     }
 
     public Context getContext()
@@ -45,21 +44,20 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 
     private ResourceDesc loadAndCacheResourceDesc(String resourceDescValue)
     {
-
-
         ResourceDesc resourceDesc = ResourceDesc.create(resourceDescValue);
 
-        if (resourceDesc instanceof ResourceDescAsset)
+        if (resourceDesc instanceof ResourceDescLocal)
         {
-            ResourceDescAsset resourceDescAsset = (ResourceDescAsset) resourceDesc;
-            XMLDOMAnimatorParser.prepareResourceDescAssetToLoadResource(resourceDescAsset, xmlDOMParserContext);
+            ResourceDescLocal resourceDescLocal = (ResourceDescLocal) resourceDesc;
+            XMLDOMAnimatorParser.prepareResourceDescLocalToLoadResource(resourceDescLocal, xmlDOMParserContext);
+            return (ResourceDescLocal)resourceDesc;
         }
         else if (resourceDesc instanceof ResourceDescRemote)
         {
             throw new ItsNatDroidException("Remote resource is not allowed in this context, use assets instead");
         }
 
-        return resourceDesc;
+        return resourceDesc; // Puede ser "compiled"
     }
 
     @Override

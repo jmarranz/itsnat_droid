@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -63,7 +64,7 @@ public class FragmentLayoutInserter
         PageImpl page = itsNatDoc.getPageImpl();
         InflatedLayoutPageImpl inflatedLayoutPage = page.getInflatedLayoutPageImpl();
         XMLDOMLayoutPage xmlDOMLayoutPageParent = inflatedLayoutPage.getXMLDOMLayoutPage();
-
+        Context ctx = itsNatDoc.getContext();
 
         XMLDOMLayoutPage xmlDOMLayout = wrapAndParseMarkupFragment(parentClassName, markup,xmlDOMLayoutPageParent,page.getItsNatServerVersion(),xmlDOMParserContext);
 

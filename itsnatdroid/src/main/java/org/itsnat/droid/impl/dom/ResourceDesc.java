@@ -20,6 +20,8 @@ public abstract class ResourceDesc
             return new ResourceDescRemote(resourceDescValue);
         else if (ResourceDescAsset.isAsset(resourceDescValue))
             return new ResourceDescAsset(resourceDescValue);
+        else if (ResourceDescIntern.isIntern(resourceDescValue))
+            return new ResourceDescIntern(resourceDescValue);
         else
             return new ResourceDescCompiled(resourceDescValue);
     }

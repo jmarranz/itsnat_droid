@@ -381,7 +381,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
                 // ALTERNATIVA QUE NO FUNCIONA (idStyle es ignorado):
                 //if (constructor3P == null) constructor3P = clasz.getConstructor(Context.class, AttributeSet.class, int.class);
-                //view = constructor3P.newInstance(ctx, null, idStyle);
+                //view = constructor3P.newInstance(ctxToOpenInternFiles, null, idStyle);
             }
             else
             {
@@ -466,7 +466,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     private static void getLayoutParamsFromStyleId(int styleId,ViewGroup.LayoutParams layoutParams,List<DOMAttr> styleLayoutParamsAttribs,ContextThemeWrapper ctx)
     {
-        // ctx es el ContextThemeWrapper creado para pasar el style al View en creación, él conoce los atributos del style que se meten en el theme pues se pasó en el constructor, el Context padre NO conoce los atributos asociados al style
+        // ctxToOpenInternFiles es el ContextThemeWrapper creado para pasar el style al View en creación, él conoce los atributos del style que se meten en el theme pues se pasó en el constructor, el Context padre NO conoce los atributos asociados al style
 
         // Este método es debido a que cuando usamos un atributo style podemos "incluir" indirectamente atributos destinados a objetos LayoutParams tal y como layout_width y layout_height
         // el problema es que son internos y nativos, Android en compilación los "extrae" y los añade al AttributeSet que es pasado al método generateDefaultLayoutParams, eso no lo podemmos hacer de forma tan fácil

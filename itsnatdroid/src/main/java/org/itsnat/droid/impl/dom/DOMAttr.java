@@ -23,14 +23,22 @@ public abstract class DOMAttr
     public static DOMAttr createDOMAttr(String namespaceURI, String name, String value)
     {
         ResourceDesc resourceDesc = ResourceDesc.create(value);
-        if (resourceDesc instanceof ResourceDescRemote)
-            return new DOMAttrRemote(namespaceURI,name,(ResourceDescRemote)resourceDesc);
-        else if (resourceDesc instanceof ResourceDescAsset)
-            return new DOMAttrAsset(namespaceURI,name,(ResourceDescAsset)resourceDesc);
+        if (resourceDesc instanceof ResourceDescDynamic)
+        {
+            if (resourceDesc instanceof ResourceDescLocal)
+            {
+                if (resourceDesc instanceof ResourceDescAsset)
+                    return new DOMAttrAsset(namespaceURI, name, (ResourceDescAsset) resourceDesc);
+                else if (resourceDesc instanceof ResourceDescIntern)
+                    return new DOMAttrIntern(namespaceURI, name, (ResourceDescIntern) resourceDesc);
+            }
+            else if (resourceDesc instanceof ResourceDescRemote)
+                return new DOMAttrRemote(namespaceURI, name, (ResourceDescRemote) resourceDesc);
+        }
         else if (resourceDesc instanceof ResourceDescCompiled)
             return new DOMAttrCompiled(namespaceURI,name,(ResourceDescCompiled)resourceDesc);
-        else
-            throw MiscUtil.internalError();
+
+        throw MiscUtil.internalError();
     }
 
     public static DOMAttr createDOMAttrCopy(DOMAttr attr, String newValue)
