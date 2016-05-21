@@ -24,9 +24,9 @@ import java.util.Map;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
+public class TestSetupAssetLayout1 extends TestSetupAssetLayoutBase
 {
-    public TestSetupLocalLayout1(TestActivityTabFragment fragment)
+    public TestSetupAssetLayout1(TestActivityTabFragment fragment)
     {
         super(fragment);
     }
@@ -48,7 +48,7 @@ public class TestSetupLocalLayout1 extends TestSetupLocalLayoutBase
 
                 initialConfiguration(act, dynamicRootView);
 
-                TestLocalLayout1.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView, layout);
+                TestAssetLayout1.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView, layout);
             }
         });
 

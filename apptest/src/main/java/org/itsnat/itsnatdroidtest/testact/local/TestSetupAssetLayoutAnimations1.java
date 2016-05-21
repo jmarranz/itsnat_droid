@@ -28,9 +28,9 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
+public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
 {
-    public TestSetupLocalLayoutAnimations1(TestActivityTabFragment fragment) {
+    public TestSetupAssetLayoutAnimations1(TestActivityTabFragment fragment) {
         super(fragment);
     }
 
@@ -48,7 +48,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
                 initialConfiguration(act, dynamicRootView,layout);
 
-                TestLocalLayoutAnimations1.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
+                TestAssetLayoutAnimations1.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }
         });
 
@@ -222,7 +222,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
         textView.startAnimation(alphaAnimation);
 
-        TestLocalLayoutAnimations1.testAlphaAnimation(alphaAnimation);
+        TestAssetLayoutAnimations1.testAlphaAnimation(alphaAnimation);
     }
 
     private static void defineRotateAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -237,7 +237,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
         textView.startAnimation(rotateAnimation);
 
-        TestLocalLayoutAnimations1.testRotateAnimation(rotateAnimation);
+        TestAssetLayoutAnimations1.testRotateAnimation(rotateAnimation);
     }
 
     private static void defineScaleAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -252,7 +252,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
         textView.startAnimation(animation);
 
-        TestLocalLayoutAnimations1.testScaleAnimation(animation);
+        TestAssetLayoutAnimations1.testScaleAnimation(animation);
     }
 
     private static void defineTranslateAnimationTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -266,7 +266,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
             textView.startAnimation(animation);
 
-            TestLocalLayoutAnimations1.testTranslateAnimation_1(animation);
+            TestAssetLayoutAnimations1.testTranslateAnimation_1(animation);
         }
 
         {
@@ -278,7 +278,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
             textView.startAnimation(animation);
 
-            TestLocalLayoutAnimations1.testTranslateAnimation_2(animation);
+            TestAssetLayoutAnimations1.testTranslateAnimation_2(animation);
         }
     }
 
@@ -292,7 +292,7 @@ public class TestSetupLocalLayoutAnimations1 extends TestSetupLocalLayoutBase
 
         textView.startAnimation(animation);
 
-        TestLocalLayoutAnimations1.testAnimationSet(animation);
+        TestAssetLayoutAnimations1.testAnimationSet(animation);
     }
 
 

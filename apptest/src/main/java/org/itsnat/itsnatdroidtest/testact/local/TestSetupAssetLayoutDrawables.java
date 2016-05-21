@@ -18,9 +18,9 @@ import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestSetupLocalLayoutDrawables extends TestSetupLocalLayoutBase
+public class TestSetupAssetLayoutDrawables extends TestSetupAssetLayoutBase
 {
-    public TestSetupLocalLayoutDrawables(TestActivityTabFragment fragment) {
+    public TestSetupAssetLayoutDrawables(TestActivityTabFragment fragment) {
         super(fragment);
     }
 
@@ -38,7 +38,7 @@ public class TestSetupLocalLayoutDrawables extends TestSetupLocalLayoutBase
 
                 initialConfiguration(act, dynamicRootView);
 
-                TestLocalLayoutDrawables.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
+                TestAssetLayoutDrawables.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }
         });
 

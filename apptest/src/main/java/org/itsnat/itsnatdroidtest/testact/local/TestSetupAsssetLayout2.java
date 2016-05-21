@@ -19,9 +19,9 @@ import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestSetupLocalLayout2 extends TestSetupLocalLayoutBase
+public class TestSetupAsssetLayout2 extends TestSetupAssetLayoutBase
 {
-    public TestSetupLocalLayout2(TestActivityTabFragment fragment)
+    public TestSetupAsssetLayout2(TestActivityTabFragment fragment)
     {
         super(fragment);
     }
@@ -43,7 +43,7 @@ public class TestSetupLocalLayout2 extends TestSetupLocalLayoutBase
 
                 initialConfiguration(act, dynamicRootView);
 
-                TestLocalLayout2.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView);
+                TestAssetLayout2.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView);
             }
         });
 

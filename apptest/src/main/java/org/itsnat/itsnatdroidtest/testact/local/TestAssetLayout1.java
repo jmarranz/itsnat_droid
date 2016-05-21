@@ -85,7 +85,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 /**
  * Created by jmarranz on 19/06/14.
  */
-public class TestLocalLayout1
+public class TestAssetLayout1
 {
 
     public static void test(ScrollView compRoot, ScrollView parsedRoot, InflatedLayout layout)

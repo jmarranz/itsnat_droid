@@ -20,12 +20,12 @@ import java.io.InputStream;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public abstract class TestSetupLocalLayoutBase extends TestSetupBase
+public abstract class TestSetupAssetLayoutBase extends TestSetupBase
 {
 
     protected final TestActivityTabFragment fragment;
 
-    public TestSetupLocalLayoutBase(final TestActivityTabFragment fragment)
+    public TestSetupAssetLayoutBase(final TestActivityTabFragment fragment)
     {
         this.fragment = fragment;
     }

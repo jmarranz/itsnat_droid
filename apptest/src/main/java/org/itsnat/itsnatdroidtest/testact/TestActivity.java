@@ -42,6 +42,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     protected TestActivityPagerAdapter mTestActivityPagerAdapter;
     protected ViewPager mViewPager;
     protected ItsNatDroidBrowser droidBrowser;
+    protected String urlTestBase;
     protected String urlTestCore;
     protected String urlTestIncludeLayout;
     protected String urlTestRemDrawables;
@@ -77,8 +78,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
 
         Intent intent = getIntent();
 
-        String urlTestBase = intent.getStringExtra("urlTestBase");
-
+        this.urlTestBase = intent.getStringExtra("urlTestBase");
         String itsNatServlet = "ItsNatDroidServletExample";
 
         this.urlTestCore =           urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_core";
@@ -151,6 +151,14 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     {
         return droidBrowser;
     }
+
+
+    public String getURLTestBase()
+    {
+        return urlTestBase;
+    }
+
+    String itsNatServlet = "ItsNatDroidServletExample";
 
     public String getUrlTestCore()
     {
@@ -239,6 +247,19 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         Toast.makeText(this,"Executed onClick handler",Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        ItsNatDroid itsNatDroid = ItsNatDroidRoot.get();
+        itsNatDroid.onConfigurationChanged(this, newConfig);
+
+        // this.configuration = newConfig;
+
+        // Configuration configuration = getResources().getConfiguration();
+        //int orientation = this.getResources().getConfiguration().orientation;
+    }
+
     private void testMisc()
     {
         String markup = "<root>Hello <b>I'm a robot</b></root>";
@@ -264,18 +285,5 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        ItsNatDroid itsNatDroid = ItsNatDroidRoot.get();
-        itsNatDroid.onConfigurationChanged(this, newConfig);
-
-        // this.configuration = newConfig;
-
-        // Configuration configuration = getResources().getConfiguration();
-        //int orientation = this.getResources().getConfiguration().orientation;
     }
 }

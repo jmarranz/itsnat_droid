@@ -27,7 +27,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 /**
  * Created by jmarranz on 19/06/14.
  */
-public class TestLocalLayoutDrawables
+public class TestAssetLayoutDrawables
 {
     public static void test(ScrollView compRoot, ScrollView parsedRoot)
     {

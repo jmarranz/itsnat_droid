@@ -22,7 +22,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 /**
  * Created by jmarranz on 19/06/14.
  */
-public class TestLocalLayoutAnimations2
+public class TestAssetLayoutAnimations2
 {
     public static void test(ScrollView compRoot, ScrollView parsedRoot)
     {

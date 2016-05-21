@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.itsnatdroidtest.R;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayout1;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayout2;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutAnimations1;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutAnimations2;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutDrawables;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupAssetLayout1;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupAsssetLayout2;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupAssetLayoutAnimations1;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupAssetLayoutAnimations2;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupAssetLayoutDrawables;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupInternLayoutLoadDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteCore;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePageNoItsNat;
@@ -71,55 +72,67 @@ public class TestActivityTabFragment extends Fragment
 
         this.rootView = inflater.inflate(R.layout.fragment_test_index, container, false);
 
-        View testLocal1 = rootView.findViewById(R.id.testLocalLayout1);
-        testLocal1.setOnClickListener(new View.OnClickListener()
+        View testAsset1 = rootView.findViewById(R.id.testAssetLayout1);
+        testAsset1.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestSetupLocalLayout1(TestActivityTabFragment.this).test();
+                new TestSetupAssetLayout1(TestActivityTabFragment.this).test();
             }
         });
 
-        View testLocal2 = rootView.findViewById(R.id.testLocalLayout2);
-        testLocal2.setOnClickListener(new View.OnClickListener()
+        View testAsset2 = rootView.findViewById(R.id.testAssetLayout2);
+        testAsset2.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestSetupLocalLayout2(TestActivityTabFragment.this).test();
+                new TestSetupAsssetLayout2(TestActivityTabFragment.this).test();
             }
         });
 
-        View testLocalDrawables = rootView.findViewById(R.id.testLocalDrawables);
-        testLocalDrawables.setOnClickListener(new View.OnClickListener()
+        View testAssetDrawables = rootView.findViewById(R.id.testAssetDrawables);
+        testAssetDrawables.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestSetupLocalLayoutDrawables(TestActivityTabFragment.this).test();
+                new TestSetupAssetLayoutDrawables(TestActivityTabFragment.this).test();
             }
         });
 
-        View testLocalAnimations1 = rootView.findViewById(R.id.testLocalAnimations1);
-        testLocalAnimations1.setOnClickListener(new View.OnClickListener()
+        View testAssetAnimations1 = rootView.findViewById(R.id.testAssetAnimations1);
+        testAssetAnimations1.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestSetupLocalLayoutAnimations1(TestActivityTabFragment.this).test();
+                new TestSetupAssetLayoutAnimations1(TestActivityTabFragment.this).test();
             }
         });
 
-        View testLocalAnimations2 = rootView.findViewById(R.id.testLocalAnimations2);
-        testLocalAnimations2.setOnClickListener(new View.OnClickListener()
+        View testAssetAnimations2 = rootView.findViewById(R.id.testAssetAnimations2);
+        testAssetAnimations2.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new TestSetupLocalLayoutAnimations2(TestActivityTabFragment.this).test();
+                new TestSetupAssetLayoutAnimations2(TestActivityTabFragment.this).test();
             }
         });
+
+        View testInternLoadDrawables = rootView.findViewById(R.id.testLoadInternDrawables);
+        testInternLoadDrawables.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                new TestSetupInternLayoutLoadDrawables(TestActivityTabFragment.this).test();
+            }
+        });
+
+
 
         final TestActivity act = getTestActivity();
 

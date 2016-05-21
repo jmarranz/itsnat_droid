@@ -30,9 +30,9 @@ import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
+public class TestSetupAssetLayoutAnimations2 extends TestSetupAssetLayoutBase
 {
-    public TestSetupLocalLayoutAnimations2(TestActivityTabFragment fragment) {
+    public TestSetupAssetLayoutAnimations2(TestActivityTabFragment fragment) {
         super(fragment);
     }
 
@@ -50,7 +50,7 @@ public class TestSetupLocalLayoutAnimations2 extends TestSetupLocalLayoutBase
 
                 initialConfiguration(act, dynamicRootView,layout);
 
-                TestLocalLayoutAnimations2.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
+                TestAssetLayoutAnimations2.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
 
             }
         });
