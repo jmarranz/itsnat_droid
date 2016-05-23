@@ -278,6 +278,8 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
             else if (resourceDescLocal instanceof ResourceDescIntern)
             {
                 String internLocation = "intern/" + location;
+                //REVISAR
+                
                 ims = ctxToOpenInternFiles.openFileInput(internLocation);
             }
 
