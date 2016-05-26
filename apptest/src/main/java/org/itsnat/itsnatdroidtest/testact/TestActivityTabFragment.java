@@ -7,12 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.itsnatdroidtest.R;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupAssetLayout1;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupAsssetLayout2;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupAssetLayoutAnimations1;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupAssetLayoutAnimations2;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupAssetLayoutDrawables;
-import org.itsnat.itsnatdroidtest.testact.local.TestSetupInternLayoutLoadDrawables;
+import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayout1;
+import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayout2;
+import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutAnimations1;
+import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutAnimations2;
+import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutDrawables;
+import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutDrawables;
+import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutLoadDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteCore;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePageNoItsNat;
@@ -88,7 +89,7 @@ public class TestActivityTabFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                new TestSetupAsssetLayout2(TestActivityTabFragment.this).test();
+                new TestSetupAssetLayout2(TestActivityTabFragment.this).test();
             }
         });
 
@@ -132,7 +133,15 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
-
+        View testInternDrawables = rootView.findViewById(R.id.testInternDrawables);
+        testInternDrawables.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                new TestSetupInternLayoutDrawables(TestActivityTabFragment.this).test();
+            }
+        });
 
         final TestActivity act = getTestActivity();
 

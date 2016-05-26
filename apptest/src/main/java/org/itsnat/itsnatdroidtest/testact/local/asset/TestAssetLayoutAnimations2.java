@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest.testact.local;
+package org.itsnat.itsnatdroidtest.testact.local.asset;
 
 import android.content.Context;
 import android.content.res.Resources;

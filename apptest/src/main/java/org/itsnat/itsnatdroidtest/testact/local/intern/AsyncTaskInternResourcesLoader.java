@@ -1,8 +1,9 @@
-package org.itsnat.itsnatdroidtest.testact.local;
+package org.itsnat.itsnatdroidtest.testact.local.intern;
 
 import android.content.Context;
 
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutBase;
 import org.itsnat.itsnatdroidtest.testact.util.Util;
 
 import java.io.File;
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, Void, Object>
 {
-    static final String internLocationBase = "intern";
+
 
     protected TestActivity act;
 
@@ -124,7 +125,7 @@ public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, V
     {
         // http://stackoverflow.com/questions/21326331/how-to-create-nested-folders-and-file-in-context-mode-private
 
-        File rootDir = act.getDir(internLocationBase,Context.MODE_PRIVATE); // Crea inicialmente el folder si es necesario añadiendo "app_" ej con "intern" como parámetro /data/data/org.itsnat.itsnatdroidtest/app_intern
+        File rootDir = act.getDir(TestSetupLocalLayoutBase.internLocationBase,Context.MODE_PRIVATE); // Crea inicialmente el folder si es necesario añadiendo "app_" ej con "intern" como parámetro /data/data/org.itsnat.itsnatdroidtest/app_intern
         // A partir de aquí usar métodos normales pues openFileOutput no admite subdirectorios
 
         int size = resourceLocationList.size();
@@ -134,7 +135,7 @@ public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, V
             byte[] resource = resources.get(i);
 
             int index = location.lastIndexOf('/'); // Esperamos que location apunte a un archivo no a un folder y tenga formato UNIX y que tenga algún subdirectorio
-            if (index == -1) throw new RuntimeException("Expected some character / in location format " + location);
+            if (index == -1) throw new RuntimeException("Expected some character / in file location format " + location);
             String parentLocation = location.substring(0,index);
             String locationFileName = location.substring(index + 1);
             File internParentDir = new File(rootDir.getAbsolutePath(),parentLocation);
@@ -149,25 +150,10 @@ public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, V
 
     private void cleanDownloadedResources()
     {
-        File dirRoot = act.getDir(internLocationBase,Context.MODE_PRIVATE);
+        File dirRoot = act.getDir(TestSetupLocalLayoutBase.internLocationBase,Context.MODE_PRIVATE);
 
-        cleanFileTree(dirRoot);
+        Util.cleanFileTree(dirRoot);
     }
-
-    private void cleanFileTree(File parentFile)
-    {
-        if (parentFile.isDirectory())
-        {
-            File[] fileList = parentFile.listFiles();
-            for(File file : fileList)
-            {
-                cleanFileTree(file);
-            }
-        }
-
-        parentFile.delete();
-    }
-
 
     @SuppressWarnings("unchecked")
     @Override

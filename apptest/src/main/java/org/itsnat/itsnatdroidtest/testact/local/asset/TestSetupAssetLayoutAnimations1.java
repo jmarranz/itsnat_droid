@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest.testact.local;
+package org.itsnat.itsnatdroidtest.testact.local.asset;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
@@ -43,7 +43,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
             @Override
             public void onClick(View view) {
                 // TEST de carga dinámica de layout guardado localmente
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_animations_1_asset.xml");
+                InflatedLayout layout = loadAssetAndBindBackReloadButtons("res/layout/test_local_layout_animations_1_asset.xml");
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView,layout);

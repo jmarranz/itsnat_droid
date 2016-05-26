@@ -3,6 +3,7 @@ package org.itsnat.itsnatdroidtest.testact.util;
 import org.itsnat.droid.ItsNatDroidException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -32,5 +33,19 @@ public class Util
             catch (IOException ex2) { throw new ItsNatDroidException(ex2); }
         }
         return output.toByteArray();
+    }
+
+    public static void cleanFileTree(File parentFile)
+    {
+        if (parentFile.isDirectory())
+        {
+            File[] fileList = parentFile.listFiles();
+            for(File file : fileList)
+            {
+                cleanFileTree(file);
+            }
+        }
+
+        parentFile.delete();
     }
 }

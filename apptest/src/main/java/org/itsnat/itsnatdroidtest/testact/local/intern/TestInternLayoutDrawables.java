@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest.testact.local;
+package org.itsnat.itsnatdroidtest.testact.local.intern;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -27,7 +27,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 /**
  * Created by jmarranz on 19/06/14.
  */
-public class TestAssetLayoutDrawables
+public class TestInternLayoutDrawables
 {
     public static void test(ScrollView compRoot, ScrollView parsedRoot)
     {

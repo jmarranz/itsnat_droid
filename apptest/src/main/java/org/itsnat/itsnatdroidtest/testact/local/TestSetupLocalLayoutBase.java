@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -14,18 +15,21 @@ import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 import org.itsnat.itsnatdroidtest.testact.TestSetupBase;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * Created by jmarranz on 16/07/14.
  */
-public abstract class TestSetupAssetLayoutBase extends TestSetupBase
+public abstract class TestSetupLocalLayoutBase extends TestSetupBase
 {
+    public static final String internLocationBase = "intern";
 
     protected final TestActivityTabFragment fragment;
 
-    public TestSetupAssetLayoutBase(final TestActivityTabFragment fragment)
+    public TestSetupLocalLayoutBase(final TestActivityTabFragment fragment)
     {
         this.fragment = fragment;
     }
@@ -36,21 +40,17 @@ public abstract class TestSetupAssetLayoutBase extends TestSetupBase
     }
 
 
-
-    protected View loadCompiledAndBindBackReloadButtons(int layoutId)
+    protected InflatedLayout loadAssetAndBindBackReloadButtons(String layoutAssetPath)
     {
-        TestActivity act = getTestActivity();
-        View compiledRootView = act.getLayoutInflater().inflate(layoutId, null);
-        changeLayout(fragment, compiledRootView);
-
-        Toast.makeText(act, "OK COMPILED", Toast.LENGTH_SHORT).show();
-
-        bindBackButton(compiledRootView);
-
-        return compiledRootView;
+        return loadDynamicAndBindBackReloadButtons(layoutAssetPath,true);
     }
 
-    protected InflatedLayout loadDynamicAndBindBackReloadButtons(String layoutAssetPath)
+    protected InflatedLayout loadInternAndBindBackReloadButtons(String layoutInternPath)
+    {
+        return loadDynamicAndBindBackReloadButtons(layoutInternPath,false);
+    }
+
+    protected InflatedLayout loadDynamicAndBindBackReloadButtons(String layoutAssetOrInternPath,boolean asset)
     {
         // Sólo para testear carga local
         TestActivity act = getTestActivity();
@@ -59,7 +59,19 @@ public abstract class TestSetupAssetLayoutBase extends TestSetupBase
         try
         {
 
-            input = am.open(layoutAssetPath);
+            if (asset)
+            {
+
+                input = am.open(layoutAssetOrInternPath);
+            }
+            else
+            {
+                File rootDir = act.getDir(internLocationBase, Context.MODE_PRIVATE);
+
+                File locationFile = new File(rootDir.getAbsolutePath(),layoutAssetOrInternPath);
+
+                input = new FileInputStream(locationFile);
+            }
         }
         catch (IOException e)
         {

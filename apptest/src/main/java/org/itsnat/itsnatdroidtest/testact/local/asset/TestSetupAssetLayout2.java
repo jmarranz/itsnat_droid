@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest.testact.local;
+package org.itsnat.itsnatdroidtest.testact.local.asset;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -19,9 +19,9 @@ import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestSetupAsssetLayout2 extends TestSetupAssetLayoutBase
+public class TestSetupAssetLayout2 extends TestSetupAssetLayoutBase
 {
-    public TestSetupAsssetLayout2(TestActivityTabFragment fragment)
+    public TestSetupAssetLayout2(TestActivityTabFragment fragment)
     {
         super(fragment);
     }
@@ -38,7 +38,7 @@ public class TestSetupAsssetLayout2 extends TestSetupAssetLayoutBase
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_2_asset.xml");
+                InflatedLayout layout = loadAssetAndBindBackReloadButtons("res/layout/test_local_layout_2_asset.xml");
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView);

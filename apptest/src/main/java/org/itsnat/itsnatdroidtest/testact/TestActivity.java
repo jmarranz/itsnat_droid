@@ -158,7 +158,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         return urlTestBase;
     }
 
-    String itsNatServlet = "ItsNatDroidServletExample";
+    //String itsNatServlet = "ItsNatDroidServletExample";
 
     public String getUrlTestCore()
     {

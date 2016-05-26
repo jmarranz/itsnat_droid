@@ -31,6 +31,9 @@ import org.itsnat.droid.impl.util.StringUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -41,6 +44,8 @@ import java.io.StringReader;
  */
 public abstract class XMLDOMParser<Txmldom extends XMLDOM>
 {
+    static final String internLocationBase = "intern";
+
     protected final XMLDOMParserContext xmlDOMParserContext;
 
     public XMLDOMParser(XMLDOMParserContext xmlDOMParserContext)
@@ -277,10 +282,11 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
             }
             else if (resourceDescLocal instanceof ResourceDescIntern)
             {
-                String internLocation = "intern/" + location;
-                //REVISAR
-                
-                ims = ctxToOpenInternFiles.openFileInput(internLocation);
+                File rootDir = ctxToOpenInternFiles.getDir(internLocationBase,Context.MODE_PRIVATE);
+
+                File locationFile = new File(rootDir.getAbsolutePath(),location);
+
+                ims = new FileInputStream(locationFile);
             }
 
             res = IOUtil.read(ims);

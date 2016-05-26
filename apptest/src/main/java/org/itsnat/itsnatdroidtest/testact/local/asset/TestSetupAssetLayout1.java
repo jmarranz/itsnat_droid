@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest.testact.local;
+package org.itsnat.itsnatdroidtest.testact.local.asset;
 
 import android.content.res.Resources;
 import android.view.View;
@@ -43,7 +43,7 @@ public class TestSetupAssetLayout1 extends TestSetupAssetLayoutBase
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons("res/layout/test_local_layout_1_asset.xml"); // R.raw.test_local_layout_1_asset
+                InflatedLayout layout = loadAssetAndBindBackReloadButtons("res/layout/test_local_layout_1_asset.xml"); // R.raw.test_local_layout_1_asset
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView);
