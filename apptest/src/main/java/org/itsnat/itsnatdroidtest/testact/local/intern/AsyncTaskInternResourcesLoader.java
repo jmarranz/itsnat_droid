@@ -1,9 +1,11 @@
 package org.itsnat.itsnatdroidtest.testact.local.intern;
 
+import android.app.AlertDialog;
 import android.content.Context;
 
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutBase;
+import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 import org.itsnat.itsnatdroidtest.testact.util.Util;
 
 import java.io.File;
@@ -24,10 +26,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by jmarranz on 21/05/2016.
  */
-public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, Void, Object>
+public abstract class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, Void, Object>
 {
-
-
     protected TestActivity act;
 
     public AsyncTaskInternResourcesLoader(TestActivity act)
@@ -47,7 +47,7 @@ public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, V
 
         InputStream input;
         try { input = openRemote(urlList); }
-        catch (IOException ex) { return ex; }
+        catch (Exception ex) { return ex; }
 
         ArrayList<String> resourceLocationList;
         try { resourceLocationList = readRemoteResourceLocationList(input); }
@@ -67,6 +67,8 @@ public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, V
     {
         URL urlObj = new URL(url);
         URLConnection urlConnection = urlObj.openConnection();
+        urlConnection.setConnectTimeout(5000);
+        urlConnection.setReadTimeout(20000);
         urlConnection.setDoInput(true);
         return urlConnection.getInputStream();
     }
@@ -114,7 +116,7 @@ public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, V
         List<Future<byte[]>> listFuture = service.invokeAll(listCallable);
         for(Future<byte[]> future : listFuture)
         {
-            byte[] data = future.get(30000, TimeUnit.MILLISECONDS);
+            byte[] data = future.get(30000, TimeUnit.MILLISECONDS); //http://stackoverflow.com/questions/12305667/how-is-exception-handling-done-in-a-callable
             resourceBinList.add(data);
         }
 
@@ -153,6 +155,7 @@ public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, V
         File dirRoot = act.getDir(TestSetupLocalLayoutBase.internLocationBase,Context.MODE_PRIVATE);
 
         Util.cleanFileTree(dirRoot);
+        if (dirRoot.listFiles() != null) throw new RuntimeException("Unexpected");
     }
 
     @SuppressWarnings("unchecked")
@@ -178,8 +181,5 @@ public class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, V
 
     }
 
-    protected void onFinishError(Exception ex)
-    {
-        throw new RuntimeException(ex);
-    }
+    protected abstract void onFinishError(Exception ex);
 }

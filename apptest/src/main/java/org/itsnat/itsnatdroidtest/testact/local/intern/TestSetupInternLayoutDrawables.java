@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local.intern;
 
+import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.LevelListDrawable;
@@ -13,7 +14,12 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
+import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutBase;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutBase;
+import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
+import org.itsnat.itsnatdroidtest.testact.util.Util;
+
+import java.io.File;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -32,6 +38,15 @@ public class TestSetupInternLayoutDrawables extends TestSetupAssetLayoutBase
 
     public void test()
     {
+        TestActivity act = getTestActivity();
+        File dirRoot = act.getDir(TestSetupLocalLayoutBase.internLocationBase, Context.MODE_PRIVATE);
+        // Util.cleanFileTree(dirRoot);
+        if (!dirRoot.exists() || dirRoot.listFiles() == null)
+        {
+            TestUtil.alertDialog(act,"No remotely delivered intern files, must be downloaded before, click on CLEAN/RELOAD REMOTE INTERN (DRAWABLES)");
+            return;
+        }
+
         // TEST de carga dinámica de layout guardado localmente
         InflatedLayout layout = loadInternAndBindBackReloadButtons("res/layout/test_local_layout_drawables_intern.xml");
         View dynamicRootView = layout.getRootView();

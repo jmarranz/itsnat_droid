@@ -46,6 +46,6 @@ public class Util
             }
         }
 
-        parentFile.delete();
+        if (!parentFile.delete()) throw new RuntimeException("Cannot deltete file/dir " + parentFile);
     }
 }

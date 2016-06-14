@@ -24,7 +24,7 @@ public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
     }
 
     @Override
-    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser, XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
+    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         if (name.equals("script"))
         {
@@ -32,7 +32,7 @@ public abstract class XMLDOMLayoutParserPage extends XMLDOMLayoutParser
             return null; // Ignorar porque "desaparece"
         }
         else
-            return super.processElement(name,parentElement,parser, xmlDOM, ctx);
+            return super.processElement(name,parentElement,parser, xmlDOM);
     }
 
     protected void parseScriptElement(XmlPullParser parser, XMLDOMLayoutPage xmlDOM) throws IOException, XmlPullParserException

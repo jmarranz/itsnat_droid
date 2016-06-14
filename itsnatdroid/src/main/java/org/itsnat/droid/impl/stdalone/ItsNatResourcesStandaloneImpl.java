@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.dom.ResourceDescLocal;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
+import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
@@ -42,30 +43,28 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
         return xmlInflaterLayoutStandalone.getContext();
     }
 
-    private ResourceDesc loadAndCacheResourceDesc(String resourceDescValue)
+    private ResourceDesc checkRemote(ResourceDesc resourceDesc)
     {
-        ResourceDesc resourceDesc = ResourceDesc.create(resourceDescValue);
+        if (resourceDesc instanceof ResourceDescRemote)
+            throw new ItsNatDroidException("Remote resource is not allowed in this context, use assets or intern files instead");
+        return resourceDesc; // Puede ser ResourceDescLocal o "compiled"
+    }
 
-        if (resourceDesc instanceof ResourceDescLocal)
+    private void prepare(ResourceDesc resourceDesc)
+    {
+        resourceDesc = checkRemote(resourceDesc);
+        if (resourceDesc instanceof ResourceDescLocal) // Puede ser "compiled" también
         {
-            ResourceDescLocal resourceDescLocal = (ResourceDescLocal) resourceDesc;
-            XMLDOMAnimatorParser.prepareResourceDescLocalToLoadResource(resourceDescLocal, xmlDOMParserContext);
-            return (ResourceDescLocal)resourceDesc;
+            XMLDOMParser.prepareResourceDescLocalToLoadResource((ResourceDescLocal) resourceDesc, xmlDOMParserContext);
         }
-        else if (resourceDesc instanceof ResourceDescRemote)
-        {
-            throw new ItsNatDroidException("Remote resource is not allowed in this context, use assets instead");
-        }
-
-        return resourceDesc; // Puede ser "compiled"
     }
 
     @Override
     public Animator getAnimator(String resourceDescValue)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null)
-            resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
+        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
+        prepare(resourceDesc);
         return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
     }
 
@@ -73,8 +72,8 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
     public Animation getAnimation(String resourceDescValue)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null)
-            resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
+        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
+        prepare(resourceDesc);
         return xmlInflaterRegistry.getAnimation(resourceDesc,xmlInflaterContext);
     }
 
@@ -82,8 +81,8 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
     public LayoutAnimationController getLayoutAnimation(String resourceDescValue)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getLayoutAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null)
-            resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
+        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
+        prepare(resourceDesc);
         return xmlInflaterRegistry.getLayoutAnimation(resourceDesc,xmlInflaterContext);
     }
 
@@ -91,8 +90,8 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
     public Interpolator getInterpolator(String resourceDescValue)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getInterpolatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null)
-            resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
+        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
+        prepare(resourceDesc);
         return xmlInflaterRegistry.getInterpolator(resourceDesc,xmlInflaterContext);
     }
 
@@ -100,8 +99,8 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
     public CharSequence[] getTextArray(String resourceDescValue)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.geValuesResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null)
-            resourceDesc = loadAndCacheResourceDesc(resourceDescValue);
+        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
+        prepare(resourceDesc);
         return xmlInflaterRegistry.getTextArray(resourceDesc,xmlInflaterContext);
     }
 }

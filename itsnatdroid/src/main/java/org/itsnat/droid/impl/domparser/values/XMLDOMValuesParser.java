@@ -83,7 +83,7 @@ public class XMLDOMValuesParser extends XMLDOMParser<XMLDOMValues>
     }
 
     @Override
-    protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM,Context ctx) throws IOException, XmlPullParserException
+    protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         if (parentElement instanceof DOMElemValuesNoChildElem)
         {
@@ -103,11 +103,11 @@ public class XMLDOMValuesParser extends XMLDOMParser<XMLDOMValues>
             */
 
             DOMAttr valueAsDOMAttr = parentElementNoChildElem.setTextNode(text); // El nodo de texto lo tratamos de forma especial como un atributo para resolver si es asset o remote y así cargarlo
-            addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM,ctx);
+            addDOMAttr(parentElementNoChildElem,valueAsDOMAttr, xmlDOM);
         }
         else
         {
-            super.processChildElements(parentElement, parser, xmlDOM,ctx);
+            super.processChildElements(parentElement, parser, xmlDOM);
         }
     }
 

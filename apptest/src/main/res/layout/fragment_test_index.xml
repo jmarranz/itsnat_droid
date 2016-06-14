@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="LOAD/RESET REMOTE INTERN (DRAWABLES)"
+                android:text="CLEAN/RELOAD REMOTE INTERN (DRAWABLES)"
                 android:layout_below="@+id/testAssetAnimations2"/>
 
         <Button android:id="@+id/testInternDrawables"

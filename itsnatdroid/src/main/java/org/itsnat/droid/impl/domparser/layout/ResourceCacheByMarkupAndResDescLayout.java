@@ -54,8 +54,7 @@ public class ResourceCacheByMarkupAndResDescLayout extends ResourceCacheByMarkup
             cachedXMLDOMLayout = layoutParser.createXMLDOMLayout();
             cacheByMarkup.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
 
-            Context ctx = xmlDOMParserContext.getContextToOpenInternFiles();
-            layoutParser.parse(markup,cachedXMLDOMLayout,ctx);
+            layoutParser.parse(markup,cachedXMLDOMLayout);
             if (cachedXMLDOMLayout instanceof XMLDOMLayoutPageItsNat)
                 ((XMLDOMLayoutPageItsNat)cachedXMLDOMLayout).setLoadInitScript(null); // Que quede claro que no se puede utilizar directamente en el cacheado guardado
         }

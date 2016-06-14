@@ -13,7 +13,7 @@ import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutAnimat
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutAnimations2;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutDrawables;
-import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutLoadDrawables;
+import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutCleanReloadDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteCore;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePageNoItsNat;
@@ -129,7 +129,7 @@ public class TestActivityTabFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                new TestSetupInternLayoutLoadDrawables(TestActivityTabFragment.this).test();
+                new TestSetupInternLayoutCleanReloadDrawables(TestActivityTabFragment.this).test();
             }
         });
 

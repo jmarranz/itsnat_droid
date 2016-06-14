@@ -67,9 +67,7 @@ public abstract class TestSetupLocalLayoutBase extends TestSetupBase
             else
             {
                 File rootDir = act.getDir(internLocationBase, Context.MODE_PRIVATE);
-
                 File locationFile = new File(rootDir.getAbsolutePath(),layoutAssetOrInternPath);
-
                 input = new FileInputStream(locationFile);
             }
         }
