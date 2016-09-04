@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.domparser.layout;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;

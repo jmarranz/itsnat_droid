@@ -20,7 +20,6 @@ import org.itsnat.droid.impl.dom.ResourceDescLocal;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
-import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
 import org.itsnat.droid.impl.domparser.animinterp.XMLDOMInterpolatorParser;
 import org.itsnat.droid.impl.domparser.animlayout.XMLDOMLayoutAnimationParser;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
@@ -33,7 +32,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;

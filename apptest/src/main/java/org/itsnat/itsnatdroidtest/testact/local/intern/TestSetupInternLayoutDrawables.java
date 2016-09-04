@@ -17,7 +17,6 @@ import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutBase;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutBase;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
-import org.itsnat.itsnatdroidtest.testact.util.Util;
 
 import java.io.File;
 

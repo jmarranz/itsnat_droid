@@ -1,11 +1,9 @@
 package org.itsnat.itsnatdroidtest.testact.local.intern;
 
-import android.app.AlertDialog;
 import android.content.Context;
 
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.local.TestSetupLocalLayoutBase;
-import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 import org.itsnat.itsnatdroidtest.testact.util.Util;
 
 import java.io.File;

@@ -12,13 +12,13 @@ import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayout2;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutAnimations1;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutAnimations2;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutDrawables;
-import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutCleanReloadDrawables;
+import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteCore;
-import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePageNoItsNat;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteIncludeLayout;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePage;
+import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemotePageNoItsNat;
 
 /**
  * Created by jmarranz on 12/08/14.

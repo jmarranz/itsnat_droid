@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.domparser.layout;
 
-import android.content.Context;
-
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;

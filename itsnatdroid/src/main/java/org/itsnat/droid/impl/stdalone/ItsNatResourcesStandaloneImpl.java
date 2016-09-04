@@ -13,7 +13,6 @@ import org.itsnat.droid.impl.dom.ResourceDescLocal;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.domparser.animator.XMLDOMAnimatorParser;
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
 
 /**

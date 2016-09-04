@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.domparser.values;
 
-import android.content.Context;
-
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
