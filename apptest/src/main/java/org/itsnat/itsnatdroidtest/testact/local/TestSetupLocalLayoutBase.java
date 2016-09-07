@@ -56,15 +56,15 @@ public abstract class TestSetupLocalLayoutBase extends TestSetupBase
         TestActivity act = getTestActivity();
         AssetManager am = act.getResources().getAssets();
         InputStream input;
+
         try
         {
 
             if (asset)
             {
-
                 input = am.open(layoutAssetOrInternPath);
             }
-            else
+            else  // intern
             {
                 File rootDir = act.getDir(internLocationBase, Context.MODE_PRIVATE);
                 File locationFile = new File(rootDir.getAbsolutePath(),layoutAssetOrInternPath);

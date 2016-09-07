@@ -976,7 +976,7 @@ public class TestAssetLayout1
                     // En el emulador 4.0.4 el setFilterTouchesWhenObscured() parece como si hiciera un NOT al parámetro, sin embargo en el Nexus 4 perfecto
                     // por ello mostramos un alertDialog no lanzamos una excepción
                     if (compTextView2.getFilterTouchesWhenObscured() != parsedTextView2.getFilterTouchesWhenObscured())
-                        TestUtil.alertDialog(compTextView2.getContext(), "Test failed in filterTouchesWhenObscured, don't worry it seems an Android emulator bug (running on 4.0.4 emulator?)");
+                        TestUtil.alertDialog(compTextView2.getContext(), "Test failed in filterTouchesWhenObscured, don't worry it seems an Android emulator bug (running on 4.1 API 16 emulator?)");
                     assertTrue(compTextView2.isFocusable());
                     assertEquals(compTextView2.isFocusable(), parsedTextView2.isFocusable());
                     assertTrue(compTextView2.isFocusableInTouchMode());

@@ -174,10 +174,7 @@ public abstract class AsyncTaskInternResourcesLoader extends android.os.AsyncTas
     protected void onProgressUpdate(Void... values) {
     }
 
-    protected void onFinishOk(Object result)
-    {
+    public abstract void onFinishOk(Object result);
 
-    }
-
-    protected abstract void onFinishError(Exception ex);
+    public abstract void onFinishError(Exception ex);
 }

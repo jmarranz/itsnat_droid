@@ -23,11 +23,17 @@ public class TestSetupInternLayoutCleanReloadDrawables
 
         AsyncTaskInternResourcesLoader task = new AsyncTaskInternResourcesLoader(act)
         {
-            protected void onFinishError(final Exception ex)
+            public void onFinishOk(Object result)
+            {
+                TestUtil.alertDialog(act,"CLEAN/RELOAD FINISHED");
+            }
+
+            public void onFinishError(final Exception ex)
             {
                 ex.printStackTrace();
                 TestUtil.alertDialog(act,ex.getMessage());
             }
+
         };
 
         task.execute();

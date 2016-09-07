@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
@@ -19,6 +20,7 @@ import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutBase;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -35,6 +37,12 @@ public class TestSetupInternLayoutDrawables extends TestSetupAssetLayoutBase
         return fragment.getTestActivity();
     }
 
+    private void showNotFirstLoadedError()
+    {
+        TestActivity act = getTestActivity();
+        TestUtil.alertDialog(act,"No remotely delivered intern files, must be downloaded before, click on CLEAN/RELOAD REMOTE INTERN (DRAWABLES)");
+    }
+
     public void test()
     {
         TestActivity act = getTestActivity();
@@ -42,12 +50,26 @@ public class TestSetupInternLayoutDrawables extends TestSetupAssetLayoutBase
         // Util.cleanFileTree(dirRoot);
         if (!dirRoot.exists() || dirRoot.listFiles() == null)
         {
-            TestUtil.alertDialog(act,"No remotely delivered intern files, must be downloaded before, click on CLEAN/RELOAD REMOTE INTERN (DRAWABLES)");
+            showNotFirstLoadedError();
             return;
         }
 
         // TEST de carga dinámica de layout guardado localmente
-        InflatedLayout layout = loadInternAndBindBackReloadButtons("res/layout/test_local_layout_drawables_intern.xml");
+        InflatedLayout layout;
+        try
+        {
+            layout = loadInternAndBindBackReloadButtons("res/layout/test_local_layout_drawables_intern.xml");
+        }
+        catch(ItsNatDroidException ex)
+        {
+            if (ex.getCause() instanceof FileNotFoundException)
+            {
+                showNotFirstLoadedError();
+                return;
+            }
+            throw ex;
+        }
+
         View dynamicRootView = layout.getRootView();
 
         initialConfiguration(getTestActivity(), dynamicRootView);
