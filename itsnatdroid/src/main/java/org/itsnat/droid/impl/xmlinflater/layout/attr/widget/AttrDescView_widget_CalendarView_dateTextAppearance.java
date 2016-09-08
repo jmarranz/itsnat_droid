@@ -23,10 +23,7 @@ import java.util.List;
  */
 public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    protected FieldContainer<int[]> fieldTextAppearance;
-    protected FieldContainer<Integer> fieldTextAppearance_textSize;
     protected FieldContainer<Integer> fieldTextAppearance_Small;
-    protected FieldContainer<Integer> fieldDateTextSize;
     protected MethodContainer<Void> methodDateTextAppearance;
 
     public AttrDescView_widget_CalendarView_dateTextAppearance(ClassDescViewBased parent)
@@ -36,16 +33,8 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
         Class class_R_styleable = getClass_R_styleable(); // com.android.internal.R$styleable
         this.fieldTextAppearance_Small = new FieldContainer<Integer>(class_R_styleable, "TextAppearance_Small");
 
-        if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-        {
-            this.fieldTextAppearance = new FieldContainer<int[]>(class_R_styleable, "TextAppearance"); // com.android.internal.R.styleable.TextAppearance
-            this.fieldTextAppearance_textSize = new FieldContainer<Integer>(class_R_styleable, "TextAppearance_textSize"); // com.android.internal.R.styleable.TextAppearance_textSize
-            this.fieldDateTextSize = new FieldContainer<Integer>(parent.getDeclaredClass(), "mDateTextSize");
-        }
-        else // A partir de level 16 hay un método setDateTextAppearance (int resourceId). Podríamos usar lo de ICS pero en Lollipop cambia CalendarView a fondo usando un "delegate"
-        {
-            this.methodDateTextAppearance = new MethodContainer<Void>(parent.getDeclaredClass(),"setDateTextAppearance",new Class[]{int.class});
-        }
+        // A partir de level 16 hay un método setDateTextAppearance (int resourceId). Podríamos usar lo de ICS pero en Lollipop cambia CalendarView a fondo usando un "delegate"
+        this.methodDateTextAppearance = new MethodContainer<Void>(parent.getDeclaredClass(),"setDateTextAppearance",new Class[]{int.class});
     }
 
     @Override
@@ -72,29 +61,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
     {
         if (dateTextAppearanceResId <= 0) dateTextAppearanceResId = fieldTextAppearance_Small.get(null); // Valor por defecto
 
-        if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1)
-        {
-            int[] textAppearanceStyleArr = fieldTextAppearance.get(null);
-
-            int textSizeStyle = fieldTextAppearance_textSize.get(null);
-
-            int dateTextSize;
-            TypedArray dateTextAppearance = attrCtx.getContext().obtainStyledAttributes(dateTextAppearanceResId, textAppearanceStyleArr);
-            try
-            {
-                dateTextSize = dateTextAppearance.getDimensionPixelSize(textSizeStyle, 14); // DEFAULT_DATE_TEXT_SIZE = 14
-            }
-            finally
-            {
-                dateTextAppearance.recycle();
-            }
-
-            fieldDateTextSize.set(view, dateTextSize);
-        }
-        else
-        {
-            methodDateTextAppearance.invoke(view,dateTextAppearanceResId);
-        }
+        methodDateTextAppearance.invoke(view,dateTextAppearanceResId);
     }
 
     @Override

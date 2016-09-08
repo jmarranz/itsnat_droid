@@ -27,10 +27,7 @@ public class AttrDescView_widget_CalendarView_weekDayTextAppearance extends Attr
     {
         super(parent, "weekDayTextAppearance");
 
-        if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
-            this.method = new MethodContainer<Boolean>(parent.getDeclaredClass(),"setUpHeader",new Class[]{int.class});
-        else
-            this.method = new MethodContainer<Boolean>(parent.getDeclaredClass(),"setWeekDayTextAppearance",new Class[]{int.class});
+        this.method = new MethodContainer<Boolean>(parent.getDeclaredClass(),"setWeekDayTextAppearance",new Class[]{int.class});
     }
 
     @Override

@@ -1455,17 +1455,10 @@ public class TestAssetLayout1
             }
 
             // Test android:shadowColor
+            // A partir de la versión 16 hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción
 
-            if (Build.VERSION.SDK_INT <= TestUtil.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
-            {
-                assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),0xffff0000);
-                assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),(Integer) TestUtil.getField(parsedLayout.getPaint(), Paint.class, "shadowColor"));
-            }
-            else // Partir de la versión siguiente (level 16) hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción
-            {
-                assertEquals((Integer)TestUtil.callGetMethod(compLayout,"getShadowColor"),0xffff0000);
-                assertEquals((Integer)TestUtil.callGetMethod(compLayout,"getShadowColor"),(Integer) TestUtil.callGetMethod(parsedLayout,"getShadowColor"));
-            }
+            assertEquals((Integer)TestUtil.callGetMethod(compLayout,"getShadowColor"),0xffff0000);
+            assertEquals((Integer)TestUtil.callGetMethod(compLayout,"getShadowColor"),(Integer) TestUtil.callGetMethod(parsedLayout,"getShadowColor"));
 
 
             // Test android:shadowDx

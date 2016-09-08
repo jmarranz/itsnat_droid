@@ -44,8 +44,7 @@ public class AttrDescAnimation_view_animation_RotateAnimation_pivotXY extends At
         this.fieldMPivotXYType = new FieldContainer<Integer>(RotateAnimation.class, fieldPivotXYTypeName);
         this.fieldMPivotXYValue = new FieldContainer<Float>(RotateAnimation.class, fieldPivotXYValueName);
 
-        if (Build.VERSION.SDK_INT > MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            this.methodInitializePivotPoint = new MethodContainer<Void>(RotateAnimation.class,"initializePivotPoint");
+        this.methodInitializePivotPoint = new MethodContainer<Void>(RotateAnimation.class,"initializePivotPoint");
     }
 
     @Override
@@ -68,8 +67,7 @@ public class AttrDescAnimation_view_animation_RotateAnimation_pivotXY extends At
 
         fieldMPivotXYType.set(rotateAnimation,pivotType);
         fieldMPivotXYValue.set(rotateAnimation,pivotValue);
-        if (Build.VERSION.SDK_INT > MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            methodInitializePivotPoint.invoke(rotateAnimation); // rotateAnimation.initializePivotPoint()
+        methodInitializePivotPoint.invoke(rotateAnimation); // rotateAnimation.initializePivotPoint()
     }
 
     @Override

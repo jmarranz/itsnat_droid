@@ -19,7 +19,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    protected FieldContainer<Integer> fieldShadowColor;
+    //protected FieldContainer<Integer> fieldShadowColor;
     protected MethodContainer<Integer> methodShadowColor;
     protected FieldContainer<Float> fieldShadowRadius;
     protected FieldContainer<Float> fieldShadowDx;
@@ -30,10 +30,8 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
     {
         super(parent,name);
 
-        if (Build.VERSION.SDK_INT <= MiscUtil.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
-            this.fieldShadowColor = new FieldContainer<Integer>(Paint.class,"shadowColor");
-        else // Partir de la versión siguiente (level 16) hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción
-            this.methodShadowColor = new MethodContainer<Integer>(parent.getDeclaredClass(),"getShadowColor");
+        // Partir de la versión 16 hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción
+        this.methodShadowColor = new MethodContainer<Integer>(parent.getDeclaredClass(),"getShadowColor");
 
         this.fieldShadowRadius = new FieldContainer<Float>(parent.getDeclaredClass(),"mShadowRadius");
         this.fieldShadowDx = new FieldContainer<Float>(parent.getDeclaredClass(),"mShadowDx");
@@ -42,7 +40,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<Clas
 
     private int getShadowColor(TextView textView)
     {
-        return fieldShadowColor != null ? fieldShadowColor.get(textView.getPaint()) : methodShadowColor.invoke(textView);
+        return methodShadowColor.invoke(textView);
     }
 
     @Override

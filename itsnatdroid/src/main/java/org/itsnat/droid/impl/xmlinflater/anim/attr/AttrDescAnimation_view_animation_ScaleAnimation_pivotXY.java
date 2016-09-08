@@ -44,8 +44,7 @@ public class AttrDescAnimation_view_animation_ScaleAnimation_pivotXY extends Att
         this.fieldMPivotXYType = new FieldContainer<Integer>(ScaleAnimation.class, fieldPivotXYTypeName);
         this.fieldMPivotXYValue = new FieldContainer<Float>(ScaleAnimation.class, fieldPivotXYValueName);
 
-        if (Build.VERSION.SDK_INT > MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            this.methodInitializePivotPoint = new MethodContainer<Void>(ScaleAnimation.class,"initializePivotPoint");
+        this.methodInitializePivotPoint = new MethodContainer<Void>(ScaleAnimation.class,"initializePivotPoint");
     }
 
     @Override
@@ -68,8 +67,7 @@ public class AttrDescAnimation_view_animation_ScaleAnimation_pivotXY extends Att
 
         fieldMPivotXYType.set(scaleAnimation,pivotType);
         fieldMPivotXYValue.set(scaleAnimation,pivotValue);
-        if (Build.VERSION.SDK_INT > MiscUtil.ICE_CREAM_SANDWICH_MR1)
-            methodInitializePivotPoint.invoke(scaleAnimation); // scaleAnimation.initializePivotPoint()
+        methodInitializePivotPoint.invoke(scaleAnimation); // scaleAnimation.initializePivotPoint()
     }
 
     @Override
