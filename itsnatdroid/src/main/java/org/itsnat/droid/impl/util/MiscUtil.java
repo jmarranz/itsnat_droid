@@ -15,6 +15,7 @@ public class MiscUtil
     // http://developer.android.com/reference/android/os/Build.VERSION_CODES.html
 
     public static final int ICE_CREAM_SANDWICH_MR1 = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1; // 15
+    public static final int JELLY_BEAN = Build.VERSION_CODES.JELLY_BEAN; // 16
     public static final int LOLLIPOP = 21;          // 21 == Build.VERSION_CODES.LOLLIPOP  (5.0.1)
     public static final int LOLLIPOP_MR1 = 22;   // 22 == Build.VERSION_CODES.LOLLIPOP_MR1 (5.1.1)
     public static final int MARSHMALLOW = 23;      // 23 == Build.VERSION_CODES.M  (6)

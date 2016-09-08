@@ -26,6 +26,7 @@ import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -148,10 +149,22 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
     {
         if (element.getParentDOMElement() != null) // No es root
         {
-            int nsStart = parser.getNamespaceCount(parser.getDepth() - 1);
-            int nsEnd = parser.getNamespaceCount(parser.getDepth());
+            int depth = parser.getDepth();
+            int nsStart = parser.getNamespaceCount(depth - 1);
+            int nsEnd = parser.getNamespaceCount(depth);
             if (nsStart != nsEnd)
-                throw new ItsNatDroidException("Namespaces only must be defined in root element");
+            {
+                int nscount = 0;
+                for (int i = nsStart; i < nsEnd; i++)
+                {
+                    String prefix = parser.getNamespacePrefix(i);
+                    String ns = parser.getNamespaceUri(i);
+                    if ("android".equals(prefix) && NamespaceUtil.XMLNS_ANDROID.equals(ns)) continue; // En el caso de <merge> es posible que acabemos poniendo el namespace android anidado, lo toleramos para no complicarnos la vida
+                    nscount++;
+                }
+                if (nscount > 0)
+                    throw new ItsNatDroidException("Namespaces different to android namespace must only be defined in root element");
+            }
         }
 
         int len = parser.getAttributeCount();

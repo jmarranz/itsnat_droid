@@ -2384,7 +2384,9 @@ public class TestAssetLayout1
         {
             childCount++;
 
+            @SuppressWarnings("deprecation")
             final Gallery compLayout = (Gallery) comp.getChildAt(childCount);
+            @SuppressWarnings("deprecation")
             final Gallery parsedLayout = (Gallery) parsed.getChildAt(childCount);
             assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"), 100);
             assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"),(Integer)TestUtil.getField(parsedLayout, "mAnimationDuration"));
