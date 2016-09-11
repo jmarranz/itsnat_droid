@@ -1,12 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.graphics.Paint;
-import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
@@ -19,7 +16,6 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
  */
 public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
-    //protected FieldContainer<Integer> fieldShadowColor;
     protected MethodContainer<Integer> methodShadowColor;
     protected FieldContainer<Float> fieldShadowRadius;
     protected FieldContainer<Float> fieldShadowDx;

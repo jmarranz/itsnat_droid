@@ -1,11 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribs;

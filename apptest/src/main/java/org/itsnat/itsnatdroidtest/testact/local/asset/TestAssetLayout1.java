@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.text.method.TransformationMethod;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
@@ -920,19 +921,23 @@ public class TestAssetLayout1
                     assertEquals(compTextView.getDrawingCacheQuality(), parsedTextView.getDrawingCacheQuality());
                     assertTrue(compTextView.isDuplicateParentStateEnabled());
                     assertEquals(compTextView.isDuplicateParentStateEnabled(), parsedTextView.isDuplicateParentStateEnabled());
+                    assertTrue(compTextView.getFitsSystemWindows());
+                    assertEquals(compTextView.getFitsSystemWindows(), parsedTextView.getFitsSystemWindows());
                 }
 
                 {
                     final ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
                     final ScrollView parsedScrollView = (ScrollView) parsedLinLayout.getChildAt(1);
 
-                    assertTrue(compScrollView.isScrollbarFadingEnabled()); // Correspondiente a requiresFadingEdge
-                    assertEquals(compScrollView.isScrollbarFadingEnabled(), parsedScrollView.isScrollbarFadingEnabled());
                     // Test android:fadingEdgeLength
                     assertEquals(compScrollView.getVerticalFadingEdgeLength(), ValueUtil.dpToPixelIntRound(10.3f, res));
                     assertEquals(compScrollView.getVerticalFadingEdgeLength(), parsedScrollView.getVerticalFadingEdgeLength());
                     assertEquals(compScrollView.getHorizontalFadingEdgeLength(), ValueUtil.dpToPixelIntRound(10.3f, res));
                     assertEquals(compScrollView.getHorizontalFadingEdgeLength(), parsedScrollView.getHorizontalFadingEdgeLength());
+
+                    assertTrue(compScrollView.isScrollbarFadingEnabled()); // Correspondiente a requiresFadingEdge
+                    assertEquals(compScrollView.isScrollbarFadingEnabled(), parsedScrollView.isScrollbarFadingEnabled());
+
 
                     // Test android:scrollbarAlwaysDrawHorizontalTrack
 
@@ -963,6 +968,24 @@ public class TestAssetLayout1
                     scrollbars = scrollbars & SCROLLBARS_MASK;
                     assertEquals(scrollbars & 0x00000100,0x00000100); // Horizontal
                     assertEquals(scrollbars & 0x00000200,0x00000200); // Vertical
+
+                    // Test android:scrollbarDefaultDelayBeforeFade
+                    // lo testeamos en un ScrollView porque de otra manera el atributo es ignorado si el componente no tiene scrollbars
+                    assertEquals(compScrollView.getScrollBarDefaultDelayBeforeFade(), 500);
+                    assertEquals(compScrollView.getScrollBarDefaultDelayBeforeFade(), parsedScrollView.getScrollBarDefaultDelayBeforeFade());
+
+                    // No testeamos android:scrollX y android:scrollY (con getScrollX() y getScrollY()) porque después de definirse correctamente
+                    // algo hace poner a cero los valores, quizás al insertar la View
+
+                    assertEquals(compScrollView.getScrollBarFadeDuration(), 600);
+                    assertEquals(compScrollView.getScrollBarFadeDuration(), parsedScrollView.getScrollBarFadeDuration());
+
+                    assertEquals(compScrollView.getScrollBarSize(), ValueUtil.dpToPixelIntRound(10.3f, res));
+                    assertEquals(compScrollView.getScrollBarSize(), parsedScrollView.getScrollBarSize());
+
+                    assertPositive(compScrollView.getScrollBarStyle());
+                    assertEquals(compScrollView.getScrollBarStyle(), parsedScrollView.getScrollBarStyle());
+
                 }
 
                 {
@@ -985,8 +1008,11 @@ public class TestAssetLayout1
                     assertEquals(compTextView2.isHapticFeedbackEnabled(), parsedTextView2.isHapticFeedbackEnabled());
                     assertPositive(compTextView2.getId());
                     assertEquals(compTextView2.getId(), parsedTextView2.getId());
-                    // No puedo testear android:isScrollContainer porque  isScrollContainer() se define en un Level superior
-                    //assertTrue( (((int)((Integer)getField(compTextView2,View.class,"mPrivateFlags"))) & 0x00100000) != 0); // PFLAG_SCROLL_CONTAINER_ADDED 0x00100000
+                    assertEquals(compTextView2.getImportantForAccessibility(),View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                    assertEquals(compTextView2.getImportantForAccessibility(), parsedTextView2.getImportantForAccessibility());
+
+                    assertFalse(compTextView2.isScrollContainer());
+                    assertEquals(compTextView2.isScrollContainer(), parsedTextView2.isScrollContainer());
 
                     assertTrue(compTextView2.getKeepScreenOn());
                     assertEquals(compTextView2.getKeepScreenOn(), parsedTextView2.getKeepScreenOn());
@@ -1030,10 +1056,7 @@ public class TestAssetLayout1
                     assertEquals(compTextView2.getScaleX(), parsedTextView2.getScaleX());
                     assertEquals(compTextView2.getScaleY(), 1.2f);
                     assertEquals(compTextView2.getScaleY(), parsedTextView2.getScaleY());
-                    // No testeamos android:scrollX y android:scrollY (con getScrollX() y getScrollY()) porque después de definirse correctamente
-                    // algo hace poner a cero los valores, quizás al insertar la View
-                    assertPositive(compTextView2.getScrollBarStyle());
-                    assertEquals(compTextView2.getScrollBarStyle(), parsedTextView2.getScrollBarStyle());
+
 
                     assertFalse(compTextView2.isSoundEffectsEnabled());
                     assertEquals(compTextView2.isSoundEffectsEnabled(), parsedTextView2.isSoundEffectsEnabled());
@@ -1306,21 +1329,9 @@ public class TestAssetLayout1
             assertEquals((TextView.BufferType)TestUtil.getField(compLayout,"mBufferType"),(TextView.BufferType)TestUtil.getField(parsedLayout,"mBufferType"));
 
             // Test android:cursorVisible
-            // Android 4.0.3 (Level 15) tiene un atributo llamado mCursorVisible, dicho atributo cambia en una versión superior pero no se cual
-            // pero ya a partir de Level 16 existe el método isCursorVisible
-            try
-            {
-                assertTrue((Boolean) TestUtil.getField(compLayout, "mCursorVisible"));
-                assertEquals((Boolean) TestUtil.getField(compLayout, "mCursorVisible"), (Boolean) TestUtil.getField(parsedLayout, "mCursorVisible"));
-            }
-            catch(ItsNatDroidException ex)
-            {
-                if (!(ex.getCause() instanceof NoSuchFieldException))
-                    throw ex;
+            assertTrue((Boolean) TestUtil.callGetMethod(compLayout,"isCursorVisible"));
+            assertEquals((Boolean)TestUtil.callGetMethod(compLayout,"isCursorVisible"),(Boolean)TestUtil.callGetMethod(parsedLayout,"isCursorVisible"));
 
-                assertTrue((Boolean) TestUtil.callGetMethod(compLayout,"isCursorVisible"));
-                assertEquals((Boolean)TestUtil.callGetMethod(compLayout,"isCursorVisible"),(Boolean)TestUtil.callGetMethod(parsedLayout,"isCursorVisible"));
-            }
 
             // Test android:drawableBottom,android:drawableLeft,android:drawableRight,android:drawableTop
             assertEquals(compLayout.getCompoundDrawables().length, 4);
@@ -1347,7 +1358,7 @@ public class TestAssetLayout1
             assertTrue(compLayout.getFreezesText());
             assertEquals(compLayout.getFreezesText(),parsedLayout.getFreezesText());
 
-            // Tests android:gravity (no get en Level 15)
+            // Tests android:gravity
             assertEquals(compLayout.getGravity(),Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
             assertEquals(compLayout.getGravity(),parsedLayout.getGravity());
 
@@ -1435,24 +1446,13 @@ public class TestAssetLayout1
             assertEquals((Boolean)TestUtil.getField(compLayout,"mHorizontallyScrolling"),(Boolean)TestUtil.getField(parsedLayout, "mHorizontallyScrolling"));
 
             // Test android:selectAllOnFocus
-            // Android 4.0.3 (Level 15) tiene un atributo llamado mSelectAllOnFocus, dicho atributo cambia en una versión superior
-            // estando dentro ahora del atributo mEditor (android.widget.Editor)
-            try
-            {
-                assertTrue((Boolean) TestUtil.getField(compLayout, "mSelectAllOnFocus"));
-                assertEquals((Boolean) TestUtil.getField(compLayout, "mSelectAllOnFocus"), (Boolean) TestUtil.getField(parsedLayout, "mSelectAllOnFocus"));
-            }
-            catch(ItsNatDroidException ex)
-            {
-                if (!(ex.getCause() instanceof NoSuchFieldException))
-                    throw ex;
+            // mSelectAllOnFocus está dentro del atributo mEditor (android.widget.Editor) desde 4.1 (API 16)
+            Object compEditor = TestUtil.getField(compLayout,"mEditor");
+            Object parsedEditor = TestUtil.getField(parsedLayout,"mEditor");
 
-                Object compEditor = TestUtil.getField(compLayout,"mEditor");
-                Object parsedEditor = TestUtil.getField(parsedLayout,"mEditor");
+            assertTrue((Boolean) TestUtil.getField(compEditor, "mSelectAllOnFocus"));
+            assertEquals((Boolean) TestUtil.getField(compEditor, "mSelectAllOnFocus"), (Boolean) TestUtil.getField(parsedEditor, "mSelectAllOnFocus"));
 
-                assertTrue((Boolean) TestUtil.getField(compEditor, "mSelectAllOnFocus"));
-                assertEquals((Boolean) TestUtil.getField(compEditor, "mSelectAllOnFocus"), (Boolean) TestUtil.getField(parsedEditor, "mSelectAllOnFocus"));
-            }
 
             // Test android:shadowColor
             // A partir de la versión 16 hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción

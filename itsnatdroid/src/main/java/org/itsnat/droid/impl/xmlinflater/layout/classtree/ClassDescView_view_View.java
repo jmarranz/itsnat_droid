@@ -2,13 +2,14 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import android.os.Build;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
 
+import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_XMLId;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_drawingCacheQuality;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_fadeScrollbars;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layerType;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_layout_alignWithParentIfMissing;
@@ -33,6 +34,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_requiresFadingEdge;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarSize;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarStyle;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarThumbHorizontal;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarThumbVertical;
@@ -47,6 +49,8 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensi
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodObject;
 
 /**
@@ -54,6 +58,36 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodObject;
  */
 public class ClassDescView_view_View extends ClassDescViewBased
 {
+    public static final MapSmart<String,Integer> drawingCacheQualityMap = MapSmart.<String,Integer>create(3);
+    static
+    {
+        // La documentación del atributo yo creo que está mal, los valores enteros 0, 1 y 2 NUNCA son usados ni externa ni internamente (y DRAWING_CACHE_QUALITY_AUTO etc NO son 0,1,2)
+        drawingCacheQualityMap.put("auto", View.DRAWING_CACHE_QUALITY_AUTO);
+        drawingCacheQualityMap.put("low",  View.DRAWING_CACHE_QUALITY_LOW);
+        drawingCacheQualityMap.put("high", View.DRAWING_CACHE_QUALITY_HIGH);
+    }
+
+    public static final MapSmart<String,Integer> importantForAccessibilityMap = MapSmart.<String,Integer>create(4);
+    static
+    {
+        importantForAccessibilityMap.put("auto", View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
+        importantForAccessibilityMap.put("yes",  View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+        importantForAccessibilityMap.put("no", View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        importantForAccessibilityMap.put("noHideDescendants", 4); // La constante View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS es introducida en Android 4.4 y es 4
+
+        // importantForAccessibility admite además un número entero cualquiera, no lo soportamos
+    }
+
+    // NO SE USA EL API 16 pero lo dejamos para el futuro
+    public static final MapSmart<String,Integer> layoutDirectionMap = MapSmart.<String,Integer>create(4);
+    static
+    {
+        layoutDirectionMap.put("ltr", 0); // View.LAYOUT_DIRECTION_LTR etc no se porque pero no están en 4.1, no los necesitamos
+        layoutDirectionMap.put("rtl", 1);
+        layoutDirectionMap.put("inherit", 2);
+        layoutDirectionMap.put("locale", 3);
+    }
+
     public ClassDescView_view_View(ClassDescViewMgr classMgr)
     {
         super(classMgr,"android.view.View",null);
@@ -68,36 +102,42 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDescNoNS(new AttrDescView_view_View_XMLId(this));  // OJO, es el id="..." estandar de XML SIN "android:" es decir SIN namespace por eso llamamos a addAttrDescNoNS
 
 
-        // Atributos analizados para Android 4.4 (API Level: 19) pero teniendo en cuenta que sólo soportamos Level 15 (Android 4.0.3)
-
-        // android:accessibilityLiveRegion es Level 19
+        // android:accessibilityLiveRegion es Level 19 (Android 4.4)
+        // android:accessibilityTraversalAfter es Level 21 (Android 5.1)
+        // android:android:accessibilityTraversalBefore es Level 21 (Android 5.1)
         addAttrDescAN(new AttrDescReflecMethodFloat(this, "alpha", 1f));
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "background", "setBackgroundDrawable", "@null"));  // setBackground() es desde Android 4.1
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "background", "setBackground", "@null"));
+        // android:backgroundTint es level 20 (Android 5.0)
+        // android:backgroundTintMode es level 20 (Android 5.0)
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "clickable", true));
         addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "contentDescription", ""));
-        addAttrDescAN(new AttrDescView_view_View_drawingCacheQuality(this)); // drawingCacheQuality
+        // android:contextClickable es level 23 (Android 6.0)
+        addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "drawingCacheQuality", int.class, drawingCacheQualityMap, "auto"));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "duplicateParentState", "setDuplicateParentStateEnabled", false)); // Según dice la doc no hace nada este flag a true si el atributo no se define antes de insertar en un ViewGroup
+        // android:elevation es level 21 (Android 5.0)
         addAttrDescAN(new AttrDescView_view_View_fadeScrollbars(this));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "fadingEdgeLength", null));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "filterTouchesWhenObscured", false));
-        // android:fitsSystemWindows es Level 16
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "fitsSystemWindows", false));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "focusable", false));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "focusableInTouchMode", false));
-
+        // android:forceHasOverlappingRendering es level > 23 ???? es deprecated ???
         if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // >= 23
         {
             addAttrDescAN(new AttrDescReflecMethodDrawable<ClassDescViewBased, View, AttrLayoutContext>(this, "foreground", "@null")); // A partir de MARSHMALLOW se define en View
         }
-
+        // android:foregroundGravity es level 23
+        // android:foregroundTint es level 23
+        // android:foregroundTintMode es level 23
         addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescViewBased, View, AttrLayoutContext>(this, "hapticFeedbackEnabled", true));
         addAttrDescAN(new AttrDescReflecMethodId<ClassDescViewBased, View, AttrLayoutContext>(this, "id", -1));
+        addAttrDescAN(new AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased, View, AttrLayoutContext>(this, "importantForAccessibility", int.class, importantForAccessibilityMap, "auto")); // El entero asociado a "auto" es 0
 
-
-        // android:importantForAccessibility es Level 16
-        addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescViewBased, View, AttrLayoutContext>(this, "isScrollContainer", "setScrollContainer", false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente, isScrollContainer() se define en un Level > 15
+        addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescViewBased, View, AttrLayoutContext>(this, "isScrollContainer", "setScrollContainer", false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente
         addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescViewBased, View, AttrLayoutContext>(this, "keepScreenOn", false));
         addAttrDescAN(new AttrDescView_view_View_layerType(this)); // layerType
-        // android:layoutDirection es Level 17
+        // android:layoutDirection está en el código de Android 4.1.1 (API 16) pero Android Studio NO reconoce el atributo y setLayoutDirection no está en API 16 (es API 17)
+        // addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "layoutDirection", int.class, layoutDirectionMap, "ltr"));
         addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescViewBased, View, AttrLayoutContext>(this, "longClickable", false));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound<ClassDescViewBased, View, AttrLayoutContext>(this, "minHeight", "setMinimumHeight", null));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound<ClassDescViewBased, View, AttrLayoutContext>(this, "minWidth", "setMinimumWidth", null));
@@ -114,7 +154,7 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDescAN(new AttrDescView_view_View_padding(this, "paddingRight"));
         // android:paddingStart es Level 17
         addAttrDescAN(new AttrDescView_view_View_padding(this, "paddingTop"));
-        addAttrDescAN(new AttrDescView_view_View_requiresFadingEdge(this)); // requiresFadingEdge
+        addAttrDescAN(new AttrDescView_view_View_requiresFadingEdge(this));
         addAttrDescAN(new AttrDescReflecMethodFloat<ClassDescViewBased, View, AttrLayoutContext>(this, "rotation", 0f));
         addAttrDescAN(new AttrDescReflecMethodFloat<ClassDescViewBased, View, AttrLayoutContext>(this, "rotationX", 0f));
         addAttrDescAN(new AttrDescReflecMethodFloat<ClassDescViewBased, View, AttrLayoutContext>(this, "rotationY", 0f));
@@ -123,12 +163,15 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDescAN(new AttrDescReflecMethodFloat<ClassDescViewBased, View, AttrLayoutContext>(this, "scaleY", 1f));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound<ClassDescViewBased, View, AttrLayoutContext>(this, "scrollX", 0f));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound<ClassDescViewBased, View, AttrLayoutContext>(this, "scrollY", 0f));
+        // android:scrollIndicators es level 23
         addAttrDescAN(new AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack(this));
         addAttrDescAN(new AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack(this));
+        addAttrDescAN(new AttrDescReflecMethodInt<ClassDescViewBased, View, AttrLayoutContext>(this, "scrollbarDefaultDelayBeforeFade", "setScrollBarDefaultDelayBeforeFade",ViewConfiguration.getScrollDefaultDelay())); // ViewConfiguration.getScrollDefaultDelay() puede ser 300 por ejemplo
+        addAttrDescAN(new AttrDescReflecMethodInt<ClassDescViewBased, View, AttrLayoutContext>(this, "scrollbarFadeDuration", "setScrollBarFadeDuration",ViewConfiguration.getScrollBarFadeDuration())); // ViewConfiguration.getScrollBarFadeDuration() puede ser 250 por ejemplo
+        addAttrDescAN(new AttrDescView_view_View_scrollbarSize(this));
 
-        // android:scrollbarDefaultDelayBeforeFade es Level 16
-        // android:scrollbarFadeDuration es Level 16
-        // android:scrollbarSize es Level 16
+
+
         addAttrDescAN(new AttrDescView_view_View_scrollbarStyle(this)); // scrollbarStyle
 
         addAttrDescAN(new AttrDescView_view_View_scrollbarThumbHorizontal(this));

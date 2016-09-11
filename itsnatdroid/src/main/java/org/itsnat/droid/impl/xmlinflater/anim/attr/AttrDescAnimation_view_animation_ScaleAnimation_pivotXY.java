@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.anim.attr;
 
-import android.os.Build;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
