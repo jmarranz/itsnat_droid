@@ -1062,6 +1062,14 @@ public class TestAssetLayout1
                     assertEquals(compTextView2.isSoundEffectsEnabled(), parsedTextView2.isSoundEffectsEnabled());
                     assertEquals((String) compTextView2.getTag(), "theTag");
                     assertEquals((String) compTextView2.getTag(), (String) parsedTextView2.getTag());
+
+                    final int TEXT_ALIGNMENT_MASK_SHIFT = 13;
+                    final int TEXT_ALIGNMENT_MASK = 0x00000007 << TEXT_ALIGNMENT_MASK_SHIFT;
+
+                    int compPrivateFlags2 = (Integer)TestUtil.getField(compTextView2,View.class,"mPrivateFlags2");
+                    int compTextAlignment = (compPrivateFlags2 & TEXT_ALIGNMENT_MASK) >> TEXT_ALIGNMENT_MASK_SHIFT;
+                    assertEquals(compTextAlignment, 4 /*center*/ );
+
                     assertEquals(compTextView2.getPivotX(), ValueUtil.dpToPixelFloatFloor(70.3f, res));
                     assertEquals(compTextView2.getPivotX(), parsedTextView2.getPivotX());
                     assertEquals(compTextView2.getPivotY(), ValueUtil.dpToPixelFloatFloor(10.3f, res));

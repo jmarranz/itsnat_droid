@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewConfiguration;
 
@@ -8,20 +7,20 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntRound;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_view_View_scrollbarSize
-        extends AttrDescReflecMethodDimensionIntRound<ClassDescViewBased,View,AttrLayoutContext>
+public class AttrDescView_view_View_scrollbarDefaultDelayBeforeFade
+        extends AttrDescReflecMethodInt<ClassDescViewBased,View,AttrLayoutContext>
 {
-    public AttrDescView_view_View_scrollbarSize(ClassDescViewBased parent)
+    public AttrDescView_view_View_scrollbarDefaultDelayBeforeFade(ClassDescViewBased parent)
     {
-        super(parent,"scrollbarSize","setScrollBarSize",0f);
+        super(parent,"scrollbarDefaultDelayBeforeFade","setScrollBarDefaultDelayBeforeFade",ViewConfiguration.getScrollDefaultDelay()); // ViewConfiguration.getScrollDefaultDelay() puede ser 300 por ejemplo
     }
-
 
     @Override
     public void setAttribute(final View view, final DOMAttr attr, final AttrLayoutContext attrCtx)
@@ -35,7 +34,7 @@ public class AttrDescView_view_View_scrollbarSize
                 @Override
                 public void run()
                 {
-                    AttrDescView_view_View_scrollbarSize.super.setAttribute(view, attr, attrCtx);
+                    AttrDescView_view_View_scrollbarDefaultDelayBeforeFade.super.setAttribute(view, attr, attrCtx);
                 }
             });
         }
@@ -44,15 +43,5 @@ public class AttrDescView_view_View_scrollbarSize
             super.setAttribute(view, attr, attrCtx);
         }
     }
-
-    @Override
-    public void removeAttribute(View target, AttrLayoutContext attrCtx)
-    {
-        // Redefinimos totalmente porque el defaultValue depende del Context, no es fijo
-        Context ctx = attrCtx.getContext();
-        float defaultValue = ViewConfiguration.get(ctx).getScaledScrollBarSize(); // Puede ser por ejemplo 20px, dependerá del dispositivo
-        callMethod(target, defaultValue);
-    }
-
 
 }

@@ -34,6 +34,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_requiresFadingEdge;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarDefaultDelayBeforeFade;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarFadeDuration;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarSize;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarStyle;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.view.AttrDescView_view_View_scrollbarThumbHorizontal;
@@ -78,7 +80,7 @@ public class ClassDescView_view_View extends ClassDescViewBased
         // importantForAccessibility admite además un número entero cualquiera, no lo soportamos
     }
 
-    // NO SE USA EL API 16 pero lo dejamos para el futuro
+    // NO SE USA EN EL API 16 pero lo dejamos para el futuro
     public static final MapSmart<String,Integer> layoutDirectionMap = MapSmart.<String,Integer>create(4);
     static
     {
@@ -86,6 +88,19 @@ public class ClassDescView_view_View extends ClassDescViewBased
         layoutDirectionMap.put("rtl", 1);
         layoutDirectionMap.put("inherit", 2);
         layoutDirectionMap.put("locale", 3);
+    }
+
+    // NO SE USA EN EL API 16 pero lo dejamos para el futuro
+    public static final MapSmart<String,Integer> textAlignmentMap = MapSmart.<String,Integer>create(4);
+    static
+    {
+        textAlignmentMap.put("inherit",   0);
+        textAlignmentMap.put("gravity",   1);
+        textAlignmentMap.put("textStart", 2);
+        textAlignmentMap.put("textEnd",   3);
+        textAlignmentMap.put("center",    4);
+        textAlignmentMap.put("viewStart", 5);
+        textAlignmentMap.put("viewEnd",   6);
     }
 
     public ClassDescView_view_View(ClassDescViewMgr classMgr)
@@ -166,31 +181,30 @@ public class ClassDescView_view_View extends ClassDescViewBased
         // android:scrollIndicators es level 23
         addAttrDescAN(new AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack(this));
         addAttrDescAN(new AttrDescView_view_View_scrollbarAlwaysDrawVerticalTrack(this));
-        addAttrDescAN(new AttrDescReflecMethodInt<ClassDescViewBased, View, AttrLayoutContext>(this, "scrollbarDefaultDelayBeforeFade", "setScrollBarDefaultDelayBeforeFade",ViewConfiguration.getScrollDefaultDelay())); // ViewConfiguration.getScrollDefaultDelay() puede ser 300 por ejemplo
-        addAttrDescAN(new AttrDescReflecMethodInt<ClassDescViewBased, View, AttrLayoutContext>(this, "scrollbarFadeDuration", "setScrollBarFadeDuration",ViewConfiguration.getScrollBarFadeDuration())); // ViewConfiguration.getScrollBarFadeDuration() puede ser 250 por ejemplo
+        addAttrDescAN(new AttrDescView_view_View_scrollbarDefaultDelayBeforeFade(this));
+        addAttrDescAN(new AttrDescView_view_View_scrollbarFadeDuration(this));
         addAttrDescAN(new AttrDescView_view_View_scrollbarSize(this));
-
-
-
-        addAttrDescAN(new AttrDescView_view_View_scrollbarStyle(this)); // scrollbarStyle
-
+        addAttrDescAN(new AttrDescView_view_View_scrollbarStyle(this));
         addAttrDescAN(new AttrDescView_view_View_scrollbarThumbHorizontal(this));
         addAttrDescAN(new AttrDescView_view_View_scrollbarThumbVertical(this));
         addAttrDescAN(new AttrDescView_view_View_scrollbarTrackHorizontal(this));
         addAttrDescAN(new AttrDescView_view_View_scrollbarTrackVertical(this));
-
         addAttrDescAN(new AttrDescView_view_View_scrollbars(this));
-
-        // android:scrollbars está basado en flags, es difícil de implementar
         addAttrDescAN(new AttrDescReflecMethodBoolean<ClassDescViewBased, View, AttrLayoutContext>(this, "soundEffectsEnabled", true));
+        // android:stateListAnimator es level 21
         addAttrDescAN(new AttrDescReflecMethodObject<ClassDescViewBased, View, AttrLayoutContext>(this, "tag"));
-        // android:textAlignment es Level 17
-        // android:textDirection es Level 17
+
+        // android:textAlignment está en el código de Android 4.1.1 (API 16) pero Android Studio NO reconoce el atributo
+        //    addAttrDescAN(new AttrDescReflecMethodNameSingle<Integer,ClassDescViewBased, View, AttrLayoutContext>(this, "textAlignment", int.class, textAlignmentMap, "inherit"));
+        // android:textDirection es Level 17 de forma similar a textAlignment
+        // android:theme es level > 23
         addAttrDescAN(new AttrDescReflecMethodDimensionFloatFloor<ClassDescViewBased, View, AttrLayoutContext>(this, "transformPivotX", "setPivotX", 0f));
         addAttrDescAN(new AttrDescReflecMethodDimensionFloatFloor<ClassDescViewBased, View, AttrLayoutContext>(this, "transformPivotY", "setPivotY", 0f));
+        // android:transitionName es level 21
         addAttrDescAN(new AttrDescReflecMethodDimensionFloatFloor<ClassDescViewBased, View, AttrLayoutContext>(this, "translationX", 0f));
         addAttrDescAN(new AttrDescReflecMethodDimensionFloatFloor<ClassDescViewBased, View, AttrLayoutContext>(this, "translationY", 0f));
-        addAttrDescAN(new AttrDescView_view_View_visibility(this)); // "visibility"
+        // android:translationZ es level 21
+        addAttrDescAN(new AttrDescView_view_View_visibility(this));
 
         // Debidos a ViewGroup.LayoutParams
         addAttrDescAN(new AttrDescView_view_View_layout_width(this));
