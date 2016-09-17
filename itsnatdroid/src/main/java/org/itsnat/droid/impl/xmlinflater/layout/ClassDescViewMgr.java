@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
+import android.inputmethodservice.KeyboardView;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -209,10 +210,14 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 
             ClassDescView_widget_ImageView widget_ImageView = new ClassDescView_widget_ImageView(this,view_View);
             addClassDesc(widget_ImageView);
+                // android.support.v7.widget.AppCompatImageView
                 // android.widget.ImageButton no tiene atributos
+                    // android.support.v7.widget.AppCompatImageButton
+                    // android.support.design.widget.FloatingActionButton
                     // android.widget.ZoomButton no tiene atributos
+            // KeyboardView tiene escaso interés, para el futuro
 
-            // android.support.v7.app.MediaRouteButton no tiene atributos
+            // android.app.MediaRouteButton no tiene atributos
 
             ClassDescView_widget_ProgressBar widget_ProgressBar = new ClassDescView_widget_ProgressBar(this,view_View);
             addClassDesc(widget_ProgressBar);
@@ -226,10 +231,12 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 
                 // android.support.v4.widget.ContentLoadingProgressBar no tiene atributos
 
-            // android.support.v7.widget.Space no tiene atributos
+            // android.widget.Space no tiene atributos
             // android.view.SurfaceView no tiene atributos
                 // android.opengl.GLSurfaceView no tiene atributos
                 // android.widget.VideoView no tiene atributos
+
+            // android.support.design.widget.TabItem implementar???
 
             ClassDescView_widget_TextView widget_TextView = new ClassDescView_widget_TextView(this,view_View);
             addClassDesc(widget_TextView);

@@ -33,6 +33,7 @@ public class ClassDescView_widget_ImageView extends ClassDescViewBased
         addAttrDescAN(new AttrDescView_widget_ImageView_scaleType(this));
         addAttrDescAN(new AttrDescReflecMethodDrawable(this, "src", "setImageDrawable", "@null"));
         addAttrDescAN(new AttrDescView_widget_ImageView_tint(this));
+        // android:tintMode es level 21
     }
 }
 

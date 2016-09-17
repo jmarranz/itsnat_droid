@@ -6,6 +6,7 @@ import android.view.View;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -28,10 +29,30 @@ public abstract class AttrDescViewTextStyle extends AttrDesc<ClassDescViewBased,
     }
 
     @Override
-    public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
+    public void setAttribute(final View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
-        int style = parseMultipleName(attr.getValue(), nameValueMap);
-        setTextStyle(view,style);
+        final int style = parseMultipleName(attr.getValue(), nameValueMap);
+
+        // Si se define un atributo typeface el style lo ejecutamos después
+
+        final Runnable task = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                setTextStyle(view,style);
+            }
+        };
+
+        PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
+        if (pendingViewPostCreateProcess != null)
+        {
+            // Delegamos al final para que esté totalmente claro si hay o no scrollbars
+            pendingViewPostCreateProcess.addPendingSetAttribsTask(task);
+        }
+        else
+            task.run();
+
     }
 
     @Override

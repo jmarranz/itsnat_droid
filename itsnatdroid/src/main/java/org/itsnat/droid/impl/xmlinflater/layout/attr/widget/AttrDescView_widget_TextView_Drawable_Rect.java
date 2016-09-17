@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
+public class AttrDescView_widget_TextView_drawable_rect extends AttrDesc<ClassDescViewBased,View,AttrLayoutContext>
 {
     // Constantes en la subclase Drawables
     private static final int LEFT   = 0;
@@ -40,29 +40,34 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<Cla
     @SuppressWarnings("unchecked")
     protected FieldContainer<Drawable>[] fieldMemberDrawables = new FieldContainer[4];
 
+    protected int fieldMemberDrawablesIndex;
+
     protected FieldContainer<Drawable[]> fieldShowing; // Drawable[] mShowing
 
 
     @SuppressWarnings("unchecked")
-    public AttrDescView_widget_TextView_compoundDrawables(ClassDescViewBased parent, String name)
+    public AttrDescView_widget_TextView_drawable_rect(ClassDescViewBased parent, String name)
     {
         super(parent,name);
         this.fieldDrawables = new FieldContainer<Object>(parent.getDeclaredClass(),"mDrawables");
 
-        Class clasz = fieldDrawables.getField().getType();
+        Class classDrawables = fieldDrawables.getField().getType();
 
         if (Build.VERSION.SDK_INT < MiscUtil.MARSHMALLOW) // < 23
         {
             String[] fieldMemberNames = new String[]{"mDrawableLeft", "mDrawableTop", "mDrawableRight", "mDrawableBottom"};
             this.fieldMemberDrawables = (FieldContainer<Drawable>[])new FieldContainer[fieldMemberNames.length];
-            for (int i = 0; i < fieldMemberNames.length; i++) {
-                fieldMemberDrawables[i] = new FieldContainer(clasz, fieldMemberNames[i]);
+            for (int i = 0; i < fieldMemberNames.length; i++)
+            {
+                fieldMemberDrawables[i] = new FieldContainer(classDrawables, fieldMemberNames[i]);
             }
         }
         else
         {
-            this.fieldShowing = new FieldContainer(clasz, "mShowing");
+            this.fieldShowing = new FieldContainer(classDrawables, "mShowing"); // Drawables[]
         }
+
+        this.fieldMemberDrawablesIndex = drawableMap.get(name);
     }
 
     @Override
@@ -70,12 +75,10 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<Cla
     {
         Drawable convValue = getDrawable(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
 
-        int index = drawableMap.get(name);
-
-        Drawable drawableLeft   = index == LEFT ? convValue : getDrawable(view,LEFT);
-        Drawable drawableTop    = index == TOP ? convValue : getDrawable(view,TOP);
-        Drawable drawableRight  = index == RIGHT ? convValue : getDrawable(view,RIGHT);
-        Drawable drawableBottom = index == BOTTOM ? convValue : getDrawable(view,BOTTOM);
+        Drawable drawableLeft   = fieldMemberDrawablesIndex == LEFT ? convValue : getDrawable(view,LEFT);
+        Drawable drawableTop    = fieldMemberDrawablesIndex == TOP ? convValue : getDrawable(view,TOP);
+        Drawable drawableRight  = fieldMemberDrawablesIndex == RIGHT ? convValue : getDrawable(view,RIGHT);
+        Drawable drawableBottom = fieldMemberDrawablesIndex == BOTTOM ? convValue : getDrawable(view,BOTTOM);
 
         ((TextView)view).setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop, drawableRight, drawableBottom);
     }
@@ -98,9 +101,10 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDesc<Cla
         }
         else
         {
-            Object array = fieldShowing.get(fieldValue);
-            Object drawable = Array.get(array, index);
-            return (Drawable)drawable;
+            // fieldValue -> mShowing
+            Drawable[] array = fieldShowing.get(fieldValue);
+            Drawable drawable = (Drawable)Array.get(array, index);
+            return drawable;
         }
     }
 }

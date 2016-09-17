@@ -5,8 +5,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.ImeOptionsUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.InputTypeUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_autoLink;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_bufferType;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_compoundDrawables;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_drawable_rect;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_ellipsize;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_fontFamily;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_imeActionId;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_imeActionLabel;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_TextView_lineSpacingExtra;
@@ -46,22 +47,29 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
 
         addAttrDescAN(new AttrDescView_widget_TextView_autoLink(this));
         // android:autoText está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
+        // android:breakStrategy es level 23
         addAttrDescAN(new AttrDescView_widget_TextView_bufferType(this));
         // android:capitalize está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "cursorVisible", true));
-        // android:digits no se implementarlo y mi impresión es que es similar a autoText, capitalize etc
+        // android:digits no se implementarlo y mi impresión es que es similar a autoText, capitalize etc (en teoría no está deprecated)
 
-        addAttrDescAN(new AttrDescView_widget_TextView_compoundDrawables(this, "drawableLeft"));
-        addAttrDescAN(new AttrDescView_widget_TextView_compoundDrawables(this, "drawableTop"));
-        addAttrDescAN(new AttrDescView_widget_TextView_compoundDrawables(this, "drawableRight"));
-        addAttrDescAN(new AttrDescView_widget_TextView_compoundDrawables(this, "drawableBottom"));
-        // android:drawableStart y android:drawableEnd en teoría existen pero su acceso via métodos es desde Level 17 y no los veo relevantes
+        addAttrDescAN(new AttrDescView_widget_TextView_drawable_rect(this, "drawableBottom"));
+        addAttrDescAN(new AttrDescView_widget_TextView_drawable_rect(this, "drawableLeft"));
+        addAttrDescAN(new AttrDescView_widget_TextView_drawable_rect(this, "drawableRight"));
+        addAttrDescAN(new AttrDescView_widget_TextView_drawable_rect(this, "drawableTop"));
+
+        // android:drawableStart y android:drawableEnd en teoría existen pero su acceso via métodos es desde Level 17 y no los veo relevantes (desde level 16 hay muchos problemas)
+        //addAttrDescAN(new AttrDescView_widget_TextView_drawable_relative_NOFUNCIONA(this, "drawableStart"));
+        //addAttrDescAN(new AttrDescView_widget_TextView_drawable_relative_NOFUNCIONA(this, "drawableEnd"));
+
+        // android:drawableTint y android:drawableTintMode son level 23
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "drawablePadding", "setCompoundDrawablePadding", 0f));
         // android:editable está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:editorExtras tiene un bug y no funciona ni con un layout compilado: https://code.google.com/p/android/issues/detail?id=38122
+        // android:elegantTextHeight es level 21
         addAttrDescAN(new AttrDescView_widget_TextView_ellipsize(this));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "ems", -1));
-        // android:fontFamily creo que es Level 16
+        addAttrDescAN(new AttrDescView_widget_TextView_fontFamily(this));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "freezesText", false));
         addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.nameValueMap, "top|start"));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "height", -1f));

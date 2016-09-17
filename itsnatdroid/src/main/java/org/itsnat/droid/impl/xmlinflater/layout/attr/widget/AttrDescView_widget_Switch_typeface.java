@@ -17,18 +17,5 @@ public class AttrDescView_widget_Switch_typeface extends AttrDescViewTypeface
         super(parent,"typeface");
     }
 
-    @Override
-    protected Typeface getCurrentTypeface(View view)
-    {
-        Switch swView = (Switch)view;
-        return swView.getTypeface();
-    }
-
-    @Override
-    protected void setCurrentTypeface(View view,Typeface tf,int style)
-    {
-        Switch swView = (Switch)view;
-        swView.setTypeface(tf,style);
-    }
 
 }

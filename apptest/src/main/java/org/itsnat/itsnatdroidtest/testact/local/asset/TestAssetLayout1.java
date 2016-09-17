@@ -63,6 +63,7 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
@@ -1063,12 +1064,14 @@ public class TestAssetLayout1
                     assertEquals((String) compTextView2.getTag(), "theTag");
                     assertEquals((String) compTextView2.getTag(), (String) parsedTextView2.getTag());
 
+                    /*
                     final int TEXT_ALIGNMENT_MASK_SHIFT = 13;
                     final int TEXT_ALIGNMENT_MASK = 0x00000007 << TEXT_ALIGNMENT_MASK_SHIFT;
 
                     int compPrivateFlags2 = (Integer)TestUtil.getField(compTextView2,View.class,"mPrivateFlags2");
                     int compTextAlignment = (compPrivateFlags2 & TEXT_ALIGNMENT_MASK) >> TEXT_ALIGNMENT_MASK_SHIFT;
-                    assertEquals(compTextAlignment, 4 /*center*/ );
+                    assertEquals(compTextAlignment, 4 ); // center
+                    */
 
                     assertEquals(compTextView2.getPivotX(), ValueUtil.dpToPixelFloatFloor(70.3f, res));
                     assertEquals(compTextView2.getPivotX(), parsedTextView2.getPivotX());
@@ -1350,6 +1353,21 @@ public class TestAssetLayout1
                 assertEquals(compDrawArr[i],parsedDrawArr[i]);
             }
 
+            // Test android:drawableStart,android:drawableEnd
+            // Visualmente no se pueden probar si no es en modo RTL y API 17
+            // LO dejamos para cuando el level minimo sea API 17
+            /*
+            FieldContainer<Object> fieldDrawables = new FieldContainer<Object>(TextView.class,"mDrawables");
+            Class classDrawables = fieldDrawables.getField().getType();
+            String[] fieldMemberNames = new String[]{"mDrawableStart", "mDrawableEnd"};
+            FieldContainer<Drawable>[] fieldMemberDrawables = (FieldContainer<Drawable>[])new FieldContainer[fieldMemberNames.length];
+            for (int i = 0; i < fieldMemberNames.length; i++) {
+                fieldMemberDrawables[i] = new FieldContainer(classDrawables, fieldMemberNames[i]);
+            }
+            assertEquals(fieldMemberDrawables[0].get(compLayout),fieldMemberDrawables[0].get(parsedLayout));
+            assertEquals(fieldMemberDrawables[1].get(compLayout),fieldMemberDrawables[1].get(parsedLayout));
+            */
+
             // Test android:drawablePadding
             assertEquals(compLayout.getCompoundDrawablePadding(),ValueUtil.dpToPixelIntRound(10.3f, res));
             assertEquals(compLayout.getCompoundDrawablePadding(),parsedLayout.getCompoundDrawablePadding());
@@ -1362,6 +1380,9 @@ public class TestAssetLayout1
             assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidth"),(Integer)TestUtil.getField(parsedLayout, "mMinWidth"));
             assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"), 50);
             assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),(Integer)TestUtil.getField(parsedLayout, "mMaxWidth"));
+
+            // Test android:fontFamily
+            assertEquals(compLayout.getTypeface().getStyle(),parsedLayout.getTypeface().getStyle());
 
             assertTrue(compLayout.getFreezesText());
             assertEquals(compLayout.getFreezesText(),parsedLayout.getFreezesText());

@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Switch;
 
+import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewTextStyle;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -23,6 +24,7 @@ public class AttrDescView_widget_Switch_textStyle extends AttrDescViewTextStyle
         Switch swView = (Switch)view;
         Typeface tf = swView.getTypeface();
         swView.setTypeface(tf, style);
+
     }
 
 }

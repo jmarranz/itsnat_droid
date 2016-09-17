@@ -344,10 +344,8 @@ Android TV uimt: television"
                 android:saveEnabled="false"
                 android:scaleX="1.2"
                 android:scaleY="1.2"
-
                 android:soundEffectsEnabled="false"
                 android:tag="theTag"
-
                 android:transformPivotX="70.3dp"
                 android:transformPivotY="10.3dp"
                 android:translationX="10.3dp"
@@ -490,6 +488,7 @@ Android TV uimt: television"
             android:drawableTop="@drawable/drawable_bottom_top_test"
             android:ellipsize="marquee"
             android:ems="50"
+
             android:freezesText="true"
             android:gravity="center_vertical|center_horizontal"
             android:hint="Hint Text Test"

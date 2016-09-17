@@ -59,7 +59,4 @@ public abstract class AttrDescViewTypeface extends AttrDesc<ClassDescViewBased,V
         setAttributeToRemove(view, "normal",attrCtx);
     }
 
-
-    protected abstract Typeface getCurrentTypeface(View view);
-    protected abstract void setCurrentTypeface(View view,Typeface tf,int style);
 }

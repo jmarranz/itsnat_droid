@@ -26,23 +26,23 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawHVTrack_Base extends Attr
     {
         final boolean convertedValue = getBoolean(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
 
+        final Runnable task = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                callFieldFieldMethod(view, convertedValue);
+            }
+        };
+
         PendingViewPostCreateProcess pendingViewPostCreateProcess = attrCtx.getPendingViewPostCreateProcess();
         if (pendingViewPostCreateProcess != null)
         {
             // Delegamos al final para que esté totalmente claro si hay o no scrollbars
-            pendingViewPostCreateProcess.addPendingSetAttribsTask(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    callFieldFieldMethod(view, convertedValue);
-                }
-            });
+            pendingViewPostCreateProcess.addPendingSetAttribsTask(task);
         }
         else
-        {
-            callFieldFieldMethod(view, convertedValue);
-        }
+            task.run();
     }
 
     @Override
