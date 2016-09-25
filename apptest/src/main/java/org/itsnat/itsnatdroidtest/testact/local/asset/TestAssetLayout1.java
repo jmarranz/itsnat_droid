@@ -1562,6 +1562,20 @@ public class TestAssetLayout1
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
+            // Test android:textStyle y fontFamily
+            int NORMAL = 0, BOLD = 1, ITALIC = 2;
+
+            Typeface compTf = compLayout.getTypeface(); // sans-serif
+            Typeface parsedTf = parsedLayout.getTypeface();
+
+            assertEquals(compTf.getStyle(),NORMAL | BOLD | ITALIC);
+            assertEquals(compTf.getStyle(),parsedTf.getStyle());
+            if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP)
+                assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
+            else // A partir de Lollipop (level 21) es un long
+                assertEquals((Long)TestUtil.getField(compTf,"native_instance"),(Long)TestUtil.getField(parsedTf,"native_instance"));
+
+
             assertEquals((SpannableString)compLayout.getText(),new SpannableString("TextView Tests 2 (this text is much more longer and is cut on the right with ellipsis points)"));
             assertEquals(compLayout.getText(),parsedLayout.getText());
 
@@ -1614,14 +1628,13 @@ public class TestAssetLayout1
                 }
             });
 
-            // Test: android:textAllCaps en este test si conseguimos que funcione porque isTextSelectable="false"
-            // y no es "editable"
+            // Test: android:textAllCaps
             TransformationMethod comp_trans = compLayout.getTransformationMethod();
             TransformationMethod parsed_trans = parsedLayout.getTransformationMethod();
             assertEquals(comp_trans.getClass().getName(), "android.text.method.AllCapsTransformationMethod");
             assertEquals(comp_trans.getClass().getName(),parsed_trans.getClass().getName());
 
-            assertFalse(compLayout.isTextSelectable());
+            assertTrue(compLayout.isTextSelectable());
             assertEquals(compLayout.isTextSelectable(),parsedLayout.isTextSelectable());
 
 

@@ -70,10 +70,12 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         addAttrDescAN(new AttrDescView_widget_TextView_ellipsize(this));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "ems", -1));
         addAttrDescAN(new AttrDescView_widget_TextView_fontFamily(this));
+        // android:fontFeatureSetting es level 21
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "freezesText", false));
         addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.nameValueMap, "top|start"));
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "height", -1f));
         addAttrDescAN(new AttrDescReflecMethodCharSequence(this, "hint", ""));
+        // android:hyphenationFrequency es level 23
         addAttrDescAN(new AttrDescView_widget_TextView_imeActionId(this));
         addAttrDescAN(new AttrDescView_widget_TextView_imeActionLabel(this));
         addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "imeOptions", ImeOptionsUtil.nameValueMap, "actionUnspecified"));
@@ -81,6 +83,7 @@ public class ClassDescView_widget_TextView extends ClassDescViewBased
         // android:inputMethod lleva deprecated desde Level 3, mal documentado, es difícil de implementar y tiene substituto en inputType
         //    una clase de ejemplo podría ser android.text.method.DateTimeInputMethod
         addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "inputType", InputTypeUtil.nameValueMap, "text")); // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
+        // android:letterSpacing es level 21
         addAttrDescAN(new AttrDescView_widget_TextView_lineSpacingExtra(this));
         addAttrDescAN(new AttrDescView_widget_TextView_lineSpacingMultiplier(this));
         addAttrDescAN(new AttrDescReflecMethodInt(this, "lines", -1));

@@ -537,14 +537,21 @@ Android TV uimt: television"
         -->
 
         <!-- TextView 2 -->
+        <!-- fontFamily (y textStyle) lo testeamos aquí porque se superpone a typeface testeado antes -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:background="#dddddd"
             android:singleLine="true"
+
+            android:fontFamily="sans-serif"
+            android:textStyle="normal|bold|italic"
+
             android:text="TextView Tests 2 (this text is much more longer and is cut on the right with ellipsis points)"
+
             android:textAllCaps="true"
-            android:textIsSelectable="false"
+            android:textIsSelectable="true"
+
             android:bufferType="spannable"
             android:ellipsize="end"
             android:height="30.3dp"
@@ -553,7 +560,9 @@ Android TV uimt: television"
             android:minHeight="30.3dp"
             android:minWidth="200.3dp"
             android:width="200.3dp"
-            /> <!-- textIsSelectable="false" necesario para que funcione textAllCaps -->
+        />
+        <!-- http://stackoverflow.com/questions/12128331/how-to-change-fontfamily-of-textview-in-android -->
+
 
         <!-- TextView 3 (textAppearance y hint) -->
         <TextView

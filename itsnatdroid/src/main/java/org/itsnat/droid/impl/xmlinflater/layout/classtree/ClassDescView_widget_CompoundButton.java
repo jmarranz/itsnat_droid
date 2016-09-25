@@ -20,7 +20,7 @@ public class ClassDescView_widget_CompoundButton extends ClassDescViewBased
         super.init();
 
         addAttrDescAN(new AttrDescReflecMethodDrawable(this, "button", "setButtonDrawable", null)); // Android suele tener un drawable por defecto
-        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "checked", false));
+        addAttrDescAN(new AttrDescReflecMethodBoolean(this, "checked", false)); // No está documentado pero existe en la implementación
     }
 }
 
