@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
@@ -14,6 +15,8 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 import java.util.ArrayList;
 
@@ -70,5 +73,16 @@ public abstract class ClassDescElementDrawableRoot<Tdrawable extends Drawable> e
 
 
     public abstract ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx);
+
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void init()
+    {
+        // initClass();
+
+        super.init();
+
+    }
 }
 

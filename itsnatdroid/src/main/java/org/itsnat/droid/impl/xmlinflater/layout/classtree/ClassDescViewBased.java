@@ -141,6 +141,16 @@ public class ClassDescViewBased extends ClassDesc<View>
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
         String value = attr.getValue();
+
+
+        if ("background".equals(name))
+        {
+            if("@assets:drawable/res/drawable/test_state_list_drawable_asset.xml".equals(attr.getValue()))
+            {
+                attr.getValue();
+            }
+        }
+
         try
         {
             if (setAttributeThisClass(view,attr,attrCtx))

@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
@@ -12,6 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_BitmapDrawable_tileMode;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
@@ -56,6 +58,11 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableRoot<Bitmap
     protected void init()
     {
         super.init();
+
+        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
+        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
+
+        // el atributo src se define en otro lugar
 
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "antialias", "setAntiAlias", false));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "dither", true));

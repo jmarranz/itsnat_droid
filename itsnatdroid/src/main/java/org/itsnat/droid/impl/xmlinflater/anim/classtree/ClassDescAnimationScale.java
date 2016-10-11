@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animat
  */
 public class ClassDescAnimationScale extends ClassDescAnimationBased<ScaleAnimation>
 {
-    public ClassDescAnimationScale(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
+    public ClassDescAnimationScale(ClassDescAnimationMgr classMgr, ClassDescAnimation parentClass)
     {
         super(classMgr, "scale", parentClass);
     }

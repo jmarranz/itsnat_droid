@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -13,6 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
@@ -68,6 +70,10 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
     protected void init()
     {
         super.init();
+
+        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
+        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
+
 
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "dither", true));
     }

@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflater.anim.attr.AttrDescAnimation_view_animat
  */
 public class ClassDescAnimationTranslate extends ClassDescAnimationBased<TranslateAnimation>
 {
-    public ClassDescAnimationTranslate(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
+    public ClassDescAnimationTranslate(ClassDescAnimationMgr classMgr, ClassDescAnimation parentClass)
     {
         super(classMgr, "translate", parentClass);
     }

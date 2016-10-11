@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
  */
 public class ClassDescAnimatorSet extends ClassDescAnimatorBased<AnimatorSet>
 {
-    public ClassDescAnimatorSet(ClassDescAnimatorMgr classMgr, ClassDescAnimatorBased<Animator> parentClass)
+    public ClassDescAnimatorSet(ClassDescAnimatorMgr classMgr, ClassDescAnimator parentClass)
     {
         super(classMgr, "set", parentClass);
     }

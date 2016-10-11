@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 
 import java.util.ArrayList;
 
@@ -78,6 +79,8 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableRoot<LayerDr
     {
         super.init();
 
+        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
+        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
     }
 
 

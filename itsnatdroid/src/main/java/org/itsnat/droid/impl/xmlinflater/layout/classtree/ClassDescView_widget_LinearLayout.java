@@ -77,10 +77,10 @@ public class ClassDescView_widget_LinearLayout extends ClassDescViewBased
 
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "baselineAligned", true));
         addAttrDescAN(new AttrDescView_widget_LinearLayout_baselineAlignedChildIndex(this));
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "divider", "setDividerDrawable", null)); // Hay un drawable por defecto de Android
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "divider", "setDividerDrawable", "@null")); // Hay un drawable por defecto de Android
         // showDividers y dividerPadding atributos los he descubierto por casualidad en StackOverflow y resulta que son atributos NO documentados de LinearLayout (se ven en el código fuente)
-        addAttrDescAN(new AttrDescView_widget_LinearLayout_showDividers(this));  // showDividers
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "dividerPadding", 0f));
+        addAttrDescAN(new AttrDescView_widget_LinearLayout_showDividers(this));  // showDividers NO está documentado pero se usa internamente
+        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "dividerPadding", 0f)); // dividerPadding NO está documentado pero se usa internamente
         addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "gravity", GravityUtil.nameValueMap, "start|top"));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "measureWithLargestChild", "setMeasureWithLargestChildEnabled", false));
         addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "orientation", int.class, OrientationUtil.nameValueMap, "horizontal"));

@@ -19,7 +19,7 @@ public class ClassDescView_widget_RadioGroup extends ClassDescViewBased
         super.init();
 
         addAttrDescAN(new AttrDescView_widget_RadioGroup_checkedButton(this));
-        addAttrDescAN(new AttrDescView_widget_RadioGroup_orientation(this));
+        addAttrDescAN(new AttrDescView_widget_RadioGroup_orientation(this)); // Se usa internamente pero no está documentado
     }
 }
 

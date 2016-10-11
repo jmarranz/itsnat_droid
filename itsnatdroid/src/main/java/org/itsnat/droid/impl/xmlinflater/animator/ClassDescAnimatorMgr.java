@@ -29,16 +29,19 @@ public class ClassDescAnimatorMgr extends ClassDescMgr<ClassDescAnimatorBased>
     @Override
     protected void initClassDesc()
     {
+        // https://developer.android.com/guide/topics/resources/animation-resource.html
+
         ClassDescAnimator animator = new ClassDescAnimator(this);
 
-        ClassDescAnimatorSet set = new ClassDescAnimatorSet(this,animator);
-        addClassDesc(set);
+            ClassDescAnimatorSet set = new ClassDescAnimatorSet(this,animator);
+            addClassDesc(set);
 
-        ClassDescAnimatorValue value = new ClassDescAnimatorValue(this,animator);
-        addClassDesc(value);
+            ClassDescAnimatorValue value = new ClassDescAnimatorValue(this,animator);
+            addClassDesc(value);
 
-            ClassDescAnimatorObject object = new ClassDescAnimatorObject(this, value);
-            addClassDesc(object);
+                ClassDescAnimatorObject object = new ClassDescAnimatorObject(this, value);
+                addClassDesc(object);
 
+                // 	android.animation.TimeAnimator no tiene representación en XML
     }
 }

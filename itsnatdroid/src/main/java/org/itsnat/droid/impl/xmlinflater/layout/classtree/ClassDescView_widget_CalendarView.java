@@ -67,7 +67,7 @@ public class ClassDescView_widget_CalendarView extends ClassDescViewBased
         addAttrDescAN(new AttrDescView_widget_CalendarView_maxDate_minDate(this, "minDate"));
 
         // Ver notas de focusedMonthDateColor
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "selectedDateVerticalBar", "setSelectedDateVerticalBar", null));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "selectedDateVerticalBar", "setSelectedDateVerticalBar", "@null"));
 
         // Ver notas de focusedMonthDateColor
         addAttrDescAN(new AttrDescReflecMethodColor(this, "selectedWeekBackgroundColor", "setSelectedWeekBackgroundColor", 0));

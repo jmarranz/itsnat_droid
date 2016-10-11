@@ -3,6 +3,8 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RotateDrawable;
 import android.util.TypedValue;
 
 import org.itsnat.droid.AttrResourceInflaterListener;
@@ -20,7 +22,9 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 import java.io.InputStream;
@@ -42,13 +46,7 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
 
     public abstract Class<TelementDrawable> getDrawableOrElementDrawableClass();
 
-    @Override
-    protected void init()
-    {
-        // initClass();
 
-        super.init();
-    }
 
     public ClassDescDrawableMgr getClassDescDrawableMgr()
     {
@@ -96,7 +94,6 @@ public abstract class ClassDescDrawable<TelementDrawable> extends ClassDesc<Tele
         String value = attr.getValue();
 
         //XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
-
 
         if (isAttributeIgnored(draw, namespaceURI, name))
             return true; // Se trata de forma especial en otro lugar

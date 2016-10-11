@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat
  */
 public class ClassDescAnimationRotate extends ClassDescAnimationBased<RotateAnimation>
 {
-    public ClassDescAnimationRotate(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
+    public ClassDescAnimationRotate(ClassDescAnimationMgr classMgr, ClassDescAnimation parentClass)
     {
         super(classMgr, "rotate", parentClass);
     }

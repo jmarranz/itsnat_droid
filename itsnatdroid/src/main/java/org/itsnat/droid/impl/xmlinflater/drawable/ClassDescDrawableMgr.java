@@ -51,81 +51,90 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
     @Override
     protected void initClassDesc()
     {
+        // https://developer.android.com/guide/topics/resources/drawable-resource.html
+        // En la documentación del código fuente al principio se listan los atributos que definen la clase y los item hijo (se añade al nombre del atributo "Item"
+        // Ej Attr:
+        //    ref android.R.styleable#AnimationDrawableItem_drawable
+
         ClassDescElementDrawableChildDrawableBridge childBridge = new ClassDescElementDrawableChildDrawableBridge(this);
         addClassDesc(childBridge);
 
-        ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this);
-        addClassDesc(bitmap);
+        // 	android.graphics.drawable.Drawable no tiene atributos
 
-        ClassDescColorDrawable color = new ClassDescColorDrawable(this);
-        addClassDesc(color);
+            // 	android.graphics.drawable.AnimatedVectorDrawable es level 21
 
-        // DrawableContainer y derivadas
-        ClassDescDrawableContainer drawableContainer = new ClassDescDrawableContainer(this);
-        // No llamamos a addClassDesc() porque no hay clase que se instancie, es clase base
+            ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this);
+            addClassDesc(bitmap);
 
-            ClassDescAnimationDrawable animation = new ClassDescAnimationDrawable(this,drawableContainer);
-            addClassDesc(animation);
-            ClassDescAnimationDrawableItem animationItem = new ClassDescAnimationDrawableItem(this);
-            addClassDesc(animationItem);
+            ClassDescColorDrawable color = new ClassDescColorDrawable(this);
+            addClassDesc(color);
 
-            ClassDescLevelListDrawable levelList = new ClassDescLevelListDrawable(this,drawableContainer);
-            addClassDesc(levelList);
-            ClassDescLevelListDrawableItem levelListItem = new ClassDescLevelListDrawableItem(this);
-            addClassDesc(levelListItem);
+            // DrawableContainer y derivadas
+            ClassDescDrawableContainer drawableContainer = new ClassDescDrawableContainer(this);
+            // No llamamos a addClassDesc() porque no hay clase que se instancie, es clase base
 
-            ClassDescStateListDrawable stateList = new ClassDescStateListDrawable(this,drawableContainer);
-            addClassDesc(stateList);
-            ClassDescStateListDrawableItem stateListItem = new ClassDescStateListDrawableItem(this);
-            addClassDesc(stateListItem);
+                ClassDescAnimationDrawable animation = new ClassDescAnimationDrawable(this,drawableContainer);
+                addClassDesc(animation);
+                ClassDescAnimationDrawableItem animationItem = new ClassDescAnimationDrawableItem(this);
+                addClassDesc(animationItem);
 
-                // AnimatedStateListDrawable hereda de StateListDrawable pero es level 21
+                ClassDescLevelListDrawable levelList = new ClassDescLevelListDrawable(this,drawableContainer);
+                addClassDesc(levelList);
+                ClassDescLevelListDrawableItem levelListItem = new ClassDescLevelListDrawableItem(this);
+                addClassDesc(levelListItem);
 
-        // DrawableWrapper es level 23 pero lo vamos teniendo en cuenta
+                ClassDescStateListDrawable stateList = new ClassDescStateListDrawable(this,drawableContainer);
+                addClassDesc(stateList);
+                ClassDescStateListDrawableItem stateListItem = new ClassDescStateListDrawableItem(this);
+                addClassDesc(stateListItem);
 
-            ClassDescClipDrawable clip = new ClassDescClipDrawable(this);
-            addClassDesc(clip);
+                    // AnimatedStateListDrawable hereda de StateListDrawable pero es level 21
 
-            ClassDescInsetDrawable inset = new ClassDescInsetDrawable(this);
-            addClassDesc(inset);
+            // DrawableWrapper es level 23 pero lo vamos teniendo en cuenta
 
-            ClassDescRotateDrawable rotate = new ClassDescRotateDrawable(this);
-            addClassDesc(rotate);
+                ClassDescClipDrawable clip = new ClassDescClipDrawable(this);
+                addClassDesc(clip);
 
-            ClassDescScaleDrawable scale = new ClassDescScaleDrawable(this);
-            addClassDesc(scale);
+                ClassDescInsetDrawable inset = new ClassDescInsetDrawable(this);
+                addClassDesc(inset);
+
+                ClassDescRotateDrawable rotate = new ClassDescRotateDrawable(this);
+                addClassDesc(rotate);
+
+                ClassDescScaleDrawable scale = new ClassDescScaleDrawable(this);
+                addClassDesc(scale);
 
 
-        ClassDescGradientDrawable gradient = new ClassDescGradientDrawable(this);
-        addClassDesc(gradient);
-        ClassDescGradientDrawableItemCorners gradientCornersItem = new ClassDescGradientDrawableItemCorners(this);
-        addClassDesc(gradientCornersItem);
-        ClassDescGradientDrawableItemGradient gradientGradientItem = new ClassDescGradientDrawableItemGradient(this);
-        addClassDesc(gradientGradientItem);
-        ClassDescGradientDrawableItemPadding gradientPaddingItem = new ClassDescGradientDrawableItemPadding(this);
-        addClassDesc(gradientPaddingItem);
-        ClassDescGradientDrawableItemSize gradientSizeItem = new ClassDescGradientDrawableItemSize(this);
-        addClassDesc(gradientSizeItem);
-        ClassDescGradientDrawableItemSolid gradientSolidItem = new ClassDescGradientDrawableItemSolid(this);
-        addClassDesc(gradientSolidItem);
-        ClassDescGradientDrawableItemStroke gradientStrokeItem = new ClassDescGradientDrawableItemStroke(this);
-        addClassDesc(gradientStrokeItem);
+            ClassDescGradientDrawable gradient = new ClassDescGradientDrawable(this);
+            addClassDesc(gradient);
+            ClassDescGradientDrawableItemCorners gradientCornersItem = new ClassDescGradientDrawableItemCorners(this);
+            addClassDesc(gradientCornersItem);
+            ClassDescGradientDrawableItemGradient gradientGradientItem = new ClassDescGradientDrawableItemGradient(this);
+            addClassDesc(gradientGradientItem);
+            ClassDescGradientDrawableItemPadding gradientPaddingItem = new ClassDescGradientDrawableItemPadding(this);
+            addClassDesc(gradientPaddingItem);
+            ClassDescGradientDrawableItemSize gradientSizeItem = new ClassDescGradientDrawableItemSize(this);
+            addClassDesc(gradientSizeItem);
+            ClassDescGradientDrawableItemSolid gradientSolidItem = new ClassDescGradientDrawableItemSolid(this);
+            addClassDesc(gradientSolidItem);
+            ClassDescGradientDrawableItemStroke gradientStrokeItem = new ClassDescGradientDrawableItemStroke(this);
+            addClassDesc(gradientStrokeItem);
 
-        ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
-        addClassDesc(layer);
-        ClassDescLayerDrawableItem layerItem = new ClassDescLayerDrawableItem(this);
-        addClassDesc(layerItem);
+            ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
+            addClassDesc(layer);
+            ClassDescLayerDrawableItem layerItem = new ClassDescLayerDrawableItem(this);
+            addClassDesc(layerItem);
 
-            ClassDescTransitionDrawable transition = new ClassDescTransitionDrawable(this,layer);
-            addClassDesc(transition);
-            ClassDescTransitionDrawableItem transitionItem = new ClassDescTransitionDrawableItem(this,layerItem);
-            addClassDesc(transitionItem);
+                ClassDescTransitionDrawable transition = new ClassDescTransitionDrawable(this,layer);
+                addClassDesc(transition);
+                ClassDescTransitionDrawableItem transitionItem = new ClassDescTransitionDrawableItem(this,layerItem);
+                addClassDesc(transitionItem);
 
-            // RippleDrawable es level 21
+                // RippleDrawable es level 21
 
-        ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
-        addClassDesc(ninePatch);
+            ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
+            addClassDesc(ninePatch);
 
-        // ShapeDrawable no se como usarlo como XML pues <shape> se refiere a GradientDrawable, parece que ShapeDrawable es una antigualla o bien realmente sólo se puede usar via objeto Java
+            // ShapeDrawable no se como usarlo como XML pues <shape> se refiere a GradientDrawable, parece que ShapeDrawable es una antigualla o bien realmente sólo se puede usar via objeto Java
     }
 }

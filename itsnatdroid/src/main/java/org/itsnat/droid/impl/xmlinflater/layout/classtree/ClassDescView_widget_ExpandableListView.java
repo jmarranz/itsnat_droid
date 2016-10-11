@@ -22,13 +22,13 @@ public class ClassDescView_widget_ExpandableListView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "childDivider", null)); // Android tiene un Drawable por defecto
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "childDivider", "@null")); // Android tiene un Drawable por defecto
         addAttrDescAN(new AttrDescReflecMethodDrawable(this, "childIndicator", "@null"));
         // android:childIndicatorEnd es Level 18
         addAttrDescAN(new AttrDescView_widget_ExpandableListView_childIndicatorLeft(this));
         addAttrDescAN(new AttrDescView_widget_ExpandableListView_childIndicatorRight(this));
         // android:childIndicatorStart es Level 18
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "groupIndicator", null)); // Android tiene un Drawable por defecto
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "groupIndicator", "@null")); // Android tiene un Drawable por defecto
         // android:indicatorEnd es Level 18
         addAttrDescAN(new AttrDescView_widget_ExpandableListView_indicatorLeft(this));
         addAttrDescAN(new AttrDescView_widget_ExpandableListView_indicatorRight(this));

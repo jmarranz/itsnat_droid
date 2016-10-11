@@ -31,22 +31,24 @@ public class ClassDescAnimationMgr extends ClassDescMgr<ClassDescAnimationBased>
     @Override
     protected void initClassDesc()
     {
+        // https://developer.android.com/guide/topics/resources/animation-resource.html
+
         ClassDescAnimation animation = new ClassDescAnimation(this);
 
-        ClassDescAnimationAlpha alpha = new ClassDescAnimationAlpha(this,animation);
-        addClassDesc(alpha);
+            ClassDescAnimationAlpha alpha = new ClassDescAnimationAlpha(this,animation);
+            addClassDesc(alpha);
 
-        ClassDescAnimationRotate rotate = new ClassDescAnimationRotate(this,animation);
-        addClassDesc(rotate);
+            ClassDescAnimationSet set = new ClassDescAnimationSet(this,animation);
+            addClassDesc(set);
 
-        ClassDescAnimationScale scale = new ClassDescAnimationScale(this,animation);
-        addClassDesc(scale);
+            ClassDescAnimationRotate rotate = new ClassDescAnimationRotate(this,animation);
+            addClassDesc(rotate);
 
-        ClassDescAnimationSet set = new ClassDescAnimationSet(this,animation);
-        addClassDesc(set);
+            ClassDescAnimationScale scale = new ClassDescAnimationScale(this,animation);
+            addClassDesc(scale);
 
-        ClassDescAnimationTranslate translate = new ClassDescAnimationTranslate(this,animation);
-        addClassDesc(translate);
+            ClassDescAnimationTranslate translate = new ClassDescAnimationTranslate(this,animation);
+            addClassDesc(translate);
 
     }
 }

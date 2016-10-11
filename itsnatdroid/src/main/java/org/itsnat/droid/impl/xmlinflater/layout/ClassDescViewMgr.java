@@ -151,7 +151,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
     private ClassDescViewBased registerUnknown(Class<? extends View> nativeClass)
     {
         String className = nativeClass.getName();
-        // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
+        // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible y procesar por ej atributos
         @SuppressWarnings("unchecked")
         Class<? extends View> superClass = (Class<? extends View>)nativeClass.getSuperclass();
         ClassDescViewBased parentClassDesc = get(superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
@@ -210,14 +210,12 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 
             ClassDescView_widget_ImageView widget_ImageView = new ClassDescView_widget_ImageView(this,view_View);
             addClassDesc(widget_ImageView);
-                // android.support.v7.widget.AppCompatImageView
+
                 // android.widget.ImageButton no tiene atributos
-                    // android.support.v7.widget.AppCompatImageButton
-                    // android.support.design.widget.FloatingActionButton
-                    // android.widget.ZoomButton no tiene atributos
+                    // android.widget.ZoomButton no tiene atributos ni derivadas
             // KeyboardView tiene escaso interés, para el futuro
 
-            // android.app.MediaRouteButton no tiene atributos
+            // android.app.MediaRouteButton no tiene atributos in derivadas
 
             ClassDescView_widget_ProgressBar widget_ProgressBar = new ClassDescView_widget_ProgressBar(this,view_View);
             addClassDesc(widget_ProgressBar);
@@ -229,54 +227,18 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
                     ClassDescView_widget_SeekBar widget_SeekBar = new ClassDescView_widget_SeekBar(this,widget_AbsSeekBar);
                     addClassDesc(widget_SeekBar);
 
-                // android.support.v4.widget.ContentLoadingProgressBar no tiene atributos
-
-            // android.widget.Space no tiene atributos
+            // android.widget.Space no tiene atributos ni derivadas
             // android.view.SurfaceView no tiene atributos
-                // android.opengl.GLSurfaceView no tiene atributos
-                // android.widget.VideoView no tiene atributos
+                // android.opengl.GLSurfaceView no tiene atributos ni derivadas
+                // android.widget.VideoView no tiene atributos ni derivadas
 
             // android.support.design.widget.TabItem implementar???
 
             ClassDescView_widget_TextView widget_TextView = new ClassDescView_widget_TextView(this,view_View);
             addClassDesc(widget_TextView);
+            init_widget_TextView_subClasses(widget_TextView);
 
-                ClassDescViewBased widget_Button = new ClassDescViewBased(this,"android.widget.Button",widget_TextView); // no tiene atributos
-                addClassDesc(widget_Button);
-
-                    ClassDescView_widget_CompoundButton widget_CompoundButton = new ClassDescView_widget_CompoundButton(this,widget_Button);
-                    addClassDesc(widget_CompoundButton);
-
-                        // CheckBox no tiene atributos
-                        // RadioButton no tiene atributos y se testea indirectamente en RadioGroup
-
-                        ClassDescView_widget_Switch widget_Switch = new ClassDescView_widget_Switch(this,widget_CompoundButton);
-                        addClassDesc(widget_Switch);
-                        ClassDescView_widget_ToggleButton widget_ToggleButton = new ClassDescView_widget_ToggleButton(this,widget_CompoundButton);
-                        addClassDesc(widget_ToggleButton);
-
-                ClassDescView_widget_CheckedTextView widget_CheckedTextView = new ClassDescView_widget_CheckedTextView(this,widget_TextView);
-                addClassDesc(widget_CheckedTextView);
-
-                ClassDescView_widget_Chronometer widget_Chronometer = new ClassDescView_widget_Chronometer(this,widget_TextView);
-                addClassDesc(widget_Chronometer);
-
-                // android.widget.DigitalClock no tiene atributos
-
-                ClassDescViewBased widget_EditText = new ClassDescViewBased(this,"android.widget.EditText",widget_TextView); // no tiene atributos
-                addClassDesc(widget_EditText);
-
-                    ClassDescView_widget_AutoCompleteTextView widget_AutoCompleteTextView = new ClassDescView_widget_AutoCompleteTextView(this,widget_EditText);
-                    addClassDesc(widget_AutoCompleteTextView);
-
-                        // android.widget.MultiAutoCompleteTextView no tiene atributos
-
-                    // 	android.inputmethodservice.ExtractEditText no tiene atributos
-
-                // android.widget.TextClock es Level 17
-
-
-            // 	android.view.TextureView no tiene atributos
+            // 	android.view.TextureView no tiene atributos ni derivadas
 
             ClassDescView_view_ViewGroup view_ViewGroup = new ClassDescView_view_ViewGroup(this,view_View);
             addClassDesc(view_ViewGroup);
@@ -286,9 +248,46 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
             addClassDesc(view_ViewStub);
     }
 
+    private void init_widget_TextView_subClasses(ClassDescView_widget_TextView widget_TextView)
+    {
+        ClassDescViewBased widget_Button = new ClassDescViewBased(this,"android.widget.Button",widget_TextView); // no tiene atributos
+        addClassDesc(widget_Button);
+
+        ClassDescView_widget_CompoundButton widget_CompoundButton = new ClassDescView_widget_CompoundButton(this,widget_Button);
+        addClassDesc(widget_CompoundButton);
+
+        // CheckBox no tiene atributos ni derivadas
+        // RadioButton no tiene atributos ni derivadas y se testea indirectamente en RadioGroup
+
+        ClassDescView_widget_Switch widget_Switch = new ClassDescView_widget_Switch(this,widget_CompoundButton);
+        addClassDesc(widget_Switch);
+        ClassDescView_widget_ToggleButton widget_ToggleButton = new ClassDescView_widget_ToggleButton(this,widget_CompoundButton);
+        addClassDesc(widget_ToggleButton);
+
+        ClassDescView_widget_CheckedTextView widget_CheckedTextView = new ClassDescView_widget_CheckedTextView(this,widget_TextView);
+        addClassDesc(widget_CheckedTextView);
+
+        ClassDescView_widget_Chronometer widget_Chronometer = new ClassDescView_widget_Chronometer(this,widget_TextView);
+        addClassDesc(widget_Chronometer);
+
+        // android.widget.DigitalClock no tiene atributos y está deprecated en level 17
+
+        ClassDescViewBased widget_EditText = new ClassDescViewBased(this,"android.widget.EditText",widget_TextView); // no tiene atributos
+        addClassDesc(widget_EditText);
+
+        ClassDescView_widget_AutoCompleteTextView widget_AutoCompleteTextView = new ClassDescView_widget_AutoCompleteTextView(this,widget_EditText);
+        addClassDesc(widget_AutoCompleteTextView);
+
+        // android.widget.MultiAutoCompleteTextView no tiene atributos ni derivadas
+
+        // android.inputmethodservice.ExtractEditText no tiene atributos ni derivadas
+
+        // android.widget.TextClock es Level 17
+    }
+
     private void init_view_ViewGroup_subClasses(ClassDescView_view_ViewGroup view_ViewGroup)
     {
-        // AbsoluteLayout y su derivada (WebView) no tienen atributos
+        // AbsoluteLayout es deprecated en level 3 y su derivada (WebView) no tiene atributos
 
         ClassDescViewBased widget_AdapterView = new ClassDescViewBased(this,"android.widget.AdapterView",view_ViewGroup); // AdapterView no tiene atributos
         addClassDesc(widget_AdapterView);
@@ -302,13 +301,13 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
                 ClassDescView_widget_ListView widget_ListView = new ClassDescView_widget_ListView(this,widget_AbsListView);
                 addClassDesc(widget_ListView);
 
-                ClassDescView_widget_ExpandableListView widget_ExListView = new ClassDescView_widget_ExpandableListView(this,widget_ListView);
-                addClassDesc(widget_ExListView);
+                    ClassDescView_widget_ExpandableListView widget_ExListView = new ClassDescView_widget_ExpandableListView(this,widget_ListView);
+                    addClassDesc(widget_ExListView);
 
             ClassDescView_widget_AbsSpinner widget_AbsSpinner = new ClassDescView_widget_AbsSpinner(this,widget_AdapterView);
             addClassDesc(widget_AbsSpinner);
 
-                ClassDescView_widget_Gallery widget_Gallery = new ClassDescView_widget_Gallery(this,widget_AbsSpinner);
+                ClassDescView_widget_Gallery widget_Gallery = new ClassDescView_widget_Gallery(this,widget_AbsSpinner); // deprecated en level 16 pero como la tenemos hecha la conservamos
                 addClassDesc(widget_Gallery);
 
                 ClassDescView_widget_Spinner widget_Spinner = new ClassDescView_widget_Spinner(this,widget_AbsSpinner);
@@ -320,11 +319,10 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
                 ClassDescView_widget_AdapterViewFlipper widget_AdapterViewFlipper = new ClassDescView_widget_AdapterViewFlipper(this,widget_AdapterViewAnimator);
                 addClassDesc(widget_AdapterViewFlipper);
 
-                // StackView no tiene atributos
+                // android.widget.StackView no tiene atributos ni derivadas
 
-        // android.support.v4.widget.DrawerLayout no tiene atributos
 
-        // 	android.app.FragmentBreadCrumbs no tiene atributos
+        // 	android.app.FragmentBreadCrumbs no tiene atributos ni derivadas y está deprecated en level 21
 
         ClassDescView_widget_FrameLayout widget_FrameLayout = new ClassDescView_widget_FrameLayout(this,view_ViewGroup);
         addClassDesc(widget_FrameLayout);
@@ -332,7 +330,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
             ClassDescView_Include include = new ClassDescView_Include(this,widget_FrameLayout);
             addClassDesc(include);
 
-            // android.appwidget.AppWidgetHostView no tiene atributos
+            // android.appwidget.AppWidgetHostView no tiene atributos ni
 
             ClassDescView_widget_CalendarView widget_CalendarView = new ClassDescView_widget_CalendarView(this,widget_FrameLayout);
             addClassDesc(widget_CalendarView);
@@ -352,8 +350,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
             addClassDesc(widget_ScrollView);
 
             // android.widget.TabHost no tiene atributos
-                // android.support.v13.app.FragmentTabHost no tiene atributos
-            // android.widget.TimePicker no tiene atributos
+            // android.widget.TimePicker tiene un atributo android:timePickerMode pero es level 22
 
             ClassDescView_widget_ViewAnimator widget_ViewAnimator = new ClassDescView_widget_ViewAnimator(this,widget_FrameLayout);
             addClassDesc(widget_ViewAnimator);
@@ -371,7 +368,9 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
         ClassDescView_widget_LinearLayout widget_LinearLayout = new ClassDescView_widget_LinearLayout(this,view_ViewGroup);
         addClassDesc(widget_LinearLayout);
 
+            // android.widget.ActionMenuView es level 21
             // android.widget.NumberPicker no tiene atributos
+
             ClassDescView_widget_RadioGroup widget_RadioGroup = new ClassDescView_widget_RadioGroup(this,widget_LinearLayout);
             addClassDesc(widget_RadioGroup);
 
@@ -384,22 +383,21 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
             ClassDescView_widget_TableLayout widget_TableLayout = new ClassDescView_widget_TableLayout(this,widget_LinearLayout);
             addClassDesc(widget_TableLayout);
 
-            // android.widget.ZoomControls no tiene atributos
+            // android.widget.TableRow no tiene atributos ni derivadas
+            // android.widget.ZoomControls no tiene atributos ni derivadas
 
-        // android.support.v4.view.PagerTitleStrip no tiene atributos
-            // 	android.support.v4.view.PagerTabStrip no tiene atributos
 
         ClassDescView_widget_RelativeLayout widget_RelativeLayout = new ClassDescView_widget_RelativeLayout(this,view_ViewGroup);
         addClassDesc(widget_RelativeLayout);
             // android.widget.DialerFilter no tiene atributos
-            // android.widget.TwoLineListItem no tiene atributos
+            // android.widget.TwoLineListItem tiene un atributo android:mode no implementado y la clase es deprecated en level 17
 
-        ClassDescView_widget_SlidingDrawer widget_SlidingDrawer = new ClassDescView_widget_SlidingDrawer(this,view_ViewGroup);
+        ClassDescView_widget_SlidingDrawer widget_SlidingDrawer = new ClassDescView_widget_SlidingDrawer(this,view_ViewGroup); // This class was deprecated in API level 17
         addClassDesc(widget_SlidingDrawer);
 
-        // android.support.v4.widget.SlidingPaneLayout no tiene atributos
-        // android.support.v4.widget.SwipeRefreshLayout no tiene atributos
-        // android.support.v4.view.ViewPager no tiene atributos
+        // android.widget.Toolbar es level 21
+        // android.media.tv.TvView es level 21
+
     }
 
 

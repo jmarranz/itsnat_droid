@@ -32,7 +32,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         repeatModeMap.put("reverse", ValueAnimator.REVERSE);
     }
 
-    public ClassDescAnimatorValue(ClassDescAnimatorMgr classMgr, ClassDescAnimatorBased<Animator> parentClass)
+    public ClassDescAnimatorValue(ClassDescAnimatorMgr classMgr, ClassDescAnimator parentClass)
     {
         super(classMgr, "animator", parentClass);
     }

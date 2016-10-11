@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntFloor;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionWithNameInt;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 
@@ -36,6 +37,7 @@ public class ClassDescView_widget_AutoCompleteTextView extends ClassDescViewBase
         addAttrDescAN(new AttrDescReflecFieldMethodDrawable(this, "dropDownSelector", "mPopup", ListPopupWindow.class, "setListSelector", null)); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
         addAttrDescAN(new AttrDescReflecMethodDimensionIntFloor(this, "dropDownVerticalOffset", 0.0f));
         addAttrDescAN(new AttrDescReflecMethodDimensionWithNameInt(this, "dropDownWidth", (float) ViewGroup.LayoutParams.WRAP_CONTENT));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "popupBackground", "setDropDownBackgroundDrawable", "@null"));
     }
 }
 

@@ -23,6 +23,9 @@ public class ClassDescView_widget_Switch extends ClassDescViewBased
     {
         super.init();
 
+        // android:showText es level 21
+        // android:splitTrack es level 21
+
         addAttrDescAN(new AttrDescReflecFieldSetDimensionIntRound(this, "switchMinWidth", "mSwitchMinWidth", 0));
         addAttrDescAN(new AttrDescReflecFieldSetDimensionIntRound(this, "switchPadding", "mSwitchPadding", 0));
         addAttrDescAN(new AttrDescView_widget_Switch_switchTextAppearance(this));
@@ -31,7 +34,11 @@ public class ClassDescView_widget_Switch extends ClassDescViewBased
         addAttrDescAN(new AttrDescView_widget_Switch_textStyle(this));
         addAttrDescAN(new AttrDescReflecFieldSetDrawable(this, "thumb", "mThumbDrawable", null)); // Android tiene un drawable por defecto
         addAttrDescAN(new AttrDescReflecFieldSetDimensionIntRound(this, "thumbTextPadding", "mThumbTextPadding", 0));
+        // android:thumbTint es level 21
+        // android:thumbTintMode es level 21
         addAttrDescAN(new AttrDescReflecFieldSetDrawable(this, "track", "mTrackDrawable", null)); // Android tiene un drawable por defecto
+        // android:trackTint es level 21
+        // android:trackTintMode es level 21
         addAttrDescAN(new AttrDescView_widget_Switch_typeface(this));
 
     }

@@ -19,7 +19,7 @@ public class ClassDescView_widget_AbsSeekBar extends ClassDescViewBased
         super.init();
 
         // El atributo android:thumb está documentado en SeekBar pero implementado realmente en AbsSeekBar
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "thumb", null)); // Android tiene un drawable por defecto
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "thumb", "@null")); // Android tiene un drawable por defecto
 
         // android:android:thumbTint es level 21
         // android:android:thumbTintMode es level 21

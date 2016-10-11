@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldSetFloat
  */
 public class ClassDescAnimationAlpha extends ClassDescAnimationBased<AlphaAnimation>
 {
-    public ClassDescAnimationAlpha(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
+    public ClassDescAnimationAlpha(ClassDescAnimationMgr classMgr, ClassDescAnimation parentClass)
     {
         super(classMgr, "alpha", parentClass);
     }

@@ -55,7 +55,9 @@ public class ClassDescAnimation extends ClassDescAnimationBased<Animation>
     {
         super.init();
 
-        addAttrDescAN(new AttrDescReflecMethodColor(this, "background",0));
+        // https://developer.android.com/reference/android/view/animation/Animation.html
+
+        addAttrDescAN(new AttrDescReflecMethodColor(this, "background",0)); // NO está documentado pero se usa
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "detachWallpaper", false));
         addAttrDescAN(new AttrDescReflecMethodLong(this, "duration", 0L));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "fillEnabled", false));

@@ -64,7 +64,7 @@ public class ClassDescView_widget_FrameLayout extends ClassDescViewBased
 
         if (Build.VERSION.SDK_INT < MiscUtil.MARSHMALLOW) // < 23
         {
-            addAttrDescAN(new AttrDescReflecMethodDrawable(this, "foreground", "@null")); // A partir de MARSHMALLOW se define en View
+            addAttrDescAN(new AttrDescReflecMethodDrawable(this, "foreground", "@null")); // A partir de MARSHMALLOW se define en View y como "foreground" NO y no se utiliza foregroundGravity por lo que podemos decir que foregroundGravity queda deprecated en MARSHMALLOW
         }
         addAttrDescAN(new AttrDescReflecMethodNameMultiple(this, "foregroundGravity", GravityUtil.nameValueMap, "fill"));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "measureAllChildren", false));

@@ -17,7 +17,9 @@ public class ClassDescView_widget_Chronometer extends ClassDescViewBased
     {
         super.init();
 
+        // El atributo android:countDown NO está implementado al menos desde level 16, yo creo que es un intento frustado  y se ha dejado documentado por accidente
         addAttrDescAN(new AttrDescView_widget_Chronometer_format(this));
+
     }
 }
 

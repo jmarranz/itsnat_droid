@@ -1880,6 +1880,9 @@ public class TestAssetLayout1
             assertEquals(compLayout.getInputType(), InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
             assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
 
+            assertEquals(compLayout.getPrivateImeOptions(), "com.example.myapp.JustToWriteSomething=3");
+            assertEquals(compLayout.getPrivateImeOptions(), parsedLayout.getPrivateImeOptions());
+
             assertFalse(compLayout.isTextSelectable());
             assertEquals(compLayout.isTextSelectable(), parsedLayout.isTextSelectable());
         }
@@ -1936,6 +1939,10 @@ public class TestAssetLayout1
 
             assertEquals(compLayout.getDropDownWidth(),ValueUtil.dpToPixelIntRound(300.3f, res));
             assertEquals(compLayout.getDropDownWidth(),parsedLayout.getDropDownWidth());
+
+            // popupBackground test
+            assertEquals(((ColorDrawable) compLayout.getDropDownBackground()).getColor(), 0xffddddff);
+            assertEquals(((ColorDrawable) compLayout.getDropDownBackground()).getColor(), ((ColorDrawable) parsedLayout.getDropDownBackground()).getColor());
         }
 
 
@@ -1994,6 +2001,10 @@ public class TestAssetLayout1
 
             assertEquals(compLayout.getDropDownWidth(),ValueUtil.dpToPixelIntRound(300.3f, res));
             assertEquals(compLayout.getDropDownWidth(),parsedLayout.getDropDownWidth());
+
+            // popupBackground test
+//            assertEquals(((ColorDrawable) compLayout.getDropDownBackground()).getColor(), 0xffddddff);
+//            assertEquals(((ColorDrawable) compLayout.getDropDownBackground()).getColor(), ((ColorDrawable) parsedLayout.getDropDownBackground()).getColor());
         }
 
         // TextView used as anchor of AutoCompleteTextView Suggest Drop Down (upper View)
@@ -2108,12 +2119,12 @@ public class TestAssetLayout1
                     public void onLayoutChange(View v, int left, int top, int right, int bottom,
                                                int oldLeft, int oldTop, int oldRight, int oldBottom) {
 
-                        if (oldLeft == 0 && oldTop == 0 && oldRight == 0 && oldBottom == 0)
+                        //if (oldLeft == 0 && oldTop == 0 && oldRight == 0 && oldBottom == 0)
                         {
                             assertEquals(compTextView.getWidth(), parsedTextView.getWidth());
                             assertEquals(compTextView.getHeight(), parsedTextView.getHeight());
                         }
-                        else TestUtil.alertDialog(parsedTextView.getContext(),"Test ignored when rotating the device watching the dynamic view"); // El compilado está en la otra orientación
+                        //else TestUtil.alertDialog(parsedTextView.getContext(),"Test ignored when rotating the device watching the dynamic view"); // El compilado está en la otra orientación
                     }
                 });
             }

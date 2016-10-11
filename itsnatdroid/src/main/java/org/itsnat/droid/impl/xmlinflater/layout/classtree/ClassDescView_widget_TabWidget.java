@@ -21,8 +21,8 @@ public class ClassDescView_widget_TabWidget extends ClassDescViewBased
 
         // android:divider es un atributo definido en LinearLayout
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "tabStripEnabled", "setStripEnabled", true));
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "tabStripLeft", "setLeftStripDrawable", null)); // existe un Drawable por defecto
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "tabStripRight", "setRightStripDrawable", null));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "tabStripLeft", "setLeftStripDrawable", "@null")); // existe un Drawable por defecto
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "tabStripRight", "setRightStripDrawable", "@null"));
     }
 }
 

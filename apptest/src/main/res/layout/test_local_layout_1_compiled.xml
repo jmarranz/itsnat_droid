@@ -678,7 +678,7 @@ Android TV uimt: television"
             android:background="#00ff00"/>
 
         <!-- EditText tests
-             No tiene atributos propios pero nos interesa probar si funciona visualmente inputType -->
+             No tiene atributos propios pero nos interesa probar si funciona visualmente los ime*, privateImeOptions,  inputType -->
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -688,9 +688,14 @@ Android TV uimt: television"
             android:imeActionLabel="@string/test_string_textview_imeActionLabel"
             android:imeOptions="actionNext"
             android:inputType="numberDecimal|numberSigned"
+            android:privateImeOptions="com.example.myapp.JustToWriteSomething=3"
             android:textIsSelectable="false"
-            /> <!-- textIsSelectable parece que es ignorado -->
-                <!-- imeActionLabel solo se ve cuando el teclado en landscape ocupa toda la pantalla -->
+
+            /> <!-- Para que funcione bien este test en un emulador recién estrenado hay que pulsar
+             en el icono del teclado de abajo y activar el keyboard hardware, de otra manera el teclado integrado
+             no sale y sólo funciona (apenas) las teclas del teclado del PC
+             DEBE estar textIsSelectable=false (el valor por defecto) -->
+            <!-- imeActionLabel solo se ve cuando el teclado en landscape ocupa toda la pantalla -->
 
         <TextView
             android:layout_width="match_parent"
@@ -715,6 +720,7 @@ Android TV uimt: television"
             android:dropDownSelector="@drawable/list_selector_background_light"
             android:dropDownVerticalOffset="5.3dp"
             android:dropDownWidth="300.3dp"
+            android:popupBackground="#ddddff"
             /><!-- Notar que via dropDownAnchor el suggestion dropdown surge del anchorOfAutoCompleteTextViewDropDownId de abajo, no es lo normal pero esto es un test -->
 
         <TextView
@@ -739,6 +745,7 @@ Android TV uimt: television"
             android:dropDownSelector="@drawable/list_selector_background_light"
             android:dropDownVerticalOffset="5.3dp"
             android:dropDownWidth="300.3dp"
+
             />
 
         <TextView

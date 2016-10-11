@@ -29,7 +29,7 @@ public class ClassDescView_widget_ProgressBar extends ClassDescViewBased
         // android:animationResolution es la traca, se procesa por ejemplo en 4.0.3 pero NI RASTRO a partir de 4.1.1 aunque sigue estando en la documentación
         addAttrDescAN(new AttrDescView_widget_ProgressBar_indeterminate(this, "indeterminate", true));
         addAttrDescAN(new AttrDescView_widget_ProgressBar_indeterminateBehavior(this));
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "indeterminateDrawable", null)); // Android tiene un drawable por defecto
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "indeterminateDrawable", "@null")); // Android tiene un drawable por defecto
         addAttrDescAN(new AttrDescReflecFieldSetInt(this, "indeterminateDuration", "mDuration", 4000));
         addAttrDescAN(new AttrDescReflecFieldSetBoolean(this, "indeterminateOnly", "mOnlyIndeterminate", false));
         // android:indeterminateTint es level 21

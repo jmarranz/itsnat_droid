@@ -26,7 +26,7 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
 
     protected FieldContainer<Integer> fieldMFlags;
 
-    public ClassDescAnimationSet(ClassDescAnimationMgr classMgr, ClassDescAnimationBased<Animation> parentClass)
+    public ClassDescAnimationSet(ClassDescAnimationMgr classMgr, ClassDescAnimation parentClass)
     {
         super(classMgr, "set", parentClass);
 

@@ -19,7 +19,9 @@ public class ClassDescView_widget_CheckedTextView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "checkMark", "setCheckMarkDrawable", null));
+        addAttrDescAN(new AttrDescReflecMethodDrawable(this, "checkMark", "setCheckMarkDrawable", "@null"));
+        // android:checkMarkTint es level 21
+        // android:checkMarkTintMode es level 21
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "checked", false));
     }
 }

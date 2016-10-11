@@ -81,6 +81,13 @@ public class ClassDescAnimationDrawable extends ClassDescDrawableContainerBased<
     {
         super.init();
 
+        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
+        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
+
+        // https://developer.android.com/reference/android/graphics/drawable/AnimationDrawable.html
+        // https://developer.android.com/guide/topics/resources/animation-resource.html
+        // https://developer.android.com/guide/topics/graphics/drawable-animation.html
+
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "oneshot", "setOneShot", false));
         addAttrDescAN(new AttrDescReflecFieldMethodBoolean(this, "variablePadding", "mAnimationState", MiscUtil.resolveClass(DrawableContainer.class.getName() + "$DrawableContainerState"), "setVariablePadding", false));
         addAttrDescAN(new AttrDescDrawable_Drawable_visible<AnimationDrawable>(this));

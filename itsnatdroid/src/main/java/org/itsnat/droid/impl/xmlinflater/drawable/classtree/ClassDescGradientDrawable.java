@@ -27,7 +27,9 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 import java.util.ArrayList;
 
@@ -421,6 +423,8 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     {
         super.init();
 
+        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
+        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
     }
 
 }
