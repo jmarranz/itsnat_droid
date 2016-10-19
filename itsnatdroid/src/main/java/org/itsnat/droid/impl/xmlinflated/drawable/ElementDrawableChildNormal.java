@@ -5,7 +5,7 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
  */
 public abstract class ElementDrawableChildNormal extends ElementDrawableChild
 {
-    public ElementDrawableChildNormal(ElementDrawable parentElementDrawable)
+    public ElementDrawableChildNormal(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }

@@ -7,13 +7,12 @@ import android.graphics.drawable.DrawableContainer;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflated.drawable.AnimationDrawableItem;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflated.drawable.AnimationDrawableChildItem;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecFieldMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
@@ -22,27 +21,28 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescAnimationDrawable extends ClassDescDrawableContainerBased<AnimationDrawable>
+public class ClassDescAnimationDrawable extends ClassDescElementDrawableBased<AnimationDrawable>
 {
-    public ClassDescAnimationDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawable<? super AnimationDrawable> parentClass)
+    public ClassDescAnimationDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawableContainer parentClass )
     {
         super(classMgr, "animation-list", parentClass);
     }
 
+
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
+    public ElementDrawableChildRoot createElementDrawableChildRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
+        ElementDrawableChildRoot elementDrawableRoot = new ElementDrawableChildRoot();
 
         XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
         xmlInflaterDrawable.processChildElements(rootElem,elementDrawableRoot,attrCtx);
-        ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
+        ArrayList<ElementDrawableChildBase> itemList = elementDrawableRoot.getElementDrawableChildList();
 
         AnimationDrawable drawable = new AnimationDrawable();
 
         for (int i = 0; i < itemList.size(); i++)
         {
-            AnimationDrawableItem item = (AnimationDrawableItem) itemList.get(i);
+            AnimationDrawableChildItem item = (AnimationDrawableChildItem) itemList.get(i);
 
             Integer durationObj = item.getDuration();
             int duration = durationObj != null ? durationObj.intValue() : -1;
@@ -81,15 +81,13 @@ public class ClassDescAnimationDrawable extends ClassDescDrawableContainerBased<
     {
         super.init();
 
-        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
-        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
-
         // https://developer.android.com/reference/android/graphics/drawable/AnimationDrawable.html
         // https://developer.android.com/guide/topics/resources/animation-resource.html
         // https://developer.android.com/guide/topics/graphics/drawable-animation.html
 
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "oneshot", "setOneShot", false));
         addAttrDescAN(new AttrDescReflecFieldMethodBoolean(this, "variablePadding", "mAnimationState", MiscUtil.resolveClass(DrawableContainer.class.getName() + "$DrawableContainerState"), "setVariablePadding", false));
-        addAttrDescAN(new AttrDescDrawable_Drawable_visible<AnimationDrawable>(this));
+        // está arriba:  addAttrDescAN(new AttrDescDrawable_Drawable_visible<AnimationDrawable>(this));
     }
+
 }

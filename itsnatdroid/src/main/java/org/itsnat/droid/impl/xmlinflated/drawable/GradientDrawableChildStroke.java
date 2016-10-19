@@ -3,14 +3,14 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class GradientDrawableItemStroke extends ElementDrawableChildNormal
+public class GradientDrawableChildStroke extends ElementDrawableChildNormal
 {
     protected Integer width;
     protected Integer color;
     protected Float dashWidth;
     protected Float dashGap;
 
-    public GradientDrawableItemStroke(ElementDrawable parentElementDrawable)
+    public GradientDrawableChildStroke(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }

@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class GradientDrawableItemCorners extends ElementDrawableChildNormal
+public class GradientDrawableChildCorners extends ElementDrawableChildNormal
 {
     protected Integer radius;
     protected Integer topLeftRadius;
@@ -11,7 +11,7 @@ public class GradientDrawableItemCorners extends ElementDrawableChildNormal
     protected Integer bottomLeftRadius;
     protected Integer bottomRightRadius;
 
-    public GradientDrawableItemCorners(ElementDrawable parentElementDrawable)
+    public GradientDrawableChildCorners(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }

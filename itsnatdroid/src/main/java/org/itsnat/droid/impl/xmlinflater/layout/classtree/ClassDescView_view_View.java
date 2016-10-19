@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import android.os.Build;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
 
 import org.itsnat.droid.impl.util.MapSmart;
@@ -51,7 +50,6 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensi
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodId;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodObject;
 

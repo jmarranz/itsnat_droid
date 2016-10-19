@@ -4,21 +4,22 @@ import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawable_Drawable_visible<TattrTarget extends Drawable> extends AttrDesc<ClassDescDrawable,TattrTarget,AttrDrawableContext>
+public class AttrDescDrawable_Drawable_visible extends AttrDesc<ClassDescElementDrawable,Drawable,AttrDrawableContext>
 {
-    public AttrDescDrawable_Drawable_visible(ClassDescDrawable parent)
+
+    public AttrDescDrawable_Drawable_visible(ClassDescElementDrawable parent)
     {
         super(parent,"visible");
     }
 
     @Override
-    public void setAttribute(TattrTarget draw, DOMAttr attr, AttrDrawableContext attrCtx)
+    public void setAttribute(Drawable draw, DOMAttr attr, AttrDrawableContext attrCtx)
     {
         boolean visible = getBoolean(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
         boolean restart = true; // Ni idea
@@ -26,7 +27,7 @@ public class AttrDescDrawable_Drawable_visible<TattrTarget extends Drawable> ext
     }
 
     @Override
-    public void removeAttribute(TattrTarget target, AttrDrawableContext attrCtx)
+    public void removeAttribute(Drawable target, AttrDrawableContext attrCtx)
     {
         setAttributeToRemove(target, "true", attrCtx);
     }

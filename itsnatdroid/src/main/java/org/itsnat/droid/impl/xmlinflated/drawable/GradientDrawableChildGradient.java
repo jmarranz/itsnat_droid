@@ -5,7 +5,7 @@ import org.itsnat.droid.impl.xmlinflater.PercFloat;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class GradientDrawableItemGradient extends ElementDrawableChildNormal
+public class GradientDrawableChildGradient extends ElementDrawableChildNormal
 {
     protected Float angle;
     protected PercFloat centerX;
@@ -18,7 +18,7 @@ public class GradientDrawableItemGradient extends ElementDrawableChildNormal
     protected Boolean useLevel;
 
 
-    public GradientDrawableItemGradient(ElementDrawable parentElementDrawable)
+    public GradientDrawableChildGradient(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }

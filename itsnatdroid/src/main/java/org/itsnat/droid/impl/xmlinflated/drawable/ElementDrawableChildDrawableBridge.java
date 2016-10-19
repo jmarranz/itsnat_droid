@@ -2,36 +2,36 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 
 import android.graphics.drawable.Drawable;
 
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawable;
 
 /**
  * Created by jmarranz on 30/11/14.
  */
 public class ElementDrawableChildDrawableBridge extends ElementDrawableChild
 {
-    protected ClassDescElementDrawableRoot classDescBridge;
+    protected ClassDescElementDrawable classDescBridge;
 
-    public ElementDrawableChildDrawableBridge(ElementDrawable parentChildDrawable, ClassDescElementDrawableRoot classDescBridge, Drawable drawable)
+    public ElementDrawableChildDrawableBridge(ElementDrawableChildBase parentChildDrawable, ClassDescElementDrawable classDescBridge, Drawable drawable)
     {
         super(parentChildDrawable);
         this.classDescBridge = classDescBridge;
 
-        ((ElementDrawableContainer)getParentElementDrawable()).setDrawable(drawable);
+        ((ElementDrawableChildWithDrawable)getParentElementDrawable()).setDrawable(drawable);
     }
 
-    public ClassDescElementDrawableRoot getClassDescRootDrawableBridge()
+    public ClassDescElementDrawable getClassDescRootDrawableBridge()
     {
         return classDescBridge;
     }
 
-    public ElementDrawableContainer getElementDrawableContainer()
+    public ElementDrawableChildWithDrawable getElementDrawableItemWithDrawable()
     {
-        return (ElementDrawableContainer)getParentElementDrawable();
+        return (ElementDrawableChildWithDrawable)getParentElementDrawable();
     }
 
 
     public Drawable getDrawable()
     {
-        return getElementDrawableContainer().getDrawable();
+        return getElementDrawableItemWithDrawable().getDrawable();
     }
 }

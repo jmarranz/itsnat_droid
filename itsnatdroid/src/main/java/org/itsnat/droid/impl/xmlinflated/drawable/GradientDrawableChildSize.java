@@ -3,12 +3,12 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class GradientDrawableItemSize extends ElementDrawableChildNormal
+public class GradientDrawableChildSize extends ElementDrawableChildNormal
 {
     protected Integer width;
     protected Integer height;
 
-    public GradientDrawableItemSize(ElementDrawable parentElementDrawable)
+    public GradientDrawableChildSize(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }

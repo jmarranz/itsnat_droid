@@ -5,14 +5,13 @@ import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.StateListDrawable;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
+import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableChildItem;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -20,14 +19,14 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescStateListDrawable extends ClassDescDrawableContainerBased<StateListDrawable> // ClassDescDrawableContainerBASE<StateListDrawable>
+public class ClassDescStateListDrawable extends ClassDescElementDrawableBased<StateListDrawable> // ClassDescDrawableContainerBASE<StateListDrawable>
 {
     protected MethodContainer<DrawableContainer.DrawableContainerState> methodGetStateListState;
     protected MethodContainer<Void> methodGetStateListStateIsConstantSize;
 
-    public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawable<? super StateListDrawable> parentClass)
+    public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawableContainer parent)
     {
-        super(classMgr, "selector", parentClass);
+        super(classMgr, "selector", parent);
 
         this.methodGetStateListState = new MethodContainer<DrawableContainer.DrawableContainerState>(StateListDrawable.class,"getStateListState");
         this.methodGetStateListStateIsConstantSize =
@@ -35,20 +34,20 @@ public class ClassDescStateListDrawable extends ClassDescDrawableContainerBased<
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
+    public ElementDrawableChildRoot createElementDrawableChildRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
+        ElementDrawableChildRoot elementDrawableRoot = new ElementDrawableChildRoot();
 
         XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
 
         xmlInflaterDrawable.processChildElements(rootElem,elementDrawableRoot,attrCtx);
-        ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
+        ArrayList<ElementDrawableChildBase> itemList = elementDrawableRoot.getElementDrawableChildList();
 
         StateListDrawable drawable = new StateListDrawable();
 
         for(int i = 0; i < itemList.size(); i++)
         {
-            StateListDrawableItem item = (StateListDrawableItem)itemList.get(i);
+            StateListDrawableChildItem item = (StateListDrawableChildItem)itemList.get(i);
 
             Boolean constantSize = item.getConstantSize();
             Boolean variablePadding = item.getVariablePadding();
@@ -105,8 +104,6 @@ public class ClassDescStateListDrawable extends ClassDescDrawableContainerBased<
     {
         super.init();
 
-        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
-        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
 
     }
 

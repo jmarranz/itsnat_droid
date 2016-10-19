@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
-import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;

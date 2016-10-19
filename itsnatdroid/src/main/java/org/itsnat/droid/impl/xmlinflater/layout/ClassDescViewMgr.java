@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
-import android.inputmethodservice.KeyboardView;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;

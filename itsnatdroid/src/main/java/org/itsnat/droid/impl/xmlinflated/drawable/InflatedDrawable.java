@@ -1,17 +1,19 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
+import org.itsnat.droid.impl.xmlinflated.InflatedResource;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
  * Created by jmarranz on 7/11/14.
  */
-public abstract class InflatedDrawable extends InflatedXML
+public abstract class InflatedDrawable extends InflatedResource<Drawable>
 {
     protected Drawable drawable;
 

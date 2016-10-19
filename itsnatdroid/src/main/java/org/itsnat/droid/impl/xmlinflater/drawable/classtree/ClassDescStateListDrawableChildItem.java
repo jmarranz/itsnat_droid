@@ -1,9 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
-import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableItem;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
+import org.itsnat.droid.impl.xmlinflated.drawable.StateListDrawableChildItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
@@ -12,23 +12,23 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDrawabl
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescStateListDrawableItem extends ClassDescElementDrawableChildWithDrawable<StateListDrawableItem>
+public class ClassDescStateListDrawableChildItem extends ClassDescElementDrawableChildWithDrawable<StateListDrawableChildItem>
 {
-    public ClassDescStateListDrawableItem(ClassDescDrawableMgr classMgr)
+    public ClassDescStateListDrawableChildItem(ClassDescDrawableMgr classMgr)
     {
-        super(classMgr,"selector:item");
+        super(classMgr,"selector:item",null);
     }
 
     @Override
-    public Class<StateListDrawableItem> getDrawableOrElementDrawableClass()
+    public Class<StateListDrawableChildItem> getDrawableOrElementDrawableClass()
     {
-        return StateListDrawableItem.class;
+        return StateListDrawableChildItem.class;
     }
 
     @Override
-    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawable parentChildDrawable, AttrDrawableContext attrCtx)
+    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
     {
-        return new StateListDrawableItem(parentChildDrawable);
+        return new StateListDrawableChildItem(parentChildDrawable);
     }
 
     @SuppressWarnings("unchecked")

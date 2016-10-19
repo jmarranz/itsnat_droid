@@ -5,24 +5,23 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.TransitionDrawable;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflated.drawable.TransitionDrawableItem;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
+import org.itsnat.droid.impl.xmlinflated.drawable.TransitionDrawableChildItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 
 import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<TransitionDrawable> implements ClassDescCallback<LayerDrawable>
+public class ClassDescTransitionDrawable extends ClassDescElementDrawableBased<TransitionDrawable> implements ClassDescCallback<LayerDrawable> // TransitionDrawable deriva de LayerDrawable
 {
-    public ClassDescTransitionDrawable(ClassDescDrawableMgr classMgr,ClassDescLayerDrawable parentClass)
+    public ClassDescTransitionDrawable(ClassDescDrawableMgr classMgr,ClassDescElementDrawableBased<? super TransitionDrawable> parent)
     {
-        super(classMgr,"transition",parentClass);
+        super(classMgr,"transition",parent);
     }
 
     public ClassDescLayerDrawable getParentClassDescDrawable()
@@ -31,20 +30,20 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
+    public ElementDrawableChildRoot createElementDrawableChildRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
+        ElementDrawableChildRoot elementDrawableRoot = new ElementDrawableChildRoot();
 
         XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
 
         xmlInflaterDrawable.processChildElements(rootElem,elementDrawableRoot,attrCtx);
-        ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
+        ArrayList<ElementDrawableChildBase> itemList = elementDrawableRoot.getElementDrawableChildList();
 
         {
-            ((TransitionDrawableItem) itemList.get(0)).getDrawable(); // Just a check
+            ((TransitionDrawableChildItem) itemList.get(0)).getDrawable(); // Just a check
         }
 
-        Drawable[] drawableLayers = getDrawables(itemList);
+        Drawable[] drawableLayers = getLayerChildDrawables(itemList);
 
         TransitionDrawable drawable = new TransitionDrawable(drawableLayers);
 
@@ -78,8 +77,7 @@ public class ClassDescTransitionDrawable extends ClassDescElementDrawableRoot<Tr
     {
         super.init();
 
-        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
-        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
+
     }
 
 

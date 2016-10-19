@@ -40,14 +40,6 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
 
     //public abstract Class<TnativeResource> getDeclaredClass();
 
-    @Override
-    protected void init()
-    {
-        //initClass();
-
-        super.init();
-    }
-
 
     protected abstract TnativeResource createResourceNative(Context ctx);
 
@@ -77,7 +69,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         return resource;
     }
 
-    protected void fillResourceAttributes(TnativeResource resource, DOMElement domElement, TattrCtx attrCtx)
+    public void fillResourceAttributes(TnativeResource resource, DOMElement domElement, TattrCtx attrCtx)
     {
         Map<String,DOMAttr> attribMap = domElement.getDOMAttributes();
         if (attribMap != null)
@@ -228,6 +220,14 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
     protected boolean isAttributeIgnored(String namespaceURI, String name)
     {
         return false;
+    }
+
+    @Override
+    protected void init()
+    {
+        //initClass();
+
+        super.init();
     }
 
 }

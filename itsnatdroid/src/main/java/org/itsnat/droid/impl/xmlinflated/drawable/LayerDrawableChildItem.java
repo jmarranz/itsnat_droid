@@ -1,11 +1,9 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class LayerDrawableItem extends ElementDrawableChildWithDrawable
+public class LayerDrawableChildItem extends ElementDrawableChildWithDrawable
 {
     /*
     <item
@@ -17,27 +15,17 @@ public class LayerDrawableItem extends ElementDrawableChildWithDrawable
     android:left="dimension" />
     */
 
-    protected Drawable drawable;
     protected int id;
     protected int top;
     protected int right;
     protected int bottom;
     protected int left;
 
-    public LayerDrawableItem(ElementDrawable parentElementDrawable)
+    public LayerDrawableChildItem(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }
 
-    public Drawable getDrawable()
-    {
-        return drawable;
-    }
-
-    public void setDrawable(Drawable drawable)
-    {
-        this.drawable = drawable;
-    }
 
     public int getId()
     {

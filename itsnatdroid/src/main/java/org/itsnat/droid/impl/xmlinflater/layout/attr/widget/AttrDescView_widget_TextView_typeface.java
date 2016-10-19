@@ -1,9 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
-import android.graphics.Typeface;
-import android.view.View;
-import android.widget.TextView;
-
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewTypeface;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 

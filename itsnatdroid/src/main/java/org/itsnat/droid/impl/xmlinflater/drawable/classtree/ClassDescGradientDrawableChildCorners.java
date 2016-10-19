@@ -1,9 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
-import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemCorners;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
+import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildCorners;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensionIntRound;
@@ -11,23 +11,23 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodDimensi
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescGradientDrawableItemCorners extends ClassDescElementDrawableChildNormal<GradientDrawableItemCorners>
+public class ClassDescGradientDrawableChildCorners extends ClassDescElementDrawableChildNormal<GradientDrawableChildCorners>
 {
-    public ClassDescGradientDrawableItemCorners(ClassDescDrawableMgr classMgr)
+    public ClassDescGradientDrawableChildCorners(ClassDescDrawableMgr classMgr)
     {
-        super(classMgr,"shape:corners");
+        super(classMgr,"shape:corners",null);
     }
 
     @Override
-    public Class<GradientDrawableItemCorners> getDrawableOrElementDrawableClass()
+    public Class<GradientDrawableChildCorners> getDrawableOrElementDrawableClass()
     {
-        return GradientDrawableItemCorners.class;
+        return GradientDrawableChildCorners.class;
     }
 
     @Override
-    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawable parentChildDrawable, AttrDrawableContext attrCtx)
+    public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
     {
-        return new GradientDrawableItemCorners(parentChildDrawable);
+        return new GradientDrawableChildCorners(parentChildDrawable);
     }
 
     @SuppressWarnings("unchecked")

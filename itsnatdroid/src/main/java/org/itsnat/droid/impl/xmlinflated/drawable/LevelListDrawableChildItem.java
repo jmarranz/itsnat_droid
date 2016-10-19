@@ -1,11 +1,9 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class LevelListDrawableItem extends ElementDrawableChildWithDrawable
+public class LevelListDrawableChildItem extends ElementDrawableChildWithDrawable
 {
     /*
     <item
@@ -14,26 +12,14 @@ public class LevelListDrawableItem extends ElementDrawableChildWithDrawable
         android:minLevel="integer" />
     */
 
-    protected Drawable drawable;
-
     protected Integer maxLevel;
     protected Integer minLevel;
 
-    public LevelListDrawableItem(ElementDrawable parentElementDrawable)
+    public LevelListDrawableChildItem(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }
 
-
-    public Drawable getDrawable()
-    {
-        return drawable;
-    }
-
-    public void setDrawable(Drawable drawable)
-    {
-        this.drawable = drawable;
-    }
 
     public Integer getMaxLevel() {
         return maxLevel;

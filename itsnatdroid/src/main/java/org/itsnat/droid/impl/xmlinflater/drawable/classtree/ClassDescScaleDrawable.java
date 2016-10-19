@@ -7,14 +7,13 @@ import android.view.Gravity;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
@@ -23,26 +22,26 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawable>
+public class ClassDescScaleDrawable extends ClassDescElementDrawableBased<ScaleDrawable>
 {
 
-    public ClassDescScaleDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescScaleDrawable(ClassDescDrawableMgr classMgr,ClassDescElementDrawableBased<? super ScaleDrawable> parent)
     {
-        super(classMgr,"scale");
+        super(classMgr,"scale",parent);
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
+    public ElementDrawableChildRoot createElementDrawableChildRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
+        ElementDrawableChildRoot elementDrawableRoot = new ElementDrawableChildRoot();
 
         XMLInflaterContext xmlInflaterContext = attrCtx.getXMLInflaterContext();
 
         XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
         xmlInflaterDrawable.processChildElements(rootElem, elementDrawableRoot,attrCtx);
-        ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
+        ArrayList<ElementDrawableChildBase> childList = elementDrawableRoot.getElementDrawableChildList();
 
-        Drawable childDrawable = getChildDrawable("drawable", rootElem, xmlInflaterContext, childList);
+        Drawable childDrawable = getDrawableChild("drawable", rootElem, xmlInflaterContext, childList);
 
         XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
 
@@ -86,9 +85,9 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
     }
 
     @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(String namespaceURI,String name)
     {
-        if (super.isAttributeIgnored(draw,namespaceURI,name))
+        if (super.isAttributeIgnored(namespaceURI,name))
             return true;
 
         if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))
@@ -110,8 +109,6 @@ public class ClassDescScaleDrawable extends ClassDescDrawableWrapper<ScaleDrawab
     {
         super.init();
 
-        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
-        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
 
     }
 

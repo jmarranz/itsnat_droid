@@ -1,26 +1,64 @@
-package org.itsnat.droid.impl.xmlinflater.drawable;
+package org.itsnat.droid.impl.xmlinflater;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.NinePatch;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.ParsedResourceImage;
+import org.itsnat.droid.impl.dom.ResourceDesc;
+import org.itsnat.droid.impl.dom.ResourceDescCompiled;
+import org.itsnat.droid.impl.dom.ResourceDescDynamic;
+import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by jmarranz on 28/11/14.
+ * Created by jmarranz on 19/10/2016.
  */
-public class DrawableUtil
+
+public class BitmapUtil
 {
+    public static Bitmap getBitmapNoScale(ResourceDesc resourceDesc, Context ctx, XMLInflaterRegistry xmlInflaterRegistry)
+    {
+        return getBitmap(resourceDesc, -1, ctx, xmlInflaterRegistry);
+    }
+
+    public static Bitmap getBitmap(ResourceDesc resourceDesc,int bitmapDensityReference,Context ctx,XMLInflaterRegistry xmlInflaterRegistry)
+    {
+        if (resourceDesc instanceof ResourceDescDynamic)
+        {
+            // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            ParsedResourceImage resource = (ParsedResourceImage)resourceDescDyn.getParsedResource();
+            byte[] byteArray = resource.getImgBytes();
+            Resources res = ctx.getResources();
+            return createBitmap(byteArray, bitmapDensityReference, res);
+        }
+        else if (resourceDesc instanceof ResourceDescCompiled)
+        {
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            if (XMLInflaterRegistry.isResource(resourceDescValue))
+            {
+                // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/NinePatchDrawable.java#240
+                int resId = xmlInflaterRegistry.getIdentifierCompiled(resourceDescValue,ctx); // Si no se encuentra da error, no devuelve 0
+                TypedValue value = new TypedValue();
+                Resources res = ctx.getResources();
+                InputStream is = res.openRawResource(resId, value);
+                return createBitmap(is,value,res);
+            }
+
+            throw new ItsNatDroidException("Cannot process " + resourceDescValue);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+
     public static Bitmap createBitmap(byte[] byteArray,int bitmapDensityReference,Resources res)
     {
         // bitmapDensityReference es necesario para escalar adecuadamente un bitmap (no nine patch)
@@ -82,38 +120,5 @@ public class DrawableUtil
         }
     }
 
-    public static Drawable createImageBasedDrawable(byte[] byteArray,int bitmapDensityReference,boolean expectedNinePatch,Resources res)
-    {
-        if (expectedNinePatch)
-            return createNinePatchDrawable(byteArray,bitmapDensityReference,res);
 
-        Bitmap bitmap = createBitmap(byteArray,bitmapDensityReference,res);
-
-        byte[] chunk = bitmap.getNinePatchChunk();
-        boolean result = NinePatch.isNinePatchChunk(chunk);
-        if (result)
-        {
-            // Raro pero resulta que es un NinePatch (raro porque lo normal es que se especifique la extensión .9.png)
-            return createNinePatchDrawable(bitmap,res);
-        }
-        else
-        {
-            return new BitmapDrawable(res, bitmap);
-        }
-    }
-
-    public static NinePatchDrawable createNinePatchDrawable(byte[] byteArray,int bitmapDensityReference,Resources res)
-    {
-        Bitmap bitmap = createBitmap(byteArray,bitmapDensityReference,res);
-        return createNinePatchDrawable(bitmap,res);
-    }
-
-    public static NinePatchDrawable createNinePatchDrawable(Bitmap bitmap,Resources res)
-    {
-        byte[] chunk = bitmap.getNinePatchChunk();
-        boolean result = NinePatch.isNinePatchChunk(chunk);
-        if (!result) throw new ItsNatDroidException("Expected a 9 patch png, put a valid 9 patch in /res/drawable folder, generate the .apk (/build/outputs/apk in Android Studio), decompress as a zip and copy the png file");
-
-        return new NinePatchDrawable(res, bitmap, chunk, new Rect(), "XML 9 patch");
-    }
 }

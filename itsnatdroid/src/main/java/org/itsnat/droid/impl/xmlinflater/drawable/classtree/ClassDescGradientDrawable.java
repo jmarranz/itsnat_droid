@@ -12,14 +12,14 @@ import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
-import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemCorners;
-import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemGradient;
-import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemPadding;
-import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemSize;
-import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemSolid;
-import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableItemStroke;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
+import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildCorners;
+import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildGradient;
+import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildPadding;
+import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildSize;
+import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildSolid;
+import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildStroke;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
@@ -27,16 +27,14 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
-import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<GradientDrawable>
+public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<GradientDrawable>
 {
     public static final MapSmart<String,Integer> shapeValueMap = MapSmart.<String,Integer>create(4);
     static
@@ -74,9 +72,9 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     protected FieldContainer<Rect> gradientPaddingField;
     protected FieldContainer<Rect> gradientPaddingField2;
 
-    public ClassDescGradientDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescGradientDrawable(ClassDescDrawableMgr classMgr, ClassDescElementDrawableBased<? super GradientDrawable> parent)
     {
-        super(classMgr,"shape");
+        super(classMgr,"shape",parent);
 
         this.gradientStateField = new FieldContainer<Drawable.ConstantState>(GradientDrawable.class, "mGradientState");
         Class gradientStateClass = MiscUtil.resolveClass(GradientDrawable.class.getName() + "$GradientState");
@@ -102,9 +100,9 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
+    public ElementDrawableChildRoot createElementDrawableChildRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
+        ElementDrawableChildRoot elementDrawableRoot = new ElementDrawableChildRoot();
 
         GradientDrawable drawable = new GradientDrawable();
 
@@ -157,36 +155,37 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         drawable.setShape(shape);
         drawable.setDither(dither);
 
+
         XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
         xmlInflaterDrawable.processChildElements(rootElem, elementDrawableRoot,attrCtx);
-        ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
+        ArrayList<ElementDrawableChildBase> itemList = elementDrawableRoot.getElementDrawableChildList();
 
         for(int i = 0; i < itemList.size(); i++)
         {
-            ElementDrawable item = itemList.get(i);
-            if (item instanceof GradientDrawableItemCorners)
+            ElementDrawableChildBase item = itemList.get(i);
+            if (item instanceof GradientDrawableChildCorners)
             {
-                processCorners(drawable,(GradientDrawableItemCorners)item);
+                processCorners(drawable,(GradientDrawableChildCorners)item);
             }
-            else if (item instanceof GradientDrawableItemGradient)
+            else if (item instanceof GradientDrawableChildGradient)
             {
-                processGradient(drawable,(GradientDrawableItemGradient)item,gradientState);
+                processGradient(drawable,(GradientDrawableChildGradient)item,gradientState);
             }
-            else if (item instanceof GradientDrawableItemPadding)
+            else if (item instanceof GradientDrawableChildPadding)
             {
-                processPadding(drawable,(GradientDrawableItemPadding)item, gradientState);
+                processPadding(drawable,(GradientDrawableChildPadding)item, gradientState);
             }
-            else if (item instanceof GradientDrawableItemSize)
+            else if (item instanceof GradientDrawableChildSize)
             {
-                processSize(drawable,(GradientDrawableItemSize)item);
+                processSize(drawable,(GradientDrawableChildSize)item);
             }
-            else if (item instanceof GradientDrawableItemSolid)
+            else if (item instanceof GradientDrawableChildSolid)
             {
-                processSolid(drawable,(GradientDrawableItemSolid)item);
+                processSolid(drawable,(GradientDrawableChildSolid)item);
             }
-            else if (item instanceof GradientDrawableItemStroke)
+            else if (item instanceof GradientDrawableChildStroke)
             {
-                processStroke(drawable, (GradientDrawableItemStroke)item);
+                processStroke(drawable, (GradientDrawableChildStroke)item);
             }
         }
 
@@ -195,7 +194,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         return elementDrawableRoot;
     }
 
-    private void processCorners(GradientDrawable drawable,GradientDrawableItemCorners item)
+    private void processCorners(GradientDrawable drawable,GradientDrawableChildCorners item)
     {
         Integer radiusObj = item.getRadius();
         int radius = radiusObj != null ? radiusObj.intValue() : 0;
@@ -225,7 +224,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         }
     }
 
-    private void processGradient(GradientDrawable drawable,GradientDrawableItemGradient item,Object gradientState)
+    private void processGradient(GradientDrawable drawable, GradientDrawableChildGradient item, Object gradientState)
     {
         PercFloat centerXObj = item.getCenterX();
         PercFloat centerYObj = item.getCenterY();
@@ -343,7 +342,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
 
     }
 
-    private void processPadding(GradientDrawable drawable,GradientDrawableItemPadding item,Object gradientState)
+    private void processPadding(GradientDrawable drawable, GradientDrawableChildPadding item, Object gradientState)
     {
         Integer leftObj = item.getLeft();
         Integer topObj = item.getTop();
@@ -362,7 +361,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         gradientPaddingField2.set(gradientState, rect);
     }
 
-    private void processSize(GradientDrawable drawable,GradientDrawableItemSize item)
+    private void processSize(GradientDrawable drawable,GradientDrawableChildSize item)
     {
         Integer widthObj = item.getWidth();
         Integer heightObj = item.getHeight();
@@ -372,14 +371,14 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
         drawable.setSize(width, height);
     }
 
-    private void processSolid(GradientDrawable drawable,GradientDrawableItemSolid item)
+    private void processSolid(GradientDrawable drawable,GradientDrawableChildSolid item)
     {
         Integer colorObj = item.getColor();
         int color = colorObj != null ? colorObj.intValue() : 0;
         drawable.setColor(color);
     }
 
-    private void processStroke(GradientDrawable drawable,GradientDrawableItemStroke item)
+    private void processStroke(GradientDrawable drawable,GradientDrawableChildStroke item)
     {
         Integer widthObj = item.getWidth();
         Integer colorObj = item.getColor();
@@ -408,9 +407,9 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     }
 
     @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(String namespaceURI,String name)
     {
-        if (super.isAttributeIgnored(draw,namespaceURI,name))
+        if (super.isAttributeIgnored(namespaceURI,name))
             return true;
         return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) &&
                 (name.equals("shape") || name.equals("dither") ||
@@ -423,8 +422,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableRoot<Grad
     {
         super.init();
 
-        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
-        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
+
     }
 
 }

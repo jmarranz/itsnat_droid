@@ -3,37 +3,38 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawableChildItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescClipDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescColorDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableContainer;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemCorners;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemGradient;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemPadding;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemSize;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemSolid;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableItemStroke;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildCorners;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildGradient;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildPadding;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildSize;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildSolid;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildStroke;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescInsetDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableChildItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawableChildItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRotateDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescScaleDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableChildItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawableChildItem;
+import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDescResourceBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
+public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescResourceBased>
 {
     public ClassDescDrawableMgr(XMLInflaterRegistry parent)
     {
@@ -42,7 +43,7 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
     }
 
     @Override
-    public ClassDescDrawable get(String classOrDOMElemName)
+    public ClassDescResourceBased get(String classOrDOMElemName)
     {
         return classes.get(classOrDOMElemName);
     }
@@ -52,87 +53,91 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
     protected void initClassDesc()
     {
         // https://developer.android.com/guide/topics/resources/drawable-resource.html
-        // En la documentación del código fuente al principio se listan los atributos que definen la clase y los item hijo (se añade al nombre del atributo "Item"
+        // Las clases suelen tener un método para "inflar": public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs)
+        // en vez de inflarse en el constructor
+        // En la documentación del código fuente al principio se listan los atributos que definen la clase y los item hijo (se añade al nombre del atributo "Item")
         // Ej Attr:
         //    ref android.R.styleable#AnimationDrawableItem_drawable
 
         ClassDescElementDrawableChildDrawableBridge childBridge = new ClassDescElementDrawableChildDrawableBridge(this);
         addClassDesc(childBridge);
 
-        // 	android.graphics.drawable.Drawable no tiene atributos
+        ClassDescElementDrawable drawable = new ClassDescElementDrawable(this); // no tiene atributos ni Drawable clase padre
 
             // 	android.graphics.drawable.AnimatedVectorDrawable es level 21
 
-            ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this);
+            ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this,drawable);
             addClassDesc(bitmap);
 
-            ClassDescColorDrawable color = new ClassDescColorDrawable(this);
+            ClassDescColorDrawable color = new ClassDescColorDrawable(this,drawable);
             addClassDesc(color);
 
             // DrawableContainer y derivadas
-            ClassDescDrawableContainer drawableContainer = new ClassDescDrawableContainer(this);
             // No llamamos a addClassDesc() porque no hay clase que se instancie, es clase base
+            ClassDescDrawableContainer drawableContainer = new ClassDescDrawableContainer(this,drawable);
 
                 ClassDescAnimationDrawable animation = new ClassDescAnimationDrawable(this,drawableContainer);
                 addClassDesc(animation);
-                ClassDescAnimationDrawableItem animationItem = new ClassDescAnimationDrawableItem(this);
+                ClassDescAnimationDrawableChildItem animationItem = new ClassDescAnimationDrawableChildItem(this);
                 addClassDesc(animationItem);
 
                 ClassDescLevelListDrawable levelList = new ClassDescLevelListDrawable(this,drawableContainer);
                 addClassDesc(levelList);
-                ClassDescLevelListDrawableItem levelListItem = new ClassDescLevelListDrawableItem(this);
+                ClassDescLevelListDrawableChildItem levelListItem = new ClassDescLevelListDrawableChildItem(this);
                 addClassDesc(levelListItem);
 
                 ClassDescStateListDrawable stateList = new ClassDescStateListDrawable(this,drawableContainer);
                 addClassDesc(stateList);
-                ClassDescStateListDrawableItem stateListItem = new ClassDescStateListDrawableItem(this);
+                ClassDescStateListDrawableChildItem stateListItem = new ClassDescStateListDrawableChildItem(this);
                 addClassDesc(stateListItem);
 
                     // AnimatedStateListDrawable hereda de StateListDrawable pero es level 21
 
-            // DrawableWrapper es level 23 pero lo vamos teniendo en cuenta
+            // android.graphics.drawable.DrawableWrapper  es level 23 pero lo vamos teniendo en cuenta
+            //      estas són sus derivadas
 
-                ClassDescClipDrawable clip = new ClassDescClipDrawable(this);
-                addClassDesc(clip);
+            ClassDescClipDrawable clip = new ClassDescClipDrawable(this,drawable);
+            addClassDesc(clip);
 
-                ClassDescInsetDrawable inset = new ClassDescInsetDrawable(this);
-                addClassDesc(inset);
+            ClassDescInsetDrawable inset = new ClassDescInsetDrawable(this,drawable);
+            addClassDesc(inset);
 
-                ClassDescRotateDrawable rotate = new ClassDescRotateDrawable(this);
-                addClassDesc(rotate);
+            ClassDescRotateDrawable rotate = new ClassDescRotateDrawable(this,drawable);
+            addClassDesc(rotate);
 
-                ClassDescScaleDrawable scale = new ClassDescScaleDrawable(this);
-                addClassDesc(scale);
+            ClassDescScaleDrawable scale = new ClassDescScaleDrawable(this,drawable);
+            addClassDesc(scale);
 
+            // Derivadas directas de Drawable NO DrawableWrapper
 
-            ClassDescGradientDrawable gradient = new ClassDescGradientDrawable(this);
+            ClassDescGradientDrawable gradient = new ClassDescGradientDrawable(this,drawable);
             addClassDesc(gradient);
-            ClassDescGradientDrawableItemCorners gradientCornersItem = new ClassDescGradientDrawableItemCorners(this);
+            ClassDescGradientDrawableChildCorners gradientCornersItem = new ClassDescGradientDrawableChildCorners(this);
             addClassDesc(gradientCornersItem);
-            ClassDescGradientDrawableItemGradient gradientGradientItem = new ClassDescGradientDrawableItemGradient(this);
+            ClassDescGradientDrawableChildGradient gradientGradientItem = new ClassDescGradientDrawableChildGradient(this);
             addClassDesc(gradientGradientItem);
-            ClassDescGradientDrawableItemPadding gradientPaddingItem = new ClassDescGradientDrawableItemPadding(this);
+            ClassDescGradientDrawableChildPadding gradientPaddingItem = new ClassDescGradientDrawableChildPadding(this);
             addClassDesc(gradientPaddingItem);
-            ClassDescGradientDrawableItemSize gradientSizeItem = new ClassDescGradientDrawableItemSize(this);
+            ClassDescGradientDrawableChildSize gradientSizeItem = new ClassDescGradientDrawableChildSize(this);
             addClassDesc(gradientSizeItem);
-            ClassDescGradientDrawableItemSolid gradientSolidItem = new ClassDescGradientDrawableItemSolid(this);
+            ClassDescGradientDrawableChildSolid gradientSolidItem = new ClassDescGradientDrawableChildSolid(this);
             addClassDesc(gradientSolidItem);
-            ClassDescGradientDrawableItemStroke gradientStrokeItem = new ClassDescGradientDrawableItemStroke(this);
+            ClassDescGradientDrawableChildStroke gradientStrokeItem = new ClassDescGradientDrawableChildStroke(this);
             addClassDesc(gradientStrokeItem);
 
-            ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
+            ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this,drawable);
             addClassDesc(layer);
-            ClassDescLayerDrawableItem layerItem = new ClassDescLayerDrawableItem(this);
+            ClassDescLayerDrawableChildItem layerItem = new ClassDescLayerDrawableChildItem(this);
             addClassDesc(layerItem);
 
                 ClassDescTransitionDrawable transition = new ClassDescTransitionDrawable(this,layer);
                 addClassDesc(transition);
-                ClassDescTransitionDrawableItem transitionItem = new ClassDescTransitionDrawableItem(this,layerItem);
+                ClassDescTransitionDrawableChildItem transitionItem = new ClassDescTransitionDrawableChildItem(this,layerItem);
                 addClassDesc(transitionItem);
 
                 // RippleDrawable es level 21
 
-            ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
+            ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this,drawable);
             addClassDesc(ninePatch);
 
             // ShapeDrawable no se como usarlo como XML pues <shape> se refiere a GradientDrawable, parece que ShapeDrawable es una antigualla o bien realmente sólo se puede usar via objeto Java

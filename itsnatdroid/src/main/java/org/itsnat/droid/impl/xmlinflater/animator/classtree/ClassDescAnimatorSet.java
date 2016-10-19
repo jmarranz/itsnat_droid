@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.animator.classtree;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.content.Context;
 

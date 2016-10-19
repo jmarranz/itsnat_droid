@@ -1,14 +1,12 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
-import android.graphics.drawable.Drawable;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class StateListDrawableItem extends ElementDrawableChildWithDrawable
+public class StateListDrawableChildItem extends ElementDrawableChildWithDrawable
 {
     /*
     <item
@@ -25,28 +23,17 @@ public class StateListDrawableItem extends ElementDrawableChildWithDrawable
     */
 
     protected Boolean constantSize;
-    protected Drawable drawable;
 
     protected Map<Integer,Boolean> stateMap = new HashMap<Integer,Boolean>();
 
     protected Boolean variablePadding;
     protected Boolean visible;
 
-    public StateListDrawableItem(ElementDrawable parentElementDrawable)
+    public StateListDrawableChildItem(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }
 
-
-    public Drawable getDrawable()
-    {
-        return drawable;
-    }
-
-    public void setDrawable(Drawable drawable)
-    {
-        this.drawable = drawable;
-    }
 
     public Map<Integer,Boolean> getStateMap()
     {

@@ -2,33 +2,32 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
+import org.itsnat.droid.impl.xmlinflater.BitmapUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
+import org.itsnat.droid.impl.xmlinflater.drawable.BitmapDrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
-import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<NinePatchDrawable>
+public class ClassDescNinePatchDrawable extends ClassDescElementDrawableBased<NinePatchDrawable>
 {
-    public ClassDescNinePatchDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescNinePatchDrawable(ClassDescDrawableMgr classMgr,ClassDescElementDrawableBased<? super NinePatchDrawable> parent)
     {
-        super(classMgr,"nine-patch");
+        super(classMgr,"nine-patch",parent);
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
+    public ElementDrawableChildRoot createElementDrawableChildRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
         // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
         // http://stackoverflow.com/questions/5079868/create-a-ninepatch-ninepatchdrawable-in-runtime
@@ -41,16 +40,16 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
         if (attrSrc == null) throw new ItsNatDroidException("Missing src attribute in element " + rootElem.getTagName());
 
         // No necesita escalar pues por definición es "flexible"
-        Bitmap bitmap = getBitmap(attrSrc.getResourceDesc(),xmlInflaterContext.getBitmapDensityReference(),ctx,classMgr.getXMLInflaterRegistry());
+        Bitmap bitmap = BitmapUtil.getBitmap(attrSrc.getResourceDesc(),xmlInflaterContext.getBitmapDensityReference(),ctx,classMgr.getXMLInflaterRegistry());
 
-        NinePatchDrawable drawable = DrawableUtil.createNinePatchDrawable(bitmap,ctx.getResources());
-        return new ElementDrawableRoot(drawable);
+        NinePatchDrawable drawable = BitmapDrawableUtil.createNinePatchDrawable(bitmap,ctx.getResources());
+        return new ElementDrawableChildRoot(drawable);
     }
 
     @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(String namespaceURI,String name)
     {
-        if (super.isAttributeIgnored(draw,namespaceURI,name))
+        if (super.isAttributeIgnored(namespaceURI,name))
             return true;
         return isSrcAttribute(namespaceURI, name); // Se usa al construir el drawable
     }
@@ -70,9 +69,6 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableRoot<Nin
     protected void init()
     {
         super.init();
-
-        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
-        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
 
 
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "dither", true));

@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Switch;
 
-import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewTextStyle;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 

@@ -9,8 +9,8 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.PercFloat;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
@@ -18,14 +18,13 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_Drawable_visible;
 
 import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDrawable>
+public class ClassDescRotateDrawable extends ClassDescElementDrawableBased<RotateDrawable>
 {
     protected FieldContainer<Drawable.ConstantState> rotateStateField;
     protected FieldContainer<Drawable> mDrawableField;
@@ -38,9 +37,9 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
     protected FieldContainer<Float> mToDegreesField;
 
 
-    public ClassDescRotateDrawable(ClassDescDrawableMgr classMgr)
+    public ClassDescRotateDrawable(ClassDescDrawableMgr classMgr,ClassDescElementDrawableBased<? super RotateDrawable> parent)
     {
-        super(classMgr,"rotate");
+        super(classMgr,"rotate",parent);
 
         this.rotateStateField = new FieldContainer<Drawable.ConstantState>(RotateDrawable.class, "mState");
         Class rotateStateClass = MiscUtil.resolveClass(RotateDrawable.class.getName() + "$RotateState");
@@ -60,9 +59,9 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
     }
 
     @Override
-    public ElementDrawableRoot createElementDrawableRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
+    public ElementDrawableChildRoot createElementDrawableChildRoot(DOMElemDrawable rootElem, AttrDrawableContext attrCtx)
     {
-        ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
+        ElementDrawableChildRoot elementDrawableRoot = new ElementDrawableChildRoot();
 
         RotateDrawable drawable = new RotateDrawable();
 
@@ -70,12 +69,12 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
         XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
 
         xmlInflaterDrawable.processChildElements(rootElem, elementDrawableRoot,attrCtx);
-        ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
+        ArrayList<ElementDrawableChildBase> childList = elementDrawableRoot.getElementDrawableChildList();
 
         XMLInflaterRegistry xmlInflaterRegistry = classMgr.getXMLInflaterRegistry();
         Drawable.ConstantState rotateState = rotateStateField.get(drawable);
 
-        Drawable childDrawable = getChildDrawable("drawable", rootElem, xmlInflaterContext, childList);
+        Drawable childDrawable = getDrawableChild("drawable", rootElem, xmlInflaterContext, childList);
         if (Build.VERSION.SDK_INT >= MiscUtil.MARSHMALLOW) // level 23, v6.0
             mDrawableField.set(drawable,childDrawable);
         else
@@ -145,9 +144,9 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
     }
 
     @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(String namespaceURI,String name)
     {
-        if (super.isAttributeIgnored(draw,namespaceURI,name))
+        if (super.isAttributeIgnored(namespaceURI,name))
             return true;
 
         if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))
@@ -163,8 +162,7 @@ public class ClassDescRotateDrawable extends ClassDescDrawableWrapper<RotateDraw
     {
         super.init();
 
-        // Se implementa en Drawable pero con el lio de clases base lo declaramos aquí:
-        addAttrDescAN(new AttrDescDrawable_Drawable_visible<Drawable>(this));
+
     }
 
 }

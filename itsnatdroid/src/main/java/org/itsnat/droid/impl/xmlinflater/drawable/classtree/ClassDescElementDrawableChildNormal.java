@@ -6,17 +6,12 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public abstract class ClassDescElementDrawableChildNormal<TelementDrawable extends ElementDrawableChildNormal> extends ClassDescElementDrawableChild<TelementDrawable>
+public abstract class ClassDescElementDrawableChildNormal<TelementDrawableChild extends ElementDrawableChildNormal> extends ClassDescElementDrawableChildBased<TelementDrawableChild>
 {
-    public ClassDescElementDrawableChildNormal(ClassDescDrawableMgr classMgr,String elemName)
-    {
-        super(classMgr,elemName);
-    }
-
-    public ClassDescElementDrawableChildNormal(ClassDescDrawableMgr classMgr,String elemName,ClassDescDrawable<? super TelementDrawable> parentClass)
+    public ClassDescElementDrawableChildNormal(ClassDescDrawableMgr classMgr, String elemName, ClassDescElementDrawableChildBased<? super TelementDrawableChild> parentClass)
     {
         super(classMgr,elemName,parentClass);
-
     }
+
 }
 

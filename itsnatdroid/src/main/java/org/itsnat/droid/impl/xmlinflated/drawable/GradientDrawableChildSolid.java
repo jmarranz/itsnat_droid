@@ -3,11 +3,11 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class GradientDrawableItemSolid extends ElementDrawableChildNormal
+public class GradientDrawableChildSolid extends ElementDrawableChildNormal
 {
     protected Integer color;
 
-    public GradientDrawableItemSolid(ElementDrawable parentElementDrawable)
+    public GradientDrawableChildSolid(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }

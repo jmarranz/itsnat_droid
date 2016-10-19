@@ -5,14 +5,19 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class AnimationDrawableItem extends ElementDrawableChildWithDrawable
+public class ElementDrawableChildRoot extends ElementDrawableChild
 {
     protected Drawable drawable;
-    protected Integer duration;
 
-    public AnimationDrawableItem(ElementDrawable parentElementDrawable)
+    public ElementDrawableChildRoot()
     {
-        super(parentElementDrawable);
+        super(null);
+    }
+
+    public ElementDrawableChildRoot(Drawable drawable)
+    {
+        super(null);
+        this.drawable = drawable;
     }
 
     public Drawable getDrawable()
@@ -25,13 +30,4 @@ public class AnimationDrawableItem extends ElementDrawableChildWithDrawable
         this.drawable = drawable;
     }
 
-    public Integer getDuration()
-    {
-        return duration;
-    }
-
-    public void setDuration(int id)
-    {
-        this.duration = id;
-    }
 }

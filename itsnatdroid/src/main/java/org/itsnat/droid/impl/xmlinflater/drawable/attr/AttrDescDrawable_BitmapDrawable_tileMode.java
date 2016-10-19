@@ -6,13 +6,13 @@ import android.graphics.drawable.BitmapDrawable;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawable;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDesc<ClassDescDrawable,BitmapDrawable,AttrDrawableContext>
+public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDesc<ClassDescBitmapDrawable,BitmapDrawable,AttrDrawableContext>
 {
     public static final MapSmart<String,Integer> nameValueMap = MapSmart.<String,Integer>create( 4 );
     static
@@ -23,7 +23,7 @@ public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDesc<ClassDesc
         nameValueMap.put("mirror", 2);
     }
 
-    public AttrDescDrawable_BitmapDrawable_tileMode(ClassDescDrawable parent, String name)
+    public AttrDescDrawable_BitmapDrawable_tileMode(ClassDescBitmapDrawable parent, String name)
     {
         super(parent,name);
     }

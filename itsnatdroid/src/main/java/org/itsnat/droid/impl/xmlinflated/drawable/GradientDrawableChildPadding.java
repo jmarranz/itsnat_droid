@@ -3,14 +3,14 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class GradientDrawableItemPadding extends ElementDrawableChildNormal
+public class GradientDrawableChildPadding extends ElementDrawableChildNormal
 {
     protected Integer left;
     protected Integer top;
     protected Integer right;
     protected Integer bottom;
 
-    public GradientDrawableItemPadding(ElementDrawable parentElementDrawable)
+    public GradientDrawableChildPadding(ElementDrawableChildBase parentElementDrawable)
     {
         super(parentElementDrawable);
     }
