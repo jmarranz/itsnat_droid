@@ -57,7 +57,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
     }
 
     @Override
-    protected void fillResourceAttributes(ValueAnimator animator, DOMElement domElement,  AttrAnimatorContext attrCtx)
+    public void fillResourceAttributes(ValueAnimator animator, DOMElement domElement,  AttrAnimatorContext attrCtx)
     {
         fillAnimatorValueConstructionAttributes(animator, domElement, attrCtx);
 

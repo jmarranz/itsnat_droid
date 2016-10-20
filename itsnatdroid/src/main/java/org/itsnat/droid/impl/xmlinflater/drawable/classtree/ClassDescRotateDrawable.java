@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescRotateDrawable extends ClassDescElementDrawableBased<RotateDrawable>
+public class ClassDescRotateDrawable extends ClassDescElementDrawableBased<RotateDrawable> implements ClassDescCallback
 {
     protected FieldContainer<Drawable.ConstantState> rotateStateField;
     protected FieldContainer<Drawable> mDrawableField;
@@ -131,11 +131,6 @@ public class ClassDescRotateDrawable extends ClassDescElementDrawableBased<Rotat
         return elementDrawableRoot;
     }
 
-    @Override
-    public void setCallback(Drawable childDrawable, RotateDrawable parentDrawable)
-    {
-        childDrawable.setCallback(parentDrawable);
-    }
 
     @Override
     public Class<RotateDrawable> getDrawableOrElementDrawableClass()

@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 
 
-public class ClassDescClipDrawable extends ClassDescElementDrawableBased<ClipDrawable>
+public class ClassDescClipDrawable extends ClassDescElementDrawableBased<ClipDrawable> implements ClassDescCallback
 {
     // Para el atributo clipOrientation
     // No podemos usar OrientationUtil porque los valores numéricos SON DIFERENTES (1 y 2 en vez de 0 y 1), hay que joderse con la falta de homogeneidad
@@ -67,12 +67,6 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableBased<ClipDra
         elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
-    }
-
-    @Override
-    public void setCallback(Drawable childDrawable, ClipDrawable parentDrawable)
-    {
-        childDrawable.setCallback(parentDrawable);
     }
 
 

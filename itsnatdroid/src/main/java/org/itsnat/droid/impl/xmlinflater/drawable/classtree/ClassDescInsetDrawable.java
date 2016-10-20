@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescInsetDrawable extends ClassDescElementDrawableBased<InsetDrawable>
+public class ClassDescInsetDrawable extends ClassDescElementDrawableBased<InsetDrawable> implements ClassDescCallback
 {
     public ClassDescInsetDrawable(ClassDescDrawableMgr classMgr,ClassDescElementDrawableBased<? super InsetDrawable> parent)
     {
@@ -62,11 +62,6 @@ public class ClassDescInsetDrawable extends ClassDescElementDrawableBased<InsetD
         return elementDrawableRoot;
     }
 
-    @Override
-    public void setCallback(Drawable childDrawable, InsetDrawable parentDrawable)
-    {
-        childDrawable.setCallback(parentDrawable);
-    }
 
     @Override
     protected boolean isAttributeIgnored(String namespaceURI,String name)

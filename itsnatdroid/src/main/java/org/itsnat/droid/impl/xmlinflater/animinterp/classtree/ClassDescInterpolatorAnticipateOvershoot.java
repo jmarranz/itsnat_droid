@@ -46,7 +46,7 @@ public class ClassDescInterpolatorAnticipateOvershoot extends ClassDescInterpola
     }
 
 
-    protected void fillResourceAttributes(AnticipateOvershootInterpolator interpolator, DOMElement domElement, AttrInterpolatorContext attrCtx)
+    public void fillResourceAttributes(AnticipateOvershootInterpolator interpolator, DOMElement domElement, AttrInterpolatorContext attrCtx)
     {
         XMLInflaterResource xmlInflaterInterpolator = attrCtx.getXMLInflaterResource();
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterInterpolator.getInflatedResource().getXMLInflaterRegistry();

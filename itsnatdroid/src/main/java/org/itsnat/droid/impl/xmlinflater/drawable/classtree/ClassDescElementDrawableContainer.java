@@ -10,9 +10,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescDrawableContainer extends ClassDescElementDrawableBased<DrawableContainer>
+public class ClassDescElementDrawableContainer extends ClassDescElementDrawableBased<DrawableContainer>
 {
-    public ClassDescDrawableContainer(ClassDescDrawableMgr classMgr,ClassDescElementDrawableBased<? super DrawableContainer> parent)
+    public ClassDescElementDrawableContainer(ClassDescDrawableMgr classMgr, ClassDescElementDrawableBased<? super DrawableContainer> parent)
     {
         super(classMgr,"NONE",parent);
     }

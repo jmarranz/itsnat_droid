@@ -52,7 +52,7 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
 
 
     @Override
-    protected void fillResourceAttributes(AnimationSet animation, DOMElement domElement, AttrAnimationContext attrCtx)
+    public void fillResourceAttributes(AnimationSet animation, DOMElement domElement, AttrAnimationContext attrCtx)
     {
         super.fillResourceAttributes(animation,domElement,attrCtx);
 

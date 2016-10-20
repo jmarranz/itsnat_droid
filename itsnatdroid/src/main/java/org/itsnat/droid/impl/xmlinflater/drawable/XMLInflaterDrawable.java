@@ -80,29 +80,11 @@ public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
         return classDesc.createElementDrawableChildRoot(rootDOMElem,attrCtx);
     }
 
+    @SuppressWarnings("unchecked")
     private void fillAttributes(ClassDescResourceBased classDesc, DrawableOrElementDrawableWrapper drawable, DOMElemDrawable domElement, AttrDrawableContext attrCtx)
     {
         classDesc.fillResourceAttributes(drawable, domElement, attrCtx);
-
-        /*
-        Map<String,DOMAttr> attribMap = domElement.getDOMAttributes();
-        if (attribMap != null)
-        {
-            for (Map.Entry<String,DOMAttr> entry : attribMap.entrySet())
-            {
-                DOMAttr attr = entry.getValue();
-                setAttribute(classDesc, drawable, attr,attrCtx);
-            }
-        }
-        */
     }
-
-    /*
-    private boolean setAttribute(ClassDescElementDrawableBased classDesc, DrawableOrElementDrawableWrapper drawable, DOMAttr attr, AttrDrawableContext attrCtx)
-    {
-        return classDesc.setAttribute(drawable, attr,attrCtx);
-    }
-    */
 
     protected ElementDrawableChildBase inflateNextElement(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
     {

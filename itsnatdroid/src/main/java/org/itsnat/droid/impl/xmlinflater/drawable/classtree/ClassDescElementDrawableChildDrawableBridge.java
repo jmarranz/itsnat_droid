@@ -50,12 +50,12 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     @Override
     protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
     {
-        if (super.isAttributeIgnored(draw,namespaceURI,name))
+        if (super.isAttributeIgnored(namespaceURI,name))
             return true;
 
         ElementDrawableChildDrawableBridge elemDraw = (ElementDrawableChildDrawableBridge)((ElementDrawableChildContainer)draw).getElementDrawableChild();
         ClassDescElementDrawable classDescBridge = elemDraw.getClassDescRootDrawableBridge();
-        return classDescBridge.isAttributeIgnored(draw,namespaceURI,name);
+        return classDescBridge.isAttributeIgnored(namespaceURI,name);
     }
 
     @Override

@@ -19,12 +19,12 @@ import java.util.Map;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescStateListDrawable extends ClassDescElementDrawableBased<StateListDrawable> // ClassDescDrawableContainerBASE<StateListDrawable>
+public class ClassDescStateListDrawable extends ClassDescElementDrawableContainerBased<StateListDrawable>
 {
     protected MethodContainer<DrawableContainer.DrawableContainerState> methodGetStateListState;
     protected MethodContainer<Void> methodGetStateListStateIsConstantSize;
 
-    public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawableContainer parent)
+    public ClassDescStateListDrawable(ClassDescDrawableMgr classMgr, ClassDescElementDrawableContainer parent)
     {
         super(classMgr, "selector", parent);
 
@@ -86,12 +86,6 @@ public class ClassDescStateListDrawable extends ClassDescElementDrawableBased<St
         elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
-    }
-
-    @Override
-    public void setCallback(Drawable childDrawable, StateListDrawable parentDrawable)
-    {
-        childDrawable.setCallback(parentDrawable);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.AnimationDrawableChildItem;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;

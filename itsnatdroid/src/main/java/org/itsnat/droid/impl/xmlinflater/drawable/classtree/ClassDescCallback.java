@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by jmarranz on 20/04/2016.
  */
-public interface ClassDescCallback<Tdrawable extends Drawable>
+public interface ClassDescCallback
 {
-    public void setCallback(Drawable childDrawable, Tdrawable parentDrawable);
+    public void setCallback(Drawable childDrawable, Drawable.Callback parentDrawable);
 }

@@ -7,9 +7,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDr
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescClipDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescColorDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildCorners;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildGradient;
@@ -74,7 +74,7 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescResourceBased>
 
             // DrawableContainer y derivadas
             // No llamamos a addClassDesc() porque no hay clase que se instancie, es clase base
-            ClassDescDrawableContainer drawableContainer = new ClassDescDrawableContainer(this,drawable);
+            ClassDescElementDrawableContainer drawableContainer = new ClassDescElementDrawableContainer(this,drawable);
 
                 ClassDescAnimationDrawable animation = new ClassDescAnimationDrawable(this,drawableContainer);
                 addClassDesc(animation);

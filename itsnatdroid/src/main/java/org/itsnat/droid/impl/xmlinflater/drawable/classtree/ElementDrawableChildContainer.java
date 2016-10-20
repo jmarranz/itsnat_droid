@@ -39,7 +39,7 @@ public abstract class ElementDrawableChildContainer<TelementDrawableChild extend
     @Override
     public Drawable getDrawable()
     {
-        return elemDrawableChild.getElementDrawableRoot().getDrawable(); // Puede ser null si los elementos hijos se están procesando antes de crear el Drawable porque se necesitan para el constructor
+        return elemDrawableChild.getElementDrawableChildRoot().getDrawable(); // Puede ser null si los elementos hijos se están procesando antes de crear el Drawable porque se necesitan para el constructor
     }
 
 }

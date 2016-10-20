@@ -217,7 +217,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         return false;
     }
 
-    protected boolean isAttributeIgnored(String namespaceURI, String name)
+    public boolean isAttributeIgnored(String namespaceURI, String name)
     {
         return false;
     }

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescScaleDrawable extends ClassDescElementDrawableBased<ScaleDrawable>
+public class ClassDescScaleDrawable extends ClassDescElementDrawableBased<ScaleDrawable> implements ClassDescCallback
 {
 
     public ClassDescScaleDrawable(ClassDescDrawableMgr classMgr,ClassDescElementDrawableBased<? super ScaleDrawable> parent)
@@ -78,11 +78,7 @@ public class ClassDescScaleDrawable extends ClassDescElementDrawableBased<ScaleD
      }
 
 
-    @Override
-    public void setCallback(Drawable childDrawable, ScaleDrawable parentDrawable)
-    {
-        childDrawable.setCallback(parentDrawable);
-    }
+
 
     @Override
     protected boolean isAttributeIgnored(String namespaceURI,String name)

@@ -61,8 +61,8 @@ import org.itsnat.droid.impl.xmlinflater.animinterp.ClassDescInterpolatorMgr;
 import org.itsnat.droid.impl.xmlinflater.animinterp.XMLInflaterInterpolator;
 import org.itsnat.droid.impl.xmlinflater.animlayout.ClassDescLayoutAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.animlayout.XMLInflaterLayoutAnimation;
+import org.itsnat.droid.impl.xmlinflater.drawable.BitmapDrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
-import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
@@ -1101,7 +1101,7 @@ public class XMLInflaterRegistry
                     ParsedResourceImage resource = (ParsedResourceImage) resourceDescDyn.getParsedResource();
                     byte[] byteArray = resource.getImgBytes();
                     boolean expectedNinePatch = resourceDescDyn.isNinePatch();
-                    return DrawableUtil.createImageBasedDrawable(byteArray, bitmapDensityReference, expectedNinePatch, ctx.getResources());
+                    return BitmapDrawableUtil.createImageBasedDrawable(byteArray, bitmapDensityReference, expectedNinePatch, ctx.getResources());
                 }
                 else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
             }

@@ -96,4 +96,9 @@ public abstract class ClassDescElementDrawableBased<Tdrawable extends Drawable> 
         }
         return drawableLayers;
     }
+
+    public void setCallback(Drawable childDrawable, Drawable.Callback parentDrawable)
+    {
+        childDrawable.setCallback(parentDrawable);
+    }
 }

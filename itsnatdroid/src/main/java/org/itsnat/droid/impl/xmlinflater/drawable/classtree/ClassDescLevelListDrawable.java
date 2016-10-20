@@ -16,9 +16,9 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLevelListDrawable extends ClassDescElementDrawableBased<LevelListDrawable>
+public class ClassDescLevelListDrawable extends ClassDescElementDrawableContainerBased<LevelListDrawable>
 {
-    public ClassDescLevelListDrawable(ClassDescDrawableMgr classMgr,ClassDescDrawableContainer parent)
+    public ClassDescLevelListDrawable(ClassDescDrawableMgr classMgr,ClassDescElementDrawableContainer parent)
     {
         super(classMgr, "level-list", parent);
     }
@@ -53,12 +53,6 @@ public class ClassDescLevelListDrawable extends ClassDescElementDrawableBased<Le
         elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
-    }
-
-    @Override
-    public void setCallback(Drawable childDrawable, LevelListDrawable parentDrawable)
-    {
-        childDrawable.setCallback(parentDrawable);
     }
 
     @Override

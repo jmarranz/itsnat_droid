@@ -37,8 +37,8 @@ public abstract class ElementDrawableChildBase
     }
 
 
-    public ElementDrawableChildBase getElementDrawableRoot()
+    public ElementDrawableChildRoot getElementDrawableChildRoot()
     {
-        return parentElementDrawable != null ?  parentElementDrawable.getElementDrawableRoot() : null;
+        return parentElementDrawable != null ?  parentElementDrawable.getElementDrawableChildRoot() : null;
     }
 }

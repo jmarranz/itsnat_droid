@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescLayerDrawable extends ClassDescElementDrawableBased<LayerDrawable> implements ClassDescCallback<LayerDrawable>
+public class ClassDescLayerDrawable extends ClassDescElementDrawableBased<LayerDrawable> implements ClassDescCallback
 {
     public ClassDescLayerDrawable(ClassDescDrawableMgr classMgr,ClassDescElementDrawableBased<? super LayerDrawable> parent)
     {
@@ -48,12 +48,6 @@ public class ClassDescLayerDrawable extends ClassDescElementDrawableBased<LayerD
         elementDrawableRoot.setDrawable(drawable);
 
         return elementDrawableRoot;
-    }
-
-    @Override
-    public void setCallback(Drawable childDrawable, LayerDrawable parentDrawable)
-    {
-        childDrawable.setCallback(parentDrawable);
     }
 
     public void setItemAttributes(LayerDrawable drawable, ArrayList<ElementDrawableChildBase> itemList)

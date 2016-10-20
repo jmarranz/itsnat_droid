@@ -41,9 +41,9 @@ public class ClassDescBitmapDrawable extends ClassDescElementDrawableBased<Bitma
     }
 
     @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
+    protected boolean isAttributeIgnored(String namespaceURI,String name)
     {
-        if (super.isAttributeIgnored(draw,namespaceURI,name))
+        if (super.isAttributeIgnored(namespaceURI,name))
             return true;
         return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && name.equals("src");
     }

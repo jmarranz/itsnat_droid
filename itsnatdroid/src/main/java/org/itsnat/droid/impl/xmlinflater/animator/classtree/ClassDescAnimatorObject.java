@@ -31,7 +31,7 @@ public class ClassDescAnimatorObject extends ClassDescAnimatorBased<ObjectAnimat
     }
 
     @Override
-    protected void fillResourceAttributes(ObjectAnimator animator, DOMElement domElement, AttrAnimatorContext attrCtx)
+    public void fillResourceAttributes(ObjectAnimator animator, DOMElement domElement, AttrAnimatorContext attrCtx)
     {
         ((ClassDescAnimatorValue)parentClass).fillAnimatorValueConstructionAttributes(animator, domElement, attrCtx);
 

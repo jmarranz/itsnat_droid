@@ -21,9 +21,9 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescAnimationDrawable extends ClassDescElementDrawableBased<AnimationDrawable>
+public class ClassDescAnimationDrawable extends ClassDescElementDrawableContainerBased<AnimationDrawable>
 {
-    public ClassDescAnimationDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawableContainer parentClass )
+    public ClassDescAnimationDrawable(ClassDescDrawableMgr classMgr, ClassDescElementDrawableContainer parentClass )
     {
         super(classMgr, "animation-list", parentClass);
     }
@@ -62,12 +62,6 @@ public class ClassDescAnimationDrawable extends ClassDescElementDrawableBased<An
 
 
         return elementDrawableRoot;
-    }
-
-    @Override
-    public void setCallback(Drawable childDrawable, AnimationDrawable parentDrawable)
-    {
-        childDrawable.setCallback(parentDrawable);
     }
 
     @Override
