@@ -49,9 +49,9 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(ValueAnimator resource, String namespaceURI, String name)
     {
-        if (super.isAttributeIgnored(namespaceURI,name))
+        if (super.isAttributeIgnored(resource,namespaceURI,name))
             return true;
         return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) && ("valueType".equals(name) || "valueFrom".equals(name) || "valueTo".equals(name));
     }

@@ -15,7 +15,7 @@ public class ClassDescGradientDrawableChildSolid extends ClassDescElementDrawabl
 {
     public ClassDescGradientDrawableChildSolid(ClassDescDrawableMgr classMgr)
     {
-        super(classMgr,"shape:solid");
+        super(classMgr,"shape:solid",null);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Created by jmarranz on 27/11/14.
  */
@@ -26,6 +28,15 @@ public class LayerDrawableChildItem extends ElementDrawableChildWithDrawable
         super(parentElementDrawable);
     }
 
+    public Drawable getDrawable() // Necesita ser encontrado por AttrDescReflecMethodDrawable aunque esté en ElementDrawableChildWithDrawable
+    {
+        return super.getDrawable();
+    }
+
+    public void setDrawable(Drawable drawable) // Necesita ser encontrado por AttrDescReflecMethodDrawable aunque esté en ElementDrawableChildWithDrawable
+    {
+        super.setDrawable(drawable);
+    }
 
     public int getId()
     {

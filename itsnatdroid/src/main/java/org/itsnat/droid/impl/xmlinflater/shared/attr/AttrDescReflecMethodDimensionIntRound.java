@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
- * Aunque la entrada de datos sea una dimensión float con sufijo y todo, el método que define el valor sólo admite un entero
+ * Aunque la entrada de datos sea una dimensión float con sufijo y to_do, el método que define el valor sólo admite un entero
  * Created by jmarranz on 30/04/14.
  */
 public class AttrDescReflecMethodDimensionIntRound<TclassDesc extends ClassDesc,TattrTarget,TattrContext extends AttrContext>

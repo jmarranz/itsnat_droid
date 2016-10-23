@@ -12,13 +12,9 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableBased;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBased;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableOrElementDrawableWrapper;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.DrawableWrapped;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ElementDrawableChildContainer;
-import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDescResourceBased;
 
 import java.util.List;
 
@@ -62,7 +58,8 @@ public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
 
         String name = rootDOMElem.getTagName();
         ClassDescDrawableMgr classDescDrawableMgr = inflatedDrawable.getXMLInflaterRegistry().getClassDescDrawableMgr();
-        ClassDescElementDrawable classDesc = (ClassDescElementDrawable)classDescDrawableMgr.get(name);
+
+        ClassDescElementDrawableBased classDesc = (ClassDescElementDrawableBased)classDescDrawableMgr.get(name);
         if (classDesc == null)
             throw new ItsNatDroidException("Drawable type is not supported: " + name);
         ElementDrawableChildRoot drawableElem = createElementDrawableChildRoot(classDesc, rootDOMElem,attrCtx);
@@ -70,21 +67,31 @@ public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
 
         inflatedDrawable.setDrawable(drawable);
 
-        fillAttributes(classDesc, new DrawableWrapped(drawable), rootDOMElem,attrCtx);
+        fillAttributes(classDesc, drawable, rootDOMElem,attrCtx);
 
         return drawableElem;
     }
 
-    private ElementDrawableChildRoot createElementDrawableChildRoot(ClassDescElementDrawable classDesc, DOMElemDrawable rootDOMElem, AttrDrawableContext attrCtx)
+    private ElementDrawableChildRoot createElementDrawableChildRoot(ClassDescElementDrawableBased classDesc, DOMElemDrawable rootDOMElem, AttrDrawableContext attrCtx)
     {
         return classDesc.createElementDrawableChildRoot(rootDOMElem,attrCtx);
     }
 
     @SuppressWarnings("unchecked")
+    private void fillAttributes(ClassDescElementDrawableBased classDesc, Drawable drawable, DOMElemDrawable domElement, AttrDrawableContext attrCtx)
+    {
+        classDesc.fillResourceAttributes(drawable, domElement, attrCtx);
+    }
+
+    /*
+    @SuppressWarnings("unchecked")
     private void fillAttributes(ClassDescResourceBased classDesc, DrawableOrElementDrawableWrapper drawable, DOMElemDrawable domElement, AttrDrawableContext attrCtx)
     {
         classDesc.fillResourceAttributes(drawable, domElement, attrCtx);
     }
+*/
+
+
 
     protected ElementDrawableChildBase inflateNextElement(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
     {
@@ -125,16 +132,23 @@ public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
             if (classDesc == null) throw new ItsNatDroidException("Unexpected error"); // ClassDescElementDrawableChildDrawableBridge debe estar registrado previamente
         }
 
-        ElementDrawableChild childDrawable = createElementDrawableChild(classDesc, domElement, domElementParent, parentChildDrawable,attrCtx);
+        ElementDrawableChild drawableChild = createElementDrawableChild(classDesc, domElement, domElementParent, parentChildDrawable,attrCtx);
 
-        fillAttributes(classDesc, ElementDrawableChildContainer.create(childDrawable), domElement, attrCtx);
+        fillAttributes(classDesc,drawableChild , domElement, attrCtx); // ElementDrawableChildContainer.create(drawableChild)
 
-        return childDrawable;
+        return drawableChild;
     }
+
 
     private ElementDrawableChild createElementDrawableChild(ClassDescElementDrawableChildBased classDesc, DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
     {
         return classDesc.createElementDrawableChild(domElement, domElementParent, parentChildDrawable,attrCtx);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void fillAttributes(ClassDescElementDrawableChildBased classDesc, ElementDrawableChild drawableChild, DOMElemDrawable domElement, AttrDrawableContext attrCtx)
+    {
+        classDesc.fillResourceAttributes(drawableChild, domElement, attrCtx);
     }
 
     public void processChildElements(DOMElemDrawable domElemParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
@@ -142,11 +156,11 @@ public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
         List<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return;
 
-        parentChildDrawable.initElementDrawableItemList(childDOMElemList.size());
+        parentChildDrawable.initElementDrawableChildList(childDOMElemList.size());
         for (DOMElement childDOMElem : childDOMElemList)
         {
             ElementDrawableChildBase childDrawable = inflateNextElement((DOMElemDrawable)childDOMElem,domElemParent,parentChildDrawable,attrCtx);
-            parentChildDrawable.addElementDrawableItem(childDrawable);
+            parentChildDrawable.addElementDrawableChild(childDrawable);
         }
     }
 }

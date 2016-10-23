@@ -82,7 +82,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         }
     }
 
-    protected boolean setAttribute(final TnativeResource resource, final DOMAttr attr, final TattrCtx attrCtx)
+    public boolean setAttribute(final TnativeResource resource, final DOMAttr attr, final TattrCtx attrCtx)
     {
         // Devolvemos true si consideramos "procesado", esto incluye que sea ignorado o procesado custom
 
@@ -99,6 +99,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         }
         catch (Exception ex)
         {
+ex.printStackTrace(); // TODO
             throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + resource, ex);
         }
     }
@@ -113,7 +114,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
         //String value = attr.getValue();
 
-        if (isAttributeIgnored(namespaceURI, name))
+        if (isAttributeIgnored(resource,namespaceURI, name))
             return true; // Se trata de forma especial en otro lugar
 
         final AttrDesc<ClassDescResourceBased, TnativeResource, TattrCtx> attrDesc = this.<ClassDescResourceBased, TnativeResource, TattrCtx>getAttrDesc(namespaceURI, name);
@@ -170,7 +171,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         if (!isInit()) init();
 
 
-        if (isAttributeIgnored(namespaceURI,name))
+        if (isAttributeIgnored(resource,namespaceURI,name))
             return true; // Se trata de forma especial en otro lugar
 
         AttrDesc<ClassDescResourceBased,TnativeResource, TattrCtx> attrDesc = this.<ClassDescResourceBased,TnativeResource, TattrCtx>getAttrDesc(namespaceURI, name);
@@ -217,7 +218,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         return false;
     }
 
-    public boolean isAttributeIgnored(String namespaceURI, String name)
+    public boolean isAttributeIgnored(TnativeResource resource,String namespaceURI, String name)
     {
         return false;
     }

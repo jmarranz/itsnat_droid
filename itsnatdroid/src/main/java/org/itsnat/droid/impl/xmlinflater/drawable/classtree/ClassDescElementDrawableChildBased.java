@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
+import android.content.Context;
+
 import org.itsnat.droid.impl.dom.drawable.DOMElemDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
@@ -17,11 +19,21 @@ public abstract class ClassDescElementDrawableChildBased<TelementDrawableChild e
         super(classMgr, elemName, parentClass);
     }
 
+    protected TelementDrawableChild createResourceNative(Context ctx)
+    {
+        return null; // No se utiliza
+    }
+
     public abstract Class<TelementDrawableChild> getDrawableOrElementDrawableClass();
 
     public Class<TelementDrawableChild> getDeclaredClass()
     {
         return getDrawableOrElementDrawableClass();
+    }
+
+    public ClassDescDrawableMgr getClassDescDrawableMgr()
+    {
+        return (ClassDescDrawableMgr) classMgr;
     }
 
     public abstract ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx);

@@ -15,7 +15,7 @@ public class ClassDescGradientDrawableChildSize extends ClassDescElementDrawable
 {
     public ClassDescGradientDrawableChildSize(ClassDescDrawableMgr classMgr)
     {
-        super(classMgr,"shape:size");
+        super(classMgr,"shape:size",null);
     }
 
     @Override

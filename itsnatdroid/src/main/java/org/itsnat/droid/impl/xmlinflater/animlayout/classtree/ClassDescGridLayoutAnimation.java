@@ -51,7 +51,7 @@ public class ClassDescGridLayoutAnimation extends ClassDescLayoutAnimationBased<
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(GridLayoutAnimationController resource, String namespaceURI, String name)
     {
         return false;
     }

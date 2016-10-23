@@ -15,7 +15,7 @@ public class ClassDescGradientDrawableChildPadding extends ClassDescElementDrawa
 {
     public ClassDescGradientDrawableChildPadding(ClassDescDrawableMgr classMgr)
     {
-        super(classMgr,"shape:padding");
+        super(classMgr,"shape:padding",null);
     }
 
     @Override

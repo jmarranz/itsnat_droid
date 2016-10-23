@@ -139,9 +139,9 @@ public class ClassDescRotateDrawable extends ClassDescElementDrawableBased<Rotat
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(RotateDrawable resource, String namespaceURI, String name)
     {
-        if (super.isAttributeIgnored(namespaceURI,name))
+        if (super.isAttributeIgnored(resource,namespaceURI,name))
             return true;
 
         if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))

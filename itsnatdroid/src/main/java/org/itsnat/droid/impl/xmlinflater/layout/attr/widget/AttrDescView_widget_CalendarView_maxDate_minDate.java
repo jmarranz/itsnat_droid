@@ -88,7 +88,7 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDesc<C
 
         if (!TextUtils.isEmpty(date))
         {
-            if (!parseDate(calendarObject,date, outDate)) // El código fuente de Android tolera un mal formato, nosotros no pues no hace más que complicarlo todo
+            if (!parseDate(calendarObject,date, outDate)) // El código fuente de Android tolera un mal formato, nosotros no pues no hace más que complicarlo to_do
                 throw new ItsNatDroidException("Date: " + date + " not in format: " + "MM/dd/yyyy");
         }
         else // Caso de eliminación de atributo, interpretamos el "" como el deseo de poner los valores por defecto (más o menos es así en el código fuente)

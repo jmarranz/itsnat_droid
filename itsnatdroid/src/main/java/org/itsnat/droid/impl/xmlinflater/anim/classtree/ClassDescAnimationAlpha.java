@@ -29,7 +29,7 @@ public class ClassDescAnimationAlpha extends ClassDescAnimationBased<AlphaAnimat
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(AlphaAnimation resource,String namespaceURI,String name)
     {
         return false;
     }

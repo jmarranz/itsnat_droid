@@ -17,7 +17,7 @@ public class ClassDescGradientDrawableChildStroke extends ClassDescElementDrawab
 {
     public ClassDescGradientDrawableChildStroke(ClassDescDrawableMgr classMgr)
     {
-        super(classMgr,"shape:stroke");
+        super(classMgr,"shape:stroke",null);
     }
 
     @Override

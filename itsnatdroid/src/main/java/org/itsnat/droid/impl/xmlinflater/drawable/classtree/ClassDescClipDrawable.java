@@ -71,9 +71,9 @@ public class ClassDescClipDrawable extends ClassDescElementDrawableBased<ClipDra
 
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(ClipDrawable resource, String namespaceURI, String name)
     {
-        if (super.isAttributeIgnored(namespaceURI,name))
+        if (super.isAttributeIgnored(resource,namespaceURI,name))
             return true;
 
         if (NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI))

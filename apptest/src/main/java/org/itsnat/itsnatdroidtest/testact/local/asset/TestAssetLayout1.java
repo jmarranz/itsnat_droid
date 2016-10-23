@@ -41,7 +41,7 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.Gallery;
+//import android.widget.Gallery; Para que no salga un warning de deprecated
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -2431,9 +2431,9 @@ public class TestAssetLayout1
             childCount++;
 
             @SuppressWarnings("deprecation")
-            final Gallery compLayout = (Gallery) comp.getChildAt(childCount);
+            final android.widget.Gallery compLayout = (android.widget.Gallery) comp.getChildAt(childCount);
             @SuppressWarnings("deprecation")
-            final Gallery parsedLayout = (Gallery) parsed.getChildAt(childCount);
+            final android.widget.Gallery parsedLayout = (android.widget.Gallery) parsed.getChildAt(childCount);
             assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"), 100);
             assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"),(Integer)TestUtil.getField(parsedLayout, "mAnimationDuration"));
             assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL);

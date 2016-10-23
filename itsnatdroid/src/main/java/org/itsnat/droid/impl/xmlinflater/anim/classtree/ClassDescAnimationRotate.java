@@ -30,7 +30,7 @@ public class ClassDescAnimationRotate extends ClassDescAnimationBased<RotateAnim
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(RotateAnimation resource,String namespaceURI,String name)
     {
         return false;
     }

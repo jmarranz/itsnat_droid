@@ -7,38 +7,38 @@ import java.util.ArrayList;
  */
 public abstract class ElementDrawableChildBase
 {
-    protected ArrayList<ElementDrawableChildBase> itemDrawableList;
-    protected ElementDrawableChildBase parentElementDrawable;
+    protected ArrayList<ElementDrawableChildBase> elementDrawableChildList;
+    protected ElementDrawableChildBase parentElementDrawableChild;
 
-    protected ElementDrawableChildBase(ElementDrawableChildBase parentElementDrawable)
+    protected ElementDrawableChildBase(ElementDrawableChildBase parentElementDrawableChild)
     {
-        this.parentElementDrawable = parentElementDrawable;
+        this.parentElementDrawableChild = parentElementDrawableChild;
     }
 
     public ArrayList<ElementDrawableChildBase> getElementDrawableChildList()
     {
-        return itemDrawableList;
+        return elementDrawableChildList;
     }
 
-    public void initElementDrawableItemList(int size)
+    public void initElementDrawableChildList(int size)
     {
-        this.itemDrawableList = new ArrayList<ElementDrawableChildBase>(size);
+        this.elementDrawableChildList = new ArrayList<ElementDrawableChildBase>(size);
     }
 
-    public void addElementDrawableItem(ElementDrawableChildBase child)
+    public void addElementDrawableChild(ElementDrawableChildBase child)
     {
-        itemDrawableList.add(child);
+        elementDrawableChildList.add(child);
     }
 
 
-    public ElementDrawableChildBase getParentElementDrawable()
+    public ElementDrawableChildBase getParentElementDrawableChildBase()
     {
-        return parentElementDrawable;
+        return parentElementDrawableChild;
     }
 
 
     public ElementDrawableChildRoot getElementDrawableChildRoot()
     {
-        return parentElementDrawable != null ?  parentElementDrawable.getElementDrawableChildRoot() : null;
+        return parentElementDrawableChild != null ?  parentElementDrawableChild.getElementDrawableChildRoot() : null;
     }
 }

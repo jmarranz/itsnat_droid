@@ -47,9 +47,9 @@ public class ClassDescNinePatchDrawable extends ClassDescElementDrawableBased<Ni
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(NinePatchDrawable resource, String namespaceURI, String name)
     {
-        if (super.isAttributeIgnored(namespaceURI,name))
+        if (super.isAttributeIgnored(resource,namespaceURI,name))
             return true;
         return isSrcAttribute(namespaceURI, name); // Se usa al construir el drawable
     }

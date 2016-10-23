@@ -45,7 +45,7 @@ public class ClassDescAnimationSet extends ClassDescAnimationBased<AnimationSet>
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(AnimationSet resource, String namespaceURI, String name)
     {
         return false;
     }

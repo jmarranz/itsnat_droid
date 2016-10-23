@@ -407,9 +407,9 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(GradientDrawable resource, String namespaceURI, String name)
     {
-        if (super.isAttributeIgnored(namespaceURI,name))
+        if (super.isAttributeIgnored(resource,namespaceURI,name))
             return true;
         return NamespaceUtil.XMLNS_ANDROID.equals(namespaceURI) &&
                 (name.equals("shape") || name.equals("dither") ||

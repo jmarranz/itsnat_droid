@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class TransitionDrawableChildItem extends ElementDrawableChildWithDrawable
+public class TransitionDrawableChildItem extends LayerDrawableChildItem // extends ElementDrawableChildWithDrawable
 {
     /*
     Same attributes than <item> of LayerDrawable because: TransitionDrawable extends LayerDrawableItem

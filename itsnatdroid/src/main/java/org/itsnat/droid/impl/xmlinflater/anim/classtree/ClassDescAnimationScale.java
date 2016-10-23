@@ -30,7 +30,7 @@ public class ClassDescAnimationScale extends ClassDescAnimationBased<ScaleAnimat
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(ScaleAnimation resource, String namespaceURI, String name)
     {
         return false;
     }

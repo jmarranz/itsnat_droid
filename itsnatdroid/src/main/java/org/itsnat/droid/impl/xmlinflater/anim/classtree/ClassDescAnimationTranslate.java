@@ -29,7 +29,7 @@ public class ClassDescAnimationTranslate extends ClassDescAnimationBased<Transla
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    public boolean isAttributeIgnored(TranslateAnimation resource, String namespaceURI, String name)
     {
         return false;
     }

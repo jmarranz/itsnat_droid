@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +36,15 @@ public class StateListDrawableChildItem extends ElementDrawableChildWithDrawable
         super(parentElementDrawable);
     }
 
+    public Drawable getDrawable() // Necesita ser encontrado por AttrDescReflecMethodDrawable aunque esté en ElementDrawableChildWithDrawable
+    {
+        return super.getDrawable();
+    }
+
+    public void setDrawable(Drawable drawable) // Necesita ser encontrado por AttrDescReflecMethodDrawable aunque esté en ElementDrawableChildWithDrawable
+    {
+        super.setDrawable(drawable);
+    }
 
     public Map<Integer,Boolean> getStateMap()
     {

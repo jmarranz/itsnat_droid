@@ -64,7 +64,7 @@ public abstract class HttpRequestResultImpl implements HttpRequestResult
             return defaultValue;
         }
         try {
-            return Date.parse(date); // TODO: use HttpDate.parse()
+            return Date.parse(date); // TO_DO: use HttpDate.parse()
         } catch (Exception e) {
             return defaultValue;
         }

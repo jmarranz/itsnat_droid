@@ -37,7 +37,8 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
     {
         String name = domElement.getTagName();
-        ClassDescElementDrawable classDescBridgeRealTarget = (ClassDescElementDrawable)getClassDescDrawableMgr().get(name);
+        @SuppressWarnings("unchecked")
+        ClassDescElementDrawableBased<Drawable> classDescBridgeRealTarget = (ClassDescElementDrawableBased<Drawable>)getClassDescDrawableMgr().get(name);
         if (classDescBridgeRealTarget == null)
             throw new ItsNatDroidException("Not found processor for " + domElementParent.getTagName() + ":" + name);
 
@@ -47,24 +48,25 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
         return new ElementDrawableChildDrawableBridge(parentChildDrawable,classDescBridgeRealTarget,drawable);
     }
 
+
     @Override
-    protected boolean isAttributeIgnored(DrawableOrElementDrawableWrapper draw,String namespaceURI,String name)
+    @SuppressWarnings("unchecked")
+    public boolean isAttributeIgnored(ElementDrawableChildDrawableBridge resource, String namespaceURI, String name)
     {
-        if (super.isAttributeIgnored(namespaceURI,name))
+        if (super.isAttributeIgnored(resource,namespaceURI,name))
             return true;
 
-        ElementDrawableChildDrawableBridge elemDraw = (ElementDrawableChildDrawableBridge)((ElementDrawableChildContainer)draw).getElementDrawableChild();
-        ClassDescElementDrawable classDescBridge = elemDraw.getClassDescRootDrawableBridge();
-        return classDescBridge.isAttributeIgnored(namespaceURI,name);
+        ClassDescElementDrawableBased<Drawable> classDescBridge = resource.getClassDescElementDrawableBasedBridgeRoot();
+        return classDescBridge.isAttributeIgnored(resource.getDrawable(),namespaceURI,name);
     }
 
     @Override
-    public boolean setAttribute(DrawableOrElementDrawableWrapper draw, DOMAttr attr, AttrDrawableContext attrCtx)
+    @SuppressWarnings("unchecked")
+    public boolean setAttribute(ElementDrawableChildDrawableBridge resource, DOMAttr attr, AttrDrawableContext attrCtx)
     {
         // Se redefine completamente
-        ElementDrawableChildDrawableBridge elemDraw = (ElementDrawableChildDrawableBridge)((ElementDrawableChildContainer)draw).getElementDrawableChild();
-        ClassDescElementDrawable classDescBridge = elemDraw.getClassDescRootDrawableBridge();
-        return classDescBridge.setAttribute(draw,attr,attrCtx);
+        ClassDescElementDrawableBased<Drawable> classDescBridge = resource.getClassDescElementDrawableBasedBridgeRoot();
+        return classDescBridge.setAttribute(resource.getDrawable(),attr,attrCtx);
     }
 
 }
