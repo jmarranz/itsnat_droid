@@ -99,7 +99,6 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         }
         catch (Exception ex)
         {
-ex.printStackTrace(); // TODO
             throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + resource, ex);
         }
     }

@@ -10,9 +10,9 @@ import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescTransitionDrawableChildItem extends ClassDescElementDrawableChildWithDrawable<TransitionDrawableChildItem> // Es correcto poner la clase base (Layer)
+public class ClassDescTransitionDrawableChildItem extends ClassDescElementDrawableChildWithDrawable<TransitionDrawableChildItem>
 {
-    public ClassDescTransitionDrawableChildItem(ClassDescDrawableMgr classMgr, ClassDescElementDrawableChildBased<? super TransitionDrawableChildItem>  parentClass) // Es correcto ClassDescLayerDrawableItem es el ClassDesc base
+    public ClassDescTransitionDrawableChildItem(ClassDescDrawableMgr classMgr, ClassDescElementDrawableChildBased<? super TransitionDrawableChildItem>  parentClass)
     {
         super(classMgr,"transition:item",parentClass);
     }

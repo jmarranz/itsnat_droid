@@ -158,34 +158,34 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
 
         XMLInflaterDrawable xmlInflaterDrawable = attrCtx.getXMLInflaterDrawable();
         xmlInflaterDrawable.processChildElements(rootElem, elementDrawableRoot,attrCtx);
-        ArrayList<ElementDrawableChildBase> itemList = elementDrawableRoot.getElementDrawableChildList();
+        ArrayList<ElementDrawableChildBase> childList = elementDrawableRoot.getElementDrawableChildList();
 
-        for(int i = 0; i < itemList.size(); i++)
+        for(int i = 0; i < childList.size(); i++)
         {
-            ElementDrawableChildBase item = itemList.get(i);
-            if (item instanceof GradientDrawableChildCorners)
+            ElementDrawableChildBase child = childList.get(i);
+            if (child instanceof GradientDrawableChildCorners)
             {
-                processCorners(drawable,(GradientDrawableChildCorners)item);
+                processCorners(drawable,(GradientDrawableChildCorners)child);
             }
-            else if (item instanceof GradientDrawableChildGradient)
+            else if (child instanceof GradientDrawableChildGradient)
             {
-                processGradient(drawable,(GradientDrawableChildGradient)item,gradientState);
+                processGradient(drawable,(GradientDrawableChildGradient)child,gradientState);
             }
-            else if (item instanceof GradientDrawableChildPadding)
+            else if (child instanceof GradientDrawableChildPadding)
             {
-                processPadding(drawable,(GradientDrawableChildPadding)item, gradientState);
+                processPadding(drawable,(GradientDrawableChildPadding)child, gradientState);
             }
-            else if (item instanceof GradientDrawableChildSize)
+            else if (child instanceof GradientDrawableChildSize)
             {
-                processSize(drawable,(GradientDrawableChildSize)item);
+                processSize(drawable,(GradientDrawableChildSize)child);
             }
-            else if (item instanceof GradientDrawableChildSolid)
+            else if (child instanceof GradientDrawableChildSolid)
             {
-                processSolid(drawable,(GradientDrawableChildSolid)item);
+                processSolid(drawable,(GradientDrawableChildSolid)child);
             }
-            else if (item instanceof GradientDrawableChildStroke)
+            else if (child instanceof GradientDrawableChildStroke)
             {
-                processStroke(drawable, (GradientDrawableChildStroke)item);
+                processStroke(drawable, (GradientDrawableChildStroke)child);
             }
         }
 
@@ -194,22 +194,22 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
         return elementDrawableRoot;
     }
 
-    private void processCorners(GradientDrawable drawable,GradientDrawableChildCorners item)
+    private void processCorners(GradientDrawable drawable,GradientDrawableChildCorners child)
     {
-        Integer radiusObj = item.getRadius();
+        Integer radiusObj = child.getRadius();
         int radius = radiusObj != null ? radiusObj.intValue() : 0;
         drawable.setCornerRadius(radius);
 
-        Integer topLeftRadiusObj = item.getTopLeftRadius();
+        Integer topLeftRadiusObj = child.getTopLeftRadius();
         int topLeftRadius = topLeftRadiusObj != null ? topLeftRadiusObj.intValue() : radius;
 
-        Integer topRightRadiusObj = item.getTopRightRadius();
+        Integer topRightRadiusObj = child.getTopRightRadius();
         int topRightRadius = topRightRadiusObj != null ? topRightRadiusObj.intValue() : radius;
 
-        Integer bottomLeftRadiusObj = item.getBottomLeftRadius();
+        Integer bottomLeftRadiusObj = child.getBottomLeftRadius();
         int bottomLeftRadius = bottomLeftRadiusObj != null ? bottomLeftRadiusObj.intValue() : radius;
 
-        Integer bottomRightRadiusObj = item.getBottomRightRadius();
+        Integer bottomRightRadiusObj = child.getBottomRightRadius();
         int bottomRightRadius = bottomRightRadiusObj != null ? bottomRightRadiusObj.intValue() : radius;
 
         if (topLeftRadius != radius || topRightRadius != radius ||
@@ -224,17 +224,17 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
         }
     }
 
-    private void processGradient(GradientDrawable drawable, GradientDrawableChildGradient item, Object gradientState)
+    private void processGradient(GradientDrawable drawable, GradientDrawableChildGradient child, Object gradientState)
     {
-        PercFloat centerXObj = item.getCenterX();
-        PercFloat centerYObj = item.getCenterY();
+        PercFloat centerXObj = child.getCenterX();
+        PercFloat centerYObj = child.getCenterY();
         float centerX = centerXObj != null ? centerXObj.toFloatBasedOnDataType() : 0.5f;
         float centerY = centerYObj != null ? centerYObj.toFloatBasedOnDataType() : 0.5f;
         drawable.setGradientCenter(centerX, centerY);
 
-        Integer startColorObj = item.getStartColor();
-        Integer centerColorObj = item.getCenterColor();
-        Integer endColorObj = item.getEndColor();
+        Integer startColorObj = child.getStartColor();
+        Integer centerColorObj = child.getCenterColor();
+        Integer endColorObj = child.getEndColor();
 
         if (centerColorObj != null) // hasCenterColor
         {
@@ -260,18 +260,18 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
             gradientColorsField.set(gradientState, colors);
         }
 
-        Boolean useLevelObj = item.getUseLevel();
+        Boolean useLevelObj = child.getUseLevel();
         boolean useLevel = useLevelObj != null ?  useLevelObj.booleanValue() : false;
         drawable.setUseLevel(useLevel);
 
-        Integer gradientTypeObj = item.getType();
+        Integer gradientTypeObj = child.getType();
         int gradientType = gradientTypeObj != null ? gradientTypeObj.intValue() : GradientDrawable.LINEAR_GRADIENT;
         drawable.setGradientType(gradientType);
 
         if (gradientType == GradientDrawable.LINEAR_GRADIENT)
         {
             int angle = 0;
-            Float angleFloat = item.getAngle();
+            Float angleFloat = child.getAngle();
             if (angleFloat != null)
             {
                 angle = (int) angleFloat.floatValue();
@@ -313,7 +313,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
         }
         else // RADIAL_GRADIENT, SWEEP_GRADIENT
         {
-            PercFloat gradRadius = item.getGradientRadius();
+            PercFloat gradRadius = child.getGradientRadius();
             if (gradRadius != null)
             {
                 float value = gradRadius.toFloatBasedOnDataType(); // gradRadius.getValue();
@@ -342,12 +342,12 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
 
     }
 
-    private void processPadding(GradientDrawable drawable, GradientDrawableChildPadding item, Object gradientState)
+    private void processPadding(GradientDrawable drawable, GradientDrawableChildPadding child, Object gradientState)
     {
-        Integer leftObj = item.getLeft();
-        Integer topObj = item.getTop();
-        Integer rightObj = item.getRight();
-        Integer bottomObj = item.getBottom();
+        Integer leftObj = child.getLeft();
+        Integer topObj = child.getTop();
+        Integer rightObj = child.getRight();
+        Integer bottomObj = child.getBottom();
 
         int left = leftObj != null ? leftObj.intValue() : 0;
         int top = topObj != null ? topObj.intValue() : 0;
@@ -361,28 +361,28 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
         gradientPaddingField2.set(gradientState, rect);
     }
 
-    private void processSize(GradientDrawable drawable,GradientDrawableChildSize item)
+    private void processSize(GradientDrawable drawable,GradientDrawableChildSize child)
     {
-        Integer widthObj = item.getWidth();
-        Integer heightObj = item.getHeight();
+        Integer widthObj = child.getWidth();
+        Integer heightObj = child.getHeight();
         int width = widthObj != null ? widthObj.intValue() : -1;
         int height = heightObj != null ? heightObj.intValue() : -1;
 
         drawable.setSize(width, height);
     }
 
-    private void processSolid(GradientDrawable drawable,GradientDrawableChildSolid item)
+    private void processSolid(GradientDrawable drawable,GradientDrawableChildSolid child)
     {
-        Integer colorObj = item.getColor();
+        Integer colorObj = child.getColor();
         int color = colorObj != null ? colorObj.intValue() : 0;
         drawable.setColor(color);
     }
 
-    private void processStroke(GradientDrawable drawable,GradientDrawableChildStroke item)
+    private void processStroke(GradientDrawable drawable,GradientDrawableChildStroke child)
     {
-        Integer widthObj = item.getWidth();
-        Integer colorObj = item.getColor();
-        Float dashWidthObj = item.getDashWidth();
+        Integer widthObj = child.getWidth();
+        Integer colorObj = child.getColor();
+        Float dashWidthObj = child.getDashWidth();
 
         int width = widthObj != null ? widthObj.intValue() : 0;
         int color = colorObj != null ? colorObj.intValue() : 0;
@@ -390,7 +390,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
 
         if (dashWidth != 0.0f)
         {
-            Float dashGapObj = item.getDashGap();
+            Float dashGapObj = child.getDashGap();
             float dashGap = dashGapObj != null ? dashGapObj.floatValue() : 0;
             drawable.setStroke(width, color, dashWidthObj.floatValue(), dashGap);
         }
