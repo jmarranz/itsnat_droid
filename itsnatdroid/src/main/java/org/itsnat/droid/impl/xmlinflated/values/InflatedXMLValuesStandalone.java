@@ -8,9 +8,9 @@ import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedValuesStandalone extends InflatedValues
+public class InflatedXMLValuesStandalone extends InflatedXMLValues
 {
-    public InflatedValuesStandalone(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx)
+    public InflatedXMLValuesStandalone(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx)
     {
         super(itsNatDroid, xmlDOMValues,ctx);
     }

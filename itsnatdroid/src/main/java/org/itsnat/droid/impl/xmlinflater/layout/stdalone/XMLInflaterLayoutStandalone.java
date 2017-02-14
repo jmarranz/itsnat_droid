@@ -5,7 +5,7 @@ import android.view.View;
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.stdalone.ItsNatResourcesStandaloneImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 /**
@@ -15,16 +15,16 @@ public class XMLInflaterLayoutStandalone extends XMLInflaterLayout
 {
     protected ItsNatResourcesStandaloneImpl itsNatResourcesStandalone;
 
-    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    public XMLInflaterLayoutStandalone(InflatedXMLLayoutStandaloneImpl inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML,bitmapDensityReference,attrResourceInflaterListener);
 
         inflatedXML.setXMLInflaterLayoutStandalone(this);
     }
 
-    public InflatedLayoutStandaloneImpl getInflatedLayoutStandaloneImpl()
+    public InflatedXMLLayoutStandaloneImpl getInflatedXMLLayoutStandaloneImpl()
     {
-        return (InflatedLayoutStandaloneImpl)inflatedXML;
+        return (InflatedXMLLayoutStandaloneImpl)inflatedXML;
     }
 
     public ItsNatResourcesStandaloneImpl getItsNatResourcesStandaloneImpl()

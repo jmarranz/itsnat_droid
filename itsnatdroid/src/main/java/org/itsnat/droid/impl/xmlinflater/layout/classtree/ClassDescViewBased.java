@@ -313,7 +313,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         List<DOMAttr> styleDynamicAttribs = new ArrayList<DOMAttr>(); // capacity = 12
 
         View rootView = createViewObject(rootDOMElemView.getDOMAttributeMap(), xmlInflaterLayout.getXMLInflaterContext(),layoutParams,styleLayoutParamsAttribs,styleDynamicAttribs, pendingPostInsertChildrenTasks);
-        xmlInflaterLayout.getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
+        xmlInflaterLayout.getInflatedXMLLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
         if (styleLayoutParamsAttribs.isEmpty()) styleLayoutParamsAttribs = null;
         if (styleDynamicAttribs.isEmpty()) styleDynamicAttribs = null;

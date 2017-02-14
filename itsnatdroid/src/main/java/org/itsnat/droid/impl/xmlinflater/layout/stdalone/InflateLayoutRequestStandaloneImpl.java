@@ -94,7 +94,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     {
         String markup = IOUtil.read(input,encoding);
         XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone = inflateLayoutStandalone(markup,parentView);
-        return xmlInflaterLayoutStandalone.getInflatedLayoutStandaloneImpl();
+        return xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl();
     }
 
     @Override
@@ -102,7 +102,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     {
         String markup = IOUtil.read(input);
         XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone = inflateLayoutStandalone(markup,parentView);
-        return xmlInflaterLayoutStandalone.getInflatedLayoutStandaloneImpl();
+        return xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl();
     }
 
     private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup,ViewGroup parentView)

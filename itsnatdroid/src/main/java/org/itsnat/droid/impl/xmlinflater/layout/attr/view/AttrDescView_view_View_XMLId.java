@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -24,7 +24,7 @@ public class AttrDescView_view_View_XMLId extends AttrDesc<ClassDescViewBased,Vi
     public void setAttribute(View view, DOMAttr attr, AttrLayoutContext attrCtx)
     {
         XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-        InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+        InflatedXMLLayoutImpl inflated = xmlInflaterLayout.getInflatedXMLLayoutImpl();
         inflated.setXMLId(attr.getValue(), view);
     }
 
@@ -32,7 +32,7 @@ public class AttrDescView_view_View_XMLId extends AttrDesc<ClassDescViewBased,Vi
     public void removeAttribute(View view, AttrLayoutContext attrCtx)
     {
         XMLInflaterLayout xmlInflaterLayout = attrCtx.getXMLInflaterLayout();
-        InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+        InflatedXMLLayoutImpl inflated = xmlInflaterLayout.getInflatedXMLLayoutImpl();
         inflated.unsetXMLId(view);
     }
 

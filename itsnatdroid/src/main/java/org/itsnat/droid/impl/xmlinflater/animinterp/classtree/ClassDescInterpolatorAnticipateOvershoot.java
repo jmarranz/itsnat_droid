@@ -50,7 +50,7 @@ public class ClassDescInterpolatorAnticipateOvershoot extends ClassDescInterpola
     public void fillResourceAttributes(AnticipateOvershootInterpolator interpolator, DOMElement domElement, AttrInterpolatorContext attrCtx)
     {
         XMLInflaterResource xmlInflaterInterpolator = attrCtx.getXMLInflaterResource();
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterInterpolator.getInflatedResource().getXMLInflaterRegistry();
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterInterpolator.getInflatedXMLResource().getXMLInflaterRegistry();
 
         DOMAttr attrTension = domElement.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "tension");
         float tension = attrTension != null ? xmlInflaterRegistry.getFloat(attrTension.getResourceDesc(),attrCtx.getXMLInflaterContext()) : 2.0f;

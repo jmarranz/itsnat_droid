@@ -18,7 +18,7 @@ import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.util.List;
@@ -62,7 +62,7 @@ public class FragmentLayoutInserter
         // Por ejemplo 78ms con setInnerXML (parseando markup) y 179ms con beanshell puro
 
         PageImpl page = itsNatDoc.getPageImpl();
-        InflatedLayoutPageImpl inflatedLayoutPage = page.getInflatedLayoutPageImpl();
+        InflatedXMLLayoutPageImpl inflatedLayoutPage = page.getInflatedLayoutPageImpl();
         XMLDOMLayoutPage xmlDOMLayoutPageParent = inflatedLayoutPage.getXMLDOMLayoutPage();
         Context ctx = itsNatDoc.getContext();
 

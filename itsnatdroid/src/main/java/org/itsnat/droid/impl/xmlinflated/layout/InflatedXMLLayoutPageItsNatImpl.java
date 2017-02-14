@@ -9,9 +9,9 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedLayoutPageItsNatImpl extends InflatedLayoutPageImpl
+public class InflatedXMLLayoutPageItsNatImpl extends InflatedXMLLayoutPageImpl
 {
-    public InflatedLayoutPageItsNatImpl(PageItsNatImpl page, ItsNatDroidImpl itsNatDroid, XMLDOMLayoutPageItsNat domLayout, Context ctx)
+    public InflatedXMLLayoutPageItsNatImpl(PageItsNatImpl page, ItsNatDroidImpl itsNatDroid, XMLDOMLayoutPageItsNat domLayout, Context ctx)
     {
         super(page,itsNatDroid, domLayout, ctx);
     }

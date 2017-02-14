@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflated.values.ElementValuesArrayBase;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesItemNormal;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
-import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
+import org.itsnat.droid.impl.xmlinflated.values.InflatedXMLValues;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesArrayBase;
 import org.itsnat.droid.impl.xmlinflater.values.classtree.ClassDescValuesItemNormal;
@@ -26,24 +26,24 @@ import java.util.List;
  */
 public class XMLInflaterValues extends XMLInflater
 {
-    protected XMLInflaterValues(InflatedValues inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    protected XMLInflaterValues(InflatedXMLValues inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML, bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public static XMLInflaterValues createXMLInflaterValues(InflatedValues inflatedValues,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    public static XMLInflaterValues createXMLInflaterValues(InflatedXMLValues inflatedValues, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         return new XMLInflaterValues(inflatedValues,bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public InflatedValues getInflatedValues()
+    public InflatedXMLValues getInflatedXMLValues()
     {
-        return (InflatedValues)inflatedXML;
+        return (InflatedXMLValues)inflatedXML;
     }
 
     public ElementValuesResources inflateValues()
     {
-        return inflateRoot(getInflatedValues().getXMLDOMValues());
+        return inflateRoot(getInflatedXMLValues().getXMLDOMValues());
     }
 
     private ElementValuesResources inflateRoot(XMLDOMValues xmlDOMValues)
@@ -51,7 +51,7 @@ public class XMLInflaterValues extends XMLInflater
         DOMElemValues rootDOMElem = (DOMElemValues)xmlDOMValues.getRootDOMElement();
 
         ElementValuesResources elementResources = new ElementValuesResources();
-        getInflatedValues().setRootElementResources(elementResources);
+        getInflatedXMLValues().setRootElementResources(elementResources);
 
         processChildNoChildElemElements(rootDOMElem, elementResources);
 
@@ -98,7 +98,7 @@ public class XMLInflaterValues extends XMLInflater
 
     private ElementValuesStyle createElementValuesStyle(DOMElemValuesStyle domElement, ElementValuesResources parentChildValues)
     {
-        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflaterRegistry().getClassDescValuesMgr();
+        ClassDescValuesMgr classDescValuesMgr = getInflatedXMLValues().getXMLInflaterRegistry().getClassDescValuesMgr();
         ClassDescValuesStyle classDesc = (ClassDescValuesStyle)classDescValuesMgr.get("style");
 
         ElementValuesStyle childValuesChild = classDesc.createElementValuesStyle(domElement, parentChildValues);
@@ -107,7 +107,7 @@ public class XMLInflaterValues extends XMLInflater
 
     private ElementValuesArrayBase createElementValuesArrayBase(DOMElemValuesArrayBase domElement, ElementValuesResources parentChildValues)
     {
-        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflaterRegistry().getClassDescValuesMgr();
+        ClassDescValuesMgr classDescValuesMgr = getInflatedXMLValues().getXMLInflaterRegistry().getClassDescValuesMgr();
         ClassDescValuesArrayBase classDesc = (ClassDescValuesArrayBase)classDescValuesMgr.get(domElement.getTagName());
 
         ElementValuesArrayBase childValuesChild = classDesc.createElementValuesArrayBase(domElement, parentChildValues);
@@ -118,7 +118,7 @@ public class XMLInflaterValues extends XMLInflater
     {
         String resourceType = ClassDescValuesItemNormal.getResourceTypeItemNormal(domElement);
 
-        ClassDescValuesMgr classDescValuesMgr = getInflatedValues().getXMLInflaterRegistry().getClassDescValuesMgr();
+        ClassDescValuesMgr classDescValuesMgr = getInflatedXMLValues().getXMLInflaterRegistry().getClassDescValuesMgr();
         ClassDescValuesItemNormal classDesc = (ClassDescValuesItemNormal)classDescValuesMgr.get(resourceType);
         if (classDesc == null)
             throw new ItsNatDroidException("Not found processor for resource type: " + resourceType);

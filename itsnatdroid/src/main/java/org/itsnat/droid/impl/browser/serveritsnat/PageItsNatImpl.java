@@ -5,7 +5,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.PageRequestImpl;
 import org.itsnat.droid.impl.browser.PageRequestResult;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPageItsNat;
 
 import java.util.LinkedList;
@@ -35,9 +35,9 @@ public class PageItsNatImpl extends PageImpl
         return (ItsNatDocItsNatImpl)itsNatDoc;
     }
 
-    public InflatedLayoutPageItsNatImpl getInflatedLayoutPageItsNatImpl()
+    public InflatedXMLLayoutPageItsNatImpl getInflatedLayoutPageItsNatImpl()
     {
-        return (InflatedLayoutPageItsNatImpl)getXMLInflaterLayoutPageItsNat().getInflatedLayoutPageItsNatImpl();
+        return (InflatedXMLLayoutPageItsNatImpl)getXMLInflaterLayoutPageItsNat().getInflatedXMLLayoutPageItsNatImpl();
     }
 
     @Override
@@ -68,7 +68,7 @@ public class PageItsNatImpl extends PageImpl
     {
         ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
-        InflatedLayoutPageItsNatImpl inflatedLayoutPage = getXMLInflaterLayoutPageItsNat().getInflatedLayoutPageItsNatImpl();
+        InflatedXMLLayoutPageItsNatImpl inflatedLayoutPage = getXMLInflaterLayoutPageItsNat().getInflatedXMLLayoutPageItsNatImpl();
 
         String loadInitScript = inflatedLayoutPage.getLoadInitScript();
 

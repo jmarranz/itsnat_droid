@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout;
 
 import android.view.View;
 
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutImpl;
 
 /**
  * Created by jmarranz on 25/08/14.
@@ -11,17 +11,17 @@ public class ViewId
 {
     public static final int ITSNAT_VIEW_LAYOUT_KEY = 1111111112; // Notar que termina en 2 no en 1 como  ItsNatViewImpl
 
-    protected InflatedLayoutImpl layout;
+    protected InflatedXMLLayoutImpl layout;
     protected View view;
     protected String xmlId;
 
-    private ViewId(InflatedLayoutImpl layout, View view)
+    private ViewId(InflatedXMLLayoutImpl layout, View view)
     {
         this.layout = layout;
         this.view = view;
     }
 
-    public static ViewId getViewId(InflatedLayoutImpl layout, View view)
+    public static ViewId getViewId(InflatedXMLLayoutImpl layout, View view)
     {
         if (view == null) return null;
 

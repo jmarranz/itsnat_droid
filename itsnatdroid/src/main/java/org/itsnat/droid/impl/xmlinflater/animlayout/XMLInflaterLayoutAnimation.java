@@ -5,7 +5,7 @@ import android.view.animation.LayoutAnimationController;
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.dom.animlayout.DOMElemLayoutAnimation;
 import org.itsnat.droid.impl.dom.animlayout.XMLDOMLayoutAnimation;
-import org.itsnat.droid.impl.xmlinflated.animlayout.InflatedLayoutAnimation;
+import org.itsnat.droid.impl.xmlinflated.animlayout.InflatedXMLLayoutAnimation;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.animlayout.classtree.ClassDescLayoutAnimationBased;
 
@@ -14,12 +14,12 @@ import org.itsnat.droid.impl.xmlinflater.animlayout.classtree.ClassDescLayoutAni
  */
 public class XMLInflaterLayoutAnimation extends XMLInflaterResource<LayoutAnimationController>
 {
-    protected XMLInflaterLayoutAnimation(InflatedLayoutAnimation inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
+    protected XMLInflaterLayoutAnimation(InflatedXMLLayoutAnimation inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML, bitmapDensityReference, attrResourceInflaterListener);
     }
 
-    public static XMLInflaterLayoutAnimation createXMLInflaterLayoutAnimation(InflatedLayoutAnimation inflatedLayoutAnimation, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
+    public static XMLInflaterLayoutAnimation createXMLInflaterLayoutAnimation(InflatedXMLLayoutAnimation inflatedLayoutAnimation, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         return new XMLInflaterLayoutAnimation(inflatedLayoutAnimation,bitmapDensityReference,attrResourceInflaterListener);
     }
@@ -27,18 +27,18 @@ public class XMLInflaterLayoutAnimation extends XMLInflaterResource<LayoutAnimat
     @SuppressWarnings("unchecked")
     public ClassDescLayoutAnimationBased<LayoutAnimationController> getClassDescLayoutAnimationBased(DOMElemLayoutAnimation domElemLayoutAnimation)
     {
-        ClassDescLayoutAnimationMgr classDescMgr = getInflatedLayoutAnimation().getXMLInflaterRegistry().getClassDescLayoutAnimationMgr();
+        ClassDescLayoutAnimationMgr classDescMgr = getInflatedXMLLayoutAnimation().getXMLInflaterRegistry().getClassDescLayoutAnimationMgr();
         return classDescMgr.get(domElemLayoutAnimation.getTagName());
     }
 
-    public InflatedLayoutAnimation getInflatedLayoutAnimation()
+    public InflatedXMLLayoutAnimation getInflatedXMLLayoutAnimation()
     {
-        return (InflatedLayoutAnimation)inflatedXML;
+        return (InflatedXMLLayoutAnimation)inflatedXML;
     }
 
     public LayoutAnimationController inflateLayoutAnimation()
     {
-        return inflateRoot(getInflatedLayoutAnimation().getXMLDOMLayoutAnimation());
+        return inflateRoot(getInflatedXMLLayoutAnimation().getXMLDOMLayoutAnimation());
     }
 
     private LayoutAnimationController inflateRoot(XMLDOMLayoutAnimation xmlDOMLayoutAnimation)

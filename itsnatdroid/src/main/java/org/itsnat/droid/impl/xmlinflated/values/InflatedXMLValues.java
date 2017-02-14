@@ -10,18 +10,18 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 /**
  * Created by jmarranz on 7/11/14.
  */
-public abstract class InflatedValues extends InflatedXML
+public abstract class InflatedXMLValues extends InflatedXML
 {
     protected ElementValuesResources rootElement;
 
-    public InflatedValues(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx)
+    public InflatedXMLValues(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx)
     {
         super(itsNatDroid, xmlDOMValues,ctx);
     }
 
-    public static InflatedValues createInflatedValues(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx,PageImpl page)
+    public static InflatedXMLValues createInflatedValues(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx, PageImpl page)
     {
-        return page != null ? new InflatedValuesPage(itsNatDroid, xmlDOMValues, ctx, page) : new InflatedValuesStandalone(itsNatDroid, xmlDOMValues, ctx);
+        return page != null ? new InflatedXMLValuesPage(itsNatDroid, xmlDOMValues, ctx, page) : new InflatedXMLValuesStandalone(itsNatDroid, xmlDOMValues, ctx);
     }
 
     public XMLDOMValues getXMLDOMValues()

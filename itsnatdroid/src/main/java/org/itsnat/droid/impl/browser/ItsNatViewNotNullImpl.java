@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.FocusEventListe
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TextChangeEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistadapter.TouchEventListenerViewAdapter;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 
 /**
  * Created by jmarranz on 11/08/14.
@@ -28,7 +28,7 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
         this.view = view;
     }
 
-    public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
+    public InflatedXMLLayoutPageImpl getInflatedLayoutPageImpl()
     {
         return itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
     }

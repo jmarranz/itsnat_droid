@@ -4,17 +4,17 @@ import android.view.View;
 import android.view.ViewParent;
 
 import org.itsnat.droid.impl.util.WeakMapWithValue;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutImpl;
 
 /**
  * Created by jmarranz on 25/08/14.
  */
 public class ViewMapByXMLId
 {
-    protected InflatedLayoutImpl layout;
+    protected InflatedXMLLayoutImpl layout;
     protected WeakMapWithValue<String,View> mapIdViewXMLStd;
 
-    public ViewMapByXMLId(InflatedLayoutImpl layout)
+    public ViewMapByXMLId(InflatedXMLLayoutImpl layout)
     {
         this.layout = layout;
     }

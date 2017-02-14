@@ -42,17 +42,17 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.util.StringUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
-import org.itsnat.droid.impl.xmlinflated.anim.InflatedAnimation;
-import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
-import org.itsnat.droid.impl.xmlinflated.animinterp.InflatedInterpolator;
-import org.itsnat.droid.impl.xmlinflated.animlayout.InflatedLayoutAnimation;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
+import org.itsnat.droid.impl.xmlinflated.anim.InflatedXMLAnimation;
+import org.itsnat.droid.impl.xmlinflated.animator.InflatedXMLAnimator;
+import org.itsnat.droid.impl.xmlinflated.animinterp.InflatedXMLInterpolator;
+import org.itsnat.droid.impl.xmlinflated.animlayout.InflatedXMLLayoutAnimation;
+import org.itsnat.droid.impl.xmlinflated.drawable.InflatedXMLDrawable;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
-import org.itsnat.droid.impl.xmlinflated.values.InflatedValues;
+import org.itsnat.droid.impl.xmlinflated.values.InflatedXMLValues;
 import org.itsnat.droid.impl.xmlinflater.anim.ClassDescAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.anim.XMLInflaterAnimation;
 import org.itsnat.droid.impl.xmlinflater.animator.ClassDescAnimatorMgr;
@@ -1091,7 +1091,7 @@ public class XMLInflaterRegistry
 
                     ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
                     XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
-                    InflatedDrawable inflatedDrawable = InflatedDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
+                    InflatedXMLDrawable inflatedDrawable = InflatedXMLDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
 
                     XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference,attrResourceInflaterListener);
                     return xmlInflaterDrawable.inflateDrawable();
@@ -1236,14 +1236,14 @@ public class XMLInflaterRegistry
             XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
             XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrResourceInflaterListener, ctx, pageParent);
-            View rootViewOrViewParent = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
+            View rootViewOrViewParent = xmlInflaterLayout.getInflatedXMLLayoutImpl().getRootView();
 
             if (pageParent != null) // existe página padre
             {
                 XMLInflaterLayoutPage xmlInflaterLayoutPageParent = (XMLInflaterLayoutPage) xmlInflaterParent;
-                InflatedLayoutPageImpl inflatedLayoutPageParent = xmlInflaterLayoutPageParent.getInflatedLayoutPageImpl();
+                InflatedXMLLayoutPageImpl inflatedLayoutPageParent = xmlInflaterLayoutPageParent.getInflatedXMLLayoutPageImpl();
 
-                InflatedLayoutPageImpl inflatedLayoutPage = ((XMLInflaterLayoutPage) xmlInflaterLayout).getInflatedLayoutPageImpl();
+                InflatedXMLLayoutPageImpl inflatedLayoutPage = ((XMLInflaterLayoutPage) xmlInflaterLayout).getInflatedXMLLayoutPageImpl();
                 List<String> scriptList = inflatedLayoutPage.getScriptList();
 
                 if (!scriptList.isEmpty())
@@ -1251,9 +1251,9 @@ public class XMLInflaterRegistry
                     inflatedLayoutPageParent.getScriptList().addAll(scriptList);
                 }
 
-                if (inflatedLayoutPage instanceof InflatedLayoutPageItsNatImpl)
+                if (inflatedLayoutPage instanceof InflatedXMLLayoutPageItsNatImpl)
                 {
-                    String loadInitScript = ((InflatedLayoutPageItsNatImpl) inflatedLayoutPage).getLoadInitScript();
+                    String loadInitScript = ((InflatedXMLLayoutPageItsNatImpl) inflatedLayoutPage).getLoadInitScript();
                     if (loadInitScript != null) throw new ItsNatDroidException("Scripting must be disabled in ItsNat Server document for referenced layouts"); // Pues el itsNatDoc es el del padre y la liamos al intentar iniciar un layout siendo incluido en el padre acaba cambiando la inicialización del padre, esto no quita que <script> normales sean permitidos como en web
                 }
             }
@@ -1272,13 +1272,13 @@ public class XMLInflaterRegistry
                 }
             }
 
-            InflatedLayoutImpl inflatedLayout = xmlInflaterLayout.getInflatedLayoutImpl();
+            InflatedXMLLayoutImpl inflatedLayout = xmlInflaterLayout.getInflatedXMLLayoutImpl();
 
             ViewMapByXMLId viewMapByXMLId = inflatedLayout.getViewMapByXMLId();
             WeakMapWithValue<String, View> weakMapWithValue = viewMapByXMLId.getMapIdViewXMLStdPureField();
             if (weakMapWithValue != null)
             {
-                InflatedLayoutImpl inflatedLayoutParent = (InflatedLayoutImpl) xmlInflaterParent.getInflatedXML();
+                InflatedXMLLayoutImpl inflatedLayoutParent = (InflatedXMLLayoutImpl) xmlInflaterParent.getInflatedXML();
                 weakMapWithValue.copyTo(inflatedLayoutParent.getViewMapByXMLId().getMapIdViewXMLStd());
             }
 
@@ -1330,7 +1330,7 @@ public class XMLInflaterRegistry
         if (resource == null)
             throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
         XMLDOMLayoutAnimation xmlDOMLayoutAnimation = (XMLDOMLayoutAnimation) resource.getXMLDOM();
-        InflatedLayoutAnimation inflatedLayoutAnimation = InflatedLayoutAnimation.createInflatedLayoutAnimation(itsNatDroid, xmlDOMLayoutAnimation, ctx, page);
+        InflatedXMLLayoutAnimation inflatedLayoutAnimation = InflatedXMLLayoutAnimation.createInflatedLayoutAnimation(itsNatDroid, xmlDOMLayoutAnimation, ctx, page);
 
         XMLInflaterLayoutAnimation xmlInflaterLayoutAnimation = XMLInflaterLayoutAnimation.createXMLInflaterLayoutAnimation(inflatedLayoutAnimation, bitmapDensityReference, attrResourceInflaterListener);
         return xmlInflaterLayoutAnimation.inflateLayoutAnimation();
@@ -1388,7 +1388,7 @@ public class XMLInflaterRegistry
         if (resource == null)
             throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
         XMLDOMAnimation xmlDOMAnimation = (XMLDOMAnimation) resource.getXMLDOM();
-        InflatedAnimation inflatedAnimation = InflatedAnimation.createInflatedAnimation(itsNatDroid, xmlDOMAnimation, ctx, page);
+        InflatedXMLAnimation inflatedAnimation = InflatedXMLAnimation.createInflatedAnimation(itsNatDroid, xmlDOMAnimation, ctx, page);
 
         XMLInflaterAnimation xmlInflaterAnimation = XMLInflaterAnimation.createXMLInflaterAnimation(inflatedAnimation, bitmapDensityReference, attrResourceInflaterListener);
         return xmlInflaterAnimation.inflateAnimation();
@@ -1447,7 +1447,7 @@ public class XMLInflaterRegistry
         if (resource == null)
             throw new ItsNatDroidException("Resource is still not loaded, maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
         XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
-        InflatedAnimator inflatedAnimator = InflatedAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
+        InflatedXMLAnimator inflatedAnimator = InflatedXMLAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
 
         XMLInflaterAnimator xmlInflaterAnimator = XMLInflaterAnimator.createXMLInflaterAnimator(inflatedAnimator, bitmapDensityReference, attrResourceInflaterListener);
         return xmlInflaterAnimator.inflateAnimator();
@@ -1507,7 +1507,7 @@ public class XMLInflaterRegistry
             throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
 
         XMLDOMInterpolator xmlDOMInterpolator = (XMLDOMInterpolator) resource.getXMLDOM();
-        InflatedInterpolator inflatedInterpolator = InflatedInterpolator.createInflatedInterpolator(itsNatDroid, xmlDOMInterpolator, ctx, page);
+        InflatedXMLInterpolator inflatedInterpolator = InflatedXMLInterpolator.createInflatedInterpolator(itsNatDroid, xmlDOMInterpolator, ctx, page);
 
         XMLInflaterInterpolator xmlInflaterInterpolator = XMLInflaterInterpolator.createXMLInflaterInterpolator(inflatedInterpolator, bitmapDensityReference, attrResourceInflaterListener);
 
@@ -1554,7 +1554,7 @@ public class XMLInflaterRegistry
 
         AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
 
-        InflatedValues inflatedValues = InflatedValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx, page);
+        InflatedXMLValues inflatedValues = InflatedXMLValues.createInflatedValues(itsNatDroid, xmlDOMValues, ctx, page);
 
         XMLInflaterValues xmlInflaterValues = XMLInflaterValues.createXMLInflaterValues(inflatedValues, bitmapDensityReference, attrResourceInflaterListener);
         ElementValuesResources elementResources = xmlInflaterValues.inflateValues();

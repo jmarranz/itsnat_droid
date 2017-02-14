@@ -5,7 +5,7 @@ import android.view.animation.Interpolator;
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.dom.animinterp.DOMElemInterpolator;
 import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
-import org.itsnat.droid.impl.xmlinflated.animinterp.InflatedInterpolator;
+import org.itsnat.droid.impl.xmlinflated.animinterp.InflatedXMLInterpolator;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpolatorBased;
 
@@ -14,12 +14,12 @@ import org.itsnat.droid.impl.xmlinflater.animinterp.classtree.ClassDescInterpola
  */
 public class XMLInflaterInterpolator extends XMLInflaterResource<Interpolator>
 {
-    protected XMLInflaterInterpolator(InflatedInterpolator inflatedXML, int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    protected XMLInflaterInterpolator(InflatedXMLInterpolator inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML, bitmapDensityReference, attrResourceInflaterListener);
     }
 
-    public static XMLInflaterInterpolator createXMLInflaterInterpolator(InflatedInterpolator inflatedInterpolator, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
+    public static XMLInflaterInterpolator createXMLInflaterInterpolator(InflatedXMLInterpolator inflatedInterpolator, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         return new XMLInflaterInterpolator(inflatedInterpolator,bitmapDensityReference,attrResourceInflaterListener);
     }
@@ -27,18 +27,18 @@ public class XMLInflaterInterpolator extends XMLInflaterResource<Interpolator>
     @SuppressWarnings("unchecked")
     public ClassDescInterpolatorBased<Interpolator> getClassDescInterpolatorBased(DOMElemInterpolator domElemInterpolator)
     {
-        ClassDescInterpolatorMgr classDescMgr = getInflatedInterpolator().getXMLInflaterRegistry().getClassDescInterpolatorMgr();
+        ClassDescInterpolatorMgr classDescMgr = getInflatedXMLInterpolator().getXMLInflaterRegistry().getClassDescInterpolatorMgr();
         return classDescMgr.get(domElemInterpolator.getTagName());
     }
 
-    public InflatedInterpolator getInflatedInterpolator()
+    public InflatedXMLInterpolator getInflatedXMLInterpolator()
     {
-        return (InflatedInterpolator)inflatedXML;
+        return (InflatedXMLInterpolator)inflatedXML;
     }
 
     public Interpolator inflateInterpolator()
     {
-        return inflateRoot(getInflatedInterpolator().getXMLDOMInterpolator());
+        return inflateRoot(getInflatedXMLInterpolator().getXMLDOMInterpolator());
     }
 
     private Interpolator inflateRoot(XMLDOMInterpolator xmlDOMInterpolator)

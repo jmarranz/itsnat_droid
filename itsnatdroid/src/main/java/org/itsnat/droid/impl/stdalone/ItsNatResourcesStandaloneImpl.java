@@ -1,10 +1,6 @@
 package org.itsnat.droid.impl.stdalone;
 
-import android.animation.Animator;
 import android.content.Context;
-import android.view.animation.Animation;
-import android.view.animation.Interpolator;
-import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
@@ -25,9 +21,9 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 
     public ItsNatResourcesStandaloneImpl(XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone)
     {
-        super(xmlInflaterLayoutStandalone.getInflatedLayoutStandaloneImpl().getItsNatDroidImpl().getXMLDOMRegistry(),
+        super(xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl().getItsNatDroidImpl().getXMLDOMRegistry(),
               xmlInflaterLayoutStandalone.getXMLInflaterContext(),
-              xmlInflaterLayoutStandalone.getInflatedLayoutStandaloneImpl().getItsNatDroidImpl().getXMLInflaterRegistry());
+              xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl().getItsNatDroidImpl().getXMLInflaterRegistry());
 
         // En este caso PageImpl es null
 

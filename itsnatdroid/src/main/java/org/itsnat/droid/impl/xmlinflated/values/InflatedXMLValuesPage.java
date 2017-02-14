@@ -10,11 +10,11 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXMLPage;
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class InflatedValuesPage extends InflatedValues implements InflatedXMLPage
+public class InflatedXMLValuesPage extends InflatedXMLValues implements InflatedXMLPage
 {
     protected PageImpl page;
 
-    public InflatedValuesPage(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx, PageImpl page)
+    public InflatedXMLValuesPage(ItsNatDroidImpl itsNatDroid, XMLDOMValues xmlDOMValues, Context ctx, PageImpl page)
     {
         super(itsNatDroid, xmlDOMValues, ctx);
         this.page = page;

@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimator;
 import org.itsnat.droid.impl.dom.animator.DOMElemAnimatorSet;
 import org.itsnat.droid.impl.dom.animator.XMLDOMAnimator;
-import org.itsnat.droid.impl.xmlinflated.animator.InflatedAnimator;
+import org.itsnat.droid.impl.xmlinflated.animator.InflatedXMLAnimator;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorBased;
 import org.itsnat.droid.impl.xmlinflater.animator.classtree.ClassDescAnimatorSet;
@@ -21,12 +21,12 @@ import java.util.List;
  */
 public class XMLInflaterAnimator extends XMLInflaterResource<Animator>
 {
-    protected XMLInflaterAnimator(InflatedAnimator inflatedXML, int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    protected XMLInflaterAnimator(InflatedXMLAnimator inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML, bitmapDensityReference, attrResourceInflaterListener);
     }
 
-    public static XMLInflaterAnimator createXMLInflaterAnimator(InflatedAnimator inflatedAnimator,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    public static XMLInflaterAnimator createXMLInflaterAnimator(InflatedXMLAnimator inflatedAnimator, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         return new XMLInflaterAnimator(inflatedAnimator,bitmapDensityReference,attrResourceInflaterListener);
     }
@@ -34,18 +34,18 @@ public class XMLInflaterAnimator extends XMLInflaterResource<Animator>
     @SuppressWarnings("unchecked")
     public ClassDescAnimatorBased<Animator> getClassDescAnimatorBased(DOMElemAnimator domElemAnimator)
     {
-        ClassDescAnimatorMgr classDescMgr = getInflatedAnimator().getXMLInflaterRegistry().getClassDescAnimatorMgr();
+        ClassDescAnimatorMgr classDescMgr = getInflatedXMLAnimator().getXMLInflaterRegistry().getClassDescAnimatorMgr();
         return classDescMgr.get(domElemAnimator.getTagName());
     }
 
-    public InflatedAnimator getInflatedAnimator()
+    public InflatedXMLAnimator getInflatedXMLAnimator()
     {
-        return (InflatedAnimator)inflatedXML;
+        return (InflatedXMLAnimator)inflatedXML;
     }
 
     public Animator inflateAnimator()
     {
-        return inflateRoot(getInflatedAnimator().getXMLDOMAnimator());
+        return inflateRoot(getInflatedXMLAnimator().getXMLDOMAnimator());
     }
 
     private Animator inflateRoot(XMLDOMAnimator xmlDOMAnimator)

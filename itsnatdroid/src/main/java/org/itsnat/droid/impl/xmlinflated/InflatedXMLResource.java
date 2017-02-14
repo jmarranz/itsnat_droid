@@ -8,11 +8,11 @@ import org.itsnat.droid.impl.dom.XMLDOM;
 /**
  * Created by jmarranz on 10/05/2016.
  */
-public abstract class InflatedResource<TnativeResource> extends InflatedXML
+public abstract class InflatedXMLResource<TnativeResource> extends InflatedXML
 {
     protected TnativeResource resource;
 
-    protected InflatedResource(ItsNatDroidImpl itsNatDroid, XMLDOM xmlDOM, Context ctx)
+    protected InflatedXMLResource(ItsNatDroidImpl itsNatDroid, XMLDOM xmlDOM, Context ctx)
     {
         super(itsNatDroid, xmlDOM, ctx);
     }

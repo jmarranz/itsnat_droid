@@ -8,9 +8,9 @@ import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedInterpolatorStandalone extends InflatedInterpolator
+public class InflatedXMLInterpolatorStandalone extends InflatedXMLInterpolator
 {
-    public InflatedInterpolatorStandalone(ItsNatDroidImpl itsNatDroid, XMLDOMInterpolator xmlDOMInterpolator, Context ctx)
+    public InflatedXMLInterpolatorStandalone(ItsNatDroidImpl itsNatDroid, XMLDOMInterpolator xmlDOMInterpolator, Context ctx)
     {
         super(itsNatDroid, xmlDOMInterpolator,ctx);
     }

@@ -13,13 +13,13 @@ import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
 /**
  * Created by jmarranz on 16/06/14.
  */
-public abstract class InflatedLayoutImpl extends InflatedXML
+public abstract class InflatedXMLLayoutImpl extends InflatedXML
 {
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
 
 
-    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,XMLDOMLayout domLayout,Context ctx)
+    public InflatedXMLLayoutImpl(ItsNatDroidImpl itsNatDroid, XMLDOMLayout domLayout, Context ctx)
     {
         super(itsNatDroid,domLayout,ctx);
         // rootView se define a posteriori

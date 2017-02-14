@@ -8,9 +8,9 @@ import org.itsnat.droid.impl.dom.anim.XMLDOMAnimation;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedAnimationStandalone extends InflatedAnimation
+public class InflatedXMLAnimationStandalone extends InflatedXMLAnimation
 {
-    public InflatedAnimationStandalone(ItsNatDroidImpl itsNatDroid, XMLDOMAnimation xmlDOMAnimation, Context ctx)
+    public InflatedXMLAnimationStandalone(ItsNatDroidImpl itsNatDroid, XMLDOMAnimation xmlDOMAnimation, Context ctx)
     {
         super(itsNatDroid, xmlDOMAnimation,ctx);
     }

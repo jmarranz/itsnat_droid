@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.InflatedXMLDrawable;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableBased;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBased;
@@ -23,26 +23,26 @@ import java.util.List;
  */
 public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
 {
-    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    protected XMLInflaterDrawable(InflatedXMLDrawable inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML,bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedXMLDrawable inflatedDrawable, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         return new XMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrResourceInflaterListener);
     }
 
 
-    public InflatedDrawable getInflatedDrawable()
+    public InflatedXMLDrawable getInflatedXMLDrawable()
     {
-        return (InflatedDrawable)inflatedXML;
+        return (InflatedXMLDrawable)inflatedXML;
     }
 
     public Drawable inflateDrawable()
     {
         AttrDrawableContext attrCtx = new AttrDrawableContext(this);
-        return inflateElementDrawableChildRoot(getInflatedDrawable().getXMLDOMDrawable(),attrCtx).getDrawable();
+        return inflateElementDrawableChildRoot(getInflatedXMLDrawable().getXMLDOMDrawable(),attrCtx).getDrawable();
     }
 
     private ElementDrawableChildRoot inflateElementDrawableChildRoot(XMLDOMDrawable xmlDOMDrawable, AttrDrawableContext attrCtx)
@@ -54,7 +54,7 @@ public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
 
     private ElementDrawableChildRoot createElementDrawableChildRootAndFillAttributes(DOMElemDrawable rootDOMElem, AttrDrawableContext attrCtx)
     {
-        InflatedDrawable inflatedDrawable = getInflatedDrawable();
+        InflatedXMLDrawable inflatedDrawable = getInflatedXMLDrawable();
 
         String name = rootDOMElem.getTagName();
         ClassDescDrawableMgr classDescDrawableMgr = inflatedDrawable.getXMLInflaterRegistry().getClassDescDrawableMgr();
@@ -123,7 +123,7 @@ public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
     {
         String parentName = getFullName(domElementParent);
         String name = parentName + ":" + domElement.getTagName();
-        ClassDescDrawableMgr classDescDrawableMgr = getInflatedDrawable().getXMLInflaterRegistry().getClassDescDrawableMgr();
+        ClassDescDrawableMgr classDescDrawableMgr = getInflatedXMLDrawable().getXMLInflaterRegistry().getClassDescDrawableMgr();
         ClassDescElementDrawableChildBased classDesc = (ClassDescElementDrawableChildBased)classDescDrawableMgr.get(name);
         if (classDesc == null)
         {

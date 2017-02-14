@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageItsNatImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.AttrLayoutContext;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingViewPostCreateProcess;
@@ -18,24 +18,24 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
  */
 public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
 {
-    public XMLInflaterLayoutPageItsNat(InflatedLayoutPageItsNatImpl inflatedXML, int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    public XMLInflaterLayoutPageItsNat(InflatedXMLLayoutPageItsNatImpl inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML, bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public InflatedLayoutPageItsNatImpl getInflatedLayoutPageItsNatImpl()
+    public InflatedXMLLayoutPageItsNatImpl getInflatedXMLLayoutPageItsNatImpl()
     {
-        return (InflatedLayoutPageItsNatImpl) inflatedXML;
+        return (InflatedXMLLayoutPageItsNatImpl) inflatedXML;
     }
 
     public PageItsNatImpl getPageItsNatImpl()
     {
-        return getInflatedLayoutPageItsNatImpl().getPageItsNatImpl(); // No puede ser nulo
+        return getInflatedXMLLayoutPageItsNatImpl().getPageItsNatImpl(); // No puede ser nulo
     }
 
     public void setAttributeSingleFromRemote(View view, DOMAttr attr)
     {
-        ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflaterRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = getInflatedXMLLayoutPageImpl().getXMLInflaterRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
 
         // Es single y por tanto  si define alguna tarea pendiente tenemos que ejecutarla como si ya no hubiera más atributos pendientes
@@ -73,7 +73,7 @@ public class XMLInflaterLayoutPageItsNat extends XMLInflaterLayoutPage
 
     public boolean removeAttributeFromRemote(View view, String namespaceURI, String name)
     {
-        ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflaterRegistry().getClassDescViewMgr();
+        ClassDescViewMgr viewMgr = getInflatedXMLLayoutPageImpl().getXMLInflaterRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
 
         AttrLayoutContext attrCtx = new AttrLayoutContext(this,null,null);

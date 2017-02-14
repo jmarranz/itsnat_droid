@@ -94,7 +94,7 @@ public class ClassDescAnimatorValue extends ClassDescAnimatorBased<ValueAnimator
         else valueType = 0; // VALUE_TYPE_FLOAT
 
         XMLInflaterResource xmlInflaterAnimator = attrCtx.getXMLInflaterResource();
-        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterAnimator.getInflatedResource().getXMLInflaterRegistry();
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterAnimator.getInflatedXMLResource().getXMLInflaterRegistry();
 
         boolean hasFrom = false;
         boolean isDimensionFrom = false;

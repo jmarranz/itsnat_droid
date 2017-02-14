@@ -20,11 +20,11 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutStandalone;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageItsNatImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageNotItsNatImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageItsNatImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageNotItsNatImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -40,7 +40,7 @@ import java.util.List;
  */
 public abstract class XMLInflaterLayout extends XMLInflater
 {
-    public XMLInflaterLayout(InflatedLayoutImpl inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    public XMLInflaterLayout(InflatedXMLLayoutImpl inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML, bitmapDensityReference,attrResourceInflaterListener);
     }
@@ -49,52 +49,52 @@ public abstract class XMLInflaterLayout extends XMLInflater
                                                   int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener,
                                                   Context ctx,PageImpl page)
     {
-        InflatedLayoutImpl inflatedLayout;
+        InflatedXMLLayoutImpl inflatedLayout;
         if (xmlDOMLayout instanceof XMLDOMLayoutPage)
         {
             if (xmlDOMLayout instanceof XMLDOMLayoutPageItsNat)
-                inflatedLayout = new InflatedLayoutPageItsNatImpl((PageItsNatImpl)page,itsNatDroid,(XMLDOMLayoutPageItsNat) xmlDOMLayout,ctx);
+                inflatedLayout = new InflatedXMLLayoutPageItsNatImpl((PageItsNatImpl)page,itsNatDroid,(XMLDOMLayoutPageItsNat) xmlDOMLayout,ctx);
             else if (xmlDOMLayout instanceof XMLDOMLayoutPageNotItsNat)
-                inflatedLayout = new InflatedLayoutPageNotItsNatImpl(page,itsNatDroid,(XMLDOMLayoutPageNotItsNat) xmlDOMLayout,ctx);
+                inflatedLayout = new InflatedXMLLayoutPageNotItsNatImpl(page,itsNatDroid,(XMLDOMLayoutPageNotItsNat) xmlDOMLayout,ctx);
             else
                 return null; // Internal Error
         }
         else if (xmlDOMLayout instanceof XMLDOMLayoutStandalone)
-                inflatedLayout = new InflatedLayoutStandaloneImpl(itsNatDroid,(XMLDOMLayoutStandalone)xmlDOMLayout, ctx);
+                inflatedLayout = new InflatedXMLLayoutStandaloneImpl(itsNatDroid,(XMLDOMLayoutStandalone)xmlDOMLayout, ctx);
         else
             return null; // Internal Error
 
 
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrResourceInflaterListener);
-        xmlInflaterLayout.inflateLayout(viewParent, indexChild);
+        View rootViewOrViewParent = xmlInflaterLayout.inflateLayout(viewParent, indexChild);
         return xmlInflaterLayout;
     }
 
-    private static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    private static XMLInflaterLayout createXMLInflaterLayout(InflatedXMLLayoutImpl inflatedLayout, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
-        if (inflatedLayout instanceof InflatedLayoutPageImpl)
+        if (inflatedLayout instanceof InflatedXMLLayoutPageImpl)
         {
-            if (inflatedLayout instanceof InflatedLayoutPageItsNatImpl)
-                return new XMLInflaterLayoutPageItsNat((InflatedLayoutPageItsNatImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
-            else if (inflatedLayout instanceof InflatedLayoutPageNotItsNatImpl)
-                return new XMLInflaterLayoutPageNotItsNat((InflatedLayoutPageNotItsNatImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
+            if (inflatedLayout instanceof InflatedXMLLayoutPageItsNatImpl)
+                return new XMLInflaterLayoutPageItsNat((InflatedXMLLayoutPageItsNatImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
+            else if (inflatedLayout instanceof InflatedXMLLayoutPageNotItsNatImpl)
+                return new XMLInflaterLayoutPageNotItsNat((InflatedXMLLayoutPageNotItsNatImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
         }
-        else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
+        else if (inflatedLayout instanceof InflatedXMLLayoutStandaloneImpl)
         {
-            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
+            return new XMLInflaterLayoutStandalone((InflatedXMLLayoutStandaloneImpl)inflatedLayout,bitmapDensityReference,attrResourceInflaterListener);
         }
 
         return null; // Internal error
     }
 
-    public InflatedLayoutImpl getInflatedLayoutImpl()
+    public InflatedXMLLayoutImpl getInflatedXMLLayoutImpl()
     {
-        return (InflatedLayoutImpl)inflatedXML;
+        return (InflatedXMLLayoutImpl)inflatedXML;
     }
 
     public View inflateLayout(ViewGroup viewParent,int indexChild)
     {
-        InflatedLayoutImpl inflatedLayout = getInflatedLayoutImpl();
+        InflatedXMLLayoutImpl inflatedLayout = getInflatedXMLLayoutImpl();
         XMLDOMLayout domLayout = inflatedLayout.getXMLDOMLayout();
 
         View rootViewOrViewParent = inflateRootView(domLayout, viewParent, indexChild);
@@ -102,9 +102,9 @@ public abstract class XMLInflaterLayout extends XMLInflater
     }
 
 
-    public ClassDescViewBased getClassDescViewBased(DOMElemView domElemView)
+    private ClassDescViewBased getClassDescViewBased(DOMElemView domElemView)
     {
-        ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflaterRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = getInflatedXMLLayoutImpl().getXMLInflaterRegistry().getClassDescViewMgr();
         return classDescViewMgr.get(domElemView);
     }
 
@@ -163,13 +163,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
             // A la hora de devolver algo devolvemos viewParent QUE ES NO NULO por una parte porque el <merge> desaparece y puede tener varios hijos y en el otro caso cuando hay un viewParent
             // no nulo ya están insertados los elementos del layout insertado y podemos obtener el root via viewParent.getChild(indexChild). En ressumen cuando viewParent es no nulo sabemos
             // que devuelve viewParent
-            getInflatedLayoutImpl().setRootView(viewParent);
+            getInflatedXMLLayoutImpl().setRootView(viewParent);
             return viewParent;
         }
         else
         {
             // rootView es el normal root del layout cargado que todavía NO está insertado
-            getInflatedLayoutImpl().setRootView(rootView);
+            getInflatedXMLLayoutImpl().setRootView(rootView);
             return rootView;
         }
         // Como se puede ver inflateRootView(...) devuelve viewParent o si no hay viewParent el root view del layout cargado, esto se arrastra en tod_o el stack de llamadas
@@ -224,7 +224,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
     public void fillIncludeAttributesFromGetLayout(View rootViewChild,ViewGroup viewParent,ArrayList<DOMAttr> includeAttribs)
     {
         String className = rootViewChild.getClass().getName();
-        XMLInflaterRegistry xmlInflaterRegistry = getInflatedLayoutImpl().getItsNatDroidImpl().getXMLInflaterRegistry();
+        XMLInflaterRegistry xmlInflaterRegistry = getInflatedXMLLayoutImpl().getItsNatDroidImpl().getXMLInflaterRegistry();
         ClassDescViewBased classDesc = xmlInflaterRegistry.getClassDescViewMgr().get(className);
         if (classDesc == null)
             throw new ItsNatDroidException("Not found processor for " + className);

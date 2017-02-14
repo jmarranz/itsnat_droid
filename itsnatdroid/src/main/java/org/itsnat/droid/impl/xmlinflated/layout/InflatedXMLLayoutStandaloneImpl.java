@@ -12,11 +12,11 @@ import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStanda
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedLayoutStandaloneImpl extends InflatedLayoutImpl implements InflatedLayout
+public class InflatedXMLLayoutStandaloneImpl extends InflatedXMLLayoutImpl implements InflatedLayout
 {
     protected XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone;
 
-    public InflatedLayoutStandaloneImpl(ItsNatDroidImpl itsNatDroid,XMLDOMLayoutStandalone domLayout, Context ctx)
+    public InflatedXMLLayoutStandaloneImpl(ItsNatDroidImpl itsNatDroid, XMLDOMLayoutStandalone domLayout, Context ctx)
     {
         super(itsNatDroid, domLayout,ctx);
     }

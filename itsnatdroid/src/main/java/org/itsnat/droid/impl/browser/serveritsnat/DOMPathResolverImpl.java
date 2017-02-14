@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 
 /**
  * Created by jmarranz on 13/06/14.
@@ -20,7 +20,7 @@ public class DOMPathResolverImpl implements DOMPathResolver
 
     private View getRootView()
     {
-        InflatedLayoutPageImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
+        InflatedXMLLayoutPageImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
         return layout.getRootView();
     }
 
@@ -53,7 +53,7 @@ public class DOMPathResolverImpl implements DOMPathResolver
             else if (firstPos.equals("doctype")) throw new ItsNatDroidException("Unexpected doctype node");
             else if (firstPos.indexOf("eid:") == 0)
             {
-                InflatedLayoutPageImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
+                InflatedXMLLayoutPageImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
                 String id = firstPos.substring("eid:".length());
                 View viewRes = layout.findViewByXMLId(id);
                 return viewRes;

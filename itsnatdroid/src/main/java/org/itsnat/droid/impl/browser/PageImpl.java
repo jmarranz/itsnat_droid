@@ -20,7 +20,7 @@ import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.InflatedXMLPage;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
@@ -103,7 +103,7 @@ public abstract class PageImpl implements Page
         itsNatDoc.eval(methods.toString()); // Rarísimo que de error
 
 
-        InflatedLayoutPageImpl inflatedLayoutPage = xmlInflaterLayoutPage.getInflatedLayoutPageImpl();
+        InflatedXMLLayoutPageImpl inflatedLayoutPage = xmlInflaterLayoutPage.getInflatedXMLLayoutPageImpl();
 
         List<String> scriptList = inflatedLayoutPage.getScriptList();
 
@@ -212,9 +212,9 @@ public abstract class PageImpl implements Page
 
     public abstract String getItsNatServerVersion();
 
-    public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
+    public InflatedXMLLayoutPageImpl getInflatedLayoutPageImpl()
     {
-        return xmlInflaterLayoutPage.getInflatedLayoutPageImpl();
+        return xmlInflaterLayoutPage.getInflatedXMLLayoutPageImpl();
     }
 
     public XMLInflaterLayoutPage getXMLInflaterLayoutPage()

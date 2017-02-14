@@ -8,9 +8,9 @@ import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedDrawableStandalone extends InflatedDrawable
+public class InflatedXMLDrawableStandalone extends InflatedXMLDrawable
 {
-    public InflatedDrawableStandalone(ItsNatDroidImpl itsNatDroid,XMLDOMDrawable xmlDOMDrawable,Context ctx)
+    public InflatedXMLDrawableStandalone(ItsNatDroidImpl itsNatDroid, XMLDOMDrawable xmlDOMDrawable, Context ctx)
     {
         super(itsNatDroid, xmlDOMDrawable,ctx);
     }

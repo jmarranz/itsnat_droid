@@ -49,7 +49,7 @@ public abstract class ClassDescResourceBased<TnativeResource,TattrCtx extends At
         XMLInflaterResource<TnativeResource> xmlInflater = attrCtx.getXMLInflaterResource();
 
         TnativeResource rootResource = createResourceNative(xmlInflater.getContext());
-        xmlInflater.getInflatedResource().setRootResource(rootResource); // Lo antes posible
+        xmlInflater.getInflatedXMLResource().setRootResource(rootResource); // Lo antes posible
 
         fillResourceAttributes(rootResource, rootDOMElem, attrCtx);
 

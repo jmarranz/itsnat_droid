@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.util.StringUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 import java.util.List;
@@ -24,19 +24,19 @@ import java.util.List;
  */
 public class XMLInflaterLayoutPage extends XMLInflaterLayout
 {
-    public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener)
+    public XMLInflaterLayoutPage(InflatedXMLLayoutPageImpl inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML,bitmapDensityReference,attrResourceInflaterListener);
     }
 
     public PageImpl getPageImpl()
     {
-        return getInflatedLayoutPageImpl().getPageImpl(); // No puede ser nulo
+        return getInflatedXMLLayoutPageImpl().getPageImpl(); // No puede ser nulo
     }
 
-    public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
+    public InflatedXMLLayoutPageImpl getInflatedXMLLayoutPageImpl()
     {
-        return (InflatedLayoutPageImpl) inflatedXML;
+        return (InflatedXMLLayoutPageImpl) inflatedXML;
     }
 
     private ItsNatViewImpl getItsNatViewOfInlineHandler(String type,View view)
@@ -45,7 +45,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
         {
             // El handler inline de load o unload sólo se puede poner una vez por layout por lo que obligamos
             // a que sea el View root de forma similar al <body> en HTML
-            if (view != getInflatedLayoutPageImpl().getRootView())
+            if (view != getInflatedXMLLayoutPageImpl().getRootView())
                 throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
         }
 
@@ -107,7 +107,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
     @Override
     public View inflateLayout(ViewGroup viewParent,int indexChild)
     {
-        InflatedLayoutPageImpl inflatedLayoutPage = getInflatedLayoutPageImpl();
+        InflatedXMLLayoutPageImpl inflatedLayoutPage = getInflatedXMLLayoutPageImpl();
         XMLDOMLayoutPage xmldomLayoutPage = inflatedLayoutPage.getXMLDOMLayoutPage();
 
         // No hace falta definir el loadInitScript en InflatedLayoutPageItsNatImpl pues se obtiene del XMLDOMLayoutPageItsNat y no cambia

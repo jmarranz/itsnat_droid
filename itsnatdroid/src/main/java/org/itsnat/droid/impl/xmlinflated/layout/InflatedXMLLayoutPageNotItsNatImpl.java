@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedLayoutPageNotItsNatImpl extends InflatedLayoutPageImpl
+public class InflatedXMLLayoutPageNotItsNatImpl extends InflatedXMLLayoutPageImpl
 {
     /**
      * El parámetro page es de tipo PageImpl y NO de tipo PageNotItsNatImpl que es lo que aparentemente debería ser, y es porque en layouts referenciados por ej con el uso de < include >
@@ -21,7 +21,7 @@ public class InflatedLayoutPageNotItsNatImpl extends InflatedLayoutPageImpl
      * @param domLayout
      * @param ctx
      */
-    public InflatedLayoutPageNotItsNatImpl(PageImpl page, ItsNatDroidImpl itsNatDroid, XMLDOMLayoutPageNotItsNat domLayout, Context ctx)
+    public InflatedXMLLayoutPageNotItsNatImpl(PageImpl page, ItsNatDroidImpl itsNatDroid, XMLDOMLayoutPageNotItsNat domLayout, Context ctx)
     {
         super(page,itsNatDroid, domLayout, ctx);
     }

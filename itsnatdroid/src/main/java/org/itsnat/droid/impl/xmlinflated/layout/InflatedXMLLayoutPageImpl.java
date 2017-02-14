@@ -13,12 +13,12 @@ import java.util.List;
 /**
  * Created by jmarranz on 20/08/14.
  */
-public abstract class InflatedLayoutPageImpl extends InflatedLayoutImpl implements InflatedXMLPage
+public abstract class InflatedXMLLayoutPageImpl extends InflatedXMLLayoutImpl implements InflatedXMLPage
 {
     protected PageImpl page;
     protected List<String> scriptList = new LinkedList<String>();
 
-    public InflatedLayoutPageImpl(PageImpl page,ItsNatDroidImpl itsNatDroid,XMLDOMLayoutPage domLayout,Context ctx)
+    public InflatedXMLLayoutPageImpl(PageImpl page, ItsNatDroidImpl itsNatDroid, XMLDOMLayoutPage domLayout, Context ctx)
     {
         super(itsNatDroid, domLayout, ctx);
         this.page = page; // NO puede ser nulo
