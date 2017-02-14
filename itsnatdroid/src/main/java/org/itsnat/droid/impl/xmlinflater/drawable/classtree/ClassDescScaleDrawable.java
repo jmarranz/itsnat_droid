@@ -49,10 +49,10 @@ public class ClassDescScaleDrawable extends ClassDescElementDrawableBased<ScaleD
         int gravity = attrGravity != null ? AttrDesc.parseMultipleName(attrGravity.getValue(), GravityUtil.nameValueMap) : Gravity.LEFT; // Valor concreto no puede ser un recurso
 
         DOMAttr attrScaleHeight = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleHeight");
-        float scaleHeight = attrScaleHeight != null ? getPercent(xmlInflaterRegistry.getStringOrDimension(attrScaleHeight.getResourceDesc(), xmlInflaterContext)) : -1; // Se puede poner en un values/ como un <string> o como un <dimen> (aunque luego se procese como un String)
+        float scaleHeight = attrScaleHeight != null ? getPercent(xmlInflaterRegistry.getDimensionOrString(attrScaleHeight.getResourceDesc(), xmlInflaterContext)) : -1; // Se puede poner en un values/ como un <string> o como un <dimen> (aunque luego se procese como un String)
 
         DOMAttr attrScaleWidth = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "scaleWidth");
-        float scaleWidth = attrScaleWidth != null ? getPercent(xmlInflaterRegistry.getStringOrDimension(attrScaleWidth.getResourceDesc(),xmlInflaterContext)) : -1;
+        float scaleWidth = attrScaleWidth != null ? getPercent(xmlInflaterRegistry.getDimensionOrString(attrScaleWidth.getResourceDesc(),xmlInflaterContext)) : -1;
 
         ScaleDrawable drawable = new ScaleDrawable(childDrawable,gravity,scaleWidth,scaleHeight);
 

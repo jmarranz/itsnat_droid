@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.animlayout.ClassDescLayoutAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.animlayout.attr.AttrDescLayoutAnimation_LayoutAnimationController_animation;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodInterpolator;
@@ -48,7 +48,7 @@ public class ClassDescLayoutAnimation extends ClassDescLayoutAnimationBased<Layo
 
         addAttrDescAN(new AttrDescLayoutAnimation_LayoutAnimationController_animation(this));
         addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "animationOrder","setOrder", int.class, animationOrderMap, "normal"));
-        addAttrDescAN(new AttrDescReflecMethodPercFloat(this,"delay",false,new PercFloat(0)));
+        addAttrDescAN(new AttrDescReflecMethodPercFloat(this,"delay",false,new PercFloatImpl(0)));
         addAttrDescAN(new AttrDescReflecMethodInterpolator(this, "interpolator","@null"));
     }
 }

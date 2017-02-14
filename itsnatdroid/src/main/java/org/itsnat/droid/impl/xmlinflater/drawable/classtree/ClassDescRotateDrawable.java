@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
@@ -81,7 +81,7 @@ public class ClassDescRotateDrawable extends ClassDescElementDrawableBased<Rotat
             mDrawableField.set(rotateState,childDrawable);
 
         DOMAttr pivotXAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "pivotX");
-        PercFloat pivotXObj = pivotXAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotXAttr.getResourceDesc(),xmlInflaterContext) : null;
+        PercFloatImpl pivotXObj = pivotXAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotXAttr.getResourceDesc(),xmlInflaterContext) : null;
         boolean pivotXRel;
         float pivotX;
         if (pivotXObj == null)
@@ -98,7 +98,7 @@ public class ClassDescRotateDrawable extends ClassDescElementDrawableBased<Rotat
         mPivotXField.set(rotateState,pivotX);
 
         DOMAttr pivotYAttr = rootElem.getDOMAttribute(NamespaceUtil.XMLNS_ANDROID, "pivotY");
-        PercFloat pivotYObj = pivotYAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotYAttr.getResourceDesc(),xmlInflaterContext) : null;
+        PercFloatImpl pivotYObj = pivotYAttr != null ? xmlInflaterRegistry.getDimensionPercFloat(pivotYAttr.getResourceDesc(),xmlInflaterContext) : null;
         boolean pivotYRel;
         float pivotY;
         if (pivotYObj == null)

@@ -49,57 +49,16 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
         return resourceDesc; // Puede ser ResourceDescLocal o "compiled"
     }
 
-    private void prepare(ResourceDesc resourceDesc)
+    @Override
+    protected ResourceDesc prepare(String resourceDescValue,ResourceDesc resourceDesc)
     {
+        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
         resourceDesc = checkRemote(resourceDesc);
         if (resourceDesc instanceof ResourceDescLocal) // Puede ser "compiled" también
         {
             XMLDOMParser.prepareResourceDescLocalToLoadResource((ResourceDescLocal) resourceDesc, xmlDOMParserContext);
         }
+        return resourceDesc;
     }
 
-    @Override
-    public Animator getAnimator(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
-        prepare(resourceDesc);
-        return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
-    }
-
-    @Override
-    public Animation getAnimation(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
-        prepare(resourceDesc);
-        return xmlInflaterRegistry.getAnimation(resourceDesc,xmlInflaterContext);
-    }
-
-    @Override
-    public LayoutAnimationController getLayoutAnimation(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getLayoutAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
-        prepare(resourceDesc);
-        return xmlInflaterRegistry.getLayoutAnimation(resourceDesc,xmlInflaterContext);
-    }
-
-    @Override
-    public Interpolator getInterpolator(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getInterpolatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
-        prepare(resourceDesc);
-        return xmlInflaterRegistry.getInterpolator(resourceDesc,xmlInflaterContext);
-    }
-
-    @Override
-    public CharSequence[] getTextArray(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.geValuesResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) resourceDesc = ResourceDesc.create(resourceDescValue);
-        prepare(resourceDesc);
-        return xmlInflaterRegistry.getTextArray(resourceDesc,xmlInflaterContext);
-    }
 }

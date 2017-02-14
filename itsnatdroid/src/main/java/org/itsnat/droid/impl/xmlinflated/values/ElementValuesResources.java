@@ -10,7 +10,7 @@ import android.view.animation.LayoutAnimationController;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.Dimension;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
@@ -175,7 +175,7 @@ public class ElementValuesResources extends ElementValues
         return xmlInflaterRegistry.getDimensionObject(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public PercFloat getDimensionPercFloat(String name,XMLInflaterContext xmlInflaterContext)
+    public PercFloatImpl getDimensionPercFloat(String name, XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_STRING,name);
         if (valueAsDOMAttr == null) valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_DIMEN,name);
@@ -184,14 +184,14 @@ public class ElementValuesResources extends ElementValues
         return xmlInflaterRegistry.getDimensionPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public PercFloat getPercFloat(String name,XMLInflaterContext xmlInflaterContext)
+    public PercFloatImpl getPercFloat(String name, XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_STRING,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
         return xmlInflaterRegistry.getPercFloat(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public String getStringOrDimension(String name,XMLInflaterContext xmlInflaterContext)
+    public String getDimensionOrString(String name, XMLInflaterContext xmlInflaterContext)
     {
         DOMAttr valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_STRING,name);
         if (valueAsDOMAttr == null) valueAsDOMAttr = findElementValuesChildNoChildElemValue(TYPE_DIMEN,name);

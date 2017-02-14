@@ -28,43 +28,10 @@ public class ItsNatResourcesRemoteImpl extends ItsNatResourcesImpl
     }
 
     @Override
-    public Animator getAnimator(String resourceDescValue)
+    protected ResourceDesc prepare(String resourceDescValue,ResourceDesc resourceDesc)
     {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getAnimatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         if (resourceDesc == null) throw newException(resourceDescValue);
-        return xmlInflaterRegistry.getAnimator(resourceDesc,xmlInflaterContext);
-    }
-
-    @Override
-    public Animation getAnimation(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) throw newException(resourceDescValue);
-        return xmlInflaterRegistry.getAnimation(resourceDesc,xmlInflaterContext);
-    }
-
-    @Override
-    public LayoutAnimationController getLayoutAnimation(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getLayoutAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) throw newException(resourceDescValue);
-        return xmlInflaterRegistry.getLayoutAnimation(resourceDesc,xmlInflaterContext);
-    }
-
-    @Override
-    public Interpolator getInterpolator(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.getInterpolatorResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) throw newException(resourceDescValue);
-        return xmlInflaterRegistry.getInterpolator(resourceDesc,xmlInflaterContext);
-    }
-
-    @Override
-    public CharSequence[] getTextArray(String resourceDescValue)
-    {
-        ResourceDesc resourceDesc = xmlDOMRegistry.geValuesResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        if (resourceDesc == null) throw newException(resourceDescValue);
-        return xmlInflaterRegistry.getTextArray(resourceDesc,xmlInflaterContext);
+        return resourceDesc;
     }
 
 }

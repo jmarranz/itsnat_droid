@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBase;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildGradient;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodBoolean;
@@ -45,10 +45,10 @@ public class ClassDescGradientDrawableChildGradient extends ClassDescElementDraw
 
         addAttrDescAN(new AttrDescReflecMethodFloat(this, "angle", 0f));
         addAttrDescAN(new AttrDescReflecMethodColor(this, "centerColor", 0));
-        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerX", true, new PercFloat(0.5f)));
-        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerY", true, new PercFloat(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerX", true, new PercFloatImpl(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "centerY", true, new PercFloatImpl(0.5f)));
         addAttrDescAN(new AttrDescReflecMethodColor(this, "endColor", 0));
-        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius",true, new PercFloat(0.5f)));
+        addAttrDescAN(new AttrDescReflecMethodDimensionPercFloat(this, "gradientRadius",true, new PercFloatImpl(0.5f)));
         addAttrDescAN(new AttrDescReflecMethodColor(this, "startColor", 0));
         addAttrDescAN(new AttrDescReflecMethodNameSingle(this, "type", int.class, GradientTypeUtil.nameValueMap, "linear"));
         addAttrDescAN(new AttrDescReflecMethodBoolean(this, "useLevel", false));

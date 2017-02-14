@@ -27,8 +27,8 @@ public class XMLDOMRegistry
     protected ItsNatDroidImpl parent;
 
     protected ResourceCacheByMarkupAndResDescLayout layoutCache = new ResourceCacheByMarkupAndResDescLayout();
-    protected ResourceCacheByMarkupAndResDescDrawable drawableCache = new ResourceCacheByMarkupAndResDescDrawable();
     protected ResourceCacheByMarkupAndResDescLayoutAnimation layoutAnimationCache = new ResourceCacheByMarkupAndResDescLayoutAnimation();
+    protected ResourceCacheByMarkupAndResDescDrawable drawableCache = new ResourceCacheByMarkupAndResDescDrawable();
     protected ResourceCacheByMarkupAndResDescInterpolator interpolatorCache = new ResourceCacheByMarkupAndResDescInterpolator();
     protected ResourceCacheByMarkupAndResDescAnimation animationCache = new ResourceCacheByMarkupAndResDescAnimation();
     protected ResourceCacheByMarkupAndResDescAnimator animatorCache = new ResourceCacheByMarkupAndResDescAnimator();
@@ -48,7 +48,7 @@ public class XMLDOMRegistry
     public void cleanCaches()
     {
         layoutCache.cleanCaches();
-
+        layoutAnimationCache.cleanCaches();
         drawableCache.cleanCaches();
         animationCache.cleanCaches();
         animatorCache.cleanCaches();
@@ -123,7 +123,7 @@ public class XMLDOMRegistry
         return valuesCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup,resourceDesc,xmlDOMParserContext);
     }
 
-    public ResourceDescDynamic geValuesResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
+    public ResourceDescDynamic getValuesResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
         return valuesCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
     }

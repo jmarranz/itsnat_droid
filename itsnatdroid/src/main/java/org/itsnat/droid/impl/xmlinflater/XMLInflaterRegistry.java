@@ -806,7 +806,7 @@ public class XMLInflaterRegistry
         return numInt;
     }
 
-    public PercFloat getDimensionPercFloat(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+    public PercFloatImpl getDimensionPercFloat(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
     {
         if (resourceDesc instanceof ResourceDescDynamic)
         {
@@ -823,12 +823,12 @@ public class XMLInflaterRegistry
         else throw MiscUtil.internalError();
     }
 
-    private PercFloat getDimensionPercFloatCompiled(String resourceDescValue, Context ctx)
+    private PercFloatImpl getDimensionPercFloatCompiled(String resourceDescValue, Context ctx)
     {
         return getDimensionPercFloatCompiled(resourceDescValue,ctx,true);
     }
 
-    private PercFloat getDimensionPercFloatCompiled(String resourceDescValue, Context ctx, boolean acceptDimension)
+    private PercFloatImpl getDimensionPercFloatCompiled(String resourceDescValue, Context ctx, boolean acceptDimension)
     {
         // Este método y PercFloat sólo se usa para el gradientRadius de GradientDrawable <shape> <gradient android:gradientRadius android:centerX y centerY>
 
@@ -864,7 +864,7 @@ public class XMLInflaterRegistry
     }
 
 
-    private PercFloat parseDimensionPercFloat(String attrValue, Context ctx, boolean acceptDimension)
+    private PercFloatImpl parseDimensionPercFloat(String attrValue, Context ctx, boolean acceptDimension)
     {
         // El retorno es en px
         int dataType;
@@ -877,7 +877,7 @@ public class XMLInflaterRegistry
             boolean fractionParent = (attrValue.lastIndexOf("%p") != -1);
             attrValue = attrValue.substring(0, pos);
             float value = Float.parseFloat(attrValue);
-            return new PercFloat(dataType, fractionParent, value);
+            return new PercFloatImpl(dataType, fractionParent, value);
         }
         else
         {
@@ -887,7 +887,7 @@ public class XMLInflaterRegistry
             if (Character.isDigit(last) || last == '.')  // 3. es un float válido
             {
                 float value = Float.parseFloat(attrValue);
-                return new PercFloat(dataType, fractionParent, value); // fractionParent es indiferente
+                return new PercFloatImpl(dataType, fractionParent, value); // fractionParent es indiferente
             }
             else
             {
@@ -897,12 +897,12 @@ public class XMLInflaterRegistry
                 int unit = dimen.getComplexUnit(); // TypedValue.COMPLEX_UNIT_DIP etc
                 float num = dimen.getValue();
                 float value = toPixelFloat(unit, num, ctx.getResources());
-                return new PercFloat(dataType, fractionParent, value); // fractionParent es indiferente
+                return new PercFloatImpl(dataType, fractionParent, value); // fractionParent es indiferente
             }
         }
     }
 
-    public PercFloat getPercFloat(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+    public PercFloatImpl getPercFloat(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
     {
         if (resourceDesc instanceof ResourceDescDynamic)
         {
@@ -919,13 +919,13 @@ public class XMLInflaterRegistry
         else throw MiscUtil.internalError();
     }
 
-    public String getStringOrDimension(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+    public String getDimensionOrString(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
     {
         if (resourceDesc instanceof ResourceDescDynamic)
         {
             ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
             ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
-            return elementResources.getStringOrDimension(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
+            return elementResources.getDimensionOrString(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
         }
         else if (resourceDesc instanceof ResourceDescCompiled)
         {
@@ -1148,8 +1148,8 @@ public class XMLInflaterRegistry
             }
             else
             {
-                View view = getViewLayoutDynamicFromXML(resourceDescDyn, xmlInflaterContext, xmlInflaterParent, viewParent,indexChild, includeAttribs);
-                return new LayoutValueDynamic(view);
+                View rootViewOrViewParent = getViewLayoutDynamicFromXML(resourceDescDyn, xmlInflaterContext, xmlInflaterParent, viewParent,indexChild, includeAttribs);
+                return new LayoutValueDynamic(rootViewOrViewParent);
             }
         }
         else if (resourceDesc instanceof ResourceDescCompiled)
@@ -1236,11 +1236,11 @@ public class XMLInflaterRegistry
             XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
             XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrResourceInflaterListener, ctx, pageParent);
-            View rootView = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
+            View rootViewOrViewParent = xmlInflaterLayout.getInflatedLayoutImpl().getRootView();
 
             if (pageParent != null) // existe página padre
             {
-                XMLInflaterLayoutPage xmlInflaterLayoutPageParent = (XMLInflaterLayoutPage) xmlInflaterParent; // No esperamos que sea XMLInflaterDrawablePage
+                XMLInflaterLayoutPage xmlInflaterLayoutPageParent = (XMLInflaterLayoutPage) xmlInflaterParent;
                 InflatedLayoutPageImpl inflatedLayoutPageParent = xmlInflaterLayoutPageParent.getInflatedLayoutPageImpl();
 
                 InflatedLayoutPageImpl inflatedLayoutPage = ((XMLInflaterLayoutPage) xmlInflaterLayout).getInflatedLayoutPageImpl();
@@ -1260,7 +1260,7 @@ public class XMLInflaterRegistry
 
             if (viewParent != null)
             {
-                if (rootView != viewParent) throw MiscUtil.internalError(); // rootView es igual a viewParent
+                if (rootViewOrViewParent != viewParent) throw MiscUtil.internalError(); // rootViewOrViewParent es igual a viewParent
 
                 int countAfter = viewParent.getChildCount();
                 int countInserted = countAfter - countBefore;
@@ -1282,7 +1282,7 @@ public class XMLInflaterRegistry
                 weakMapWithValue.copyTo(inflatedLayoutParent.getViewMapByXMLId().getMapIdViewXMLStd());
             }
 
-            return rootView;
+            return rootViewOrViewParent;
         }
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }

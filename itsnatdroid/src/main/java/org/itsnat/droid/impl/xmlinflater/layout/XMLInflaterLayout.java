@@ -45,7 +45,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
         super(inflatedXML, bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index,
+    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int indexChild,
                                                   int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener,
                                                   Context ctx,PageImpl page)
     {
@@ -66,7 +66,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
 
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrResourceInflaterListener);
-        xmlInflaterLayout.inflateLayout(viewParent, index);
+        xmlInflaterLayout.inflateLayout(viewParent, indexChild);
         return xmlInflaterLayout;
     }
 
@@ -92,13 +92,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return (InflatedLayoutImpl)inflatedXML;
     }
 
-    public View inflateLayout(ViewGroup viewParent,int index)
+    public View inflateLayout(ViewGroup viewParent,int indexChild)
     {
         InflatedLayoutImpl inflatedLayout = getInflatedLayoutImpl();
         XMLDOMLayout domLayout = inflatedLayout.getXMLDOMLayout();
 
-        View rootView = inflateRootView(domLayout, viewParent, index);
-        return rootView;
+        View rootViewOrViewParent = inflateRootView(domLayout, viewParent, indexChild);
+        return rootViewOrViewParent;
     }
 
 
@@ -108,22 +108,23 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return classDescViewMgr.get(domElemView);
     }
 
-    private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int index)
+    private View inflateRootView(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int indexChild)
     {
         DOMElemLayout rootDOMView = (DOMElemLayout)xmlDOMLayout.getRootDOMElement();
 
         DOMElemView newRootDOMElemView;
         if (rootDOMView instanceof DOMElemMerge)
         {
-            if (viewParent == null) throw new ItsNatDroidException("Only can be used <merge> on included layouts");
-            newRootDOMElemView = new DOMElemView((DOMElemMerge)rootDOMView); // Reemplazamos el <merge> por el ViewGroup como elemento, conservando los hijos y atributos del <merge> original (el namespace de Android por ejemplo)
+            if (viewParent == null)
+                throw new ItsNatDroidException("Only can be used <merge> on external included layouts in a parent layout (needed a parent view)");
+            newRootDOMElemView = new DOMElemView((DOMElemMerge)rootDOMView); // Reemplazamos el <merge> por el ViewGroup parent como elemento, conservando los hijos y atributos del <merge> original (el namespace de Android por ejemplo)
             newRootDOMElemView.setTagName(viewParent.getClass().getName());
         }
         else
         {
             if (viewParent != null)
             {
-                newRootDOMElemView = new DOMElemView(viewParent.getClass().getName(), null); // Reemplazamos el <View> root por el ViewGroup padre y lo añadimos como hijo, para que se definan bien los Layout Params
+                newRootDOMElemView = new DOMElemView(viewParent.getClass().getName(), null); // Reemplazamos el <View> root (normalmente un ViewGroup pero el root del layout cargado puede ser por ej un Button) por el ViewGroup del layout padre y lo añadimos como hijo (lo que finalmente se hará más tarde), para que se definan bien los Layout Params
                 newRootDOMElemView.addChildDOMElement(rootDOMView);
             }
             else
@@ -132,26 +133,46 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
         PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks = new PendingPostInsertChildrenTasks();
 
+        // El View rootView creado por createRootViewObjectAndFillAttributes es el root del layout a cargar
+        // Tres casos de newRootDOMElemView:
+        // El newRootDOMElemView puede ser el DOM de <merge> pero reemplazado por un clon básico del ViewGroup (viewParent) pero en el layout a cargar
+        //  => rootView será el ViewGroup clone (el merge es substituido)
+        // El newRootDOMElemView puede ser el DOM del root del layout a cargar pero reemplazado por un clon básico del ViewGroup (viewParent) pero en el layout a cargar, el root del layout a cargar se añadirá como hijo único como se hará finalmente con el ViewGroup verdad (caso viewPaarent!=null)
+        //  => rootView será el ViewGroup clone (el original root es ahora el hijo del ViewGroup clone y no es rootView)
+        // El newRootDOMElemView puede ser el DOM del root del layout a cargar pero no hay viewParent.
+        //  => rootView será el normal root del layout cargado
+
         View rootView = createRootViewObjectAndFillAttributes(newRootDOMElemView, pendingPostInsertChildrenTasks);
 
         processChildViews(newRootDOMElemView, rootView, xmlDOMLayout);
 
         pendingPostInsertChildrenTasks.executeTasks();
 
+
         if (viewParent != null)
         {
-            ViewGroup falseParentView = (ViewGroup)rootView;
-            while (falseParentView.getChildCount() > 0)
+            // El root del layout cargado es reemplazado temporalmente por un clon básico del ViewGroup (viewParent), tenemos que deshacer esto
+            ViewGroup falseRootViewGroupCloned = (ViewGroup)rootView;
+            while (falseRootViewGroupCloned.getChildCount() > 0)
             {
-                View child = falseParentView.getChildAt(0);
-                falseParentView.removeViewAt(0);
-                viewParent.addView(child,index);
-                index++;
+                View child = falseRootViewGroupCloned.getChildAt(0);
+                falseRootViewGroupCloned.removeViewAt(0);
+                viewParent.addView(child,indexChild);
+                indexChild++;
             }
-            getInflatedLayoutImpl().setRootView(viewParent); // Corregimos el rootView pues se puso el falseParentView
+            // A la hora de devolver algo devolvemos viewParent QUE ES NO NULO por una parte porque el <merge> desaparece y puede tener varios hijos y en el otro caso cuando hay un viewParent
+            // no nulo ya están insertados los elementos del layout insertado y podemos obtener el root via viewParent.getChild(indexChild). En ressumen cuando viewParent es no nulo sabemos
+            // que devuelve viewParent
+            getInflatedLayoutImpl().setRootView(viewParent);
             return viewParent;
         }
-        else return rootView;
+        else
+        {
+            // rootView es el normal root del layout cargado que todavía NO está insertado
+            getInflatedLayoutImpl().setRootView(rootView);
+            return rootView;
+        }
+        // Como se puede ver inflateRootView(...) devuelve viewParent o si no hay viewParent el root view del layout cargado, esto se arrastra en tod_o el stack de llamadas
     }
 
     public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)

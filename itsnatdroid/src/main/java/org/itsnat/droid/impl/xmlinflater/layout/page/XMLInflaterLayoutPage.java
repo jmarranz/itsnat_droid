@@ -105,7 +105,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
     }
 
     @Override
-    public View inflateLayout(ViewGroup viewParent,int index)
+    public View inflateLayout(ViewGroup viewParent,int indexChild)
     {
         InflatedLayoutPageImpl inflatedLayoutPage = getInflatedLayoutPageImpl();
         XMLDOMLayoutPage xmldomLayoutPage = inflatedLayoutPage.getXMLDOMLayoutPage();
@@ -119,7 +119,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
                 inflatedLayoutPage.addScript(script.getCode()); // Podríamos usar los DOMScript directamente pero así es más limpio
         }
 
-        return super.inflateLayout(viewParent,index);
+        return super.inflateLayout(viewParent,indexChild);
     }
 
 }

@@ -5,7 +5,7 @@ import android.view.animation.ScaleAnimation;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationScale;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -47,7 +47,7 @@ public class AttrDescAnimation_view_animation_ScaleAnimation_fromToXYScale exten
     @Override
     public void setAttribute(ScaleAnimation scaleAnimation, DOMAttr attr, AttrAnimationContext attrCtx)
     {
-        PercFloat convValue = getDimensionPercFloat(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
+        PercFloatImpl convValue = getDimensionPercFloat(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
 
         // En PercFloat.toFloatBasedOnDataType() acabamos calculando tanto si es % (10% => 0.1) como si es float normal (ej 1.5) o es un dimension (se calcula el resultado en pixeles)
         // por tanto no necesitamos mFromXType y mFromXData (idem Y y los To), sólo mFromX . Es como si hubieramos especificado siempre un float calculado ya el valor final

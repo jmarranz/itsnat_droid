@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.xmlinflated.drawable;
 
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 
 /**
  * Created by jmarranz on 27/11/14.
@@ -8,11 +8,11 @@ import org.itsnat.droid.impl.xmlinflater.PercFloat;
 public class GradientDrawableChildGradient extends ElementDrawableChildNormal
 {
     protected Float angle;
-    protected PercFloat centerX;
-    protected PercFloat centerY;
+    protected PercFloatImpl centerX;
+    protected PercFloatImpl centerY;
     protected Integer centerColor;
     protected Integer endColor;
-    protected PercFloat gradientRadius;
+    protected PercFloatImpl gradientRadius;
     protected Integer startColor;
     protected Integer type;  // GradientTypeUtil.LINEAR_GRADIENT, RADIAL_GRADIENT, SWEEP_GRADIENT
     protected Boolean useLevel;
@@ -31,19 +31,19 @@ public class GradientDrawableChildGradient extends ElementDrawableChildNormal
         this.angle = angle;
     }
 
-    public PercFloat getCenterX() {
+    public PercFloatImpl getCenterX() {
         return centerX;
     }
 
-    public void setCenterX(PercFloat centerX) {
+    public void setCenterX(PercFloatImpl centerX) {
         this.centerX = centerX;
     }
 
-    public PercFloat getCenterY() {
+    public PercFloatImpl getCenterY() {
         return centerY;
     }
 
-    public void setCenterY(PercFloat centerY) {
+    public void setCenterY(PercFloatImpl centerY) {
         this.centerY = centerY;
     }
 
@@ -63,11 +63,11 @@ public class GradientDrawableChildGradient extends ElementDrawableChildNormal
         this.endColor = endColor;
     }
 
-    public PercFloat getGradientRadius() {
+    public PercFloatImpl getGradientRadius() {
         return gradientRadius;
     }
 
-    public void setGradientRadius(PercFloat gradientRadius) {
+    public void setGradientRadius(PercFloatImpl gradientRadius) {
         this.gradientRadius = gradientRadius;
     }
 

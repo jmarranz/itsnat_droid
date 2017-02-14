@@ -5,7 +5,7 @@ import android.view.animation.GridLayoutAnimationController;
 import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.impl.util.MapSmart;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.animlayout.ClassDescLayoutAnimationMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameSingle;
@@ -62,10 +62,10 @@ public class ClassDescGridLayoutAnimation extends ClassDescLayoutAnimationBased<
     {
         super.init();
 
-        addAttrDescAN(new AttrDescReflecMethodPercFloat(this,"columnDelay",false,new PercFloat(0)));
+        addAttrDescAN(new AttrDescReflecMethodPercFloat(this,"columnDelay",false,new PercFloatImpl(0)));
         addAttrDescAN(new AttrDescReflecMethodNameMultiple(this,"direction", directionMap, "left_to_right|top_to_bottom"));
         addAttrDescAN(new AttrDescReflecMethodNameSingle(this,"directionPriority",int.class,directionPriorityMap, "none"));
-        addAttrDescAN(new AttrDescReflecMethodPercFloat(this,"rowDelay",false,new PercFloat(0)));
+        addAttrDescAN(new AttrDescReflecMethodPercFloat(this,"rowDelay",false,new PercFloatImpl(0)));
     }
 
 }

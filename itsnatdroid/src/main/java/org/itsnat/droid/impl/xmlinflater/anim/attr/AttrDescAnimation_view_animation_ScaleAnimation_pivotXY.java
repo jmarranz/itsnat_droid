@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.anim.AttrAnimationContext;
 import org.itsnat.droid.impl.xmlinflater.anim.classtree.ClassDescAnimationScale;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -49,7 +49,7 @@ public class AttrDescAnimation_view_animation_ScaleAnimation_pivotXY extends Att
     @Override
     public void setAttribute(ScaleAnimation scaleAnimation, DOMAttr attr, AttrAnimationContext attrCtx)
     {
-        PercFloat convValue = getPercFloat(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
+        PercFloatImpl convValue = getPercFloat(attr.getResourceDesc(),attrCtx.getXMLInflaterContext());
 
         int pivotType;
         float pivotValue;

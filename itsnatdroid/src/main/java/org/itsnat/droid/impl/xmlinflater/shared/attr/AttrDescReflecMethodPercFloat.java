@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.AttrContext;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDesc;
 
 /**
@@ -12,16 +12,16 @@ public class AttrDescReflecMethodPercFloat<TclassDesc extends ClassDesc,TattrTar
         extends AttrDescReflecMethod<TclassDesc,TattrTarget,TattrContext>
 {
     protected boolean useObject;
-    protected PercFloat defaultValue;
+    protected PercFloatImpl defaultValue;
 
-    public AttrDescReflecMethodPercFloat(TclassDesc parent, String name, String methodName,boolean useObject, PercFloat defaultValue)
+    public AttrDescReflecMethodPercFloat(TclassDesc parent, String name, String methodName,boolean useObject, PercFloatImpl defaultValue)
     {
         super(parent,name,methodName,getClassParam(useObject));
         this.useObject = useObject;
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodPercFloat(TclassDesc parent, String name,boolean useObject, PercFloat defaultValue)
+    public AttrDescReflecMethodPercFloat(TclassDesc parent, String name,boolean useObject, PercFloatImpl defaultValue)
     {
         super(parent,name,getClassParam(useObject));
         this.useObject = useObject;
@@ -30,13 +30,13 @@ public class AttrDescReflecMethodPercFloat<TclassDesc extends ClassDesc,TattrTar
 
     protected static Class<?> getClassParam(boolean useObject)
     {
-        return useObject ? PercFloat.class : float.class;
+        return useObject ? PercFloatImpl.class : float.class;
     }
 
     @Override
     public void setAttribute(TattrTarget target, DOMAttr attr, TattrContext attrCtx)
     {
-        PercFloat convValue = getPercFloat(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
+        PercFloatImpl convValue = getPercFloat(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
         if (useObject)
         {
             callMethod(target, convValue);

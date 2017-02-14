@@ -21,7 +21,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildSize;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildSolid;
 import org.itsnat.droid.impl.xmlinflated.drawable.GradientDrawableChildStroke;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.PercFloat;
+import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
@@ -226,8 +226,8 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
 
     private void processGradient(GradientDrawable drawable, GradientDrawableChildGradient child, Object gradientState)
     {
-        PercFloat centerXObj = child.getCenterX();
-        PercFloat centerYObj = child.getCenterY();
+        PercFloatImpl centerXObj = child.getCenterX();
+        PercFloatImpl centerYObj = child.getCenterY();
         float centerX = centerXObj != null ? centerXObj.toFloatBasedOnDataType() : 0.5f;
         float centerY = centerYObj != null ? centerYObj.toFloatBasedOnDataType() : 0.5f;
         drawable.setGradientCenter(centerX, centerY);
@@ -313,7 +313,7 @@ public class ClassDescGradientDrawable extends ClassDescElementDrawableBased<Gra
         }
         else // RADIAL_GRADIENT, SWEEP_GRADIENT
         {
-            PercFloat gradRadius = child.getGradientRadius();
+            PercFloatImpl gradRadius = child.getGradientRadius();
             if (gradRadius != null)
             {
                 float value = gradRadius.toFloatBasedOnDataType(); // gradRadius.getValue();
