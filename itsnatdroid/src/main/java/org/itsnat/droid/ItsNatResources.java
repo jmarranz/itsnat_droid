@@ -8,6 +8,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LayoutAnimationController;
 
 import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
 
 /**
  * Created by jmarranz on 01/04/2016.
@@ -36,12 +37,6 @@ public interface ItsNatResources
     public Drawable getDrawable(String resourceDesc);
     public Interpolator getInterpolator(String resourceDesc);
     public LayoutAnimationController getLayoutAnimation(String resourceDesc);
-    //SEGUIR;
-
-
-
-
-
-
+    public LayoutValue getLayout(String resourceDesc);  SEGUIR evitando el LayoutValue
 
 }

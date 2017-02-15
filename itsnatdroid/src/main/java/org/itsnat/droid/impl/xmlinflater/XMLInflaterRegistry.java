@@ -1235,8 +1235,9 @@ public class XMLInflaterRegistry
             ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDesc.getParsedResource();
             XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
-            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.inflateLayout(itsNatDroid, xmlDOMLayout, viewParent, indexChild, bitmapDensityReference, attrResourceInflaterListener, ctx, pageParent);
-            View rootViewOrViewParent = xmlInflaterLayout.getInflatedXMLLayoutImpl().getRootView();
+            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.createXMLInflaterLayout(itsNatDroid, xmlDOMLayout, bitmapDensityReference, attrResourceInflaterListener, ctx, pageParent);
+            //View rootViewOrViewParent = xmlInflaterLayout.getInflatedXMLLayoutImpl().getRootView();
+            View rootViewOrViewParent = xmlInflaterLayout.inflateLayout(viewParent, indexChild);
 
             if (pageParent != null) // existe página padre
             {

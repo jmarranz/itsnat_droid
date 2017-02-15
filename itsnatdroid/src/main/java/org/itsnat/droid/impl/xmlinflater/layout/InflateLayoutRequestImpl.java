@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrResourceInflaterListener;
@@ -33,9 +34,11 @@ public abstract class InflateLayoutRequestImpl
 
     public abstract Context getContext();
 
-    public XMLInflaterLayout inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup parentView,int indexChild,PageImpl page)
+    public View inflateLayout(XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int indexChild,PageImpl page)
     {
-        return XMLInflaterLayout.inflateLayout(itsNatDroid,xmlDOMLayout,parentView,indexChild,getBitmapDensityReference(),getAttrResourceInflaterListener(),getContext(),page);
+        XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.createXMLInflaterLayout(itsNatDroid,xmlDOMLayout,getBitmapDensityReference(),getAttrResourceInflaterListener(),getContext(),page);
+        View rootViewOrViewParent = xmlInflaterLayout.inflateLayout(viewParent, indexChild);
+        return rootViewOrViewParent;
     }
 
 }

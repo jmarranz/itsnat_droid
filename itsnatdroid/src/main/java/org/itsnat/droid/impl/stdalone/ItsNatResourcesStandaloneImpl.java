@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.dom.ResourceDescLocal;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
 
 /**
@@ -31,6 +32,11 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 
         Context ctx = xmlInflaterLayoutStandalone.getContext();
         this.xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
+    }
+
+    public XMLInflaterLayout getXMLInflaterLayout()
+    {
+        return xmlInflaterLayoutStandalone;
     }
 
     public Context getContext()

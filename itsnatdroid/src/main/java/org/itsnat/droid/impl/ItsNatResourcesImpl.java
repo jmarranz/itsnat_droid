@@ -37,7 +37,7 @@ public abstract class ItsNatResourcesImpl implements ItsNatResources
     private ResourceDesc getValuesResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getValuesResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
-        prepare(resourceDescValue, resourceDesc);
+        resourceDesc = prepare(resourceDescValue, resourceDesc);
         return resourceDesc;
     }
 
@@ -206,7 +206,10 @@ public abstract class ItsNatResourcesImpl implements ItsNatResources
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getLayoutResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         resourceDesc = prepare(resourceDescValue,resourceDesc);
-        return xmlInflaterRegistry.getLayout(resourceDesc,xmlInflaterContext); //  XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
+
+        return xmlInflaterRegistry.getLayout(resourceDesc,xmlInflaterContext,getXMLInflaterLayout(),null,-1); //  XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
     }
+
+    public abstract XMLInflaterLayout getXMLInflaterLayout();
 
 }

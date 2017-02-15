@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
+import android.view.View;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.HttpRequestResult;
@@ -22,6 +23,7 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.InflatedXMLPage;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -78,7 +80,12 @@ public abstract class PageImpl implements Page
 
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
         InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(itsNatDroid,this);
-        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage) inflateLayoutRequest.inflateLayout(domLayout,null,-1,this);
+
+
+        XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.createXMLInflaterLayout(itsNatDroid, domLayout, inflateLayoutRequest.getBitmapDensityReference(), inflateLayoutRequest.getAttrResourceInflaterListener(), getContext(), this);
+
+        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage)xmlInflaterLayout;
+        View rootView = inflateLayoutRequest.inflateLayout(domLayout,null,-1,this);
 
         // Definimos pronto el itsNatDoc para que los layout include tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc antes de inflarlos
         try

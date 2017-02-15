@@ -23,7 +23,7 @@ public abstract class ResourceDesc
         else if (ResourceDescIntern.isIntern(resourceDescValue))
             return new ResourceDescIntern(resourceDescValue);
         else
-            return new ResourceDescCompiled(resourceDescValue);
+            return new ResourceDescCompiled(resourceDescValue); // Por ejemplo "wrapcontent"
     }
 
     public void checkEquals(String resourceDesc)

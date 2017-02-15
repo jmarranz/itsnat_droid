@@ -45,9 +45,9 @@ public abstract class XMLInflaterLayout extends XMLInflater
         super(inflatedXML, bitmapDensityReference,attrResourceInflaterListener);
     }
 
-    public static XMLInflaterLayout inflateLayout(ItsNatDroidImpl itsNatDroid,XMLDOMLayout xmlDOMLayout,ViewGroup viewParent,int indexChild,
-                                                  int bitmapDensityReference,AttrResourceInflaterListener attrResourceInflaterListener,
-                                                  Context ctx,PageImpl page)
+    public static XMLInflaterLayout createXMLInflaterLayout(ItsNatDroidImpl itsNatDroid, XMLDOMLayout xmlDOMLayout,
+                                                            int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener,
+                                                            Context ctx, PageImpl page)
     {
         InflatedXMLLayoutImpl inflatedLayout;
         if (xmlDOMLayout instanceof XMLDOMLayoutPage)
@@ -66,7 +66,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
 
         XMLInflaterLayout xmlInflaterLayout = createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrResourceInflaterListener);
-        View rootViewOrViewParent = xmlInflaterLayout.inflateLayout(viewParent, indexChild);
+        //View rootViewOrViewParent = xmlInflaterLayout.inflateLayout(viewParent, indexChild);
         return xmlInflaterLayout;
     }
 
@@ -175,13 +175,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
         // Como se puede ver inflateRootView(...) devuelve viewParent o si no hay viewParent el root view del layout cargado, esto se arrastra en tod_o el stack de llamadas
     }
 
-    public View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private View createRootViewObjectAndFillAttributes(DOMElemView rootDOMElemView,PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ClassDescViewBased classDesc = getClassDescViewBased(rootDOMElemView);
         return classDesc.createRootViewObjectAndFillAttributes(rootDOMElemView, this, pendingPostInsertChildrenTasks);
     }
 
-    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
+    private View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMElemView domElemView, PendingPostInsertChildrenTasks pendingPostInsertChildrenTasks)
     {
         ClassDescViewBased classDesc = getClassDescViewBased(domElemView);
         return classDesc.createViewObjectAndFillAttributesAndAdd(viewParent,domElemView.getDOMAttributeMap(), -1, this,pendingPostInsertChildrenTasks);

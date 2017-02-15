@@ -5,6 +5,7 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
@@ -24,6 +25,7 @@ import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 import org.itsnat.itsnatdroidtest.testact.util.Assert;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -68,6 +70,8 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         defineScaleAnimationTests(act, rootView,layout);
         defineTranslateAnimationTests(act, rootView,layout);
         defineAnimationSetTests(act,rootView,layout);
+
+        itsNatResourcesStandAloneTests(act,rootView,layout);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -295,5 +299,13 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         TestAssetLayoutAnimations1.testAnimationSet(animation);
     }
 
+    private static void itsNatResourcesStandAloneTests(TestActivity act, View rootView, InflatedLayout layout)
+    {
+        View view;
+        if (layout == null)
+            view = LayoutInflater.from(rootView.getContext()).inflate(R.layout.auto_complete_text_view_hint_view_compiled,null);
+        else
+             layout.getItsNatResources().getLayout("@assets:layout/res/layout/auto_complete_text_view_hint_view_asset.xml");
+    }
 
 }

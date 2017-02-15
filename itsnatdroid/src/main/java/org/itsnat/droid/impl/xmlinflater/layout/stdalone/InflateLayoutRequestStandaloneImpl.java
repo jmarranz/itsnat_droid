@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.stdalone;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrResourceInflaterListener;
@@ -118,7 +119,10 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
 
         int indexChild = parentView != null ? parentView.getChildCount() - 1 : -1;
 
-        return (XMLInflaterLayoutStandalone)inflateLayout(xmlDOMLayout,parentView,indexChild,null);
+        XMLInflaterLayoutStandalone xmlInflater = (XMLInflaterLayoutStandalone)XMLInflaterLayoutStandalone.createXMLInflaterLayout(getItsNatDroidImpl(),xmlDOMLayout,getBitmapDensityReference(),getAttrResourceInflaterListener(),ctx,null);
+
+        View rootViewOrViewParent = xmlInflater.inflateLayout(parentView,indexChild);
+        return xmlInflater;
     }
 
 }
