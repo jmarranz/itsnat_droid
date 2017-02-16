@@ -305,7 +305,9 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         if (layout == null)
             view = LayoutInflater.from(rootView.getContext()).inflate(R.layout.auto_complete_text_view_hint_view_compiled,null);
         else
-             layout.getItsNatResources().getLayout("@assets:layout/res/layout/auto_complete_text_view_hint_view_asset.xml");
+             view = layout.getItsNatResources().getViewLayout("@assets:layout/res/layout/auto_complete_text_view_hint_view_asset.xml",null,-1);
+        view = null;
+        SEGUIR;
     }
 
 }

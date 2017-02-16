@@ -3,12 +3,19 @@ package org.itsnat.droid;
 import android.animation.Animator;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LayoutAnimationController;
 
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+
+import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 01/04/2016.
@@ -37,6 +44,7 @@ public interface ItsNatResources
     public Drawable getDrawable(String resourceDesc);
     public Interpolator getInterpolator(String resourceDesc);
     public LayoutAnimationController getLayoutAnimation(String resourceDesc);
-    public LayoutValue getLayout(String resourceDesc);  SEGUIR evitando el LayoutValue
+    public View getViewLayout(String resourceDescValue, ViewGroup viewParent, int indexChild);
+
 
 }

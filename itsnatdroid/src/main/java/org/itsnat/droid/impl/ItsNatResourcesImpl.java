@@ -2,6 +2,7 @@ package org.itsnat.droid.impl;
 
 import android.animation.Animator;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
@@ -202,13 +203,14 @@ public abstract class ItsNatResourcesImpl implements ItsNatResources
     }
 
     @Override
-    public LayoutValue getLayout(String resourceDescValue)
+    public View getViewLayout(String resourceDescValue, ViewGroup viewParent, int indexChild)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getLayoutResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         resourceDesc = prepare(resourceDescValue,resourceDesc);
 
-        return xmlInflaterRegistry.getLayout(resourceDesc,xmlInflaterContext,getXMLInflaterLayout(),null,-1); //  XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
+        return xmlInflaterRegistry.getViewLayout(resourceDesc,xmlInflaterContext,getXMLInflaterLayout(),viewParent,indexChild,null);
     }
+
 
     public abstract XMLInflaterLayout getXMLInflaterLayout();
 
