@@ -1131,12 +1131,18 @@ public class XMLInflaterRegistry
         throw new ItsNatDroidException("Cannot process " + resourceDescValue);
     }
 
-    public LayoutValue getLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
+    public View getLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
     {
-        return getLayout(resourceDesc,xmlInflaterContext,xmlInflaterParent,viewParent,indexChild,null);
+        return getLayout(resourceDesc,xmlInflaterContext,xmlInflaterParent, viewParent, indexChild, null);
     }
 
-    public LayoutValue getLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    public View getLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    {
+        LayoutValue lv = getLayoutValue(resourceDesc,xmlInflaterContext,xmlInflaterParent, viewParent, indexChild, includeAttribs);
+        return lv.getView();
+    }
+
+    public LayoutValue getLayoutValue(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
         if (resourceDesc instanceof ResourceDescDynamic)
         {
@@ -1144,7 +1150,7 @@ public class XMLInflaterRegistry
             if (resourceDescDyn.getValuesResourceName() != null)
             {
                 ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
-                return elementResources.getLayout(resourceDescDyn.getValuesResourceName(), xmlInflaterContext, xmlInflaterParent, viewParent, indexChild, includeAttribs);
+                return elementResources.getLayoutValue(resourceDescDyn.getValuesResourceName(), xmlInflaterContext, xmlInflaterParent, viewParent, indexChild, includeAttribs);
             }
             else
             {
@@ -1157,28 +1163,12 @@ public class XMLInflaterRegistry
             Context ctx = xmlInflaterParent.getContext();
             String resourceDescValue = resourceDesc.getResourceDescValue();
             int layoutId = getIdentifierCompiled(resourceDescValue, ctx);
-            return new LayoutValueCompiled(layoutId);
+            View rootViewOrViewParent = getViewLayoutCompiled(layoutId,xmlInflaterContext.getContext(),xmlInflaterParent, viewParent, indexChild, includeAttribs);
+            return new LayoutValueCompiled(rootViewOrViewParent,layoutId);
         }
         else throw MiscUtil.internalError();
     }
 
-
-    public View getViewLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
-    {
-        LayoutValue layoutValue = getLayout(resourceDesc,xmlInflaterContext, xmlInflaterParent, viewParent, indexChild, includeAttribs);
-
-        if (layoutValue instanceof LayoutValueDynamic)
-        {
-            return ((LayoutValueDynamic)layoutValue).getView();
-        }
-        else if (layoutValue instanceof LayoutValueCompiled)
-        {
-            int id = ((LayoutValueCompiled)layoutValue).getLayoutId();
-            if (id <= 0) return null;
-            return getViewLayoutCompiled(id,xmlInflaterContext.getContext(),xmlInflaterParent,viewParent,indexChild,includeAttribs);
-        }
-        else throw MiscUtil.internalError();
-    }
 
     private View getViewLayoutCompiled(int resId,Context ctx,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {

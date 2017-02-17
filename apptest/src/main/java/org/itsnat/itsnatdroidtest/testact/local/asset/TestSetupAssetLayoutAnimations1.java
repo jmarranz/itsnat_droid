@@ -25,13 +25,15 @@ import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 import org.itsnat.itsnatdroidtest.testact.util.Assert;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 /**
  * Created by jmarranz on 16/07/14.
  */
 public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
 {
+    private static View view_compiled;
+    private static View view_assets;
+
     public TestSetupAssetLayoutAnimations1(TestActivityTabFragment fragment) {
         super(fragment);
     }
@@ -71,7 +73,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         defineTranslateAnimationTests(act, rootView,layout);
         defineAnimationSetTests(act,rootView,layout);
 
-        itsNatResourcesStandAloneTests(act,rootView,layout);
+        itsNatResourcesOtherTests(act,rootView,layout);
     }
 
     private static void defineObjectAnimatorTests(TestActivity act, View rootView,InflatedLayout layout)
@@ -299,15 +301,24 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         TestAssetLayoutAnimations1.testAnimationSet(animation);
     }
 
-    private static void itsNatResourcesStandAloneTests(TestActivity act, View rootView, InflatedLayout layout)
+    private static void itsNatResourcesOtherTests(TestActivity act, View rootView, InflatedLayout layout)
     {
-        View view;
+        // Test ItsNatResources.getLayout()
         if (layout == null)
-            view = LayoutInflater.from(rootView.getContext()).inflate(R.layout.auto_complete_text_view_hint_view_compiled,null);
+        {
+            view_compiled = LayoutInflater.from(rootView.getContext()).inflate(R.layout.auto_complete_text_view_hint_view_compiled, null);
+            Assert.assertNotNull(view_compiled);
+        }
         else
-             view = layout.getItsNatResources().getViewLayout("@assets:layout/res/layout/auto_complete_text_view_hint_view_asset.xml",null,-1);
-        view = null;
-        SEGUIR;
+        {
+            view_assets = layout.getItsNatResources().getLayout("@assets:layout/res/layout/auto_complete_text_view_hint_view_asset.xml", null, -1);
+            Assert.assertNotNull(view_assets);
+            Assert.assertEquals(view_compiled.getId(),view_assets.getId());
+
+            view_compiled = null;
+            view_assets = null;
+        }
+
     }
 
 }

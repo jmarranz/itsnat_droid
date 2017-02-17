@@ -7,15 +7,8 @@ import android.view.View;
  */
 public class LayoutValueDynamic extends LayoutValue
 {
-    protected View view;
-
     public LayoutValueDynamic(View view)
     {
-        this.view = view;
-    }
-
-    public View getView()
-    {
-        return view;
+        super(view);
     }
 }

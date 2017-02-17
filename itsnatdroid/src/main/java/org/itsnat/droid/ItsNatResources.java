@@ -44,7 +44,7 @@ public interface ItsNatResources
     public Drawable getDrawable(String resourceDesc);
     public Interpolator getInterpolator(String resourceDesc);
     public LayoutAnimationController getLayoutAnimation(String resourceDesc);
-    public View getViewLayout(String resourceDescValue, ViewGroup viewParent, int indexChild);
+    public View getLayout(String resourceDescValue, ViewGroup viewParent, int indexChild);
 
 
 }

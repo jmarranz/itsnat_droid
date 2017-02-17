@@ -189,14 +189,14 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
         return getXMLInflaterRegistry().getInterpolator(resourceDesc, xmlInflaterContext);
     }
 
-    public LayoutValue getLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
+    public View getLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
-        return getXMLInflaterRegistry().getLayout(resourceDesc, xmlInflaterContext, xmlInflaterParent, viewParent, indexChild);
+        return getXMLInflaterRegistry().getLayout(resourceDesc, xmlInflaterContext, xmlInflaterParent, viewParent, indexChild,includeAttribs);
     }
 
-    public View getViewLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext, XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    public LayoutValue getLayoutValue(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild,ArrayList<DOMAttr> includeAttribs)
     {
-        return getXMLInflaterRegistry().getViewLayout(resourceDesc,xmlInflaterContext,xmlInflaterParent, viewParent, indexChild, includeAttribs);
+        return getXMLInflaterRegistry().getLayoutValue(resourceDesc, xmlInflaterContext, xmlInflaterParent, viewParent, indexChild,includeAttribs);
     }
 
 
@@ -204,9 +204,6 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     {
         return getXMLInflaterRegistry().getLayoutAnimation(resourceDesc, xmlInflaterContext);
     }
-
-
-
 
 
     public static <T> T parseSingleName(String value, MapSmart<String, T> nameValueMap)

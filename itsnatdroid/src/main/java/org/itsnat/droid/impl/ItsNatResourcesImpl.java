@@ -203,12 +203,12 @@ public abstract class ItsNatResourcesImpl implements ItsNatResources
     }
 
     @Override
-    public View getViewLayout(String resourceDescValue, ViewGroup viewParent, int indexChild)
+    public View getLayout(String resourceDescValue, ViewGroup viewParent, int indexChild)
     {
         ResourceDesc resourceDesc = xmlDOMRegistry.getLayoutResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         resourceDesc = prepare(resourceDescValue,resourceDesc);
 
-        return xmlInflaterRegistry.getViewLayout(resourceDesc,xmlInflaterContext,getXMLInflaterLayout(),viewParent,indexChild,null);
+        return xmlInflaterRegistry.getLayout(resourceDesc,xmlInflaterContext,getXMLInflaterLayout(),viewParent,indexChild,null);
     }
 
 

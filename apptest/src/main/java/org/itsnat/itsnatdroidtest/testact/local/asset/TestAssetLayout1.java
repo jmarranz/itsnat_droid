@@ -134,8 +134,10 @@ public class TestAssetLayout1
             assertEquals(compTextView.getText(), "Included 1 w:match_parent by include");
             assertEquals(compTextView.getText(), parsedTextView.getText());
 
-            assertEquals(((TextView)comp.findViewById(R.id.testIncludeId1)),compTextView);
-            assertEquals(((TextView)parsed.findViewById(parsedTextView.getId())),parsedTextView);
+            TextView compTextView2 = (TextView)comp.findViewById(R.id.testIncludeId1);
+            assertEquals(compTextView2,compTextView);
+            TextView parsedTextView2 = (TextView)parsed.findViewById(parsedTextView.getId());
+            assertEquals(parsedTextView2,parsedTextView);
             assertEquals(compTextView.getId(),parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
 
             ViewGroup.LayoutParams a_params = compTextView.getLayoutParams();

@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflated.values;
 
 import android.animation.Animator;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
@@ -207,11 +208,11 @@ public class ElementValuesResources extends ElementValues
         return xmlInflaterRegistry.getDrawable(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public LayoutValue getLayout(String name,XMLInflaterContext xmlInflaterContext, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
+    public LayoutValue getLayoutValue(String name, XMLInflaterContext xmlInflaterContext, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_LAYOUT,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getLayout(valueAsDOMAttr.getResourceDesc(),xmlInflaterContext, xmlInflater, viewParent, indexChild, includeAttribs);
+        return xmlInflaterRegistry.getLayoutValue(valueAsDOMAttr.getResourceDesc(),xmlInflaterContext, xmlInflater, viewParent, indexChild, includeAttribs);
     }
 
     public float getFloat(String name,XMLInflaterContext xmlInflaterContext)
