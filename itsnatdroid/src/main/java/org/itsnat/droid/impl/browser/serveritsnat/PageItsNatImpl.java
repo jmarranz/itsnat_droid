@@ -35,7 +35,7 @@ public class PageItsNatImpl extends PageImpl
         return (ItsNatDocItsNatImpl)itsNatDoc;
     }
 
-    public InflatedXMLLayoutPageItsNatImpl getInflatedLayoutPageItsNatImpl()
+    public InflatedXMLLayoutPageItsNatImpl getInflatedXMLLayoutPageItsNatImpl()
     {
         return (InflatedXMLLayoutPageItsNatImpl)getXMLInflaterLayoutPageItsNat().getInflatedXMLLayoutPageItsNatImpl();
     }

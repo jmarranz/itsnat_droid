@@ -419,7 +419,7 @@ public class PageRequestImpl implements PageRequest
         if (pageListener != null) pageListener.onPageLoad(page);
     }
 
-    public PageRequestImpl clone()
+    public PageRequestImpl clonePageRequest()
     {
         return new PageRequestImpl(this);
     }

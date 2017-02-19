@@ -26,7 +26,7 @@ public class TestSetupRemoteCore extends TestSetupRemotePageBase
         super(fragment,droidBrowser);
     }
 
-    public void test(String url)
+    public void testSSLSelfSigned(String url)
     {
         TestActivity act = getTestActivity();
 

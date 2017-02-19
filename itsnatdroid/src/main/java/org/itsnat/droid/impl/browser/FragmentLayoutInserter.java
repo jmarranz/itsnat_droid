@@ -62,7 +62,7 @@ public class FragmentLayoutInserter
         // Por ejemplo 78ms con setInnerXML (parseando markup) y 179ms con beanshell puro
 
         PageImpl page = itsNatDoc.getPageImpl();
-        InflatedXMLLayoutPageImpl inflatedLayoutPage = page.getInflatedLayoutPageImpl();
+        InflatedXMLLayoutPageImpl inflatedLayoutPage = page.getInflatedXMLLayoutPageImpl();
         XMLDOMLayoutPage xmlDOMLayoutPageParent = inflatedLayoutPage.getXMLDOMLayoutPage();
         Context ctx = itsNatDoc.getContext();
 

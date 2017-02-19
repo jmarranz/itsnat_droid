@@ -28,9 +28,9 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
         this.view = view;
     }
 
-    public InflatedXMLLayoutPageImpl getInflatedLayoutPageImpl()
+    public InflatedXMLLayoutPageImpl getInflatedXMLLayoutPageImpl()
     {
-        return itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
+        return itsNatDoc.getPageImpl().getInflatedXMLLayoutPageImpl();
     }
 
     public View getView()
@@ -40,12 +40,12 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
 
     public String getXMLId()
     {
-        return getInflatedLayoutPageImpl().getXMLId(view);
+        return getInflatedXMLLayoutPageImpl().getXMLId(view);
     }
 
     public void setXMLId(String id)
     {
-        getInflatedLayoutPageImpl().setXMLId(id, view);
+        getInflatedXMLLayoutPageImpl().setXMLId(id, view);
     }
 
     public ClickEventListenerViewAdapter getClickEventListenerViewAdapter()

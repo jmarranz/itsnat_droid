@@ -125,13 +125,13 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     @Override
     public View getRootView()
     {
-        return page.getInflatedLayoutPageImpl().getRootView();
+        return page.getInflatedXMLLayoutPageImpl().getRootView();
     }
 
     @Override
     public View findViewByXMLId(String id)
     {
-        return page.getInflatedLayoutPageImpl().findViewByXMLId(id);
+        return page.getInflatedXMLLayoutPageImpl().findViewByXMLId(id);
     }
 
     @Override

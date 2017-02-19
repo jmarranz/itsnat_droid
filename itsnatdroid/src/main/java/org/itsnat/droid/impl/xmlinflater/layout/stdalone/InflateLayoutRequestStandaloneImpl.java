@@ -15,7 +15,6 @@ import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
 import org.itsnat.droid.impl.util.IOUtil;
-import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -23,8 +22,9 @@ import java.io.Reader;
 /**
  * Created by jmarranz on 5/06/14.
  */
-public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl implements InflateLayoutRequest
+public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
 {
+    protected ItsNatDroidImpl itsNatDroid;
     protected Context ctx;
     protected String encoding = "UTF-8";
     protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH; // 320 (xhdpi), por ej el Nexus 4
@@ -32,7 +32,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
 
     public InflateLayoutRequestStandaloneImpl(ItsNatDroidImpl itsNatDroid)
     {
-        super(itsNatDroid);
+        this.itsNatDroid = itsNatDroid;
     }
 
     @Override
@@ -49,7 +49,6 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
         return this;
     }
 
-    @Override
     public String getEncoding()
     {
         return encoding;

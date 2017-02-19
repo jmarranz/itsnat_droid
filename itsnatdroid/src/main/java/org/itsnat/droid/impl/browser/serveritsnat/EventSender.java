@@ -84,7 +84,7 @@ public class EventSender
         // No veo problemas de multithread en estas 4 líneas de código:
         PageItsNatImpl pageItsNat = eventSender.getItsNatDocItsNatImpl().getPageItsNatImpl();
         String pageURLBase = pageItsNat.getPageURLBase();
-        XMLDOMLayoutPageItsNat xmlDOMLayoutPage = pageItsNat.getInflatedLayoutPageItsNatImpl().getXMLDOMLayoutPageItsNat();
+        XMLDOMLayoutPageItsNat xmlDOMLayoutPage = pageItsNat.getInflatedXMLLayoutPageItsNatImpl().getXMLDOMLayoutPageItsNat();
         String itsNatServerVersion = pageItsNat.getItsNatServerVersion();
 
         String code = resultBS.getResponseText();

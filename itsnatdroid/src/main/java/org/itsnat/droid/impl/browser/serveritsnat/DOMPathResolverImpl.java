@@ -20,7 +20,7 @@ public class DOMPathResolverImpl implements DOMPathResolver
 
     private View getRootView()
     {
-        InflatedXMLLayoutPageImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
+        InflatedXMLLayoutPageImpl layout = itsNatDoc.getPageImpl().getInflatedXMLLayoutPageImpl();
         return layout.getRootView();
     }
 
@@ -53,7 +53,7 @@ public class DOMPathResolverImpl implements DOMPathResolver
             else if (firstPos.equals("doctype")) throw new ItsNatDroidException("Unexpected doctype node");
             else if (firstPos.indexOf("eid:") == 0)
             {
-                InflatedXMLLayoutPageImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
+                InflatedXMLLayoutPageImpl layout = itsNatDoc.getPageImpl().getInflatedXMLLayoutPageImpl();
                 String id = firstPos.substring("eid:".length());
                 View viewRes = layout.findViewByXMLId(id);
                 return viewRes;

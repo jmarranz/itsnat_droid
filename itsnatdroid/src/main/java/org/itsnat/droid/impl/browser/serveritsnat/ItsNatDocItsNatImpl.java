@@ -236,7 +236,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
     private DOMAttr toDOMAttrSyncResource(String namespaceURI, String name, String value)
     {
-        XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
+        XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedXMLLayoutPageImpl().getXMLDOMLayoutPage();
         DOMAttr attr = xmlDOMLayoutPage.createDOMAttrNotSyncResource(namespaceURI, name, value);
 
         ResourceDesc resourceDesc = attr.getResourceDesc();
@@ -370,7 +370,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
         if (node instanceof NodeToInsertImpl && !((NodeToInsertImpl)node).isInserted())
                 throw MiscUtil.internalError(); // Este caso no se da nunca porque ItsNat al insertar un nodo con atributos definidos antes de que el usuario lo inserte en el DOM, los atributos eliminados antes de insertar no generan código script porque el nodo no ha sido insertado y no lo gestiona ItsNat todavía
 
-        XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedLayoutPageImpl().getXMLDOMLayoutPage();
+        XMLDOMLayoutPage xmlDOMLayoutPage = getPageImpl().getInflatedXMLLayoutPageImpl().getXMLDOMLayoutPage();
 
         String namespaceURIFinal = xmlDOMLayoutPage.extractAttrNamespaceURI(namespaceURI, name); // NECESARIO
         String localName = xmlDOMLayoutPage.extractAttrLocalName(namespaceURI, name);  // NECESARIO

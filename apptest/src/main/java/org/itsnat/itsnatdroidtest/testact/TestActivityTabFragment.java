@@ -153,7 +153,7 @@ public class TestActivityTabFragment extends Fragment
             {
                 String url = act.getUrlTestCore();
                 TestSetupRemoteCore test = new TestSetupRemoteCore(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
-                test.test(url);
+                test.testSSLSelfSigned(url);
             }
         });
 
