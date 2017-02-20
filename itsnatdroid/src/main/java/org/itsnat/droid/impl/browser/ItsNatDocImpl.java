@@ -39,7 +39,6 @@ import bsh.Interpreter;
 public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 {
     protected final PageImpl page;
-    protected int errorMode;
     protected ItsNatResourcesImpl itsNatResources;
     protected final FragmentLayoutInserter fragmentLayoutInserter = new FragmentLayoutInserter(this);
     protected final ItsNatViewNullImpl nullView = new ItsNatViewNullImpl(this); // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
@@ -47,18 +46,17 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 
     protected Handler handler;
 
-    public ItsNatDocImpl(PageImpl page,int errorMode)
+    public ItsNatDocImpl(PageImpl page)
     {
         this.page = page;
-        this.errorMode = errorMode;
     }
 
-    public static ItsNatDocImpl createItsNatDoc(PageImpl page,int errorMode)
+    public static ItsNatDocImpl createItsNatDoc(PageImpl page)
     {
         if (page instanceof PageItsNatImpl)
-            return new ItsNatDocItsNatImpl((PageItsNatImpl)page,errorMode);
+            return new ItsNatDocItsNatImpl((PageItsNatImpl)page,page.getClientErrorMode());
         else if (page instanceof PageNotItsNatImpl)
-            return new ItsNatDocNotItsNatImpl((PageNotItsNatImpl)page,errorMode);
+            return new ItsNatDocNotItsNatImpl((PageNotItsNatImpl)page);
         else
             throw MiscUtil.internalError();
     }
@@ -255,7 +253,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 
     public void showErrorMessage(boolean serverErr, String msg)
     {
-        showErrorMessage(serverErr, msg, errorMode);
+        showErrorMessage(serverErr, msg, getClientErrorMode());
     }
 
     public void showErrorMessage(boolean serverErr,HttpRequestResult result,Exception ex,int errorMode)
@@ -303,7 +301,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
 
     public int getClientErrorMode()
     {
-        return errorMode;
+        return page.getClientErrorMode();
     }
 
 

@@ -20,6 +20,7 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPage;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageNotItsNat;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutStandalone;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageItsNatImpl;
@@ -52,6 +53,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
         InflatedXMLLayoutImpl inflatedLayout;
         if (xmlDOMLayout instanceof XMLDOMLayoutPage)
         {
+            if (page == null) throw MiscUtil.internalError();
+
             if (xmlDOMLayout instanceof XMLDOMLayoutPageItsNat)
                 inflatedLayout = new InflatedXMLLayoutPageItsNatImpl((PageItsNatImpl)page,itsNatDroid,(XMLDOMLayoutPageItsNat) xmlDOMLayout,ctx);
             else if (xmlDOMLayout instanceof XMLDOMLayoutPageNotItsNat)

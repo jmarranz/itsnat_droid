@@ -13,9 +13,9 @@ import org.itsnat.droid.impl.browser.ItsNatDocImpl;
  */
 public class ItsNatDocNotItsNatImpl extends ItsNatDocImpl
 {
-    public ItsNatDocNotItsNatImpl(PageNotItsNatImpl page,int errorMode)
+    public ItsNatDocNotItsNatImpl(PageNotItsNatImpl page)
     {
-        super(page,errorMode);
+        super(page);
     }
 
     @Override

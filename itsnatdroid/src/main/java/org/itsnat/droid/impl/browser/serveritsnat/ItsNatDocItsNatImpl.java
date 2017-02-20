@@ -79,6 +79,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     protected Runnable attachUnloadCallback;
     protected List<GlobalEventListener> globalEventListeners;
     protected String attachType;
+    protected int errorMode;
     protected boolean eventsEnabled;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
     protected boolean enableEvtMonitors = true;
@@ -89,8 +90,8 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
 
     public ItsNatDocItsNatImpl(PageItsNatImpl page,int errorMode)
     {
-        super(page,errorMode); // errorMode el valor inicial, será cambiado por el método init() (si hay scripting)
-
+        super(page);
+        this.errorMode = errorMode; // errorMode el valor inicial, será cambiado por el método init() (si hay scripting)
     }
 
     public PageItsNatImpl getPageItsNatImpl()

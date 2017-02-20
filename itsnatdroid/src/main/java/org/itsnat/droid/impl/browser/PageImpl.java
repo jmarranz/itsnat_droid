@@ -42,7 +42,6 @@ public abstract class PageImpl implements Page
     protected final PageRequestImpl pageRequestCloned; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected final HttpRequestResultOKImpl httpReqResult;
     protected final XMLDOMParserContext xmlDOMParserContext;
-
     protected final int bitmapDensityReference;
     protected final XMLInflaterLayoutPage xmlInflaterLayoutPage;
     protected final String uniqueIdForInterpreter;
@@ -57,7 +56,7 @@ public abstract class PageImpl implements Page
 
     public PageImpl(PageRequestImpl pageRequestToClone,PageRequestResult pageReqResult)
     {
-        this.pageRequestCloned = pageRequestToClone.clonePageRequest(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
+        this.pageRequestCloned = pageRequestToClone.clonePageRequest(); // De esta manera conocemos como se ha creado pero así podemos reutilizar el PageRequestImpl original
         this.httpReqResult = pageReqResult.getHttpRequestResultOKImpl();
         this.xmlDOMParserContext = pageReqResult.getXMLDOMParserContext();
 
@@ -74,14 +73,14 @@ public abstract class PageImpl implements Page
         this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter)); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 
+        // Definimos pronto el itsNatDoc para que los layout include tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc antes de inflarlos
+        this.itsNatDoc = ItsNatDocImpl.createItsNatDoc(this); // Casi el último para que  PageImpl esté ya bien creado antes de inicializar  ItsNatDocImpl, el xmlInflaterLayoutPage siguiente necesita acceder a ItsNatDocImpl desde PageImpl
+
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
 
-        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage)XMLInflaterLayout.createXMLInflaterLayout(itsNatDroid, domLayout, pageRequestCloned.getBitmapDensityReference(), pageRequestCloned.getAttrResourceInflaterListener(), getContext(), this);
+        this.xmlInflaterLayoutPage = (XMLInflaterLayoutPage)XMLInflaterLayout.createXMLInflaterLayout(itsNatDroid, domLayout, this.bitmapDensityReference, pageRequestCloned.getAttrResourceInflaterListener(), getContext(), this);
         View rootView = xmlInflaterLayoutPage.inflateLayout(null,-1);
 
-        // Definimos pronto el itsNatDoc para que los layout include tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc antes de inflarlos
-        int errorMode = pageRequestCloned.getClientErrorMode(); // En una página devuelta por ItsNat Server será reemplazado en el init
-        this.itsNatDoc = ItsNatDocImpl.createItsNatDoc(this,errorMode); // Casi el último para que  PageImpl esté ya bien creado antes de inicializar  ItsNatDocImpl
 
         try
         {
@@ -199,6 +198,11 @@ public abstract class PageImpl implements Page
     public int getBitmapDensityReference()
     {
         return bitmapDensityReference;
+    }
+
+    public int getClientErrorMode()
+    {
+        return pageRequestCloned.getClientErrorMode();
     }
 
     @Override
