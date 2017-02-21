@@ -26,7 +26,7 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
               xmlInflaterLayoutStandalone.getXMLInflaterContext(),
               xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl().getItsNatDroidImpl().getXMLInflaterRegistry());
 
-        // En este caso PageImpl es null
+        // En este caso PageImpl es null y no hay ItsNatDoc
 
         this.xmlInflaterLayoutStandalone = xmlInflaterLayoutStandalone;
 

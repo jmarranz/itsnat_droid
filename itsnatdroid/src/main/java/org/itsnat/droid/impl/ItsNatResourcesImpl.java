@@ -162,6 +162,8 @@ public abstract class ItsNatResourcesImpl implements ItsNatResources
         return xmlInflaterRegistry.getPercFloat(resourceDesc,xmlInflaterContext);
     }
 
+    // Con cache específico del tipo de datos:
+
     @Override
     public Animation getAnimation(String resourceDescValue)
     {
