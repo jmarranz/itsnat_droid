@@ -1,0 +1,196 @@
+apply plugin: 'maven'
+
+// This script is included by the parent build.gradle
+
+// http://jedicoder.blogspot.com.es/2011/11/automated-gradle-project-deployment-to.html
+// http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle
+// https://github.com/raycoarana/roborouter/blob/master/scripts/gradle-mvn-push.gradle
+// https://github.com/amlcurran/ShowcaseView/blob/master/library/gradle-mvn-push.gradle
+
+
+def projectGroupId =    'com.innowhere';
+def projectArtifactId = 'jepldroid';
+def projectVersion =    '1.4';
+def projectPackaging =  'aar';
+
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    exclude 'jepl/impl/**'
+    //classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir  // 'build/docs/javadoc'
+    classifier = projectVersion + '-' + 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = projectVersion + '-' + 'sources'
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+
+task generatePom << {  // http://stackoverflow.com/questions/17281927/how-to-make-gradle-generate-a-valid-pom-xml-file-at-the-root-of-a-project-for-ma
+    pom {
+        project {
+            groupId     projectGroupId
+            artifactId  projectArtifactId
+            version     projectVersion
+            packaging   projectPackaging
+
+            // inceptionYear '2008'
+
+            name 'jepldroid'
+            description 'Android based simple persistent Object Relational Mapping (ORM) API on top of JDBC'
+            url 'https://github.com/jmarranz/jepldroid'
+
+            scm {
+                connection "scm:git:git@github.com:jmarranz/jepldroid.git";
+                developerConnection "scm:git:git@github.com:jmarranz/jepldroid.git";
+                url "git@github.com:jmarranz/jepldroid.git";
+            }
+
+            developers {
+                developer {
+                    name 'Jose Maria Arranz Santamaria'
+                    email 'jmarranz@innowhere.com'
+                    // organization 'Innowhere Software'  // http://maven.apache.org/archives/maven-1.x/reference/maven-model/3.0.2/apidocs/org/apache/maven/model/Organization.html
+                    organizationUrl 'http://www.innowhere.com'
+                }
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }.writeTo(buildDir.canonicalPath + "/libs/" + "jepldroid-" + projectVersion + ".pom")
+}
+
+def deleteFileOrFolder(File f)
+{
+    if (f == null) return
+    if (f.isDirectory()) {
+        String[] children = f.list();
+        for(String child : children)
+            deleteFileOrFolder(new File(f,child))
+    }
+    f.delete();
+}
+
+task distribute(dependsOn: build) {
+
+    // https://gradle.org/docs/current/userguide/working_with_files.html
+    def binariesAarFile = buildDir.canonicalPath + '/outputs/aar/jepldroid-release.aar'
+    def binariesAarTargetName = 'jepldroid-' + projectVersion + '.aar'
+
+    def buildLibsFolder = buildDir.canonicalPath + '/libs/'
+    def filePrefix = buildLibsFolder + 'jepldroid-' + projectVersion;
+    def javadocJarFile =  filePrefix + '-' + 'javadoc.jar'
+    def sourcesJarFile =  filePrefix + '-' + 'sources.jar'
+    def sourcePomFile =   filePrefix + '.pom'
+
+    new File(javadocJarFile).delete();
+    new File(sourcesJarFile).delete();
+    new File(sourcePomFile).delete();
+
+    tasks.javadocJar.execute()
+    tasks.sourcesJar.execute()
+    tasks.generatePom.execute()
+
+
+    def distributeFolder = new File(projectDir.canonicalPath + '/../../jepldroid_dist_tmp')
+    deleteFileOrFolder(distributeFolder);
+    distributeFolder.mkdirs()
+
+    def mavenDistFolder = new File(distributeFolder.canonicalPath + '/maven_dist')
+    mavenDistFolder.mkdirs()
+
+    task copyToMavenDistTask(type: Copy) {
+        from binariesAarFile
+        from javadocJarFile
+        from sourcesJarFile
+        from sourcePomFile
+        into mavenDistFolder
+
+        rename { String fileName ->
+           if (fileName.equals("jepldroid-release.aar"))
+               return binariesAarTargetName
+            else
+               return fileName
+        }
+    }
+
+    tasks.copyToMavenDistTask.execute()
+
+    def zipDistFolder = new File(distributeFolder.canonicalPath + '/zip_dist')
+    zipDistFolder.delete()
+    zipDistFolder.mkdirs()
+
+    task copyToZipDistFolder(type: Copy) {
+        from projectDir.canonicalPath + '/../CHANGES.txt'
+        from projectDir.canonicalPath + '/../LICENSE-2.0.txt'
+        into zipDistFolder
+    }
+
+    tasks.copyToZipDistFolder.execute()
+
+    def zipDistLibFolder = new File(zipDistFolder.canonicalPath + '/lib')
+    zipDistLibFolder.mkdirs()
+
+    task copyToZipDistLibFolder(type: Copy) {
+        from binariesAarFile
+        into zipDistLibFolder
+
+        rename { String fileName -> binariesAarTargetName } // solo esperamos un archivo
+    }
+
+    tasks.copyToZipDistLibFolder.execute()
+
+    def zipDistDocsFolder = new File(zipDistFolder.canonicalPath + '/docs')
+    zipDistDocsFolder.mkdirs()
+
+    def zipDistDocsJavadocFolder = new File(zipDistDocsFolder.canonicalPath + '/javadoc')
+    zipDistDocsJavadocFolder.mkdirs()
+
+    task unzipJavadoc(type: Copy) { // http://mrhaki.blogspot.com.es/2012/06/gradle-goodness-unpacking-archive.html
+        from zipTree(javadocJarFile)
+        into zipDistDocsJavadocFolder
+    }
+
+    tasks.unzipJavadoc.execute()
+
+    def manualPDF = projectDir.canonicalPath + '/docs_src/jepldroid_manual.pdf'
+    def manualHTML = projectDir.canonicalPath + '/docs_src/jepldroid_manual.htm'
+
+    def zipDistDocsManualFolder = new File(zipDistDocsFolder.canonicalPath + '/manual')
+    zipDistDocsManualFolder.mkdirs()
+
+    task copyToZipDistDocsManualFolder(type: Copy) {
+        from manualPDF
+        from manualHTML
+        into zipDistDocsManualFolder
+    }
+
+    tasks.copyToZipDistDocsManualFolder.execute()
+
+    task zipDist(type: Zip) {
+        baseName = 'JEPLDroid_dist'
+        classifier = projectVersion
+        from zipDistFolder
+        include '**'
+        // into distributeFolder
+        destinationDir distributeFolder
+    }
+
+    tasks.zipDist.execute()
+}
