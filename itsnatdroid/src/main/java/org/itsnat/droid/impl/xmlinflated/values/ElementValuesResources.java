@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.xmlinflated.values;
 
 import android.animation.Animator;
 import android.graphics.drawable.Drawable;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;

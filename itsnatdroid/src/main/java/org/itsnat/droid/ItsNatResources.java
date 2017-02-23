@@ -8,15 +8,6 @@ import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LayoutAnimationController;
 
-import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.ResourceDesc;
-import org.itsnat.droid.impl.xmlinflater.PercFloatImpl;
-import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
-import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
-
-import java.util.ArrayList;
-
 /**
  * Created by jmarranz on 01/04/2016.
  */

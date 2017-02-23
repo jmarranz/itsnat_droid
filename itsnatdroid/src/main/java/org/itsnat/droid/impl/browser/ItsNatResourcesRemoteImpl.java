@@ -1,10 +1,5 @@
 package org.itsnat.droid.impl.browser;
 
-import android.animation.Animator;
-import android.view.animation.Animation;
-import android.view.animation.Interpolator;
-import android.view.animation.LayoutAnimationController;
-
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.dom.ResourceDesc;

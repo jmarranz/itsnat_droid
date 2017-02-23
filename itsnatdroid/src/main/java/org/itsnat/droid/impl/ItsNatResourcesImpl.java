@@ -14,7 +14,6 @@ import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterContext;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
-import org.itsnat.droid.impl.xmlinflater.layout.LayoutValue;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 /**

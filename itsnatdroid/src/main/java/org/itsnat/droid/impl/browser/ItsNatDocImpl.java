@@ -399,14 +399,4 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         client.request(resDescRemote, !sync);
     }
 
-    /*
-    public View getLayout(String resourceLocation,ViewGroup viewParent,int index)
-    {
-        PageImpl page = getPageImpl();
-        XMLInflaterRegistry xmlInflaterRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflaterRegistry();
-        XMLInflaterLayoutPage xmlInflaterParent = page.getXMLInflaterLayoutPage();
-        DOMAttr attr = DOMAttr.createDOMAttr(null, "_NONE_", resourceLocation);
-        return xmlInflaterRegistry.getLayout(attr,xmlInflaterParent,viewParent,index,null);
-    }
-    */
 }

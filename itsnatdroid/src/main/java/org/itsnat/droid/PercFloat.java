@@ -1,7 +1,5 @@
 package org.itsnat.droid;
 
-import android.util.TypedValue;
-
 /**
  * Created by jmarranz on 12/02/2017.
  */
