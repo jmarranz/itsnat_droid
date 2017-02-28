@@ -4,7 +4,6 @@ import android.view.View;
 
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.stdalone.ItsNatResourcesStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
@@ -13,8 +12,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
  */
 public class XMLInflaterLayoutStandalone extends XMLInflaterLayout
 {
-    protected ItsNatResourcesStandaloneImpl itsNatResourcesStandalone;
-
     public XMLInflaterLayoutStandalone(InflatedXMLLayoutStandaloneImpl inflatedXML, int bitmapDensityReference, AttrResourceInflaterListener attrResourceInflaterListener)
     {
         super(inflatedXML,bitmapDensityReference,attrResourceInflaterListener);
@@ -26,14 +23,6 @@ public class XMLInflaterLayoutStandalone extends XMLInflaterLayout
     {
         return (InflatedXMLLayoutStandaloneImpl)inflatedXML;
     }
-
-    public ItsNatResourcesStandaloneImpl getItsNatResourcesStandaloneImpl()
-    {
-        if (itsNatResourcesStandalone == null)
-            this.itsNatResourcesStandalone = new ItsNatResourcesStandaloneImpl(this);
-        return itsNatResourcesStandalone;
-    }
-
 
     @Override
     public boolean setAttributeInlineEventHandler(View view, DOMAttr attr)

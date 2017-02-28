@@ -24,11 +24,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by jmarranz on 21/05/2016.
  */
-public abstract class AsyncTaskInternResourcesLoader extends android.os.AsyncTask<Void, Void, Object>
+public abstract class AsyncTaskInternLayoutResourcesLoader extends android.os.AsyncTask<Void, Void, Object>
 {
     protected TestActivity act;
 
-    public AsyncTaskInternResourcesLoader(TestActivity act)
+    public AsyncTaskInternLayoutResourcesLoader(TestActivity act)
     {
         this.act = act;
     }

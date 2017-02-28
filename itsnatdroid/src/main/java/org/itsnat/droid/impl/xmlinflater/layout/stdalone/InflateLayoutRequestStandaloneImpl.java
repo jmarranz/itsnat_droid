@@ -14,7 +14,9 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 import org.itsnat.droid.impl.domparser.XMLDOMRegistry;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
+import org.itsnat.droid.impl.stdalone.InflatedLayoutImpl;
 import org.itsnat.droid.impl.util.IOUtil;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutStandaloneImpl;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -90,22 +92,22 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
     }
 
     @Override
-    public InflatedLayout inflate(InputStream input,ViewGroup parentView)
+    public InflatedLayout inflate(InputStream input,ViewGroup parentView,int indexChild)
     {
         String markup = IOUtil.read(input,encoding);
-        XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone = inflateLayoutStandalone(markup,parentView);
-        return xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl();
+        InflatedXMLLayoutStandaloneImpl inflatedXMLLayoutStandalone = inflateLayoutStandalone(markup,parentView,indexChild);
+        return new InflatedLayoutImpl(inflatedXMLLayoutStandalone);
     }
 
     @Override
-    public InflatedLayout inflate(Reader input,ViewGroup parentView)
+    public InflatedLayout inflate(Reader input,ViewGroup parentView,int indexChild)
     {
         String markup = IOUtil.read(input);
-        XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone = inflateLayoutStandalone(markup,parentView);
-        return xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl();
+        InflatedXMLLayoutStandaloneImpl inflatedXMLLayoutStandalone = inflateLayoutStandalone(markup,parentView,indexChild);
+        return new InflatedLayoutImpl(inflatedXMLLayoutStandalone);
     }
 
-    private XMLInflaterLayoutStandalone inflateLayoutStandalone(String markup,ViewGroup parentView)
+    private InflatedXMLLayoutStandaloneImpl inflateLayoutStandalone(String markup,ViewGroup parentView,int indexChild)
     {
         Context ctx = getContext();
 
@@ -116,12 +118,12 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
 
         XMLDOMLayout xmlDOMLayout = resourceXMLDOM.getXMLDOM();
 
-        int indexChild = parentView != null ? parentView.getChildCount() - 1 : -1;
+        //int indexChild = parentView != null ? parentView.getChildCount() - 1 : -1;
 
         XMLInflaterLayoutStandalone xmlInflater = (XMLInflaterLayoutStandalone)XMLInflaterLayoutStandalone.createXMLInflaterLayout(getItsNatDroidImpl(),xmlDOMLayout,getBitmapDensityReference(),getAttrResourceInflaterListener(),ctx,null);
 
         View rootViewOrViewParent = xmlInflater.inflateLayout(parentView,indexChild);
-        return xmlInflater;
+        return xmlInflater.getInflatedXMLLayoutStandaloneImpl();
     }
 
 }

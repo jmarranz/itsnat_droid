@@ -44,7 +44,6 @@ public abstract class PageImpl implements Page
     protected final XMLDOMParserContext xmlDOMParserContext;
     protected final int bitmapDensityReference;
     protected final XMLInflaterLayoutPage xmlInflaterLayoutPage;
-    protected final String uniqueIdForInterpreter;
     protected final Interpreter interp;
     protected final ItsNatDocImpl itsNatDoc;
     protected OnScriptErrorListener scriptErrorListener;
@@ -70,7 +69,7 @@ public abstract class PageImpl implements Page
         ItsNatDroidImpl itsNatDroid = pageRequestCloned.getItsNatDroidBrowserImpl().getItsNatDroidImpl();
         ItsNatDroidBrowserImpl browser = pageRequestCloned.getItsNatDroidBrowserImpl();
 
-        this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
+        String uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter)); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 
         // Definimos pronto el itsNatDoc para que los layout include tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc antes de inflarlos

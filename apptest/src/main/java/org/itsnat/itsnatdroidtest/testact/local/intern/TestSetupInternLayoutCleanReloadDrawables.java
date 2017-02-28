@@ -21,7 +21,7 @@ public class TestSetupInternLayoutCleanReloadDrawables
     {
         final TestActivity act = fragment.getTestActivity();
 
-        AsyncTaskInternResourcesLoader task = new AsyncTaskInternResourcesLoader(act)
+        AsyncTaskInternLayoutResourcesLoader task = new AsyncTaskInternLayoutResourcesLoader(act)
         {
             public void onFinishOk(Object result)
             {

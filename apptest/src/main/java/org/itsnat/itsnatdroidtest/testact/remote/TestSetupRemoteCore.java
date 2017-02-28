@@ -73,6 +73,8 @@ public class TestSetupRemoteCore extends TestSetupRemotePageBase
 
         ItsNatDoc itsNatDoc = page.getItsNatDoc();
 
+        itsNatDoc.eval("TextView viewScript3Id = (TextView)itsNatDoc.findViewByXMLId(\"testOnLoadInlineScript3Id\"); if (viewScript3Id != null) viewScript3Id.setText(viewScript3Id.getText() + \"OK\"); else alert(\"ERROR TEST testOnLoadInlineScript3Id\"); ");
+
         View testNativeListenersButton = itsNatDoc.findViewByXMLId("testNativeListenersId");
         ItsNatView testNativeListenersButtonItsNat = itsNatDoc.getItsNatView(testNativeListenersButton);
         final TextView testNativeListenersLog = (TextView)itsNatDoc.findViewByXMLId("testNativeListenersLogId");

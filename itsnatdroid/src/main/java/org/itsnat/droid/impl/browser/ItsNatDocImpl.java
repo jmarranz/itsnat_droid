@@ -195,19 +195,19 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     }
 
     @Override
-    public void eval(String code)
+    public Object eval(String code)
     {
-        eval(code, null);
+        return eval(code, null);
     }
 
-    public void eval(String code,Object context)
+    public Object eval(String code,Object context)
     {
         Interpreter interp = page.getInterpreter();
         try
         {
 //long start = System.currentTimeMillis();
 
-            interp.eval(code);
+            return interp.eval(code); // Ver que se puede devolver en "Getting Interfaces from Interpreter" en https://github.com/beanshell/beanshell/wiki/Embedding-BeanShell-in-Your-Application
 
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
@@ -248,6 +248,8 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
                 else throw new ItsNatDroidScriptException(ex, code);
             }
         }
+
+        return null;
     }
 
 

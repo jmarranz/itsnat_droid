@@ -9,40 +9,53 @@ import org.itsnat.droid.impl.dom.ResourceDescLocal;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
-import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
 
 /**
  * Created by jmarranz on 12/04/2016.
  */
 public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 {
-    protected final XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone;
+    protected final InflatedLayoutImpl inflatedLayoutImpl;
     protected final XMLDOMParserContext xmlDOMParserContext;
 
-    public ItsNatResourcesStandaloneImpl(XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone)
+    public ItsNatResourcesStandaloneImpl(InflatedLayoutImpl inflatedLayoutImpl)
     {
-        super(xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl().getItsNatDroidImpl().getXMLDOMRegistry(),
-              xmlInflaterLayoutStandalone.getXMLInflaterContext(),
-              xmlInflaterLayoutStandalone.getInflatedXMLLayoutStandaloneImpl().getItsNatDroidImpl().getXMLInflaterRegistry());
+        super(  getInflatedXMLLayoutStandaloneImpl(inflatedLayoutImpl).getItsNatDroidImpl().getXMLDOMRegistry(),
+                getInflatedXMLLayoutStandaloneImpl(inflatedLayoutImpl).getXMLInflaterLayoutStandalone().getXMLInflaterContext(),
+                getInflatedXMLLayoutStandaloneImpl(inflatedLayoutImpl).getItsNatDroidImpl().getXMLInflaterRegistry());
 
         // En este caso PageImpl es null y no hay ItsNatDoc
 
-        this.xmlInflaterLayoutStandalone = xmlInflaterLayoutStandalone;
+        this.inflatedLayoutImpl = inflatedLayoutImpl;
 
-        Context ctx = xmlInflaterLayoutStandalone.getContext();
+        Context ctx = getInflatedXMLLayoutStandaloneImpl().getContext();
         this.xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
     }
 
-    public XMLInflaterLayout getXMLInflaterLayout()
+    public static InflatedXMLLayoutStandaloneImpl getInflatedXMLLayoutStandaloneImpl(InflatedLayoutImpl inflatedLayoutImpl)
     {
-        return xmlInflaterLayoutStandalone;
+        return inflatedLayoutImpl.getInflatedXMLLayoutStandaloneImpl();
     }
 
+    public InflatedXMLLayoutStandaloneImpl getInflatedXMLLayoutStandaloneImpl()
+    {
+        return inflatedLayoutImpl.getInflatedXMLLayoutStandaloneImpl();
+    }
+
+    @Override
+    public XMLInflaterLayout getXMLInflaterLayout()
+    {
+        return getInflatedXMLLayoutStandaloneImpl().getXMLInflaterLayoutStandalone();
+    }
+
+    /*
     public Context getContext()
     {
-        return xmlInflaterLayoutStandalone.getContext();
+        return getXMLInflaterLayout().getContext();
     }
+    */
 
     private ResourceDesc checkRemote(ResourceDesc resourceDesc)
     {
