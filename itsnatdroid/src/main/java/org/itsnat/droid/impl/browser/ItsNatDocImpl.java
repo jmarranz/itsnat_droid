@@ -11,6 +11,7 @@ import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatResources;
 import org.itsnat.droid.ItsNatView;
@@ -31,6 +32,7 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+import bsh.Primitive;
 
 /**
  * Esta clase se accede via script beanshell y representa el "ClientDocument" en el lado Android simétrico a los objetos JavaScript en el modo web
@@ -194,64 +196,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         fragmentLayoutInserter.insertPageFragment((ViewGroup) parentView, markup, viewRef, getXMLDOMParserContext());
     }
 
-    @Override
-    public Object eval(String code)
-    {
-        return eval(code, null);
-    }
-
-    public Object eval(String code,Object context)
-    {
-        Interpreter interp = page.getInterpreter();
-        try
-        {
-//long start = System.currentTimeMillis();
-
-            return interp.eval(code); // Ver que se puede devolver en "Getting Interfaces from Interpreter" en https://github.com/beanshell/beanshell/wiki/Embedding-BeanShell-in-Your-Application
-
-//long end = System.currentTimeMillis();
-//System.out.println("LAPSE" + (end - start));
-        }
-        catch (EvalError ex)
-        {
-            PageImpl page = getPageImpl();
-            OnScriptErrorListener errorListener = page.getOnScriptErrorListener();
-            if (errorListener != null)
-            {
-                errorListener.onError(page, code, ex, context);
-            }
-            else
-            {
-                int errorMode = getClientErrorMode();
-                if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
-                {
-                    showErrorMessage(false, ex.getMessage());
-                }
-                else throw new ItsNatDroidScriptException(ex, code);
-            }
-        }
-        catch (Exception ex)
-        {
-            PageImpl page = getPageImpl();
-            OnScriptErrorListener errorListener = page.getOnScriptErrorListener();
-            if (errorListener != null)
-            {
-                errorListener.onError(page, code, ex, context);
-            }
-            else
-            {
-                int errorMode = getClientErrorMode();
-                if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
-                {
-                    showErrorMessage(false, ex.getMessage());
-                }
-                else throw new ItsNatDroidScriptException(ex, code);
-            }
-        }
-
-        return null;
-    }
-
 
     public void showErrorMessage(boolean serverErr, String msg)
     {
@@ -307,6 +251,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     }
 
 
+
     @Override
     public void alert(Object value)
     {
@@ -330,6 +275,115 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     {
         toast(value, Toast.LENGTH_SHORT);
     }
+
+    @Override
+    public Object eval(String code)
+    {
+        return eval(code,null);
+    }
+
+    public Object eval(String code,Object context)
+    {
+        Interpreter interp = page.getInterpreter();
+        try
+        {
+//long start = System.currentTimeMillis();
+
+            return interp.eval(code); // No se pasa el context porque seía un set. Ver que se puede devolver en "Getting Interfaces from Interpreter" en https://github.com/beanshell/beanshell/wiki/Embedding-BeanShell-in-Your-Application
+
+//long end = System.currentTimeMillis();
+//System.out.println("LAPSE" + (end - start));
+        }
+        catch (EvalError ex)
+        {
+            PageImpl page = getPageImpl();
+            OnScriptErrorListener errorListener = page.getOnScriptErrorListener();
+            if (errorListener != null)
+            {
+                errorListener.onError(page, code, ex, context);
+            }
+            else
+            {
+                int errorMode = getClientErrorMode();
+                if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                {
+                    showErrorMessage(false, ex.getMessage());
+                }
+                else throw new ItsNatDroidScriptException(ex, code);
+            }
+        }
+        catch (Exception ex)
+        {
+            PageImpl page = getPageImpl();
+            OnScriptErrorListener errorListener = page.getOnScriptErrorListener();
+            if (errorListener != null)
+            {
+                errorListener.onError(page, code, ex, context);
+            }
+            else
+            {
+                int errorMode = getClientErrorMode();
+                if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
+                {
+                    showErrorMessage(false, ex.getMessage());
+                }
+                else throw new ItsNatDroidScriptException(ex, code);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void set(String name, Object value )
+    {
+        try
+        {
+            Interpreter interp = page.getInterpreter();
+            interp.set(name, value);
+        }
+        catch (EvalError ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+        catch (Exception ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+    }
+
+    public void set(String name, long value) {
+        set(name, new Primitive(value));
+    }
+    public void set(String name, int value) {
+        set(name, new Primitive(value));
+    }
+    public void set(String name, double value) {
+        set(name, new Primitive(value));
+    }
+    public void set(String name, float value) {
+        set(name, new Primitive(value));
+    }
+    public void set(String name, boolean value) {
+        set(name, value ? Primitive.TRUE : Primitive.FALSE);
+    }
+
+    public void unset(String name)  {
+        try
+        {
+            Interpreter interp = page.getInterpreter();
+            interp.unset(name);
+        }
+        catch (EvalError ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+        catch (Exception ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+    }
+
 
     @Override
     public void postDelayed(Runnable task,long delay)

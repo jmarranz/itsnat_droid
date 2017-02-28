@@ -81,18 +81,7 @@ public abstract class PageImpl implements Page
         View rootView = xmlInflaterLayoutPage.inflateLayout(null,-1);
 
 
-        try
-        {
-            interp.set("itsNatDoc", itsNatDoc);
-        }
-        catch (EvalError ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
-        catch (Exception ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
+        itsNatDoc.set("itsNatDoc", itsNatDoc);
 
         StringBuilder methods = new StringBuilder();
         methods.append("alert(data){itsNatDoc.alert(data);}");

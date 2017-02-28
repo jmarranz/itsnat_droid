@@ -85,7 +85,7 @@ public abstract class TestSetupLocalLayoutBase extends TestSetupBase
                 .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH) // 320
                 .setAttrResourceInflaterListener(this)
                 .setContext(act)
-                .inflate(input,null);
+                .inflate(input,null,-1);
 
 
         View dynamicRootView = layout.getRootView();
