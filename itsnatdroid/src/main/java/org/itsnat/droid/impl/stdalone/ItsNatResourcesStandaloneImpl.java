@@ -17,31 +17,31 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
  */
 public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 {
-    protected final InflatedLayoutImpl inflatedLayoutImpl;
+    protected ItsNatDocStandaloneImpl itsNatDoc;
     protected final XMLDOMParserContext xmlDOMParserContext;
 
-    public ItsNatResourcesStandaloneImpl(InflatedLayoutImpl inflatedLayoutImpl)
+    public ItsNatResourcesStandaloneImpl(ItsNatDocStandaloneImpl itsNatDoc)
     {
-        super(  getInflatedXMLLayoutStandaloneImpl(inflatedLayoutImpl).getItsNatDroidImpl().getXMLDOMRegistry(),
-                getInflatedXMLLayoutStandaloneImpl(inflatedLayoutImpl).getXMLInflaterLayoutStandalone().getXMLInflaterContext(),
-                getInflatedXMLLayoutStandaloneImpl(inflatedLayoutImpl).getItsNatDroidImpl().getXMLInflaterRegistry());
+        super(  getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getItsNatDroidImpl().getXMLDOMRegistry(),
+                getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getXMLInflaterLayoutStandalone().getXMLInflaterContext(),
+                getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getItsNatDroidImpl().getXMLInflaterRegistry());
 
-        // En este caso PageImpl es null y no hay ItsNatDoc
+        this.itsNatDoc = itsNatDoc;
 
-        this.inflatedLayoutImpl = inflatedLayoutImpl;
+        // En este caso PageImpl es null
 
         Context ctx = getInflatedXMLLayoutStandaloneImpl().getContext();
         this.xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
     }
 
-    public static InflatedXMLLayoutStandaloneImpl getInflatedXMLLayoutStandaloneImpl(InflatedLayoutImpl inflatedLayoutImpl)
+    public static InflatedXMLLayoutStandaloneImpl getInflatedXMLLayoutStandaloneImpl(ItsNatDocStandaloneImpl itsNatDoc)
     {
-        return inflatedLayoutImpl.getInflatedXMLLayoutStandaloneImpl();
+        return itsNatDoc.getInflatedXMLLayoutStandaloneImpl();
     }
 
     public InflatedXMLLayoutStandaloneImpl getInflatedXMLLayoutStandaloneImpl()
     {
-        return inflatedLayoutImpl.getInflatedXMLLayoutStandaloneImpl();
+        return itsNatDoc.getInflatedXMLLayoutStandaloneImpl();
     }
 
     @Override
@@ -49,13 +49,6 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
     {
         return getInflatedXMLLayoutStandaloneImpl().getXMLInflaterLayoutStandalone();
     }
-
-    /*
-    public Context getContext()
-    {
-        return getXMLInflaterLayout().getContext();
-    }
-    */
 
     private ResourceDesc checkRemote(ResourceDesc resourceDesc)
     {

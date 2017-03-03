@@ -7,7 +7,7 @@ import org.itsnat.droid.impl.browser.DroidEventDispatcher;
  */
 public class DroidEventDispatcherNotItsNat extends DroidEventDispatcher
 {
-    public DroidEventDispatcherNotItsNat(ItsNatDocNotItsNatImpl itsNatDoc)
+    public DroidEventDispatcherNotItsNat(ItsNatDocPageNotItsNatImpl itsNatDoc)
     {
         super(itsNatDoc);
     }

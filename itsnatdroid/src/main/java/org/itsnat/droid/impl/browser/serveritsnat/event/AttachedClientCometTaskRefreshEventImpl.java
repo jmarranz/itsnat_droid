@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class AttachedClientCometTaskRefreshEventImpl extends AttachedClientEvent
 {
     protected String listenerId;
 
-    public AttachedClientCometTaskRefreshEventImpl(ItsNatDocItsNatImpl parent,String listenerId, int commMode, long timeout)
+    public AttachedClientCometTaskRefreshEventImpl(ItsNatDocPageItsNatImpl parent, String listenerId, int commMode, long timeout)
     {
         super(parent,commMode,timeout);
         this.listenerId = listenerId;

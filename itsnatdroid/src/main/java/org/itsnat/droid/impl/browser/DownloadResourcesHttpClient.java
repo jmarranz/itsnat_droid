@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 {
-    public DownloadResourcesHttpClient(ItsNatDocImpl itsNatDoc)
+    public DownloadResourcesHttpClient(ItsNatDocPageImpl itsNatDoc)
     {
         super(itsNatDoc);
     }
@@ -142,7 +142,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 // Error del servidor, lo normal es que haya lanzado una excepción
-                ItsNatDocImpl itsNatDoc = parent.getItsNatDocImpl();
+                ItsNatDocPageImpl itsNatDoc = parent.getItsNatDocImpl();
                 itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
             }
             else throw exFinal;

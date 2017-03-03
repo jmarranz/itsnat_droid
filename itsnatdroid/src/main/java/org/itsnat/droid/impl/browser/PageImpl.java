@@ -5,9 +5,7 @@ import android.view.View;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.HttpRequestResult;
-import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnScriptErrorListener;
@@ -30,7 +28,6 @@ import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 
-import bsh.EvalError;
 import bsh.Interpreter;
 import bsh.NameSpace;
 
@@ -45,7 +42,7 @@ public abstract class PageImpl implements Page
     protected final int bitmapDensityReference;
     protected final XMLInflaterLayoutPage xmlInflaterLayoutPage;
     protected final Interpreter interp;
-    protected final ItsNatDocImpl itsNatDoc;
+    protected final ItsNatDocPageImpl itsNatDoc;
     protected OnScriptErrorListener scriptErrorListener;
     protected OnEventErrorListener eventErrorListener;
     protected OnServerStateLostListener stateLostListener;
@@ -73,7 +70,7 @@ public abstract class PageImpl implements Page
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter)); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 
         // Definimos pronto el itsNatDoc para que los layout include tengan algún soporte de scripting de ItsNatDoc por ejemplo toast, eval, alert etc antes de inflarlos
-        this.itsNatDoc = ItsNatDocImpl.createItsNatDoc(this); // Casi el último para que  PageImpl esté ya bien creado antes de inicializar  ItsNatDocImpl, el xmlInflaterLayoutPage siguiente necesita acceder a ItsNatDocImpl desde PageImpl
+        this.itsNatDoc = ItsNatDocPageImpl.createItsNatDocPage(this); // Casi el último para que  PageImpl esté ya bien creado antes de inicializar  ItsNatDocImpl, el xmlInflaterLayoutPage siguiente necesita acceder a ItsNatDocImpl desde PageImpl
 
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
 
@@ -233,12 +230,12 @@ public abstract class PageImpl implements Page
         return userData;
     }
 
-    public ItsNatDoc getItsNatDoc()
+    public ItsNatDocPage getItsNatDoc()
     {
         return getItsNatDocImpl();
     }
 
-    public ItsNatDocImpl getItsNatDocImpl()
+    public ItsNatDocPageImpl getItsNatDocImpl()
     {
         return itsNatDoc;
     }

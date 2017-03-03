@@ -6,14 +6,14 @@ import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.browser.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.ItsNatDocPageImpl;
 
 /**
  * Created by jmarranz on 23/12/2015.
  */
-public class ItsNatDocNotItsNatImpl extends ItsNatDocImpl
+public class ItsNatDocPageNotItsNatImpl extends ItsNatDocPageImpl
 {
-    public ItsNatDocNotItsNatImpl(PageNotItsNatImpl page)
+    public ItsNatDocPageNotItsNatImpl(PageNotItsNatImpl page)
     {
         super(page);
     }

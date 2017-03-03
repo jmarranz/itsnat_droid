@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.util.NameValue;
 
@@ -13,7 +13,7 @@ public abstract class EventStfulListener extends EventGenericListener
 {
     protected String eventType;
 
-    public EventStfulListener(ItsNatDocItsNatImpl parent,String eventType, int commMode, long timeout)
+    public EventStfulListener(ItsNatDocPageItsNatImpl parent, String eventType, int commMode, long timeout)
     {
         super(parent,"event",commMode, timeout);
 

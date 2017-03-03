@@ -12,26 +12,6 @@ import java.util.List;
  */
 public abstract class XMLDOMLayoutPage extends XMLDOMLayout
 {
-    protected ArrayList<DOMScript> scriptList;
-
-    public List<DOMScript> getDOMScriptList()
-    {
-        return scriptList;
-    }
-
-    public void addDOMScript(DOMScript script)
-    {
-        if (scriptList == null) this.scriptList = new ArrayList<DOMScript>();
-        scriptList.add(script);
-    }
-
-    @Override
-    public void partialClone(XMLDOM cloned)
-    {
-        super.partialClone(cloned);
-        ((XMLDOMLayoutPage)cloned).scriptList = this.scriptList;
-    }
-
     public String extractAttrNamespaceURI(String namespaceURI, String name)
     {
         if (namespaceURI != null) return namespaceURI; // De ItsNat server el script nunca contiene un android:localname (localname a secas) si el namespaceURI ha sido especificado explícitamente

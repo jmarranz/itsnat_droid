@@ -5,7 +5,7 @@ package org.itsnat.droid.impl.browser;
  *
  * Created by jmarranz on 8/07/14.
  */
-public interface ItsNatDocPublic
+public interface ItsNatDocPagePublic
 {
     public void downloadScript(String src);
 }

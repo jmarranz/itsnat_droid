@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.NormalEventImpl;
 import org.itsnat.droid.impl.util.NameValue;
@@ -19,7 +19,7 @@ public abstract class NormalEventListener extends EventStfulListener
     protected CustomFunction customFunc;
     protected String id;
 
-    public NormalEventListener(ItsNatDocItsNatImpl parent,String eventType,View currentTarget,CustomFunction customFunc,String id,int commMode, long timeout)
+    public NormalEventListener(ItsNatDocPageItsNatImpl parent, String eventType, View currentTarget, CustomFunction customFunc, String id, int commMode, long timeout)
     {
         super(parent,eventType,commMode,timeout);
 

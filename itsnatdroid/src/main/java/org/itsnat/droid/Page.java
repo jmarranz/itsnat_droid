@@ -2,6 +2,8 @@ package org.itsnat.droid;
 
 import android.content.Context;
 
+import org.itsnat.droid.impl.browser.ItsNatDocPage;
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public interface Page
     public HttpRequestResult getHttpRequestResult();
     public ItsNatSession getItsNatSession();
     public UserData getUserData();
-    public ItsNatDoc getItsNatDoc();
+    public ItsNatDocPage getItsNatDoc();
     public void setOnScriptErrorListener(OnScriptErrorListener listener);
     public void setOnEventErrorListener(OnEventErrorListener listener);
     public void setOnServerStateLostListener(OnServerStateLostListener listener);

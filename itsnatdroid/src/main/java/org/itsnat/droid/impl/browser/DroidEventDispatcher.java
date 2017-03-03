@@ -6,10 +6,10 @@ import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventDispatcherItsNat;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.eventfake.DroidEventFakeImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.DroidEventDispatcherNotItsNat;
-import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocNotItsNatImpl;
+import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocPageNotItsNatImpl;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -19,19 +19,19 @@ import bsh.Interpreter;
  */
 public abstract class DroidEventDispatcher
 {
-    protected ItsNatDocImpl itsNatDoc;
+    protected ItsNatDocPageImpl itsNatDoc;
 
-    public DroidEventDispatcher(ItsNatDocImpl itsNatDoc)
+    public DroidEventDispatcher(ItsNatDocPageImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
     }
 
-    public static DroidEventDispatcher createDroidEventDispatcher(ItsNatDocImpl itsNatDoc)
+    public static DroidEventDispatcher createDroidEventDispatcher(ItsNatDocPageImpl itsNatDoc)
     {
-        if (itsNatDoc instanceof ItsNatDocItsNatImpl)
-            return new DroidEventDispatcherItsNat((ItsNatDocItsNatImpl)itsNatDoc);
-        else if (itsNatDoc instanceof ItsNatDocNotItsNatImpl)
-            return new DroidEventDispatcherNotItsNat((ItsNatDocNotItsNatImpl)itsNatDoc);
+        if (itsNatDoc instanceof ItsNatDocPageItsNatImpl)
+            return new DroidEventDispatcherItsNat((ItsNatDocPageItsNatImpl)itsNatDoc);
+        else if (itsNatDoc instanceof ItsNatDocPageNotItsNatImpl)
+            return new DroidEventDispatcherNotItsNat((ItsNatDocPageNotItsNatImpl)itsNatDoc);
         return null; // Never happens
     }
 

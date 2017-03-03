@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
  */
 public class ItsNatViewNullImpl extends ItsNatViewImpl
 {
-    public ItsNatViewNullImpl(ItsNatDocImpl itsNatDoc)
+    public ItsNatViewNullImpl(ItsNatDocPageImpl itsNatDoc)
     {
         super(itsNatDoc);
     }

@@ -10,7 +10,6 @@ import android.widget.Toast;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
-import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatResources;
@@ -18,13 +17,15 @@ import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.OnScriptErrorListener;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.impl.ItsNatDocImpl;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.PageItsNatImpl;
-import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocNotItsNatImpl;
+import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocPageNotItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.stdalone.ItsNatResourcesStandaloneImpl;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.UINotification;
@@ -38,27 +39,25 @@ import bsh.Primitive;
  * Esta clase se accede via script beanshell y representa el "ClientDocument" en el lado Android simétrico a los objetos JavaScript en el modo web
  * Created by jmarranz on 9/06/14.
  */
-public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
+public abstract class ItsNatDocPageImpl extends ItsNatDocImpl implements ItsNatDocPage, ItsNatDocPagePublic
 {
     protected final PageImpl page;
-    protected ItsNatResourcesImpl itsNatResources;
+
     protected final FragmentLayoutInserter fragmentLayoutInserter = new FragmentLayoutInserter(this);
     protected final ItsNatViewNullImpl nullView = new ItsNatViewNullImpl(this); // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
     protected final DroidEventDispatcher eventDispatcher = DroidEventDispatcher.createDroidEventDispatcher(this); // En el caso de "No ItsNat" hay un limitado soporte de inline event handlers (onclick etc)
 
-    protected Handler handler;
-
-    public ItsNatDocImpl(PageImpl page)
+    public ItsNatDocPageImpl(PageImpl page)
     {
         this.page = page;
     }
 
-    public static ItsNatDocImpl createItsNatDoc(PageImpl page)
+    public static ItsNatDocPageImpl createItsNatDocPage(PageImpl page)
     {
         if (page instanceof PageItsNatImpl)
-            return new ItsNatDocItsNatImpl((PageItsNatImpl)page,page.getClientErrorMode());
+            return new ItsNatDocPageItsNatImpl((PageItsNatImpl)page,page.getClientErrorMode());
         else if (page instanceof PageNotItsNatImpl)
-            return new ItsNatDocNotItsNatImpl((PageNotItsNatImpl)page);
+            return new ItsNatDocPageNotItsNatImpl((PageNotItsNatImpl)page);
         else
             throw MiscUtil.internalError();
     }
@@ -68,17 +67,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         return getPageImpl().getXMLDOMParserContext();
     }
 
-    @Override
-    public ItsNatResources getItsNatResources()
-    {
-        return getItsNatResourcesImpl();
-    }
 
-    public ItsNatResourcesImpl getItsNatResourcesImpl()
-    {
-        if (itsNatResources == null) this.itsNatResources = new ItsNatResourcesRemoteImpl(this);
-        return itsNatResources;
-    }
 
     @Override
     public ItsNatView getItsNatView(View view)
@@ -232,12 +221,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     }
 
 
-
-    protected Context getContext()
-    {
-        return page.getContext();
-    }
-
     @Override
     public Page getPage()
     {
@@ -248,38 +231,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     public int getClientErrorMode()
     {
         return page.getClientErrorMode();
-    }
-
-
-
-    @Override
-    public void alert(Object value)
-    {
-        alert("Alert", value);
-    }
-
-    @Override
-    public void alert(String title,Object value)
-    {
-        UINotification.alert(title, value, getContext());
-    }
-
-    @Override
-    public void toast(Object value,int duration)
-    {
-        UINotification.toast(value, duration, getContext());
-    }
-
-    @Override
-    public void toast(Object value)
-    {
-        toast(value, Toast.LENGTH_SHORT);
-    }
-
-    @Override
-    public Object eval(String code)
-    {
-        return eval(code,null);
     }
 
     public Object eval(String code,Object context)
@@ -335,12 +286,12 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
     }
 
     @Override
-    public void set(String name, Object value )
+    public void set(String name, Object value)
     {
         try
         {
             Interpreter interp = page.getInterpreter();
-            interp.set(name, value);
+            interp.set(name,value);
         }
         catch (EvalError ex)
         {
@@ -350,22 +301,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         {
             throw new ItsNatDroidException(ex);
         }
-    }
-
-    public void set(String name, long value) {
-        set(name, new Primitive(value));
-    }
-    public void set(String name, int value) {
-        set(name, new Primitive(value));
-    }
-    public void set(String name, double value) {
-        set(name, new Primitive(value));
-    }
-    public void set(String name, float value) {
-        set(name, new Primitive(value));
-    }
-    public void set(String name, boolean value) {
-        set(name, value ? Primitive.TRUE : Primitive.FALSE);
     }
 
     public void unset(String name)  {
@@ -383,20 +318,6 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
             throw new ItsNatDroidException(ex);
         }
     }
-
-
-    @Override
-    public void postDelayed(Runnable task,long delay)
-    {
-        getHandler().postDelayed(task, delay);
-    }
-
-    public Handler getHandler()
-    {
-        if (handler == null) this.handler = new Handler(); // Se asociará (debe) al hilo UI
-        return handler;
-    }
-
 
 
     @Override
@@ -454,5 +375,19 @@ public abstract class ItsNatDocImpl implements ItsNatDoc, ItsNatDocPublic
         client.setOnHttpRequestListenerNotFluid(listener);
         client.request(resDescRemote, !sync);
     }
+
+    @Override
+    public ItsNatResourcesImpl createItsNatResourcesImpl()
+    {
+        return new ItsNatResourcesRemoteImpl(this);
+    }
+
+    @Override
+    public Context getContext()
+    {
+        return page.getContext();
+    }
+
+
 
 }

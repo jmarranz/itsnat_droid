@@ -9,12 +9,12 @@ import org.itsnat.droid.OnHttpRequestListener;
  */
 public abstract class GenericHttpClientBaseImpl
 {
-    protected ItsNatDocImpl itsNatDoc;
+    protected ItsNatDocPageImpl itsNatDoc;
     protected OnHttpRequestErrorListener errorListener;
     protected OnHttpRequestListener httpRequestListener;
 
 
-    public GenericHttpClientBaseImpl(ItsNatDocImpl itsNatDoc)
+    public GenericHttpClientBaseImpl(ItsNatDocPageImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
     }
@@ -28,7 +28,7 @@ public abstract class GenericHttpClientBaseImpl
         return itsNatDoc.getPageImpl();
     }
 
-    public ItsNatDocImpl getItsNatDocImpl()
+    public ItsNatDocPageImpl getItsNatDocImpl()
     {
         return itsNatDoc;
     }

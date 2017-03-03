@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 import org.itsnat.droid.impl.util.NameValue;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class AttachedClientUnloadEventImpl extends AttachedClientEventImpl
 {
-    public AttachedClientUnloadEventImpl(ItsNatDocItsNatImpl parent,int commMode, long timeout)
+    public AttachedClientUnloadEventImpl(ItsNatDocPageItsNatImpl parent, int commMode, long timeout)
     {
         super(parent,commMode,timeout);
     }
