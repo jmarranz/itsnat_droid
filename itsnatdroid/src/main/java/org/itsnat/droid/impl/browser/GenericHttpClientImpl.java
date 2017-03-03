@@ -32,7 +32,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     protected String overrideMime;
     protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
 
-    public GenericHttpClientImpl(ItsNatDocImpl itsNatDoc)
+    public GenericHttpClientImpl(ItsNatDocPageImpl itsNatDoc)
     {
         super(itsNatDoc);
         PageImpl page = itsNatDoc.getPageImpl();
@@ -301,7 +301,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 // Error del servidor, lo normal es que haya lanzado una excepción
-                ItsNatDocImpl itsNatDoc = parent.getItsNatDocImpl();
+                ItsNatDocPageImpl itsNatDoc = parent.getItsNatDocImpl();
                 itsNatDoc.showErrorMessage(true, result,exFinal, errorMode);
             }
             else throw exFinal;

@@ -29,9 +29,9 @@ import java.util.Map;
  */
 public class FragmentLayoutInserter
 {
-    public ItsNatDocImpl itsNatDoc;
+    public ItsNatDocPageImpl itsNatDoc;
 
-    public FragmentLayoutInserter(ItsNatDocImpl itsNatDoc)
+    public FragmentLayoutInserter(ItsNatDocPageImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
     }

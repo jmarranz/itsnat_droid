@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -17,7 +18,7 @@ import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.browser.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.ItsNatDocPageImpl;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewNotNullImpl;
@@ -64,7 +65,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 23/12/2015.
  */
-public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNatPublic
+public class ItsNatDocPageItsNatImpl extends ItsNatDocPageImpl implements ItsNatDocPageItsNatPublic
 {
     private static final String key_itsNatUserListenersByName = "itsNatUserListenersByName";
 
@@ -88,7 +89,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     protected LinkedList<DOMAttrRemote> attrRemoteListBSParsed;
 
 
-    public ItsNatDocItsNatImpl(PageItsNatImpl page,int errorMode)
+    public ItsNatDocPageItsNatImpl(PageItsNatImpl page, int errorMode)
     {
         super(page);
         this.errorMode = errorMode; // errorMode el valor inicial, será cambiado por el método init() (si hay scripting)
@@ -1038,7 +1039,7 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
     @Override
     public void initAttachTimerRefresh(final int interval,final int commMode,final long timeout)
     {
-        final ItsNatDocItsNatImpl itsNatDoc = this;
+        final ItsNatDocPageItsNatImpl itsNatDoc = this;
         this.attachTimerRefreshCallback = new Runnable()
         {
             @Override
@@ -1092,10 +1093,11 @@ public class ItsNatDocItsNatImpl extends ItsNatDocImpl implements ItsNatDocItsNa
             @Override
             public void run()
             {
-                AttachedClientUnloadEventImpl evt = new AttachedClientUnloadEventImpl(ItsNatDocItsNatImpl.this,commMode,-1);
+                AttachedClientUnloadEventImpl evt = new AttachedClientUnloadEventImpl(ItsNatDocPageItsNatImpl.this,commMode,-1);
                 evt.sendEvent();
             }
         };
     }
+
 
 }

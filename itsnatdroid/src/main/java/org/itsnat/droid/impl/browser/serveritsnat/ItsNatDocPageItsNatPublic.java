@@ -5,14 +5,14 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.browser.ItsNatDocPublic;
+import org.itsnat.droid.impl.browser.ItsNatDocPagePublic;
 
 /**
  * Métodos llamados por el servidor pero ninguno público para el usuario
  *
  * Created by jmarranz on 8/07/14.
  */
-public interface ItsNatDocItsNatPublic extends ItsNatDocPublic
+public interface ItsNatDocPageItsNatPublic extends ItsNatDocPagePublic
 {
     public void init(String stdSessionId, String sessionToken, String sessionId, String clientId, String servletPath, int errorMode, String attachType, boolean eventsEnabled);
 

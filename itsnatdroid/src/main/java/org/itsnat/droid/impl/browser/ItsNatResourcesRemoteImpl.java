@@ -11,9 +11,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
  */
 public class ItsNatResourcesRemoteImpl extends ItsNatResourcesImpl
 {
-    protected ItsNatDocImpl itsNatDoc;
+    protected ItsNatDocPageImpl itsNatDoc;
 
-    public ItsNatResourcesRemoteImpl(ItsNatDocImpl itsNatDoc)
+    public ItsNatResourcesRemoteImpl(ItsNatDocPageImpl itsNatDoc)
     {
         super(itsNatDoc.getPageImpl().getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLDOMRegistry(),
               itsNatDoc.getPageImpl().getXMLInflaterLayoutPage().getXMLInflaterContext(),
@@ -30,7 +30,7 @@ public class ItsNatResourcesRemoteImpl extends ItsNatResourcesImpl
 
     private ItsNatDroidException newException(String resourceDescValue)
     {
-        return new ItsNatDroidException("Resource " + resourceDescValue + " is still not loaded, maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+        return NamespaceUtil.resourceStillNotLoadedException(resourceDescValue);
     }
 
     @Override

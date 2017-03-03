@@ -1319,7 +1319,7 @@ public class XMLInflaterRegistry
 
         ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
         if (resource == null)
-            throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+            throw NamespaceUtil.resourceStillNotLoadedException(resourceDescDyn.getResourceDescValue());
         XMLDOMLayoutAnimation xmlDOMLayoutAnimation = (XMLDOMLayoutAnimation) resource.getXMLDOM();
         InflatedXMLLayoutAnimation inflatedLayoutAnimation = InflatedXMLLayoutAnimation.createInflatedLayoutAnimation(itsNatDroid, xmlDOMLayoutAnimation, ctx, page);
 
@@ -1377,7 +1377,7 @@ public class XMLInflaterRegistry
 
         ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
         if (resource == null)
-            throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+            throw NamespaceUtil.resourceStillNotLoadedException(resourceDescDyn.getResourceDescValue());
         XMLDOMAnimation xmlDOMAnimation = (XMLDOMAnimation) resource.getXMLDOM();
         InflatedXMLAnimation inflatedAnimation = InflatedXMLAnimation.createInflatedAnimation(itsNatDroid, xmlDOMAnimation, ctx, page);
 
@@ -1436,7 +1436,7 @@ public class XMLInflaterRegistry
 
         ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
         if (resource == null)
-            throw new ItsNatDroidException("Resource is still not loaded, maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+            throw NamespaceUtil.resourceStillNotLoadedException(resourceDescDyn.getResourceDescValue());
         XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
         InflatedXMLAnimator inflatedAnimator = InflatedXMLAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
 
@@ -1495,7 +1495,7 @@ public class XMLInflaterRegistry
 
         ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
         if (resource == null)
-            throw new ItsNatDroidException("Resource is still not loaded, if remote resource maybe you should use an attribute with namespace " + NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE + " for manual load declaration");
+            throw NamespaceUtil.resourceStillNotLoadedException(resourceDescDyn.getResourceDescValue());
 
         XMLDOMInterpolator xmlDOMInterpolator = (XMLDOMInterpolator) resource.getXMLDOM();
         InflatedXMLInterpolator inflatedInterpolator = InflatedXMLInterpolator.createInflatedInterpolator(itsNatDroid, xmlDOMInterpolator, ctx, page);

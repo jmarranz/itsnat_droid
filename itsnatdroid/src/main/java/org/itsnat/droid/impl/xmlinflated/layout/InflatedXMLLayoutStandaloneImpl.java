@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStanda
 /**
  * Created by jmarranz on 20/08/14.
  */
-public class InflatedXMLLayoutStandaloneImpl extends InflatedXMLLayoutImpl // implements InflatedLayout
+public class InflatedXMLLayoutStandaloneImpl extends InflatedXMLLayoutImpl
 {
     protected XMLInflaterLayoutStandalone xmlInflaterLayoutStandalone;
 

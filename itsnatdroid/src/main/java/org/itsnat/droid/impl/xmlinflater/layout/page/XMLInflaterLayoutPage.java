@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.ItsNatDocPageImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -49,7 +49,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
                 throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
         }
 
-        ItsNatDocImpl itsNatDoc = getPageImpl().getItsNatDocImpl();
+        ItsNatDocPageImpl itsNatDoc = getPageImpl().getItsNatDocImpl();
         return itsNatDoc.getItsNatViewImpl(view);
     }
 

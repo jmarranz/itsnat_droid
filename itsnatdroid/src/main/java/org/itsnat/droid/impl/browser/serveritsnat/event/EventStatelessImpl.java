@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.browser.serveritsnat.event;
 
 import org.itsnat.droid.event.EventStateless;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.EventStatelessListener;
 
 /**
@@ -12,7 +12,7 @@ public class EventStatelessImpl extends EventGenericImpl implements EventStatele
     /*
     Creates the private instance
      */
-    public EventStatelessImpl(ItsNatDocItsNatImpl parent,EventStatelessImpl publicEvt,int commMode, long timeout)
+    public EventStatelessImpl(ItsNatDocPageItsNatImpl parent, EventStatelessImpl publicEvt, int commMode, long timeout)
     {
         super(new EventStatelessListener(parent,commMode,timeout));
 

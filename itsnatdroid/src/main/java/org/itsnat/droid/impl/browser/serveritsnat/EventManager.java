@@ -20,16 +20,16 @@ import java.util.Map;
  */
 public class EventManager
 {
-    protected ItsNatDocItsNatImpl itsNatDoc;
+    protected ItsNatDocPageItsNatImpl itsNatDoc;
     protected EventGenericImpl holdEvt = null;
     protected List<EventGenericImpl> queue = new ArrayList<EventGenericImpl>();
 
-    public EventManager(ItsNatDocItsNatImpl itsNatDoc)
+    public EventManager(ItsNatDocPageItsNatImpl itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
     }
 
-    public ItsNatDocItsNatImpl getItsNatDocItsNatImpl()
+    public ItsNatDocPageItsNatImpl getItsNatDocItsNatImpl()
     {
         return itsNatDoc;
     }
@@ -96,7 +96,7 @@ public class EventManager
         long timeout = evtListener.getTimeout();
         List<NameValue> paramList = evt.genParamURL();
 
-        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
+        ItsNatDocPageItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
         PageImpl page = itsNatDoc.getPageImpl();
 
         HttpRequestData httpRequestData = new HttpRequestData(page);

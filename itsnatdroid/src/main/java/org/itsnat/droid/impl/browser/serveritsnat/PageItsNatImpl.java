@@ -30,9 +30,9 @@ public class PageItsNatImpl extends PageImpl
         return (XMLInflaterLayoutPageItsNat)xmlInflaterLayoutPage;
     }
 
-    public ItsNatDocItsNatImpl getItsNatDocItsNatImpl()
+    public ItsNatDocPageItsNatImpl getItsNatDocItsNatImpl()
     {
-        return (ItsNatDocItsNatImpl)itsNatDoc;
+        return (ItsNatDocPageItsNatImpl)itsNatDoc;
     }
 
     public InflatedXMLLayoutPageItsNatImpl getInflatedXMLLayoutPageItsNatImpl()
@@ -66,7 +66,7 @@ public class PageItsNatImpl extends PageImpl
     @Override
     public void finishLoad(PageRequestResult pageReqResult)
     {
-        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
+        ItsNatDocPageItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
         InflatedXMLLayoutPageItsNatImpl inflatedLayoutPage = getXMLInflaterLayoutPageItsNat().getInflatedXMLLayoutPageItsNatImpl();
 
@@ -99,7 +99,7 @@ public class PageItsNatImpl extends PageImpl
 
         super.dispose();
 
-        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
+        ItsNatDocPageItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
         if (getId() != null && itsNatDoc.isEventsEnabled())
             itsNatDoc.sendUnloadEvent();

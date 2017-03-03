@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 
 /**
  * Created by jmarranz on 4/07/14.
@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
 public abstract class DOMExtEventListener extends NormalEventListener
 {
 
-    public DOMExtEventListener(ItsNatDocItsNatImpl parent,String eventType, View currentTarget, CustomFunction customFunc, String id, int commMode, long timeout)
+    public DOMExtEventListener(ItsNatDocPageItsNatImpl parent, String eventType, View currentTarget, CustomFunction customFunc, String id, int commMode, long timeout)
     {
         super(parent,eventType,currentTarget,customFunc,id,commMode,timeout);
     }

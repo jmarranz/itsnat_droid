@@ -1,13 +1,13 @@
 package org.itsnat.droid.impl.browser.serveritsnat.evtlistener;
 
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocItsNatImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocPageItsNatImpl;
 
 /**
  * Created by jmarranz on 8/08/14.
  */
 public class AttachedClientEventListener extends EventStfulListener
 {
-    public AttachedClientEventListener(ItsNatDocItsNatImpl parent,int commMode, long timeout)
+    public AttachedClientEventListener(ItsNatDocPageItsNatImpl parent, int commMode, long timeout)
     {
         super(parent,parent.getAttachType(),commMode,timeout);
     }

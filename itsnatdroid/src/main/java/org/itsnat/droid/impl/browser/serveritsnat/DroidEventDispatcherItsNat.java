@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class DroidEventDispatcherItsNat extends DroidEventDispatcher
 {
-    public DroidEventDispatcherItsNat(ItsNatDocItsNatImpl itsNatDoc)
+    public DroidEventDispatcherItsNat(ItsNatDocPageItsNatImpl itsNatDoc)
     {
         super(itsNatDoc);
     }

@@ -41,7 +41,7 @@ public class EventSender
         return evtManager;
     }
 
-    public ItsNatDocItsNatImpl getItsNatDocItsNatImpl()
+    public ItsNatDocPageItsNatImpl getItsNatDocItsNatImpl()
     {
         return evtManager.getItsNatDocItsNatImpl();
     }
@@ -140,7 +140,7 @@ public class EventSender
             if (errorMode != ClientErrorMode.NOT_CATCH_ERRORS)
             {
                 // Error del servidor, lo normal es que haya lanzado una excepción
-                ItsNatDocItsNatImpl itsNatDoc = eventSender.getItsNatDocItsNatImpl();
+                ItsNatDocPageItsNatImpl itsNatDoc = eventSender.getItsNatDocItsNatImpl();
                 itsNatDoc.showErrorMessage(true, result, exFinal, errorMode);
             }
             else throw exFinal;
@@ -152,7 +152,7 @@ public class EventSender
 
     public void processResult(EventGenericImpl evt,HttpRequestResultOKBeanshellImpl result,boolean async)
     {
-        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
+        ItsNatDocPageItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
         itsNatDoc.fireEventMonitors(false,false,evt);
 
         String responseText = result.getResponseText();
@@ -163,7 +163,7 @@ public class EventSender
 
     public ItsNatDroidException convertExceptionAndFireEventMonitors(EventGenericImpl evt, Exception ex)
     {
-        ItsNatDocItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
+        ItsNatDocPageItsNatImpl itsNatDoc = getItsNatDocItsNatImpl();
 
         if (ex instanceof ItsNatDroidException && ex.getCause() instanceof SocketTimeoutException)
         {

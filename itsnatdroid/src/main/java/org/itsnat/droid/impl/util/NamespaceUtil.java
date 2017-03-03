@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.util;
 
+import org.itsnat.droid.ItsNatDroidException;
+
 /**
  * Created by jmarranz on 13/01/2016.
  */
@@ -23,5 +25,16 @@ public class NamespaceUtil
         return name.substring(pos + 1);
     }
 
-
+    public static ItsNatDroidException resourceStillNotLoadedException(String resourceDescValue)
+    {
+        String msg = "" +
+                "Resource \"" + resourceDescValue + "\" is still not loaded, if it is a remote resource, maybe you should declare this resource as an attribute with namespace " + XMLNS_ITSNATDROID_RESOURCE + " in the View element root for manual load declaration. " +
+                "For instance, when the resource \"@remote:animator/droid/res/animator/test_value_animator_remote.xml\" is not found add: " +
+                "<ScrollView xmlns:android=\"http://schemas.android.com/apk/res/android\" " +
+                "    xmlns:indres=\"http://itsnat.org/itsnatdroid/resource\" " +
+                "    indres:valueAnimatorTest=\"@remote:animator/droid/res/animator/test_value_animator_remote.xml\" " +
+                "..." +
+                "   \"indres\" and \"valueAnimatorTest\" are not mandatory";
+        return new ItsNatDroidException(msg);
+    }
 }
