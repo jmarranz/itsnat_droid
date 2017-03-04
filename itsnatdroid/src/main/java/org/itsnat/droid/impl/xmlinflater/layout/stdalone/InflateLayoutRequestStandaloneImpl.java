@@ -96,7 +96,7 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
     {
         String markup = IOUtil.read(input,encoding);
         InflatedXMLLayoutStandaloneImpl inflatedXMLLayoutStandalone = inflateLayoutStandalone(markup,parentView,indexChild);
-        return new InflatedLayoutImpl(inflatedXMLLayoutStandalone);
+        return new InflatedLayoutImpl(itsNatDroid,inflatedXMLLayoutStandalone);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
     {
         String markup = IOUtil.read(input);
         InflatedXMLLayoutStandaloneImpl inflatedXMLLayoutStandalone = inflateLayoutStandalone(markup,parentView,indexChild);
-        return new InflatedLayoutImpl(inflatedXMLLayoutStandalone);
+        return new InflatedLayoutImpl(itsNatDroid,inflatedXMLLayoutStandalone);
     }
 
     private InflatedXMLLayoutStandaloneImpl inflateLayoutStandalone(String markup,ViewGroup parentView,int indexChild)
@@ -117,8 +117,6 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
         ParsedResourceXMLDOM<XMLDOMLayout> resourceXMLDOM = xmlDOMRegistry.buildXMLDOMLayoutAndCachingByMarkupAndResDesc(markup,null, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
 
         XMLDOMLayout xmlDOMLayout = resourceXMLDOM.getXMLDOM();
-
-        //int indexChild = parentView != null ? parentView.getChildCount() - 1 : -1;
 
         XMLInflaterLayoutStandalone xmlInflater = (XMLInflaterLayoutStandalone)XMLInflaterLayoutStandalone.createXMLInflaterLayout(getItsNatDroidImpl(),xmlDOMLayout,getBitmapDensityReference(),getAttrResourceInflaterListener(),ctx,null);
 

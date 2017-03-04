@@ -1,18 +1,9 @@
-package org.itsnat.droid.impl.browser;
+package org.itsnat.droid;
 
 import android.view.View;
 
-import org.itsnat.droid.EventMonitor;
-import org.itsnat.droid.GenericHttpClient;
-import org.itsnat.droid.ItsNatDoc;
-import org.itsnat.droid.ItsNatResources;
-import org.itsnat.droid.ItsNatView;
-import org.itsnat.droid.Page;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
-
-import bsh.EvalError;
-import bsh.Primitive;
 
 /**
  *
@@ -22,12 +13,7 @@ public interface ItsNatDocPage extends ItsNatDoc
 {
     public Page getPage();
 
-    public View getRootView();
-    public View findViewByXMLId(String id);
-    public int getResourceIdentifier(String name);
-    public int getResourceIdentifier(String name, String defType, String defPackage);
     public ItsNatView getItsNatView(View view);
-
 
     public GenericHttpClient createGenericHttpClient();
 

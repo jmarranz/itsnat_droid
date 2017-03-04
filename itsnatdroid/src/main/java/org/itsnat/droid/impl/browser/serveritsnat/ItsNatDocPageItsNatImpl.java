@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.view.KeyEvent;
 import android.view.MotionEvent;

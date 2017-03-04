@@ -44,7 +44,7 @@ public class TestSetupAssetLayout1 extends TestSetupAssetLayoutBase
             {
                 // TEST de carga dinámica de layout guardado localmente
                 InflatedLayout layout = loadAssetAndBindBackReloadButtons("res/layout/test_local_layout_1_asset.xml"); // R.raw.test_local_layout_1_asset
-                View dynamicRootView = layout.getRootView();
+                View dynamicRootView = layout.getItsNatDoc().getRootView();
 
                 initialConfiguration(act, dynamicRootView);
 

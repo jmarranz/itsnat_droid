@@ -1,18 +1,15 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.HttpRequestResult;
+import org.itsnat.droid.ItsNatDocPage;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
-import org.itsnat.droid.ItsNatResources;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.OnScriptErrorListener;
@@ -25,15 +22,11 @@ import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocPageNotItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
-import org.itsnat.droid.impl.stdalone.ItsNatResourcesStandaloneImpl;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
-import org.itsnat.droid.impl.util.UINotification;
-import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 
 import bsh.EvalError;
-import bsh.Interpreter;
-import bsh.Primitive;
 
 /**
  * Esta clase se accede via script beanshell y representa el "ClientDocument" en el lado Android simétrico a los objetos JavaScript en el modo web
@@ -49,6 +42,8 @@ public abstract class ItsNatDocPageImpl extends ItsNatDocImpl implements ItsNatD
 
     public ItsNatDocPageImpl(PageImpl page)
     {
+        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl());
+
         this.page = page;
     }
 
@@ -67,7 +62,22 @@ public abstract class ItsNatDocPageImpl extends ItsNatDocImpl implements ItsNatD
         return getPageImpl().getXMLDOMParserContext();
     }
 
+    public InflatedXMLLayoutPageImpl getInflatedXMLLayoutPageImpl()
+    {
+        return page.getInflatedXMLLayoutPageImpl();
+    }
 
+    @Override
+    public View getRootView()
+    {
+        return getInflatedXMLLayoutPageImpl().getRootView();
+    }
+
+    @Override
+    public View findViewByXMLId(String id)
+    {
+        return getInflatedXMLLayoutPageImpl().findViewByXMLId(id);
+    }
 
     @Override
     public ItsNatView getItsNatView(View view)
@@ -105,71 +115,12 @@ public abstract class ItsNatDocPageImpl extends ItsNatDocImpl implements ItsNatD
     }
 
 
+
     public DroidEventDispatcher getDroidEventDispatcher()
     {
         return eventDispatcher;
     }
 
-
-    @Override
-    public View getRootView()
-    {
-        return page.getInflatedXMLLayoutPageImpl().getRootView();
-    }
-
-    @Override
-    public View findViewByXMLId(String id)
-    {
-        return page.getInflatedXMLLayoutPageImpl().findViewByXMLId(id);
-    }
-
-    @Override
-    public int getResourceIdentifier(String name)
-    {
-        // Formato esperado: package:type/entry  ej my.app:id/someId  o bien simplemente someId
-
-        String packageName;
-        int posPkg = name.indexOf(':');
-        if (posPkg != -1)
-        {
-            packageName = null; // Tiene el package en el value, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
-            name = name.substring(posPkg + 1);
-        }
-        else
-        {
-            packageName = getContext().getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos compilados)
-        }
-
-        String type;
-        int posType = name.indexOf('/');
-        if (posType != -1)
-        {
-            type = null; // Se obtiene del name
-            name = name.substring(posType + 1); // Extraemos el name tras el /
-        }
-        else
-        {
-            type = "id";
-        }
-
-        return getResourceIdentifier(name, type, packageName);
-    }
-
-    @Override
-    public int getResourceIdentifier(String name, String defType, String defPackage)
-    {
-        // http://developer.android.com/reference/android/content/res/Resources.html#getIdentifier(java.lang.String, java.lang.String, java.lang.String)
-        // Formato esperado: package:type/entry  ej my.app:id/someId  o bien type y package vienen dados como parámetros
-
-        Resources res = getContext().getResources();
-        int id = res.getIdentifier(name, defType, defPackage);
-        if (id > 0)
-            return id;
-
-        XMLInflaterRegistry layoutService = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflaterRegistry();
-        id = layoutService.findViewIdDynamicallyAdded(name);
-        return id;
-    }
 
     @Override
     public void appendFragment(View parentView, String markup)
@@ -233,14 +184,14 @@ public abstract class ItsNatDocPageImpl extends ItsNatDocImpl implements ItsNatD
         return page.getClientErrorMode();
     }
 
+    @Override
     public Object eval(String code,Object context)
     {
-        Interpreter interp = page.getInterpreter();
         try
         {
 //long start = System.currentTimeMillis();
 
-            return interp.eval(code); // No se pasa el context porque seía un set. Ver que se puede devolver en "Getting Interfaces from Interpreter" en https://github.com/beanshell/beanshell/wiki/Embedding-BeanShell-in-Your-Application
+            return getInterpreter().eval(code); // No se pasa el context porque seía un set. Ver que se puede devolver en "Getting Interfaces from Interpreter" en https://github.com/beanshell/beanshell/wiki/Embedding-BeanShell-in-Your-Application
 
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
@@ -290,8 +241,7 @@ public abstract class ItsNatDocPageImpl extends ItsNatDocImpl implements ItsNatD
     {
         try
         {
-            Interpreter interp = page.getInterpreter();
-            interp.set(name,value);
+             getInterpreter().set(name,value);
         }
         catch (EvalError ex)
         {
@@ -303,11 +253,11 @@ public abstract class ItsNatDocPageImpl extends ItsNatDocImpl implements ItsNatD
         }
     }
 
+    @Override
     public void unset(String name)  {
         try
         {
-            Interpreter interp = page.getInterpreter();
-            interp.unset(name);
+            getInterpreter().unset(name);
         }
         catch (EvalError ex)
         {

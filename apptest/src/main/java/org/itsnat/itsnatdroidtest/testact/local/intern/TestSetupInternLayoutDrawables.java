@@ -70,7 +70,7 @@ public class TestSetupInternLayoutDrawables extends TestSetupAssetLayoutBase
             throw ex;
         }
 
-        View dynamicRootView = layout.getRootView();
+        View dynamicRootView = layout.getItsNatDoc().getRootView();
 
         initialConfiguration(getTestActivity(), dynamicRootView);
     }

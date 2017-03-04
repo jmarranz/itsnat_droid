@@ -20,7 +20,7 @@ public abstract class XMLDOMLayout extends XMLDOM
     public void partialClone(XMLDOM cloned)
     {
         super.partialClone(cloned);
-        ((XMLDOMLayoutPage)cloned).scriptList = this.scriptList;
+        ((XMLDOMLayout)cloned).scriptList = this.scriptList;
     }
 
     public XMLDOMLayout partialClone()

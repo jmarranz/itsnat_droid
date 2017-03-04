@@ -258,7 +258,7 @@ public class TestAssetLayout1
                     assertEquals(compTextView.getId(), parsedTextView.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
 
                     // Test findViewByXMLId
-                    assertEquals(parsedTextView, layout.findViewByXMLId("textViewTest1"));
+                    assertEquals(parsedTextView, layout.getItsNatDoc().findViewByXMLId("textViewTest1"));
 
 
                     assertEquals(compTextView.getText(), "Hello world 1!");

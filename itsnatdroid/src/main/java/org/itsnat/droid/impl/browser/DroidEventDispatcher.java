@@ -58,8 +58,8 @@ public abstract class DroidEventDispatcher
 
         DroidEventFakeImpl event = new DroidEventFakeImpl(type,view);
 
-        PageImpl page = itsNatDoc.getPageImpl();
-        Interpreter interp = page.getInterpreter();
+        //PageImpl page = itsNatDoc.getPageImpl();
+        Interpreter interp = itsNatDoc.getInterpreter();
         try
         {
             interp.set("event", event);
@@ -77,6 +77,7 @@ public abstract class DroidEventDispatcher
             OnScriptErrorListener errorListener = itsNatDoc.getPageImpl().getOnScriptErrorListener();
             if (errorListener != null)
             {
+                PageImpl page = itsNatDoc.getPageImpl();
                 errorListener.onError(page, inlineCode, ex, event);
             }
             else
@@ -94,6 +95,7 @@ public abstract class DroidEventDispatcher
             OnScriptErrorListener errorListener = itsNatDoc.getPageImpl().getOnScriptErrorListener();
             if (errorListener != null)
             {
+                PageImpl page = itsNatDoc.getPageImpl();
                 errorListener.onError(page, inlineCode, ex, event);
             }
             else

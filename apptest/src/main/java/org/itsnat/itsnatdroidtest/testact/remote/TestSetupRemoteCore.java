@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.EventMonitor;
-import org.itsnat.droid.impl.browser.ItsNatDocPage;
+import org.itsnat.droid.ItsNatDocPage;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.Page;
@@ -71,7 +71,7 @@ public class TestSetupRemoteCore extends TestSetupRemotePageBase
 
         final TestActivity act = getTestActivity();
 
-        ItsNatDocPage itsNatDoc = page.getItsNatDoc();
+        ItsNatDocPage itsNatDoc = (ItsNatDocPage)page.getItsNatDoc();
 
         itsNatDoc.eval("TextView viewScript3Id = (TextView)itsNatDoc.findViewByXMLId(\"testOnLoadInlineScript3Id\"); if (viewScript3Id != null) viewScript3Id.setText(viewScript3Id.getText() + \"OK\"); else alert(\"ERROR TEST testOnLoadInlineScript3Id\"); ");
 

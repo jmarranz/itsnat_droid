@@ -1,11 +1,7 @@
 package org.itsnat.droid.impl.dom.layout;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.util.NamespaceUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jmarranz on 19/01/2016.

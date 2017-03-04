@@ -1,6 +1,7 @@
 package org.itsnat.droid;
 
 import android.content.Context;
+import android.view.View;
 
 /**
  * Created by jmarranz on 03/03/2017.
@@ -8,9 +9,15 @@ import android.content.Context;
 
 public interface ItsNatDoc
 {
+    public ItsNatDroid getItsNatDroid();
     public UserData getUserData();
     public Context getContext();
     public ItsNatResources getItsNatResources();
+    public int getResourceIdentifier(String name);
+    public int getResourceIdentifier(String name, String defType, String defPackage);
+
+    public View getRootView();
+    public View findViewByXMLId(String id);
 
     public void postDelayed(Runnable task, long delay);
 

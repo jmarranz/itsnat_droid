@@ -48,7 +48,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
             public void onClick(View view) {
                 // TEST de carga dinámica de layout guardado localmente
                 InflatedLayout layout = loadAssetAndBindBackReloadButtons("res/layout/test_local_layout_animations_1_asset.xml");
-                View dynamicRootView = layout.getRootView();
+                View dynamicRootView = layout.getItsNatDoc().getRootView();
 
                 initialConfiguration(act, dynamicRootView,layout);
 
@@ -101,7 +101,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         }
         else
         {
-            CharSequence[] sportsArray = layout.getItsNatResources().getTextArray("@assets:array/res/values/arrays_asset.xml:sports_array");
+            CharSequence[] sportsArray = layout.getItsNatDoc().getItsNatResources().getTextArray("@assets:array/res/values/arrays_asset.xml:sports_array");
             adapter = new ArrayAdapter<CharSequence>(act,android.R.layout.simple_list_item_1,sportsArray);
         }
         viewFlipper.setAdapter(adapter);
@@ -115,7 +115,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         if (layout == null)
             valueAnimator = (ValueAnimator)AnimatorInflater.loadAnimator(act,R.animator.test_value_animator_compiled);
         else
-            valueAnimator = (ValueAnimator)layout.getItsNatResources().getAnimator("@assets:animator/res/animator/test_value_animator_asset.xml");
+            valueAnimator = (ValueAnimator)layout.getItsNatDoc().getItsNatResources().getAnimator("@assets:animator/res/animator/test_value_animator_asset.xml");
 
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
         {
@@ -142,7 +142,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         if (layout == null)
             animatorSet = (AnimatorSet)AnimatorInflater.loadAnimator(act,R.animator.test_animator_set_compiled);
         else
-            animatorSet = (AnimatorSet)layout.getItsNatResources().getAnimator("@assets:animator/res/animator/test_animator_set_asset.xml");
+            animatorSet = (AnimatorSet)layout.getItsNatDoc().getItsNatResources().getAnimator("@assets:animator/res/animator/test_animator_set_asset.xml");
 
         animatorSet.setTarget(textView);
 
@@ -224,7 +224,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         if (layout == null)
             alphaAnimation = (AlphaAnimation) AnimationUtils.loadAnimation(act,R.anim.test_animation_alpha_compiled);
         else
-            alphaAnimation = (AlphaAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_alpha_asset.xml");
+            alphaAnimation = (AlphaAnimation) layout.getItsNatDoc().getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_alpha_asset.xml");
 
         textView.startAnimation(alphaAnimation);
 
@@ -239,7 +239,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         if (layout == null)
             rotateAnimation = (RotateAnimation) AnimationUtils.loadAnimation(act,R.anim.test_animation_rotate_compiled);
         else
-            rotateAnimation = (RotateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_rotate_asset.xml");
+            rotateAnimation = (RotateAnimation) layout.getItsNatDoc().getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_rotate_asset.xml");
 
         textView.startAnimation(rotateAnimation);
 
@@ -254,7 +254,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         if (layout == null)
             animation = (ScaleAnimation) AnimationUtils.loadAnimation(act,R.anim.test_animation_scale_compiled);
         else
-            animation = (ScaleAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_scale_asset.xml");
+            animation = (ScaleAnimation) layout.getItsNatDoc().getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_scale_asset.xml");
 
         textView.startAnimation(animation);
 
@@ -268,7 +268,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
 
             TranslateAnimation animation;
             if (layout == null) animation = (TranslateAnimation) AnimationUtils.loadAnimation(act, R.anim.test_animation_translate_1_compiled);
-            else animation = (TranslateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_1_asset.xml");
+            else animation = (TranslateAnimation) layout.getItsNatDoc().getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_1_asset.xml");
 
             textView.startAnimation(animation);
 
@@ -280,7 +280,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
 
             TranslateAnimation animation;
             if (layout == null) animation = (TranslateAnimation) AnimationUtils.loadAnimation(act, R.anim.test_animation_translate_2_compiled);
-            else animation = (TranslateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_2_asset.xml");
+            else animation = (TranslateAnimation) layout.getItsNatDoc().getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_2_asset.xml");
 
             textView.startAnimation(animation);
 
@@ -294,7 +294,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
 
         AnimationSet animation;
         if (layout == null) animation = (AnimationSet) AnimationUtils.loadAnimation(act, R.anim.test_animation_set_compiled);
-        else animation = (AnimationSet) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_set_asset.xml");
+        else animation = (AnimationSet) layout.getItsNatDoc().getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_set_asset.xml");
 
         textView.startAnimation(animation);
 
@@ -311,7 +311,7 @@ public class TestSetupAssetLayoutAnimations1 extends TestSetupAssetLayoutBase
         }
         else
         {
-            view_assets = layout.getItsNatResources().getLayout("@assets:layout/res/layout/auto_complete_text_view_hint_view_asset.xml", null, -1);
+            view_assets = layout.getItsNatDoc().getItsNatResources().getLayout("@assets:layout/res/layout/auto_complete_text_view_hint_view_asset.xml", null, -1);
             Assert.assertNotNull(view_assets);
             Assert.assertEquals(view_compiled.getId(),view_assets.getId());
 

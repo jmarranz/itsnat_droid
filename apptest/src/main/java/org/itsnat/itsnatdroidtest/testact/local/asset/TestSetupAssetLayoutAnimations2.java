@@ -46,7 +46,7 @@ public class TestSetupAssetLayoutAnimations2 extends TestSetupAssetLayoutBase
             public void onClick(View view) {
                 // TEST de carga dinámica de layout guardado localmente
                 InflatedLayout layout = loadAssetAndBindBackReloadButtons("res/layout/test_local_layout_animations_2_asset.xml");
-                View dynamicRootView = layout.getRootView();
+                View dynamicRootView = layout.getItsNatDoc().getRootView();
 
                 initialConfiguration(act, dynamicRootView,layout);
 
@@ -94,7 +94,7 @@ public class TestSetupAssetLayoutAnimations2 extends TestSetupAssetLayoutBase
     {
         TranslateAnimation animation;
         if (layout == null) animation = (TranslateAnimation) AnimationUtils.loadAnimation(act, R.anim.test_animation_translate_for_interpolators_compiled);
-        else animation = (TranslateAnimation) layout.getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_for_interpolators_asset.xml");
+        else animation = (TranslateAnimation) layout.getItsNatDoc().getItsNatResources().getAnimation("@assets:anim/res/anim/test_animation_translate_for_interpolators_asset.xml");
         return animation;
     }
 
@@ -102,7 +102,7 @@ public class TestSetupAssetLayoutAnimations2 extends TestSetupAssetLayoutBase
     {
         Interpolator interpolator;
         if (layout == null) interpolator = AnimationUtils.loadInterpolator(act, compId);
-        else interpolator = layout.getItsNatResources().getInterpolator(assetRef);
+        else interpolator = layout.getItsNatDoc().getItsNatResources().getInterpolator(assetRef);
         return interpolator;
     }
 

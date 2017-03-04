@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.remote;
 
 import android.view.View;
 
+import org.itsnat.droid.ItsNatDocPage;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.Page;
@@ -28,7 +29,8 @@ public class TestSetupRemoteControl extends TestSetupRemotePageBase
         if (resource instanceof View && name.equals("url"))
         {
             View view = (View)resource;
-            ItsNatView itsNatView = page.getItsNatDoc().getItsNatView(view);
+            ItsNatDocPage itsNatDocPage = (ItsNatDocPage)page.getItsNatDoc();
+            ItsNatView itsNatView = itsNatDocPage.getItsNatView(view);
             itsNatView.setOnClickListener(new View.OnClickListener()
             {
                 @Override

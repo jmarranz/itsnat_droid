@@ -88,7 +88,7 @@ public abstract class TestSetupLocalLayoutBase extends TestSetupBase
                 .inflate(input,null,-1);
 
 
-        View dynamicRootView = layout.getRootView();
+        View dynamicRootView = layout.getItsNatDoc().getRootView();
         changeLayout(fragment, dynamicRootView);
 
         Toast.makeText(act, "OK XML DYNAMIC", Toast.LENGTH_SHORT).show();
