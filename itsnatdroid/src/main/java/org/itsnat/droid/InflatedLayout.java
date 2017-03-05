@@ -12,4 +12,5 @@ public interface InflatedLayout
     public ItsNatDoc getItsNatDoc();
 
     public UserData getUserData();
+
 }

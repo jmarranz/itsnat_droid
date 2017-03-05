@@ -53,7 +53,8 @@ public abstract class XMLInflaterLayout extends XMLInflater
         InflatedXMLLayoutImpl inflatedLayout;
         if (xmlDOMLayout instanceof XMLDOMLayoutPage)
         {
-            if (page == null) throw MiscUtil.internalError();
+            if (page == null)
+                throw MiscUtil.internalError();
 
             if (xmlDOMLayout instanceof XMLDOMLayoutPageItsNat)
                 inflatedLayout = new InflatedXMLLayoutPageItsNatImpl((PageItsNatImpl)page,itsNatDroid,(XMLDOMLayoutPageItsNat) xmlDOMLayout,ctx);

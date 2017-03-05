@@ -2,13 +2,13 @@ package org.itsnat.droid.impl.stdalone;
 
 import android.content.Context;
 import android.view.View;
-
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDocImpl;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutStandaloneImpl;
 
 import bsh.EvalError;
+
 
 /**
  * Created by jmarranz on 03/03/2017.
@@ -28,7 +28,6 @@ public class ItsNatDocStandaloneImpl extends ItsNatDocImpl
     {
         return inflatedLayout;
     }
-
 
     public InflatedXMLLayoutStandaloneImpl getInflatedXMLLayoutStandaloneImpl()
     {

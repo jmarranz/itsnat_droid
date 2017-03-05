@@ -28,7 +28,7 @@ public interface ItsNatDoc
 
     public Object eval(String code);
 
-    public void set(String name, Object value );
+    public void set(String name, Object value);
     public void set(String name, long value);
     public void set(String name, int value);
     public void set(String name, double value);

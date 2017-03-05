@@ -22,6 +22,7 @@ import org.itsnat.droid.impl.browser.servernotitsnat.ItsNatDocPageNotItsNatImpl;
 import org.itsnat.droid.impl.browser.servernotitsnat.PageNotItsNatImpl;
 import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
+import org.itsnat.droid.impl.stdalone.ItsNatResourcesStandaloneImpl;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
@@ -78,6 +79,7 @@ public abstract class ItsNatDocPageImpl extends ItsNatDocImpl implements ItsNatD
     {
         return getInflatedXMLLayoutPageImpl().findViewByXMLId(id);
     }
+
 
     @Override
     public ItsNatView getItsNatView(View view)

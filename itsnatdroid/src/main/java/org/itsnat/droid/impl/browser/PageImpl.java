@@ -28,6 +28,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Created by jmarranz on 4/06/14.
  */
