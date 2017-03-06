@@ -1,7 +1,10 @@
 package org.itsnat.droid.impl.domparser.layout;
 
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
+import org.itsnat.droid.impl.dom.ResourceDescAsset;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
+import org.itsnat.droid.impl.dom.ResourceDescIntern;
+import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayoutPageItsNat;
 import org.itsnat.droid.impl.domparser.ResourceCacheByMarkupAndResDescBase;
@@ -45,12 +48,16 @@ public class ResourceCacheByMarkupAndResDescLayout extends ResourceCacheByMarkup
         else
             markupWithoutLoadScript[0] = markup;
 
-        XMLDOMLayout cachedXMLDOMLayout = cacheByMarkup.get(markupWithoutLoadScript[0]); // En el caso no nulo el cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
+        String prefix = resourceDesc != null ? getResourceDescDynamicPrefix(resourceDesc) : "";
+
+        String markupWithoutLoadScriptWithPrefix = prefix + markupWithoutLoadScript[0]; // Para evitar que solapen dos recursos con el mismo markup pero diferentes orígenes
+
+        XMLDOMLayout cachedXMLDOMLayout = cacheByMarkup.get(markupWithoutLoadScriptWithPrefix); // En el caso no nulo el cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
         if (cachedXMLDOMLayout == null)
         {
             XMLDOMLayoutParser layoutParser = XMLDOMLayoutParser.createXMLDOMLayoutParser(itsNatServerVersion,layoutType,xmlDOMParserContext);
             cachedXMLDOMLayout = layoutParser.createXMLDOMLayout();
-            cacheByMarkup.put(markupWithoutLoadScript[0], cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
+            cacheByMarkup.put(markupWithoutLoadScriptWithPrefix, cachedXMLDOMLayout); // Cacheamos cuanto antes pues puede haber recursividad
 
             layoutParser.parse(markup,cachedXMLDOMLayout);
             if (cachedXMLDOMLayout instanceof XMLDOMLayoutPageItsNat)

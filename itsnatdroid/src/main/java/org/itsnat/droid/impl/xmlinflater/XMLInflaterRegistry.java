@@ -1210,9 +1210,9 @@ public class XMLInflaterRegistry
         {
             int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
 
-            PageImpl pageParent = xmlInflaterContext.getPageImpl();
+            PageImpl page = xmlInflaterContext.getPageImpl();
 
-            if (resourceDesc instanceof ResourceDescRemote && pageParent == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+            if (resourceDesc instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
 
             int countBefore = 0;
             if (viewParent != null)
@@ -1225,11 +1225,11 @@ public class XMLInflaterRegistry
             ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDesc.getParsedResource();
             XMLDOMLayout xmlDOMLayout = (XMLDOMLayout) resource.getXMLDOM();
 
-            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.createXMLInflaterLayout(itsNatDroid, xmlDOMLayout, bitmapDensityReference, attrResourceInflaterListener, ctx, pageParent);
+            XMLInflaterLayout xmlInflaterLayout = XMLInflaterLayout.createXMLInflaterLayout(itsNatDroid, xmlDOMLayout, bitmapDensityReference, attrResourceInflaterListener, ctx, page);
             //View rootViewOrViewParent = xmlInflaterLayout.getInflatedXMLLayoutImpl().getRootView();
             View rootViewOrViewParent = xmlInflaterLayout.inflateLayout(viewParent, indexChild);
 
-            if (pageParent != null) // existe página padre
+            if (page != null) // existe página padre
             {
                 XMLInflaterLayoutPage xmlInflaterLayoutPageParent = (XMLInflaterLayoutPage) xmlInflaterParent;
                 InflatedXMLLayoutPageImpl inflatedLayoutPageParent = xmlInflaterLayoutPageParent.getInflatedXMLLayoutPageImpl();

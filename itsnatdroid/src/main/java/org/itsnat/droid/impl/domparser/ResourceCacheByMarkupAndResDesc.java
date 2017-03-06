@@ -1,7 +1,11 @@
 package org.itsnat.droid.impl.domparser;
 
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
+import org.itsnat.droid.impl.dom.ResourceDescAsset;
+import org.itsnat.droid.impl.dom.ResourceDescCompiled;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
+import org.itsnat.droid.impl.dom.ResourceDescIntern;
+import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 
 /**
@@ -28,11 +32,15 @@ public abstract class ResourceCacheByMarkupAndResDesc<TxmlDom extends XMLDOM,Txm
         if (cacheByResDescValue.get(resourceDescValue) == null)
             cacheByResDescValue.put(resourceDescValue, resourceDesc); // Lo hacemos antes de cacheByMarkup.get() de esta manera cacheamos también en el caso raro de dos archivos con el mismo markup, por otra parte en el caso de que ya exista se actualiza el timestamp del recurso al hacer el get (recurso recientemente usado)
 
-        TxmlDom cachedXMLDOM = cacheByMarkup.get(markup); // En el caso no nulo el cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
+        String prefix = getResourceDescDynamicPrefix(resourceDesc);
+
+        String markupWithPrefix = prefix + markup; // Para evitar que solapen dos recursos con el mismo markup pero diferentes orígenes
+
+        TxmlDom cachedXMLDOM = cacheByMarkup.get(markupWithPrefix); // En el caso no nulo el cachedDOMLayout devuelto tiene el timestamp actualizado por el hecho de llamar al get()
         if (cachedXMLDOM == null)
         {
             cachedXMLDOM = createXMLDOMInstance();
-            cacheByMarkup.put(markup, cachedXMLDOM); // Cacheamos cuanto antes pues puede haber recursividad
+            cacheByMarkup.put(markupWithPrefix, cachedXMLDOM); // Cacheamos cuanto antes pues puede haber recursividad
 
             TxmlDomParser parser = createXMLDOMParserInstance(xmlDOMParserContext);
             parser.parse(markup, cachedXMLDOM);
