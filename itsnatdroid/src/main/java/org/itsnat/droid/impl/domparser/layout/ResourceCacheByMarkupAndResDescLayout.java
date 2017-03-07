@@ -44,9 +44,9 @@ public class ResourceCacheByMarkupAndResDescLayout extends ResourceCacheByMarkup
         else prefix = ""; // Sólo cacheamos el markup como tal sin prefix
 
         String[] markupWithoutLoadScript = new String[1];
-        String loadScript = null;
+        String loadInitScript = null;
         if (itsNatServerVersion != null && layoutType == XMLDOMLayoutParser.LayoutType.PAGE)
-            loadScript = XMLDOMLayout.extractLoadScriptMarkup(markup, markupWithoutLoadScript);
+            loadInitScript = XMLDOMLayout.extractLoadScriptMarkup(markup, markupWithoutLoadScript);
         else
             markupWithoutLoadScript[0] = markup;
 
@@ -66,7 +66,7 @@ public class ResourceCacheByMarkupAndResDescLayout extends ResourceCacheByMarkup
 
         XMLDOMLayout clonedDOMLayout = cachedXMLDOMLayout.partialClone(); // Necesitamos un clone parcial porque el loadInitScript necesitamos alojarlo en un objeto nuevo pues no puede cachearse
         if (clonedDOMLayout instanceof XMLDOMLayoutPageItsNat)
-            ((XMLDOMLayoutPageItsNat)clonedDOMLayout).setLoadInitScript(loadScript);
+            ((XMLDOMLayoutPageItsNat)clonedDOMLayout).setLoadInitScript(loadInitScript);
 
         ParsedResourceXMLDOM<XMLDOMLayout> resource = new ParsedResourceXMLDOM<XMLDOMLayout>(clonedDOMLayout);
         if (resourceDesc != null) // Hay casos en donde no hay resourceDesc porque el origen de la construcción del layout NO es un ResourceDescDynamic

@@ -30,17 +30,4 @@ public abstract class ResourceCacheByMarkupAndResDescBase<TxmlDom extends XMLDOM
         cacheByResDescValue.clear();
     }
 
-/*
-    public static String getResourceDescDynamicPrefix(String resourceDescValue,ResourceDescDynamic resourceDesc)
-    {
-        String prefix;
-
-        if (resourceDesc instanceof ResourceDescRemote) prefix = "@remote:" + resourceDesc.getResourceType();
-        else if (resourceDesc instanceof ResourceDescAsset) prefix = "@assets:" + resourceDesc.getResourceType();
-        else if (resourceDesc instanceof ResourceDescIntern) prefix = "@intern:" + resourceDesc.getResourceType();
-        else prefix = "@compiled:" + resourceDesc.getResourceType(); // COMPILED, no pasa nada porque no sea un prefijo real, es sólo lectura
-
-        return prefix;
-    }
-*/
 }
