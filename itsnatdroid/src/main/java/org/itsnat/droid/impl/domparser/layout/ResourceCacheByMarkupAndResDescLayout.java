@@ -33,13 +33,15 @@ public class ResourceCacheByMarkupAndResDescLayout extends ResourceCacheByMarkup
 
         // resourceDesc parámetro PUEDE SER NULO en el caso de XMLDOMLayout, no lo es en los demás tipos
 
+        String prefix;
         if (resourceDesc != null)
         {
             String resourceDescValue = resourceDesc.getResourceDescValue();
+            prefix = resourceDescValue;
             if (cacheByResDescValue.get(resourceDescValue) == null)
                 cacheByResDescValue.put(resourceDescValue, resourceDesc); // Lo hacemos antes de cacheByMarkup.get() de esta manera cacheamos también en el caso raro de dos archivos con el mismo markup, por otra parte en el caso de que ya exista se actualiza el timestamp del recurso al hacer el get (recurso recientemente usado)
         }
-
+        else prefix = ""; // Sólo cacheamos el markup como tal sin prefix
 
         String[] markupWithoutLoadScript = new String[1];
         String loadScript = null;
@@ -47,8 +49,6 @@ public class ResourceCacheByMarkupAndResDescLayout extends ResourceCacheByMarkup
             loadScript = XMLDOMLayout.extractLoadScriptMarkup(markup, markupWithoutLoadScript);
         else
             markupWithoutLoadScript[0] = markup;
-
-        String prefix = resourceDesc != null ? getResourceDescDynamicPrefix(resourceDesc) : "";
 
         String markupWithoutLoadScriptWithPrefix = prefix + markupWithoutLoadScript[0]; // Para evitar que solapen dos recursos con el mismo markup pero diferentes orígenes
 

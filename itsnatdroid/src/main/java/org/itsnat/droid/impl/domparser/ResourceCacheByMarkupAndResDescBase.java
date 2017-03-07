@@ -30,7 +30,8 @@ public abstract class ResourceCacheByMarkupAndResDescBase<TxmlDom extends XMLDOM
         cacheByResDescValue.clear();
     }
 
-    public static String getResourceDescDynamicPrefix(ResourceDescDynamic resourceDesc)
+/*
+    public static String getResourceDescDynamicPrefix(String resourceDescValue,ResourceDescDynamic resourceDesc)
     {
         String prefix;
 
@@ -41,5 +42,5 @@ public abstract class ResourceCacheByMarkupAndResDescBase<TxmlDom extends XMLDOM
 
         return prefix;
     }
-
+*/
 }

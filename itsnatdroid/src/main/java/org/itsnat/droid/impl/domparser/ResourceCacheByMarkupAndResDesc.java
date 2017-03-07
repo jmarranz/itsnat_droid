@@ -32,7 +32,7 @@ public abstract class ResourceCacheByMarkupAndResDesc<TxmlDom extends XMLDOM,Txm
         if (cacheByResDescValue.get(resourceDescValue) == null)
             cacheByResDescValue.put(resourceDescValue, resourceDesc); // Lo hacemos antes de cacheByMarkup.get() de esta manera cacheamos también en el caso raro de dos archivos con el mismo markup, por otra parte en el caso de que ya exista se actualiza el timestamp del recurso al hacer el get (recurso recientemente usado)
 
-        String prefix = getResourceDescDynamicPrefix(resourceDesc);
+        String prefix = resourceDescValue;
 
         String markupWithPrefix = prefix + markup; // Para evitar que solapen dos recursos con el mismo markup pero diferentes orígenes
 
