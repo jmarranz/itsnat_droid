@@ -12,7 +12,6 @@ import org.itsnat.droid.impl.util.MimeUtil;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ANIM;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ANIMATOR;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_DRAWABLE;
-import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
 
 /**
  * Created by jmarranz on 3/11/14.
@@ -58,7 +57,7 @@ public abstract class ResourceDescDynamic extends ResourceDesc
             }
             else // No hay selector ":selector"
             {
-                if (TYPE_ANIM.equals(resType) || TYPE_ANIMATOR.equals(resType) || TYPE_DRAWABLE.equals(resType) || TYPE_LAYOUT.equals(resType))
+                if (TYPE_ANIM.equals(resType) || TYPE_ANIMATOR.equals(resType) || TYPE_DRAWABLE.equals(resType) )
                 {
                     // En el caso "drawable" podemos tener un acceso a un <drawable> en archivo XML en /res/values o bien directamente acceder al XML en /res/drawable
                     // este es el caso de acceso DIRECTO al XML del drawable

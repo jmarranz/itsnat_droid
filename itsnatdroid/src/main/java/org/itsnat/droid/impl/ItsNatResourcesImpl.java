@@ -171,6 +171,7 @@ public abstract class ItsNatResourcesImpl implements ItsNatResources
         return xmlInflaterRegistry.getAnimation(resourceDesc,xmlInflaterContext);
     }
 
+
     @Override
     public Animator getAnimator(String resourceDescValue)
     {

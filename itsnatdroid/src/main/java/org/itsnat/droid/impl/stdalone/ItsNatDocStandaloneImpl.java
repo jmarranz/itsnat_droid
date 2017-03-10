@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.stdalone;
 
 import android.content.Context;
 import android.view.View;
+
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDocImpl;
 import org.itsnat.droid.impl.ItsNatResourcesImpl;

@@ -69,9 +69,6 @@ public class ClassDescValuesMgr extends ClassDescMgr<ClassDescValues>
         ClassDescValuesItemNormal drawable = new ClassDescValuesItemNormal(this,TYPE_DRAWABLE);
         addClassDesc(drawable);
 
-        ClassDescValuesItemNormal layout = new ClassDescValuesItemNormal(this,TYPE_LAYOUT);
-        addClassDesc(layout);
-
         ClassDescValuesItemNormal id = new ClassDescValuesItemNormal(this,TYPE_ID);
         addClassDesc(id);
 
@@ -91,5 +88,10 @@ public class ClassDescValuesMgr extends ClassDescMgr<ClassDescValues>
         addClassDesc(integerArray);
         ClassDescValuesArrayBase array = new ClassDescValuesArrayBase(this,TYPE_ARRAY);
         addClassDesc(array);
+
+        // No hemos encontrado de layout y ningún ejemplo en values/ pero esperamos que sea similar a <drawable>
+        ClassDescValuesItemNormal layout = new ClassDescValuesItemNormal(this,TYPE_LAYOUT);
+        addClassDesc(layout);
+
     }
 }

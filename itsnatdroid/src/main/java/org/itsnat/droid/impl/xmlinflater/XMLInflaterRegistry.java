@@ -144,6 +144,7 @@ public class XMLInflaterRegistry
         return classDescLayoutAnimationMgr;
     }
 
+
     public int generateViewId()
     {
         // Inspirado en el código fuente de Android View.generateViewId()

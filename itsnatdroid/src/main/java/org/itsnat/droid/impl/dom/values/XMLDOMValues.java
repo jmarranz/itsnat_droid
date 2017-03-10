@@ -10,6 +10,11 @@ import java.util.Set;
  */
 public class XMLDOMValues extends XMLDOM
 {
+    // https://developer.android.com/guide/topics/resources/more-resources.html
+    // http://developer.android.com/guide/topics/resources/more-resources.html#TypedArray
+    // Pero es más completo los valores de apptest, values/test_values_compiles
+
+
     public final static String TYPE_ANIM = "anim";
     public final static String TYPE_ANIMATOR = "animator";
     public final static String TYPE_BOOL = "bool";
@@ -24,7 +29,12 @@ public class XMLDOMValues extends XMLDOM
     public final static String TYPE_LAYOUT = "layout";
     public final static String TYPE_STRING = "string";
     public final static String TYPE_STRING_ARRAY = "string-array";
-    public final static String TYPE_ARRAY = "array"; // http://developer.android.com/guide/topics/resources/more-resources.html#TypedArray
+    public final static String TYPE_ARRAY = "array";
+
+    // Nos atrevemos a añadir
+    // public final static String TYPE_LAYOUT = "layout";
+    // aunque no hemos encontrado ningún ejemplo en un XML de values/, debe de estar soportado como "reference",
+    // de todas formas los añadimos por sistematizaciín
 
     private static final Set<String> resourceTypeValues = new HashSet<String>();
 

@@ -1,10 +1,6 @@
 package org.itsnat.droid.impl.domparser;
 
-import org.itsnat.droid.impl.dom.ResourceDesc;
-import org.itsnat.droid.impl.dom.ResourceDescAsset;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
-import org.itsnat.droid.impl.dom.ResourceDescIntern;
-import org.itsnat.droid.impl.dom.ResourceDescRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
 
 /**

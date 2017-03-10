@@ -32,8 +32,9 @@ public class XMLDOMRegistry
     protected ResourceCacheByMarkupAndResDescInterpolator interpolatorCache = new ResourceCacheByMarkupAndResDescInterpolator();
     protected ResourceCacheByMarkupAndResDescAnimation animationCache = new ResourceCacheByMarkupAndResDescAnimation();
     protected ResourceCacheByMarkupAndResDescAnimator animatorCache = new ResourceCacheByMarkupAndResDescAnimator();
-    // Menues???
     protected ResourceCacheByMarkupAndResDescValues valuesCache = new ResourceCacheByMarkupAndResDescValues();
+
+    // No implementamos menues porque Menu y relacionadas son interface y encontrar la implementación es un follón
 
     public XMLDOMRegistry(ItsNatDroidImpl parent)
     {
@@ -52,7 +53,7 @@ public class XMLDOMRegistry
         drawableCache.cleanCaches();
         animationCache.cleanCaches();
         animatorCache.cleanCaches();
-        // Menues???
+        // Menues no implementado ver arriba
         valuesCache.cleanCaches();
     }
 
