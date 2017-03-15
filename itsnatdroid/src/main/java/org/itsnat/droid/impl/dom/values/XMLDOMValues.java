@@ -26,6 +26,7 @@ public class XMLDOMValues extends XMLDOM
     public final static String TYPE_ID_PLUS = "+id";
     public final static String TYPE_INTEGER = "integer";
     public final static String TYPE_INTEGER_ARRAY = "integer-array";
+    public final static String TYPE_MENU = "menu";
     public final static String TYPE_LAYOUT = "layout";
     public final static String TYPE_STRING = "string";
     public final static String TYPE_STRING_ARRAY = "string-array";
@@ -53,6 +54,7 @@ public class XMLDOMValues extends XMLDOM
         resourceTypeValues.add(TYPE_ID_PLUS);
         resourceTypeValues.add(TYPE_INTEGER);
         resourceTypeValues.add(TYPE_INTEGER_ARRAY);
+        resourceTypeValues.add(TYPE_MENU);
         resourceTypeValues.add(TYPE_LAYOUT);
         resourceTypeValues.add(TYPE_STRING);
         resourceTypeValues.add(TYPE_STRING_ARRAY);
