@@ -24,7 +24,6 @@ import android.text.TextUtils;
 import android.text.method.TransformationMethod;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
@@ -41,7 +40,6 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-//import android.widget.Gallery; Para que no salga un warning de deprecated
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,10 +58,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.CustomTextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
@@ -79,6 +75,8 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotZero;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
+
+//import android.widget.Gallery; Para que no salga un warning de deprecated
 
 
 // import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsPixels;
