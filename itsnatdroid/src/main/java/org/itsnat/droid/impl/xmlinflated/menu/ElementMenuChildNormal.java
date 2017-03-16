@@ -4,7 +4,7 @@ package org.itsnat.droid.impl.xmlinflated.menu;
 /**
  * Created by jmarranz on 30/11/14.
  */
-public abstract class ElementMenuChildNormal extends ElementMenuChildBase
+public abstract class ElementMenuChildNormal extends ElementMenuChild
 {
     public ElementMenuChildNormal(ElementMenuChildBase parentElementMenu)
     {

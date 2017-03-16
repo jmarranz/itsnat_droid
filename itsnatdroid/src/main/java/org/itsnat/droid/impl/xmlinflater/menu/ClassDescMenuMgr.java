@@ -52,12 +52,6 @@ public class ClassDescMenuMgr extends ClassDescMgr<ClassDescResourceBased>
     @Override
     protected void initClassDesc()
     {
-        // https://developer.android.com/guide/topics/resources/drawable-resource.html
-        // Las clases suelen tener un método para "inflar": public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs)
-        // en vez de inflarse en el constructor
-        // En la documentación del código fuente al principio se listan los atributos que definen la clase y los item hijo (se añade al nombre del atributo "Item")
-        // Ej Attr:
-        //    ref android.R.styleable#AnimationDrawableItem_drawable
 
         ClassDescElementDrawableChildDrawableBridge childBridge = new ClassDescElementDrawableChildDrawableBridge(this);
         addClassDesc(childBridge);
