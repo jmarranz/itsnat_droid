@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
+package org.itsnat.droid.impl.xmlinflater.drawable.classtree.child;
 
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildNormal;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;

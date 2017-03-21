@@ -12,6 +12,7 @@ import android.text.Spanned;
 import android.text.SpannedString;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -36,6 +37,7 @@ import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
 import org.itsnat.droid.impl.dom.animlayout.XMLDOMLayoutAnimation;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.menu.XMLDOMMenu;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -50,6 +52,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedXMLDrawable;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedXMLLayoutPageItsNatImpl;
+import org.itsnat.droid.impl.xmlinflated.menu.InflatedXMLMenu;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesResources;
 import org.itsnat.droid.impl.xmlinflated.values.ElementValuesStyle;
 import org.itsnat.droid.impl.xmlinflated.values.InflatedXMLValues;
@@ -74,6 +77,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribsCompiled;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewStyleAttribsDynamic;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
+import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
+import org.itsnat.droid.impl.xmlinflater.menu.XMLInflaterMenu;
 import org.itsnat.droid.impl.xmlinflater.values.ClassDescValuesMgr;
 import org.itsnat.droid.impl.xmlinflater.values.XMLInflaterValues;
 
@@ -97,6 +102,7 @@ public class XMLInflaterRegistry
     private ClassDescAnimatorMgr classDescAnimatorMgr = new ClassDescAnimatorMgr(this);
     private ClassDescInterpolatorMgr classDescInterpolatorMgr = new ClassDescInterpolatorMgr(this);
     private ClassDescLayoutAnimationMgr classDescLayoutAnimationMgr = new ClassDescLayoutAnimationMgr(this);
+    private ClassDescMenuMgr classDescMenuMgr = new ClassDescMenuMgr(this);
     private Map<XMLDOMValues,ElementValuesResources> cacheXMLDOMValuesXMLInflaterValuesMap = new HashMap<XMLDOMValues, ElementValuesResources>();
 
     public XMLInflaterRegistry(ItsNatDroidImpl itsNatDroid)
@@ -144,6 +150,10 @@ public class XMLInflaterRegistry
         return classDescLayoutAnimationMgr;
     }
 
+    public ClassDescMenuMgr getClassDescMenuMgr()
+    {
+        return classDescMenuMgr;
+    }
 
     public int generateViewId()
     {
@@ -1131,6 +1141,61 @@ public class XMLInflaterRegistry
 
         throw new ItsNatDroidException("Cannot process " + resourceDescValue);
     }
+
+    public Menu getMenu(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+    {
+        Context ctx = xmlInflaterContext.getContext();
+
+        if (resourceDesc instanceof ResourceDescDynamic)
+        {
+            ResourceDescDynamic resourceDescDyn = (ResourceDescDynamic)resourceDesc;
+            if (resourceDescDyn.getValuesResourceName() != null)
+            {
+                ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
+                return elementResources.getMenu(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
+            }
+            else
+            {
+                int bitmapDensityReference = xmlInflaterContext.getBitmapDensityReference();
+
+                String resourceMime = resourceDescDyn.getResourceMime();
+                if (MimeUtil.isMIMEResourceXML(resourceMime))
+                {
+                    PageImpl page = xmlInflaterContext.getPageImpl();
+
+                    if (resourceDesc instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
+
+                    AttrResourceInflaterListener attrResourceInflaterListener = xmlInflaterContext.getAttrResourceInflaterListener();
+
+                    ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
+                    XMLDOMMenu xmlDOMMenu = (XMLDOMMenu) resource.getXMLDOM();
+                    InflatedXMLMenu inflatedMenu = InflatedXMLMenu.createInflatedMenu(itsNatDroid, xmlDOMMenu, ctx, page);
+
+                    XMLInflaterMenu xmlInflaterMenu = XMLInflaterMenu.createXMLInflaterMenu(inflatedMenu, bitmapDensityReference,attrResourceInflaterListener);
+                    return xmlInflaterMenu.inflateMenu();
+                }
+                else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
+            }
+        }
+        else if (resourceDesc instanceof ResourceDescCompiled)
+        {
+            String resourceDescValue = resourceDesc.getResourceDescValue();
+            return getMenuCompiled(resourceDescValue, ctx);
+        }
+        else throw MiscUtil.internalError();
+    }
+
+    private Menu getMenuCompiled(String resourceDescValue, Context ctx)
+    {
+        if (isResource(resourceDescValue))
+        {
+            int resId = getIdentifierCompiled(resourceDescValue, ctx);
+            if (resId == 0) return null;
+            return null; // ctx.getResources().getMenu(resId);
+        }
+        else throw new ItsNatDroidException("Cannot process " + resourceDescValue);
+    }
+
 
     public View getLayout(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,XMLInflaterLayout xmlInflaterParent, ViewGroup viewParent, int indexChild)
     {

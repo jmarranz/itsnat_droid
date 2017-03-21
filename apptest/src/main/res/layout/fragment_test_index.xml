@@ -48,12 +48,19 @@
                 android:textSize="20dp"
                 android:layout_below="@+id/testAssetAnimations1"/>
 
+        <Button android:id="@+id/testAssetMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST ASSET MENU"
+                android:textSize="20dp"
+                android:layout_below="@+id/testAssetAnimations2"/>
+
         <Button android:id="@+id/testLoadInternDrawables"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="CLEAN/RELOAD REMOTE INTERN (DRAWABLES)"
-                android:layout_below="@+id/testAssetAnimations2"/>
+                android:layout_below="@+id/testAssetMenu"/>
 
         <Button android:id="@+id/testInternDrawables"
                 android:layout_width="wrap_content"

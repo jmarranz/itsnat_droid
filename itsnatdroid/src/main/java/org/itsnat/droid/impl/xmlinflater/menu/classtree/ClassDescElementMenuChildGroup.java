@@ -4,23 +4,30 @@ import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChild;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBase;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescElementMenuChildGroup extends ClassDescElementMenuChildNormal<ElementMenuChildGroup>
+public class ClassDescElementMenuChildGroup extends ClassDescElementMenuChildBased<ElementMenuChildGroup>
 {
-    public ClassDescElementMenuChildGroup(ClassDescMenuMgr classMgr)
+    public ClassDescElementMenuChildGroup(ClassDescMenuMgr classMgr,ClassDescElementMenuChildBased<? super ElementMenuChildGroup> parent)
     {
-        super(classMgr,"shape:corners",null);
+        super(classMgr,"group",parent);
     }
 
     @Override
     public Class<ElementMenuChildGroup> getMenuOrElementMenuClass()
     {
         return ElementMenuChildGroup.class;
+    }
+
+    @Override
+    public ElementMenuChildRoot createElementMenuChildRoot(DOMElemMenu rootElem, AttrMenuContext attrCtx)
+    {
+        return new ElementMenuChildRoot(null);
     }
 
     @Override

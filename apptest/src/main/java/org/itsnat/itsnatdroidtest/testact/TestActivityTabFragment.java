@@ -1,8 +1,16 @@
 package org.itsnat.itsnatdroidtest.testact;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +20,7 @@ import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayout2;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutAnimations1;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutAnimations2;
 import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutDrawables;
+import org.itsnat.itsnatdroidtest.testact.local.asset.TestSetupAssetLayoutMenu;
 import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutCleanReloadDrawables;
 import org.itsnat.itsnatdroidtest.testact.local.intern.TestSetupInternLayoutDrawables;
 import org.itsnat.itsnatdroidtest.testact.remote.TestSetupRemoteControl;
@@ -46,6 +55,39 @@ public class TestActivityTabFragment extends Fragment
         fragment.setArguments(args);
         return fragment;
     }
+
+
+    public void onCreateContextMenu (ContextMenu menu,View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        Log.v("fragment","Hello");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        // TODO Add your menu entries here
+        menu.clear();
+
+        inflater.inflate(R.menu.test_local_menu_compiled,menu);
+
+        for (int i = 0; i < menu.size(); i++ )
+        {
+            MenuItem item = menu.getItem(i);
+            SpannableString s = new SpannableString(item.getTitle());
+            s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
+            item.setTitle(s);
+        }
+
+        int size = menu.size();
+    }
+
 
     public int getSectionNumber()
     {
@@ -123,6 +165,17 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
+        View testAssetMenu = rootView.findViewById(R.id.testAssetMenu);
+        testAssetMenu.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                new TestSetupAssetLayoutMenu(TestActivityTabFragment.this).test();
+            }
+        });
+
+
         View testInternLoadDrawables = rootView.findViewById(R.id.testLoadInternDrawables);
         testInternLoadDrawables.setOnClickListener(new View.OnClickListener()
         {
@@ -142,6 +195,7 @@ public class TestActivityTabFragment extends Fragment
                 new TestSetupInternLayoutDrawables(TestActivityTabFragment.this).test();
             }
         });
+
 
         final TestActivity act = getTestActivity();
 

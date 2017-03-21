@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflated.values;
 
 import android.animation.Animator;
 import android.graphics.drawable.Drawable;
+import android.view.Menu;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
@@ -31,6 +32,7 @@ import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_FLOAT;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_ID;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_INTEGER;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_LAYOUT;
+import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_MENU;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING;
 import static org.itsnat.droid.impl.dom.values.XMLDOMValues.TYPE_STRING_ARRAY;
 
@@ -205,6 +207,13 @@ public class ElementValuesResources extends ElementValues
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_DRAWABLE,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
         return xmlInflaterRegistry.getDrawable(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
+    }
+
+    public Menu getMenu(String name, XMLInflaterContext xmlInflaterContext)
+    {
+        DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_MENU,name);
+        XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
+        return xmlInflaterRegistry.getMenu(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
     public LayoutValue getLayoutValue(String name, XMLInflaterContext xmlInflaterContext, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)

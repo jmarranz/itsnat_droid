@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
+package org.itsnat.droid.impl.xmlinflater.drawable.classtree.child;
 
 import android.graphics.drawable.Drawable;
 
@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildDrawableBr
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableBased;
 
 /**
  * Esta clase está pensada para el drawable  que se permite como hijo único (por ejemplo el típico <bitmap>) en los casos en donde existe también el atributo android:drawable="" ej en <clip> o bajo <item>
@@ -37,8 +38,7 @@ public class ClassDescElementDrawableChildDrawableBridge extends ClassDescElemen
     public ElementDrawableChild createElementDrawableChild(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
     {
         String name = domElement.getTagName();
-        @SuppressWarnings("unchecked")
-        ClassDescElementDrawableBased<Drawable> classDescBridgeRealTarget = (ClassDescElementDrawableBased<Drawable>)getClassDescDrawableMgr().get(name);
+        @SuppressWarnings("unchecked") ClassDescElementDrawableBased<Drawable> classDescBridgeRealTarget = (ClassDescElementDrawableBased<Drawable>)getClassDescDrawableMgr().get(name);
         if (classDescBridgeRealTarget == null)
             throw new ItsNatDroidException("Not found processor for " + domElementParent.getTagName() + ":" + name);
 

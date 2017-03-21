@@ -5,6 +5,7 @@ import android.content.Context;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChild;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBase;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDescResourceBased;
@@ -18,6 +19,8 @@ public abstract class ClassDescElementMenuChildBased<TelementMenuChild extends E
     {
         super(classMgr, elemName, parentClass);
     }
+
+    public abstract ElementMenuChildRoot createElementMenuChildRoot(DOMElemMenu rootElem, AttrMenuContext attrCtx);
 
     protected TelementMenuChild createResourceNative(Context ctx)
     {

@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBase;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
 import org.itsnat.droid.impl.xmlinflated.menu.InflatedXMLMenu;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
+import org.itsnat.droid.impl.xmlinflater.menu.classtree.ClassDescElementMenuChildBased;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
         String name = rootDOMElem.getTagName();
         ClassDescMenuMgr classDescMenuMgr = inflatedMenu.getXMLInflaterRegistry().getClassDescMenuMgr();
 
-        ClassDescElementMenuBased classDesc = (ClassDescElementMenuBased)classDescMenuMgr.get(name);
+        ClassDescElementMenuChildBased classDesc = (ClassDescElementMenuChildBased)classDescMenuMgr.get(name);
         if (classDesc == null)
             throw new ItsNatDroidException("Menu type is not supported: " + name);
         ElementMenuChildRoot menuElem = createElementMenuChildRoot(classDesc, rootDOMElem,attrCtx);
@@ -69,14 +70,13 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
 
         return menuElem;
     }
-
-    private ElementMenuChildRoot createElementMenuChildRoot(ClassDescElementMenuBased classDesc, DOMElemMenu rootDOMElem, AttrMenuContext attrCtx)
+    private ElementMenuChildRoot createElementMenuChildRoot(ClassDescElementMenuChildBased classDesc, DOMElemMenu rootDOMElem, AttrMenuContext attrCtx)
     {
         return classDesc.createElementMenuChildRoot(rootDOMElem,attrCtx);
     }
 
     @SuppressWarnings("unchecked")
-    private void fillAttributes(ClassDescElementMenuBased classDesc, Menu menu, DOMElemMenu domElement, AttrMenuContext attrCtx)
+    private void fillAttributes(ClassDescElementMenuChildBased classDesc, Menu menu, DOMElemMenu domElement, AttrMenuContext attrCtx)
     {
         classDesc.fillResourceAttributes(menu, domElement, attrCtx);
     }
@@ -93,7 +93,7 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
 
     protected ElementMenuChildBase inflateNextElement(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBase parentChildMenu, AttrMenuContext attrCtx)
     {
-        ElementMenuChildNormal childMenu = createElementMenuChildAndFillAttributes(domElement, domElementParent, parentChildMenu,attrCtx);
+        ElementMenuChildBase childMenu = createElementMenuChildAndFillAttributes(domElement, domElementParent, parentChildMenu,attrCtx);
 
         processChildElements(domElement,childMenu,attrCtx);
 
@@ -117,7 +117,7 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
         return name.toString();
     }
 
-    private ElementMenuChildNormal createElementMenuChildAndFillAttributes(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBase parentChildMenu, AttrMenuContext attrCtx)
+    private ElementMenuChildBase createElementMenuChildAndFillAttributes(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBase parentChildMenu, AttrMenuContext attrCtx)
     {
         String parentName = getFullName(domElementParent);
         String name = parentName + ":" + domElement.getTagName();
@@ -125,12 +125,12 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
         ClassDescElementMenuChildBased classDesc = (ClassDescElementMenuChildBased)classDescMenuMgr.get(name);
         if (classDesc == null)
         {
-            name = ClassDescElementMenuChildMenuBridge.NAME; // "*";
-            classDesc = (ClassDescElementMenuChildMenuBridge)classDescMenuMgr.get(name);
+            //name = ClassDescElementMenuChildMenuBridge.NAME; // "*";
+            //classDesc = (ClassDescElementMenuChildMenuBridge)classDescMenuMgr.get(name);
             if (classDesc == null) throw new ItsNatDroidException("Unexpected error"); // ClassDescElementMenuChildMenuBridge debe estar registrado previamente
         }
 
-        ElementMenuChildNormal menuChild = createElementMenuChild(classDesc, domElement, domElementParent, parentChildMenu,attrCtx);
+        ElementMenuChildBase menuChild = createElementMenuChild(classDesc, domElement, domElementParent, parentChildMenu,attrCtx);
 
         fillAttributes(classDesc,menuChild , domElement, attrCtx); // ElementMenuChildContainer.create(menuChild)
 
@@ -138,13 +138,13 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
     }
 
 
-    private ElementMenuChildNormal createElementMenuChild(ClassDescElementMenuChildBased classDesc, DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBase parentChildMenu, AttrMenuContext attrCtx)
+    private ElementMenuChildBase createElementMenuChild(ClassDescElementMenuChildBased classDesc, DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBase parentChildMenu, AttrMenuContext attrCtx)
     {
         return classDesc.createElementMenuChild(domElement, domElementParent, parentChildMenu,attrCtx);
     }
 
     @SuppressWarnings("unchecked")
-    private void fillAttributes(ClassDescElementMenuChildBased classDesc, ElementMenuChildNormal menuChild, DOMElemMenu domElement, AttrMenuContext attrCtx)
+    private void fillAttributes(ClassDescElementMenuChildBased classDesc, ElementMenuChildBase menuChild, DOMElemMenu domElement, AttrMenuContext attrCtx)
     {
         classDesc.fillResourceAttributes(menuChild, domElement, attrCtx);
     }

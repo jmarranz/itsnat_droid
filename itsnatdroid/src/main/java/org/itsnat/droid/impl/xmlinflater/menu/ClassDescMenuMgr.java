@@ -2,33 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.menu;
 
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescAnimationDrawableChildItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescClipDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescColorDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableContainer;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildCorners;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildGradient;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildPadding;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildSize;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildSolid;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescGradientDrawableChildStroke;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescInsetDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableChildItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLevelListDrawableChildItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRotateDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescScaleDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescStateListDrawableChildItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescTransitionDrawableChildItem;
+import org.itsnat.droid.impl.xmlinflater.menu.classtree.ClassDescElementMenuChildGroup;
+import org.itsnat.droid.impl.xmlinflater.menu.classtree.ClassDescElementMenuChildMenu;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDescResourceBased;
 
 /**
@@ -53,15 +28,14 @@ public class ClassDescMenuMgr extends ClassDescMgr<ClassDescResourceBased>
     protected void initClassDesc()
     {
 
-        ClassDescElementDrawableChildDrawableBridge childBridge = new ClassDescElementDrawableChildDrawableBridge(this);
-        addClassDesc(childBridge);
+        ClassDescElementMenuChildMenu menu = new ClassDescElementMenuChildMenu(this);
+        addClassDesc(menu);
 
-        ClassDescElementDrawable drawable = new ClassDescElementDrawable(this); // no tiene atributos ni Drawable clase padre
 
-            // 	android.graphics.drawable.AnimatedVectorDrawable es level 21
+        ClassDescElementMenuChildGroup group = new ClassDescElementMenuChildGroup(this,menu);
+        addClassDesc(group);
 
-            ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this,drawable);
-            addClassDesc(bitmap);
+    /*
 
             ClassDescColorDrawable color = new ClassDescColorDrawable(this,drawable);
             addClassDesc(color);
@@ -135,5 +109,7 @@ public class ClassDescMenuMgr extends ClassDescMgr<ClassDescResourceBased>
             addClassDesc(ninePatch);
 
             // ShapeDrawable no se como usarlo como XML pues <shape> se refiere a GradientDrawable, parece que ShapeDrawable es una antigualla o bien realmente sólo se puede usar via objeto Java
+        */
+
     }
 }

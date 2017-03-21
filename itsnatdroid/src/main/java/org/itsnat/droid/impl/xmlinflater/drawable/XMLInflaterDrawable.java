@@ -13,8 +13,8 @@ import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedXMLDrawable;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableBased;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBased;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildDrawableBridge;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.child.ClassDescElementDrawableChildBased;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.child.ClassDescElementDrawableChildDrawableBridge;
 
 import java.util.List;
 
