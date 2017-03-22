@@ -2,10 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.local.asset;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.ScrollView;
 
-import org.itsnat.droid.InflatedLayout;
-import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 
@@ -31,6 +28,7 @@ public class TestSetupAssetLayoutMenu extends TestSetupAssetLayoutBase
 
     public void test()
     {
+        /*
         final TestActivity act = fragment.getTestActivity();
         final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_menu_container_compiled);
 
@@ -44,16 +42,15 @@ public class TestSetupAssetLayoutMenu extends TestSetupAssetLayoutBase
 
                 initialConfiguration(act, dynamicRootView);
 
-                TestAssetLayoutDrawables.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
+                // TestAssetLayoutDrawables.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }
         });
 
         initialConfiguration(act, compiledRootView);
+        */
     }
 
     private static void initialConfiguration(TestActivity act, View rootView)
     {
-
-
     }
 }

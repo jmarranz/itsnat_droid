@@ -57,11 +57,6 @@ public class TestActivityTabFragment extends Fragment
     }
 
 
-    public void onCreateContextMenu (ContextMenu menu,View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
-        Log.v("fragment","Hello");
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,21 +66,10 @@ public class TestActivityTabFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+    }
 
-        // TODO Add your menu entries here
-        menu.clear();
-
-        inflater.inflate(R.menu.test_local_menu_compiled,menu);
-
-        for (int i = 0; i < menu.size(); i++ )
-        {
-            MenuItem item = menu.getItem(i);
-            SpannableString s = new SpannableString(item.getTitle());
-            s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
-            item.setTitle(s);
-        }
-
-        int size = menu.size();
+    public void onCreateContextMenu (ContextMenu menu,View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
     }
 
 
