@@ -22,9 +22,9 @@ public class ItsNatResourcesStandaloneImpl extends ItsNatResourcesImpl
 
     public ItsNatResourcesStandaloneImpl(ItsNatDocStandaloneImpl itsNatDoc)
     {
-        super(  getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getItsNatDroidImpl().getXMLDOMRegistry(),
-                getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getXMLInflaterLayoutStandalone().getXMLInflaterContext(),
-                getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getItsNatDroidImpl().getXMLInflaterRegistry());
+        super(getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getItsNatDroidImpl().getXMLDOMRegistry(),
+              getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getXMLInflaterLayoutStandalone().getXMLInflaterContext(),
+              getInflatedXMLLayoutStandaloneImpl(itsNatDoc).getItsNatDroidImpl().getXMLInflaterRegistry());
 
         this.itsNatDoc = itsNatDoc;
 

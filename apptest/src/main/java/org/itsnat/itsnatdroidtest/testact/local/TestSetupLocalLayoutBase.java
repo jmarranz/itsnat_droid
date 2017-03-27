@@ -57,18 +57,21 @@ public abstract class TestSetupLocalLayoutBase extends TestSetupBase
         AssetManager am = act.getResources().getAssets();
         InputStream input;
 
+        String resourceType;
         try
         {
 
             if (asset)
             {
                 input = am.open(layoutAssetOrInternPath);
+                resourceType = "assets";
             }
             else  // intern
             {
                 File rootDir = act.getDir(internLocationBase, Context.MODE_PRIVATE);
                 File locationFile = new File(rootDir.getAbsolutePath(),layoutAssetOrInternPath);
                 input = new FileInputStream(locationFile);
+                resourceType = "intern";
             }
         }
         catch (IOException e)
@@ -85,7 +88,7 @@ public abstract class TestSetupLocalLayoutBase extends TestSetupBase
                 .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH) // 320
                 .setAttrResourceInflaterListener(this)
                 .setContext(act)
-                .inflate(input,null,-1);
+                .inflate(input,resourceType,null,-1);
 
 
         View dynamicRootView = layout.getItsNatDoc().getRootView();

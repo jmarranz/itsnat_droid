@@ -1,6 +1,11 @@
 package org.itsnat.droid.impl.domparser.menu;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSet;
+import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSingle;
+import org.itsnat.droid.impl.dom.menu.DOMElemGroup;
+import org.itsnat.droid.impl.dom.menu.DOMElemItem;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
 import org.itsnat.droid.impl.dom.menu.XMLDOMMenu;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
@@ -30,6 +35,24 @@ public class XMLDOMMenuParser extends XMLDOMParser<XMLDOMMenu>
     @Override
     protected DOMElement createElement(String tagName,DOMElement parent)
     {
-        return new DOMElemMenu(tagName,(DOMElemMenu)parent);
+        if ("menu".equals(tagName))
+        {
+            if (parent == null)
+                return new DOMElemMenu(false,null); // root
+            String parentTagName = parent.getTagName();
+            if ("item".equals(parentTagName))
+                return new DOMElemMenu(true,parent);
+            else throw new ItsNatDroidException("Unrecognized super tag name of <menu>: " + parentTagName);
+        }
+        else if ("item".equals(tagName))
+        {
+            return new DOMElemItem(parent);
+        }
+        else if ("group".equals(tagName))
+        {
+            return new DOMElemGroup(parent);
+        }
+        else throw new ItsNatDroidException("Unrecognized animator tag name: " + tagName);
+
     }
 }

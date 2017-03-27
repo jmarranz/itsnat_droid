@@ -418,6 +418,6 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         return resource;
     }
 
-    protected abstract DOMElement createElement(String name,DOMElement parent);
+    protected abstract DOMElement createElement(String tagName,DOMElement parent);
 
 }

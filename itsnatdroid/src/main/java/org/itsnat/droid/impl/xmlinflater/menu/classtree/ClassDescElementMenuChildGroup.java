@@ -13,9 +13,9 @@ import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
  */
 public class ClassDescElementMenuChildGroup extends ClassDescElementMenuChildBased<ElementMenuChildGroup>
 {
-    public ClassDescElementMenuChildGroup(ClassDescMenuMgr classMgr,ClassDescElementMenuChildBased<? super ElementMenuChildGroup> parent)
+    public ClassDescElementMenuChildGroup(ClassDescMenuMgr classMgr)
     {
-        super(classMgr,"group",parent);
+        super(classMgr,"group",null);
     }
 
     @Override

@@ -1093,7 +1093,6 @@ public class XMLInflaterRegistry
                 String resourceMime = resourceDescDyn.getResourceMime();
                 if (MimeUtil.isMIMEResourceXML(resourceMime))
                 {
-                    // Esperamos un drawable
                     PageImpl page = xmlInflaterContext.getPageImpl();
 
                     if (resourceDesc instanceof ResourceDescRemote && page == null) throw MiscUtil.internalError(); // Si es remote hay page por medio
@@ -1142,7 +1141,7 @@ public class XMLInflaterRegistry
         throw new ItsNatDroidException("Cannot process " + resourceDescValue);
     }
 
-    public Menu getMenu(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext)
+    public Menu getMenu(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,Menu rootMenuParent)
     {
         Context ctx = xmlInflaterContext.getContext();
 
@@ -1152,7 +1151,7 @@ public class XMLInflaterRegistry
             if (resourceDescDyn.getValuesResourceName() != null)
             {
                 ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
-                return elementResources.getMenu(resourceDescDyn.getValuesResourceName(), xmlInflaterContext);
+                return elementResources.getMenu(resourceDescDyn.getValuesResourceName(), xmlInflaterContext,rootMenuParent);
             }
             else
             {
@@ -1180,18 +1179,18 @@ public class XMLInflaterRegistry
         else if (resourceDesc instanceof ResourceDescCompiled)
         {
             String resourceDescValue = resourceDesc.getResourceDescValue();
-            return getMenuCompiled(resourceDescValue, ctx);
+            return getMenuCompiled(resourceDescValue, ctx,rootMenuParent);
         }
         else throw MiscUtil.internalError();
     }
 
-    private Menu getMenuCompiled(String resourceDescValue, Context ctx)
+    private Menu getMenuCompiled(String resourceDescValue, Context ctx,Menu rootMenuParent)
     {
         if (isResource(resourceDescValue))
         {
             int resId = getIdentifierCompiled(resourceDescValue, ctx);
             if (resId == 0) return null;
-            return null; // ctx.getResources().getMenu(resId);
+            return rootMenuParent;
         }
         else throw new ItsNatDroidException("Cannot process " + resourceDescValue);
     }

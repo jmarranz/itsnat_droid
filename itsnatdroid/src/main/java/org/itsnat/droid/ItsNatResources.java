@@ -2,6 +2,7 @@ package org.itsnat.droid;
 
 import android.animation.Animator;
 import android.graphics.drawable.Drawable;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -35,6 +36,7 @@ public interface ItsNatResources
     public Drawable getDrawable(String resourceDesc);
     public Interpolator getInterpolator(String resourceDesc);
     public LayoutAnimationController getLayoutAnimation(String resourceDesc);
+    public Menu getMenu(String resourceDescValue,Menu rootMenuParent);
     public View getLayout(String resourceDescValue, ViewGroup viewParent, int indexChild);
 
 

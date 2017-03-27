@@ -5,7 +5,7 @@ package org.itsnat.droid.impl.dom;
  */
 public class ResourceDescIntern extends ResourceDescLocal
 {
-    public ResourceDescIntern(String resourceDescValue)
+    protected ResourceDescIntern(String resourceDescValue)
     {
         super(resourceDescValue);
     }

@@ -6,7 +6,7 @@ package org.itsnat.droid.impl.dom;
  */
 public class ResourceDescRemote extends ResourceDescDynamic
 {
-    public ResourceDescRemote(String resourceDescValue)
+    protected ResourceDescRemote(String resourceDescValue)
     {
         super(resourceDescValue);
     }

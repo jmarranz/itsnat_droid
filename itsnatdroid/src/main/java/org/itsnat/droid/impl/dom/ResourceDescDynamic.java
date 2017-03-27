@@ -151,6 +151,11 @@ public abstract class ResourceDescDynamic extends ResourceDesc
         return ninePatch;
     }
 
+    public String getLocation()
+    {
+        return location;
+    }
+
     public String getLocation(XMLDOMParserContext xmlDOMParserContext)
     {
         String locationTmp = processLocationSuffixes(this.location,xmlDOMParserContext.getConfiguration(),xmlDOMParserContext.getDisplayMetrics());

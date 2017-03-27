@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.dom.animinterp.XMLDOMInterpolator;
 import org.itsnat.droid.impl.dom.animlayout.XMLDOMLayoutAnimation;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.menu.XMLDOMMenu;
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
 import org.itsnat.droid.impl.domparser.anim.ResourceCacheByMarkupAndResDescAnimation;
 import org.itsnat.droid.impl.domparser.animator.ResourceCacheByMarkupAndResDescAnimator;
@@ -17,6 +18,7 @@ import org.itsnat.droid.impl.domparser.animlayout.ResourceCacheByMarkupAndResDes
 import org.itsnat.droid.impl.domparser.drawable.ResourceCacheByMarkupAndResDescDrawable;
 import org.itsnat.droid.impl.domparser.layout.ResourceCacheByMarkupAndResDescLayout;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
+import org.itsnat.droid.impl.domparser.menu.ResourceCacheByMarkupAndResDescMenu;
 import org.itsnat.droid.impl.domparser.values.ResourceCacheByMarkupAndResDescValues;
 
 /**
@@ -32,6 +34,7 @@ public class XMLDOMRegistry
     protected ResourceCacheByMarkupAndResDescInterpolator interpolatorCache = new ResourceCacheByMarkupAndResDescInterpolator();
     protected ResourceCacheByMarkupAndResDescAnimation animationCache = new ResourceCacheByMarkupAndResDescAnimation();
     protected ResourceCacheByMarkupAndResDescAnimator animatorCache = new ResourceCacheByMarkupAndResDescAnimator();
+    protected ResourceCacheByMarkupAndResDescMenu menuCache = new ResourceCacheByMarkupAndResDescMenu();
     protected ResourceCacheByMarkupAndResDescValues valuesCache = new ResourceCacheByMarkupAndResDescValues();
 
     // No implementamos menues porque Menu y relacionadas son interface y encontrar la implementación es un follón
@@ -53,7 +56,7 @@ public class XMLDOMRegistry
         drawableCache.cleanCaches();
         animationCache.cleanCaches();
         animatorCache.cleanCaches();
-        // Menues no implementado ver arriba
+        menuCache.cleanCaches();
         valuesCache.cleanCaches();
     }
 
@@ -115,6 +118,16 @@ public class XMLDOMRegistry
     public ResourceDescDynamic getAnimatorResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
     {
         return animatorCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+    }
+
+    public ParsedResourceXMLDOM<XMLDOMMenu> buildXMLDOMMenuAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)
+    {
+        return menuCache.buildXMLDOMAndCachingByMarkupAndResDesc(markup, resourceDesc, xmlDOMParserContext);
+    }
+
+    public ResourceDescDynamic getMenuResourceDescDynamicCacheByResourceDescValue(String resourceDescValue)
+    {
+        return menuCache.getResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
     }
 
     public ParsedResourceXMLDOM<XMLDOMValues> buildXMLDOMValuesAndCachingByMarkupAndResDesc(String markup, ResourceDescDynamic resourceDesc, XMLDOMParserContext xmlDOMParserContext)

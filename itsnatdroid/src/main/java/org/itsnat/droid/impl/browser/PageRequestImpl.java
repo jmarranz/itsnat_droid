@@ -382,7 +382,7 @@ public class PageRequestImpl implements PageRequest
         PageRequestResult pageReqResult = new PageRequestResult(httpRequestResult, xmlDOMLayoutPage,xmlDOMParserContext);
 
         {
-            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage,pageURLBase, httpRequestData,itsNatServerVersion,urlResDownloadedMap,xmlDOMParserContext);
+            XMLDOMLayoutPageDownloader downloader = (XMLDOMLayoutPageDownloader) XMLDOMDownloader.createXMLDOMDownloader(xmlDOMLayoutPage, pageURLBase, httpRequestData, itsNatServerVersion, urlResDownloadedMap, xmlDOMParserContext);
             downloader.downloadRemoteResources();
         }
 

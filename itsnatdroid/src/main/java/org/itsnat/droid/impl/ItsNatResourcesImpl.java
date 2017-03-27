@@ -2,6 +2,7 @@ package org.itsnat.droid.impl;
 
 import android.animation.Animator;
 import android.graphics.drawable.Drawable;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -202,6 +203,14 @@ public abstract class ItsNatResourcesImpl implements ItsNatResources
         ResourceDesc resourceDesc = xmlDOMRegistry.getLayoutAnimationResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
         resourceDesc = prepare(resourceDescValue,resourceDesc);
         return xmlInflaterRegistry.getLayoutAnimation(resourceDesc,xmlInflaterContext);
+    }
+
+    @Override
+    public Menu getMenu(String resourceDescValue,Menu rootMenuParent)
+    {
+        ResourceDesc resourceDesc = xmlDOMRegistry.getMenuResourceDescDynamicCacheByResourceDescValue(resourceDescValue);
+        resourceDesc = prepare(resourceDescValue,resourceDesc);
+        return xmlInflaterRegistry.getMenu(resourceDesc,xmlInflaterContext,rootMenuParent);
     }
 
     @Override

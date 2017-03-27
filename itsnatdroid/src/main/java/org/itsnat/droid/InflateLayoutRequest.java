@@ -15,6 +15,8 @@ public interface InflateLayoutRequest
     public InflateLayoutRequest setEncoding(String encoding);
     public InflateLayoutRequest setBitmapDensityReference(int density);
     public InflateLayoutRequest setAttrResourceInflaterListener(AttrResourceInflaterListener attrResourcesInflaterListener);
-    public InflatedLayout inflate(InputStream input, ViewGroup parentView,int indexChild);
-    public InflatedLayout inflate(Reader input, ViewGroup parentView,int indexChild);
+    public InflateLayoutRequest setInternLocationBase(String internlocationBase);
+    public InflatedLayout inflate(InputStream input,String resourceType, ViewGroup parentView,int indexChild);
+    public InflatedLayout inflate(Reader input,String resourceType, ViewGroup parentView,int indexChild);
+    public InflatedLayout inflate(String resourceDescValue,ViewGroup parentView,int indexChild);
 }

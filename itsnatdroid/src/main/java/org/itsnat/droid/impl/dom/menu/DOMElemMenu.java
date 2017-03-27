@@ -7,8 +7,14 @@ import org.itsnat.droid.impl.dom.DOMElement;
  */
 public class DOMElemMenu extends DOMElement
 {
-    public DOMElemMenu(String tagName, DOMElemMenu parentElement)
+    protected boolean submenu = false;
+
+    public DOMElemMenu(boolean submenu,DOMElement parentElement)
     {
-        super(tagName, parentElement);
-    }
+        super("menu", parentElement);
+        this.submenu = submenu;
+    } // El padre de DOMElemMenu puede ser <item> o es el root (null)
+
+    public boolean isSubMenu() { return submenu; }
+
 }

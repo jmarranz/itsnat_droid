@@ -10,8 +10,4 @@ public abstract class ResourceDescLocal extends ResourceDescDynamic
         super(resourceDescValue);
     }
 
-    public static boolean isIntern(String value)
-    {
-        return value.startsWith("@intern:");
-    }
 }

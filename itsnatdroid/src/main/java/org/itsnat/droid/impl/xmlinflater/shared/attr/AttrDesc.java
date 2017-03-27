@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.shared.attr;
 import android.animation.Animator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -203,6 +204,11 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc,TattrTarget,TattrCon
     public LayoutAnimationController getLayoutAnimation(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext)
     {
         return getXMLInflaterRegistry().getLayoutAnimation(resourceDesc, xmlInflaterContext);
+    }
+
+    public Menu getMenu(ResourceDesc resourceDesc, XMLInflaterContext xmlInflaterContext,Menu rootMenuParent)
+    {
+        return getXMLInflaterRegistry().getMenu(resourceDesc, xmlInflaterContext, rootMenuParent);
     }
 
 

@@ -3,45 +3,67 @@ package org.itsnat.itsnatdroidtest.testact.local.asset;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import org.itsnat.droid.AttrResourceInflaterListener;
+import org.itsnat.droid.InflateLayoutRequest;
+import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.ItsNatDroidRoot;
+import org.itsnat.droid.Page;
 import org.itsnat.itsnatdroidtest.R;
 
 public class TestActivityMenu extends Activity
 {
     protected boolean dynamic = false;
+    protected InflatedLayout inflatedLayout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        final View compiledRootView = getLayoutInflater().inflate(R.layout.test_local_layout_menu_container_compiled, null);
-        setContentView(compiledRootView);
-
-        bindCompiledBackButton(compiledRootView);
-        bindCompiledReloadButton(compiledRootView);
-
         Intent intent = getIntent();
         this.dynamic = intent.getBooleanExtra("dynamic", false);
 
+        View rootView;
+
         if (dynamic)
         {
+            this.inflatedLayout = prepareLayoutDynamicMenu("@intern:layout/res/layout/test_local_layout_menu_container_asset.xml");
+            rootView = inflatedLayout.getItsNatDoc().getRootView();
+
             Toast.makeText(this, "OK DYNAMIC", Toast.LENGTH_SHORT).show();
         }
         else
         {
+            rootView = getLayoutInflater().inflate(R.layout.test_local_layout_menu_container_compiled, null);
+
+            this.inflatedLayout = null;
             Toast.makeText(this, "OK COMPILED", Toast.LENGTH_SHORT).show();
         }
+
+        setContentView(rootView);
+
+        bindCompiledBackButton(rootView);
+        bindCompiledReloadButton(rootView);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test_local_menu_compiled, menu);
+        if (dynamic)
+        {
+            inflatedLayout.getItsNatDoc().getItsNatResources().getMenu("@assets:menu/res/menu/test_local_menu_asset.xml",menu);
+        }
+        else
+        {
+            getMenuInflater().inflate(R.menu.test_local_menu_compiled, menu);
+        }
 
         return true;
     }
@@ -90,6 +112,40 @@ public class TestActivityMenu extends Activity
             }
         });
 
+    }
+
+    protected InflatedLayout prepareLayoutDynamicMenu(String layoutAsset)
+    {
+        // Sólo para testear carga local
+
+        // Alternativa es poner los layout root en raw: InputStream input = act.getResources().openRawResource(rawResId);
+        // el problema es que raw no deja formar árboles de recursos con directorios, es mejor assets
+
+        AttrResourceInflaterListener listener = new AttrResourceInflaterListener()
+        {
+            @Override
+            public boolean setAttribute(Page page, Object resource, String namespace, String name, String value)
+            {
+                Log.v("TestActivityMenu",namespace+ " " + name);
+                return true;
+            }
+
+            @Override
+            public boolean removeAttribute(Page page, Object resource, String namespace, String name)
+            {
+                throw new RuntimeException();
+            }
+        };
+
+        InflateLayoutRequest inflateRequest = ItsNatDroidRoot.get().createInflateLayoutRequest();
+        InflatedLayout layout = inflateRequest
+                .setEncoding("UTF-8")
+                .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH) // 320
+                .setAttrResourceInflaterListener(listener)
+                .setContext(this)
+                .inflate(layoutAsset,null,-1);
+
+        return layout;
     }
 
     public void test()
