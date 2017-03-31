@@ -5,7 +5,7 @@ package org.itsnat.droid.impl.xmlinflated.menu;
  */
 public class ElementMenuChildGroup extends ElementMenuChildNormal
 {
-    public ElementMenuChildGroup(ElementMenuChildBase parentElementMenu)
+    public ElementMenuChildGroup(ElementMenuChildBased parentElementMenu)
     {
         super(parentElementMenu);
     }

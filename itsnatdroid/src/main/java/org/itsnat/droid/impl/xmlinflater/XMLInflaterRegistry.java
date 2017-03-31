@@ -1101,7 +1101,7 @@ public class XMLInflaterRegistry
 
                     ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
                     XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) resource.getXMLDOM();
-                    InflatedXMLDrawable inflatedDrawable = InflatedXMLDrawable.createInflatedDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
+                    InflatedXMLDrawable inflatedDrawable = InflatedXMLDrawable.createInflatedXMLDrawable(itsNatDroid, xmlDOMDrawable, ctx, page);
 
                     XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, bitmapDensityReference,attrResourceInflaterListener);
                     return xmlInflaterDrawable.inflateDrawable();
@@ -1141,7 +1141,7 @@ public class XMLInflaterRegistry
         throw new ItsNatDroidException("Cannot process " + resourceDescValue);
     }
 
-    public Menu getMenu(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,Menu rootMenuParent)
+    public Menu getMenu(ResourceDesc resourceDesc,XMLInflaterContext xmlInflaterContext,Menu androidRootMenu)
     {
         Context ctx = xmlInflaterContext.getContext();
 
@@ -1151,7 +1151,7 @@ public class XMLInflaterRegistry
             if (resourceDescDyn.getValuesResourceName() != null)
             {
                 ElementValuesResources elementResources = getElementValuesResources(resourceDescDyn, xmlInflaterContext);
-                return elementResources.getMenu(resourceDescDyn.getValuesResourceName(), xmlInflaterContext,rootMenuParent);
+                return elementResources.getMenu(resourceDescDyn.getValuesResourceName(), xmlInflaterContext,androidRootMenu);
             }
             else
             {
@@ -1168,10 +1168,10 @@ public class XMLInflaterRegistry
 
                     ParsedResourceXMLDOM resource = (ParsedResourceXMLDOM) resourceDescDyn.getParsedResource();
                     XMLDOMMenu xmlDOMMenu = (XMLDOMMenu) resource.getXMLDOM();
-                    InflatedXMLMenu inflatedMenu = InflatedXMLMenu.createInflatedMenu(itsNatDroid, xmlDOMMenu, ctx, page);
+                    InflatedXMLMenu inflatedMenu = InflatedXMLMenu.createInflatedXMLMenu(itsNatDroid, xmlDOMMenu, ctx, page);
 
                     XMLInflaterMenu xmlInflaterMenu = XMLInflaterMenu.createXMLInflaterMenu(inflatedMenu, bitmapDensityReference,attrResourceInflaterListener);
-                    return xmlInflaterMenu.inflateMenu();
+                    return xmlInflaterMenu.inflateMenu(androidRootMenu);
                 }
                 else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
             }
@@ -1179,7 +1179,7 @@ public class XMLInflaterRegistry
         else if (resourceDesc instanceof ResourceDescCompiled)
         {
             String resourceDescValue = resourceDesc.getResourceDescValue();
-            return getMenuCompiled(resourceDescValue, ctx,rootMenuParent);
+            return getMenuCompiled(resourceDescValue, ctx,androidRootMenu);
         }
         else throw MiscUtil.internalError();
     }
@@ -1386,7 +1386,7 @@ public class XMLInflaterRegistry
         if (resource == null)
             throw NamespaceUtil.resourceStillNotLoadedException(resourceDescDyn.getResourceDescValue());
         XMLDOMLayoutAnimation xmlDOMLayoutAnimation = (XMLDOMLayoutAnimation) resource.getXMLDOM();
-        InflatedXMLLayoutAnimation inflatedLayoutAnimation = InflatedXMLLayoutAnimation.createInflatedLayoutAnimation(itsNatDroid, xmlDOMLayoutAnimation, ctx, page);
+        InflatedXMLLayoutAnimation inflatedLayoutAnimation = InflatedXMLLayoutAnimation.createInflatedXMLLayoutAnimation(itsNatDroid, xmlDOMLayoutAnimation, ctx, page);
 
         XMLInflaterLayoutAnimation xmlInflaterLayoutAnimation = XMLInflaterLayoutAnimation.createXMLInflaterLayoutAnimation(inflatedLayoutAnimation, bitmapDensityReference, attrResourceInflaterListener);
         return xmlInflaterLayoutAnimation.inflateLayoutAnimation();
@@ -1444,7 +1444,7 @@ public class XMLInflaterRegistry
         if (resource == null)
             throw NamespaceUtil.resourceStillNotLoadedException(resourceDescDyn.getResourceDescValue());
         XMLDOMAnimation xmlDOMAnimation = (XMLDOMAnimation) resource.getXMLDOM();
-        InflatedXMLAnimation inflatedAnimation = InflatedXMLAnimation.createInflatedAnimation(itsNatDroid, xmlDOMAnimation, ctx, page);
+        InflatedXMLAnimation inflatedAnimation = InflatedXMLAnimation.createInflatedXMLAnimation(itsNatDroid, xmlDOMAnimation, ctx, page);
 
         XMLInflaterAnimation xmlInflaterAnimation = XMLInflaterAnimation.createXMLInflaterAnimation(inflatedAnimation, bitmapDensityReference, attrResourceInflaterListener);
         return xmlInflaterAnimation.inflateAnimation();
@@ -1503,7 +1503,7 @@ public class XMLInflaterRegistry
         if (resource == null)
             throw NamespaceUtil.resourceStillNotLoadedException(resourceDescDyn.getResourceDescValue());
         XMLDOMAnimator xmlDOMAnimator = (XMLDOMAnimator) resource.getXMLDOM();
-        InflatedXMLAnimator inflatedAnimator = InflatedXMLAnimator.createInflatedAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
+        InflatedXMLAnimator inflatedAnimator = InflatedXMLAnimator.createInflatedXMLAnimator(itsNatDroid, xmlDOMAnimator, ctx, page);
 
         XMLInflaterAnimator xmlInflaterAnimator = XMLInflaterAnimator.createXMLInflaterAnimator(inflatedAnimator, bitmapDensityReference, attrResourceInflaterListener);
         return xmlInflaterAnimator.inflateAnimator();
@@ -1563,7 +1563,7 @@ public class XMLInflaterRegistry
             throw NamespaceUtil.resourceStillNotLoadedException(resourceDescDyn.getResourceDescValue());
 
         XMLDOMInterpolator xmlDOMInterpolator = (XMLDOMInterpolator) resource.getXMLDOM();
-        InflatedXMLInterpolator inflatedInterpolator = InflatedXMLInterpolator.createInflatedInterpolator(itsNatDroid, xmlDOMInterpolator, ctx, page);
+        InflatedXMLInterpolator inflatedInterpolator = InflatedXMLInterpolator.createInflatedXMLInterpolator(itsNatDroid, xmlDOMInterpolator, ctx, page);
 
         XMLInflaterInterpolator xmlInflaterInterpolator = XMLInflaterInterpolator.createXMLInflaterInterpolator(inflatedInterpolator, bitmapDensityReference, attrResourceInflaterListener);
 

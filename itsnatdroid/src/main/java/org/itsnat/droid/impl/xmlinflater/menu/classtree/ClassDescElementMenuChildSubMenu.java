@@ -2,33 +2,33 @@ package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenu;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildSubMenu;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
-
 
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescElementMenuChildMenu extends ClassDescElementMenuChildBased<ElementMenuChildMenu>
+public class ClassDescElementMenuChildSubMenu extends ClassDescElementMenuChildBased<ElementMenuChildSubMenu>
 {
-    public ClassDescElementMenuChildMenu(ClassDescMenuMgr classMgr)
+    public ClassDescElementMenuChildSubMenu(ClassDescMenuMgr classMgr,ClassDescElementMenuChildBased<? super ElementMenuChildSubMenu> parentClass)
     {
-        super(classMgr,"NONE",null);
+        super(classMgr,"menu",parentClass);
     }
 
     @Override
-    public Class<ElementMenuChildMenu> getMenuOrElementMenuClass()
+    public Class<ElementMenuChildSubMenu> getMenuOrElementMenuClass()
     {
-        return ElementMenuChildMenu.class;
+        return ElementMenuChildSubMenu.class;
     }
 
 
     @Override
-    public ElementMenuChildBased createElementMenuChildBased(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
+    public ElementMenuChildBased createElementMenuChildBased(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBased parentElementMenu, AttrMenuContext attrCtx)
     {
-        return new ElementMenuChildMenu(parentChildMenu);
+        return new ElementMenuChildSubMenu((ElementMenuChildMenuItem)parentElementMenu);
     }
 
     @SuppressWarnings("unchecked")

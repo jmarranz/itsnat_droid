@@ -31,6 +31,7 @@ public abstract class ItsNatDocImpl implements ItsNatDoc
     protected Handler handler;
     protected final Interpreter interp;
 
+
     public ItsNatDocImpl(ItsNatDroidImpl itsNatDroid)
     {
         this.itsNatDroid = itsNatDroid;

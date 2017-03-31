@@ -7,9 +7,9 @@ import org.itsnat.droid.impl.dom.XMLDOM;
 /**
  * Created by jmarranz on 24/04/2016.
  */
-public abstract class ResourceCacheByMarkupAndResDesc<TxmlDom extends XMLDOM,TxmlDomParser extends XMLDOMParser> extends ResourceCacheByMarkupAndResDescBase<TxmlDom,TxmlDomParser>
+public abstract class ResourceCacheByMarkupAndResDescNoLayout<TxmlDom extends XMLDOM,TxmlDomParser extends XMLDOMParser> extends ResourceCacheByMarkupAndResDescBase<TxmlDom,TxmlDomParser>
 {
-    protected ResourceCacheByMarkupAndResDesc()
+    protected ResourceCacheByMarkupAndResDescNoLayout()
     {
     }
 

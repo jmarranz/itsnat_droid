@@ -18,7 +18,7 @@ public abstract class InflatedXMLAnimator extends InflatedXMLResource<Animator>
         super(itsNatDroid, xmlDOMAnimator,ctx);
     }
 
-    public static InflatedXMLAnimator createInflatedAnimator(ItsNatDroidImpl itsNatDroid, XMLDOMAnimator xmlDOMAnimator, Context ctx, PageImpl page)
+    public static InflatedXMLAnimator createInflatedXMLAnimator(ItsNatDroidImpl itsNatDroid, XMLDOMAnimator xmlDOMAnimator, Context ctx, PageImpl page)
     {
         return page != null ? new InflatedXMLAnimatorPage(itsNatDroid, xmlDOMAnimator, ctx,page) : new InflatedXMLAnimatorStandalone(itsNatDroid, xmlDOMAnimator, ctx);
     }

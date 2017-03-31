@@ -42,7 +42,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     protected TestActivityPagerAdapter mTestActivityPagerAdapter;
     protected ViewPager mViewPager;
     protected ItsNatDroidBrowser droidBrowser;
-    protected String urlTestBase;
+    public static String urlTestBase;
     protected String urlTestCore;
     protected String urlTestIncludeLayout;
     protected String urlTestRemDrawables;

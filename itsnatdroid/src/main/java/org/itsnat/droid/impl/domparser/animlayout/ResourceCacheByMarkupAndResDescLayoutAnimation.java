@@ -1,13 +1,13 @@
 package org.itsnat.droid.impl.domparser.animlayout;
 
 import org.itsnat.droid.impl.dom.animlayout.XMLDOMLayoutAnimation;
-import org.itsnat.droid.impl.domparser.ResourceCacheByMarkupAndResDesc;
+import org.itsnat.droid.impl.domparser.ResourceCacheByMarkupAndResDescNoLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
 /**
  * Created by jmarranz on 24/04/2016.
  */
-public class ResourceCacheByMarkupAndResDescLayoutAnimation extends ResourceCacheByMarkupAndResDesc<XMLDOMLayoutAnimation,XMLDOMLayoutAnimationParser>
+public class ResourceCacheByMarkupAndResDescLayoutAnimation extends ResourceCacheByMarkupAndResDescNoLayout<XMLDOMLayoutAnimation,XMLDOMLayoutAnimationParser>
 {
     public ResourceCacheByMarkupAndResDescLayoutAnimation()
     {

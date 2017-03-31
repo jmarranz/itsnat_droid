@@ -1,11 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChild;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBase;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenu;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
 
@@ -26,13 +23,7 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
     }
 
     @Override
-    public ElementMenuChildRoot createElementMenuChildRoot(DOMElemMenu rootElem, AttrMenuContext attrCtx)
-    {
-        return new ElementMenuChildRoot(null);
-    }
-
-    @Override
-    public ElementMenuChild createElementMenuChild(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBase parentChildMenu, AttrMenuContext attrCtx)
+    public ElementMenuChildBased createElementMenuChildBased(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
     {
         return new ElementMenuChildMenuItem(parentChildMenu);
     }

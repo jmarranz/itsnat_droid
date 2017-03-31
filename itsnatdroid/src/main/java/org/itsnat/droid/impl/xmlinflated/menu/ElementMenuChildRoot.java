@@ -5,7 +5,7 @@ import android.view.Menu;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class ElementMenuChildRoot extends ElementMenuChildBase
+public class ElementMenuChildRoot extends ElementMenuChildBased
 {
     protected Menu menu;
 

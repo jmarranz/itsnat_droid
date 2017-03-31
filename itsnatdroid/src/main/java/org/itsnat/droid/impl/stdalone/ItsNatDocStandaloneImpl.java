@@ -19,6 +19,7 @@ public class ItsNatDocStandaloneImpl extends ItsNatDocImpl
 {
     protected InflatedLayoutImpl inflatedLayout;
 
+
     public ItsNatDocStandaloneImpl(InflatedLayoutImpl inflatedLayout)
     {
         super(inflatedLayout.getItsNatDroidImpl());

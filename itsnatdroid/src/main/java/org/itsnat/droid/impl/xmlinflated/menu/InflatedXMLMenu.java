@@ -21,7 +21,7 @@ public abstract class InflatedXMLMenu extends InflatedXMLResource<Menu>
         super(itsNatDroid, xmlDOMMenu,ctx);
     }
 
-    public static InflatedXMLMenu createInflatedMenu(ItsNatDroidImpl itsNatDroid, XMLDOMMenu xmlDOMMenu, Context ctx, PageImpl page)
+    public static InflatedXMLMenu createInflatedXMLMenu(ItsNatDroidImpl itsNatDroid, XMLDOMMenu xmlDOMMenu, Context ctx, PageImpl page)
     {
         return page != null ? new InflatedXMLMenuPage(itsNatDroid, xmlDOMMenu, ctx,page) : new InflatedXMLMenuStandalone(itsNatDroid, xmlDOMMenu, ctx);
     }

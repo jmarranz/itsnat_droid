@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildNormal;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
 

@@ -209,11 +209,11 @@ public class ElementValuesResources extends ElementValues
         return xmlInflaterRegistry.getDrawable(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext);
     }
 
-    public Menu getMenu(String name, XMLInflaterContext xmlInflaterContext, Menu rootMenuParent)
+    public Menu getMenu(String name, XMLInflaterContext xmlInflaterContext, Menu androidRootMenu)
     {
         DOMAttr valueAsDOMAttr = getElementValuesChildNoChildElemValue(TYPE_MENU,name);
         XMLInflaterRegistry xmlInflaterRegistry = xmlInflaterContext.getXMLInflaterRegistry();
-        return xmlInflaterRegistry.getMenu(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext, rootMenuParent);
+        return xmlInflaterRegistry.getMenu(valueAsDOMAttr.getResourceDesc(), xmlInflaterContext, androidRootMenu);
     }
 
     public LayoutValue getLayoutValue(String name, XMLInflaterContext xmlInflaterContext, XMLInflaterLayout xmlInflater, ViewGroup viewParent, int indexChild, ArrayList<DOMAttr> includeAttribs)

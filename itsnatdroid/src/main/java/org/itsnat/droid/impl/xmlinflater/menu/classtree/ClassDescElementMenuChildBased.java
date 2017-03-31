@@ -3,9 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 import android.content.Context;
 
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChild;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBase;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
 import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDescResourceBased;
@@ -13,18 +11,16 @@ import org.itsnat.droid.impl.xmlinflater.shared.classtree.ClassDescResourceBased
 /**
  * Created by jmarranz on 27/11/14.
  */
-public abstract class ClassDescElementMenuChildBased<TelementMenuChild extends ElementMenuChild> extends ClassDescResourceBased<TelementMenuChild,AttrMenuContext>  // extends ClassDescMenu<TelementMenu>
+public abstract class ClassDescElementMenuChildBased<TelementMenuChild extends ElementMenuChildBased> extends ClassDescResourceBased<TelementMenuChild,AttrMenuContext>  // extends ClassDescMenu<TelementMenu>
 {
     public ClassDescElementMenuChildBased(ClassDescMenuMgr classMgr, String elemName, ClassDescElementMenuChildBased<? super TelementMenuChild> parentClass)
     {
         super(classMgr, elemName, parentClass);
     }
 
-    public abstract ElementMenuChildRoot createElementMenuChildRoot(DOMElemMenu rootElem, AttrMenuContext attrCtx);
-
     protected TelementMenuChild createResourceNative(Context ctx)
     {
-        return null; // No se utiliza
+        return null; // No se usa
     }
 
     public abstract Class<TelementMenuChild> getMenuOrElementMenuClass();
@@ -39,5 +35,5 @@ public abstract class ClassDescElementMenuChildBased<TelementMenuChild extends E
         return (ClassDescMenuMgr) classMgr;
     }
 
-    public abstract ElementMenuChild createElementMenuChild(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBase parentChildMenu, AttrMenuContext attrCtx);
+    public abstract ElementMenuChildBased createElementMenuChildBased(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx);
 }

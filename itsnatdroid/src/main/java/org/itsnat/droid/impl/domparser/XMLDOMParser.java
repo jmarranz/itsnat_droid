@@ -95,7 +95,7 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         parseRootElement(rootElemName,parser, xmlDOM);
     }
 
-    public DOMElement parseRootElement(String rootElemName, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
+    protected DOMElement parseRootElement(String rootElemName, XmlPullParser parser, XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         int nsStart = parser.getNamespaceCount(parser.getDepth() - 1);
         int nsEnd = parser.getNamespaceCount(parser.getDepth());
@@ -181,6 +181,34 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         }
     }
 
+    protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
+    {
+        DOMAttr attrib = DOMAttr.createDOMAttr(namespaceURI, name, value);
+        addDOMAttr(element,attrib,xmlDOMParent);
+        return attrib;
+    }
+
+    protected void addDOMAttr(DOMElement element, DOMAttr attrib, XMLDOM xmlDOMParent)
+    {
+        prepareDOMAttrToLoadResource(attrib, xmlDOMParent);
+        element.setDOMAttribute(attrib);
+    }
+
+    protected void prepareDOMAttrToLoadResource(DOMAttr attrib, XMLDOM xmlDOMParent)
+    {
+        if (attrib instanceof DOMAttrRemote)
+        {
+            xmlDOMParent.addDOMAttrRemote((DOMAttrRemote) attrib);
+        }
+        else if (attrib instanceof DOMAttrLocal)
+        {
+            DOMAttrLocal localAttr = (DOMAttrLocal)attrib;
+
+            prepareResourceDescLocalToLoadResource(localAttr.getResourceDescLocal());
+        }
+        // Nada que preparar
+    }
+
     protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         DOMElement childView = parseNextChild(parentElement, parser, xmlDOM);
@@ -239,34 +267,6 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
         }
 
         throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT ELEMENT");
-    }
-
-    protected DOMAttr addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
-    {
-        DOMAttr attrib = DOMAttr.createDOMAttr(namespaceURI, name, value);
-        addDOMAttr(element,attrib,xmlDOMParent);
-        return attrib;
-    }
-
-    protected void addDOMAttr(DOMElement element, DOMAttr attrib, XMLDOM xmlDOMParent)
-    {
-        prepareDOMAttrToLoadResource(attrib, xmlDOMParent);
-        element.setDOMAttribute(attrib);
-    }
-
-    protected void prepareDOMAttrToLoadResource(DOMAttr attrib, XMLDOM xmlDOMParent)
-    {
-        if (attrib instanceof DOMAttrRemote)
-        {
-            xmlDOMParent.addDOMAttrRemote((DOMAttrRemote) attrib);
-        }
-        else if (attrib instanceof DOMAttrLocal)
-        {
-            DOMAttrLocal localAttr = (DOMAttrLocal)attrib;
-
-            prepareResourceDescLocalToLoadResource(localAttr.getResourceDescLocal());
-        }
-        // Nada que preparar
     }
 
     public void prepareResourceDescLocalToLoadResource(ResourceDescLocal resourceDescLocal)
@@ -391,6 +391,10 @@ public abstract class XMLDOMParser<Txmldom extends XMLDOM>
             else if (XMLDOMValues.TYPE_DRAWABLE.equals(resourceType))
             {
                 resource = xmlDOMRegistry.buildXMLDOMDrawableAndCachingByMarkupAndResDesc(markup,resourceDesc, xmlDOMParserContext);
+            }
+            else if (XMLDOMValues.TYPE_MENU.equals(resourceType))
+            {
+                resource = xmlDOMRegistry.buildXMLDOMMenuAndCachingByMarkupAndResDesc(markup,resourceDesc, xmlDOMParserContext);
             }
             else if (XMLDOMValues.TYPE_LAYOUT.equals(resourceType))
             {

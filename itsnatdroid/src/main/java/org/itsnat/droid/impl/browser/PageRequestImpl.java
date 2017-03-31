@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 
@@ -276,7 +275,7 @@ public class PageRequestImpl implements PageRequest
         if (url == null) throw new ItsNatDroidException("Missing URL");
 
         Context ctx = getContext();
-        Resources res = ctx.getResources();
+        //Resources res = ctx.getResources();
 
         String pageURLBase = getPageURLBase();
         HttpRequestData httpRequestData = new HttpRequestData(this);

@@ -20,7 +20,7 @@ public abstract class InflatedXMLDrawable extends InflatedXMLResource<Drawable>
         super(itsNatDroid, xmlDOMDrawable,ctx);
     }
 
-    public static InflatedXMLDrawable createInflatedDrawable(ItsNatDroidImpl itsNatDroid, XMLDOMDrawable xmlDOMDrawable, Context ctx, PageImpl page)
+    public static InflatedXMLDrawable createInflatedXMLDrawable(ItsNatDroidImpl itsNatDroid, XMLDOMDrawable xmlDOMDrawable, Context ctx, PageImpl page)
     {
         return page != null ? new InflatedXMLDrawablePage(itsNatDroid, xmlDOMDrawable, ctx,page) : new InflatedXMLDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
     }

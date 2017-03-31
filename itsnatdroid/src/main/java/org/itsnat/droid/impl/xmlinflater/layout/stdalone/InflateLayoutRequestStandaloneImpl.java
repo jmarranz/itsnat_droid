@@ -12,7 +12,6 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.ParsedResourceXMLDOM;
-import org.itsnat.droid.impl.dom.ResourceDesc;
 import org.itsnat.droid.impl.dom.ResourceDescAsset;
 import org.itsnat.droid.impl.dom.ResourceDescDynamic;
 import org.itsnat.droid.impl.dom.ResourceDescIntern;
@@ -120,14 +119,22 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
     public InflatedLayout inflate(InputStream input,String resourceType,ViewGroup parentView,int indexChild)
     {
         String markup = IOUtil.read(input,encoding);
-        return inflateLayoutStandalone(markup,resourceType,parentView,indexChild);
+
+        XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
+
+        return inflateLayoutStandalone(markup,resourceType,xmlDOMParserContext,parentView,indexChild);
     }
 
     @Override
     public InflatedLayout inflate(Reader input,String resourceType,ViewGroup parentView,int indexChild)
     {
         String markup = IOUtil.read(input);
-        return inflateLayoutStandalone(markup,resourceType,parentView,indexChild);
+
+        XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
+
+        return inflateLayoutStandalone(markup,resourceType,xmlDOMParserContext,parentView,indexChild);
     }
 
     @Override
@@ -139,17 +146,19 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
 
         InputStream input;
 
+        XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
+        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
+        String location = resourceDesc.getLocation(xmlDOMParserContext);
+
         try
         {
             if (resourceDesc instanceof ResourceDescAsset)
             {
-                String location = resourceDesc.getLocation();
                 AssetManager am = ctx.getResources().getAssets();
                 input = am.open(location);
             }
-            else  if (resourceDesc instanceof ResourceDescIntern)
+            else if (resourceDesc instanceof ResourceDescIntern)
             {
-                String location = resourceDesc.getLocation();
                 String internLocationBaseTmp = this.internLocationBase != null ? this.internLocationBase : "intern";
                 File rootDir = ctx.getDir(internLocationBaseTmp, Context.MODE_PRIVATE);
                 File locationFile = new File(rootDir.getAbsolutePath(),location);
@@ -165,12 +174,10 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
 
         String markup = IOUtil.read(input,encoding);
 
-        return inflateLayoutStandalone(markup,resourceDesc,parentView,indexChild);
+        return inflateLayoutStandalone(markup,resourceDesc,xmlDOMParserContext,parentView,indexChild);
     }
 
-
-
-    private InflatedLayoutImpl inflateLayoutStandalone(String markup,String resourceType,ViewGroup parentView,int indexChild)
+    private InflatedLayoutImpl inflateLayoutStandalone(String markup,String resourceType,XMLDOMParserContext xmlDOMParserContext,ViewGroup parentView,int indexChild)
     {
         String resourceDescValue;
         try
@@ -192,16 +199,15 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
 
         ResourceDescDynamic resourceDesc = (ResourceDescDynamic) ResourceDescLocal.create(resourceDescValue);
 
-        return inflateLayoutStandalone(markup, resourceDesc, parentView, indexChild);
+        return inflateLayoutStandalone(markup, resourceDesc,xmlDOMParserContext, parentView, indexChild);
     }
 
 
-    private InflatedLayoutImpl inflateLayoutStandalone(String markup,ResourceDescDynamic resourceDesc,ViewGroup parentView,int indexChild)
+    private InflatedLayoutImpl inflateLayoutStandalone(String markup,ResourceDescDynamic resourceDesc,XMLDOMParserContext xmlDOMParserContext,ViewGroup parentView,int indexChild)
     {
         Context ctx = getContext();
 
         XMLDOMRegistry xmlDOMRegistry = getItsNatDroidImpl().getXMLDOMRegistry();
-        XMLDOMParserContext xmlDOMParserContext = new XMLDOMParserContext(xmlDOMRegistry,ctx);
 
         ParsedResourceXMLDOM<XMLDOMLayout> resourceXMLDOM = xmlDOMRegistry.buildXMLDOMLayoutAndCachingByMarkupAndResDesc(markup,resourceDesc, null, XMLDOMLayoutParser.LayoutType.STANDALONE, xmlDOMParserContext);
 
@@ -213,5 +219,6 @@ public class InflateLayoutRequestStandaloneImpl implements InflateLayoutRequest
         InflatedXMLLayoutStandaloneImpl inflatedXMLLayoutStandalone = xmlInflater.getInflatedXMLLayoutStandaloneImpl();
         return new InflatedLayoutImpl(itsNatDroid,inflatedXMLLayoutStandalone);
     }
+
 
 }

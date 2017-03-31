@@ -18,7 +18,7 @@ public abstract class InflatedXMLInterpolator extends InflatedXMLResource<Interp
         super(itsNatDroid, xmlDOMInterpolator,ctx);
     }
 
-    public static InflatedXMLInterpolator createInflatedInterpolator(ItsNatDroidImpl itsNatDroid, XMLDOMInterpolator xmlDOMInterpolator, Context ctx, PageImpl page)
+    public static InflatedXMLInterpolator createInflatedXMLInterpolator(ItsNatDroidImpl itsNatDroid, XMLDOMInterpolator xmlDOMInterpolator, Context ctx, PageImpl page)
     {
         return page != null ? new InflatedXMLInterpolatorPage(itsNatDroid, xmlDOMInterpolator, ctx,page) : new InflatedXMLInterpolatorStandalone(itsNatDroid, xmlDOMInterpolator, ctx);
     }

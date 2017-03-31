@@ -13,9 +13,12 @@ import android.widget.Toast;
 import org.itsnat.droid.AttrResourceInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.Page;
 import org.itsnat.itsnatdroidtest.R;
+
+import java.io.FileNotFoundException;
 
 public class TestActivityMenu extends Activity
 {
@@ -34,7 +37,24 @@ public class TestActivityMenu extends Activity
 
         if (dynamic)
         {
-            this.inflatedLayout = prepareLayoutDynamicMenu("@intern:layout/res/layout/test_local_layout_menu_container_asset.xml");
+            int teslayout = 0;
+            switch(teslayout)
+            {
+                case 0:
+                    this.inflatedLayout = prepareLayoutDynamicMenu("@assets:layout/res/layout/test_local_layout_menu_container_asset.xml");
+                    break;
+                case 1:
+                    try
+                    {
+                        this.inflatedLayout = prepareLayoutDynamicMenu("@intern:layout/res/layout/test_local_layout_menu_container_inner.xml"); // expected FileNotFound this is valid
+                    }
+                    catch (ItsNatDroidException ex)
+                    {
+                        Toast.makeText(this, "EXPECTED FileNotFoundException", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    break;
+            }
             rootView = inflatedLayout.getItsNatDoc().getRootView();
 
             Toast.makeText(this, "OK DYNAMIC", Toast.LENGTH_SHORT).show();
@@ -114,7 +134,7 @@ public class TestActivityMenu extends Activity
 
     }
 
-    protected InflatedLayout prepareLayoutDynamicMenu(String layoutAsset)
+    protected InflatedLayout prepareLayoutDynamicMenu(String layoutForLoading)
     {
         // Sólo para testear carga local
 
@@ -143,7 +163,7 @@ public class TestActivityMenu extends Activity
                 .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH) // 320
                 .setAttrResourceInflaterListener(listener)
                 .setContext(this)
-                .inflate(layoutAsset,null,-1);
+                .inflate(layoutForLoading,null,-1);
 
         return layout;
     }

@@ -1,13 +1,13 @@
 package org.itsnat.droid.impl.domparser.values;
 
 import org.itsnat.droid.impl.dom.values.XMLDOMValues;
-import org.itsnat.droid.impl.domparser.ResourceCacheByMarkupAndResDesc;
+import org.itsnat.droid.impl.domparser.ResourceCacheByMarkupAndResDescNoLayout;
 import org.itsnat.droid.impl.domparser.XMLDOMParserContext;
 
 /**
  * Created by jmarranz on 24/04/2016.
  */
-public class ResourceCacheByMarkupAndResDescValues extends ResourceCacheByMarkupAndResDesc<XMLDOMValues,XMLDOMValuesParser>
+public class ResourceCacheByMarkupAndResDescValues extends ResourceCacheByMarkupAndResDescNoLayout<XMLDOMValues,XMLDOMValuesParser>
 {
     public ResourceCacheByMarkupAndResDescValues()
     {

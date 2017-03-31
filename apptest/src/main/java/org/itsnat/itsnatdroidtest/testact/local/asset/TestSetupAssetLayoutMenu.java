@@ -22,7 +22,7 @@ public class TestSetupAssetLayoutMenu extends TestSetupAssetLayoutBase
     {
         final TestActivity act = fragment.getTestActivity();
         Intent intent = new Intent(fragment.getTestActivity(), TestActivityMenu.class);
-        //intent.putExtra("urlTestBase",urlTestBase);
+        // intent.putExtra("urlTestBase",TestActivity.urlTestBase);
         act.startActivity(intent);
     }
 

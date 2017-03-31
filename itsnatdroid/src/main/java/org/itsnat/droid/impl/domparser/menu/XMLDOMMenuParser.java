@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.domparser.menu;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSet;
-import org.itsnat.droid.impl.dom.anim.DOMElemAnimationSingle;
 import org.itsnat.droid.impl.dom.menu.DOMElemGroup;
 import org.itsnat.droid.impl.dom.menu.DOMElemItem;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
@@ -52,7 +50,6 @@ public class XMLDOMMenuParser extends XMLDOMParser<XMLDOMMenu>
         {
             return new DOMElemGroup(parent);
         }
-        else throw new ItsNatDroidException("Unrecognized animator tag name: " + tagName);
-
+        else throw new ItsNatDroidException("Unrecognized menu tag name: " + tagName);
     }
 }
