@@ -83,15 +83,6 @@ public class XMLInflaterDrawable extends XMLInflaterResource<Drawable>
         classDesc.fillResourceAttributes(drawable, domElement, attrCtx);
     }
 
-    /*
-    @SuppressWarnings("unchecked")
-    private void fillAttributes(ClassDescResourceBased classDesc, DrawableOrElementDrawableWrapper drawable, DOMElemDrawable domElement, AttrDrawableContext attrCtx)
-    {
-        classDesc.fillResourceAttributes(drawable, domElement, attrCtx);
-    }
-*/
-
-
 
     protected ElementDrawableChildBase inflateNextElement(DOMElemDrawable domElement, DOMElemDrawable domElementParent, ElementDrawableChildBase parentChildDrawable, AttrDrawableContext attrCtx)
     {

@@ -1,12 +1,16 @@
 package org.itsnat.droid.impl.xmlinflated.menu;
 
+import android.view.Menu;
+
 /**
  * Created by jmarranz on 30/11/14.
  */
-public class ElementMenuChildMenu extends ElementMenuChildNormal
+public abstract class ElementMenuChildMenu extends ElementMenuChildNormal
 {
-    public ElementMenuChildMenu(ElementMenuChildBased parentElementMenu)
+    public ElementMenuChildMenu(ElementMenuChildMenuItem parentElementMenu)
     {
         super(parentElementMenu);
     }
+
+    protected abstract Menu getMenu();
 }

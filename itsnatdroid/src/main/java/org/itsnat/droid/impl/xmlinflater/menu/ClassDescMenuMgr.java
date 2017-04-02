@@ -34,15 +34,17 @@ public class ClassDescMenuMgr extends ClassDescMgr<ClassDescResourceBased>
         addClassDesc(rootMenu); // Se registra como "builtin-menu"
 
         ClassDescElementMenuChildMenu menu = new ClassDescElementMenuChildMenu(this);
-        //addClassDesc(menu); // <menu> es siempre SubMenu excepto en el caso root <menu>
+        //addClassDesc(menu); // Ver notas en ClassDescElementMenuChildSubMenu
 
         ClassDescElementMenuChildSubMenu subMenu = new ClassDescElementMenuChildSubMenu(this,menu);
-        addClassDesc(subMenu); // <menu> es siempre SubMenu excepto en el caso root <menu>
+        addClassDesc(subMenu); // <menu> es siempre SubMenu excepto en el caso root <menu> pero para eso está ClassDescElementMenuChildRoot
 
         ClassDescElementMenuChildGroup group = new ClassDescElementMenuChildGroup(this);
         addClassDesc(group);
 
         ClassDescElementMenuChildMenuItem menuItem = new ClassDescElementMenuChildMenuItem(this);
         addClassDesc(menuItem);
+
+        // No aporta nada hacer un ClassDescElementMenuChildNormal
     }
 }

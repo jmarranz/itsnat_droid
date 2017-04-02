@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
 import android.content.Context;
 
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
@@ -35,5 +36,5 @@ public abstract class ClassDescElementMenuChildBased<TelementMenuChild extends E
         return (ClassDescMenuMgr) classMgr;
     }
 
-    public abstract ElementMenuChildBased createElementMenuChildBased(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx);
+    public abstract ElementMenuChildBased createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx);
 }

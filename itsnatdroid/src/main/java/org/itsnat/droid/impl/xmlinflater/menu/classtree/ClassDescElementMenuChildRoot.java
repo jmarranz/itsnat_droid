@@ -2,9 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
 import android.view.Menu;
 
-import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
-import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
@@ -26,15 +25,15 @@ public class ClassDescElementMenuChildRoot extends ClassDescElementMenuChildBase
         return ElementMenuChildRoot.class;
     }
 
-    public ElementMenuChildRoot createElementMenuChildRoot(DOMElemMenu rootElem, AttrMenuContext attrCtx, Menu androidRootMenu)
+    public ElementMenuChildRoot createElementMenuChildRoot(DOMElement rootElem, AttrMenuContext attrCtx, Menu androidRootMenu)
     {
         return new ElementMenuChildRoot(androidRootMenu); // Ponemos el androidRootMenu en vez de nuestro Menu root del XML, total no tienen atributos, de esta manera conseguimos conectar el menu predefinido con nuestro XML sin perder nada a base de añadir por abajo
     }
 
     @Override
-    public ElementMenuChildBased createElementMenuChildBased(DOMElemMenu domElement, DOMElemMenu domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
+    public ElementMenuChildBased createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
     {
-        return new ElementMenuChildMenu(parentChildMenu);
+        return null;
     }
 
     @SuppressWarnings("unchecked")
