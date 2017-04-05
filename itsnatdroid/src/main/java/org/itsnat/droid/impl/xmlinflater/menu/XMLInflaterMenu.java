@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
 import org.itsnat.droid.impl.dom.menu.XMLDOMMenu;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
 import org.itsnat.droid.impl.xmlinflated.menu.InflatedXMLMenu;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
@@ -91,7 +92,19 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
     {
         ElementMenuChildBased menuChild = createElementMenuChildAndFillAttributes(domElement, domElementParent, parentChildMenu,attrCtx);
 
+        if (menuChild instanceof ElementMenuChildGroup)
+        {
+            ElementMenuChildRoot menuChildRoot = ((ElementMenuChildGroup)menuChild).getParentElementMenuChildRoot(menuChild.getParentElementMenuChildBase());
+            menuChildRoot.startGroup();
+        }
+
         processChildElements(domElement,menuChild,attrCtx);
+
+        if (menuChild instanceof ElementMenuChildGroup)
+        {
+            ElementMenuChildRoot menuChildRoot = ((ElementMenuChildGroup)menuChild).getParentElementMenuChildRoot(menuChild.getParentElementMenuChildBase());
+            menuChildRoot.endGroup();
+        }
 
         return menuChild;
     }
@@ -133,6 +146,8 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
         for (DOMElement childDOMElem : childDOMElemList)
         {
             ElementMenuChildBased childMenu = inflateNextElement(childDOMElem,domElemParent,parentChildMenu,attrCtx);
+            //if (childMenu.getParentElementMenuChildBase() instanceof ElementMenuChildGroup)
+            //    continue;
             parentChildMenu.addElementMenuChild(childMenu);
         }
     }

@@ -25,7 +25,7 @@ public class ClassDescElementMenuChildGroup extends ClassDescElementMenuChildBas
 
 
     @Override
-    public ElementMenuChildBased createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
+    public ElementMenuChildGroup createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
     {
         return new ElementMenuChildGroup(parentChildMenu);
     }

@@ -2,8 +2,14 @@ package org.itsnat.droid.impl.xmlinflated.menu;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.util.NamespaceUtil;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 
 import java.util.ArrayList;
 
@@ -13,42 +19,37 @@ import java.util.ArrayList;
 public class ElementMenuChildMenuItem extends ElementMenuChildNormal
 {
     protected MenuItem menuItem;
-    protected Menu parentMenu;
 
 
-    public ElementMenuChildMenuItem(ElementMenuChildBased parentElementMenu)
+    public ElementMenuChildMenuItem(ElementMenuChildBased parentElementMenu,DOMElement domElement,AttrMenuContext attrCtx)
     {
         super(parentElementMenu);
 
         // parentElementMenu es siempre el <menu> root o un submenu o un <group>
 
-        Menu parentMenu = getParentNativeMenu(parentElementMenu);
+        XMLInflaterRegistry xmlInflaterRegistry = attrCtx.getXMLInflaterMenu().getXMLInflaterContext().getXMLInflaterRegistry();
+        DOMAttr attrId = domElement.getDOMAttributeMap().getDOMAttribute(NamespaceUtil.XMLNS_ANDROID,"id");
+        int itemId = xmlInflaterRegistry.getIdentifier(attrId.getResourceDesc(), attrCtx.getXMLInflaterContext());
 
-        this.menuItem = parentMenu.add("");
-
-        this.parentMenu = parentMenu;
-    }
-
-
-    public Menu getParentNativeMenu(ElementMenuChildBased parentElementMenu)
-    {
-        Menu parentMenu;
-
-        if (parentElementMenu instanceof ElementMenuChildSubMenu)
+        if (parentElementMenu instanceof ElementMenuChildGroup)
         {
-            parentMenu = ((ElementMenuChildSubMenu) parentElementMenu).getSubMenu();
+            ElementMenuChildRoot childMenuRoot = getParentElementMenuChildRoot(parentElementMenu);
+            int groupId = childMenuRoot.getCurrentGroupId();
+            Menu rootMenu = childMenuRoot.getMenu();
+            this.menuItem = rootMenu.add(groupId,itemId,Menu.NONE,"");
+        }
+        else if (parentElementMenu instanceof ElementMenuChildSubMenu)
+        {
+            ElementMenuChildSubMenu childSubMenu = ((ElementMenuChildSubMenu)parentElementMenu);
+            ElementMenuChildRoot childMenuRoot = getParentElementMenuChildRoot(parentElementMenu);
+            int groupId = childMenuRoot.getCurrentGroupId();
+            this.menuItem = childSubMenu.getSubMenu().add(groupId,itemId,Menu.NONE,"");
         }
         else if (parentElementMenu instanceof ElementMenuChildRoot)
         {
-            parentMenu = ((ElementMenuChildRoot) parentElementMenu).getMenu();
+            ElementMenuChildRoot childMenuRoot = (ElementMenuChildRoot)parentElementMenu;
+            this.menuItem = childMenuRoot.getMenu().add(Menu.NONE,itemId,Menu.NONE,"");
         }
-        else if (parentElementMenu instanceof ElementMenuChildGroup)   // A día de hoy sólo conocemos <group/> bajo <menu> root o bajo un <menu> como submenu, se pueden poner dos <group> anidados pero el anidado yo creo que no hace nada
-        {
-            parentMenu = getParentNativeMenu(parentElementMenu.getParentElementMenuChildBase());
-        }
-        else throw new ItsNatDroidException("Bad XML Menu");
-
-        return parentMenu;
     }
 
 
@@ -57,8 +58,4 @@ public class ElementMenuChildMenuItem extends ElementMenuChildNormal
         return menuItem;
     }
 
-    public Menu getParentMenu()
-    {
-        return parentMenu;
-    }
 }

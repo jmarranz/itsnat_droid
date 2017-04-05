@@ -17,29 +17,18 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
     {
         super(parentElementMenu);
 
-        // MenuItem menuItem = parentElementMenu.getMenuItem(); // Los <menu> tipo SubMenu están debajo siempre de un <item> que a su vez está debajo dee un <menu> root
+        // Los <menu> tipo SubMenu están debajo siempre de un <item> que a su vez está debajo del <menu> root, el <menu> es sólo un placeholder para indicar que hay un submenu
 
-        Menu menu = getParentNativeMenu(parentElementMenu); // parentElementMenu es inicialmente un <item> pero necesitamos el un <menu>
-        this.subMenu = menu.addSubMenu("");
+        //int parentItemId = parentElementMenu.getMenuItem().getItemId();
+
+        ElementMenuChildRoot elemMenuChildRoot = getParentElementMenuChildRoot(parentElementMenu); // parentElementMenu es inicialmente un <item> pero necesitamos el <menu> root para crear el SubMenu
+        int groupId = elemMenuChildRoot.startGroup();
+        Menu parentRootMenu = elemMenuChildRoot.getMenu();
+        this.subMenu = parentRootMenu.addSubMenu(groupId,Menu.NONE,Menu.NONE,"");
     }
 
-    public Menu getParentNativeMenu(ElementMenuChildBased parentElementMenu)
-    {
-        Menu parentMenu;
 
-        if (parentElementMenu instanceof ElementMenuChildRoot)
-        {
-            parentMenu = ((ElementMenuChildRoot) parentElementMenu).getMenu();
-        }
-        else if (parentElementMenu instanceof ElementMenuChildMenuItem)
-        {
-            parentMenu = getParentNativeMenu(parentElementMenu.getParentElementMenuChildBase());
-        }
-        else throw new ItsNatDroidException("Bad XML Menu");
-
-        return parentMenu;
-    }
-
+    @Override
     protected Menu getMenu()
     {
         return getSubMenu();

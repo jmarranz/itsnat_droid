@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflated.menu;
 
+import android.view.Menu;
+
 import java.util.ArrayList;
 
 /**
@@ -41,4 +43,6 @@ public abstract class ElementMenuChildBased
     {
         return parentElementMenuChild != null ?  parentElementMenuChild.getElementMenuChildRoot() : null;
     }
+
+
 }
