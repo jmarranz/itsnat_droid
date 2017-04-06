@@ -36,10 +36,10 @@ public class XMLDOMMenuParser extends XMLDOMParser<XMLDOMMenu>
         if ("menu".equals(tagName))
         {
             if (parent == null)
-                return new DOMElemMenu(false,null); // root
+                return new DOMElemMenu(null); // root
             String parentTagName = parent.getTagName();
             if ("item".equals(parentTagName))
-                return new DOMElemMenu(true,parent);
+                return new DOMElemMenu(parent);
             else throw new ItsNatDroidException("Unrecognized super tag name of <menu>: " + parentTagName);
         }
         else if ("item".equals(tagName))

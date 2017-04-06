@@ -25,12 +25,14 @@ public class AttrDescMenu_MenuItem_title extends AttrDesc<ClassDescElementMenuCh
     public void setAttribute(ElementMenuChildMenuItem menuItem, DOMAttr attr, AttrMenuContext attrCtx)
     {
         String title = getString(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
-        menuItem.getMenuItem().setTitle(title);
+        MenuItem menuItemNat = menuItem.getMenuItem();
+        menuItemNat.setTitle(title); // Hay un caso en el que no renderizamos y no creamos MenuItem native
     }
 
     @Override
     public void removeAttribute(ElementMenuChildMenuItem menuItem, AttrMenuContext attrCtx)
     {
-        menuItem.getMenuItem().setTitle("");
+        MenuItem menuItemNat = menuItem.getMenuItem();
+        menuItemNat.setTitle(""); // Hay un caso en el que no renderizamos
     }
 }

@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildSubMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.InflatedXMLMenu;
 import org.itsnat.droid.impl.xmlinflater.XMLInflaterResource;
 import org.itsnat.droid.impl.xmlinflater.menu.classtree.ClassDescElementMenuChildBased;
@@ -92,17 +93,16 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
     {
         ElementMenuChildBased menuChild = createElementMenuChildAndFillAttributes(domElement, domElementParent, parentChildMenu,attrCtx);
 
-        if (menuChild instanceof ElementMenuChildGroup)
-        {
-            ElementMenuChildRoot menuChildRoot = ((ElementMenuChildGroup)menuChild).getParentElementMenuChildRoot(menuChild.getParentElementMenuChildBase());
-            menuChildRoot.startGroup();
-        }
-
         processChildElements(domElement,menuChild,attrCtx);
 
         if (menuChild instanceof ElementMenuChildGroup)
         {
             ElementMenuChildRoot menuChildRoot = ((ElementMenuChildGroup)menuChild).getParentElementMenuChildRoot(menuChild.getParentElementMenuChildBase());
+            menuChildRoot.endGroup();
+        }
+        else if (menuChild instanceof ElementMenuChildSubMenu)
+        {
+            ElementMenuChildRoot menuChildRoot = ((ElementMenuChildSubMenu)menuChild).getParentElementMenuChildRoot(menuChild.getParentElementMenuChildBase());
             menuChildRoot.endGroup();
         }
 
