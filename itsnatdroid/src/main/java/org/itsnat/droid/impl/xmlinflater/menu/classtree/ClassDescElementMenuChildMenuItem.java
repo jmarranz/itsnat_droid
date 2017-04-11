@@ -1,17 +1,30 @@
 package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
+import android.view.MenuItem;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.GridLayoutAnimationController;
+
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.util.MapSmart;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
+import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_icon;
+import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_showAsAction;
 import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_title;
+import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_titleCondensed;
+import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
+import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
 public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChildBased<ElementMenuChildMenuItem>
 {
+
+
     public ClassDescElementMenuChildMenuItem(ClassDescMenuMgr classMgr)
     {
         super(classMgr,"item",null);
@@ -29,12 +42,21 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
         return new ElementMenuChildMenuItem(parentChildMenu,domElement,attrCtx);
     }
 
+    @Override
+    public boolean isAttributeIgnored(ElementMenuChildMenuItem resource, String namespaceURI, String name)
+    {
+        return NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("id"); // Se usa especialmente en otra parte (ElementMenuChildMenuItem)
+    }
+
     @SuppressWarnings("unchecked")
     protected void init()
     {
         super.init();
 
         addAttrDescAN(new AttrDescMenu_MenuItem_title(this));
+        addAttrDescAN(new AttrDescMenu_MenuItem_titleCondensed(this));
+        addAttrDescAN(new AttrDescMenu_MenuItem_icon(this));
+        addAttrDescAN(new AttrDescMenu_MenuItem_showAsAction(this));
 
 /*
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "radius", 0f));

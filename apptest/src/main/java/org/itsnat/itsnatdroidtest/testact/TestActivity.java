@@ -22,6 +22,7 @@ import org.itsnat.droid.impl.dommini.DOMMiniParser;
 import org.itsnat.droid.impl.dommini.DOMMiniRender;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.Assert;
+import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -92,7 +93,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         this.urlTestRemoteNoItsNat = urlTestBase + "ItsNatDroidServletNoItsNat";
 
         final ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true); // Muestra y activa el simbolito del back
+        actionBar.setDisplayHomeAsUpEnabled(true); // Muestra y activa el simbolito del back y define el android.R.id.home cuando se pulsa
 
         setContentView(R.layout.activity_test);
 
@@ -217,6 +218,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            TestUtil.alertDialog(this,"Settings","Nothing to do");
             return true;
         }
         else if (id == android.R.id.home) {

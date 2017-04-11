@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
+import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 
 public class MainActivity extends Activity {
@@ -135,6 +136,7 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            TestUtil.alertDialog(this,"Settings","Nothing to do");
             return true;
         }
         return super.onOptionsItemSelected(item);

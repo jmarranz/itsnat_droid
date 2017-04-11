@@ -67,11 +67,11 @@ public class ElementMenuChildMenuItem extends ElementMenuChildNormal
                 {
                     // Hay un elemento hijo que es el <menu> esperado para un SubMenu, como este <item> tiene que desaparecer no hay que renderizarlo uniendo al árbol nativo, creamos un item via add
                     // pero lo eliminamos enseguida
-                    if (itemId == 0) throw new ItsNatDroidException("id cannot be zero in this coontext");
+                    if (itemId == 0) throw new ItsNatDroidException("id cannot be zero in this context <item>");
                     ElementMenuChildRoot childMenuRoot = (ElementMenuChildRoot) parentElementMenu;
-                    this.menuItem = childMenuRoot.getMenu().add(Menu.NONE, itemId, Menu.NONE, "");
+                    this.menuItem = childMenuRoot.getMenu().add(Menu.NONE, itemId, Menu.NONE, ""); // No hace falta groupId, nos lo vamos a cargar y el nuevo SubMenu creado tendrá un groupId correcto
 
-                    childMenuRoot.getMenu().removeItem(itemId);
+                    childMenuRoot.getMenu().removeItem(itemId); // Nos lo cargamos para que no se senderice si estuviera unido al árbol nativo
                     return;
                 }
             }
@@ -79,7 +79,7 @@ public class ElementMenuChildMenuItem extends ElementMenuChildNormal
 
         if (parentElementMenu instanceof ElementMenuChildRoot)
         {
-            // Resto de casos que no son <group> ni SubMenu, debe ser el último
+            // Resto de casos que no son <group> ni SubMenu (ni item padre ni item hijo), debe ser el último, no es necesario un groupId porque no pertenece a un grupo (group o submenu)
             ElementMenuChildRoot childMenuRoot = (ElementMenuChildRoot) parentElementMenu;
             this.menuItem = childMenuRoot.getMenu().add(Menu.NONE, itemId, Menu.NONE, "");
             return;

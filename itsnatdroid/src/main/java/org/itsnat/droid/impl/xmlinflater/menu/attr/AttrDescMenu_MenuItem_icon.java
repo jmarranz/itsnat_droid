@@ -5,8 +5,6 @@ import android.view.MenuItem;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.classtree.ClassDescElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -14,25 +12,25 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescMenu_MenuItem_title extends AttrDesc<ClassDescElementMenuChildMenuItem,ElementMenuChildMenuItem,AttrMenuContext>
+public class AttrDescMenu_MenuItem_icon extends AttrDesc<ClassDescElementMenuChildMenuItem,ElementMenuChildMenuItem,AttrMenuContext>
 {
-    public AttrDescMenu_MenuItem_title(ClassDescElementMenuChildMenuItem parent)
+    public AttrDescMenu_MenuItem_icon(ClassDescElementMenuChildMenuItem parent)
     {
-        super(parent,"title");
+        super(parent,"icon");
     }
 
     @Override
     public void setAttribute(ElementMenuChildMenuItem menuItem, DOMAttr attr, AttrMenuContext attrCtx)
     {
-        String title = getString(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
+        Drawable icon = getDrawable(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
         MenuItem menuItemNat = menuItem.getMenuItem();
-        menuItemNat.setTitle(title);
+        menuItemNat.setIcon(icon);
     }
 
     @Override
     public void removeAttribute(ElementMenuChildMenuItem menuItem, AttrMenuContext attrCtx)
     {
         MenuItem menuItemNat = menuItem.getMenuItem();
-        menuItemNat.setTitle("");
+        menuItemNat.setIcon(null);
     }
 }

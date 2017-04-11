@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
+import android.view.animation.AlphaAnimation;
+
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
@@ -28,6 +30,12 @@ public class ClassDescElementMenuChildGroup extends ClassDescElementMenuChildBas
     public ElementMenuChildGroup createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
     {
         return new ElementMenuChildGroup(parentChildMenu);
+    }
+
+    @Override
+    public boolean isAttributeIgnored(ElementMenuChildGroup resource, String namespaceURI, String name)
+    {
+        return false;
     }
 
     @SuppressWarnings("unchecked")

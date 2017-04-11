@@ -1,12 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.menu.attr;
 
-import android.graphics.drawable.Drawable;
 import android.view.MenuItem;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.AttrDrawableContext;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.classtree.ClassDescElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
@@ -14,11 +11,11 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDesc;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescMenu_MenuItem_title extends AttrDesc<ClassDescElementMenuChildMenuItem,ElementMenuChildMenuItem,AttrMenuContext>
+public class AttrDescMenu_MenuItem_titleCondensed extends AttrDesc<ClassDescElementMenuChildMenuItem,ElementMenuChildMenuItem,AttrMenuContext>
 {
-    public AttrDescMenu_MenuItem_title(ClassDescElementMenuChildMenuItem parent)
+    public AttrDescMenu_MenuItem_titleCondensed(ClassDescElementMenuChildMenuItem parent)
     {
-        super(parent,"title");
+        super(parent,"titleCondensed");
     }
 
     @Override
@@ -26,13 +23,13 @@ public class AttrDescMenu_MenuItem_title extends AttrDesc<ClassDescElementMenuCh
     {
         String title = getString(attr.getResourceDesc(), attrCtx.getXMLInflaterContext());
         MenuItem menuItemNat = menuItem.getMenuItem();
-        menuItemNat.setTitle(title);
+        menuItemNat.setTitleCondensed(title);
     }
 
     @Override
     public void removeAttribute(ElementMenuChildMenuItem menuItem, AttrMenuContext attrCtx)
     {
         MenuItem menuItemNat = menuItem.getMenuItem();
-        menuItemNat.setTitle("");
+        menuItemNat.setTitleCondensed("");
     }
 }

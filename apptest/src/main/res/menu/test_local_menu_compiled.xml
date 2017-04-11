@@ -5,6 +5,7 @@
 
     <item android:id="@+id/item_0"
           android:title="ITEM 0"
+          android:titleCondensed="I 0"
           android:icon="@drawable/test_menu_item_compiled"
           /> <!--   app::showAsAction="ifRoom|withText"--> <!-- https://github.com/enetarch/Android.Todo/blob/master/res/drawable/list_border.xml -->
 <!-- android:showAsAction="ifRoom|withText" -->

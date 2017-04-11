@@ -22,7 +22,7 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
         //int parentItemId = parentElementMenu.getMenuItem().getItemId();
 
         ElementMenuChildRoot elemMenuChildRoot = getParentElementMenuChildRoot(parentElementMenu); // parentElementMenu es inicialmente un <item> pero necesitamos el <menu> root para crear el SubMenu
-        int groupId = elemMenuChildRoot.startGroup();
+        this.groupId = elemMenuChildRoot.startGroup();
         Menu parentRootMenu = elemMenuChildRoot.getMenu();
 
         ElementMenuChildMenuItem parentItemMenu = (ElementMenuChildMenuItem)parentElementMenu;

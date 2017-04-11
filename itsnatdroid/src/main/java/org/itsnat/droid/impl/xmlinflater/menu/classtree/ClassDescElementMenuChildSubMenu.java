@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildSubMenu;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
@@ -30,6 +31,12 @@ public class ClassDescElementMenuChildSubMenu extends ClassDescElementMenuChildB
     public ElementMenuChildSubMenu createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentElementMenu, AttrMenuContext attrCtx)
     {
         return new ElementMenuChildSubMenu((ElementMenuChildMenuItem)parentElementMenu);
+    }
+
+    @Override
+    public boolean isAttributeIgnored(ElementMenuChildSubMenu resource, String namespaceURI, String name)
+    {
+        return false;
     }
 
     @SuppressWarnings("unchecked")

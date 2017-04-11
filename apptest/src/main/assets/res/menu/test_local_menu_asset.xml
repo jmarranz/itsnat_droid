@@ -5,24 +5,26 @@
 
     <item android:id="@+id/item_0"
           android:title="ITEM 0"
+          android:titleCondensed="I 0"
           android:icon="@drawable/test_menu_item_compiled"
-          /> <!--   app::showAsAction="ifRoom|withText"--> <!-- https://github.com/enetarch/Android.Todo/blob/master/res/drawable/list_border.xml -->
-<!-- android:showAsAction="ifRoom|withText" -->
+          android:showAsAction="ifRoom|withText"
+    /> <!--   app::showAsAction="ifRoom|withText"--> <!-- https://github.com/enetarch/Android.Todo/blob/master/res/drawable/list_border.xml -->
+
 
     <group android:id="@+id/group">
         <item android:id="@+id/item_1"
               android:title="ITEM 1"
               android:icon="@drawable/test_menu_item_compiled"
-            />  <!-- android:onClick="onGroupItemClick" android:icon="@drawable/group_item1_icon" -->
+        />  <!-- android:onClick="onGroupItemClick" android:icon="@drawable/group_item1_icon" -->
         <item android:id="@+id/item_2"
               android:title="ITEM 2"
-            /> <!-- android:onClick="onGroupItemClick" android:icon="@drawable/group_item2_icon" -->
+        /> <!-- android:onClick="onGroupItemClick" android:icon="@drawable/group_item2_icon" -->
     </group>
 
     <item android:id="@+id/item_3"
           android:title="ITEM 3"
           android:icon="@drawable/test_menu_item_compiled"
-        />
+    />
 
     <item android:id="@+id/submenu"
           android:title="submenu_title"
@@ -40,6 +42,6 @@
     <item android:id="@+id/item_4"
           android:title="ITEM 4"
           android:icon="@drawable/test_menu_item_compiled"
-        />
+    />
 
 </menu>
