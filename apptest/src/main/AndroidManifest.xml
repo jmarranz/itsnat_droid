@@ -26,7 +26,8 @@
         </activity>
         <activity
             android:name=".testact.local.asset.TestActivityMenu"
-            android:label="@string/title_activity_test_menu">
+            android:label="@string/title_activity_test_menu"
+            android:theme="@style/ItsNatDefaultAppTheme">
         </activity>
     </application>
 

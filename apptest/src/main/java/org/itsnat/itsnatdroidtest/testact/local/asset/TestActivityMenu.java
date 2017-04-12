@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -80,6 +81,7 @@ public class TestActivityMenu extends Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         if (dynamic)
         {
             inflatedLayout.getItsNatDoc().getItsNatResources().getMenu("@assets:menu/res/menu/test_local_menu_asset.xml",menu);
@@ -89,7 +91,11 @@ public class TestActivityMenu extends Activity
             getMenuInflater().inflate(R.menu.test_local_menu_compiled, menu);
         }
 
-        return true;
+        MenuItem item = menu.findItem(R.id.item_4);
+        // item.setAlphabeticShortcut('f'); // Con ALT opcional. Creo que sólo funciona en creación del MenuItem
+        char as = item.getAlphabeticShortcut();
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -102,13 +108,12 @@ public class TestActivityMenu extends Activity
             onBackPressed();
             return true;
         }
-
-        /*
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        else if (id == R.id.item_0)
+        {
+            item.setChecked(!item.isChecked());
             return true;
         }
-        */
+
         return super.onOptionsItemSelected(item);
     }
 

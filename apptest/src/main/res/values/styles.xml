@@ -11,6 +11,12 @@
         <!-- <item name="title_test_style">@style/title_test</item> -->
     </style>
 
+    <style name="ItsNatMenuAppTheme" > <!-- @android:style/Theme.DeviceDefault --> <!-- @android:style/Theme.Holo.Light.DarkActionBar -->
+        <!-- Customize your theme here. -->
+        <!-- <item name="title_test_style">@style/title_test</item> -->
+        <item name="android:background">#dddddd</item>
+    </style> <!-- parent="@android:style/Theme.Holo.Light.DarkActionBar" -->
+
 
     <style name="test_style">
        <item name="android:layout_width">wrap_content</item>

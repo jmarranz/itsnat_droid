@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMul
 
 public class AttrDescMenu_MenuItem_showAsAction extends AttrDescReflecMethodNameMultiple<ClassDescElementMenuChildBased,ElementMenuChildMenuItem,AttrMenuContext>
 {
-    public static final MapSmart<String,Integer> showAsActionMap = MapSmart.<String,Integer>create(4);
+    public static final MapSmart<String,Integer> showAsActionMap = MapSmart.<String,Integer>create(5);
     static
     {
         showAsActionMap.put("ifRoom", MenuItem.SHOW_AS_ACTION_IF_ROOM);

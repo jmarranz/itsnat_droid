@@ -11,7 +11,11 @@ import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
+import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_alphabeticShortcut;
+import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_checkable;
+import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_checked;
 import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_icon;
+import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_numericShortcut;
 import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_showAsAction;
 import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_title;
 import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_titleCondensed;
@@ -23,8 +27,6 @@ import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMul
  */
 public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChildBased<ElementMenuChildMenuItem>
 {
-
-
     public ClassDescElementMenuChildMenuItem(ClassDescMenuMgr classMgr)
     {
         super(classMgr,"item",null);
@@ -57,6 +59,11 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
         addAttrDescAN(new AttrDescMenu_MenuItem_titleCondensed(this));
         addAttrDescAN(new AttrDescMenu_MenuItem_icon(this));
         addAttrDescAN(new AttrDescMenu_MenuItem_showAsAction(this));
+        addAttrDescAN(new AttrDescMenu_MenuItem_alphabeticShortcut(this));
+        addAttrDescAN(new AttrDescMenu_MenuItem_numericShortcut(this));
+        addAttrDescAN(new AttrDescMenu_MenuItem_checkable(this));
+        addAttrDescAN(new AttrDescMenu_MenuItem_checked(this));
+
 
 /*
         addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "radius", 0f));

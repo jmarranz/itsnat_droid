@@ -1,14 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="org.itsnat.itsnatdroidtest.MainActivity">
-    <!-- xmlns:app="http://schemas.android.com/apk/res-auto" -->
+      tools:context="org.itsnat.itsnatdroidtest.MainActivity"
+      xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <!-- https://developer.android.com/reference/android/view/Menu.html -->
+    <!-- https://developer.android.com/guide/topics/ui/menus.html#options-menu -->
+    <!-- https://developer.android.com/guide/topics/resources/menu-resource.html -->
 
     <item android:id="@+id/item_0"
           android:title="ITEM 0"
           android:titleCondensed="I 0"
           android:icon="@drawable/test_menu_item_compiled"
-          /> <!--   app::showAsAction="ifRoom|withText"--> <!-- https://github.com/enetarch/Android.Todo/blob/master/res/drawable/list_border.xml -->
-<!-- android:showAsAction="ifRoom|withText" -->
+          android:showAsAction="ifRoom|withText"
+        /> <!--   app::showAsAction="ifRoom|withText"--> <!-- https://github.com/enetarch/Android.Todo/blob/master/res/drawable/list_border.xml -->
 
     <group android:id="@+id/group">
         <item android:id="@+id/item_1"
