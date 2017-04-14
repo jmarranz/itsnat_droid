@@ -3,7 +3,9 @@ package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 import android.view.Menu;
 
 import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
@@ -17,6 +19,11 @@ public class ClassDescElementMenuChildRoot extends ClassDescElementMenuChildBase
     public ClassDescElementMenuChildRoot(ClassDescMenuMgr classMgr)
     {
         super(classMgr,"builtin-menu",null);
+    }
+
+    public boolean isAttributeIgnored(ElementMenuChildMenuItem resource, String namespaceURI, String name)
+    {
+        return false;
     }
 
     @Override
@@ -41,13 +48,6 @@ public class ClassDescElementMenuChildRoot extends ClassDescElementMenuChildBase
     {
         super.init();
 
-        /*
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "radius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topLeftRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topRightRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomRightRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomLeftRadius", 0f));
-        */
     }
 
 }

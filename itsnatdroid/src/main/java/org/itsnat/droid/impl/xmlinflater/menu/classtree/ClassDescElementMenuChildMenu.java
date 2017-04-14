@@ -2,7 +2,9 @@ package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenu;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
@@ -25,6 +27,12 @@ public class ClassDescElementMenuChildMenu extends ClassDescElementMenuChildBase
         return ElementMenuChildMenu.class;
     }
 
+    public boolean isAttributeIgnored(ElementMenuChildMenu resource, String namespaceURI, String name)
+    {
+        return NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("id") ||
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("menuCategory") ||
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("orderInCategory"); // Se usan especialmente en otra parte (ElementMenuChildMenuItem)
+    }
 
     @Override
     public ElementMenuChildBased createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
@@ -37,13 +45,7 @@ public class ClassDescElementMenuChildMenu extends ClassDescElementMenuChildBase
     {
         super.init();
 
-        /*
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "radius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topLeftRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topRightRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomRightRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomLeftRadius", 0f));
-        */
+
     }
 
 }

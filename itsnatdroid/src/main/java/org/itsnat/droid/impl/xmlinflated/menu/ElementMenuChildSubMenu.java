@@ -4,6 +4,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
+import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
+
 
 /**
  * Created by jmarranz on 30/11/14.
@@ -13,9 +16,9 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
     protected SubMenu subMenu;
     protected int groupId;
 
-    public ElementMenuChildSubMenu(ElementMenuChildMenuItem parentElementMenu)
+    public ElementMenuChildSubMenu(ElementMenuChildMenuItem parentElementMenu, DOMElement domElement, AttrMenuContext attrCtx)
     {
-        super(parentElementMenu);
+        super(parentElementMenu,domElement,attrCtx);
 
         // Los <menu> tipo SubMenu están debajo siempre de un <item> que a su vez está debajo del <menu> root, el <menu> es sólo un placeholder para indicar que hay un submenu
 
@@ -28,7 +31,7 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
         ElementMenuChildMenuItem parentItemMenu = (ElementMenuChildMenuItem)parentElementMenu;
         MenuItem fromItem = parentItemMenu.getMenuItem();
 
-        this.subMenu = parentRootMenu.addSubMenu(groupId,fromItem.getItemId(),Menu.NONE,"");
+        this.subMenu = parentRootMenu.addSubMenu(groupId,fromItem.getItemId(),menuCategory,"");
         MenuItem toItem = subMenu.getItem();
 
         copyItem(fromItem,toItem);

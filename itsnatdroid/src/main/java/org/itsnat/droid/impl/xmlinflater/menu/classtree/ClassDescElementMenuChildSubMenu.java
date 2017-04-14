@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.menu.classtree;
 
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
@@ -26,18 +27,19 @@ public class ClassDescElementMenuChildSubMenu extends ClassDescElementMenuChildB
         return ElementMenuChildSubMenu.class;
     }
 
+    public boolean isAttributeIgnored(ElementMenuChildSubMenu resource, String namespaceURI, String name)
+    {
+        return NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("id") ||
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("menuCategory") ||
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("orderInCategory"); // Se usan especialmente en otra parte (ElementMenuChildMenuItem)
+    }
 
     @Override
     public ElementMenuChildSubMenu createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentElementMenu, AttrMenuContext attrCtx)
     {
-        return new ElementMenuChildSubMenu((ElementMenuChildMenuItem)parentElementMenu);
+        return new ElementMenuChildSubMenu((ElementMenuChildMenuItem)parentElementMenu,domElement,attrCtx);
     }
 
-    @Override
-    public boolean isAttributeIgnored(ElementMenuChildSubMenu resource, String namespaceURI, String name)
-    {
-        return false;
-    }
 
     @SuppressWarnings("unchecked")
     protected void init()

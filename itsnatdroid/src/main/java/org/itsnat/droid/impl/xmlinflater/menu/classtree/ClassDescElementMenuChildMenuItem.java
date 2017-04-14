@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
@@ -19,6 +20,7 @@ import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_numeric
 import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_showAsAction;
 import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_title;
 import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_titleCondensed;
+import org.itsnat.droid.impl.xmlinflater.menu.attr.AttrDescMenu_MenuItem_visible;
 import org.itsnat.droid.impl.xmlinflater.shared.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.shared.attr.AttrDescReflecMethodNameMultiple;
 
@@ -30,6 +32,13 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
     public ClassDescElementMenuChildMenuItem(ClassDescMenuMgr classMgr)
     {
         super(classMgr,"item",null);
+    }
+
+    public boolean isAttributeIgnored(ElementMenuChildMenuItem resource, String namespaceURI, String name)
+    {
+        return NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("id") ||
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("menuCategory") ||
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("orderInCategory"); // Se usan especialmente en otra parte (ElementMenuChildMenuItem)
     }
 
     @Override
@@ -44,11 +53,6 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
         return new ElementMenuChildMenuItem(parentChildMenu,domElement,attrCtx);
     }
 
-    @Override
-    public boolean isAttributeIgnored(ElementMenuChildMenuItem resource, String namespaceURI, String name)
-    {
-        return NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("id"); // Se usa especialmente en otra parte (ElementMenuChildMenuItem)
-    }
 
     @SuppressWarnings("unchecked")
     protected void init()
@@ -63,15 +67,9 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
         addAttrDescAN(new AttrDescMenu_MenuItem_numericShortcut(this));
         addAttrDescAN(new AttrDescMenu_MenuItem_checkable(this));
         addAttrDescAN(new AttrDescMenu_MenuItem_checked(this));
+        addAttrDescAN(new AttrDescMenu_MenuItem_visible(this));
 
 
-/*
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "radius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topLeftRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topRightRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomRightRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomLeftRadius", 0f));
-*/
     }
 
 }

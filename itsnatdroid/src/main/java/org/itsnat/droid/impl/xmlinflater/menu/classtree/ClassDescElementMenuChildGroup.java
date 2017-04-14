@@ -4,6 +4,7 @@ import android.view.animation.AlphaAnimation;
 
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.menu.DOMElemMenu;
+import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
@@ -19,6 +20,13 @@ public class ClassDescElementMenuChildGroup extends ClassDescElementMenuChildBas
         super(classMgr,"group",null);
     }
 
+    public boolean isAttributeIgnored(ElementMenuChildGroup resource, String namespaceURI, String name)
+    {
+        return NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("id") ||
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("menuCategory") ||
+                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("orderInCategory"); // Se usan especialmente en otra parte (ElementMenuChildMenuItem)
+    }
+
     @Override
     public Class<ElementMenuChildGroup> getMenuOrElementMenuClass()
     {
@@ -29,13 +37,7 @@ public class ClassDescElementMenuChildGroup extends ClassDescElementMenuChildBas
     @Override
     public ElementMenuChildGroup createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
     {
-        return new ElementMenuChildGroup(parentChildMenu);
-    }
-
-    @Override
-    public boolean isAttributeIgnored(ElementMenuChildGroup resource, String namespaceURI, String name)
-    {
-        return false;
+        return new ElementMenuChildGroup(parentChildMenu,domElement,attrCtx);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,13 +45,6 @@ public class ClassDescElementMenuChildGroup extends ClassDescElementMenuChildBas
     {
         super.init();
 
-/*
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "radius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topLeftRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "topRightRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomRightRadius", 0f));
-        addAttrDescAN(new AttrDescReflecMethodDimensionIntRound(this, "bottomLeftRadius", 0f));
-*/
     }
 
 }

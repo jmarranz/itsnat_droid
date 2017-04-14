@@ -15,12 +15,16 @@
           android:numericShortcut="4"
           android:checkable="true"
           android:checked="true"
+          android:visible="true"
     />
 
     <!--  android:showAsAction="ifRoom|withText"-->
     <!--  android:actionLayout="@[package:]layout/layout_resource_name" -->
     <!--  android:actionViewClass="class name" -->
     <!--  android:actionProviderClass="class name" -->
+    <!-- Es normal que no funcione android:alphabeticShortcut en un smartphone porque no hay manera de pulsar una letra sin teclado expuesto -->
+    <!-- "" numericShortcut  ""  -->
+
 
     <group android:id="@+id/group">
         <item android:id="@+id/item_1"

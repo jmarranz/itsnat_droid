@@ -1,6 +1,14 @@
 package org.itsnat.droid.impl.xmlinflated.menu;
 
 import android.view.Menu;
+import android.view.MenuItem;
+
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.util.MapSmart;
+import org.itsnat.droid.impl.util.NamespaceUtil;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterRegistry;
+import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 
 /**
  * Created by jmarranz on 30/11/14.
@@ -8,10 +16,11 @@ import android.view.Menu;
 public class ElementMenuChildGroup extends ElementMenuChildNormal
 {
     protected int groupId;
+    protected int menuCategory = Menu.CATEGORY_CONTAINER;
 
-    public ElementMenuChildGroup(ElementMenuChildBased parentElementMenu)
+    public ElementMenuChildGroup(ElementMenuChildBased parentElementMenu,DOMElement domElement,AttrMenuContext attrCtx)
     {
-        super(parentElementMenu);
+        super(parentElementMenu,domElement,attrCtx);
 
         // No intentamos obtener un objeto nativo porque no existe, es un descriptor en XML pero invisible
 
