@@ -89,7 +89,7 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
     }
 
 
-    protected ElementMenuChildBased inflateNextElement(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
+    protected ElementMenuChildBased inflateNextChildElement(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
     {
         ElementMenuChildBased menuChild = createElementMenuChildAndFillAttributes(domElement, domElementParent, parentChildMenu,attrCtx);
 
@@ -145,7 +145,7 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
         parentChildMenu.initElementMenuChildList(childDOMElemList.size());
         for (DOMElement childDOMElem : childDOMElemList)
         {
-            ElementMenuChildBased childMenu = inflateNextElement(childDOMElem,domElemParent,parentChildMenu,attrCtx);
+            ElementMenuChildBased childMenu = inflateNextChildElement(childDOMElem,domElemParent,parentChildMenu,attrCtx);
             //if (childMenu.getParentElementMenuChildBase() instanceof ElementMenuChildGroup)
             //    continue;
             parentChildMenu.addElementMenuChild(childMenu);

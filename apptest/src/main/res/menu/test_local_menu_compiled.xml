@@ -11,16 +11,16 @@
           android:title="ITEM 0"
           android:titleCondensed="I 0"
           android:icon="@drawable/test_menu_item_compiled"
-          android:showAsAction="ifRoom|withText"
         /> <!--   app::showAsAction="ifRoom|withText"--> <!-- https://github.com/enetarch/Android.Todo/blob/master/res/drawable/list_border.xml -->
 
-    <group android:id="@+id/group">
+    <group android:id="@+id/group" android:checkableBehavior="single" android:visible="true" android:enabled="true">
         <item android:id="@+id/item_1"
               android:title="ITEM 1"
               android:icon="@drawable/test_menu_item_compiled"
             />  <!-- android:onClick="onGroupItemClick" android:icon="@drawable/group_item1_icon" -->
         <item android:id="@+id/item_2"
               android:title="ITEM 2"
+              android:icon="@drawable/test_menu_item_compiled"
             /> <!-- android:onClick="onGroupItemClick" android:icon="@drawable/group_item2_icon" -->
     </group>
 
@@ -30,16 +30,16 @@
         />
 
     <item android:id="@+id/submenu"
-          android:title="submenu_title"
+          android:title="SUBMENU"
           android:icon="@drawable/test_menu_item_compiled"> <!--  app:showAsAction="ifRoom|withText" -->
         <!-- <menu> debe estar debajo de un <item> al menos, sirve de título y agrupador -->
         <menu>
             <item android:id="@+id/submenu_item0"
-                  android:title="submenu_item0"
-                  android:icon="@drawable/test_menu_item_compiled"/>
+                  android:title="submenu item0"
+                  /> <!-- android:icon="@drawable/test_menu_item_compiled" -->
             <item android:id="@+id/submenu_item1"
-                  android:title="submenu_item1"
-                  android:icon="@drawable/test_menu_item_compiled"/>
+                  android:title="submenu item1"
+                  /> <!-- android:icon="@drawable/test_menu_item_compiled" -->
         </menu>
     </item>
     <item android:id="@+id/item_4"

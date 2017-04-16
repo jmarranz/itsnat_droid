@@ -32,6 +32,11 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
         MenuItem fromItem = parentItemMenu.getMenuItem();
 
         this.subMenu = parentRootMenu.addSubMenu(groupId,fromItem.getItemId(),menuCategory,"");
+
+        subMenu.setGroupCheckable(groupId,true, true);
+        subMenu.setGroupVisible(groupId, true);
+        subMenu.setGroupEnabled(groupId, true);
+
         MenuItem toItem = subMenu.getItem();
 
         copyItem(fromItem,toItem);

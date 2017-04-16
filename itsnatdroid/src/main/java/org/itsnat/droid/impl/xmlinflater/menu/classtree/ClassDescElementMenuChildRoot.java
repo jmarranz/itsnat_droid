@@ -23,7 +23,7 @@ public class ClassDescElementMenuChildRoot extends ClassDescElementMenuChildBase
 
     public boolean isAttributeIgnored(ElementMenuChildMenuItem resource, String namespaceURI, String name)
     {
-        return false;
+        return true; // No hay aributos en <menu>
     }
 
     @Override

@@ -26,8 +26,15 @@ public abstract class ElementMenuChildNormal extends ElementMenuChildBased
     }
 
     protected int itemId = Menu.NONE;
+    protected boolean checked;
+    protected boolean checkedExits;
+    protected boolean checkeable;
+    protected boolean checkeableExits;
+    protected boolean enabled;
+    protected boolean enabledExits;
+    protected boolean visible;
+    protected boolean visibleExits;
     protected int menuCategory = Menu.CATEGORY_CONTAINER;
-    //protected int orderInCategory;
 
     public ElementMenuChildNormal(ElementMenuChildBased parentElementMenu, DOMElement domElement, AttrMenuContext attrCtx)
     {
@@ -41,6 +48,54 @@ public abstract class ElementMenuChildNormal extends ElementMenuChildBased
             this.itemId = itemId;
         else
             this.itemId = Menu.NONE;
+
+        DOMAttr attrChecked = domElement.getDOMAttributeMap().getDOMAttribute(NamespaceUtil.XMLNS_ANDROID,"checked");
+        if (attrChecked == null)
+        {
+            this.checked = false;
+            this.checkedExits = false;
+        }
+        else
+        {
+            this.checked = xmlInflaterRegistry.getBoolean(attrChecked.getResourceDesc(), attrCtx.getXMLInflaterContext());
+            this.checkedExits = true;
+        }
+
+        DOMAttr attrCheckeable = domElement.getDOMAttributeMap().getDOMAttribute(NamespaceUtil.XMLNS_ANDROID,"checkeable");
+        if (attrCheckeable == null)
+        {
+            this.checkeable = false;
+            this.checkeableExits = false;
+        }
+        else
+        {
+            this.checkeable = xmlInflaterRegistry.getBoolean(attrChecked.getResourceDesc(), attrCtx.getXMLInflaterContext());
+            this.checkeableExits = true;
+        }
+
+        DOMAttr attrEnabled = domElement.getDOMAttributeMap().getDOMAttribute(NamespaceUtil.XMLNS_ANDROID,"enabled");
+        if (attrEnabled == null)
+        {
+            this.enabled = true; // valor por defecto
+            this.enabledExits = false;
+        }
+        else
+        {
+            this.enabled = xmlInflaterRegistry.getBoolean(attrChecked.getResourceDesc(), attrCtx.getXMLInflaterContext());
+            this.enabledExits = true;
+        }
+
+        DOMAttr attrVisible = domElement.getDOMAttributeMap().getDOMAttribute(NamespaceUtil.XMLNS_ANDROID,"visible");
+        if (attrVisible == null)
+        {
+            this.visible = true; // valor por defecto
+            this.visibleExits = false;
+        }
+        else
+        {
+            this.visible = xmlInflaterRegistry.getBoolean(attrChecked.getResourceDesc(), attrCtx.getXMLInflaterContext());
+            this.visibleExits = true;
+        }
 
         DOMAttr attrMenuCategory = domElement.getDOMAttributeMap().getDOMAttribute(NamespaceUtil.XMLNS_ANDROID,"menuCategory");
         String menuCategoryStr = attrMenuCategory != null ? xmlInflaterRegistry.getString(attrMenuCategory.getResourceDesc(), attrCtx.getXMLInflaterContext()) : null;

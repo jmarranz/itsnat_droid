@@ -29,9 +29,7 @@ public class ClassDescElementMenuChildSubMenu extends ClassDescElementMenuChildB
 
     public boolean isAttributeIgnored(ElementMenuChildSubMenu resource, String namespaceURI, String name)
     {
-        return NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("id") ||
-                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("menuCategory") ||
-                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("orderInCategory"); // Se usan especialmente en otra parte (ElementMenuChildMenuItem)
+        return super.isAttributeIgnored(resource,namespaceURI,name);
     }
 
     @Override

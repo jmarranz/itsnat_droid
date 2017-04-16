@@ -38,12 +38,36 @@ public class ElementMenuChildMenuItem extends ElementMenuChildNormal
             ElementMenuChildRoot childMenuRoot = getParentElementMenuChildRoot(parentElementMenu);
             Menu rootMenu = childMenuRoot.getMenu();
             int groupId = ((ElementMenuChildGroup)parentElementMenu).getGroupId();
-            this.menuItem = rootMenu.add(groupId,itemId,menuCategory,"");
+
+            int menuCategory = this.menuCategory;
+            if (menuCategory == Menu.NONE)
+                menuCategory = ((ElementMenuChildGroup)parentElementMenu).menuCategory;
+
+            if (!this.checkeableExits) // Boolean.FALSE, no local
+                checkeable = ((ElementMenuChildGroup) parentElementMenu).checkeable;
+
+            if (!this.checkedExits)
+                checked = ((ElementMenuChildGroup)parentElementMenu).checked;
+
+            if (!this.enabledExits)
+                enabled = ((ElementMenuChildGroup)parentElementMenu).enabled;
+
+            if (!this.visibleExits)
+                visible = ((ElementMenuChildGroup)parentElementMenu).visible;
+
+            this.menuItem = rootMenu.add(groupId,itemId,menuCategory,""); // Cojemos el idemId del item sea cual sea
+            menuItem.setCheckable(checkeable);
+            menuItem.setChecked(checked);
+            menuItem.setEnabled(enabled);
+            menuItem.setVisible(visible);
+
             return;
         }
 
         if (parentElementMenu instanceof ElementMenuChildSubMenu)
         {
+
+
             // Hijo de SubMenu
             ElementMenuChildSubMenu childSubMenu = ((ElementMenuChildSubMenu)parentElementMenu);
             int groupId = childSubMenu.getGroupId();

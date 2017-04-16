@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.util.MapSmart;
 import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenu;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
@@ -36,9 +37,7 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
 
     public boolean isAttributeIgnored(ElementMenuChildMenuItem resource, String namespaceURI, String name)
     {
-        return NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("id") ||
-                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("menuCategory") ||
-                NamespaceUtil.XMLNS_ITSNATDROID_RESOURCE.equals(namespaceURI) && name.equals("orderInCategory"); // Se usan especialmente en otra parte (ElementMenuChildMenuItem)
+        return super.isAttributeIgnored(resource,namespaceURI,name);
     }
 
     @Override
