@@ -31,7 +31,7 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
         ElementMenuChildMenuItem parentItemMenu = (ElementMenuChildMenuItem)parentElementMenu;
         MenuItem fromItem = parentItemMenu.getMenuItem();
 
-        this.subMenu = parentRootMenu.addSubMenu(groupId,fromItem.getItemId(),menuCategory,"");
+        this.subMenu = parentRootMenu.addSubMenu(groupId,fromItem.getItemId(),menuCategory,title);
 
         subMenu.setGroupCheckable(groupId,true, true);
         subMenu.setGroupVisible(groupId, true);
@@ -44,6 +44,8 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
         // Ahora toca eleminar el <item> original nuestro, addSubMenu crea un <item> nuevo padre aunque no se refleje en el XML, por eso hemos hecho el copyItem, para poder
         // desacernos del <item> padre original nuestro, el cual no está realmente asociado al addSubMenu, de otra manera habrá una duplicidad de <item> padre aunque el
         // submenu sólo se aplique al segundo. Pero no lo hacemos aquí, lo hacemos en ElementMenuChildMenuItem en uno de los casos
+
+        elemMenuChildRoot.getMenu().removeItem(itemId); // Nos lo cargamos para que no se senderice si estuviera unido al árbol nativo
     }
 
 

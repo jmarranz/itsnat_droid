@@ -25,8 +25,6 @@ public class ElementMenuChildGroup extends ElementMenuChildNormal
         ElementMenuChildRoot elemMenuChildRoot = getParentElementMenuChildRoot(parentElementMenu); // parentElementMenu es inicialmente un <item> pero necesitamos el <menu> root para crear el SubMenu
         this.groupId = elemMenuChildRoot.startGroup(); // Compartido por los hijos de ElementMenuChildGroup
 
-
-
         // Los atributos android:checkableBehavior="...", android:visible, android:enable sólo fuoncionan en  XML nativo
     }
 

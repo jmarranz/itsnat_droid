@@ -58,15 +58,15 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
     {
         super.init();
 
-        addAttrDescAN(new AttrDescMenu_MenuItem_title(this));
-        addAttrDescAN(new AttrDescMenu_MenuItem_titleCondensed(this));
-        addAttrDescAN(new AttrDescMenu_MenuItem_icon(this));
-        addAttrDescAN(new AttrDescMenu_MenuItem_showAsAction(this));
-        addAttrDescAN(new AttrDescMenu_MenuItem_alphabeticShortcut(this));
-        addAttrDescAN(new AttrDescMenu_MenuItem_numericShortcut(this));
-        addAttrDescAN(new AttrDescMenu_MenuItem_checkable(this));
-        addAttrDescAN(new AttrDescMenu_MenuItem_checked(this));
-        addAttrDescAN(new AttrDescMenu_MenuItem_visible(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_title(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_titleCondensed(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_icon(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_showAsAction(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_alphabeticShortcut(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_numericShortcut(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_checkable(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_checked(this));
+        // addAttrDescAN(new AttrDescMenu_MenuItem_visible(this));
 
 
     }

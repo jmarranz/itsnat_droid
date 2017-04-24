@@ -2,6 +2,9 @@ package org.itsnat.droid.impl.xmlinflated.menu;
 
 import android.view.Menu;
 
+import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
+
 /**
  * Created by jmarranz on 27/11/14.
  */
@@ -21,15 +24,15 @@ public class ElementMenuChildRoot extends ElementMenuChildBased
 
     protected Menu menu;
 
-    public ElementMenuChildRoot()
+ /*   public ElementMenuChildRoot(ElementMenuChildBased parentElementMenu)
     {
-        super(null);
-    }
+        super(parentElementMenuChild);
+    } */
 
-    public ElementMenuChildRoot(Menu menu)
+    public ElementMenuChildRoot(ElementMenuChildBased parentElementMenuChild, DOMElement domElement,AttrMenuContext attrCtx, Menu androidRootMenu)
     {
-        super(null);
-        this.menu = menu;
+        super(parentElementMenuChild,domElement,attrCtx);
+        this.menu = androidRootMenu;
     }
 
     public int startGroup()
