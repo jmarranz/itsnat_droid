@@ -17,7 +17,7 @@ public class ElementMenuChildMenuItem extends ElementMenuChildNormal
     protected MenuItem menuItem;
 
 
-    public ElementMenuChildMenuItem(ElementMenuChildBased parentElementMenu,DOMElement domElement,AttrMenuContext attrCtx)
+    public ElementMenuChildMenuItem(ElementMenuChildBased elementChildMenu,ElementMenuChildBased parentElementMenu,DOMElement domElement,AttrMenuContext attrCtx)
     {
         super(parentElementMenu,domElement,attrCtx);
 
@@ -101,7 +101,38 @@ public class ElementMenuChildMenuItem extends ElementMenuChildNormal
 
                 return;
             }
-            else
+
+            if ((parentElementMenu instanceof ElementMenuChildSubMenu))
+            {
+                //ElementMenuChildRoot elemMenuChildRoot = getParentElementMenuChildRoot(elementChildMenu);
+                int groupId = ((ElementMenuChildSubMenu)parentElementMenu).groupId;
+
+                int menuCategory = this.menuCategory;
+                if (menuCategory == Menu.NONE)
+                    menuCategory = ((ElementMenuChildSubMenu)parentElementMenu).menuCategory;
+
+                if (!this.checkeableExits) // Boolean.FALSE, no local
+                    checkeable = ((ElementMenuChildSubMenu)parentElementMenu).checkeable;
+
+                if (!this.checkedExits)
+                    checked = ((ElementMenuChildSubMenu)parentElementMenu).checked;
+
+                if (!this.enabledExits)
+                    enabled = ((ElementMenuChildSubMenu)parentElementMenu).enabled;
+
+                if (!this.visibleExits)
+                    visible = ((ElementMenuChildSubMenu)parentElementMenu).visible;
+
+                this.menuItem = ((ElementMenuChildSubMenu)parentElementMenu).getMenu().add(groupId,itemId,menuCategory,title); // Cojemos el idemId del item sea cual sea
+                menuItem.setCheckable(checkeable);
+                menuItem.setChecked(checked);
+                menuItem.setEnabled(enabled);
+                menuItem.setVisible(visible);
+
+                return;
+            }
+
+            if (parentElementMenu instanceof ElementMenuChildRoot)
             {
                 ElementMenuChildRoot childMenuRoot = ((ElementMenuChildRoot)parentElementMenu);
                 int groupId = childMenuRoot.getCurrentGroupId();

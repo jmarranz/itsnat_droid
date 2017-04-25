@@ -32,13 +32,13 @@ public class ClassDescElementMenuChildRoot extends ClassDescElementMenuChildBase
         return ElementMenuChildRoot.class;
     }
 
-    public ElementMenuChildRoot createElementMenuChildRoot(DOMElement rootElem, AttrMenuContext attrCtx, Menu androidRootMenu)
+    public ElementMenuChildBased createElementMenuChildRoot(DOMElement rootElem, AttrMenuContext attrCtx, Menu androidRootMenu)
     {
         return new ElementMenuChildRoot(null,rootElem, attrCtx, androidRootMenu); // Ponemos el androidRootMenu en vez de nuestro Menu root del XML, total no tienen atributos, de esta manera conseguimos conectar el menu predefinido con nuestro XML sin perder nada a base de añadir por abajo
     }
 
     @Override
-    public ElementMenuChildBased createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
+    public ElementMenuChildBased createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased elementChildMenu,ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
     {
         return null;
     }

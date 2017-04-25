@@ -22,7 +22,7 @@ public abstract class ElementMenuChildNormal extends ElementMenuChildBased
         super(parentElementMenu,domElement,attrCtx);
     }
 
-    public ElementMenuChildRoot getParentElementMenuChildRoot(ElementMenuChildBased parentElementMenu)
+    static public ElementMenuChildRoot getParentElementMenuChildRoot(ElementMenuChildBased parentElementMenu)
     {
         ElementMenuChildRoot parentRootMenu;
 

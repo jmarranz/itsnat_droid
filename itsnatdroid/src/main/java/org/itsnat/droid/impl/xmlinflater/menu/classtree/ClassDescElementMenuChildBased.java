@@ -38,5 +38,5 @@ public abstract class ClassDescElementMenuChildBased<TelementMenuChild extends E
         return (ClassDescMenuMgr) classMgr;
     }
 
-    public abstract ElementMenuChildBased createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx);
+    public abstract ElementMenuChildBased createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased elementChildMenu,ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx);
 }

@@ -30,8 +30,9 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
 
         ElementMenuChildMenuItem parentItemMenu = (ElementMenuChildMenuItem)parentElementMenu;
         MenuItem fromItem = parentItemMenu.getMenuItem();
+        int itemId = fromItem.getItemId();
 
-        this.subMenu = parentRootMenu.addSubMenu(groupId,fromItem.getItemId(),menuCategory,title);
+        this.subMenu = parentRootMenu.addSubMenu(groupId,itemId,menuCategory,title);
 
         subMenu.setGroupCheckable(groupId,true, true);
         subMenu.setGroupVisible(groupId, true);

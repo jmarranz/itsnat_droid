@@ -47,9 +47,9 @@ public class ClassDescElementMenuChildMenuItem extends ClassDescElementMenuChild
     }
 
     @Override
-    public ElementMenuChildMenuItem createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
+    public ElementMenuChildMenuItem createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent,ElementMenuChildBased elementChildMenu, ElementMenuChildBased parentChildMenu, AttrMenuContext attrCtx)
     {
-        return new ElementMenuChildMenuItem(parentChildMenu,domElement,attrCtx);
+        return new ElementMenuChildMenuItem(elementChildMenu,parentChildMenu,domElement,attrCtx);
     }
 
 
