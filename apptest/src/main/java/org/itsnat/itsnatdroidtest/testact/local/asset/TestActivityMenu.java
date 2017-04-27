@@ -91,9 +91,9 @@ public class TestActivityMenu extends Activity
             getMenuInflater().inflate(R.menu.test_local_menu_compiled, menu);
         }
 
-        MenuItem item = menu.findItem(R.id.item_4);
+        //MenuItem item = menu.findItem(R.id.item_4);
         // item.setAlphabeticShortcut('f'); // Con ALT opcional. Creo que sólo funciona en creación del MenuItem
-        char as = item.getAlphabeticShortcut();
+        //char as = item.getAlphabeticShortcut();
 
         return super.onCreateOptionsMenu(menu);
     }

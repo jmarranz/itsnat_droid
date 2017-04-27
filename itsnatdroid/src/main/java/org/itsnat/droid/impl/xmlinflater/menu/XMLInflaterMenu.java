@@ -77,7 +77,7 @@ public class XMLInflaterMenu extends XMLInflaterResource<Menu>
 
         ElementMenuChildBased parentChildMenu = (ElementMenuChildBased)elemMenuChildRoot;
 
-        processChildElements(rootDOMElem,elemMenuChildRoot, elemMenuChildRoot,attrCtx);
+        processChildElements(rootDOMElem,elemMenuChildRoot, childMenuRoot,attrCtx);
 
         return childMenuRoot;
     }

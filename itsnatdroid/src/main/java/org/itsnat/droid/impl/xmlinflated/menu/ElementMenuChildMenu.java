@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
  */
 public abstract class ElementMenuChildMenu extends ElementMenuChildNormal
 {
-    public ElementMenuChildMenu(ElementMenuChildMenuItem parentElementMenu, DOMElement domElement, AttrMenuContext attrCtx)
+    public ElementMenuChildMenu(ElementMenuChildBased parentElementMenu, DOMElement domElement, AttrMenuContext attrCtx)
     {
         super(parentElementMenu,domElement,attrCtx);
     }

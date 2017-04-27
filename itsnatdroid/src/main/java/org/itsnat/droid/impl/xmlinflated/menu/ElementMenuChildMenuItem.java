@@ -99,69 +99,71 @@ public class ElementMenuChildMenuItem extends ElementMenuChildNormal
                 menuItem.setEnabled(enabled);
                 menuItem.setVisible(visible);
 
-                return;
-            }
-
-            if ((parentElementMenu instanceof ElementMenuChildSubMenu))
-            {
-                //ElementMenuChildRoot elemMenuChildRoot = getParentElementMenuChildRoot(elementChildMenu);
-                int groupId = ((ElementMenuChildSubMenu)parentElementMenu).groupId;
-
-                int menuCategory = this.menuCategory;
-                if (menuCategory == Menu.NONE)
-                    menuCategory = ((ElementMenuChildSubMenu)parentElementMenu).menuCategory;
-
-                if (!this.checkeableExits) // Boolean.FALSE, no local
-                    checkeable = ((ElementMenuChildSubMenu)parentElementMenu).checkeable;
-
-                if (!this.checkedExits)
-                    checked = ((ElementMenuChildSubMenu)parentElementMenu).checked;
-
-                if (!this.enabledExits)
-                    enabled = ((ElementMenuChildSubMenu)parentElementMenu).enabled;
-
-                if (!this.visibleExits)
-                    visible = ((ElementMenuChildSubMenu)parentElementMenu).visible;
-
-                this.menuItem = ((ElementMenuChildSubMenu)parentElementMenu).getMenu().add(groupId,itemId,menuCategory,title); // Cojemos el idemId del item sea cual sea
-                menuItem.setCheckable(checkeable);
-                menuItem.setChecked(checked);
-                menuItem.setEnabled(enabled);
-                menuItem.setVisible(visible);
-
-                return;
-            }
-
-            if (parentElementMenu instanceof ElementMenuChildRoot)
-            {
-                ElementMenuChildRoot childMenuRoot = ((ElementMenuChildRoot)parentElementMenu);
-                int groupId = childMenuRoot.getCurrentGroupId();
-
-                int menuCategory = this.menuCategory;
-                if (menuCategory == Menu.NONE)
-                    menuCategory = ((ElementMenuChildRoot)parentElementMenu).menuCategory;
-
-                if (!this.checkeableExits) // Boolean.FALSE, no local
-                    checkeable = ((ElementMenuChildRoot) parentElementMenu).checkeable;
-
-                if (!this.checkedExits)
-                    checked = ((ElementMenuChildRoot)parentElementMenu).checked;
-
-                if (!this.enabledExits)
-                    enabled = ((ElementMenuChildRoot)parentElementMenu).enabled;
-
-                if (!this.visibleExits)
-                    visible = ((ElementMenuChildRoot)parentElementMenu).visible;
-
-                this.menuItem = ((ElementMenuChildRoot)parentElementMenu).getMenu().add(groupId,itemId,menuCategory,title); // Cojemos el idemId del item sea cual sea
-                menuItem.setCheckable(checkeable);
-                menuItem.setChecked(checked);
-                menuItem.setEnabled(enabled);
-                menuItem.setVisible(visible);
-
-                return;
+                //return;
             }
         }
+
+        if ((parentElementMenu instanceof ElementMenuChildSubMenu))
+        {
+            //ElementMenuChildRoot elemMenuChildRoot = getParentElementMenuChildRoot(elementChildMenu);
+            int groupId = ((ElementMenuChildSubMenu)parentElementMenu).groupId;
+
+            int menuCategory = this.menuCategory;
+            if (menuCategory == Menu.NONE)
+                menuCategory = ((ElementMenuChildSubMenu)parentElementMenu).menuCategory;
+
+            if (!this.checkeableExits) // Boolean.FALSE, no local
+                checkeable = ((ElementMenuChildSubMenu)parentElementMenu).checkeable;
+
+            if (!this.checkedExits)
+                checked = ((ElementMenuChildSubMenu)parentElementMenu).checked;
+
+            if (!this.enabledExits)
+                enabled = ((ElementMenuChildSubMenu)parentElementMenu).enabled;
+
+            if (!this.visibleExits)
+                visible = ((ElementMenuChildSubMenu)parentElementMenu).visible;
+
+            this.menuItem = ((ElementMenuChildSubMenu)parentElementMenu).getMenu().add(groupId,itemId,menuCategory,title); // Cojemos el idemId del item sea cual sea
+            menuItem.setCheckable(checkeable);
+            menuItem.setChecked(checked);
+            menuItem.setEnabled(enabled);
+            menuItem.setVisible(visible);
+
+            //return;
+        }
+
+/*
+        if (parentElementMenu instanceof ElementMenuChildSubMenu)
+        {
+            ElementMenuChildRoot childMenuRoot = ((ElementMenuChildRoot)parentElementMenu);
+            int groupId = childMenuRoot.getCurrentGroupId();
+
+            int menuCategory = this.menuCategory;
+            if (menuCategory == Menu.NONE)
+                menuCategory = ((ElementMenuChildRoot)parentElementMenu).menuCategory;
+
+            if (!this.checkeableExits) // Boolean.FALSE, no local
+                checkeable = ((ElementMenuChildRoot) parentElementMenu).checkeable;
+
+            if (!this.checkedExits)
+                checked = ((ElementMenuChildRoot)parentElementMenu).checked;
+
+            if (!this.enabledExits)
+                enabled = ((ElementMenuChildRoot)parentElementMenu).enabled;
+
+            if (!this.visibleExits)
+                visible = ((ElementMenuChildRoot)parentElementMenu).visible;
+
+            this.menuItem = ((ElementMenuChildRoot)parentElementMenu).getMenu().add(groupId,itemId,menuCategory,title); // Cojemos el idemId del item sea cual sea
+            menuItem.setCheckable(checkeable);
+            menuItem.setChecked(checked);
+            menuItem.setEnabled(enabled);
+            menuItem.setVisible(visible);
+
+            return;
+        }
+*/
 
     }
 

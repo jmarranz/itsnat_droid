@@ -6,6 +6,7 @@ import org.itsnat.droid.impl.util.NamespaceUtil;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildBased;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildGroup;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildMenuItem;
+import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildRoot;
 import org.itsnat.droid.impl.xmlinflated.menu.ElementMenuChildSubMenu;
 import org.itsnat.droid.impl.xmlinflater.menu.AttrMenuContext;
 import org.itsnat.droid.impl.xmlinflater.menu.ClassDescMenuMgr;
@@ -33,9 +34,9 @@ public class ClassDescElementMenuChildSubMenu extends ClassDescElementMenuChildB
     }
 
     @Override
-    public ElementMenuChildSubMenu createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent,ElementMenuChildBased elementChildMenu, ElementMenuChildBased parentElementMenu, AttrMenuContext attrCtx)
+    public ElementMenuChildSubMenu createElementMenuChildBased(DOMElement domElement, DOMElement domElementParent, ElementMenuChildBased elementChildMenu, ElementMenuChildBased parentElementMenu, AttrMenuContext attrCtx)
     {
-        return new ElementMenuChildSubMenu((ElementMenuChildMenuItem)parentElementMenu,domElement,attrCtx);
+        return new ElementMenuChildSubMenu(elementChildMenu,domElement,attrCtx);
     }
 
 
