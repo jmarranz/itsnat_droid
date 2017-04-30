@@ -16,7 +16,7 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
     protected SubMenu subMenu;
     protected int groupId;
 
-    public ElementMenuChildSubMenu(ElementMenuChildBased elementChildMenu, DOMElement domElement, AttrMenuContext attrCtx)
+    public ElementMenuChildSubMenu(ElementMenuChildBased elementChildMenu,ElementMenuChildBased parentElementMenu,  DOMElement domElement, AttrMenuContext attrCtx)
     {
         super(elementChildMenu,domElement,attrCtx);
 
@@ -24,7 +24,7 @@ public class ElementMenuChildSubMenu extends ElementMenuChildMenu
 
         //int parentItemId = parentElementMenu.getMenuItem().getItemId();
 
-        ElementMenuChildMenuItem elementMenuChildMenuItem = (ElementMenuChildMenuItem)elementChildMenu;
+        ElementMenuChildMenuItem elementMenuChildMenuItem = (ElementMenuChildMenuItem)elementChildMenu;// (ElementMenuChildMenuItem)parentElementMenu;
         MenuItem fromItem = elementMenuChildMenuItem.getMenuItem();
         int itemId = fromItem.getItemId();
         ElementMenuChildRoot elemMenuChildRoot = getParentElementMenuChildRoot(elementChildMenu); // parentElementMenu es inicialmente un <item> pero necesitamos el <menu> root para crear el SubMenu

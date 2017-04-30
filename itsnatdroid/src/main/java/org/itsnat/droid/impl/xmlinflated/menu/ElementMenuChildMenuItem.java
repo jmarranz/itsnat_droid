@@ -101,6 +101,31 @@ public class ElementMenuChildMenuItem extends ElementMenuChildNormal
 
                 //return;
             }
+            else
+            {
+                // es un MenuItem root normal sin hijos
+                ElementMenuChildRoot childMenuRoot = (ElementMenuChildRoot) parentElementMenu;
+                int groupId = childMenuRoot.getCurrentGroupId();
+
+                int menuCategory = this.menuCategory;
+                if (menuCategory == Menu.NONE)
+                    menuCategory = ((ElementMenuChildRoot) parentElementMenu).menuCategory;
+
+                if (!this.checkeableExits) // Boolean.FALSE, no local
+                    checkeable = ((ElementMenuChildRoot) parentElementMenu).checkeable;
+
+                if (!this.checkedExits) checked = ((ElementMenuChildRoot) parentElementMenu).checked;
+
+                if (!this.enabledExits) enabled = ((ElementMenuChildRoot) parentElementMenu).enabled;
+
+                if (!this.visibleExits) visible = ((ElementMenuChildRoot) parentElementMenu).visible;
+
+                this.menuItem = childMenuRoot.getMenu().add(groupId, itemId, menuCategory, title);
+                menuItem.setCheckable(checkeable);
+                menuItem.setChecked(checked);
+                menuItem.setEnabled(enabled);
+                menuItem.setVisible(visible);
+            }
         }
 
         if ((parentElementMenu instanceof ElementMenuChildSubMenu))
